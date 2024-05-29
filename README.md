@@ -4,14 +4,14 @@
   <img src="assets/banner.jpg" />
 </p>
 
-<h1 align="center">Hypergiant Developer Toolkit</h1>
+<h1 align="center">Hypergiant Standard Toolkit</h1>
 
-<p align="center">The web "standard library" for the [Accelint](https://test.com) family of systems.</p>
+<p align="center">The web "standard library" for the <a href="https://accelint.com">Accelint</a> family of systems.</p>
 
 <br />
 
 > [!IMPORTANT]
-> Developer Toolkit is currently only intended for usage within the Accelint family of systems.<br>
+> Standard Toolkit is currently only intended for usage within the Accelint family of systems.<br>
 > Contributions are more than welcome but please consider that this project may not fit your needs.<br>
 > Please read the [contributing guidelines](CONTRIBUTING.md) and the [roadmap](#roadmap-link) of our Technical Steering Committee (TSC).
 
@@ -44,21 +44,24 @@ Read the [contributing guidelines](CONTRIBUTING.md) file if you are interested i
 
 ## 🔍 License
 
-Published under the [Apache License v2.0](https://www.apache.org/licenses/LICENSE-2.0) license. Read the [license instructions](LICENSE) if you are interested in contributing or using the Developer Toolkit.
+Published under the [Apache License v2.0](https://www.apache.org/licenses/LICENSE-2.0) license. Read the [license instructions](LICENSE) if you are interested in contributing or using the Standard Toolkit.
 
 ## 🚀 Attributions
 
-The Developer Toolkit project is sponsored by:
+The Standard Toolkit project is sponsored by:
 
 <img src="assets/accelint.png" height="48" />
-&nbsp;&nbsp;
 <img src="assets/hypergiant.png" height="48" />
 
 <br />
 
-
-The Developer Toolkit project is used by:
+The Standard Toolkit project is used by:
 
 <img src="assets/air-force.png" height="48" />
 
+---
+
+> [Accelint](https://accelint.com) &nbsp;&middot;&nbsp;
+> [Hypergiant](https://hypergiant.com) &nbsp;&middot;&nbsp;
+> GitHub [@Gohypergiant](https://github.com/gohypergiant) &nbsp;&middot;&nbsp;
 
