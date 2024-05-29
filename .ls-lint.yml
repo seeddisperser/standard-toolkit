@@ -1,0 +1,17 @@
+ls:
+  .dir: kebab-case | snakecase
+  .js: kebab-case | pointcase
+  .mjs: kebab-case | pointcase
+  .ts: kebab-case | pointcase
+  .tsx: kebab-case | pointcase
+  .d.ts: kebab-case | pointcase
+
+ignore:
+  - .git
+  - .turbo
+  - .vscode
+  - node_modules
+  - '**/*/.turbo'
+  - '**/*/node_modules'
+  - '**/*/coverage'
+  - '**/*/dist'

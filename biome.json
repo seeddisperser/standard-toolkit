@@ -1,0 +1,12 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "extends": [
+    "@hypergiant/biome-config/analyzer",
+    "@hypergiant/biome-config/formatter",
+    "@hypergiant/biome-config/linter"
+  ],
+  "files": {
+    "include": ["**/*.js", "**/*.mjs", "**/*.ts", "**/*.tsx", "**/*.json"],
+    "ignore": ["node_modules", ".turbo", "dist", "coverage"]
+  }
+}

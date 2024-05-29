@@ -1,0 +1,47 @@
+{
+  "name": "@hypergiant/developer-toolkit",
+  "version": "0.0.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "scripts": {
+    "bench": "turbo bench",
+    "build": "turbo build",
+    "changeset": "pnpm changeset",
+    "changeset:version": "pnpm changeset version",
+    "clean": "pnpm run clean:dist && pnpm run clean:turbo && pnpm run clean:pnpm && pnpm run clean:deps",
+    "clean:deps": "pnpm -r exec rimraf node_modules && pnpm exec rimraf node_modules",
+    "clean:dist": "pnpm -r exec rimraf dist",
+    "clean:pnpm": "pnpm rimraf pnpm-lock.yaml",
+    "clean:turbo": "pnpm -r exec  rimraf .turbo && exec pnpm rimraf .turbo",
+    "deps:format-packages": "pnpm syncpack format",
+    "deps:mismatch-fix": "pnpm syncpack fix-mismatches",
+    "deps:version-major": "pnpm taze major",
+    "deps:version-minor": "pnpm taze minor",
+    "deps:version-patch": "pnpm taze patch",
+    "dev": "turbo dev",
+    "format": "pnpm biome format . --write",
+    "license": "pnpm zx scripts/license.mjs",
+    "lint": "turbo lint",
+    "test": "turbo test"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.7.3",
+    "@changesets/changelog-git": "^0.2.0",
+    "@changesets/cli": "^2.27.5",
+    "@hypergiant/biome-config": "workspace:*",
+    "@ls-lint/ls-lint": "^2.2.3",
+    "rimraf": "^5.0.7",
+    "syncpack": "^12.3.2",
+    "taze": "^0.13.8",
+    "tsx": "^4.11.0",
+    "turbo": "^1.13.3",
+    "zx": "^8.1.2"
+  },
+  "$schema": "https://json.schemastore.org/package",
+  "author": "https://hypergiant.com",
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=9"
+  },
+  "packageManager": "pnpm@9.1.1"
+}

@@ -1,0 +1,45 @@
+{
+  "dependencyTypes": [
+    "dev",
+    "prod",
+    "peer",
+    "overrides"
+  ],
+  "source": [
+    "package.json",
+    "packages/*/package.json",
+    "apps/*/package.json"
+  ],
+  "versionGroups": [
+    {
+      "label": "Use * for local packages",
+      "dependencies": [
+        "@hypergiant/**"
+      ],
+      "packages": [
+        "**"
+      ],
+      "pinVersion": "workspace:*"
+    }
+  ],
+  "sortFirst": [
+    "name",
+    "version",
+    "private",
+    "license",
+    "repository",
+    "type",
+    "files",
+    "main",
+    "module",
+    "source",
+    "types",
+    "exports",
+    "workspaces",
+    "scripts",
+    "overrides",
+    "peerDependencies",
+    "devDependencies",
+    "dependencies"
+  ]
+}
