@@ -11,7 +11,7 @@
     "lint": "pnpm biome lint ./"
   },
   "dependencies": {
-    "@vitejs/plugin-react": "^4.2.1",
+    "@vitejs/plugin-react": "^4.3.0",
     "@vitest/coverage-istanbul": "^1.6.0",
     "vitest": "^1.6.0"
   },
