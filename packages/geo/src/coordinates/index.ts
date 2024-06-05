@@ -30,35 +30,8 @@
  */
 
 import { toDigits } from '@hypergiant/converters';
-import { dd } from './configurations';
+import { dd, dms } from './configurations';
 import { isPositiveDirection, normalizeDirection, negate } from './utils';
-
-type Nullish<T> = T | undefined | null | '';
-type PlusMinus = '+' | '-';
-type Directions = 'N' | 'S' | 'E' | 'W';
-
-type DDMatches = [
-  Nullish<Directions>,
-  Nullish<PlusMinus>,
-  Nullish<string>,
-  Nullish<string>,
-  Nullish<Directions>,
-  Nullish<Directions>,
-  Nullish<PlusMinus>,
-  Nullish<string>,
-  Nullish<string>,
-  Nullish<Directions>,
-];
-
-const fallbackDD: DDMatches = ['', '', '', '', '', '', '', '', '', ''] as const;
-
-/**
- * Given a DD coordinate value, produce 10 capture groups of output
- */
-export function matchDD(val: unknown): DDMatches {
-  // Remove first regex.match entry since it is the input value
-  return Array.from(`${val}`.match(dd[0]) || fallbackDD).slice(1) as DDMatches;
-}
 
 export function parseDD(val: string) {
   const matches = matchDD(val);
@@ -84,15 +57,7 @@ export function parseDD(val: string) {
   return [latValue, lonValue];
 }
 
-export function testDD(val: unknown) {
-  return dd[0].test(`${val}`);
-}
-
-export function matchDMS() {}
-
 export function parseDMS() {}
-
-export function testDMS() {}
 
 export function parseCoordinates() {}
 

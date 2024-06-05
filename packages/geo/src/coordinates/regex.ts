@@ -41,7 +41,7 @@ export const SEPARATORS = `[\\s,\\/]*`;
  * ```
  */
 // biome-ignore lint/style/noUnusedTemplateLiteral: makes it easier for future modifications
-export const DD_LON = `([NSEW]?)[\\s]*([-+]?)[\\s]*(\\d{1,3})(\\.\\d*)?[\\s]*([NSEW]?)`;
+export const DD_LON = `([NSEW]?)[\\s]*([-+]?)[\\s]*(\\d{1,3})(\\.\\d*)?[\\s°]*([NSEW]?)`;
 
 /**
  * @see https://en.wikipedia.org/wiki/ISO_6709
@@ -70,7 +70,7 @@ export const DD_LON = `([NSEW]?)[\\s]*([-+]?)[\\s]*(\\d{1,3})(\\.\\d*)?[\\s]*([N
  * ```
  */
 // biome-ignore lint/style/noUnusedTemplateLiteral: makes it easier for future modifications
-export const DD_LAT = `([NSEW]?)[\\s]*([-+]?)[\\s]*(\\d{1,2})(\\.\\d*)?[\\s]*([NSEW]?)`;
+export const DD_LAT = `([NSEW]?)[\\s]*([-+]?)[\\s]*(\\d{1,2})(\\.\\d*)?[\\s°]*([NSEW]?)`;
 
 /**
  * @see https://en.wikipedia.org/wiki/ISO_6709
@@ -106,7 +106,7 @@ export const DD_LAT = `([NSEW]?)[\\s]*([-+]?)[\\s]*(\\d{1,2})(\\.\\d*)?[\\s]*([N
  * 40 34 56.45 W
  * ```
  */
-export const DMS_LON = `([NSEW]?)[\\s]*([-+]?)[\\s]*([0-1]?\\d{1,2})[\\s,:°'"\\/]*(\\d{2})[\\s,:°'"\\/]*(\\d{2})[\\s,:°'"\\/]*(\\.\\d*|\\d{3})?[\\s,:°'"\\/][\\s]*([NSEW]?)`;
+export const DMS_LON = `([NSEW]?)[\\s]*([-+]?)[\\s]*(\\d{1,3})[\\s,:°'′"″\\/]*(\\d{2})[\\s,:°'′"″\\/]*(\\d{2})[\\s,:°'′"″\\/]*(\\.\\d*|\\d{3})?[\\s,:°'′"″\\/]*([NSEW]?)`;
 
 /**
  * @see https://en.wikipedia.org/wiki/ISO_6709
@@ -142,4 +142,4 @@ export const DMS_LON = `([NSEW]?)[\\s]*([-+]?)[\\s]*([0-1]?\\d{1,2})[\\s,:°'"\\
  * 40 34 56.45 N
  * ```
  */
-export const DMS_LAT = `([NSEW]?)[\\s]*([-+]?)[\\s]*(\\d{1,2})[\\s,:°'"\\/]*(\\d{2})[\\s,:°'"\\/]*(\\d{2})[\\s,:°'"\\/]*(\\.\\d*|\\d{3})?[\\s,:°'"\\/][\\s]*([NSEW]?)`;
+export const DMS_LAT = `([NSEW]?)[\\s]*([-+]?)[\\s]*(\\d{1,2})[\\s,:°'′"″\\/]*(\\d{2})[\\s,:°'′"″\\/]*(\\d{2})[\\s,:°'′"″\\/]*(\\.\\d*|\\d{3})?[\\s,:°'′"″\\/]*([NSEW]?)`;

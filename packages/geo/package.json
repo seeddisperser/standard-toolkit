@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@hypergiant/converters": "workspace:*",
+    "@hypergiant/validators": "workspace:*",
     "typescript": "^5.4.5"
   },
   "$schema": "https://json.schemastore.org/package",

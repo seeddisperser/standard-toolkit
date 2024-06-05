@@ -13,34 +13,31 @@
 import { expect, it, describe } from 'vitest';
 import { dd, dms } from './configurations';
 import { ddPairs, dmsPairs } from './__fixtures__';
-import { matchDD, parseDD } from './';
+import { matchDD, matchDMS } from './match';
 
 console.log(dd[0]);
 console.log(dms[0]);
 
 describe('coordinates', () => {
-  describe('decimal degrees', () => {
-    describe('matching', () => {
+  describe('matching', () => {
+    describe('decimal degrees', () => {
       for (const pairs of ddPairs) {
         it(`${pairs[0]}: ${pairs[1]}`, () => {
           const matches = matchDD(pairs[1]);
 
-          // NOTE: our matches don't have directionality yet, so all numbers are positive
-          expect(matches[2]).toBeCloseTo(34);
-          expect(matches[7]).toBeCloseTo(117);
+          expect(matches).toMatchSnapshot();
         });
       }
     });
+  });
 
-    describe('parsing', () => {
-      for (const pairs of ddPairs) {
-        it(`${pairs[0]}: ${pairs[1]}`, () => {
-          const coordinates = parseDD(pairs[1]);
+  describe('degrees minutes seconds', () => {
+    for (const pairs of dmsPairs) {
+      it(`${pairs[0]}: ${pairs[1]}`, () => {
+        const matches = matchDMS(pairs[1]);
 
-          expect(coordinates[0]).toBeCloseTo(34, 0);
-          expect(coordinates[1]).toBeCloseTo(-117, 0);
-        });
-      }
-    });
+        expect(matches).toMatchSnapshot();
+      });
+    }
   });
 });
