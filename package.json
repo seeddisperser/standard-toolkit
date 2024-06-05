@@ -15,9 +15,9 @@
     "clean:turbo": "pnpm -r exec  rimraf .turbo && exec pnpm rimraf .turbo",
     "deps:format-packages": "pnpm syncpack format",
     "deps:mismatch-fix": "pnpm syncpack fix-mismatches",
-    "deps:version-major": "pnpm taze major",
-    "deps:version-minor": "pnpm taze minor",
-    "deps:version-patch": "pnpm taze patch",
+    "deps:version-major": "pnpm taze major -r",
+    "deps:version-minor": "pnpm taze minor -r",
+    "deps:version-patch": "pnpm taze patch -r",
     "dev": "turbo dev",
     "format": "pnpm biome format . --write",
     "license": "pnpm zx scripts/license.mjs",
@@ -43,5 +43,5 @@
     "node": ">=18",
     "pnpm": ">=9"
   },
-  "packageManager": "pnpm@9.1.4"
+  "packageManager": "pnpm@9.2.0"
 }
