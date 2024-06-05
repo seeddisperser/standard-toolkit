@@ -23,20 +23,20 @@ Libraries are exposed via individual packages. Refer to each package documentati
 
 Documentation | Package
 --------------|-------------
-[`@hypergiant/biome-config`](#link-to-docs)      | `@hypergiant/biome-config`
-[`@hypergiant/constants`](#link-to-docs)         | `@hypergiant/constants`
-[`@hypergiant/converters`](#link-to-docs)        | `@hypergiant/converters`
-[`@hypergiant/design-system`](#link-to-docs)     | `@hypergiant/design-system`
-[`@hypergiant/eslint-config`](#link-to-docs)     | `@hypergiant/eslint-config`
-[`@hypergiant/formatters`](#link-to-docs)        | `@hypergiant/formatters`
-[`@hypergiant/geo`](#link-to-docs)               | `@hypergiant/geo`
-[`@hypergiant/math`](#link-to-docs)              | `@hypergiant/math`
-[`@hypergiant/prettier-config`](#link-to-docs)   | `@hypergiant/prettier-config`
-[`@hypergiant/typescript-config`](#link-to-docs) | `@hypergiant/typescript-config`
-[`@hypergiant/validators`](#link-to-docs)        | `@hypergiant/validators`
-[`@hypergiant/vitest-config`](#link-to-docs)     | `@hypergiant/vitest-config`
-[`@hypergiant/web-worker`](#link-to-docs)        | `@hypergiant/web-worker`
-[`@hypergiant/websocket`](#link-to-docs)         | `@hypergiant/websocket`
+[Biome Config](#link-to-docs)      | `@hypergiant/biome-config`
+[Constants](#link-to-docs)         | `@hypergiant/constants`
+[Converters](#link-to-docs)        | `@hypergiant/converters`
+[Design System](#link-to-docs)     | `@hypergiant/design-system`
+[Eslint Config](#link-to-docs)     | `@hypergiant/eslint-config`
+[Formatters](#link-to-docs)        | `@hypergiant/formatters`
+[Geo](#link-to-docs)               | `@hypergiant/geo`
+[Math](#link-to-docs)              | `@hypergiant/math`
+[Prettier Config](#link-to-docs)   | `@hypergiant/prettier-config`
+[Typescript Config](#link-to-docs) | `@hypergiant/typescript-config`
+[Validators](#link-to-docs)        | `@hypergiant/validators`
+[Vitest Config](#link-to-docs)     | `@hypergiant/vitest-config`
+[Web Worker](#link-to-docs)        | `@hypergiant/web-worker`
+[Websocket](#link-to-docs)         | `@hypergiant/websocket`
 
 ## 💡 Contributing
 
@@ -50,8 +50,8 @@ Published under the [Apache License v2.0](https://www.apache.org/licenses/LICENS
 
 The Standard Toolkit project is sponsored by:
 
-<img src="assets/accelint.png" height="48" />
-<img src="assets/hypergiant.png" height="48" />
+<a href="https://accelint.com" target="_blank"><img src="assets/accelint.png" height="48" /></a>
+<a href="https://hypergiant.com" target="_blank"><img src="assets/hypergiant.png" height="48" /></a>
 
 <br />
 
