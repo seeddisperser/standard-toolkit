@@ -10,4 +10,4 @@
  * governing permissions and limitations under the License.
  */
 
-export { parseCoordinates } from './coordinates';
+export { matchDD, matchDMS, normalizeDD } from './coordinates';

@@ -11,15 +11,6 @@
  */
 
 /**
- * IDEA:
- *
- * 1. Capture a format into deterministic groups via regex
- * 2. Normalize captured data into common format (DD)
- * 3. Validation for format types and value ranges
- * 4. Create formatter for coordinates in other package?
- */
-
-/**
  * TODOs:
  *
  * - Auto detect lon/lat ordering?
@@ -29,38 +20,5 @@
  *    - Regex for first digit > 90
  */
 
-import { toDigits } from '@hypergiant/converters';
-import { dd, dms } from './configurations';
-import { isPositiveDirection, normalizeDirection, negate } from './utils';
-
-export function parseDD(val: string) {
-  const matches = matchDD(val);
-
-  const latDirection = normalizeDirection(matches[0] || matches[4]);
-  const lonDirection = normalizeDirection(matches[5] || matches[9]);
-  const latPositive = isPositiveDirection(latDirection, matches[1]);
-  const lonPositive = isPositiveDirection(lonDirection, matches[6]);
-
-  const latParsed = toDigits(
-    Number.parseFloat(`${matches[2]}${matches[3]}`),
-    6,
-  );
-
-  const lonParsed = toDigits(
-    Number.parseFloat(`${matches[7]}${matches[8]}`),
-    6,
-  );
-
-  const latValue = latPositive ? latParsed : negate(latParsed);
-  const lonValue = lonPositive ? lonParsed : negate(lonParsed);
-
-  return [latValue, lonValue];
-}
-
-export function parseDMS() {}
-
-export function parseCoordinates() {}
-
-export function parseLongitude() {}
-
-export function parseLatitude() {}
+export { matchDD, matchDMS } from './match';
+export { normalizeDD } from './normalize';
