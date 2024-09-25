@@ -10,8 +10,7 @@
     "bench": "pnpm vitest bench --run --dir src",
     "build": "pnpm tsc",
     "dev": "pnpm tsc --watch",
-    "lint": "pnpm biome lint ./",
-    "test": "pnpm vitest --run --dir src"
+    "lint": "pnpm biome lint ./"
   },
   "devDependencies": {
     "@hypergiant/typescript-config": "workspace:*",
