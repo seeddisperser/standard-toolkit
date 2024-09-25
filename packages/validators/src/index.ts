@@ -10,14 +10,15 @@
  * governing permissions and limitations under the License.
  */
 
-export { isBbox } from './is-bbox';
-export { isLatitude } from './is-latitude';
-export { isLongitude } from './is-longitude';
+export { isBbox } from "./is-bbox";
+export { isLatitude } from "./is-latitude";
+export { isLongitude } from "./is-longitude";
+export { isFalse, isNo, isTrue, isYes } from "./is-noyes";
 export {
   isFiniteNumber,
   isFiniteNumeric,
   isNumber,
   isNumeric,
-} from './is-number';
-export { isString } from './is-string';
-export { isSharedWorker, isWorker } from './is-worker';
+} from "./is-number";
+export { isString } from "./is-string";
+export { isSharedWorker, isWorker } from "./is-worker";
