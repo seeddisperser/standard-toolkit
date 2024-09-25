@@ -10,25 +10,25 @@
  * governing permissions and limitations under the License.
  */
 
-import { describe, it, expect } from "vitest";
-import { isTrue, isYes, isFalse, isNo } from "./";
+import { describe, it, expect } from 'vitest';
+import { isTrue, isYes, isFalse, isNo } from './';
 
-const truthy = [1, "1", "on", "true", "yes", true, "ON", "YES", "TRUE"];
+const truthy = [1, '1', 'on', 'true', 'yes', true, 'ON', 'YES', 'TRUE'];
 const falsey = [
   0,
-  "0",
-  "off",
-  "false",
-  "no",
+  '0',
+  'off',
+  'false',
+  'no',
   false,
   [],
   {},
-  "OFF",
-  "NO",
-  "FALSE",
+  'OFF',
+  'NO',
+  'FALSE',
 ];
 
-describe("boolean validators", () => {
+describe('boolean validators', () => {
   for (const item of truthy) {
     it(`should return true for ${item}`, () => {
       expect(isTrue(item)).toBeTruthy();
