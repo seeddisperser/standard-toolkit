@@ -13,6 +13,7 @@
 export { isBbox } from './is-bbox';
 export { isLatitude } from './is-latitude';
 export { isLongitude } from './is-longitude';
+export { isFalse, isNo, isTrue, isYes } from './is-noyes';
 export {
   isFiniteNumber,
   isFiniteNumeric,
