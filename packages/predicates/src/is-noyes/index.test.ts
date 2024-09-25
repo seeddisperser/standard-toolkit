@@ -21,8 +21,6 @@ const falsey = [
   'false',
   'no',
   false,
-  [],
-  {},
   'OFF',
   'NO',
   'FALSE',

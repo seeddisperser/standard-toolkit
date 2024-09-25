@@ -25,17 +25,17 @@
     "test": "turbo test"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.8.0",
+    "@biomejs/biome": "^1.9.2",
     "@changesets/changelog-git": "^0.2.0",
-    "@changesets/cli": "^2.27.5",
+    "@changesets/cli": "^2.27.8",
     "@hypergiant/biome-config": "workspace:*",
     "@ls-lint/ls-lint": "^2.2.3",
-    "rimraf": "^5.0.7",
-    "syncpack": "^12.3.2",
-    "taze": "^0.13.8",
-    "tsx": "^4.11.2",
-    "turbo": "^2.0.1",
-    "zx": "^8.1.2"
+    "rimraf": "^5.0.10",
+    "syncpack": "^13.0.0",
+    "taze": "^0.16.9",
+    "tsx": "^4.19.1",
+    "turbo": "^2.1.2",
+    "zx": "^8.1.8"
   },
   "$schema": "https://json.schemastore.org/package",
   "author": "https://hypergiant.com",
@@ -43,5 +43,5 @@
     "node": ">=18",
     "pnpm": ">=9"
   },
-  "packageManager": "pnpm@9.2.0"
+  "packageManager": "pnpm@9.11.0"
 }
