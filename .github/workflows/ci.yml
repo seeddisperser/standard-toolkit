@@ -11,7 +11,7 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 jobs:
-  install_and_build:
+  checks:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -30,27 +30,6 @@ jobs:
           cache: "pnpm"
       - run: pnpm install
       - run: pnpm run build
-  lint:
-    runs-on: ubuntu-latest
-    needs: install_and_build
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.RUNNER_PNPM_VERSION }}
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.RUNNER_NODE_VERSION }}
       - run: pnpm run lint
-  test:
-    runs-on: ubuntu-latest
-    needs: install_and_build
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.RUNNER_PNPM_VERSION }}
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.RUNNER_NODE_VERSION }}
       - run: pnpm run test
+
