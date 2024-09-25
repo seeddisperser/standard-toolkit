@@ -6,7 +6,7 @@ on:
     types: [opened, synchronize]
 env:
   RUNNER_NODE_VERSION: 18
-  RUNNER_PNPM_VERSION: 9
+  RUNNER_PNPM_VERSION: 9.11.0 # specified in root package.json
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
