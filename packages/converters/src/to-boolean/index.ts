@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import { isString } from '@hypergiant/validators';
+import { isString } from '@hypergiant/predicates';
 
 /**
  * Compare the given value against a custom list of `truthy` values.
