@@ -14,17 +14,7 @@ import { describe, it, expect } from 'vitest';
 import { isTrue, isYes, isFalse, isNo } from './';
 
 const truthy = [1, '1', 'on', 'true', 'yes', true, 'ON', 'YES', 'TRUE'];
-const falsey = [
-  0,
-  '0',
-  'off',
-  'false',
-  'no',
-  false,
-  'OFF',
-  'NO',
-  'FALSE',
-];
+const falsey = [0, '0', 'off', 'false', 'no', false, 'OFF', 'NO', 'FALSE'];
 
 describe('boolean validators', () => {
   for (const item of truthy) {
