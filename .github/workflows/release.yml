@@ -4,6 +4,7 @@ on:
     branches:
       - main
 env:
+  TURBO_TELEMETRY_DISABLED: 1
   RUNNER_NODE_VERSION: 18
   RUNNER_PNPM_VERSION: 9.11.0 # specified in root package.json
 concurrency: ${{ github.workflow }}-${{ github.ref }}
