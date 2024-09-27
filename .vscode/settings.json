@@ -9,7 +9,19 @@
   "search.exclude": {
     "pnpm-lock.yaml": true
   },
-  "[json][javascript][javascriptreact][typescript][typescriptreact]": {
+  "[json]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescriptreact]": {
     "editor.defaultFormatter": "biomejs.biome"
   }
 }
