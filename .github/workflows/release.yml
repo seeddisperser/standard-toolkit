@@ -32,5 +32,9 @@ jobs:
           cache: "pnpm"
       - run: pnpm install
       - uses: changesets/action@v1
+        with:
+          publish: false
+          commit: "build: version packages"
+          title: "Changeset Action: Version Packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
