@@ -24,7 +24,7 @@
     "lint": "turbo lint",
     "test": "turbo test"
   },
-  "devDependencies": {
+  "dependencies": {
     "@biomejs/biome": "^1.9.2",
     "@changesets/changelog-git": "^0.2.0",
     "@changesets/cli": "^2.27.8",
