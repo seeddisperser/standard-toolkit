@@ -30,6 +30,7 @@ jobs:
         with:
           node-version: ${{ env.RUNNER_NODE_VERSION }}
           cache: "pnpm"
+      - run: pnpm install
       - uses: changesets/action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
