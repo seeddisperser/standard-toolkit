@@ -1,11 +1,9 @@
 {
   "name": "@hypergiant/predicates",
   "version": "0.0.0",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "type": "module",
-  "files": [
-    "dist/**"
-  ],
+  "files": ["dist/**"],
   "types": "./dist/index.d.ts",
   "exports": {
     ".": "./dist/index.js"
