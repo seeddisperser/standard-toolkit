@@ -11,16 +11,24 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { clamp } from './';
+import { round } from './';
 
-describe('clamp', () => {
-  it('clamps value', () => {
-    expect(clamp(1, 2, 0)).toBe(1);
-    expect(clamp(1, 2, 3)).toBe(2);
-    expect(clamp(1, 3, 2)).toBe(2);
+const value = 1.2345;
+
+describe('round', () => {
+  it('rounds to precision', () => {
+    const a = round(1, value);
+    const b = round(2, value);
+    const c = round(3, value);
+    const d = round(4, value);
+
+    expect(a).toEqual(1.2);
+    expect(b).toEqual(1.23);
+    expect(c).toEqual(1.235);
+    expect(d).toEqual(1.2345);
   });
 
-  it('throws when min is greater than max', () => {
-    expect(() => clamp(1, 0, 1)).toThrow(RangeError);
+  it('throws if precision is not integer', () => {
+    expect(() => round(1.1, 1)).toThrow(Error);
   });
 });

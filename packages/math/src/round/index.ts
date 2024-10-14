@@ -10,17 +10,23 @@
  * governing permissions and limitations under the License.
  */
 
-import { describe, it, expect } from 'vitest';
-import { clamp } from './';
+/**
+ * Rounds a number to a specified precision.
+ *
+ * @throws {Error} Throws an error if precision is not integer.
+ *
+ * @example
+ * const value = round(1, 1.2345); // 1.2
+ * const value = round(2, 1.2345); // 1.23
+ * const value = round(3, 1.2345); // 1.235
+ * const value = round(3.1, 1.2345); // Error
+ */
+export function round(precision: number, value: number): number {
+  if (!Number.isInteger(precision)) {
+    throw new Error('Precision must be an integer.');
+  }
 
-describe('clamp', () => {
-  it('clamps value', () => {
-    expect(clamp(1, 2, 0)).toBe(1);
-    expect(clamp(1, 2, 3)).toBe(2);
-    expect(clamp(1, 3, 2)).toBe(2);
-  });
+  const multiplier = 10 ** precision;
 
-  it('throws when min is greater than max', () => {
-    expect(() => clamp(1, 0, 1)).toThrow(RangeError);
-  });
-});
+  return Math.round(value * multiplier) / multiplier;
+}
