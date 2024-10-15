@@ -7,7 +7,7 @@
 "@hypergiant/geo": minor
 "@hypergiant/math": minor
 "@hypergiant/predicates": minor
-"@hypergiant/web-worker": minor
+"@hypergiant/worker": minor
 "@hypergiant/websocket": minor
 "@hypergiant/biome-config": minor
 "@hypergiant/eslint-config": minor
