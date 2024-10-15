@@ -34,6 +34,7 @@ jobs:
           node-version: ${{ env.RUNNER_NODE_VERSION }}
           cache: "pnpm"
       - run: pnpm install
+      - run: pnpm run build
       - uses: changesets/action@v1
         with:
           publish: false
@@ -41,3 +42,4 @@ jobs:
           title: "Changeset Action: Version Packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
