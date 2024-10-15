@@ -14,27 +14,28 @@ import { lens, composeLens, get, set, lensProp, lensOptionalProp } from '.';
 
 const nameLens = lens(
   (person: Person) => property(person)('name'),
-  (person) => (name) => associateDeep(person)('name')(name)
+  (person) => (name) => associateDeep(person)('name')(name),
 ); // -> string
 const addressLens = lens(
   (person: Person) => property(person)('address'),
-  (person) => (addr) => associateDeep(person)('address')(addr)
+  (person) => (addr) => associateDeep(person)('address')(addr),
 ); // -> Address
 const cityLens = lens(
   (address?: Address) => optionalProperty(address)('city'),
-  (address) => (city) => associateDeep(address as Address)('city')(city as City)
+  (address) => (city) =>
+    associateDeep(address as Address)('city')(city as City),
 ); // -> City
 const profilesLens = lens(
   (user: User) => property(user)('profile'),
-  (user) => (profile) => associateDeep(user)('profile')(profile)
+  (user) => (profile) => associateDeep(user)('profile')(profile),
 ); // -> Profile[]
 const firstProfileLens = lens(
   (profiles: Profile[]) => property(profiles)(0),
-  (profiles) => (profile) => associateDeep(profiles)(0)(profile)
+  (profiles) => (profile) => associateDeep(profiles)(0)(profile),
 ); // -> Profile
 const infoLens = lens(
   (profile: Profile) => property(profile)('info'),
-  (profile) => (info) => associateDeep(profile)('info')(info)
+  (profile) => (info) => associateDeep(profile)('info')(info),
 ); // -> Info
 
 describe('lens', () => {
@@ -46,7 +47,7 @@ describe('lens', () => {
 
   test('it should correctly respect the second law: Identity (GetSet)', () => {
     expect(nameLens.set(personStore)(nameLens.get(personStore))).toStrictEqual(
-      personStore
+      personStore,
     );
   });
 
@@ -55,7 +56,7 @@ describe('lens', () => {
     const name2 = 'Best Name';
 
     expect(nameLens.set(nameLens.set(personStore)(name1))(name2)).toEqual(
-      nameLens.set(personStore)(name2)
+      nameLens.set(personStore)(name2),
     );
   });
 
@@ -66,7 +67,7 @@ describe('lens', () => {
 
   test('it should correctly manually compose lenses', () => {
     expect(cityLens.get(addressLens.get(personStore))).toBe(
-      personStore.address?.city
+      personStore.address?.city,
     );
   });
 
@@ -92,7 +93,7 @@ describe('composeLens', () => {
 
     expect(personCityLens.get(personStore)).toBe(personStore.address?.city);
     expect(userFirstProfileLens.get(userStore)).toStrictEqual(
-      userStore.profile.at(0)
+      userStore.profile.at(0),
     );
   });
 
@@ -101,7 +102,7 @@ describe('composeLens', () => {
     const personCityLens = composeLens(addressLens, cityLens);
 
     expect(personCityLens.get(personCityLens.set(personStore)(city))).toBe(
-      city
+      city,
     );
   });
 
@@ -112,7 +113,7 @@ describe('composeLens', () => {
     const userCityLens = composeLens(userInfoLens, personCityLens);
 
     expect(userCityLens.get(userStore)).toBe(
-      userStore.profile.at(0)?.info.address?.city
+      userStore.profile.at(0)?.info.address?.city,
     );
   });
 
@@ -157,7 +158,7 @@ describe('lenseProp', () => {
     const cityPropLens = lensProp<Address>()('city');
 
     expect(cityPropLens.get(addressPropLens.get(personStore) as Address)).toBe(
-      personStore.address?.city
+      personStore.address?.city,
     );
   });
 
@@ -192,7 +193,7 @@ describe('lenseOptionalProp', () => {
     const cityPropLens = lensOptionalProp<Address>()('city');
 
     expect(cityPropLens.get(addressPropLens.get(personStore) as Address)).toBe(
-      personStore.address?.city
+      personStore.address?.city,
     );
   });
 

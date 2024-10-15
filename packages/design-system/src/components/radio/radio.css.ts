@@ -6,11 +6,7 @@ import {
 } from '@vanilla-extract/css';
 import { label, layers, radiusVars } from '../../styles';
 import { containerQueries } from '../../utils';
-import type {
-  RadioState,
-  RadioClassNames,
-  RadioGroupState,
-} from './types';
+import type { RadioState, RadioClassNames, RadioGroupState } from './types';
 
 export const radioContainer = createContainer();
 

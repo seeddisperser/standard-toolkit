@@ -210,6 +210,6 @@ export const Chip: ThemeContext['Chip'] = {
           color: genericColorVars.neutral.v05,
         }),
       },
-    ])
+    ]),
   ),
 };

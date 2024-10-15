@@ -3,17 +3,15 @@
   "version": "0.0.0",
   "license": "Apache-2.0",
   "type": "module",
-  "files": [
-    "dist/**"
-  ],
+  "files": ["dist/**"],
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
     "bench": "pnpm vitest bench --run --dir src",
     "build": "pnpm tsc",
     "dev": "pnpm tsc --watch",
-    "lint": "pnpm biome lint ./",
-    "index": "pnpm zx ../../scripts/indexer.mjs packages/web-worker"
+    "index": "pnpm zx ../../scripts/indexer.mjs packages/web-worker",
+    "lint": "pnpm biome lint ./"
   },
   "devDependencies": {
     "@hypergiant/typescript-config": "workspace:*",

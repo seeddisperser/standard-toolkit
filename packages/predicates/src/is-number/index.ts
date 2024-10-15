@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import { isString } from "../is-string";
+import { isString } from '../is-string';
 
 /**
  * Determine if the given value is a number.
@@ -24,7 +24,7 @@ import { isString } from "../is-string";
  * isNumber('1.23') // false
  */
 export function isNumber(val: unknown) {
-  return typeof val === "number" || val instanceof Number;
+  return typeof val === 'number' || val instanceof Number;
 }
 
 /**
@@ -75,9 +75,9 @@ export function isFiniteNumeric(val: unknown) {
 export function isNumeric(val: unknown) {
   if (isString(val)) {
     return (
-      val === "Infinity" ||
-      val === "-Infinity" ||
-      val === "NaN" ||
+      val === 'Infinity' ||
+      val === '-Infinity' ||
+      val === 'NaN' ||
       isFiniteNumeric(val)
     );
   }

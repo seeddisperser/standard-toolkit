@@ -3,9 +3,7 @@
   "version": "0.0.0",
   "license": "Apache-2.0",
   "type": "module",
-  "files": [
-    "dist/**"
-  ],
+  "files": ["dist/**"],
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
@@ -20,15 +18,14 @@
       "module": "./dist/vanilla.js"
     }
   },
-  "sideEffects": false,
   "scripts": {
     "bench": "pnpm vitest bench --run --dir src",
     "build": "pnpm rollup --config rollup.config.js",
     "dev": "pnpm tsc --watch",
+    "index": "pnpm zx ../../scripts/indexer.mjs packages/design-system --barrels",
     "lint:todo": "pnpm biome lint ./",
     "preview": "pnpm ladle serve",
-    "test": "pnpm vitest --run --dir src",
-    "index": "pnpm zx ../../scripts/indexer.mjs packages/design-system --barrels"
+    "test": "pnpm vitest --run --dir src"
   },
   "devDependencies": {
     "@fontsource/roboto-flex": "^5.1.0",
@@ -79,5 +76,6 @@
     "zod": "^3.23.8"
   },
   "$schema": "https://json.schemastore.org/package",
-  "author": "https://hypergiant.com"
+  "author": "https://hypergiant.com",
+  "sideEffects": false
 }

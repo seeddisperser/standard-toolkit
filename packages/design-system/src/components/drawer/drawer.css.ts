@@ -6,11 +6,7 @@ import {
 } from '@vanilla-extract/css';
 import { layers, surfaces } from '../../styles';
 import { containerQueries } from '../../utils';
-import type {
-  DrawerClassNames,
-  DrawerDialogState,
-  DrawerState,
-} from './types';
+import type { DrawerClassNames, DrawerDialogState, DrawerState } from './types';
 
 export const drawerContainer = createContainer();
 

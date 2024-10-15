@@ -30,7 +30,7 @@ export const Drawer: ThemeContext['Drawer'] = {
             },
           }),
         },
-      ])
+      ]),
     ),
     list: {
       list: style(
@@ -51,7 +51,7 @@ export const Drawer: ThemeContext['Drawer'] = {
               },
             }),
           },
-        ])
+        ]),
       ),
     },
     tab: {
@@ -77,8 +77,8 @@ export const Drawer: ThemeContext['Drawer'] = {
               }),
             },
           ],
-          layers.variables.l2
-        )
+          layers.variables.l2,
+        ),
       ),
     },
   },

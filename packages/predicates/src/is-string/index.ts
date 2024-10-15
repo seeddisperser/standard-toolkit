@@ -14,5 +14,5 @@
  * Determines if the given value is a string.
  */
 export function isString(val: unknown) {
-  return typeof val === "string" || val instanceof String;
+  return typeof val === 'string' || val instanceof String;
 }

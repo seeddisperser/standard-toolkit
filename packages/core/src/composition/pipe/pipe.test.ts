@@ -22,7 +22,7 @@ const stringify = (x: number) =>
 test('it should return the correct result', () => {
   const piped = pipe(add3, stringify, uppercase, splitIt);
   const pipedTwo = pipe(add3, stringify, splitIt, upperMap, (a: string[]) =>
-    a.join('')
+    a.join(''),
   );
 
   const actualOne = piped(3);

@@ -38,7 +38,7 @@ export const QueryBuilder: ThemeContext['QueryBuilder'] = {
             },
           }),
         },
-      ])
+      ]),
     ),
   },
   rule: {
@@ -51,7 +51,7 @@ export const QueryBuilder: ThemeContext['QueryBuilder'] = {
             },
           }),
         },
-      ])
+      ]),
     ),
   },
   input: {
@@ -63,20 +63,20 @@ export const QueryBuilder: ThemeContext['QueryBuilder'] = {
             maxWidth: 'none',
           }),
         },
-      ])
+      ]),
     ),
   },
   select: {
     select: style(
       applyThemeVars<SelectState>(selectStateVars, [
         { vars: assignPartialVars(selectSpaceVars, { width: '100%' }) },
-      ])
+      ]),
     ),
     toggle: {
       container: style(
         applyThemeVars<ButtonState>(buttonStateVars, [
           { vars: assignPartialVars(buttonSpaceVars, { width: '100%' }) },
-        ])
+        ]),
       ),
     },
   },

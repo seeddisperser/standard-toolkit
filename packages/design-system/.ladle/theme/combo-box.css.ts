@@ -32,7 +32,7 @@ export const ComboBox: ThemeContext['ComboBox'] = {
           y: sizeVars.v03,
         }),
       },
-    ])
+    ]),
   ),
   label: style(
     applyThemeVars<{ comboBox: ComboBoxState; input: InputState }>(
@@ -44,8 +44,8 @@ export const ComboBox: ThemeContext['ComboBox'] = {
             color: semanticColorVars.foreground.interactive.disabled,
           }),
         },
-      ]
-    )
+      ],
+    ),
   ),
   description: style(
     applyThemeVars<ComboBoxState>(comboBoxStateVars, [
@@ -64,7 +64,7 @@ export const ComboBox: ThemeContext['ComboBox'] = {
           },
         }),
       },
-    ])
+    ]),
   ),
   error: style(
     applyThemeVars<ComboBoxState>(comboBoxStateVars, [
@@ -75,6 +75,6 @@ export const ComboBox: ThemeContext['ComboBox'] = {
           },
         }),
       },
-    ])
+    ]),
   ),
 };

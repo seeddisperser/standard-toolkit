@@ -29,7 +29,7 @@ export const Switch: ThemeContext['Switch'] = {
               gap: sizeVars.v04,
               travel: sizeVars.v04,
             },
-          }
+          },
         ),
       },
       {
@@ -62,6 +62,6 @@ export const Switch: ThemeContext['Switch'] = {
           indicator: genericColorVars.neutral.v05,
         }),
       },
-    ])
+    ]),
   ),
 };

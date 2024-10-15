@@ -6,11 +6,7 @@ import {
 } from '@vanilla-extract/css';
 import { layers, radiusVars } from '../../styles';
 import { containerQueries } from '../../utils';
-import type {
-  TreeClassNames,
-  TreeItemState,
-  TreeState,
-} from './types';
+import type { TreeClassNames, TreeItemState, TreeState } from './types';
 
 export const treeContainers = {
   tree: createContainer(),

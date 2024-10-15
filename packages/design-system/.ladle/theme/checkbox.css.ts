@@ -23,7 +23,7 @@ export const Checkbox: ThemeContext['Checkbox'] = {
             elementGap: sizeVars.v04,
           }),
         },
-      ])
+      ]),
     ),
   },
   checkbox: {
@@ -43,7 +43,7 @@ export const Checkbox: ThemeContext['Checkbox'] = {
                 dimension: '16px',
                 gap: sizeVars.v04,
               },
-            }
+            },
           ),
         },
         {
@@ -95,7 +95,7 @@ export const Checkbox: ThemeContext['Checkbox'] = {
             background: genericColorVars.neutral.v06,
           }),
         },
-      ])
+      ]),
     ),
   },
 };

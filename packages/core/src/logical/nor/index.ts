@@ -1,5 +1,5 @@
-import { or, orFn } from "../or";
-import { not } from "../not";
+import { or, orFn } from '../or';
+import { not } from '../not';
 
 /**
  * Logical `!(a || b)`

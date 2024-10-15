@@ -40,7 +40,7 @@ export const Select: ThemeContext['Select'] = {
             border: semanticColorVars.border.serious,
           }),
         },
-      ])
+      ]),
     ),
   },
   label: style(
@@ -53,8 +53,8 @@ export const Select: ThemeContext['Select'] = {
             color: semanticColorVars.foreground.interactive.disabled,
           }),
         },
-      ]
-    )
+      ],
+    ),
   ),
   description: style(
     applyThemeVars<SelectState>(selectStateVars, [
@@ -73,7 +73,7 @@ export const Select: ThemeContext['Select'] = {
           },
         }),
       },
-    ])
+    ]),
   ),
   error: style(
     applyThemeVars<SelectState>(selectStateVars, [
@@ -84,6 +84,6 @@ export const Select: ThemeContext['Select'] = {
           },
         }),
       },
-    ])
+    ]),
   ),
 };

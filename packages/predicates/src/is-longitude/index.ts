@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import { isFiniteNumber } from "../is-number";
+import { isFiniteNumber } from '../is-number';
 
 const MIN_LONGITUDE = -180;
 const MAX_LONGITUDE = 180;

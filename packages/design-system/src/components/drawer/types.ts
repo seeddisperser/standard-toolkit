@@ -1,10 +1,7 @@
 import type { AriaLabelingProps as RACLabelingProps } from '@react-types/shared';
 import type { PropsWithChildren } from 'react';
 import type { AriaOverlayProps as RACOverlayProps } from 'react-aria';
-import type {
-  OverlayTriggerProps,
-  OverlayTriggerState,
-} from 'react-stately';
+import type { OverlayTriggerProps, OverlayTriggerState } from 'react-stately';
 import type { PartialDeep } from 'type-fest';
 import type { OmitProtectedProps, RenderPropsChildren } from '../../types';
 import type { ButtonClassNames, ButtonProps } from '../button/types';

@@ -23,7 +23,7 @@ export const Options: ThemeContext['Options'] = {
             },
           }),
         },
-      ])
+      ]),
     ),
   },
   list: {
@@ -47,10 +47,10 @@ export const Options: ThemeContext['Options'] = {
                   y: sizeVars.v03,
                 },
               },
-            }
+            },
           ),
         },
-      ])
+      ]),
     ),
   },
   item: {
@@ -73,7 +73,7 @@ export const Options: ThemeContext['Options'] = {
                   gap: `${sizeVars.v02} ${sizeVars.v03}`,
                 },
               },
-            }
+            },
           ),
         },
         {
@@ -116,7 +116,7 @@ export const Options: ThemeContext['Options'] = {
             description: 'currentcolor',
           }),
         },
-      ])
+      ]),
     ),
   },
 };

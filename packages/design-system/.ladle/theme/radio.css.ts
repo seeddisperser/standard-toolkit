@@ -23,7 +23,7 @@ export const Radio: ThemeContext['Radio'] = {
             elementGap: sizeVars.v04,
           }),
         },
-      ])
+      ]),
     ),
   },
   radio: {
@@ -40,7 +40,7 @@ export const Radio: ThemeContext['Radio'] = {
                 diameter: '16px',
                 gap: sizeVars.v04,
               },
-            }
+            },
           ),
         },
         {
@@ -79,7 +79,7 @@ export const Radio: ThemeContext['Radio'] = {
             background: genericColorVars.neutral.v06,
           }),
         },
-      ])
+      ]),
     ),
   },
 };

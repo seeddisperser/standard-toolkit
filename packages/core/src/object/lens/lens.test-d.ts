@@ -6,11 +6,11 @@ import { lens } from '.';
 
 const nameLens = lens(
   (person: Person) => property(person)('name'),
-  (person) => (name) => associateDeep(person)('name')(name)
+  (person) => (name) => associateDeep(person)('name')(name),
 ); // -> string
 const addressLens = lens(
   (person: Person) => property(person)('address'),
-  (person) => (addr) => associateDeep(person)('address')(addr)
+  (person) => (addr) => associateDeep(person)('address')(addr),
 ); // -> Address
 
 describe('lens', () => {
@@ -19,7 +19,7 @@ describe('lens', () => {
     expectTypeOf(lens).toBeCallableWith(
       (x) => x,
       // eslint-disable-next-line no-unused-vars
-      (x) => (_y) => x
+      (x) => (_y) => x,
     );
   });
 

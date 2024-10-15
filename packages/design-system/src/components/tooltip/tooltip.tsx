@@ -20,11 +20,7 @@ import {
   tooltipStateVars,
   tooltipTargetStateVars,
 } from './tooltip.css';
-import type {
-  TooltipMapping,
-  TooltipProps,
-  TooltipTargetProps,
-} from './types';
+import type { TooltipMapping, TooltipProps, TooltipTargetProps } from './types';
 
 const defaultMapping: TooltipMapping = {
   font: bodies.xs,

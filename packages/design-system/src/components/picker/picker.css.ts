@@ -6,11 +6,7 @@ import {
 } from '@vanilla-extract/css';
 import { layers } from '../../styles';
 import { containerQueries } from '../../utils';
-import type {
-  PickerItemState,
-  PickerClassNames,
-  PickerState,
-} from './types';
+import type { PickerItemState, PickerClassNames, PickerState } from './types';
 
 export const pickerContainers = {
   list: createContainer(),

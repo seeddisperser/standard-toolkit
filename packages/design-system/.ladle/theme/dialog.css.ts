@@ -19,7 +19,7 @@ export const Dialog: ThemeContext['Dialog'] = {
           overlay: `rgb(from ${genericColorVars.neutral.v10} r g b / 0.4)`,
         }),
       },
-    ])
+    ]),
   ),
   dialog: style(
     applyThemeVars<DialogState>(dialogStateVars, [
@@ -61,7 +61,7 @@ export const Dialog: ThemeContext['Dialog'] = {
           },
         }),
       },
-    ])
+    ]),
   ),
   content: style(
     applyThemeVars<DialogState>(dialogStateVars, [
@@ -71,6 +71,6 @@ export const Dialog: ThemeContext['Dialog'] = {
           content: { color: genericColorVars.neutral.v03 },
         }),
       },
-    ])
+    ]),
   ),
 };

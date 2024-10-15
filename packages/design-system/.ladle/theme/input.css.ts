@@ -94,6 +94,6 @@ export const Input: ThemeContext['Input'] = {
           color: semanticColorVars.foreground.interactive.disabled,
         }),
       },
-    ])
+    ]),
   ),
 };

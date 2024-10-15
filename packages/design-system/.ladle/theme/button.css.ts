@@ -241,6 +241,6 @@ export const Button: ThemeContext['Button'] = {
           color: genericColorVars.neutral.v05,
         }),
       },
-    ])
+    ]),
   ),
 };

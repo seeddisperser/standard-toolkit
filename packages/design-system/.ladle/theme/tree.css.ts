@@ -41,7 +41,7 @@ export const Tree: ThemeContext['Tree'] = {
           },
         }),
       },
-    ])
+    ]),
   ),
   indicator: {
     indicator: style(
@@ -54,7 +54,7 @@ export const Tree: ThemeContext['Tree'] = {
             },
           }),
         },
-      ])
+      ]),
     ),
   },
   item: {
@@ -141,8 +141,8 @@ export const Tree: ThemeContext['Tree'] = {
               }),
             },
           ],
-          layers.variables.l2
-        )
+          layers.variables.l2,
+        ),
       ),
     },
     visibility: {
@@ -156,8 +156,8 @@ export const Tree: ThemeContext['Tree'] = {
               }),
             },
           ],
-          layers.variables.l2
-        )
+          layers.variables.l2,
+        ),
       ),
     },
     drag: {
@@ -171,8 +171,8 @@ export const Tree: ThemeContext['Tree'] = {
               }),
             },
           ],
-          layers.variables.l2
-        )
+          layers.variables.l2,
+        ),
       ),
     },
   },

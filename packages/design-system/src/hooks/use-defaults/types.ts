@@ -8,10 +8,7 @@ import type {
   CheckboxGroupProps,
   CheckboxProps,
 } from '../../components/checkbox/types';
-import type {
-  ChipGroupProps,
-  ChipProps,
-} from '../../components/chip/types';
+import type { ChipGroupProps, ChipProps } from '../../components/chip/types';
 import type { ComboBoxProps } from '../../components/combo-box/types';
 import type { DialogProps } from '../../components/dialog/types';
 import type {
@@ -33,10 +30,7 @@ import type {
 } from '../../components/options/types';
 import type { PickerProps } from '../../components/picker/types';
 import type { PopoverProps } from '../../components/popover/types';
-import type {
-  RadioGroupProps,
-  RadioProps,
-} from '../../components/radio/types';
+import type { RadioGroupProps, RadioProps } from '../../components/radio/types';
 import type { SearchFieldProps } from '../../components/search-field/types';
 import type { SelectProps } from '../../components/select/types';
 import type { SwitchProps } from '../../components/switch/types';

@@ -18,7 +18,7 @@ export const Picker: ThemeContext['Picker'] = {
             gap: sizeVars.v04,
           }),
         },
-      ])
+      ]),
     ),
   },
 };

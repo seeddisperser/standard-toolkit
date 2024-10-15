@@ -21,7 +21,7 @@ export type Curried<T extends unknown[], R> = <P extends Partial<T>>(
  */
 export function autoCurry<T extends (...args: any[]) => any>(
   fn: T,
-  _args = [] as any[]
+  _args = [] as any[],
 ): Curried<Parameters<T>, ReturnType<T>> {
   return (...__args) =>
     ((rest) => (rest.length >= fn.length ? fn(...rest) : autoCurry(fn, rest)))([

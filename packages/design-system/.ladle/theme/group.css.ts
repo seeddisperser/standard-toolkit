@@ -17,6 +17,6 @@ export const Group: ThemeContext['Group'] = {
           gap: sizeVars.v04,
         }),
       },
-    ])
+    ]),
   ),
 };

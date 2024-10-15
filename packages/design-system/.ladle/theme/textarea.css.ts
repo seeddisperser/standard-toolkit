@@ -26,7 +26,7 @@ export const TextArea: ThemeContext['TextArea'] = {
             space: {
               maxWidth: '400px',
             },
-          }
+          },
         ),
       },
       {
@@ -81,6 +81,6 @@ export const TextArea: ThemeContext['TextArea'] = {
           color: semanticColorVars.foreground.interactive.disabled,
         }),
       },
-    ])
+    ]),
   ),
 };

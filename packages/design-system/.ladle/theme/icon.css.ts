@@ -47,6 +47,6 @@ export const Icon: ThemeContext['Icon'] = {
           width: '1.25em',
         }),
       },
-    ])
+    ]),
   ),
 };

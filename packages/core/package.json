@@ -11,9 +11,9 @@
   "scripts": {
     "build": "pnpm tsc",
     "dev": "pnpm tsc --watch",
+    "index": "pnpm zx ../../scripts/indexer.mjs packages/core",
     "lint": "pnpm biome lint ./",
-    "test": "pnpm vitest --run --dir src",
-    "index": "pnpm zx ../../scripts/indexer.mjs packages/core"
+    "test": "pnpm vitest --run --dir src"
   },
   "devDependencies": {
     "@hypergiant/typescript-config": "workspace:*",

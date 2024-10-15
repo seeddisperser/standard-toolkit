@@ -23,7 +23,7 @@ export const SearchField: ThemeContext['SearchField'] = {
           y: sizeVars.v03,
         }),
       },
-    ])
+    ]),
   ),
   input: {
     sizer: style(
@@ -50,8 +50,8 @@ export const SearchField: ThemeContext['SearchField'] = {
             }),
           },
         ],
-        layers.variables.l2
-      )
+        layers.variables.l2,
+      ),
     ),
   },
 };

@@ -80,7 +80,7 @@ export const Tabs: ThemeContext['Tabs'] = {
             },
           }),
         },
-      ])
+      ]),
     ),
   },
   tab: {
@@ -181,8 +181,8 @@ export const Tabs: ThemeContext['Tabs'] = {
               color: semanticColorVars.foreground.interactive.highlight,
             }),
           },
-        ]
-      )
+        ],
+      ),
     ),
   },
 };

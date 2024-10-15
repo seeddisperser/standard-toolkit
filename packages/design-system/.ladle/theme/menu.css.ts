@@ -36,10 +36,10 @@ export const Menu: ThemeContext['Menu'] = {
                   y: sizeVars.v03,
                 },
               },
-            }
+            },
           ),
         },
-      ])
+      ]),
     ),
   },
   item: {
@@ -62,7 +62,7 @@ export const Menu: ThemeContext['Menu'] = {
                   gap: `${sizeVars.v02} ${sizeVars.v03}`,
                 },
               },
-            }
+            },
           ),
         },
         {
@@ -105,7 +105,7 @@ export const Menu: ThemeContext['Menu'] = {
             description: 'currentcolor',
           }),
         },
-      ])
+      ]),
     ),
   },
 };

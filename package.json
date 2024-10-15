@@ -20,8 +20,8 @@
     "deps:version-patch": "pnpm taze patch -r",
     "dev": "turbo dev",
     "format": "pnpm biome format . --write",
-    "license": "pnpm zx scripts/license.mjs",
     "indexer": "turbo index",
+    "license": "pnpm zx scripts/license.mjs",
     "lint": "turbo lint",
     "test": "turbo test"
   },

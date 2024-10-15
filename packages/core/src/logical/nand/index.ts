@@ -1,5 +1,5 @@
-import { and, andFn } from "../and";
-import { not } from "../not";
+import { and, andFn } from '../and';
+import { not } from '../not';
 
 /**
  * Logical `!(a && b)`

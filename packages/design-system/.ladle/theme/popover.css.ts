@@ -31,7 +31,7 @@ export const Popover: ThemeContext['Popover'] = {
             },
           }),
         },
-      ])
+      ]),
     ),
   },
   content: style(
@@ -42,6 +42,6 @@ export const Popover: ThemeContext['Popover'] = {
           content: { color: genericColorVars.neutral.v03 },
         }),
       },
-    ])
+    ]),
   ),
 };

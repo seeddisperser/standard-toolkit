@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import { isFiniteNumber } from "../is-number";
+import { isFiniteNumber } from '../is-number';
 
 /**
  * Determines if the given value is a valid bounding box.

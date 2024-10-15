@@ -19,7 +19,7 @@ export const Tooltip: ThemeContext['Tooltip'] = {
             y: sizeVars.v02,
           }),
         },
-      ])
+      ]),
     ),
   },
 };
