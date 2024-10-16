@@ -1,6 +1,7 @@
 {
   "name": "@hypergiant/worker",
   "version": "0.1.0",
+  "private": false,
   "license": "Apache-2.0",
   "type": "module",
   "files": [
@@ -27,5 +28,8 @@
   },
   "$schema": "https://json.schemastore.org/package",
   "author": "https://hypergiant.com",
+  "publishConfig": {
+    "access": "public"
+  },
   "sideEffects": false
 }
