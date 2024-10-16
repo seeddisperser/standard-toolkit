@@ -13,8 +13,9 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-      pull-requests: write
+      contents: write # to create release (changesets/action)
+      pull-requests: write # to post issue comments (changesets/action)
+      issues: write # to create pull request (changesets/action)
     steps:
       - uses: actions/checkout@v4
         with:
@@ -34,7 +35,6 @@ jobs:
           node-version: ${{ env.RUNNER_NODE_VERSION }}
           cache: "pnpm"
       - run: pnpm install
-      - run: pnpm run build
       - name: Creating .npmrc
         run: |
           cat << EOF > "$HOME/.npmrc"
@@ -44,9 +44,10 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - uses: changesets/action@v1
         with:
-          publish: false
+          publish: pnpm run changeset:release
+          version: pnpm run changeset:version
           commit: "build: version packages"
-          title: "Changeset Action: Version Packages"
+          title: "Changeset Action: Version Packages + Publish"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
