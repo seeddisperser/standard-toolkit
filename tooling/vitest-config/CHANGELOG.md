@@ -1,4 +1,4 @@
-# @hypergiant/vitest-config
+# @accelint/vitest-config
 
 ## 0.1.0
 

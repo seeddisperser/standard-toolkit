@@ -1,4 +1,4 @@
-# @hypergiant/worker
+# @accelint/worker
 
 ## 0.1.0
 

@@ -1,4 +1,4 @@
-import { compose, not } from '@hypergiant/core';
+import { compose, not } from '@accelint/core';
 import { isNothing } from '../is-nothing';
 
 /**

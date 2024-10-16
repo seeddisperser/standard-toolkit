@@ -1,5 +1,5 @@
 {
-  "name": "@hypergiant/eslint-config",
+  "name": "@accelint/eslint-config",
   "version": "0.1.0",
   "private": false,
   "license": "Apache-2.0",

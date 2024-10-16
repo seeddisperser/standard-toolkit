@@ -1,4 +1,4 @@
-# @hypergiant/predicates
+# @accelint/predicates
 
 ## 0.1.0
 
@@ -9,4 +9,4 @@
 ### Patch Changes
 
 - Updated dependencies [eba7ce9]
-  - @hypergiant/core@0.1.0
+  - @accelint/core@0.1.0

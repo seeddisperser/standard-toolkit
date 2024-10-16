@@ -23,20 +23,20 @@ Libraries are exposed via individual packages. Refer to each package documentati
 
 Documentation | Package
 --------------|-------------
-[Biome Config](#link-to-docs)      | `@hypergiant/biome-config`
-[Constants](#link-to-docs)         | `@hypergiant/constants`
-[Converters](#link-to-docs)        | `@hypergiant/converters`
-[Design System](#link-to-docs)     | `@hypergiant/design-system`
-[Eslint Config](#link-to-docs)     | `@hypergiant/eslint-config`
-[Formatters](#link-to-docs)        | `@hypergiant/formatters`
-[Geo](#link-to-docs)               | `@hypergiant/geo`
-[Math](#link-to-docs)              | `@hypergiant/math`
-[Prettier Config](#link-to-docs)   | `@hypergiant/prettier-config`
-[Typescript Config](#link-to-docs) | `@hypergiant/typescript-config`
-[Predicates](#link-to-docs)        | `@hypergiant/predicates`
-[Vitest Config](#link-to-docs)     | `@hypergiant/vitest-config`
-[Web Worker](#link-to-docs)        | `@hypergiant/web-worker`
-[Websocket](#link-to-docs)         | `@hypergiant/websocket`
+[Biome Config](#link-to-docs)      | `@accelint/biome-config`
+[Constants](#link-to-docs)         | `@accelint/constants`
+[Converters](#link-to-docs)        | `@accelint/converters`
+[Design System](#link-to-docs)     | `@accelint/design-system`
+[Eslint Config](#link-to-docs)     | `@accelint/eslint-config`
+[Formatters](#link-to-docs)        | `@accelint/formatters`
+[Geo](#link-to-docs)               | `@accelint/geo`
+[Math](#link-to-docs)              | `@accelint/math`
+[Prettier Config](#link-to-docs)   | `@accelint/prettier-config`
+[Typescript Config](#link-to-docs) | `@accelint/typescript-config`
+[Predicates](#link-to-docs)        | `@accelint/predicates`
+[Vitest Config](#link-to-docs)     | `@accelint/vitest-config`
+[Web Worker](#link-to-docs)        | `@accelint/web-worker`
+[Websocket](#link-to-docs)         | `@accelint/websocket`
 
 ## 💡 Contributing
 

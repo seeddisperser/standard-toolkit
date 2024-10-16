@@ -1,12 +1,10 @@
 {
-  "name": "@hypergiant/worker",
+  "name": "@accelint/worker",
   "version": "0.1.0",
   "private": false,
   "license": "Apache-2.0",
   "type": "module",
-  "files": [
-    "dist/**"
-  ],
+  "files": ["dist/**"],
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
@@ -17,8 +15,8 @@
     "lint": "pnpm biome lint ./"
   },
   "devDependencies": {
-    "@hypergiant/typescript-config": "workspace:*",
-    "@hypergiant/vitest-config": "workspace:*",
+    "@accelint/typescript-config": "workspace:*",
+    "@accelint/vitest-config": "workspace:*",
     "@vitest/coverage-istanbul": "^2.1.3",
     "vitest": "^2.1.3"
   },

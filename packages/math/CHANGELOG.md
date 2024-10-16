@@ -1,4 +1,4 @@
-# @hypergiant/math
+# @accelint/math
 
 ## 0.1.0
 

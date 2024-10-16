@@ -1,4 +1,4 @@
-# @hypergiant/prettier-config
+# @accelint/prettier-config
 
 ## 0.1.0
 

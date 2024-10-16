@@ -1,4 +1,4 @@
-# @hypergiant/converters
+# @accelint/converters
 
 ## 0.1.0
 
@@ -9,5 +9,5 @@
 ### Patch Changes
 
 - Updated dependencies [eba7ce9]
-  - @hypergiant/constants@0.1.0
-  - @hypergiant/predicates@0.1.0
+  - @accelint/constants@0.1.0
+  - @accelint/predicates@0.1.0

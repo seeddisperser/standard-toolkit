@@ -1,8 +1,8 @@
 {
   "extends": [
-    "@hypergiant/biome-config/analyzer",
-    "@hypergiant/biome-config/formatter",
-    "@hypergiant/biome-config/linter"
+    "@accelint/biome-config/analyzer",
+    "@accelint/biome-config/formatter",
+    "@accelint/biome-config/linter"
   ],
   "files": {
     "include": ["**/*.js", "**/*.mjs", "**/*.ts", "**/*.tsx", "**/*.json"],

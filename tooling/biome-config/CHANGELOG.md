@@ -1,4 +1,4 @@
-# @hypergiant/biome-config
+# @accelint/biome-config
 
 ## 0.1.0
 

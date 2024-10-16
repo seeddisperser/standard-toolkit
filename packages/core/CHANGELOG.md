@@ -1,4 +1,4 @@
-# @hypergiant/core
+# @accelint/core
 
 ## 0.1.0
 

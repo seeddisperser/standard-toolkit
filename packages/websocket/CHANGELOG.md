@@ -1,4 +1,4 @@
-# @hypergiant/websocket
+# @accelint/websocket
 
 ## 0.1.0
 

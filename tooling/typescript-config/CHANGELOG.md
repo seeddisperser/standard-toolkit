@@ -1,4 +1,4 @@
-# @hypergiant/typescript-config
+# @accelint/typescript-config
 
 ## 0.1.0
 

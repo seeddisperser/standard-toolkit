@@ -22,7 +22,7 @@
     {
       "label": "Use * for local packages",
       "dependencies": [
-        "@hypergiant/**"
+        "@accelint/**"
       ],
       "packages": [
         "**"

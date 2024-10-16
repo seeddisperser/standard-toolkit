@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@accelint/biome-config':
+        specifier: workspace:*
+        version: link:tooling/biome-config
       '@babel/parser':
         specifier: ^7.25.8
         version: 7.25.8
@@ -20,9 +23,6 @@ importers:
       '@changesets/cli':
         specifier: ^2.27.9
         version: 2.27.9
-      '@hypergiant/biome-config':
-        specifier: workspace:*
-        version: link:tooling/biome-config
       '@ls-lint/ls-lint':
         specifier: ^2.2.3
         version: 2.2.3
@@ -54,10 +54,10 @@ importers:
         specifier: ^5.6.3
         version: 5.6.3
     devDependencies:
-      '@hypergiant/typescript-config':
+      '@accelint/typescript-config':
         specifier: workspace:*
         version: link:../../tooling/typescript-config
-      '@hypergiant/vitest-config':
+      '@accelint/vitest-config':
         specifier: workspace:*
         version: link:../../tooling/vitest-config
       '@vitest/coverage-istanbul':
@@ -69,20 +69,20 @@ importers:
 
   packages/converters:
     dependencies:
-      '@hypergiant/constants':
+      '@accelint/constants':
         specifier: workspace:*
         version: link:../constants
-      '@hypergiant/predicates':
+      '@accelint/predicates':
         specifier: workspace:*
         version: link:../predicates
       typescript:
         specifier: ^5.6.3
         version: 5.6.3
     devDependencies:
-      '@hypergiant/typescript-config':
+      '@accelint/typescript-config':
         specifier: workspace:*
         version: link:../../tooling/typescript-config
-      '@hypergiant/vitest-config':
+      '@accelint/vitest-config':
         specifier: workspace:*
         version: link:../../tooling/vitest-config
       '@vitest/coverage-istanbul':
@@ -98,10 +98,10 @@ importers:
         specifier: ^5.6.3
         version: 5.6.3
     devDependencies:
-      '@hypergiant/typescript-config':
+      '@accelint/typescript-config':
         specifier: workspace:*
         version: link:../../tooling/typescript-config
-      '@hypergiant/vitest-config':
+      '@accelint/vitest-config':
         specifier: workspace:*
         version: link:../../tooling/vitest-config
       '@vitest/coverage-istanbul':
@@ -113,7 +113,7 @@ importers:
 
   packages/design-system:
     dependencies:
-      '@hypergiant/converters':
+      '@accelint/converters':
         specifier: workspace:*
         version: link:../converters
       '@react-aria/collections':
@@ -171,21 +171,21 @@ importers:
         specifier: ^3.23.8
         version: 3.23.8
     devDependencies:
+      '@accelint/biome-config':
+        specifier: workspace:*
+        version: link:../../tooling/biome-config
+      '@accelint/typescript-config':
+        specifier: workspace:*
+        version: link:../../tooling/typescript-config
+      '@accelint/vitest-config':
+        specifier: workspace:*
+        version: link:../../tooling/vitest-config
       '@fontsource/roboto-flex':
         specifier: ^5.1.0
         version: 5.1.0
       '@fontsource/roboto-mono':
         specifier: ^5.1.0
         version: 5.1.0
-      '@hypergiant/biome-config':
-        specifier: workspace:*
-        version: link:../../tooling/biome-config
-      '@hypergiant/typescript-config':
-        specifier: workspace:*
-        version: link:../../tooling/typescript-config
-      '@hypergiant/vitest-config':
-        specifier: workspace:*
-        version: link:../../tooling/vitest-config
       '@ladle/react':
         specifier: ^4.1.2
         version: 4.1.2(@swc/helpers@0.5.13)(@types/node@22.7.5)(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.6.3)
@@ -253,10 +253,10 @@ importers:
         specifier: ^5.6.3
         version: 5.6.3
     devDependencies:
-      '@hypergiant/typescript-config':
+      '@accelint/typescript-config':
         specifier: workspace:*
         version: link:../../tooling/typescript-config
-      '@hypergiant/vitest-config':
+      '@accelint/vitest-config':
         specifier: workspace:*
         version: link:../../tooling/vitest-config
       '@vitest/coverage-istanbul':
@@ -268,20 +268,20 @@ importers:
 
   packages/geo:
     dependencies:
-      '@hypergiant/converters':
+      '@accelint/converters':
         specifier: workspace:*
         version: link:../converters
-      '@hypergiant/predicates':
+      '@accelint/predicates':
         specifier: workspace:*
         version: link:../predicates
       typescript:
         specifier: ^5.6.3
         version: 5.6.3
     devDependencies:
-      '@hypergiant/typescript-config':
+      '@accelint/typescript-config':
         specifier: workspace:*
         version: link:../../tooling/typescript-config
-      '@hypergiant/vitest-config':
+      '@accelint/vitest-config':
         specifier: workspace:*
         version: link:../../tooling/vitest-config
       '@vitest/coverage-istanbul':
@@ -297,10 +297,10 @@ importers:
         specifier: ^5.6.3
         version: 5.6.3
     devDependencies:
-      '@hypergiant/typescript-config':
+      '@accelint/typescript-config':
         specifier: workspace:*
         version: link:../../tooling/typescript-config
-      '@hypergiant/vitest-config':
+      '@accelint/vitest-config':
         specifier: workspace:*
         version: link:../../tooling/vitest-config
       '@vitest/coverage-istanbul':
@@ -312,17 +312,17 @@ importers:
 
   packages/predicates:
     dependencies:
-      '@hypergiant/core':
+      '@accelint/core':
         specifier: workspace:*
         version: link:../core
       typescript:
         specifier: ^5.6.3
         version: 5.6.3
     devDependencies:
-      '@hypergiant/typescript-config':
+      '@accelint/typescript-config':
         specifier: workspace:*
         version: link:../../tooling/typescript-config
-      '@hypergiant/vitest-config':
+      '@accelint/vitest-config':
         specifier: workspace:*
         version: link:../../tooling/vitest-config
       '@vitest/coverage-istanbul':
@@ -344,10 +344,10 @@ importers:
         specifier: ^5.6.3
         version: 5.6.3
     devDependencies:
-      '@hypergiant/typescript-config':
+      '@accelint/typescript-config':
         specifier: workspace:*
         version: link:../../tooling/typescript-config
-      '@hypergiant/vitest-config':
+      '@accelint/vitest-config':
         specifier: workspace:*
         version: link:../../tooling/vitest-config
       '@vitest/coverage-istanbul':
@@ -363,10 +363,10 @@ importers:
         specifier: ^5.6.3
         version: 5.6.3
     devDependencies:
-      '@hypergiant/typescript-config':
+      '@accelint/typescript-config':
         specifier: workspace:*
         version: link:../../tooling/typescript-config
-      '@hypergiant/vitest-config':
+      '@accelint/vitest-config':
         specifier: workspace:*
         version: link:../../tooling/vitest-config
       '@vitest/coverage-istanbul':

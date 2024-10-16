@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import { toDigits } from '@hypergiant/converters';
+import { toDigits } from '@accelint/converters';
 import { matchDD } from './match';
 import { isPositiveDirection, normalizeDirection, negate } from './utils';
 

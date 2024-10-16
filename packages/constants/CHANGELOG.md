@@ -1,4 +1,4 @@
-# @hypergiant/constants
+# @accelint/constants
 
 ## 0.1.0
 

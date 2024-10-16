@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import { isTrue } from '@hypergiant/predicates';
+import { isTrue } from '@accelint/predicates';
 
 /**
  * Compare the given value against a custom list of `truthy` values.

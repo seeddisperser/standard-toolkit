@@ -49,7 +49,7 @@ Check out what exists:
 ```bash
 npm i
 
-npm run preview -w @hypergiant/design-system
+npm run preview -w @accelint/design-system
 ```
 
 ### Implementation

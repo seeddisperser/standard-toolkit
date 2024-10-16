@@ -1,5 +1,5 @@
 {
-  "name": "@hypergiant/developer-toolkit",
+  "name": "@accelint/developer-toolkit",
   "version": "0.0.0",
   "private": true,
   "license": "Apache-2.0",
@@ -32,7 +32,7 @@
     "@biomejs/biome": "^1.9.3",
     "@changesets/changelog-git": "^0.2.0",
     "@changesets/cli": "^2.27.9",
-    "@hypergiant/biome-config": "workspace:*",
+    "@accelint/biome-config": "workspace:*",
     "@ls-lint/ls-lint": "^2.2.3",
     "@swc/core": "^1.7.36",
     "rimraf": "^5.0.10",

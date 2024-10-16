@@ -1,4 +1,4 @@
-import { toBoolean } from '@hypergiant/converters';
+import { toBoolean } from '@accelint/converters';
 import { useIsSSR } from '@react-aria/ssr';
 import { noop } from 'lodash';
 import {
