@@ -4,7 +4,7 @@
   <img src="assets/banner.jpg" />
 </p>
 
-<h1 align="center">Hypergiant Standard Toolkit</h1>
+<h1 align="center">Accelint Standard Toolkit</h1>
 
 <p align="center">The web "standard library" for the <a href="https://accelint.com">Accelint</a> family of systems.</p>
 
