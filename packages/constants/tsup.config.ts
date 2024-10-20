@@ -1,12 +1,22 @@
+import { esbuildPluginFilePathExtensions } from 'esbuild-plugin-file-path-extensions';
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
-  entry: ['src/index.ts'],
+  esbuildPlugins: [
+    esbuildPluginFilePathExtensions({
+      esmExtension: 'js',
+    }),
+  ],
+  entry: [
+    'src/**/*.{ts,tsx}',
+    '!src/**/*.{d,stories,test,test-d,bench}.{ts,tsx}',
+    '!**/__fixture__',
+  ],
+  bundle: true,
+  clean: true,
   dts: true,
   format: 'esm',
-  target: 'es2023',
   sourcemap: true,
   splitting: true,
   treeshake: true,
-  clean: true,
 });
