@@ -95,7 +95,7 @@ export const UncontrolledExample: Story<StoryProps> = ({
     {...actions<TextFieldProps>('onBlur', 'onFocus', 'onFocusChange')}
   >
     <AriaLabel>{label}</AriaLabel>
-    <Input />
+    <Input placeholder='Placeholder text' />
     {description && <AriaText slot='description'>{description}</AriaText>}
     <AriaFieldError>{errorMessage}</AriaFieldError>
   </TextField>
