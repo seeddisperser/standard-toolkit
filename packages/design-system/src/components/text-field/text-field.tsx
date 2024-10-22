@@ -116,7 +116,10 @@ export const TextField = forwardRef(function TextField(
     (renderProps: TextFieldRenderProps) => (
       <Provider values={values}>
         <div className={classNames?.textField}>
-          {callRenderProps(childrenProp, renderProps)}
+          {callRenderProps(childrenProp, {
+            ...renderProps,
+            defaultChildren: null,
+          })}
         </div>
       </Provider>
     ),

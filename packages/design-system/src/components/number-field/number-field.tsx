@@ -159,7 +159,10 @@ export const NumberField = forwardRef(function NumberField(
     (renderProps: NumberFieldRenderProps) => (
       <Provider values={values}>
         <div className={classNames?.numberField}>
-          {callRenderProps(childrenProp, renderProps)}
+          {callRenderProps(childrenProp, {
+            ...renderProps,
+            defaultChildren: null,
+          })}
         </div>
       </Provider>
     ),

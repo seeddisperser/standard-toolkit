@@ -8,11 +8,7 @@ import type {
   ButtonProps,
   InputClassNames,
 } from '../../components';
-import type {
-  AsType,
-  OmitProtectedProps,
-  RenderPropsChildren,
-} from '../../types';
+import type { AsType, OmitProtectedProps } from '../../types';
 
 export type NumberFieldClassNames = PartialDeep<{
   container: string;
@@ -36,7 +32,6 @@ export type NumberFieldMapping = {
 };
 
 type BaseNumberFieldProps = {
-  children?: RenderPropsChildren<NumberFieldRenderProps>;
   classNames?: NumberFieldClassNames;
   mapping?: Partial<NumberFieldMapping>;
   size?: NumberFieldSizes;

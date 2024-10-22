@@ -4,7 +4,7 @@ import type {
 } from 'react-aria-components';
 import type { PartialDeep } from 'type-fest';
 import type { InputClassNames } from '../../components';
-import type { AsType, RenderPropsChildren } from '../../types';
+import type { AsType } from '../../types';
 
 export type TextFieldClassNames = PartialDeep<{
   container: string;
@@ -23,7 +23,6 @@ export type TextFieldMapping = {
 };
 
 type BaseTextFieldProps = {
-  children?: RenderPropsChildren<TextFieldRenderProps>;
   classNames?: TextFieldClassNames;
   mapping?: Partial<TextFieldMapping>;
   size?: TextFieldSizes;
