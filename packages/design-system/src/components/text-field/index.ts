@@ -2,15 +2,15 @@
 export { TextField, TextFieldContext } from './text-field';
 export {
   textFieldClassNames,
-  textFieldContainer,
   textFieldColorVars,
+  textFieldContainer,
   textFieldSpaceVars,
   textFieldStateVars,
 } from './text-field.css';
-export {
-  type TextFieldClassNames,
-  type TextFieldProps,
-  type TextFieldMapping,
-  type TextFieldSizes,
-  type TextFieldState,
+export type {
+  TextFieldClassNames,
+  TextFieldProps,
+  TextFieldMapping,
+  TextFieldSizes,
+  TextFieldState,
 } from './types';
