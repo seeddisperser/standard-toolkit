@@ -1,3 +1,4 @@
+// __private-exports
 /*
  * Copyright 2024 Hypergiant Galactic Systems Inc. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
@@ -10,15 +11,21 @@
  * governing permissions and limitations under the License.
  */
 
-/**
- * TODOs:
- *
- * - Auto detect lon/lat ordering?
- *  - Some tricks we can
- *    - Regex for NS as first few chars
- *    - Regex for 3 digits
- *    - Regex for first digit > 90
- */
+import { parseFormat } from '../internal/parse-format';
 
-export { matchDD, matchDMS } from './match';
-export { normalizeDD } from './normalize';
+import { formats } from './formats';
+import { identifyErrors } from './identify-errors';
+import { identifyPieces } from './identify-pieces';
+
+export type DegreesMinutesSeconds = {
+  bear: string;
+  deg: string;
+  min: string;
+  sec: string;
+};
+
+export const degreesMinutesSeconds = parseFormat<DegreesMinutesSeconds>({
+  formats,
+  identifyErrors,
+  identifyPieces,
+});
