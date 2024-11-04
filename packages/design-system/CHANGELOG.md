@@ -1,5 +1,11 @@
 # @accelint/design-system
 
+## 0.3.1
+
+### Patch Changes
+
+- 5b20f69: Added missing type exports to vanilla file
+
 ## 0.3.0
 
 ### Minor Changes
