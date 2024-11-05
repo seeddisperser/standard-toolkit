@@ -1,4 +1,4 @@
-import clamp from 'lodash/clamp';
+import { clamp } from 'lodash';
 import { z } from 'zod';
 import type { RGBA } from '../types';
 

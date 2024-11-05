@@ -1,5 +1,6 @@
 import { vanillaExtractPlugin } from '@vanilla-extract/esbuild-plugin';
 import { default as autoprefixer } from 'autoprefixer';
+import lodashPlugin from 'esbuild-plugin-lodash';
 import { default as postcss } from 'postcss';
 import { defineConfig } from 'tsup';
 
@@ -14,6 +15,7 @@ export default defineConfig({
     vanillaExtractPlugin({
       processCss,
     }),
+    lodashPlugin(), // Must go after VE
   ],
   entry: ['src/*.ts'],
   dts: true,

@@ -1,5 +1,5 @@
 import { clsx } from 'clsx';
-import mergeWith from 'lodash/mergeWith';
+import { mergeWith } from 'lodash';
 import type { CSSProperties } from 'react';
 import { mergeProps as mergePropsWithoutStyles } from 'react-aria';
 import { composeRenderProps } from 'react-aria-components';
