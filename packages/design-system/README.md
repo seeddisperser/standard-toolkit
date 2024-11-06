@@ -34,8 +34,7 @@ The vast majority of spacing and color theming is left up to the implementer to 
 
 ## Why isn't there a theme or icons?
 
-While the exported modules of this package do not include a theme, the Ladle stories for each component utilize a theme established within the
-`./.ladle/theme` folder for documentation purposes. You can feel free to use this as a starting point for your app's implementation and customize it to suit your needs.
+While the exported modules of this package do not include a theme, the Ladle stories for each component utilize a theme established within the `./.ladle/theme` folder for documentation purposes. You can feel free to use this as a starting point for your app's implementation and customize it to suit your needs.
 
 The icons are also missing because we're trying to avoid locking this design system into a specific design language -- they are considered a part of the theming and an application-level concern. Each component that supports icons expects them to be implemented through composition. This enables maximum flexibility and freedom for the implementing app.
 
