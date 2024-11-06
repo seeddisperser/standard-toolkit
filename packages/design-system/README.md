@@ -54,7 +54,8 @@ pnpm --filter=@accelint/design-system preview
 ```
 
 If you run into errors, try running
-`pnpm build` after you install the dependencies and then run the preview command again.
+`pnpm build` after you install the dependencies and then run the preview command again. If you don't have pnpm enabled then you can enable it with the command
+[`corepack enable pnpm`](https://pnpm.io/installation#using-corepack) .
 
 ### Implementation
 
