@@ -30,7 +30,7 @@ npm run preview -w @cbc2/c2-design-system
 
 ### Props and source code spelunking
 
-The ladle stories renders a story in the main stage and a menu to the right for navigation. The stories demonstrate and catalog design tokens, primitives (like typography), hooks and components. These sections will grow as resources are added to C2DS.
+The ladle stories render a story in the main stage and a menu to the right for navigation. The stories demonstrate and catalog design tokens, primitives (like typography), hooks and components. These sections will grow as resources are added to C2DS.
 
 Clicking on any child in the
 `Components` list and hovering over the icons at the bottom of your screen will show additional tools. The left-most icon opens a control panel demonstrating some characteristic properties a component can receive. Editing the props in the control panel will change the props passed into the components.
