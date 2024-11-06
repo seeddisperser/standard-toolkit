@@ -12,7 +12,7 @@ This design system, which we've designated C2DS for simplicity, was born of thre
 
 From an engineering perspective, we also want to future-proof our investment by switching to an approach more natively compatible with React Server Components. This is the future of React and getting out ahead of that transition is valuable before it becomes a significant pain point inhibiting rapid feature development.
 
-Developed by the Core team, C2DS is a shared platform that all engineers can -- and are encouraged -- to contribute to. Eventually, this system will be published as open source to invite collaboration across our partners and the engineering community in general.
+Developed by the Core team at Accelint, C2DS is a shared platform that all engineers can -- and are encouraged -- to contribute to. This system is published as open source to invite collaboration across our partners and the engineering community in general.
 
 ### Performance
 
@@ -44,7 +44,9 @@ This design system is built on a number of concepts with which you may not be fa
 
 ## Getting started
 
-Check out what exists. From the root of the standard toolkit project, run:
+Check out what exists. You can review the components, tokens and primitives available in the system using the ladle stories for each element: [C2DS Stories](https://gohypergiant.github.io/standard-toolkit).
+
+From the root of the standard toolkit project, run:
 
 ```bash
 pnpm i
@@ -59,8 +61,6 @@ If you run into errors, try running
 ### Implementation
 
 [Learn](./documentation/implementation.md) how to get your app up and running.
-
-<!-- TODO - documentation around build systems -->
 
 ### Contribution
 
