@@ -44,7 +44,7 @@ This design system is built on a number of concepts with which you may not be fa
 
 ## Getting started
 
-Check out what exists. You can review the components, tokens and primitives available in the system using the ladle stories for each element: [C2DS Stories](https://gohypergiant.github.io/standard-toolkit).
+Check out what exists. You can review the components, tokens and primitives available in the system using the Ladle stories for each element: [C2DS Stories](https://gohypergiant.github.io/standard-toolkit).
 
 From the root of the standard toolkit project, run:
 
