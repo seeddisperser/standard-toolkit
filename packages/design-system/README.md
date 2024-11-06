@@ -18,7 +18,7 @@ Developed by the Core team, C2DS is a shared platform that all engineers can -- 
 
 The runtime performance of our applications is an enduring central concern. Our applications place a high performance demand on the browser client, primarily due to the sheer data throughput and intensive rendering requirements. Therefore, it makes sense to move away from a runtime CSS-in-JS solution in favor of a build/compile time styling solution.
 
-[Advantages >](./documentation/concepts.md#build-&-runtime)
+[Advantages >](./documentation/concepts.md#build-and-runtime)
 
 ### Flexibility and control
 
