@@ -1,6 +1,7 @@
 import { createCalendar } from '@internationalized/date';
 import {
   type ForwardedRef,
+  Fragment,
   cloneElement,
   createContext,
   forwardRef,
@@ -78,6 +79,7 @@ const DateInputInner = forwardRef(
       mapping: mappingProp,
       size = defaultSize,
       provider,
+      ...rest
     } = props;
 
     const dateFieldState = useContext(DateFieldStateContext);
@@ -110,18 +112,20 @@ const DateInputInner = forwardRef(
 
     // TODO: clone element here is really gross
     const children = useCallback(
-      (renderProps: DateInputRenderProps) => {
-        console.log(childrenProp);
-        return (
-          <div className={classNames?.input?.input}>
-            {provider
-              ? callRenderProps(childrenProp, { ...renderProps, ...state })
-              : state.segments.map((segment, i) =>
-                  cloneElement(childrenProp(segment), { key: i }),
-                )}
-          </div>
-        );
-      },
+      (renderProps: DateInputRenderProps) => (
+        <div className={classNames?.input?.input}>
+          {childrenProp &&
+            (provider ? (
+              callRenderProps(childrenProp, { ...renderProps, ...state })
+            ) : (
+              <>
+                {state.segments.map((segment, i) => (
+                  <Fragment key={i}>{childrenProp(segment)}</Fragment>
+                ))}
+              </>
+            ))}
+        </div>
+      ),
       [childrenProp, state, provider, classNames?.input],
     );
 
@@ -129,7 +133,7 @@ const DateInputInner = forwardRef(
       <>
         <Group
           ref={ref}
-          {...props}
+          {...rest}
           className={classNames?.input?.container}
           style={style}
         >
@@ -177,34 +181,31 @@ const DateInputStandalone = forwardRef(
   },
 );
 
-export const DateSegments = (
-  props: DateSegmentsProps,
-  ref: ForwardedRef<HTMLDivElement>,
-) => {
-  const { children, classNames: classNamesProp } = props;
+export const DateSegments = forwardRef(
+  (props: DateSegmentsProps, ref: ForwardedRef<HTMLDivElement>) => {
+    const { children, classNames: classNamesProp } = props;
 
-  const dateFieldState = useContext(DateFieldStateContext);
-  const timeFieldState = useContext(TimeFieldStateContext);
-  const state = dateFieldState ?? timeFieldState ?? null;
+    const dateFieldState = useContext(DateFieldStateContext);
+    const timeFieldState = useContext(TimeFieldStateContext);
+    const state = dateFieldState ?? timeFieldState ?? null;
 
-  const theme = useTheme();
+    const theme = useTheme();
 
-  const classNames = useMemo(
-    () => mergeClassNames(dateInputClassNames, theme.DateInput, classNamesProp),
-    [theme.DateInput, classNamesProp],
-  );
+    const classNames = useMemo(
+      () =>
+        mergeClassNames(dateInputClassNames, theme.DateInput, classNamesProp),
+      [theme.DateInput, classNamesProp],
+    );
 
-  return (
-    <>
+    return (
       <div className={classNames?.input?.segments} ref={ref}>
-        {state.segments.map((segment, i) =>
-          cloneElement(children(segment), { key: i }),
-        )}
+        {state.segments.map((segment, i) => (
+          <Fragment key={i}>{children(segment)}</Fragment>
+        ))}
       </div>
-      <Input />
-    </>
-  );
-};
+    );
+  },
+);
 
 export const DateSegmentContext =
   createContext<ContextValue<SlotProps, HTMLDivElement>>(null);
@@ -214,7 +215,8 @@ export const DateSegment = forwardRef(function DateSegment(
   ref: ForwardedRef<HTMLDivElement>,
 ) {
   [props, ref] = useContextProps(props, ref, DateSegmentContext);
-  const { classNames: classNamesProp, children: childrenProp } = props;
+
+  const { classNames: classNamesProp, children: childrenProp, ...rest } = props;
 
   const classNames = useMemo(
     () => mergeClassNames(dateInputClassNames, classNamesProp),
@@ -246,7 +248,7 @@ export const DateSegment = forwardRef(function DateSegment(
   return (
     <RACDateSegment
       ref={ref}
-      {...props}
+      {...rest}
       style={style}
       className={classNames?.segment?.container}
     >

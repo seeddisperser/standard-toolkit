@@ -22,7 +22,7 @@ type DateFieldStoryProps<T extends DateValue> = DateFieldProps<T> & {
 };
 
 export default {
-  title: 'Components / Date',
+  title: 'Components / DateField',
   argTypes: {
     isDisabled: {
       control: {
