@@ -1,7 +1,5 @@
 import { vanillaExtractPlugin } from '@vanilla-extract/esbuild-plugin';
 import { default as autoprefixer } from 'autoprefixer';
-import { esbuildPluginFilePathExtensions as extensionsPlugin } from 'esbuild-plugin-file-path-extensions';
-import lodashPlugin from 'esbuild-plugin-lodash';
 import { default as postcss } from 'postcss';
 import { defineConfig } from 'tsup';
 
@@ -16,17 +14,7 @@ export default defineConfig({
     vanillaExtractPlugin({
       processCss,
     }),
-    // Must go after VE
-    lodashPlugin(),
-    extensionsPlugin({
-      esm: true,
-      esmExtension: 'js',
-    }),
   ],
-  entry: ['src/**/*.{ts,tsx}', '!src/**/*.{stories,test}.{ts,tsx}'],
-  bundle: false,
-  dts: true,
+  entry: ['src/index.ts'],
   format: 'esm',
-  sourcemap: true,
-  treeshake: true,
 });
