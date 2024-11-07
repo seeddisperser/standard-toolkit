@@ -23,8 +23,7 @@ import {
   type AriaLabelContext,
   AriaTextContext,
 } from '../aria';
-import { DateInputContext } from '../date-input/date-input';
-import type { DateInputProps } from '../date-input/types';
+import { DateInputContext, type DateInputProps } from '../date-input';
 import { dateFieldClassNames, dateFieldStateVars } from './date-field.css';
 import type { DateFieldProps, DateFieldRenderProps } from './types';
 
@@ -49,7 +48,10 @@ export const DateField = forwardRef(function DateField<T extends DateValue>(
   ref: ForwardedRef<HTMLDivElement>,
 ) {
   [props, ref] = useContextProps(props, ref, DateFieldContext);
-  props = useDefaultProps(props, 'DateField'); // TODO
+  props = useDefaultProps(
+    props as DateFieldProps<DateValue>,
+    'DateField',
+  ) as DateFieldProps<T>;
 
   const {
     children: childrenProp,
@@ -100,7 +102,7 @@ export const DateField = forwardRef(function DateField<T extends DateValue>(
     ]
   >(
     () => [
-      [DateInputContext, { classNames: classNames?.dateInput }],
+      [DateInputContext, { classNames: classNames?.input, size }],
       [LabelContext, { className: classNames?.label }],
       [
         AriaTextContext,

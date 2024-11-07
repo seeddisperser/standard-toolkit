@@ -3,6 +3,7 @@ export { Checkbox } from './checkbox.css';
 export { Chip } from './chip.css';
 export { ComboBox } from './combo-box.css';
 export { DateField } from './date-field.css';
+export { DateInput } from './date-input.css';
 export { Dialog } from './dialog.css';
 export { Drawer } from './drawer.css';
 export { Group } from './group.css';

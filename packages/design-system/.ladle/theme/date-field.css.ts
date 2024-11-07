@@ -7,7 +7,6 @@ import {
   dateFieldSpaceVars,
   dateFieldStateVars,
   genericColorVars,
-  inputColorVars,
   semanticColorVars,
   sizeVars,
 } from '../../src';
@@ -28,18 +27,6 @@ export const DateField: ThemeContext['DateField'] = {
       {
         vars: assignPartialVars(dateFieldColorVars, {
           border: semanticColorVars.border.interactive.default,
-        }),
-      },
-      {
-        query: { isFocused: true },
-        vars: assignPartialVars(dateFieldColorVars, {
-          border: semanticColorVars.border.interactive.hover,
-        }),
-      },
-      {
-        query: { isHovered: true },
-        vars: assignPartialVars(inputColorVars, {
-          border: semanticColorVars.border.interactive.hover,
         }),
       },
     ]),

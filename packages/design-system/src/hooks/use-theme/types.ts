@@ -3,7 +3,8 @@ import type { ButtonClassNames } from '../../components/button/types';
 import type { CheckboxClassNames } from '../../components/checkbox/types';
 import type { ChipClassNames } from '../../components/chip/types';
 import type { ComboBoxClassNames } from '../../components/combo-box/types';
-import type { DateFieldClassNames } from '../../components/date-field';
+import type { DateFieldClassNames } from '../../components/date-field/types';
+import type { DateInputClassNames } from '../../components/date-input/types';
 import type { DialogClassNames } from '../../components/dialog/types';
 import type { DrawerClassNames } from '../../components/drawer/types';
 import type { GroupClassNames } from '../../components/group/types';
@@ -43,6 +44,7 @@ export type ThemeContext = {
   Chip?: ChipClassNames;
   ComboBox?: ComboBoxClassNames;
   DateField?: DateFieldClassNames;
+  DateInput?: DateInputClassNames;
   Dialog?: DialogClassNames;
   Drawer?: DrawerClassNames;
   Group?: GroupClassNames;

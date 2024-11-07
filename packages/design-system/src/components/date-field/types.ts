@@ -10,7 +10,7 @@ import type { DateInputClassNames } from '../date-input/types';
 export type DateFieldClassNames = PartialDeep<{
   container: string;
   dateField: string;
-  dateInput: DateInputClassNames;
+  input: DateInputClassNames;
   description: string;
   error: string;
   label: string;

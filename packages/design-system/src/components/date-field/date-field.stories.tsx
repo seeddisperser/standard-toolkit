@@ -4,13 +4,13 @@ import {
   parseDate,
   parseDateTime,
 } from '@internationalized/date';
-import { type Story, action } from '@ladle/react';
+import { type Story, type StoryDefault, action } from '@ladle/react';
 import { I18nProvider } from 'react-aria';
 import type { DateSegmentRenderProps, DateValue } from 'react-aria-components';
 import type { DateSegment as TDateSegment } from 'react-stately';
 import { AriaFieldError, AriaLabel, AriaText } from '../aria';
-import { DateInput, DateSegment, DateSegments } from '../date-input/date-input';
-import type { DateInputRenderProps } from '../date-input/types';
+import type { DateInputRenderProps } from '../date-input';
+import { DateInput, DateSegment, DateSegments } from '../date-input';
 import { Icon } from '../icon';
 import { DateField } from './date-field';
 import type { DateFieldProps } from './types';
@@ -56,10 +56,10 @@ export default {
         type: 'select',
       },
       options: ['sm', 'lg'],
-      defaultValue: 'sm',
+      defaultValue: 'lg',
     },
   },
-};
+} satisfies StoryDefault;
 
 const DateIcon = () => (
   <Icon>
@@ -123,25 +123,33 @@ const FormattedDateSegment = (segment: TDateSegment) => {
 
 export const CalendarDateExample: Story<
   DateFieldStoryProps<CalendarDateType>
-> = ({ value, label, description, errorMessage, ...rest }) => (
-  <I18nProvider locale='en-GB'>
-    <DateField
-      {...rest}
-      defaultValue={parseDate('2020-01-23')}
-      onChange={action('onChange')}
-    >
-      <AriaLabel>{label}</AriaLabel>
-      <DateInput provider={true}>
-        <DateIcon />
-        <DateSegments>
-          {(segment: TDateSegment) => <FormattedDateSegment {...segment} />}
-        </DateSegments>
-      </DateInput>
-      {description && <AriaText slot='description'>{description}</AriaText>}
-      <AriaFieldError>{errorMessage}</AriaFieldError>
-    </DateField>
-  </I18nProvider>
-);
+> = ({ value, label, description, errorMessage, ...rest }) => {
+  console.log(rest);
+  return (
+    <I18nProvider locale='en-GB'>
+      <DateField
+        {...rest}
+        defaultValue={parseDate('2020-01-23')}
+        onChange={action('onChange')}
+      >
+        <AriaLabel>{label}</AriaLabel>
+
+        {/*<DateInput provider={false}>*/}
+        {/*  {(segment: TDateSegment) => <FormattedDateSegment {...segment} />}*/}
+        {/*</DateInput>*/}
+
+        <DateInput provider={true}>
+          <DateSegments>
+            {(segment: TDateSegment) => <FormattedDateSegment {...segment} />}
+          </DateSegments>
+        </DateInput>
+
+        {description && <AriaText slot='description'>{description}</AriaText>}
+        <AriaFieldError>{errorMessage}</AriaFieldError>
+      </DateField>
+    </I18nProvider>
+  );
+};
 
 CalendarDateExample.storyName = 'Calendar Date';
 

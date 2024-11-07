@@ -16,11 +16,13 @@ import {
   Group,
   Provider,
   DateSegment as RACDateSegment,
+  type SlotProps,
   TimeFieldStateContext,
   useLocale,
 } from 'react-aria-components';
 import { useDateFieldState } from 'react-stately';
-import { useContextProps, useDefaultProps } from '../../hooks';
+import { useContextProps, useDefaultProps, useTheme } from '../../hooks';
+import { inputs } from '../../styles';
 import { callRenderProps, inlineVars, mergeClassNames } from '../../utils';
 import { AriaGroupContext } from '../aria';
 import type { DateFieldProps } from '../date-field';
@@ -39,12 +41,15 @@ import type {
   DateSegmentsProps,
 } from './types';
 
-/*
-TODO:
-- context
-- mapping
-- size
- */
+const defaultMapping = {
+  input: {
+    sm: inputs.sm,
+    lg: inputs.lg,
+  },
+};
+
+const defaultSize = 'lg';
+
 export const DateInputContext =
   createContext<ContextValue<DateInputProps, HTMLDivElement>>(null);
 
@@ -55,12 +60,9 @@ export const DateInput = forwardRef(function DateInput(
   [props, ref] = useContextProps(props, ref, DateInputContext);
   props = useDefaultProps(props, 'DateInput');
 
-  const { children } = props;
-
   const dateFieldState = useContext(DateFieldStateContext);
   const timeFieldState = useContext(TimeFieldStateContext);
 
-  // TODO: wrap in a container div?
   return dateFieldState || timeFieldState ? (
     <DateInputInner {...props} ref={ref} />
   ) : (
@@ -73,44 +75,62 @@ const DateInputInner = forwardRef(
     const {
       children: childrenProp,
       classNames: classNamesProp,
+      mapping: mappingProp,
+      size = defaultSize,
       provider,
     } = props;
+
     const dateFieldState = useContext(DateFieldStateContext);
     const timeFieldState = useContext(TimeFieldStateContext);
     const state = dateFieldState ?? timeFieldState ?? null;
 
-    // TODO: focus state
+    const theme = useTheme();
+
+    const mapping = useMemo(
+      () => ({
+        ...defaultMapping,
+        ...mappingProp,
+      }),
+      [mappingProp],
+    );
 
     const classNames = useMemo(
-      () => mergeClassNames(dateInputClassNames, classNamesProp),
-      [classNamesProp],
+      () =>
+        mergeClassNames(dateInputClassNames, theme.DateInput, classNamesProp, {
+          input: { input: mapping.input[size] },
+        }),
+      [theme.DateInput, classNamesProp, mapping, size],
     );
 
     const style = useCallback(
       (renderProps: DateInputRenderProps) =>
-        inlineVars(dateInputStateVars, renderProps),
-      [],
+        inlineVars(dateInputStateVars, { ...renderProps, size }),
+      [size],
     );
 
-    // TODO: clone element here is really gross plus duplicative from DateSegments
-    const children = useCallback(() => {
-      return (
-        <div className={classNames?.dateInput?.dateInput}>
-          {provider
-            ? callRenderProps(childrenProp, { ...state })
-            : state.segments.map((segment, i) =>
-                cloneElement(childrenProp(segment), { key: i }),
-              )}
-        </div>
-      );
-    }, [childrenProp, state, provider, classNames?.dateInput]);
+    // TODO: clone element here is really gross
+    const children = useCallback(
+      (renderProps: DateInputRenderProps) => {
+        console.log(childrenProp);
+        return (
+          <div className={classNames?.input?.input}>
+            {provider
+              ? callRenderProps(childrenProp, { ...renderProps, ...state })
+              : state.segments.map((segment, i) =>
+                  cloneElement(childrenProp(segment), { key: i }),
+                )}
+          </div>
+        );
+      },
+      [childrenProp, state, provider, classNames?.input],
+    );
 
     return (
       <>
         <Group
           ref={ref}
           {...props}
-          className={classNames?.dateInput?.container}
+          className={classNames?.input?.container}
           style={style}
         >
           {children}
@@ -121,6 +141,7 @@ const DateInputInner = forwardRef(
   },
 );
 
+// TODO: slot context? what slots?
 // TODO: this is copy pasta from react-aria and needs work
 const DateInputStandalone = forwardRef(
   (props: DateInputProps, ref: ForwardedRef<HTMLDivElement>) => {
@@ -150,7 +171,7 @@ const DateInputStandalone = forwardRef(
           [AriaGroupContext, { ...fieldProps, isInvalid: state.isInvalid }],
         ]}
       >
-        <DateInputInner {...props} />
+        <DateInputInner {...props} ref={ref} />
       </Provider>
     );
   },
@@ -160,42 +181,40 @@ export const DateSegments = (
   props: DateSegmentsProps,
   ref: ForwardedRef<HTMLDivElement>,
 ) => {
-  console.log(props);
   const { children, classNames: classNamesProp } = props;
 
   const dateFieldState = useContext(DateFieldStateContext);
   const timeFieldState = useContext(TimeFieldStateContext);
   const state = dateFieldState ?? timeFieldState ?? null;
 
+  const theme = useTheme();
+
   const classNames = useMemo(
-    () => mergeClassNames(dateInputClassNames, classNamesProp),
-    [classNamesProp],
+    () => mergeClassNames(dateInputClassNames, theme.DateInput, classNamesProp),
+    [theme.DateInput, classNamesProp],
   );
 
-  // TODO: do we really want to nest groups?
   return (
     <>
-      <Group
-        {...props}
-        ref={ref}
-        className={dateInputClassNames.segments?.container}
-      >
-        <div className={classNames?.segments?.segments}>
-          {state.segments.map((segment, i) =>
-            cloneElement(children(segment), { key: i }),
-          )}
-        </div>
-      </Group>
+      <div className={classNames?.input?.segments} ref={ref}>
+        {state.segments.map((segment, i) =>
+          cloneElement(children(segment), { key: i }),
+        )}
+      </div>
       <Input />
     </>
   );
 };
 
+export const DateSegmentContext =
+  createContext<ContextValue<SlotProps, HTMLDivElement>>(null);
+
 export const DateSegment = forwardRef(function DateSegment(
   props: DateSegmentProps,
   ref: ForwardedRef<HTMLDivElement>,
 ) {
-  const { classNames: classNamesProp, children } = props;
+  [props, ref] = useContextProps(props, ref, DateSegmentContext);
+  const { classNames: classNamesProp, children: childrenProp } = props;
 
   const classNames = useMemo(
     () => mergeClassNames(dateInputClassNames, classNamesProp),
@@ -210,6 +229,20 @@ export const DateSegment = forwardRef(function DateSegment(
     [],
   );
 
+  // const children = useCallback(
+  //   (renderProps: DateSegmentRenderProps) => {
+  //     return (
+  //       <div className={classNames?.segment?.segment}>
+  //         {callRenderProps(childrenProp, {
+  //           ...renderProps,
+  //           defaultChildren: null,
+  //         })}
+  //       </div>
+  //     );
+  //   },
+  //   [childrenProp, classNames?.segment],
+  // );
+
   return (
     <RACDateSegment
       ref={ref}
@@ -217,7 +250,7 @@ export const DateSegment = forwardRef(function DateSegment(
       style={style}
       className={classNames?.segment?.container}
     >
-      {children}
+      {childrenProp}
     </RACDateSegment>
   );
 });

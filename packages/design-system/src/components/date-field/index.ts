@@ -1,9 +1,12 @@
 // __private-exports
-export { DateField } from './date-field';
+export { DateField, DateFieldContext } from './date-field';
 export type {
   DateFieldRenderProps,
   DateFieldClassNames,
   DateFieldProps,
+  DateFieldMapping,
+  DateFieldSizes,
+  DateFieldState,
 } from './types';
 export {
   dateFieldContainer,

@@ -101,18 +101,43 @@ export {
   type ComboBoxSizes,
   type ComboBoxState,
 } from './combo-box';
-export {} from './date-field';
 export {
   DateField,
   type DateFieldRenderProps,
   type DateFieldClassNames,
   type DateFieldProps,
+  type DateFieldMapping,
+  type DateFieldSizes,
+  type DateFieldState,
   dateFieldContainer,
   dateFieldSpaceVars,
   dateFieldColorVars,
   dateFieldStateVars,
   dateFieldClassNames,
 } from './date-field';
+export {
+  DateInput,
+  DateSegmentContext,
+  DateSegments,
+  DateSegment,
+  DateInputContext,
+  type DateInputProps,
+  type DateInputClassNames,
+  type DateInputRenderProps,
+  type DateInputMapping,
+  type DateSegmentProps,
+  type DateSegmentRenderProps,
+  type DateInputState,
+  type DateInputSizes,
+  type DateSegmentsProps,
+  dateInputSpaceVars,
+  dateInputClassNames,
+  dateInputStateVars,
+  dateInputColorVars,
+  dateInputContainer,
+  dateSegmentsContainer,
+  dateSegmentStateVars,
+} from './date-input';
 export {
   Dialog,
   DialogContext,
@@ -424,10 +449,13 @@ export {
 } from './text-field';
 export {
   TimeField,
+  TimeFieldContext,
   type TimeFieldRenderProps,
   type TimeFieldClassNames,
   type TimeFieldProps,
   type TimeFieldState,
+  type TimeFieldSizes,
+  type TimeFieldMapping,
   timeFieldStateVars,
   timeFieldColorVars,
   timeFieldContainer,

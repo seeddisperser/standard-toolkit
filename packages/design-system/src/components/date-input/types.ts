@@ -9,17 +9,22 @@ import type { DateSegment as TDateSegment } from 'react-stately';
 import type { PartialDeep } from 'type-fest';
 import type { AsType, RenderPropsChildren } from '../../types';
 
+export type DateInputSizes = 'sm' | 'lg';
+
+export type DateInputMapping = {
+  input: Partial<Record<DateInputSizes, string>>;
+};
+
 type BaseDateInputProps = {
   classNames?: DateInputClassNames;
+  mapping?: DateInputMapping;
+  size?: DateInputSizes;
 };
 
 export type DateInputClassNames = PartialDeep<{
-  dateInput: {
+  input: {
     container: string;
-    dateInput: string;
-  };
-  segments: {
-    container: string;
+    input: string;
     segments: string;
   };
   segment: {
@@ -32,17 +37,19 @@ export type DateInputProps = Omit<
   RACDateInputProps,
   'className' | 'style' | 'children'
 > &
-  BaseDateInputProps & {
-    provider?: boolean;
-  } & (
-    | { provider?: false; children: (segment: TDateSegment) => ReactElement }
-    | { provider: true; children: RenderPropsChildren<DateInputRenderProps> }
-  );
+  (
+    | { provider?: false; children?: (segment: TDateSegment) => ReactElement }
+    | { provider: true; children?: RenderPropsChildren<DateInputRenderProps> }
+  ) &
+  BaseDateInputProps;
 
 export type DateInputRenderProps = AsType<RACDateInputRenderProps>;
 
+export type DateInputState = DateInputRenderProps &
+  Required<Pick<BaseDateInputProps, 'size'>>;
+
 export type DateSegmentsProps = {
-  children: any;
+  children: any; //TODO
 } & BaseDateInputProps;
 
 export type DateSegmentProps = AsType<RACDateSegmentProps> & BaseDateInputProps;

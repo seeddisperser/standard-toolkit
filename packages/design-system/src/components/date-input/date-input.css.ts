@@ -5,12 +5,14 @@ import {
   style,
 } from '@vanilla-extract/css';
 import { layers, radiusVars } from '../../styles';
-import type { DateInputClassNames } from './types';
+import { containerQueries } from '../../utils';
+import type { DateInputClassNames, DateInputState } from './types';
 
 export const dateInputContainer = createContainer();
 export const dateSegmentsContainer = createContainer();
 
 export const dateInputStateVars = createThemeContract({
+  size: '',
   isHovered: '',
   isFocusWithin: '',
   isFocusVisible: '',
@@ -27,12 +29,17 @@ export const dateSegmentStateVars = createThemeContract({
 });
 
 export const dateInputSpaceVars = createThemeContract({
-  x: '',
-  y: '',
-  gap: '',
-  minWidth: '',
-  width: '',
-  maxWidth: '',
+  input: {
+    x: '',
+    y: '',
+    gap: '',
+    minWidth: '',
+    width: '',
+    maxWidth: '',
+  },
+  segments: {
+    gap: '',
+  },
 });
 
 export const dateInputColorVars = createThemeContract({
@@ -46,7 +53,7 @@ export const dateInputColorVars = createThemeContract({
 });
 
 export const dateInputClassNames: DateInputClassNames = {
-  dateInput: {
+  input: {
     container: style({
       '@layer': {
         [layers.components.l1]: {
@@ -54,26 +61,21 @@ export const dateInputClassNames: DateInputClassNames = {
         },
       },
     }),
-    dateInput: style({
+    input: style({
       '@layer': {
         [layers.components.l1]: {
-          position: 'relative',
           display: 'flex',
-          padding: `${fallbackVar(dateInputSpaceVars.y, '0')} ${fallbackVar(dateInputSpaceVars.x, '0')}`,
+          gap: dateInputSpaceVars.input.gap,
+          padding: `${fallbackVar(dateInputSpaceVars.input.y, '0')} ${fallbackVar(dateInputSpaceVars.input.x, '0')}`,
           border: `1px solid ${fallbackVar(dateInputColorVars.border, 'transparent')}`,
           borderRadius: radiusVars.sm,
-          minWidth: fallbackVar(dateInputSpaceVars.minWidth, 'auto'),
-          width: fallbackVar(dateInputSpaceVars.width, 'fit-content'),
-          maxWidth: fallbackVar(dateInputSpaceVars.maxWidth, '100%'),
-        },
-      },
-    }),
-  },
-  segments: {
-    container: style({
-      '@layer': {
-        [layers.components.l1]: {
-          containerName: dateSegmentsContainer,
+          minWidth: fallbackVar(dateInputSpaceVars.input.minWidth, 'auto'),
+          width: fallbackVar(dateInputSpaceVars.input.width, 'fit-content'),
+          maxWidth: fallbackVar(dateInputSpaceVars.input.maxWidth, '100%'),
+          '@container': containerQueries<DateInputState>(dateInputStateVars, {
+            query: { isDisabled: true },
+            cursor: 'not-allowed',
+          }),
         },
       },
     }),
@@ -81,6 +83,16 @@ export const dateInputClassNames: DateInputClassNames = {
       '@layer': {
         [layers.components.l1]: {
           display: 'flex',
+          gap: dateInputSpaceVars.segments.gap,
+        },
+      },
+    }),
+  },
+  segment: {
+    container: style({
+      '@layer': {
+        [layers.components.l1]: {
+          containerName: dateSegmentsContainer,
         },
       },
     }),
