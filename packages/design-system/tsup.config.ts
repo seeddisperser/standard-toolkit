@@ -11,21 +11,34 @@ async function processCss(css: string) {
   }).css;
 }
 
-export default defineConfig({
-  esbuildPlugins: [
-    vanillaExtractPlugin({
-      processCss,
-    }),
-    lodashPlugin(), // Must go after VE
-    extensionsPlugin({
-      esm: true,
-      esmExtension: 'js',
-    }),
-  ],
-  entry: ['src/**/*.{ts,tsx}', '!src/**/*.{stories,test}.{ts,tsx}'],
-  clean: true,
-  dts: true,
-  format: 'esm',
-  sourcemap: true,
-  treeshake: true,
-});
+export default defineConfig([
+  // Build bundled index.css
+  {
+    esbuildPlugins: [
+      vanillaExtractPlugin({
+        processCss,
+      }),
+    ],
+    entry: ['src/index.ts'],
+    clean: true,
+    format: 'esm',
+  },
+  // Build everything else
+  {
+    esbuildPlugins: [
+      vanillaExtractPlugin({
+        processCss,
+      }),
+      lodashPlugin(), // Must go after VE
+      extensionsPlugin({
+        esm: true,
+        esmExtension: 'js',
+      }),
+    ],
+    entry: ['src/**/*.{ts,tsx}', '!src/**/*.{stories,test}.{ts,tsx}'],
+    dts: true,
+    format: 'esm',
+    sourcemap: true,
+    treeshake: true,
+  },
+]);
