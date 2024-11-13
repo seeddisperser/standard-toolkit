@@ -177,13 +177,13 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       react:
-        specifier: ^18.3.1
+        specifier: ^18.3.1 || ^19.0.0-rc-69d4b800-20241021
         version: 18.3.1
       react-aria-components:
         specifier: ^1.4.1
         version: 1.4.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-dom:
-        specifier: ^18.3.1
+        specifier: ^18.3.1 || ^19.0.0-rc-69d4b800-20241021
         version: 18.3.1(react@18.3.1)
       react-querybuilder:
         specifier: ^7.7.0
@@ -1235,7 +1235,6 @@ packages:
 
   '@ls-lint/ls-lint@2.3.0-beta.1':
     resolution: {integrity: sha512-NmujBNFslP4GhFsB92zh1evSSBadcg+RMsQ5FM70OrU36C3AbQYaVXDn4reC28GM6DFoOtiETRdKV6ie1TfP7g==}
-    cpu: [x64, arm64, s390x, ppc64le]
     os: [darwin, linux, win32]
     hasBin: true
 
