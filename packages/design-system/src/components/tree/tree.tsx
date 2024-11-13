@@ -1,6 +1,7 @@
 import { noop } from '@accelint/core';
+import { usePress } from '@react-aria/interactions';
+import type { Key } from '@react-types/shared';
 import { createContext, useCallback, useContext, useMemo } from 'react';
-import { usePress, type Key } from 'react-aria';
 import {
   DEFAULT_SLOT,
   DropIndicator,

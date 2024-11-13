@@ -1,4 +1,4 @@
-import type { Key } from 'react-aria';
+import type { Key } from '@react-types/shared';
 import type { Selection, SelectionMode, TreeData } from 'react-stately';
 
 export type TreeItemNode<T> = {
