@@ -1,6 +1,9 @@
 import { toBoolean } from '@accelint/converters';
-import { useIsSSR } from '@react-aria/ssr';
 import { noop } from '@accelint/core';
+import { useIsSSR } from '@react-aria/ssr';
+import { useFocusWithin } from '@react-aria/interactions';
+import { useOverlay } from '@react-aria/overlays';
+import type { PressEvent } from '@react-types/shared';
 import {
   type ForwardedRef,
   type HTMLAttributes,
@@ -11,7 +14,6 @@ import {
   useMemo,
   useRef,
 } from 'react';
-import { useFocusWithin, useOverlay, type PressEvent } from 'react-aria';
 import {
   DEFAULT_SLOT,
   Provider,
