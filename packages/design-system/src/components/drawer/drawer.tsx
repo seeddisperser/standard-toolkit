@@ -3,6 +3,7 @@ import { noop } from '@accelint/core';
 import { useIsSSR } from '@react-aria/ssr';
 import { useFocusWithin } from '@react-aria/interactions';
 import { useOverlay } from '@react-aria/overlays';
+import { useOverlayTriggerState } from '@react-stately/overlays';
 import type { PressEvent } from '@react-types/shared';
 import {
   type ForwardedRef,
@@ -19,7 +20,6 @@ import {
   Provider,
   type ContextValue,
 } from 'react-aria-components';
-import { useOverlayTriggerState } from 'react-stately';
 import {
   useContextProps,
   useDefaultProps,

@@ -1,6 +1,7 @@
+import { useTreeData } from '@react-stately/data';
+import type { Key } from '@react-types/shared';
 import { isEqual } from 'lodash';
 import { useCallback, useId, useMemo, useRef } from 'react';
-import { type Key, useTreeData } from 'react-stately';
 import { useUpdateEffect } from '../use-update-effect';
 import type {
   TreeActions,
