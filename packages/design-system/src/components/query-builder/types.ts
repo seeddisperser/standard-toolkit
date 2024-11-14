@@ -75,6 +75,7 @@ export type QueryBuilderClassNames = PartialDeep<
     rule: {
       container: string;
       rule: string;
+      core: string;
       field: string;
       operator: string;
       source: string;

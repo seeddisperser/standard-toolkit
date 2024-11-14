@@ -1,4 +1,4 @@
-import { useContext, useMemo, Fragment } from 'react';
+import { useContext, useMemo } from 'react';
 import {
   type RuleProps,
   TestID,
@@ -137,9 +137,6 @@ export function RuleComponents({
     schema.autoSelectField ||
     rule.field !== translations.fields.placeholderName;
 
-  // NOTE: temp hack until we can refactor grid layout
-  const FieldWrapperElement = layout === 'row' ? Fragment : 'div';
-
   const operator = useMemo(() => {
     if (renderOperator) {
       return (
@@ -165,7 +162,7 @@ export function RuleComponents({
       );
     }
 
-    return !renderOperator && consistentColumns ? (
+    return !renderOperator && consistentColumns && layout === 'row' ? (
       <div className={classNames?.rule?.operator} />
     ) : null;
   }, [
@@ -184,6 +181,7 @@ export function RuleComponents({
     schema,
     translations.operators.title,
     validationResult,
+    layout,
   ]);
 
   const renderValue =
@@ -224,7 +222,7 @@ export function RuleComponents({
       );
     }
 
-    return !renderValue && consistentColumns ? (
+    return !renderValue && consistentColumns && layout === 'row' ? (
       <div className={classNames?.rule?.values} />
     ) : null;
   }, [
@@ -246,6 +244,7 @@ export function RuleComponents({
     valueEditorSeparator,
     valueEditorType,
     values,
+    layout,
   ]);
 
   const renderValueSources =
@@ -278,7 +277,7 @@ export function RuleComponents({
       );
     }
 
-    return !renderValueSources && consistentColumns ? (
+    return !renderValueSources && consistentColumns && layout === 'row' ? (
       <div className={classNames?.rule?.source} />
     ) : null;
   }, [
@@ -297,6 +296,58 @@ export function RuleComponents({
     translations.valueSourceSelector.title,
     validationResult,
     valueSourceOptions,
+    layout,
+  ]);
+
+  const core = useMemo(() => {
+    const controls = (
+      <>
+        <div className={classNames?.rule?.field}>
+          <FieldSelectorControlElement
+            testID={TestID.fields}
+            options={schema.fields}
+            title={translations.fields.title}
+            value={rule.field}
+            operator={rule.operator}
+            className={classNamesProp.fields}
+            handleOnChange={generateOnChangeHandler('field')}
+            level={path.length}
+            path={path}
+            disabled={disabled}
+            context={context}
+            validation={validationResult}
+            schema={schema}
+            rule={rule}
+          />
+        </div>
+        {operator}
+        {sources}
+        {value}
+      </>
+    );
+
+    return layout === 'row' ? (
+      controls
+    ) : (
+      <div className={classNames?.rule?.core}>{controls}</div>
+    );
+  }, [
+    FieldSelectorControlElement,
+    classNames?.rule?.field,
+    schema.fields,
+    translations.fields.title,
+    classNamesProp.fields,
+    generateOnChangeHandler,
+    path,
+    disabled,
+    context,
+    validationResult,
+    schema,
+    rule,
+    operator,
+    sources,
+    value,
+    layout,
   ]);
 
   return (
@@ -340,29 +391,7 @@ export function RuleComponents({
           />
         </div>
       )}
-      <FieldWrapperElement>
-        <div className={classNames?.rule?.field}>
-          <FieldSelectorControlElement
-            testID={TestID.fields}
-            options={schema.fields}
-            title={translations.fields.title}
-            value={rule.field}
-            operator={rule.operator}
-            className={classNamesProp.fields}
-            handleOnChange={generateOnChangeHandler('field')}
-            level={path.length}
-            path={path}
-            disabled={disabled}
-            context={context}
-            validation={validationResult}
-            schema={schema}
-            rule={rule}
-          />
-        </div>
-        {operator}
-        {sources}
-        {value}
-      </FieldWrapperElement>
+      {core}
       {showCloneButtons && (
         <div className={classNames?.rule?.clone}>
           <CloneRuleActionControlElement

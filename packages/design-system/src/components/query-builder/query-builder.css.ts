@@ -63,6 +63,9 @@ export const queryBuilderSpaceVars = createThemeContract({
     x: '',
     y: '',
   },
+  core: {
+    gap: '',
+  },
   field: {
     width: '',
     maxWidth: '',
@@ -95,10 +98,10 @@ export const queryBuilderStateVars = createThemeContract({
 });
 
 export const queryBuilderGroupStateVars = createThemeContract({
-  layout: '',
   after: '',
   before: '',
   columns: '',
+  layout: '',
   isDisabled: '',
 });
 
@@ -174,9 +177,18 @@ export const queryBuilderClassNames: QueryBuilderClassNames = {
             {
               query: { layout: 'column' },
               gridTemplateColumns: 'max-content min-content',
-              columnGap: queryBuilderSpaceVars.body.gap,
-              // This is somewhat brute force
-              rowGap: `calc(${queryBuilderSpaceVars.body.gap} * 2)`,
+            },
+            {
+              query: { layout: 'column', before: [1, 2], after: 0 },
+              gridTemplateColumns: `repeat(${queryBuilderGroupStateVars.before}, min-content) max-content min-content`,
+            },
+            {
+              query: { layout: 'column', before: 0, after: [1, 2] },
+              gridTemplateColumns: `max-content repeat(${queryBuilderGroupStateVars.after}, min-content) min-content`,
+            },
+            {
+              query: { layout: 'column', before: [1, 2], after: [1, 2] },
+              gridTemplateColumns: `repeat(${queryBuilderGroupStateVars.before}, min-content) max-content repeat(${queryBuilderGroupStateVars.after}, min-content) min-content`,
             },
             {
               query: { layout: 'row' },
@@ -234,10 +246,21 @@ export const queryBuilderClassNames: QueryBuilderClassNames = {
         },
       },
     }),
+    core: style({
+      '@layer': {
+        [layers.components.l1]: {
+          display: 'flex',
+          flexDirection: 'column',
+          gap: fallbackVar(
+            queryBuilderSpaceVars.core.gap,
+            queryBuilderSpaceVars.body.gap,
+          ),
+        },
+      },
+    }),
     field: style({
       '@layer': {
         [layers.components.l1]: {
-          marginBottom: fallbackVar(queryBuilderSpaceVars.values.gap, '2px'),
           width: fallbackVar(queryBuilderSpaceVars.field.width, '100%'),
           minWidth: fallbackVar(
             queryBuilderSpaceVars.field.minWidth,
@@ -253,7 +276,6 @@ export const queryBuilderClassNames: QueryBuilderClassNames = {
     operator: style({
       '@layer': {
         [layers.components.l1]: {
-          marginBottom: fallbackVar(queryBuilderSpaceVars.values.gap, '2px'),
           width: fallbackVar(queryBuilderSpaceVars.operator.width, '100%'),
           minWidth: fallbackVar(
             queryBuilderSpaceVars.operator.minWidth,
@@ -270,22 +292,19 @@ export const queryBuilderClassNames: QueryBuilderClassNames = {
       '@layer': {
         [layers.components.l1]: {
           display: 'flex',
-
+          gap: fallbackVar(
+            queryBuilderSpaceVars.values.gap,
+            queryBuilderSpaceVars.body.gap,
+          ),
           '@container': containerQueries<QueryBuilderRuleState>(
             queryBuilderRuleStateVars,
             {
               query: { layout: 'column' },
               flexDirection: 'row',
-              gap: fallbackVar(queryBuilderSpaceVars.values.gap, '2px'),
             },
             {
               query: { layout: 'row' },
               flexDirection: 'column',
-              gap: fallbackVar(
-                queryBuilderSpaceVars.values.gap,
-                queryBuilderSpaceVars.body.gap,
-                '0',
-              ),
               width: fallbackVar(queryBuilderSpaceVars.values.width, '100%'),
               minWidth: fallbackVar(
                 queryBuilderSpaceVars.values.minWidth,

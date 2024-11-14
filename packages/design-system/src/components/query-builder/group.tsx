@@ -23,7 +23,9 @@ import type { RuleGroupElementsProps } from './types';
  * - Value (conditional)
  * - Remove
  */
-const CORE_FUNCTIONS_COUNT = 5;
+const ROW_CORE_COLUMNS_COUNT = 5;
+// When layout == column, Field, Operator, Value Source & Value are grouped into a single column
+const COL_CORE_COLUMNS_COUNT = 2;
 
 export function RuleGroup(props: RuleGroupProps) {
   const {
@@ -64,8 +66,11 @@ export function RuleGroup(props: RuleGroupProps) {
   );
 
   const columns = useMemo(
-    () => CORE_FUNCTIONS_COUNT + before + after,
-    [after, before],
+    () =>
+      (layout === 'row' ? ROW_CORE_COLUMNS_COUNT : COL_CORE_COLUMNS_COUNT) +
+      before +
+      after,
+    [layout, after, before],
   );
 
   const style = useMemo(

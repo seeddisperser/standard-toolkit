@@ -42,6 +42,17 @@ export const QueryBuilder: ThemeContext['QueryBuilder'] = {
     ),
   },
   rule: {
+    core: style(
+      applyThemeVars<QueryBuilderRuleState>(queryBuilderRuleStateVars, [
+        {
+          vars: assignPartialVars(queryBuilderSpaceVars, {
+            core: {
+              gap: sizeVars.v02,
+            },
+          }),
+        },
+      ]),
+    ),
     error: style(
       applyThemeVars<QueryBuilderRuleState>(queryBuilderRuleStateVars, [
         {

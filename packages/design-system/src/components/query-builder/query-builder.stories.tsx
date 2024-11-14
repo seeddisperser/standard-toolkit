@@ -21,6 +21,36 @@ export default {
       },
       defaultValue: true,
     },
+    disabled: {
+      control: {
+        type: 'boolean',
+      },
+      defaultValue: false,
+    },
+    showCloneButtons: {
+      control: {
+        type: 'boolean',
+      },
+      defaultValue: false,
+    },
+    showLockButtons: {
+      control: {
+        type: 'boolean',
+      },
+      defaultValue: false,
+    },
+    showNotToggle: {
+      control: {
+        type: 'boolean',
+      },
+      defaultValue: false,
+    },
+    showShiftActions: {
+      control: {
+        type: 'boolean',
+      },
+      defaultValue: false,
+    },
     size: {
       control: {
         type: 'select',
