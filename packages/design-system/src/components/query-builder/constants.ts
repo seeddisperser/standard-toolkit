@@ -3,6 +3,8 @@ import type { QueryBuilderContextValue } from './types';
 
 export const defaultSize = 'sm';
 
+export const defaultLayout = 'row';
+
 export const QueryBuilderContext = createContext<QueryBuilderContextValue>({
   controlElements: {
     ruleGroupBodyElements: () => null,
@@ -10,6 +12,7 @@ export const QueryBuilderContext = createContext<QueryBuilderContextValue>({
     ruleGroupHeaderElements: () => null,
   },
   size: defaultSize,
+  layout: defaultLayout,
 });
 
 export const multiValueOperators = [

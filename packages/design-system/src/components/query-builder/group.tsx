@@ -33,6 +33,7 @@ export function RuleGroup(props: RuleGroupProps) {
       ruleGroupFooterElements: RuleGroupFooterElements,
       ruleGroupHeaderElements: RuleGroupHeaderElements,
     },
+    layout,
   } = useContext(QueryBuilderContext);
 
   const {
@@ -73,9 +74,10 @@ export function RuleGroup(props: RuleGroupProps) {
         after,
         before,
         columns,
+        layout,
         isDisabled: false,
       }),
-    [after, before, columns],
+    [after, before, columns, layout],
   );
 
   const group = useRuleGroup(props);

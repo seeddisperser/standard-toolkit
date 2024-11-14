@@ -135,6 +135,7 @@ type BaseQueryBuilderProps = {
   mapping?: QueryBuilderMapping;
   size?: QueryBuilderSizes;
   valueEditors?: QueryBuilderValueEditors;
+  layout: 'row' | 'column';
 };
 
 /**
@@ -170,6 +171,10 @@ export type QueryBuilderGroupState = {
    */
   columns: number;
   /**
+   * Orientation of controls
+   */
+  layout: 'row' | 'column';
+  /**
    * Represents whether the rule or any of its parents are disabled
    *
    * RQB also uses this property when a rule is locked
@@ -183,6 +188,7 @@ export type QueryBuilderRuleState = {
    *
    * RQB also uses this property when a rule is locked
    */
+  layout: 'row' | 'column';
   isDisabled: boolean;
   isDragging: boolean;
   isDropTarget: boolean;

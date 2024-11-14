@@ -1,4 +1,4 @@
-import { useContext, useMemo } from 'react';
+import { useContext, useMemo, Fragment } from 'react';
 import {
   type RuleProps,
   TestID,
@@ -12,7 +12,7 @@ import { queryBuilderRuleStateVars } from './query-builder.css';
 import { getValidationResult } from './utils';
 
 export function Rule(props: RuleProps) {
-  const { classNames } = useContext(QueryBuilderContext);
+  const { classNames, layout } = useContext(QueryBuilderContext);
   const rule = useRule(props);
   const cloneRule = useStopEventPropagation(rule.cloneRule);
   const toggleLockRule = useStopEventPropagation(rule.toggleLockRule);
@@ -28,11 +28,12 @@ export function Rule(props: RuleProps) {
   const style = useMemo(
     () =>
       inlineVars(queryBuilderRuleStateVars, {
+        layout,
         isDisabled: rule.disabled,
         isDragging: rule.isDragging,
         isDropTarget: rule.isOver,
       }),
-    [rule.disabled, rule.isDragging, rule.isOver],
+    [rule.disabled, rule.isDragging, rule.isOver, layout],
   );
 
   return (
@@ -95,7 +96,8 @@ export function RuleComponents({
   valueSources,
   values,
 }: RuleProps & ReturnType<typeof useRule>) {
-  const { classNames, consistentColumns } = useContext(QueryBuilderContext);
+  const { classNames, consistentColumns, layout } =
+    useContext(QueryBuilderContext);
 
   const {
     controls: {
@@ -134,6 +136,9 @@ export function RuleComponents({
   const renderOperator =
     schema.autoSelectField ||
     rule.field !== translations.fields.placeholderName;
+
+  // NOTE: temp hack until we can refactor grid layout
+  const FieldWrapperElement = layout === 'row' ? Fragment : 'div';
 
   const operator = useMemo(() => {
     if (renderOperator) {
@@ -335,27 +340,29 @@ export function RuleComponents({
           />
         </div>
       )}
-      <div className={classNames?.rule?.field}>
-        <FieldSelectorControlElement
-          testID={TestID.fields}
-          options={schema.fields}
-          title={translations.fields.title}
-          value={rule.field}
-          operator={rule.operator}
-          className={classNamesProp.fields}
-          handleOnChange={generateOnChangeHandler('field')}
-          level={path.length}
-          path={path}
-          disabled={disabled}
-          context={context}
-          validation={validationResult}
-          schema={schema}
-          rule={rule}
-        />
-      </div>
-      {operator}
-      {sources}
-      {value}
+      <FieldWrapperElement>
+        <div className={classNames?.rule?.field}>
+          <FieldSelectorControlElement
+            testID={TestID.fields}
+            options={schema.fields}
+            title={translations.fields.title}
+            value={rule.field}
+            operator={rule.operator}
+            className={classNamesProp.fields}
+            handleOnChange={generateOnChangeHandler('field')}
+            level={path.length}
+            path={path}
+            disabled={disabled}
+            context={context}
+            validation={validationResult}
+            schema={schema}
+            rule={rule}
+          />
+        </div>
+        {operator}
+        {sources}
+        {value}
+      </FieldWrapperElement>
       {showCloneButtons && (
         <div className={classNames?.rule?.clone}>
           <CloneRuleActionControlElement

@@ -28,6 +28,13 @@ export default {
       options: ['sm', 'lg'],
       defaultValue: 'sm',
     },
+    layout: {
+      control: {
+        type: 'select',
+      },
+      options: ['row', 'column'],
+      defaultValue: 'row',
+    },
   },
 } satisfies StoryDefault<QueryBuilderProps>;
 
