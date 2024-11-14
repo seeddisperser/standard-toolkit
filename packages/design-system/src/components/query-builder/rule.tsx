@@ -333,6 +333,7 @@ export function RuleComponents({
     );
   }, [
     FieldSelectorControlElement,
+    classNames?.rule?.core,
     classNames?.rule?.field,
     schema.fields,
     translations.fields.title,
