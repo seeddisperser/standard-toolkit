@@ -1,3 +1,4 @@
+import type { Orientation } from '@react-types/shared';
 import type { ComponentType, ReactElement } from 'react';
 import type {
   QueryBuilderProps as RQBProps,
@@ -134,9 +135,9 @@ type BaseQueryBuilderProps = {
     select?: RenderPropsChildren<SelectRenderProps>;
   };
   mapping?: QueryBuilderMapping;
+  orientation?: Orientation;
   size?: QueryBuilderSizes;
   valueEditors?: QueryBuilderValueEditors;
-  layout: 'row' | 'column';
 };
 
 /**
@@ -172,9 +173,9 @@ export type QueryBuilderGroupState = {
    */
   columns: number;
   /**
-   * Orientation of controls
+   * Orientation of core inputs
    */
-  layout: 'row' | 'column';
+  orientation: Orientation;
   /**
    * Represents whether the rule or any of its parents are disabled
    *
@@ -185,11 +186,14 @@ export type QueryBuilderGroupState = {
 
 export type QueryBuilderRuleState = {
   /**
+   * Orientation of core inputs
+   */
+  orientation: Orientation;
+  /**
    * Represents whether the rule or any of its parents are disabled
    *
    * RQB also uses this property when a rule is locked
    */
-  layout: 'row' | 'column';
   isDisabled: boolean;
   isDragging: boolean;
   isDropTarget: boolean;

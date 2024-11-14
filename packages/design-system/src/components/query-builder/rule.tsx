@@ -12,7 +12,7 @@ import { queryBuilderRuleStateVars } from './query-builder.css';
 import { getValidationResult } from './utils';
 
 export function Rule(props: RuleProps) {
-  const { classNames, layout } = useContext(QueryBuilderContext);
+  const { classNames, orientation } = useContext(QueryBuilderContext);
   const rule = useRule(props);
   const cloneRule = useStopEventPropagation(rule.cloneRule);
   const toggleLockRule = useStopEventPropagation(rule.toggleLockRule);
@@ -28,12 +28,12 @@ export function Rule(props: RuleProps) {
   const style = useMemo(
     () =>
       inlineVars(queryBuilderRuleStateVars, {
-        layout,
+        orientation,
         isDisabled: rule.disabled,
         isDragging: rule.isDragging,
         isDropTarget: rule.isOver,
       }),
-    [rule.disabled, rule.isDragging, rule.isOver, layout],
+    [rule.disabled, rule.isDragging, rule.isOver, orientation],
   );
 
   return (
@@ -96,7 +96,7 @@ export function RuleComponents({
   valueSources,
   values,
 }: RuleProps & ReturnType<typeof useRule>) {
-  const { classNames, consistentColumns, layout } =
+  const { classNames, consistentColumns, orientation } =
     useContext(QueryBuilderContext);
 
   const {
@@ -162,7 +162,9 @@ export function RuleComponents({
       );
     }
 
-    return !renderOperator && consistentColumns && layout === 'row' ? (
+    return !renderOperator &&
+      consistentColumns &&
+      orientation === 'horizontal' ? (
       <div className={classNames?.rule?.operator} />
     ) : null;
   }, [
@@ -181,7 +183,7 @@ export function RuleComponents({
     schema,
     translations.operators.title,
     validationResult,
-    layout,
+    orientation,
   ]);
 
   const renderValue =
@@ -222,7 +224,7 @@ export function RuleComponents({
       );
     }
 
-    return !renderValue && consistentColumns && layout === 'row' ? (
+    return !renderValue && consistentColumns && orientation === 'horizontal' ? (
       <div className={classNames?.rule?.values} />
     ) : null;
   }, [
@@ -244,7 +246,7 @@ export function RuleComponents({
     valueEditorSeparator,
     valueEditorType,
     values,
-    layout,
+    orientation,
   ]);
 
   const renderValueSources =
@@ -277,7 +279,9 @@ export function RuleComponents({
       );
     }
 
-    return !renderValueSources && consistentColumns && layout === 'row' ? (
+    return !renderValueSources &&
+      consistentColumns &&
+      orientation === 'horizontal' ? (
       <div className={classNames?.rule?.source} />
     ) : null;
   }, [
@@ -296,7 +300,7 @@ export function RuleComponents({
     translations.valueSourceSelector.title,
     validationResult,
     valueSourceOptions,
-    layout,
+    orientation,
   ]);
 
   const core = useMemo(() => {
@@ -326,7 +330,7 @@ export function RuleComponents({
       </>
     );
 
-    return layout === 'row' ? (
+    return orientation === 'horizontal' ? (
       controls
     ) : (
       <div className={classNames?.rule?.core}>{controls}</div>
@@ -348,7 +352,7 @@ export function RuleComponents({
     operator,
     sources,
     value,
-    layout,
+    orientation,
   ]);
 
   return (

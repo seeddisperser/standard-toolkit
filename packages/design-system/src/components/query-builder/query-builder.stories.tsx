@@ -27,6 +27,13 @@ export default {
       },
       defaultValue: false,
     },
+    orientation: {
+      control: {
+        type: 'select',
+      },
+      options: ['horizontal', 'vertical'],
+      defaultValue: 'horizontal',
+    },
     showCloneButtons: {
       control: {
         type: 'boolean',
@@ -57,13 +64,6 @@ export default {
       },
       options: ['sm', 'lg'],
       defaultValue: 'sm',
-    },
-    layout: {
-      control: {
-        type: 'select',
-      },
-      options: ['row', 'column'],
-      defaultValue: 'row',
     },
   },
 } satisfies StoryDefault<QueryBuilderProps>;

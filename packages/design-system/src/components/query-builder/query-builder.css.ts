@@ -101,12 +101,12 @@ export const queryBuilderGroupStateVars = createThemeContract({
   after: '',
   before: '',
   columns: '',
-  layout: '',
+  orientation: '',
   isDisabled: '',
 });
 
 export const queryBuilderRuleStateVars = createThemeContract({
-  layout: '',
+  orientation: '',
   isDisabled: '',
   isDragging: '',
   isDropTarget: '',
@@ -175,36 +175,40 @@ export const queryBuilderClassNames: QueryBuilderClassNames = {
           '@container': containerQueries<QueryBuilderGroupState>(
             queryBuilderGroupStateVars,
             {
-              query: { layout: 'column' },
+              query: { orientation: 'vertical' },
               gridTemplateColumns: 'max-content min-content',
             },
             {
-              query: { layout: 'column', before: [1, 2], after: 0 },
+              query: { orientation: 'vertical', before: [1, 2], after: 0 },
               gridTemplateColumns: `repeat(${queryBuilderGroupStateVars.before}, min-content) max-content min-content`,
             },
             {
-              query: { layout: 'column', before: 0, after: [1, 2] },
+              query: { orientation: 'vertical', before: 0, after: [1, 2] },
               gridTemplateColumns: `max-content repeat(${queryBuilderGroupStateVars.after}, min-content) min-content`,
             },
             {
-              query: { layout: 'column', before: [1, 2], after: [1, 2] },
+              query: { orientation: 'vertical', before: [1, 2], after: [1, 2] },
               gridTemplateColumns: `repeat(${queryBuilderGroupStateVars.before}, min-content) max-content repeat(${queryBuilderGroupStateVars.after}, min-content) min-content`,
             },
             {
-              query: { layout: 'row' },
+              query: { orientation: 'horizontal' },
               gridTemplateColumns:
                 'max-content min-content min-content max-content min-content',
             },
             {
-              query: { layout: 'row', before: [1, 2], after: 0 },
+              query: { orientation: 'horizontal', before: [1, 2], after: 0 },
               gridTemplateColumns: `repeat(${queryBuilderGroupStateVars.before}, min-content) max-content min-content min-content max-content min-content`,
             },
             {
-              query: { layout: 'row', before: 0, after: [1, 2] },
+              query: { orientation: 'horizontal', before: 0, after: [1, 2] },
               gridTemplateColumns: `max-content min-content min-content max-content repeat(${queryBuilderGroupStateVars.after}, min-content) min-content`,
             },
             {
-              query: { layout: 'row', before: [1, 2], after: [1, 2] },
+              query: {
+                orientation: 'horizontal',
+                before: [1, 2],
+                after: [1, 2],
+              },
               gridTemplateColumns: `repeat(${queryBuilderGroupStateVars.before}, min-content) max-content min-content min-content max-content repeat(${queryBuilderGroupStateVars.after}, min-content) min-content`,
             },
           ),
@@ -299,11 +303,11 @@ export const queryBuilderClassNames: QueryBuilderClassNames = {
           '@container': containerQueries<QueryBuilderRuleState>(
             queryBuilderRuleStateVars,
             {
-              query: { layout: 'column' },
+              query: { orientation: 'vertical' },
               flexDirection: 'row',
             },
             {
-              query: { layout: 'row' },
+              query: { orientation: 'horizontal' },
               flexDirection: 'column',
               width: fallbackVar(queryBuilderSpaceVars.values.width, '100%'),
               minWidth: fallbackVar(

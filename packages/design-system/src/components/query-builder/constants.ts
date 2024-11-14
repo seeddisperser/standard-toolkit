@@ -1,9 +1,9 @@
 import { createContext } from 'react';
 import type { QueryBuilderContextValue } from './types';
 
-export const defaultSize = 'sm';
+export const defaultOrientation = 'horizontal';
 
-export const defaultLayout = 'row';
+export const defaultSize = 'sm';
 
 export const QueryBuilderContext = createContext<QueryBuilderContextValue>({
   controlElements: {
@@ -11,8 +11,8 @@ export const QueryBuilderContext = createContext<QueryBuilderContextValue>({
     ruleGroupFooterElements: () => null,
     ruleGroupHeaderElements: () => null,
   },
+  orientation: defaultOrientation,
   size: defaultSize,
-  layout: defaultLayout,
 });
 
 export const multiValueOperators = [
