@@ -11,7 +11,7 @@ import {
   semanticColorVars,
   sizeVars,
   typographyVars,
-} from '../../src';
+} from '@accelint/design-system/vanilla';
 
 /**
  * Variables are applied to sizer, instead of input to that they
