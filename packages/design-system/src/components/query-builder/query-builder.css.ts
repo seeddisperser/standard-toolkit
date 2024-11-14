@@ -6,7 +6,11 @@ import {
 } from '@vanilla-extract/css';
 import { layers, radiusVars } from '../../styles';
 import { containerQueries } from '../../utils';
-import type { QueryBuilderGroupState, QueryBuilderClassNames } from './types';
+import type {
+  QueryBuilderGroupState,
+  QueryBuilderClassNames,
+  QueryBuilderRuleState,
+} from './types';
 
 export const queryBuilderContainers = {
   queryBuilder: createContainer(),
@@ -59,6 +63,9 @@ export const queryBuilderSpaceVars = createThemeContract({
     x: '',
     y: '',
   },
+  core: {
+    gap: '',
+  },
   field: {
     width: '',
     maxWidth: '',
@@ -94,10 +101,12 @@ export const queryBuilderGroupStateVars = createThemeContract({
   after: '',
   before: '',
   columns: '',
+  orientation: '',
   isDisabled: '',
 });
 
 export const queryBuilderRuleStateVars = createThemeContract({
+  orientation: '',
   isDisabled: '',
   isDragging: '',
   isDropTarget: '',
@@ -163,19 +172,43 @@ export const queryBuilderClassNames: QueryBuilderClassNames = {
            * The one big caveat with this is that if a custom Rule component changes the order of rendered elements, then this style must
            * be updated as well to reflect the new order
            */
-          gridTemplateColumns: `max-content min-content min-content max-content min-content`,
           '@container': containerQueries<QueryBuilderGroupState>(
             queryBuilderGroupStateVars,
             {
-              query: { before: [1, 2], after: 0 },
+              query: { orientation: 'vertical' },
+              gridTemplateColumns: 'max-content min-content',
+            },
+            {
+              query: { orientation: 'vertical', before: [1, 2], after: 0 },
+              gridTemplateColumns: `repeat(${queryBuilderGroupStateVars.before}, min-content) max-content min-content`,
+            },
+            {
+              query: { orientation: 'vertical', before: 0, after: [1, 2] },
+              gridTemplateColumns: `max-content repeat(${queryBuilderGroupStateVars.after}, min-content) min-content`,
+            },
+            {
+              query: { orientation: 'vertical', before: [1, 2], after: [1, 2] },
+              gridTemplateColumns: `repeat(${queryBuilderGroupStateVars.before}, min-content) max-content repeat(${queryBuilderGroupStateVars.after}, min-content) min-content`,
+            },
+            {
+              query: { orientation: 'horizontal' },
+              gridTemplateColumns:
+                'max-content min-content min-content max-content min-content',
+            },
+            {
+              query: { orientation: 'horizontal', before: [1, 2], after: 0 },
               gridTemplateColumns: `repeat(${queryBuilderGroupStateVars.before}, min-content) max-content min-content min-content max-content min-content`,
             },
             {
-              query: { before: 0, after: [1, 2] },
+              query: { orientation: 'horizontal', before: 0, after: [1, 2] },
               gridTemplateColumns: `max-content min-content min-content max-content repeat(${queryBuilderGroupStateVars.after}, min-content) min-content`,
             },
             {
-              query: { before: [1, 2], after: [1, 2] },
+              query: {
+                orientation: 'horizontal',
+                before: [1, 2],
+                after: [1, 2],
+              },
               gridTemplateColumns: `repeat(${queryBuilderGroupStateVars.before}, min-content) max-content min-content min-content max-content repeat(${queryBuilderGroupStateVars.after}, min-content) min-content`,
             },
           ),
@@ -217,6 +250,18 @@ export const queryBuilderClassNames: QueryBuilderClassNames = {
         },
       },
     }),
+    core: style({
+      '@layer': {
+        [layers.components.l1]: {
+          display: 'flex',
+          flexDirection: 'column',
+          gap: fallbackVar(
+            queryBuilderSpaceVars.core.gap,
+            queryBuilderSpaceVars.body.gap,
+          ),
+        },
+      },
+    }),
     field: style({
       '@layer': {
         [layers.components.l1]: {
@@ -251,20 +296,29 @@ export const queryBuilderClassNames: QueryBuilderClassNames = {
       '@layer': {
         [layers.components.l1]: {
           display: 'flex',
-          flexDirection: 'column',
           gap: fallbackVar(
             queryBuilderSpaceVars.values.gap,
             queryBuilderSpaceVars.body.gap,
-            '0',
           ),
-          width: fallbackVar(queryBuilderSpaceVars.values.width, '100%'),
-          minWidth: fallbackVar(
-            queryBuilderSpaceVars.values.minWidth,
-            queryBuilderSpaceVars.values.width,
-          ),
-          maxWidth: fallbackVar(
-            queryBuilderSpaceVars.values.maxWidth,
-            queryBuilderSpaceVars.values.width,
+          '@container': containerQueries<QueryBuilderRuleState>(
+            queryBuilderRuleStateVars,
+            {
+              query: { orientation: 'vertical' },
+              flexDirection: 'row',
+            },
+            {
+              query: { orientation: 'horizontal' },
+              flexDirection: 'column',
+              width: fallbackVar(queryBuilderSpaceVars.values.width, '100%'),
+              minWidth: fallbackVar(
+                queryBuilderSpaceVars.values.minWidth,
+                queryBuilderSpaceVars.values.width,
+              ),
+              maxWidth: fallbackVar(
+                queryBuilderSpaceVars.values.maxWidth,
+                queryBuilderSpaceVars.values.width,
+              ),
+            },
           ),
         },
       },
