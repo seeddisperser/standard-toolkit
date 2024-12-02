@@ -13,12 +13,8 @@ Better to be explicit/specific on topics than to wait for avoidable confusion du
     - Isolation testing: unit, integration, functional
     - Testing coverage thresholds
 3. All changes must be reviewed and approved by another contributor
-    - An author cannot "approve" their own changes
+    - An author can not "approve" their own changes
     - Some areas might have [code owners](../.github/CODEOWNERS.md) assigned requiring specific people to review
-    - Contributors should aim for a ratio of 1/1 (PRs reviewed/opened) or better (greater than 1)
-        - I've reviewed 3 and opened 5 would be 3/5 - less than 1
-        - I've reviewed 5 and opened 5 would be 5/5 - even at 1
-        - I've reviewed 5 and opened 3 would be 5/3 - greater than 1
 
 ## Development Workflows
 
@@ -32,7 +28,7 @@ Better to be explicit/specific on topics than to wait for avoidable confusion du
 
 1. Pick a task from the issues/project
     - Ask the team if anyone is working on the task
-        - Internal contributors can use the MS Teams "DevTK Devs" channel
+        - Internal contributors can use private communication tools
         - External contributors can comment in the issue directly
     - Assign yourself to the task
 2. Create a branch off of the target receiving branch (i.e. `main`)
@@ -46,7 +42,7 @@ Better to be explicit/specific on topics than to wait for avoidable confusion du
     - Follow the conventions of [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for the final commit of the branch.
     - Keep the branch current; i.e. click the "Update Branch" button in the GitHub UI.
 4. Open a Pull Request to the [central repository](github.com/gohypergiant/standard-toolkit) for review
-    - Add "close|closed|closes|fixed|fixes #12345" to the optional footers of a commit message; e.g. the example would close issue #12345.
+    - Optionally add "close|closed|closes|fixed|fixes #12345" to the optional footers of a commit message; e.g. the example would close issue #12345. This is also requested as part of the PR template.
 5. Merge
     - Authors merge PRs when all quality gates are met, reviewers have approved, and the author is ready to merge.
     - The [Pipelines](#pipelines) will take over from here.

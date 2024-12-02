@@ -6,7 +6,7 @@
 3. Install dependencies: `pnpm install`
 4. Sanity check that that everything is working via: `pnpm test`
 
-## Additional
+## Optional
 
 Configure your Git to use a [commit template](https://gist.github.com/lisawolderiksen/a7b99d94c92c6671181611be1641c733#git-configuration).
 
