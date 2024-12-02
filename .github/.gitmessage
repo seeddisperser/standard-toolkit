@@ -1,13 +1,9 @@
 # Title: Summary, imperative, start upper case, don't end with a period
 # No more than 50
-Replace this title line with an appropriate title
+# Replace "<label>" with one of: build, chore, docs, feat, fix, or refactor
+# For context on when to use each visit: https://github.com/gohypergiant/standard-toolkit/issues/labels
 # _______________ 50  characters _______________ #
-# Pick one (below) and use it (remove "#") and change: feat/fix, scope, description
-# feat: description
-# feat[scope]: description
-# fix: description
-# fix[scope]: description
-# _______________ 50  characters _______________ #
+<label>: Fill in the first line of the commit msg
 # BLANK LINE BELOW
 
 # Wrap at 72 chars. ################################## which is here:  #

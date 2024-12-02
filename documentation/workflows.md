@@ -42,11 +42,13 @@ Better to be explicit/specific on topics than to wait for avoidable confusion du
     - Follow the conventions of [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) for the final commit of the branch.
     - Keep the branch current; i.e. click the "Update Branch" button in the GitHub UI.
 4. Open a Pull Request to the [central repository](github.com/gohypergiant/standard-toolkit) for review
+    - Optionally, if permissions allow, link the pull request number to the issue via the "Development" section inside the issue details.
     - Optionally add "close|closed|closes|fixed|fixes #12345" to the optional footers of a commit message; e.g. the example would close issue #12345. This is also requested as part of the PR template.
 5. Merge
-    - Authors merge PRs when all quality gates are met, reviewers have approved, and the author is ready to merge.
-    - The [Pipelines](#pipelines) will take over from here.
-    - Merging will be blocked by branch protections
+    - PRs should be merged by the __author__ when:
+        1. All quality gates are met,
+        2. Reviewers have approved, and
+        3. The author is ready to merge.
 
 ### Pipelines
 
