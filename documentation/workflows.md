@@ -33,7 +33,7 @@ Better to be explicit/specific on topics than to wait for avoidable confusion du
     - Assign yourself to the task
 2. Create a branch off of the target receiving branch (i.e. `main`)
     - e.g. `feat/___` - for feature work
-    - `fix/___` - for hotfix work
+    - e.g. `fix/___` - for hotfix work
     - Replace "___" with a hyphenated brief title of the task
 3. Commit changes and push the branch
     - If changes are being made to `src/*` files or "config" for artifact output a [Changesets](#changesets) is required.
