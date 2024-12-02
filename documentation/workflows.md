@@ -13,7 +13,7 @@ Better to be explicit/specific on topics than to wait for avoidable confusion du
     - Isolation testing: unit, integration, functional
     - Testing coverage thresholds
 3. All changes must be reviewed and approved by another contributor
-    - An author can not "approve" their own changes
+    - An author cannot "approve" their own changes
     - Some areas might have [code owners](../.github/CODEOWNERS.md) assigned requiring specific people to review
     - Contributors should aim for a ratio of 1/1 (PRs reviewed/opened) or better (greater than 1)
         - I've reviewed 3 and opened 5 would be 3/5 - less than 1
