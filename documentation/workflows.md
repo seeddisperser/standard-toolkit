@@ -32,7 +32,7 @@ Better to be explicit/specific on topics than to wait for avoidable confusion du
         - External contributors can comment in the issue directly
     - Assign yourself to the task
 2. Create a branch off of the target receiving branch (i.e. `main`)
-    - `feat/___` - for feature work
+    - e.g. `feat/___` - for feature work
     - `fix/___` - for hotfix work
     - Replace "___" with a hyphenated brief title of the task
 3. Commit changes and push the branch
