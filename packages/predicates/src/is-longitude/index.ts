@@ -12,8 +12,7 @@
 
 import { isFiniteNumber } from '../is-number';
 
-const MIN_LONGITUDE = -180;
-const MAX_LONGITUDE = 180;
+const MAX_ABSOLUTE_VALUE = 180;
 
 /**
  * Determines if given value is a valid longitude range.
@@ -32,8 +31,7 @@ export function isLongitude(val: unknown) {
     return false;
   }
 
-  // TODO: is there a better way to tell TS this is a number now based on isFiniteNumeber?
-  const ensuredValue = val as number;
+  const abs = Math.abs(val);
 
-  return ensuredValue >= MIN_LONGITUDE && ensuredValue <= MAX_LONGITUDE;
+  return abs >= 0 && abs <= MAX_ABSOLUTE_VALUE;
 }

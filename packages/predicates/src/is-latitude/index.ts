@@ -12,8 +12,7 @@
 
 import { isFiniteNumber } from '../is-number';
 
-const MIN_LATITUDE = -90;
-const MAX_LATITUDE = 90;
+const MAX_ABSOLUTE_VALUE = 90;
 
 /**
  * Determines if given value is a valid latitude range.
@@ -32,8 +31,7 @@ export function isLatitude(val: unknown) {
     return false;
   }
 
-  // TODO: is there a better way to tell TS this is a number now based on isFiniteNumeber?
-  const ensuredValue = val as number;
+  const abs = Math.abs(val);
 
-  return ensuredValue >= MIN_LATITUDE && ensuredValue <= MAX_LATITUDE;
+  return abs >= 0 && abs <= MAX_ABSOLUTE_VALUE;
 }

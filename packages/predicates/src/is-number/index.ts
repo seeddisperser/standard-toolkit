@@ -23,7 +23,7 @@ import { isString } from '../is-string';
  * isNumber(NaN) // true
  * isNumber('1.23') // false
  */
-export function isNumber(val: unknown) {
+export function isNumber(val: unknown): val is number {
   return typeof val === 'number' || val instanceof Number;
 }
 
@@ -38,7 +38,7 @@ export function isNumber(val: unknown) {
  * isFiniteNumber(NaN) // false
  * isFiniteNumber('1.23') // false
  */
-export function isFiniteNumber(val: unknown) {
+export function isFiniteNumber(val: unknown): val is number {
   return Number.isFinite(val);
 }
 
@@ -54,7 +54,7 @@ export function isFiniteNumber(val: unknown) {
  * isFiniteNumeric('1.23') // true
  * isFiniteNumeric('hi') // false
  */
-export function isFiniteNumeric(val: unknown) {
+export function isFiniteNumeric(val: unknown): val is number {
   const parsed = isString(val) ? Number.parseFloat(val as string) : val;
 
   return !Number.isNaN(parsed) && isFiniteNumber(parsed);
@@ -72,7 +72,7 @@ export function isFiniteNumeric(val: unknown) {
  * isNumeric('1.23') // true
  * isNumeric('hi') // false
  */
-export function isNumeric(val: unknown) {
+export function isNumeric(val: unknown): val is number {
   if (isString(val)) {
     return (
       val === 'Infinity' ||
