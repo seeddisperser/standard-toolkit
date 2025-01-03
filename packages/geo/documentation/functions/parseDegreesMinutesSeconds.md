@@ -7,41 +7,24 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License. -->
 
-[**@accelint/predicates**](../README.md) • **Docs**
+[**@accelint/geo**](../README.md) • **Docs**
 
 ***
 
-[@accelint/predicates](../README.md) / isTrue
+[@accelint/geo](../README.md) / parseDegreesMinutesSeconds
 
-# Function: isTrue()
+# Function: parseDegreesMinutesSeconds()
 
-> **isTrue**(`val`): `boolean`
+> **parseDegreesMinutesSeconds**(`format`, `input`): `ParseResults`
 
-Returns true if the given value is found in a case-insensitive list of
-"true" values.
-
-True values: ['1', 'true']
-
-For a more liberal comparison/coercion to true or false see the converters
-package (@accelint/converters).
+Parse a Degrees Minutes Seconds coordinate.
 
 ## Parameters
 
-• **val**: `unknown`
+• **format**: `"LATLON"` \| `"LONLAT"`
+
+• **input**: `string`
 
 ## Returns
 
-`boolean`
-
-## Pure
-
-## Example
-
-```ts
-isOn('no');      // false
-isOn('');        // false
-isOn(0);         // false
-isOn(1);         // true
-isOn(true);      // true
-isOn('yes');     // true
-```
+`ParseResults`
