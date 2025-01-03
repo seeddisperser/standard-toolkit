@@ -39,7 +39,9 @@ const HTML_COMMENT_STYLE = {
 const COMMENT_STYLES = {
   '.js': JS_COMMENT_STYLE,
   '.ts': JS_COMMENT_STYLE,
+  '.mts': JS_COMMENT_STYLE,
   '.tsx': JS_COMMENT_STYLE,
+  '.jsx': JS_COMMENT_STYLE,
   '.mjs': JS_COMMENT_STYLE,
   '.css': JS_COMMENT_STYLE,
   '.md': HTML_COMMENT_STYLE,
@@ -58,7 +60,7 @@ const filesToParse = argv.files?.split(' ');
 const files = await glob(
   filesToParse && filesToParse.length > 0
     ? filesToParse
-    : ['**/*.{js,ts,tsx,mjs,mdx,md,css}'],
+    : [`**/*{${Object.keys(COMMENT_STYLES).join(',')}}`],
   {
     ignore: [
       '**/node_modules/**',
@@ -67,16 +69,17 @@ const files = await glob(
       '**/LICENSE.md',
       '**/CHANGELOG.md',
       '**/.github/**/*.md',
-      '**/*.yml',
     ],
   },
 );
 
 for (const file of files) {
-  const header = getFormattedHeader(path.extname(file));
+  const fileExtension = path.extname(file);
+  const isFileExtensionSupported = fileExtension in COMMENT_STYLES; // check extension for the case where specific files are passed to the script
 
   let contents = fs.readFileSync(file, 'utf8');
-  if (!/Copyright \d+ Hypergiant/.test(contents)) {
+  if (isFileExtensionSupported && !/Copyright \d+ Hypergiant/.test(contents)) {
+    const header = getFormattedHeader(fileExtension);
     const interpreterDirective = contents.match(/^#!.*$/m)?.[0];
 
     if (interpreterDirective) {
