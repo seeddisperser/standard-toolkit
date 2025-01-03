@@ -11,19 +11,16 @@ governing permissions and limitations under the License. -->
 
 ***
 
-[@accelint/predicates](../README.md) / isTrue
+[@accelint/predicates](../README.md) / isAnyTruthy
 
-# Function: isTrue()
+# Function: isAnyTruthy()
 
-> **isTrue**(`val`): `boolean`
+> **isAnyTruthy**(`val`): `boolean`
 
-Returns true if the given value is found in a case-insensitive list of
-"true" values.
-
-True values: ['1', 'true']
-
-For a more liberal comparison/coercion to true or false see the converters
-package (@accelint/converters).
+Returns true if the given value is found in any of:
+- `isTrue(val)`
+- `isYes(val)`
+- `isOn(val)`
 
 ## Parameters
 
@@ -38,10 +35,12 @@ package (@accelint/converters).
 ## Example
 
 ```ts
-isOn('no');      // false
-isOn('');        // false
-isOn(0);         // false
-isOn(1);         // true
-isOn(true);      // true
-isOn('yes');     // true
+isAnyTruthy('');        // false
+isAnyTruthy('no');      // false
+isAnyTruthy('off');     // false
+isAnyTruthy(0);         // false
+isAnyTruthy(1);         // true
+isAnyTruthy(true);      // true
+isAnyTruthy('on');      // true
+isAnyTruthy('yes');     // true
 ```

@@ -11,16 +11,18 @@ governing permissions and limitations under the License. -->
 
 ***
 
-[@accelint/predicates](../README.md) / isTrue
+[@accelint/predicates](../README.md) / isOff
 
-# Function: isTrue()
+# Function: isOff()
 
-> **isTrue**(`val`): `boolean`
+> **isOff**(`val`): `boolean`
 
 Returns true if the given value is found in a case-insensitive list of
-"true" values.
+"off" values.
 
-True values: ['1', 'true']
+False values: ['', '0', 'false', 'nan', 'null', 'undefined']
+
+Additional values: ['off']
 
 For a more liberal comparison/coercion to true or false see the converters
 package (@accelint/converters).
@@ -38,10 +40,10 @@ package (@accelint/converters).
 ## Example
 
 ```ts
-isOn('no');      // false
-isOn('');        // false
-isOn(0);         // false
-isOn(1);         // true
-isOn(true);      // true
-isOn('yes');     // true
+isOff('off');     // true
+isOff('');        // true
+isOff(0);         // true
+isOff(1);         // false
+isOff(true);      // false
+isOff('on');      // false
 ```
