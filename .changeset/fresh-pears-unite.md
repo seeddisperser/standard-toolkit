@@ -8,7 +8,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License. -->
 
 ---
-"@accelint/design-system": minor
+"@accelint/design-system": patch
 ---
 
 Added support in Drawer component for controlled tab open and onSelectionChange event
