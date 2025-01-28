@@ -12,8 +12,8 @@
 
 import {
   Children,
-  type ForwardedRef,
   createContext,
+  type ForwardedRef,
   forwardRef,
   useCallback,
   useMemo,
@@ -21,22 +21,26 @@ import {
 import {
   type ContextValue,
   Provider,
+  type SlotProps,
   Tab as RACTab,
   TabList as RACTabList,
   TabPanel as RACTabPanel,
   Tabs as RACTabs,
-  type SlotProps,
-  useContextProps,
 } from 'react-aria-components';
 import type { RequiredDeep } from 'type-fest';
-import { useDefaultProps, usePropagatingPress, useTheme } from '../../hooks';
+import {
+  useContextProps,
+  useDefaultProps,
+  usePropagatingPress,
+  useTheme,
+} from '../../hooks';
 import { callRenderProps, inlineVars, mergeClassNames } from '../../utils';
 import {
   tabListStateVars,
-  tabPanelStateVars,
   tabPanelsStateVars,
-  tabStateVars,
+  tabPanelStateVars,
   tabsClassNames,
+  tabStateVars,
 } from './tabs.css';
 import type {
   TabListProps,
@@ -134,8 +138,21 @@ export const TabList = forwardRef(function TabList<T extends object>(
   props: TabListProps<T>,
   ref: ForwardedRef<HTMLDivElement>,
 ) {
+  console.log({ beforeContext: props.classNames });
+
   [props, ref] = useContextProps(props, ref, TabListContext);
+
+  console.log({ afterContext: props.classNames });
+
   props = useDefaultProps(props, 'TabList');
+
+  console.log({ afterDefaults: props.classNames });
+
+  // const something = useContext(TabListContext);
+  //
+  // console.log({tabListClassnames: props.classNames});
+  //
+  // console.log({something});
 
   const {
     children,
@@ -235,6 +252,8 @@ export const Tab = forwardRef(function Tab(
     () => mergeClassNames(tabsClassNames, theme.Tabs, classNamesProp),
     [theme.Tabs, classNamesProp],
   );
+
+  console.log(classNames);
 
   const style = useCallback(
     (renderProps: TabRenderProps) => inlineVars(tabStateVars, renderProps),
