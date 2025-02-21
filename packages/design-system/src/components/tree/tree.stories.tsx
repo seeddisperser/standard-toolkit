@@ -279,6 +279,7 @@ const nodes = [
     label: 'Produce',
     isExpanded: true,
     isViewable: true,
+    isReadOnly: false,
     types: ['produce'],
     nodes: [
       {
@@ -286,18 +287,21 @@ const nodes = [
         label: 'Apple',
         type: 'produce',
         isViewable: true,
+        isReadOnly: true,
       },
       {
         id: 'b',
         label: 'Banana',
         type: 'produce',
         isViewable: true,
+        isReadOnly: true,
       },
       {
         id: 'c',
         label: 'Carrot',
         type: 'produce',
         isViewable: false,
+        isReadOnly: false,
       },
     ],
   },
