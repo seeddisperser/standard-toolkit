@@ -279,7 +279,7 @@ const nodes = [
     label: 'Produce',
     isExpanded: true,
     isViewable: true,
-    isReadOnly: false,
+    isReadOnly: true,
     types: ['produce'],
     nodes: [
       {
