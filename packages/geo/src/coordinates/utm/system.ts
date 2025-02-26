@@ -15,7 +15,7 @@ import { Point } from '@ngageoint/grid-js';
 import { UTM } from '@ngageoint/mgrs-js';
 
 import { type Format, SYMBOL_PATTERNS } from '../latlon/internal';
-import type { CoordinateSystem } from '../latlon/internal/coordinate-sytem';
+import type { CoordinateSystem } from '../latlon/internal/coordinate-system';
 
 import { parseUTM } from './parser';
 

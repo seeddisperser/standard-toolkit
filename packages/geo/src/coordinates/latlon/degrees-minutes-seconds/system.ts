@@ -18,7 +18,7 @@ import {
   SYMBOLS,
   SYMBOL_PATTERNS,
 } from '../internal';
-import type { CoordinateSystem } from '../internal/coordinate-sytem';
+import type { CoordinateSystem } from '../internal/coordinate-system';
 
 import { parseDegreesMinutesSeconds } from './parser';
 
