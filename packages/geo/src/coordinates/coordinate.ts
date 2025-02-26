@@ -20,7 +20,7 @@ import {
   type Format,
   SYMBOLS,
 } from './latlon/internal';
-import type { CoordinateSystem } from './latlon/internal/coordinate-sytem';
+import type { CoordinateSystem } from './latlon/internal/coordinate-system';
 import {
   type CoordinateCache,
   createCache,
@@ -59,15 +59,15 @@ type AnySystem = CoordinateSystem<MinLengthArray>;
 type Formatter = (f?: Format) => string;
 
 type Coordinate = {
-  /** {@interitDoc Formatter} */
+  /** {@inheritDoc Formatter} */
   dd: Formatter;
-  /** {@interitDoc Formatter} */
+  /** {@inheritDoc Formatter} */
   ddm: Formatter;
-  /** {@interitDoc Formatter} */
+  /** {@inheritDoc Formatter} */
   dms: Formatter;
-  /** {@interitDoc Formatter} */
+  /** {@inheritDoc Formatter} */
   mgrs: Formatter;
-  /** {@interitDoc Formatter} */
+  /** {@inheritDoc Formatter} */
   utm: Formatter;
   errors: string[];
   raw: CoordinateInternalValue;
