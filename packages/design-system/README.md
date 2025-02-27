@@ -1,6 +1,6 @@
 # @accelint/design-system
 
-Welcome to the C2 design system! This library is a collection of UI components and tools for engineers to build specialized, precise user experiences for Command and Control (C2) systems.
+This library is a collection of UI components and tools for engineers to build specialized, precise user experiences for Command and Control (C2) systems.
 
 ## Why does this design system exist?
 
