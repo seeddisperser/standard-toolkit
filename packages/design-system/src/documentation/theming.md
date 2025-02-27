@@ -22,7 +22,7 @@ Tokens define essential design values such as colors, sizes, and typography. Der
 Contracts structure tokens by mapping property names to CSS variables. This approach facilitates consistent theming and seamless styling integration across an application.
 
 - **Customizability:** Tokens can be dynamically adjusted for real-time theme changes.
-- **Interoperability:** Contracts support both direct styling and the C2DS `useTheme()` hook. When retrieved via `useTheme()`, values are automatically converted to suitable formats (e.g., RGB(A) for colors, numbers for sizes).
+- **Interoperability:** Contracts support both direct styling and the Design System `useTheme()` hook. When retrieved via `useTheme()`, values are automatically converted to suitable formats (e.g., RGB(A) for colors, numbers for sizes).
 
 > **Note:** `useTheme()` RGB(A)'s `alpha` is converted to values 0-255 for compatability with DeckGL.
 
@@ -46,7 +46,7 @@ All of the global theme contracts come with default values, but feel free to ove
 
 ```tsx
 import { createTheme } from '@vanilla-extract/css';
-import { sizeVars, defaultSizesVarValues } from '@cbc2/c2-design-system';
+import { sizeVars, defaultSizesVarValues } from '@accelint/design-system';
 
 export const extendedSizeClass = createTheme(sizeVars, {
   ...defaultSizesVarValues,
@@ -72,7 +72,7 @@ By passing the existing theme contract, the CSS variables are reused but assigne
 // theme.css.ts
 
 import { createTheme } from '@vanilla-extract/css';
-import { sizeVars, defaultSizesVarValues } from '@cbc2/c2-design-system';
+import { sizeVars, defaultSizesVarValues } from '@accelint/design-system';
 
 // partial theme contract update
 export const compactSizeClass = createTheme(sizeVars, {
@@ -119,7 +119,7 @@ function App() {
 
 ```tsx
 import { useState } from 'react';
-import { inlineVars, genericColorVars } from '@cbc2/c2-design-system';
+import { inlineVars, genericColorVars } from '@accelint/design-system';
 
 function App() {
   const [highlightColor, setHighlightColor] = useState();

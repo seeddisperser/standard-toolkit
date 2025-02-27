@@ -11,19 +11,19 @@ governing permissions and limitations under the License. -->
 
 ## Core Technologies
 
-C2DS is built on top of two core packages:
+The design system is built on top of two core packages:
 
 ### [Vanilla Extract](https://vanilla-extract.style/documentation/getting-started/)
 
 Vanilla Extract (VE) is the style engine. It provides an API of utilities that create build/compile time CSS styles. It is fairly generic and unopinionated so we built our style-based tooling on their API. Being a Typescript-based package means that we have type safety and a single consistent language across our codebase.
 
-[Learn](./theming.md) more about how we use theming with VE.
+[Learn](./theming) more about how we use theming with VE.
 
 ### [React Aria](https://react-spectrum.adobe.com/react-aria/getting-started.html) and [React Stately](https://react-spectrum.adobe.com/react-stately/index.html)
 
-React Aria components (RAC) & React Stately is a vast collection of hooks and components that provide a wealth of common functionality. C2DS is built mostly on top of the headless components, but the entire suite is a collection of peer dependencies that can be used to quickly establish custom functionality. RAC generally have a 1:1 relationship with a single DOM element to make composition more intuitive. They publish with an underlying DOM structure and the wiring in place to handle state and behavior, but no styling.
+React Aria components (RAC) & React Stately is a vast collection of hooks and components that provide a wealth of common functionality. The design system is built mostly on top of the headless components, but the entire suite is a collection of peer dependencies that can be used to quickly establish custom functionality. RAC generally have a 1:1 relationship with a single DOM element to make composition more intuitive. They publish with an underlying DOM structure and the wiring in place to handle state and behavior, but no styling.
 
-> **Note**: React Spectrum is a design system built by the same group, based on the same underlying packages, but is not to be used in or with C2DS. It can be a little disorienting since the React Aria components and the React Stately libraries are housed under the collection they call the "React Spectrum Libraries" -- but "React Spectrum" itself is a full-featured implementation that is at odds with our use cases.
+> **Note**: React Spectrum is a design system built by the same group, based on the same underlying packages, but is not to be used in or with the design system. It can be a little disorienting since the React Aria components and the React Stately libraries are housed under the collection they call the "React Spectrum Libraries" -- but "React Spectrum" itself is a full-featured implementation that is at odds with our use cases.
 
 ## Styling
 
@@ -38,7 +38,7 @@ While creating all styles at build time may feel like it's a step backwards from
 - No runtime style injection performance overhead
 - Reduce JS bundle size (styles are delivered as plain CSS)
 
-Considering the dynamic nature of styles in a highly interactive application, it is necessary to have the runtime means to adjust styles. C2DS opts to utilize [CSS variables](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties), [layers](https://developer.mozilla.org/en-US/docs/Web/CSS/@layer) and [container queries](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_containment/Container_queries) to provide an expressive syntax that:
+Considering the dynamic nature of styles in a highly interactive application, it is necessary to have the runtime means to adjust styles. The design system opts to utilize [CSS variables](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties), [layers](https://developer.mozilla.org/en-US/docs/Web/CSS/@layer) and [container queries](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_containment/Container_queries) to provide an expressive syntax that:
 
 - Avoids selector specificity conflicts
 - Allows complete access to internal component state and any other arbitrary state
@@ -57,7 +57,7 @@ We utilize these contracts in multiple ways:
 
 ### Layers
 
-[CSS @layer](https://developer.mozilla.org/en-US/docs/Web/CSS/@layer) provides a structured approach to manage style cascading, avoiding the complexities of selector specificity. The layers hierarchy is established up front in C2DS within [layers.css.ts](../src/styles/layers.css.ts).
+[CSS @layer](https://developer.mozilla.org/en-US/docs/Web/CSS/@layer) provides a structured approach to manage style cascading, avoiding the complexities of selector specificity. The layers hierarchy is established up front in the design system within [layers.css.ts](https://github.com/gohypergiant/standard-toolkit/blob/main/packages/design-system/src/styles/layers.css.ts).
 
 The layers here are ordered, with the lowest precedence to highest.
 
@@ -104,16 +104,16 @@ flowchart TD
 
 ### Container Queries
 
-[Container queries](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_containment/Container_queries) allow styles to be dynamically applied based on component state. This approach minimizes the need for predefined state combinations, letting the theme control the level of detail to which the component is customized. Container queries are similar to media queries in that they define boundary conditions where certain styles should be applied. They are a more flexible tool than media queries, however, since you can query for both container size as well as the presence of certain css vars. In C2DS, the state of a component is made available in the container as a css var (i.e. `--is-Pressed`) which means we can use those vars to dynamically assign styles to any container.
+[Container queries](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_containment/Container_queries) allow styles to be dynamically applied based on component state. This approach minimizes the need for predefined state combinations, letting the theme control the level of detail to which the component is customized. Container queries are similar to media queries in that they define boundary conditions where certain styles should be applied. They are a more flexible tool than media queries, however, since you can query for both container size as well as the presence of certain css vars. In the design system, the state of a component is made available in the container as a css var (i.e. `--is-Pressed`) which means we can use those vars to dynamically assign styles to any container.
 
 [Learn](./container-queries.md) more in-depth about how to write container queries.
 
 ### Theme
 
-Theming in C2DS consists primarily of writing styles with container queries in order to populate/fulfill the token contracts of a given component. The values that are being passed into component contracts can either be hardcoded or references to values from global contracts. The global contracts that define domains of style, such as color, space, and typography, are pre-populated with default values but can be completely or partially customized with styles passed to the `<ThemeProvider/>`.
+Theming in the design system consists primarily of writing styles with container queries in order to populate/fulfill the token contracts of a given component. The values that are being passed into component contracts can either be hardcoded or references to values from global contracts. The global contracts that define domains of style, such as color, space, and typography, are pre-populated with default values but can be completely or partially customized with styles passed to the `<ThemeProvider/>`.
 
-[Read](./implementation.md) more about implementation.
-[Learn](./theming.md) more in-depth about how to establish a theme.
+[Read](./implementation) more about implementation.
+[Learn](./theming) more in-depth about how to establish a theme.
 
 ## React
 
@@ -138,7 +138,7 @@ Components can all receive props in the standard way passed directly or through 
 
 #### Default Props
 
-Default props is a pattern C2DS establishes to enable global changes to the defaults of components within. If a default prop on a component isn't what the application implementor wants to be the default, they can provide that change to the DefaultsProvider and the component will now have that new value as its default.
+Default props is a pattern the design system establishes to enable global changes to the defaults of components within. If a default prop on a component isn't what the application implementor wants to be the default, they can provide that change to the DefaultsProvider and the component will now have that new value as its default.
 
 #### Context
 
@@ -152,7 +152,7 @@ Context props is a pattern established by RAC which is used widely for compositi
 
 RAC establishes a pattern of [slots](https://react-spectrum.adobe.com/react-aria/advanced.html#slots), where a parent provides props on a given context with multiple named slots. Then when a component that consumes the matching context and includes the slot prop with a matching value (to the one of the slot names), then that component will receive the provided props on that slot. This is a means to disambiguate different context values for composed children when there are multiple children of the same component type composed together.
 
-[Learn](./implementation.md#slots) how this applies in an implementation.
+[Learn](./implementation#slots) how this applies in an implementation.
 
 ##### Composition
 
@@ -160,7 +160,7 @@ One of the goals of this design system is to move away from mega, do-it-all comp
 
 #### Merging props
 
-Whenever multiple sets of props for a component are received, the props go through a merging process. C2DS extends the standard merging process that [RAC establishes](https://react-spectrum.adobe.com/react-aria/mergeProps.html) by also handling the merge of render props, classNames and styles.
+Whenever multiple sets of props for a component are received, the props go through a merging process. The design system extends the standard merging process that [RAC establishes](https://react-spectrum.adobe.com/react-aria/mergeProps.html) by also handling the merge of render props, classNames and styles.
 
 Event handlers are merged by chaining them in the order they were merged so that they are called with the same props sequentially. Ids are simply merged by being deduplicated. `className` is merged with `clsx` while `classNames` are deep merged by merging each property on the object with `clsx`. For context props merged via the `useContextProps()` hook, local props (and refs) are merged with the ones provided via context by a parent component. The local props always take precedence over the context values.
 
