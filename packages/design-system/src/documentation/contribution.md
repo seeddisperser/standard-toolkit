@@ -7,11 +7,11 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License. -->
 
-# Contributing to the C2 Design System (C2DS)
+# Contributing to the C2 design system
 
 ## Overview
 
-When contributing components to C2DS, keep in mind that the mental model is not that of a commercial component library. Because it is intended to be used across multiple applications with complex and specific requirements, we optimize for flexibility, granularity and favor composition rather than large and specialized "mega" components.
+When contributing components to the design system, keep in mind that the mental model is not that of a commercial component library. Because it is intended to be used across multiple applications with complex and specific requirements, we optimize for flexibility, granularity and favor composition rather than large and specialized "mega" components.
 
 That focus on flexibility requires adherence to a few guidelines:
 
@@ -22,11 +22,11 @@ That focus on flexibility requires adherence to a few guidelines:
 
 ## Contribution Guidelines
 
-C2DS is expected to continue evolving as requirements and capabilities change. Changes and MRs are welcome and appreciated, as are suggestions and engagement in defining the roadmap. This guide will also evolve as more contributors take ownership and invest back into C2DS, so please feel free to be your naturally opinionated self as we build this foundation together, and don't hestitate to point out opportunities for optimization or improvement.
+The design system is expected to continue evolving as requirements and capabilities change. Changes and MRs are welcome and appreciated, as are suggestions and engagement in defining the roadmap. This guide will also evolve as more contributors take ownership and invest back into the design system, so please feel free to be your naturally opinionated self as we build this foundation together, and don't hestitate to point out opportunities for optimization or improvement.
 
 ### When to contribute
 
-If a component is being used in multiple locations and you are faced with the choice of copying or referencing that component, consider abstraction and build out of a C2DS component instead. It is very likely that other engineers will face that same choice in the future.
+If a component is being used in multiple locations and you are faced with the choice of copying or referencing that component, consider abstraction and build out of a design system component instead. It is very likely that other engineers will face that same choice in the future.
 
 Additionally, while feature planning and execution are underway, if a component or set of components need to be built that might be be applicable across multiple applications or features, that could also be a good candidate. If there is no time or runway to invest in abstraction and build, consider adding the component to the roadmap for a future build out.
 
@@ -71,7 +71,7 @@ If you choose to develop a new component outside of Ladle and then port it in la
 
 ## Building Concepts
 
-In order to effectively build within C2DS, we recommend familiarizing yourself with the essential concepts and architecture upon which it has been built. [Core concepts](./concepts.md).
+In order to effectively build within the design system, we recommend familiarizing yourself with the essential concepts and architecture upon which it has been built. [Core concepts](./concepts.md).
 
 ### Advanced Customization with Hooks
 
@@ -117,7 +117,7 @@ Container queries are an important concept when theming a component and allow fo
 
 ## Anatomy/Architecture of a Component
 
-It might be helpful to visualize the basic architecture of a component in C2DS. This is a (very, very simplified) diagram that illustrates the essential concepts.
+It might be helpful to visualize the basic architecture of a component in the design system. This is a (very, very simplified) diagram that illustrates the essential concepts.
 
 ![Component Diagram](./assets/component_diagram.png)
 

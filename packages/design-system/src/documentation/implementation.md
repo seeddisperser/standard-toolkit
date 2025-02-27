@@ -11,7 +11,7 @@ governing permissions and limitations under the License. -->
 
 ## Overview
 
-Welcome to the C2 Design System (C2DS) implementation guide. If you haven't already read [why we built this system](./#why-does-this-design-system-exist) or looked over the [concept docs](./concepts), you might want to familiarize yourself with those first before digging into the implementation. Having a good grounding in the architecture and foundational libraries will smooth the process of building and integrating this system into an application.
+Welcome to the C2 design system implementation guide. If you haven't already read [why we built this system](./#why-does-this-design-system-exist) or looked over the [concept docs](./concepts), you might want to familiarize yourself with those first before digging into the implementation. Having a good grounding in the architecture and foundational libraries will smooth the process of building and integrating this system into an application.
 
 This guide has four sections:
 
@@ -25,11 +25,11 @@ This guide has four sections:
 
 ## Components
 
-For the most part, once theming has been established in an application, using the C2DS components should be comparable to any other component library -- import the component and provide props, styling and behavior. The most notable difference is that C2DS favors component composition over complex, specialized components with a million props. Ideally, the C2DS library provides enough atomic granularity and flexibility that any UI can be composed of the component parts.
+For the most part, once theming has been established in an application, using the design system components should be comparable to any other component library -- import the component and provide props, styling and behavior. The most notable difference is that the design system favors component composition over complex, specialized components with a million props. Ideally, the design system library provides enough atomic granularity and flexibility that any UI can be composed of the component parts.
 
 ### Previewing components with stories
 
-The simplest way to familiarize yourself with the available components and their usage is to review the [C2DS Stories](https://gohypergiant.github.io/standard-toolkit). You can also [run the stories locally](./#getting-started) in [Ladle](https://ladle.dev/), which is similar to Storybook. It uses mocked props to demonstrate how to theme, compose and use C2DS components. It serves as a way to explore functionality and to document capabilities.
+The simplest way to familiarize yourself with the available components and their usage is to review the [Stories](https://gohypergiant.github.io/standard-toolkit). You can also [run the stories locally](./#getting-started) in [Ladle](https://ladle.dev/), which is similar to Storybook. It uses mocked props to demonstrate how to theme, compose and use the design system components. It serves as a way to explore functionality and to document capabilities.
 
 To run the stories from the command line, run the following to start the preview:
 
@@ -39,15 +39,15 @@ npm run preview -w @cbc2/c2-design-system
 
 ### Props and source code spelunking
 
-The ladle stories render a story in the main stage and a menu to the right for navigation. The stories demonstrate and catalog design tokens, primitives (like typography), hooks and components. These sections will grow as resources are added to C2DS.
+The ladle stories render a story in the main stage and a menu to the right for navigation. The stories demonstrate and catalog design tokens, primitives (like typography), hooks and components. These sections will grow as resources are added to the design system.
 
 Clicking on any child in the
 `Components` list and hovering over the icons at the bottom of your screen will show additional tools. The left-most icon opens a control panel demonstrating some characteristic properties a component can receive. Editing the props in the control panel will change the props passed into the components.
 
-There are often props available for the C2DS components that are not represented in the story. However, the [React Aria Component (RAC) documentation](https://react-spectrum.adobe.com/react-aria/Button.html) is an additional, valuable source of information about what props the component can receive (among other information). It is highly recommended that you make use of this resource to research more specific or targeted questions.
+There are often props available for the design system components that are not represented in the story. However, the [React Aria Component (RAC) documentation](https://react-spectrum.adobe.com/react-aria/Button.html) is an additional, valuable source of information about what props the component can receive (among other information). It is highly recommended that you make use of this resource to research more specific or targeted questions.
 
 Reviewing the source code for the story will also provide a handy example for common use cases. From a component's story in Ladle, you can click on the
-`</>` icon to see the source code. If you prefer, you can open the story source in an editor. All of the source code for the C2DS is located in
+`</>` icon to see the source code. If you prefer, you can open the story source in an editor. All of the source code for the design system is located in
 `packages/c2-design-system`.
 
 Components and the source for their stories are in their own folders in the [
@@ -59,12 +59,12 @@ Components and the source for their stories are in their own folders in the [
 The import for the components will be from
 `@accelint/design-system`. This is important to notice because there might be overlap in naming from other component systems like MUI.
 
-Another important detail is that, because this design system favors composition over "mega-component" behavior, you might find yourself looking for a prop when the component is expecting a child component composed in. You will see examples of composition throughout the C2DS stories. The [
-`<Checkbox/>` component story file](https://github.com/gohypergiant/standard-toolkit/blob/1312ec7202129f64d82f8186dc4b261474f337c3/packages/design-system/src/components/checkbox/checkbox.stories.tsx#L91) is one example that uses a combination of the C2DS
+Another important detail is that, because this design system favors composition over "mega-component" behavior, you might find yourself looking for a prop when the component is expecting a child component composed in. You will see examples of composition throughout the design system stories. The [
+`<Checkbox/>` component story file](https://github.com/gohypergiant/standard-toolkit/blob/1312ec7202129f64d82f8186dc4b261474f337c3/packages/design-system/src/components/checkbox/checkbox.stories.tsx#L91) is one example that uses a combination of the design system
 `<Checkbox/>`, `<CheckboxGroup/>` and `<Icon/>` components while relying on `<AriaText/>`and
 `<AriaLabel/>` components for the group label and individual checkbox label text. This pattern is typical and will be how you organize your components as well.
 
-The stories will be your best source of information about how to build. You can also look at examples on the [React Aria components documentation](https://react-spectrum.adobe.com/react-aria/components.html). If you try and use a child component that is not supported by the C2DS component, you may get unexpected results -- however, experimentation and creative composition are encouraged.
+The stories will be your best source of information about how to build. You can also look at examples on the [React Aria components documentation](https://react-spectrum.adobe.com/react-aria/components.html). If you try and use a child component that is not supported by the design system component, you may get unexpected results -- however, experimentation and creative composition are encouraged.
 
 ## Styles
 
@@ -98,9 +98,9 @@ export function Component() {
 
 To understand more of the functionality and features that Vanilla Extract can provide -- for example pseudo-selectors or more complex selectors, [use their documentation](https://vanilla-extract.style/documentation/api/style/). For more complex behavior, you can use [container-style queries](https://developer.mozilla.org/en-US/docs/Web/CSS/@container#container_style_queries) and [layers](#controlling-precedence-and-css-cascade), but it will most likely not be required for day to day use unless you are building reusable components for use throughout the application.
 
-### Styles in C2DS Components
+### Styles in the design system Components
 
-C2DS components will already have the default styling that is provided for them through the theming. However, if you need to adjust styles for instances of C2DS components, you can define styles in the same way as above, with the advantage of those styles being typed. The components in our design system all have a
+The design system components will already have the default styling that is provided for them through the theming. However, if you need to adjust styles for instances of the design system components, you can define styles in the same way as above, with the advantage of those styles being typed. The components in our design system all have a
 `classNames` prop rather than `className` -- note the `s` on the end.
 
 You can also reuse css vars that have been defined in the theme to apply to specific elements.
@@ -155,13 +155,13 @@ Colors and palette are established within your application theme but we've provi
 
 ### Size / Spacing
 
-Sizing and spacing is also aided by C2DS `sizeVars` and `spaceVars`. Check out [
+Sizing and spacing is also aided by the design system `sizeVars` and `spaceVars`. Check out [
 `src/styles/theme.css.ts`](https://github.com/gohypergiant/standard-toolkit/blob/main/packages/design-system/src/styles/theme.css.ts) for more specific information on `sizeVars` and
 `spaceVars` and see how space vars are applied globally in [`src/styles/space.css.ts`](https://github.com/gohypergiant/standard-toolkit/blob/main/packages/design-system/src/styles/space.css.ts).
 
 ### Icons
 
-C2DS does not provide any icons and is explicitly icon library agnostic, meaning you can use whichever icon library your application requires. The C2DS
+The design system does not provide any icons and is explicitly icon library agnostic, meaning you can use whichever icon library your application requires. The design system
 `<Icon/>` component wraps an
 `SVG` in an easy to size, themed wrapper that makes it easy to compose into other patterns as needed.
 
@@ -169,12 +169,12 @@ C2DS does not provide any icons and is explicitly icon library agnostic, meaning
 
 ### Overview
 
-At it's simplest, theming is the process of "skinning" specific brand, design and behavior requirements onto the C2DS for application use. This includes establishing design tokens such as color and typography as well as standards for spacing, border radius and other shared primitives. Theming also involves crafting the style and state-based behavior for the C2DS components (for example, defining what
+At it's simplest, theming is the process of "skinning" specific brand, design and behavior requirements onto the design system for application use. This includes establishing design tokens such as color and typography as well as standards for spacing, border radius and other shared primitives. Theming also involves crafting the style and state-based behavior for the design system components (for example, defining what
 `onSelect()` or `isDisabled`, etc. means visually). As another example, the
 `<Button/>` component would need to define styles for each of the different variants -- `solid`, `icon`,
 `floating`, etc.
 
-It is important to recognize that, in an effort to be flexible and unopinionated, the C2DS system does not ship with most theming defaults. The tradeoff of this flexibility is slightly more set up for initial integration.
+It is important to recognize that, in an effort to be flexible and unopinionated, the design system system does not ship with most theming defaults. The tradeoff of this flexibility is slightly more set up for initial integration.
 
 ### Theming model
 
@@ -188,11 +188,11 @@ Additionally, basic defaults for a CSS reset, spacing, and typography can be imp
 
 ### Defining styles
 
-C2DS requires you to provide a theme for each component used within your application written in the style of [Vanilla Extract (VE)](https://vanilla-extract.style/). The theme for each component is typed, which will let you know what classNames are available for that particular component. For example, the
+The design system requires you to provide a theme for each component used within your application written in the style of [Vanilla Extract (VE)](https://vanilla-extract.style/). The theme for each component is typed, which will let you know what classNames are available for that particular component. For example, the
 `<Button/>` component [defines two classNames](https://github.com/gohypergiant/standard-toolkit/blob/main/packages/design-system/src/components/button/types.ts): `container` and `button`. None of the
 `classNames` are required, but without styles the component may not be visible.
 
-For C2DS, we rarely assign a one-off style like this unless it is required by a specialized use case. Instead, we use the style object to assign CSS vars to the theme contract as defined for that component using helper utilities designed to keep that assignment type safe.
+For the design system, we rarely assign a one-off style like this unless it is required by a specialized use case. Instead, we use the style object to assign CSS vars to the theme contract as defined for that component using helper utilities designed to keep that assignment type safe.
 
 ```tsx
 exampleClassName: style(
@@ -215,16 +215,16 @@ Here, we are building a style object via the [
 ### Design Tokens
 
 Notice that the previous example, the CSS vars are referencing a globally defined theme contract
-`genericColorVars`. These can be imported with the defaults provided by C2DS or overriden with your own theming colors.
+`genericColorVars`. These can be imported with the defaults provided by the design system or overriden with your own theming colors.
 
 The contract and the default values are available for reference in the [
 `theme.css.ts`](https://github.com/gohypergiant/standard-toolkit/blob/main/packages/design-system/src/styles/theme.css.ts) file. They are also able to be reviewed in the Ladle Tokens section.
 
-In addition to default colors, C2DS also exports contracts and defaults for global typography, spacing, surfaces, border radius and sizing. The application can choose to use these defaults (or a portion of them) or to replace them entirely using different values. The contracts themselves cannot be changed, but they can be extended if necessary.
+In addition to default colors, the design system also exports contracts and defaults for global typography, spacing, surfaces, border radius and sizing. The application can choose to use these defaults (or a portion of them) or to replace them entirely using different values. The contracts themselves cannot be changed, but they can be extended if necessary.
 
 ### Fonts / Typography
 
-By default, C2DS is font family agnostic. You will set the font family in your application theme.
+By default, the design system is font family agnostic. You will set the font family in your application theme.
 
 See [.ladle/components.css.ts](https://github.com/gohypergiant/standard-toolkit/blob/main/packages/design-system/.ladle/components.css.ts) where the Ladle theme establishes mono and sans vars like so:
 
@@ -246,12 +246,12 @@ You can see a few examples of the typography styles in the `Primitives` section 
 
 ### Controlling precedence and CSS cascade
 
-C2DS relies on the [
+The design system relies on the [
 `@layer` CSS rule](https://developer.mozilla.org/en-US/docs/Web/CSS/@layer) to declare cascading layers and provide durable and consistent style overrides. The system provides a hierarchical ranking of layers that styles are assigned to which allows for two identical selectors to have a deterministic cascade.
 
 [Learn](./concepts#layers) more about layers.
 
-It's important to understand how the components are implemented in C2DS to know how to provide the correct overrides for your particular theme. Most of the time you should only need to apply a level 1 style to your component, but in more complex components, you might need to override default styles for the lower level components that compose the parent.
+It's important to understand how the components are implemented in the design system to know how to provide the correct overrides for your particular theme. Most of the time you should only need to apply a level 1 style to your component, but in more complex components, you might need to override default styles for the lower level components that compose the parent.
 
 For example, take a look at the `<SearchField/>` component by booting up the Ladle preview
 `pnpm --filter=@accelint/design-system preview` and opening the following files:
@@ -265,13 +265,13 @@ For example, take a look at the `<SearchField/>` component by booting up the Lad
 > `</>` icon at the bottom of that component's preview page.
 
 In the Ladle theme CSS file
-`.ladle/theme/search-field.css` (some version of which you will need to create to integrate each C2DS component into your app, notice that the
+`.ladle/theme/search-field.css` (some version of which you will need to create to integrate each the design system component into your app, notice that the
 `input.sizer` style rule provides an optional final argument `layers.variables.l2` to `applyThemeVars()`.
 
 Now take a look at the component CSS and stories files (`src/components/search-field/search-field.css` and
 `src/components/search-field/search-field.stories.tsx`), and notice a few things:
 
-1. Each element in the story examples is a C2DS component and has a corresponding CSS className style. The top-level
+1. Each element in the story examples is a design system component and has a corresponding CSS className style. The top-level
    `<SearchField/>` component corresponds to the `container` className, `<Group/>` gets
    `group`, etc. You can see how these are applied via React Context Providers within `search-field.tsx`.
 
@@ -294,7 +294,7 @@ Now take a look at how the `<Icon/>`, `<Input/>`, and `<Button/>` components are
 
 ### Building specialized application components
 
-If the existing components don't meet your needs, it is also possible to compose and theme using the React Aria components directly or to use the [extensive collection of hooks](https://react-spectrum.adobe.com/react-aria/hooks.html) for more granular control. If you find that you are building a component that might be useful to other applications, consider [adding it to the C2DS system](./contribution.md).
+If the existing components don't meet your needs, it is also possible to compose and theme using the React Aria components directly or to use the [extensive collection of hooks](https://react-spectrum.adobe.com/react-aria/hooks.html) for more granular control. If you find that you are building a component that might be useful to other applications, consider [adding it to the design system system](./contribution.md).
 
 ### Setting library component defaults
 
@@ -320,7 +320,7 @@ If you need to access the globally defined theme, you can use the [
 `useTheme()`](https://github.com/gohypergiant/standard-toolkit/blob/main/packages/design-system/src/hooks/use-theme/use-theme.tsx) hook. This hook, which delivers the theme
 `classNames` for use in corresponding components, also allows for the reuse of CSS contracts to gain access to tokens within React.
 
-There are other utility hooks but they are geared primarily towards contributing components to C2DS.
+There are other utility hooks but they are geared primarily towards contributing components to the design system.
 
 ## Reporting Bugs and Getting Help
 

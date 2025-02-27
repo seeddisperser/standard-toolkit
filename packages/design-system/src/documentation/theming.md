@@ -22,7 +22,7 @@ Tokens define essential design values such as colors, sizes, and typography. Der
 Contracts structure tokens by mapping property names to CSS variables. This approach facilitates consistent theming and seamless styling integration across an application.
 
 - **Customizability:** Tokens can be dynamically adjusted for real-time theme changes.
-- **Interoperability:** Contracts support both direct styling and the C2DS `useTheme()` hook. When retrieved via `useTheme()`, values are automatically converted to suitable formats (e.g., RGB(A) for colors, numbers for sizes).
+- **Interoperability:** Contracts support both direct styling and the Design System `useTheme()` hook. When retrieved via `useTheme()`, values are automatically converted to suitable formats (e.g., RGB(A) for colors, numbers for sizes).
 
 > **Note:** `useTheme()` RGB(A)'s `alpha` is converted to values 0-255 for compatability with DeckGL.
 

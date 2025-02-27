@@ -1,10 +1,10 @@
 # @accelint/design-system
 
-Welcome to the C2 Design System (C2DS)! This library is a collection of UI components and tools for engineers to build specialized, precise user experiences for Command and Control (C2) systems.
+Welcome to the C2 design system! This library is a collection of UI components and tools for engineers to build specialized, precise user experiences for Command and Control (C2) systems.
 
 ## Why does this design system exist?
 
-This design system, which we've designated C2DS for simplicity, was born of three essential business priorities:
+This design system was born of three essential business priorities:
 
 - We want to improve runtime performance of our applications.
 - We require more flexible tools for building specialized UI than was available in traditional "out of the box" libraries.
@@ -12,7 +12,7 @@ This design system, which we've designated C2DS for simplicity, was born of thre
 
 From an engineering perspective, we also want to future-proof our investment by switching to an approach more natively compatible with React Server Components. This is the future of React and getting out ahead of that transition is valuable before it becomes a significant pain point inhibiting rapid feature development.
 
-Developed by the Core team at Accelint, C2DS is a shared platform that all engineers can -- and are encouraged -- to contribute to. This system is published as open source to invite collaboration across our partners and the engineering community in general.
+Developed by the Core team at Accelint, the design system is a shared platform that all engineers can -- and are encouraged -- to contribute to. This system is published as open source to invite collaboration across our partners and the engineering community in general.
 
 ### Performance
 
@@ -26,9 +26,9 @@ The highly bespoke nature of some of our feature implementation is a constant so
 
 We also want to establish a common platform for multiple similar, but stylistically and functionally unique, applications to be built on a consistent design language with fewer established opinions. The intent here is to provide all the power and flexibility of a custom solution while maintaining a common foundation for interoperability with different digital properties.
 
-## What does C2DS consist of?
+## What does the design system consist of?
 
-C2DS is a semi-headless, themeless collection of components that express minimal opinions about layout and baked-in styles with an API of props for each component that strives to suit many common use cases.
+The design system is a semi-headless, themeless collection of components that express minimal opinions about layout and baked-in styles with an API of props for each component that strives to suit many common use cases.
 
 The vast majority of spacing and color theming is left up to the implementer to define. For every element of this system, the priority has been flexibility over rigid requirements and an "escape hatch" for overriding style and behavior if necessary.
 
@@ -44,7 +44,7 @@ This design system is built on a number of concepts with which you may not be fa
 
 ## Getting started
 
-Check out what exists. You can review the components, tokens and primitives available in the system using the Ladle stories for each element: [C2DS Stories](https://gohypergiant.github.io/standard-toolkit).
+Check out what exists. You can review the components, tokens and primitives available in the system using the Ladle stories for each element: [Stories](https://gohypergiant.github.io/standard-toolkit).
 
 From the root of the standard toolkit project, run:
 
