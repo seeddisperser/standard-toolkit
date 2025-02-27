@@ -7,11 +7,11 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License. -->
 
-# Using the C2 Design System
+# Using the design system
 
 ## Overview
 
-Welcome to the C2 design system implementation guide. If you haven't already read [why we built this system](./#why-does-this-design-system-exist) or looked over the [concept docs](./concepts), you might want to familiarize yourself with those first before digging into the implementation. Having a good grounding in the architecture and foundational libraries will smooth the process of building and integrating this system into an application.
+Welcome to the design system implementation guide. If you haven't already read [why we built this system](./#why-does-this-design-system-exist) or looked over the [concept docs](./concepts), you might want to familiarize yourself with those first before digging into the implementation. Having a good grounding in the architecture and foundational libraries will smooth the process of building and integrating this system into an application.
 
 This guide has four sections:
 
@@ -33,8 +33,10 @@ The simplest way to familiarize yourself with the available components and their
 
 To run the stories from the command line, run the following to start the preview:
 
-```
-npm run preview -w @cbc2/c2-design-system
+```bash
+pnpm i
+
+pnpm --filter=@accelint/design-system preview
 ```
 
 ### Props and source code spelunking
@@ -48,7 +50,7 @@ There are often props available for the design system components that are not re
 
 Reviewing the source code for the story will also provide a handy example for common use cases. From a component's story in Ladle, you can click on the
 `</>` icon to see the source code. If you prefer, you can open the story source in an editor. All of the source code for the design system is located in
-`packages/c2-design-system`.
+`packages/design-system`.
 
 Components and the source for their stories are in their own folders in the [
 `packages/design-system/src/components`](https://github.com/gohypergiant/standard-toolkit/tree/main/packages/design-system/src/components). Stories will have a
@@ -111,7 +113,7 @@ For example, the `Menu` component exports a
 ```tsx
 // exampleMenu.css.ts
 import {style} from '@vanilla-extract/css';
-import {menuColorVars} from '@cbc2/c2-design-system';
+import {menuColorVars} from '@accelint/design-system';
 
 export const menuClassNames = {
   item: {
@@ -127,7 +129,7 @@ export const menuClassNames = {
 
 ```tsx
 // menu.tsx
-import {Button, Menu, MenuItem, MenuList} from '@cbc2/c2-design-system';
+import {Button, Menu, MenuItem, MenuList} from '@accelint/design-system';
 import {MenuTrigger} from 'react-aria-components';
 import {menuClassNames} from './exampleMenu.css';
 

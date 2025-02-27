@@ -7,7 +7,7 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License. -->
 
-# Contributing to the C2 design system
+# Contributing to the design system
 
 ## Overview
 
@@ -56,7 +56,9 @@ Each new component should be encapsulated in a folder named for that component i
 
 In order to keep the imports clean, all the components and their related configuration and types are exported at the root of the project. Therefore, when building a new component, once types are defined, run the following command to generate those exports at the root.
 
-`npm run index -w @cbc2/c2-design-system`
+```bash
+pnpm --filter=@accelint/design-system index
+```
 
 ### Ladle as development environment
 
@@ -65,7 +67,12 @@ In order to keep the imports clean, all the components and their related configu
 - The `storyName`, `title`, and `meta` values need to be serializable and also need to be unique.
 - Additionally, while the library provides hot module reload, it can sometimes fail to compile changes completely, so restarting can address that issue.
 
-To run Ladle: `npm run preview -w @cbc2/ds-design-system`.
+To run Ladle: 
+```bash
+pnpm i
+
+pnpm --filter=@accelint/design-system preview
+```
 
 If you choose to develop a new component outside of Ladle and then port it in later, you must also provide a Ladle story to demonstrate usage.
 

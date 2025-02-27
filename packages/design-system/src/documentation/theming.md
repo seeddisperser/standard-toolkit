@@ -46,7 +46,7 @@ All of the global theme contracts come with default values, but feel free to ove
 
 ```tsx
 import { createTheme } from '@vanilla-extract/css';
-import { sizeVars, defaultSizesVarValues } from '@cbc2/c2-design-system';
+import { sizeVars, defaultSizesVarValues } from '@accelint/design-system';
 
 export const extendedSizeClass = createTheme(sizeVars, {
   ...defaultSizesVarValues,
@@ -72,7 +72,7 @@ By passing the existing theme contract, the CSS variables are reused but assigne
 // theme.css.ts
 
 import { createTheme } from '@vanilla-extract/css';
-import { sizeVars, defaultSizesVarValues } from '@cbc2/c2-design-system';
+import { sizeVars, defaultSizesVarValues } from '@accelint/design-system';
 
 // partial theme contract update
 export const compactSizeClass = createTheme(sizeVars, {
@@ -119,7 +119,7 @@ function App() {
 
 ```tsx
 import { useState } from 'react';
-import { inlineVars, genericColorVars } from '@cbc2/c2-design-system';
+import { inlineVars, genericColorVars } from '@accelint/design-system';
 
 function App() {
   const [highlightColor, setHighlightColor] = useState();
