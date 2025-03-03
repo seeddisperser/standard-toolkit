@@ -17,9 +17,15 @@
  *
  * @see https://en.wikipedia.org/wiki/Logical_conjunction
  *
+ * @remarks
+ * pure function
+ *
  * @example
  * and(true)(0);
  * // false
+ *
+ * and(true)(1);
+ * // true
  */
 export const and =
   <A>(a: A) =>
@@ -33,8 +39,11 @@ export const and =
  *
  * @see https://en.wikipedia.org/wiki/Logical_conjunction
  *
+ * @remarks
+ * pure function
+ *
  * @example
- * andFn(s => s.trim())(s => s.trimEnd())('foo bar ');
+ * andFn((x) => x > 0)((x) => x < 10)(5);
  * // true
  */
 export const andFn =
