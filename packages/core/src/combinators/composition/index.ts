@@ -11,23 +11,29 @@
  */
 
 /**
- * Takes an unary function and applies it to the given argument.
+ * Pass a value to a function and then the result to another function.
+ * @param f The second function in the composition.
+ * @param g The first function in the composition.
+ * @param x The value to pass to `g`.
  *
- * Signature: `A :: (a → b) → a → b`
+ * @remark
+ * B combinator
  *
- * Lambda: `λab.ab`
+ * @remark
+ * `composition :: (a → b) → (c → a) → c → b`
+ *
+ * @remark
+ * `λabc.a(bc)`
+ *
+ * @remark
+ * pure function
  *
  * @example
- * A((a) => a + 6)(3);
- * // 9
+ * composition((x) => x + 8)((x) => x * 3)(4);
+ * // 20
  */
-export const A =
-  // Types renamed to avoid confusion with the combinator
-    <T, R>(f: (x: T) => R) =>
-    (x: T) =>
-      f(x);
-
-/**
- * {@inheritDoc A}
- */
-export const apply = A;
+export const composition =
+  <A, B>(f: (z: A) => B) =>
+  <C>(g: (y: C) => A) =>
+  (x: C) =>
+    f(g(x));

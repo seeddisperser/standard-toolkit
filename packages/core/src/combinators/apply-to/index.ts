@@ -11,26 +11,28 @@
  */
 
 /**
- * Pass a value through two different functions and the results to a function that takes two arguments.
+ * Takes an argument and an unary function and then applies the function to the argument.
+ * Inverse of `apply` (`A`)
+ * @param a The value to pass to the function.
+ * @param b The function to apply to the value.
  *
- * Bird: `Phoenix`
+ * @remark
+ * Th combinator
  *
- * Signature: (Big) Phi :: (a → b → c) → (d → a) → (d → b) → d → c
+ * @remark
+ * `applyTo :: a → (a → b) → b`
  *
- * Lambda: λabcd.a(bd)(cd)
+ * @remark
+ * `λab.ba`
+ *
+ * @remarks
+ * pure function
  *
  * @example
- * Phi((x) => (y) => x + y)(x => x + 3)(x => x - 2)(9)
- * // 19
+ * applyTo(6)(x => x * 2);
+ * // 12
  */
-export const Phi =
-  <A, B, C>(a: (x: A) => (y: B) => C) =>
-  <D>(b: (x: D) => A) =>
-  (c: (x: D) => B) =>
-  (d: D) =>
-    a(b(d))(c(d));
-
-/**
- * {@inheritDoc Phi}
- */
-export const fork = Phi;
+export const applyTo =
+  <A>(a: A) =>
+  <B>(b: (x: A) => B) =>
+    b(a);

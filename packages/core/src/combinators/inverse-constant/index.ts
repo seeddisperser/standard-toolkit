@@ -11,28 +11,29 @@
  */
 
 /**
- * Takes an argument and an unary function and then applies the function to the argument.
- * Inverse of `apply` (`A`)
+ * Corresponds to the encoding of `false` in the lambda calculus.
+ * Takes two arguments and always returns the second.
+ * Inverse of `constant` (`K`).
+ * @param a The value to ignore.
+ * @param b The value to return.
  *
- * Bird: `Thrush`
+ * @remark
+ * KI combinator
  *
- * Signature: `Th :: a → (a → b) → b`
+ * @remark
+ * `inverseConstant :: a → b → b`
  *
- * Lamda: `λab.ba`
+ * @remark
+ * `λab.b`
  *
- * @remarks
+ * @remark
  * pure function
  *
  * @example
- * Th(6)(x => x * 2);
- * // 12
+ * inverseConstant(1)(2);
+ * // 2
  */
-export const Th =
-  <A>(a: A) =>
-  <B>(b: (x: A) => B) =>
-    b(a);
-
-/**
- * {@inheritDoc Th}
- */
-export const applyTo = Th;
+export const inverseConstant =
+  <A>(_: A) =>
+  <B>(b: B): B =>
+    b;
