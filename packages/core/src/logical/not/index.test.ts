@@ -10,27 +10,28 @@
  * governing permissions and limitations under the License.
  */
 
-/**
- * Takes an argument and an unary function and then applies the function to the argument.
- * Inverse of `apply`.
- *
- * @param a The value to pass to the function.
- * @param b The function to apply to the value.
- *
- * @remarks
- * Th combinator
- *
- * `λab.ba`
- *
- * `applyTo :: a → (a → b) → b`
- *
- * pure function
- *
- * @example
- * applyTo(6)(x => x * 2);
- * // 12
- */
-export const applyTo =
-  <A>(a: A) =>
-  <B>(b: (x: A) => B) =>
-    b(a);
+import { describe, expect, it } from 'vitest';
+import { not, notFn } from './';
+
+const isEven = (x: number) => !(x & 1);
+const isOdd = (x: number) => !isEven(x);
+
+describe('not', () => {
+  it('should return false for !true', () => {
+    expect(not(true)).toEqual(false);
+  });
+
+  it('should return true for !false', () => {
+    expect(not(false)).toEqual(true);
+  });
+});
+
+describe('notFn', () => {
+  it('should return false for !true', () => {
+    expect(notFn(isEven)(6)).toEqual(false);
+  });
+
+  it('should return true for !false', () => {
+    expect(notFn(isOdd)(6)).toEqual(true);
+  });
+});
