@@ -11,8 +11,7 @@
  */
 
 import type { PropsWithChildren } from 'react';
-import type { TimeValue } from 'react-aria';
-import type { DateValue } from 'react-aria-components';
+import type { DateValue, TimeValue } from 'react-aria-components';
 import type { DateFieldProps, TimeFieldProps } from '../../components';
 import type {
   ButtonProps,
