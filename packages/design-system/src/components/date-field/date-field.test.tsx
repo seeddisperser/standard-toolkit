@@ -10,3 +10,56 @@
  * governing permissions and limitations under the License.
  */
 
+import { type CalendarDate, parseDate } from '@internationalized/date';
+import type { DateSegment as TDateSegment } from '@react-stately/datepicker';
+import { render, screen } from '@testing-library/react';
+import type { DateValue } from 'react-aria-components';
+import { describe, expect, it } from 'vitest';
+import { AriaFieldError, AriaLabel, AriaText } from '../aria';
+import { DateInput, DateSegment, DateSegments } from '../date-input';
+import { DateField } from './date-field';
+import type { DateFieldProps } from './types';
+
+function setup<T extends DateValue = CalendarDate>(
+  props: Partial<DateFieldProps<T>> = {},
+) {
+  render(
+    <DateField {...props}>
+      <AriaLabel>Date</AriaLabel>
+      <DateInput provider={true}>
+        <DateSegments>
+          {(segment: TDateSegment) => <DateSegment segment={segment} />}
+        </DateSegments>
+      </DateInput>
+
+      <AriaText slot='description'>Hint</AriaText>
+      <AriaFieldError>Error</AriaFieldError>
+    </DateField>,
+  );
+}
+
+describe('DateField', () => {
+  it('should render', () => {
+    setup<CalendarDate>({
+      defaultValue: parseDate('2020-01-23'),
+      'aria-label': 'datetime field',
+    });
+
+    expect(screen.getByText('Date')).toBeInTheDocument();
+    expect(
+      screen.getByRole('spinbutton', {
+        value: { now: 1 },
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('spinbutton', {
+        value: { now: 23 },
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('spinbutton', {
+        value: { now: 2020 },
+      }),
+    ).toBeInTheDocument();
+  });
+});
