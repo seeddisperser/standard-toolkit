@@ -10,7 +10,12 @@
  * governing permissions and limitations under the License.
  */
 
-import { type CalendarDate, parseDate } from '@internationalized/date';
+import {
+  type CalendarDate,
+  type CalendarDateTime,
+  parseDate,
+  parseDateTime,
+} from '@internationalized/date';
 import type { DateSegment as TDateSegment } from '@react-stately/datepicker';
 import { render, screen } from '@testing-library/react';
 import type { DateValue } from 'react-aria-components';
@@ -20,9 +25,7 @@ import { DateInput, DateSegment, DateSegments } from '../date-input';
 import { DateField } from './date-field';
 import type { DateFieldProps } from './types';
 
-function setup<T extends DateValue = CalendarDate>(
-  props: Partial<DateFieldProps<T>> = {},
-) {
+function setup<T extends DateValue>(props: Partial<DateFieldProps<T>> = {}) {
   render(
     <DateField {...props}>
       <AriaLabel>Date</AriaLabel>
@@ -39,7 +42,7 @@ function setup<T extends DateValue = CalendarDate>(
 }
 
 describe('DateField', () => {
-  it('should render', () => {
+  it('should render a calendar date', () => {
     setup<CalendarDate>({
       defaultValue: parseDate('2020-01-23'),
       'aria-label': 'datetime field',
@@ -61,5 +64,22 @@ describe('DateField', () => {
         value: { now: 2020 },
       }),
     ).toBeInTheDocument();
+  });
+
+  it('should render a datetime field', () => {
+    setup<CalendarDateTime>({
+      defaultValue: parseDateTime('2020-03-24T14:56'),
+      'aria-label': 'datetime field',
+    });
+
+    expect(screen.getByText('Date')).toBeInTheDocument();
+
+    [2020, 3, 24, 14, 56].map((segment) => {
+      expect(
+        screen.getByRole('spinbutton', {
+          value: { now: segment },
+        }),
+      ).toBeInTheDocument();
+    });
   });
 });
