@@ -10,3 +10,47 @@
  * governing permissions and limitations under the License.
  */
 
+import { Time } from '@internationalized/date';
+import type { DateSegment as TDateSegment } from '@react-stately/datepicker';
+import { render, screen } from '@testing-library/react';
+import type { TimeValue } from 'react-aria-components';
+import { describe, expect, it } from 'vitest';
+import { AriaFieldError, AriaLabel, AriaText } from '../aria';
+import { DateInput, DateSegment, DateSegments } from '../date-input';
+import { TimeField } from './time-field';
+import type { TimeFieldProps } from './types';
+
+function setup<T extends TimeValue>(props: Partial<TimeFieldProps<T>> = {}) {
+  render(
+    <TimeField {...props}>
+      <AriaLabel>Time</AriaLabel>
+      <DateInput provider={true}>
+        <DateSegments>
+          {(segment: TDateSegment) => <DateSegment segment={segment} />}
+        </DateSegments>
+      </DateInput>
+
+      <AriaText slot='description'>Hint</AriaText>
+      <AriaFieldError>Error</AriaFieldError>
+    </TimeField>,
+  );
+}
+
+describe('TimeField', () => {
+  it('should render a calendar date', () => {
+    setup({
+      defaultValue: new Time(11, 45),
+      'aria-label': 'datetime field',
+    });
+
+    expect(screen.getByText('Time')).toBeInTheDocument();
+
+    [11, 45, 0].map((segment) => {
+      expect(
+        screen.getByRole('spinbutton', {
+          value: { now: segment },
+        }),
+      ).toBeInTheDocument();
+    });
+  });
+});
