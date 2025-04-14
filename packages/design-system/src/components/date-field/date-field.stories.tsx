@@ -14,6 +14,8 @@ import {
   CalendarDate,
   type CalendarDateTime,
   type CalendarDate as CalendarDateType,
+  type ZonedDateTime,
+  parseAbsolute,
   parseDate,
   parseDateTime,
 } from '@internationalized/date';
@@ -215,3 +217,31 @@ CalendarDateTimeExample.argTypes = {
     defaultValue: 24,
   },
 };
+
+export const ZonedDateTimeExample: Story<
+  DateFieldStoryProps<ZonedDateTime>
+> = ({ description, errorMessage, label, ...rest }) => (
+  <I18nProvider locale='en-GB'>
+    <DateField
+      {...rest}
+      // Use parseAbsolute with 'Z' suffix to specify UTC/Zulu time
+      defaultValue={parseAbsolute('2023-04-15T14:30:00Z', 'UTC')}
+      // Not hiding the time zone ensures the 'Z' or 'UTC' indicator will be shown
+      hideTimeZone={false}
+      onChange={action('onChange')}
+      aria-label={label}
+    >
+      <AriaLabel>{label || 'Zulu Date/Time'}</AriaLabel>
+      <DateInput provider={true}>
+        <DateIcon />
+        <DateSegments>
+          {(segment) => <DateSegment segment={segment} />}
+        </DateSegments>
+      </DateInput>
+      {description && <AriaText slot='description'>{description}</AriaText>}
+      <AriaFieldError>{errorMessage}</AriaFieldError>
+    </DateField>
+  </I18nProvider>
+);
+
+ZonedDateTimeExample.storyName = 'Zoned Datetime';
