@@ -138,7 +138,7 @@ export const DateField = forwardRef(function DateField<T extends DateValue>(
       [AriaFieldErrorContext, { className: classNames?.error }],
       [IconContext, { ...mapping.icon[size], classNames: classNames?.icon }],
     ],
-    [classNames, size],
+    [classNames, mapping, size],
   );
 
   const children = useCallback(
