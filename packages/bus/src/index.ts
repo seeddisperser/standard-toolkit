@@ -10,14 +10,9 @@
  * governing permissions and limitations under the License.
  */
 
-import { BusExample } from './bus';
-import { Nav } from './nav';
+/**
+ * THIS IS A GENERATED FILE. DO NOT ALTER DIRECTLY.
+ */
 
-export default function Home() {
-  return (
-    <>
-      <Nav />
-      <BusExample />
-    </>
-  );
-}
+export { Broadcast } from './broadcast';
+export type { BroadcastConfig, Listener, Payload } from './broadcast/types';

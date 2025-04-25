@@ -10,14 +10,18 @@
  * governing permissions and limitations under the License.
  */
 
-import { BusExample } from './bus';
-import { Nav } from './nav';
+export type BroadcastConfig = {
+  channelName: string;
+  debug?: boolean;
+};
 
-export default function Home() {
-  return (
-    <>
-      <Nav />
-      <BusExample />
-    </>
-  );
-}
+export type Listener<T = any> = {
+  callback: (data: Payload<T>) => void;
+  once?: boolean;
+  id: number;
+};
+
+export type Payload<T> = {
+  type: string;
+  payload: T;
+};

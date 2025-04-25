@@ -10,14 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import { BusExample } from './bus';
-import { Nav } from './nav';
-
-export default function Home() {
-  return (
-    <>
-      <Nav />
-      <BusExample />
-    </>
-  );
-}
+/** @type {Partial<import("typedoc").TypeDocOptions>} */
+export default {
+  name: '@accelint/bus',
+};

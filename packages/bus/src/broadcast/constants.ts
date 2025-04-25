@@ -1,3 +1,4 @@
+// __private-exports
 /*
  * Copyright 2025 Hypergiant Galactic Systems Inc. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
@@ -10,14 +11,10 @@
  * governing permissions and limitations under the License.
  */
 
-import { BusExample } from './bus';
-import { Nav } from './nav';
+import type { BroadcastConfig } from './types';
 
-export default function Home() {
-  return (
-    <>
-      <Nav />
-      <BusExample />
-    </>
-  );
-}
+export const DEFAULT_CONFIG: BroadcastConfig = {
+  channelName: '@accelint/bus',
+  // TODO: implement logger
+  debug: false,
+};
