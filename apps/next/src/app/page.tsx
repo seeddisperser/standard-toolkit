@@ -11,13 +11,11 @@
  */
 
 import { BusExample } from './bus';
-import { Nav } from './nav';
 
 export default function Home() {
   return (
-    <>
-      <Nav />
+    <div className='flex flex-col items-center justify-center h-full'>
       <BusExample />
-    </>
+    </div>
   );
 }
