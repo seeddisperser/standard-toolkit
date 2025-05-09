@@ -14,6 +14,7 @@ import React from 'react';
 
 const meta: Meta = {
   title: 'Foundation/Typography',
+  tags: ['!autodocs'],
 };
 
 export default meta;
@@ -234,6 +235,7 @@ export const DisplayBody: Story = {
 };
 
 export const PrimaryButton: Story = {
+  globals: { backgrounds: { value: '#000000' } },
   render: () => (
     <div className='flex flex-col gap-xl'>
       <div className='flex flex-col gap-m'>
