@@ -35,6 +35,8 @@ export type { IconButtonProps } from './components/icon-button';
 export { Label } from './components/label';
 export { Radio } from './components/radio';
 export type { RadioGroupProps, RadioProps } from './components/radio';
+export { Switch } from './components/switch';
+export type { SwitchProps } from './components/switch';
 export { ToggleIconButton } from './components/toggle-icon-button';
 export type { ToggleIconButtonProps } from './components/toggle-icon-button';
 export { Tooltip, TooltipBody, TooltipTrigger } from './components/tooltip';
