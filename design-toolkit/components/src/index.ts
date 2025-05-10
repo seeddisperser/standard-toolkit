@@ -24,6 +24,8 @@ export { Button } from './components/button';
 export type { ButtonProps } from './components/button';
 export { Checkbox } from './components/checkbox';
 export type { CheckboxGroupProps, CheckboxProps } from './components/checkbox';
+export { Chip, DeletableChip, SelectableChip } from './components/chip';
+export type { ChipListProps, ChipProps } from './components/chip';
 export { ClassificationBadge } from './components/classification-badge';
 export type { ClassificationBadgeProps } from './components/classification-badge';
 export { ClassificationBanner } from './components/classification-banner';
