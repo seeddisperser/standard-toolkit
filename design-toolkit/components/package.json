@@ -1,6 +1,6 @@
 {
   "name": "@accelint/design-toolkit",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": false,
   "license": "Apache-2.0",
   "repository": {
@@ -164,6 +164,7 @@
     "build-storybook": "pnpm storybook build"
   },
   "peerDependencies": {
+    "@accelint/icons": "^1.0.0",
     "@fontsource/roboto-flex": "5.1.0",
     "@fontsource/roboto-mono": "5.1.0",
     "@radix-ui/react-avatar": "^1.1.4",
