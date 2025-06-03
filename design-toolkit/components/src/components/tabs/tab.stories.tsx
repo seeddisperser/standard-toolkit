@@ -30,6 +30,7 @@ const meta: Meta<typeof Tabs.Tab> = {
   argTypes: {
     id: {
       control: 'text',
+      table: { readonly: true },
     },
     children: {
       control: 'object',

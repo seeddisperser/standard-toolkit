@@ -56,17 +56,19 @@ export interface TabListProps extends AriaTabListProps<object> {
 }
 
 const tabListStyles = cva(
-  '',
+  'group flex flex-col ai-orientation-horizontal:flex-row',
   {
     variants: {
       isIcons: {
-        true: '',
+        true: '[&>*]:leading-[0] [&>*]:p-xs ai-orientation-horizontal:[&>*]:pl-s ai-orientation-horizontal:[&>*]:pr-s',
+        false: '[&>*]:text-header-m [&>*]:p-s',
+        undefined: '[&>*]:text-header-m [&>*]:p-s',
       },
       isDrawer: {
-        left: 'p-s bg-surface-default rounded-r-large',
-        right: 'p-s bg-surface-default rounded-l-large',
-        top: 'p-s bg-surface-default rounded-b-large',
-        bottom: 'p-s bg-surface-default rounded-t-large',
+        left: 'p-s bg-surface-default rounded-r-large ai-orientation-vertical:gap-xs',
+        right: 'p-s bg-surface-default rounded-l-large ai-orientation-vertical:gap-xs',
+        top: 'p-s bg-surface-default rounded-b-large ai-orientation-vertical:gap-xs',
+        bottom: 'p-s bg-surface-default rounded-t-large ai-orientation-vertical:gap-xs',
       },
     },
   },
@@ -82,7 +84,6 @@ function TabList({
   return (
     <AriaTabList
       className={cn(
-        'group flex flex-col ai-orientation-horizontal:flex-row',
         tabListStyles({ isIcons, isDrawer }),
         className,
       )}
@@ -96,7 +97,7 @@ function TabList({
 Tabs.TabList = TabList;
 
 const tabBaseStyles = cn(
-  'outline-none cursor-pointer fg-default-dark p-s text-header-m',
+  'outline-none cursor-pointer fg-default-dark p-s',
   'rounded-medium group-ai-orientation-horizontal:rounded-small group-ai-orientation-horizontal:rounded-b-none',
   'group-ai-orientation-horizontal:border-static-light group-ai-orientation-horizontal:border-b',
   'group-ai-orientation-vertical:border-transparent group-ai-orientation-vertical:border',
