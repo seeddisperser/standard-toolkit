@@ -37,6 +37,8 @@ export { ClassificationBadge } from './components/classification-badge';
 export type { ClassificationBadgeProps } from './components/classification-badge';
 export { ClassificationBanner } from './components/classification-banner';
 export type { ClassificationBannerProps } from './components/classification-banner';
+export { DateField } from './components/date-field';
+export type { DateFieldProps } from './components/date-field';
 export { FloatingButton } from './components/floating-button';
 export type { FloatingButtonProps } from './components/floating-button';
 export { Icon } from './components/icon';
