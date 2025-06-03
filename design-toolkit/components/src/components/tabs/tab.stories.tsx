@@ -47,22 +47,27 @@ type Story = StoryObj<typeof Tabs.Tab>;
 
 export const Default: Story = {
   render: ({ id, isDisabled, children }) => (
-    <div>
-      <Tabs orientation="horizontal">
-        <Tabs.TabList label="Storybook Horizontal Tab List">
-          <Tabs.Tab id="Storybook-Tab-1">Tab 1</Tabs.Tab>
-          <Tabs.Tab id="Storybook-Tab-2">Tab 2</Tabs.Tab>
-          <Tabs.Tab id={`${id}-horizontal`} isDisabled={isDisabled}>{children}</Tabs.Tab>
-        </Tabs.TabList>
-      </Tabs>
-      <br />
-      <Tabs orientation="vertical">
-        <Tabs.TabList label="Storybook Vertical Tab List">
-          <Tabs.Tab id="Storybook-Tab-1">Tab 1</Tabs.Tab>
-          <Tabs.Tab id="Storybook-Tab-2">Tab 2</Tabs.Tab>
-          <Tabs.Tab id={`${id}-vertical`} isDisabled={isDisabled}>{children}</Tabs.Tab>
-        </Tabs.TabList>
-      </Tabs>
+    <div className="flex flex-col gap-m">
+      <h5 className="fg-default-light">Horizontal Orientation</h5>
+      <div>
+        <Tabs orientation="horizontal">
+          <Tabs.TabList label="Storybook Horizontal Tab List">
+            <Tabs.Tab id="Storybook-Tab-1">Tab 1</Tabs.Tab>
+            <Tabs.Tab id="Storybook-Tab-2">Tab 2</Tabs.Tab>
+            <Tabs.Tab id={`${id}-horizontal`} isDisabled={isDisabled}>{children}</Tabs.Tab>
+          </Tabs.TabList>
+        </Tabs>
+      </div>
+      <h5 className="fg-default-light">Vertical Orientation</h5>
+      <div>
+        <Tabs orientation="vertical">
+          <Tabs.TabList label="Storybook Vertical Tab List">
+            <Tabs.Tab id="Storybook-Tab-1">Tab 1</Tabs.Tab>
+            <Tabs.Tab id="Storybook-Tab-2">Tab 2</Tabs.Tab>
+            <Tabs.Tab id={`${id}-vertical`} isDisabled={isDisabled}>{children}</Tabs.Tab>
+          </Tabs.TabList>
+        </Tabs>
+      </div>
     </div>
   ),
 };
