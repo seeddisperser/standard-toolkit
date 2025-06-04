@@ -22,8 +22,9 @@ class ComponentStructureError extends Error {
 
 type ContainsExactChildrenProps = {
   componentName: string;
-  children: ReactNode | ReactNode[] | ((values: TabsRenderProps & {
-    defaultChildren: ReactNode;
+  // biome-ignore lint/suspicious/noExplicitAny: aria render props include a generic type
+  children: ReactNode | ReactNode[] | ((values: any & {
+    defaultChildren: ReactNode | undefined;
   }) => ReactNode);
   restrictions: Record<string, { min: number, max?: number }>;
 };
@@ -81,7 +82,7 @@ export function containsExactChildren({
  * and ensure that they are wrapped in an Icon component in order
  * to get the classes and styles they need in context.
  *
- * Using isValidElement means we will filter out strings, boolean, etc
+ * Using isValidElement means we will filter out strings, boolean, etc.
  * that are valid nodes but not elements.
  *
  * @example
