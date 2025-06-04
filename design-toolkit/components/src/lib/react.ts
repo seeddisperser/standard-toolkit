@@ -22,7 +22,9 @@ class ComponentStructureError extends Error {
 
 type ContainsExactChildrenProps = {
   componentName: string;
-  children: ReactNode | ReactNode[];
+  children: ReactNode | ReactNode[] | ((values: TabsRenderProps & {
+    defaultChildren: ReactNode;
+  }) => ReactNode);
   restrictions: Record<string, { min: number, max?: number }>;
 };
 
@@ -46,7 +48,7 @@ export function containsExactChildren({
 
   const accumulationResults = childrenComponents.reduce((acc, child) => {
     const name = child?.type?.displayName;
-    if (name) acc[name] = (acc[name] || 0) + 1;
+    if (name) { acc[name] = (acc[name] || 0) + 1 }
     return acc;
   }, {});
 
@@ -55,20 +57,20 @@ export function containsExactChildren({
 
   for (const [key, value] of Object.entries(accumulationResults)) {
     const restriction = restrictions[key];
-    if (!restriction) continue;
+    if (!restriction) { continue }
 
     const { min, max } = restriction;
-    if (value < min) missingComponentsArray.push(`${min - value} of <${key}>`);
-    if (max !== undefined && value > max) excessComponentsArray.push(`${value - max} of <${key}>`);
+    if (value < min) { missingComponentsArray.push(`${min - value} of <${key}>`) }
+    if (max !== undefined && value > max) { excessComponentsArray.push(`${value - max} of <${key}>`) }
   }
 
   if (missingComponentsArray.length || excessComponentsArray.length) {
     const formatList = (label: string, items: string[]) =>
       items.length ? `\t${label}:\n\t${items.join(', ')}\n` : '';
 
-    const errorMessage = `Invalid <${componentName}> structure\n` +
-      formatList('Missing the following', missingComponentsArray) +
-      formatList('Excess of the following', excessComponentsArray);
+    const errorMessage = `Invalid <${componentName}> structure\n
+      ${formatList('Missing the following', missingComponentsArray)}
+      ${formatList('Excess of the following', excessComponentsArray)}`;
 
     throw new ComponentStructureError(errorMessage.trim());
   }

@@ -28,9 +28,7 @@ import { containsExactChildren } from '@/lib/react';
 /**
  * This is a tabs section.
  */
-export interface TabsProps extends AriaTabsProps {
-  children: React.ReactNode | React.ReactNode[];
-}
+export interface TabsProps extends AriaTabsProps {}
 
 export const Tabs = ({
   children,
@@ -65,7 +63,6 @@ export const Tabs = ({
 Tabs.displayName = 'Tabs';
 
 export interface TabListProps extends AriaTabListProps<object> {
-  children: React.ReactNode | React.ReactNode[];
   label?: string;
   isIcons?: boolean;
   isDrawer?: 'left' | 'right' | 'top' | 'bottom';
@@ -167,9 +164,7 @@ const tabStyles = cva(
   },
 );
 
-export interface TabProps extends AriaTabProps {
-  id: string;
-}
+export interface TabProps extends AriaTabProps {}
 
 const Tab = ({
   children,
