@@ -12,7 +12,6 @@
 
 import { cn } from '@/lib/utils';
 import { cva } from 'cva';
-import type React from 'react';
 import {
   Tabs as AriaTabs,
   TabList as AriaTabList,
