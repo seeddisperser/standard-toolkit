@@ -49,7 +49,7 @@ export const Tabs = ({
       orientation={orientation}
       isDisabled={isDisabled}
       className={cn(
-        'group flex flex-row ai-orientation-horizontal:flex-col w-content',
+        'group flex w-content flex-row ai-orientation-horizontal:flex-col',
         className,
       )}
       {...rest}
@@ -68,19 +68,19 @@ export interface TabListProps extends AriaTabListProps<object> {
 }
 
 const tabListStyles = cva(
-  'flex flex-col ai-orientation-horizontal:flex-row',
+  'flex ai-orientation-horizontal:flex-row flex-col',
   {
     variants: {
       isIcons: {
-        true: '[&>*]:leading-[0] [&>*]:p-xs ai-orientation-horizontal:[&>*]:pl-s ai-orientation-horizontal:[&>*]:pr-s',
-        false: '[&>*]:text-header-m [&>*]:p-s',
-        undefined: '[&>*]:text-header-m [&>*]:p-s',
+        true: '[&>*]:p-xs ai-orientation-horizontal:[&>*]:pr-s ai-orientation-horizontal:[&>*]:pl-s [&>*]:leading-[0]',
+        false: '[&>*]:p-s [&>*]:text-header-m',
+        undefined: '[&>*]:p-s [&>*]:text-header-m',
       },
       isDrawer: {
-        left: 'p-s bg-surface-default rounded-r-large ai-orientation-vertical:gap-xs',
-        right: 'p-s bg-surface-default rounded-l-large ai-orientation-vertical:gap-xs',
-        top: 'p-s bg-surface-default rounded-b-large ai-orientation-vertical:gap-xs',
-        bottom: 'p-s bg-surface-default rounded-t-large ai-orientation-vertical:gap-xs',
+        left: 'ai-orientation-vertical:gap-xs rounded-r-large bg-surface-default p-s',
+        right: 'ai-orientation-vertical:gap-xs rounded-l-large bg-surface-default p-s',
+        top: 'ai-orientation-vertical:gap-xs rounded-b-large bg-surface-default p-s',
+        bottom: 'ai-orientation-vertical:gap-xs rounded-t-large bg-surface-default p-s',
       },
     },
   },
@@ -120,10 +120,10 @@ TabList.displayName = 'Tabs.TabList';
 Tabs.List = TabList;
 
 const tabBaseStyles = cn(
-  'outline-none cursor-pointer fg-default-dark p-s',
+  'fg-default-dark cursor-pointer p-s outline-none',
   'rounded-medium group-ai-orientation-horizontal:rounded-small group-ai-orientation-horizontal:rounded-b-none',
   'group-ai-orientation-horizontal:border-static-light group-ai-orientation-horizontal:border-b',
-  'group-ai-orientation-vertical:border-transparent group-ai-orientation-vertical:border',
+  'group-ai-orientation-vertical:border group-ai-orientation-vertical:border-transparent',
 );
 
 const tabStyles = cva(
@@ -199,7 +199,7 @@ const TabPanel = ({
   return (
     <AriaTabPanel
       className={cn(
-        'fg-default-light p-s group-ai-orientation-horizontal:pl-0 group-ai-orientation-vertical:pt-0',
+        'fg-default-light p-s group-ai-orientation-vertical:pt-0 group-ai-orientation-horizontal:pl-0',
         className,
       )}
       {...rest}
