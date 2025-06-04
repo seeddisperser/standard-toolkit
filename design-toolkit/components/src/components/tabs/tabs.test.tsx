@@ -9,3 +9,31 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+
+import { render, screen } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+import { Tabs } from './index';
+
+function setup({ children }: { children: string } = { children: "Foo" }) {
+  render(
+    <Tabs defaultSelectedKey={`tab-${children}`}>
+      <Tabs.List>
+        <Tabs.Tab id={`tab-${children}`}>{ children } Tab</Tabs.Tab>
+      </Tabs.List>
+      <Tabs.Panel id={`tab-${children}`}>{ children } Content</Tabs.Panel>
+    </Tabs>
+  );
+
+  return {
+    children,
+  };
+}
+
+describe('Tabs', () => {
+  it('should render', () => {
+    const { children } = setup();
+
+    expect(screen.getByText(`${children} Tab`)).toBeInTheDocument();
+    expect(screen.getByText(`${children} Content`)).toBeInTheDocument();
+  });
+});
