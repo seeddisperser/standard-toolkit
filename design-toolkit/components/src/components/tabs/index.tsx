@@ -37,6 +37,7 @@ export const Tabs = ({
   className,
   orientation = 'horizontal',
   isDisabled = false,
+  ...rest
 }: TabsProps) => {
   containsExactChildren({
     children,
@@ -54,6 +55,7 @@ export const Tabs = ({
         'group flex flex-row ai-orientation-horizontal:flex-col w-content',
         className,
       )}
+      {...rest}
     >
       {children}
     </AriaTabs>
@@ -94,6 +96,7 @@ const TabList = ({
   label,
   isIcons,
   isDrawer,
+  ...rest
  }: TabListProps) => {
   containsExactChildren({
     children,
@@ -110,6 +113,7 @@ const TabList = ({
         className,
       )}
       aria-label={label}
+      {...rest}
     >
       {children}
     </AriaTabList>
@@ -170,13 +174,10 @@ export interface TabProps extends AriaTabProps {
 const Tab = ({
   children,
   className,
-  id,
-  isDisabled,
+  ...rest
 }: TabProps) => {
   return (
     <AriaTab
-      id={id}
-      isDisabled={isDisabled}
       className={
         ({ isSelected, isHovered, isFocused, isDisabled }) =>
         cn(
@@ -184,6 +185,7 @@ const Tab = ({
           className,
         )
       }
+      {...rest}
     >
       {children}
     </AriaTab>
@@ -195,14 +197,18 @@ Tabs.Tab = Tab;
 
 export interface TabPanelProps extends AriaTabPanelProps {}
 
-const TabPanel = ({ children, className, id }: TabPanelProps) => {
+const TabPanel = ({
+  children,
+  className,
+  ...rest
+}: TabPanelProps) => {
   return (
     <AriaTabPanel
-      id={id}
       className={cn(
         'fg-default-light p-s group-ai-orientation-horizontal:pl-0 group-ai-orientation-vertical:pt-0',
         className,
       )}
+      {...rest}
     >
       {children}
     </AriaTabPanel>
