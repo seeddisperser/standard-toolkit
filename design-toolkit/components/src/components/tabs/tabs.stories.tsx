@@ -22,7 +22,7 @@ import { Icon } from '@/components/icon';
  * Please see the documentation for that component <a href="https://react-spectrum.adobe.com/react-aria/Tabs.html">here</a>.
  */
 const meta: Meta<typeof Tabs> = {
-  title: 'Components/Tabs',
+  title: 'Components/Tabs/Tabs',
   component: Tabs,
   args: {
     orientation: 'horizontal',
@@ -47,11 +47,11 @@ type Story = StoryObj<typeof Tabs>;
 export const Default: Story = {
   render: ({...args}) => (
     <Tabs {...args}>
-      <Tabs.TabList label="Storybook Tab List">
+      <Tabs.List label="Storybook Tab List">
         <Tabs.Tab id="Storybook-Tab-1">Tab 1</Tabs.Tab>
         <Tabs.Tab id="Storybook-Tab-2">Tab 2</Tabs.Tab>
         <Tabs.Tab id="Storybook-Tab-3">Tab 3</Tabs.Tab>
-      </Tabs.TabList>
+      </Tabs.List>
     </Tabs>
   ),
 };
@@ -59,11 +59,11 @@ export const Default: Story = {
 export const Icons: Story = {
   render: ({...args}) => (
     <Tabs {...args}>
-      <Tabs.TabList isIcons label="Storybook Icon Tab List">
+      <Tabs.List isIcons label="Storybook Icon Tab List">
         <Tabs.Tab id="Storybook-Icon-Tab-1"><Icon><Add /></Icon></Tabs.Tab>
         <Tabs.Tab id="Storybook-Icon-Tab-2"><Icon><Check /></Icon></Tabs.Tab>
         <Tabs.Tab id="Storybook-Icon-Tab-3"><Icon><Group /></Icon></Tabs.Tab>
-      </Tabs.TabList>
+      </Tabs.List>
     </Tabs>
   ),
 };

@@ -14,55 +14,64 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Tabs } from '@/components/tabs/index';
 
 /**
- * The `<Tab>` component is a direct wrapper around the Tab component from
+ * Tabs organize content into multiple sections and allow users to navigate between them.
+ *
+ * It is composed of the following components:
+ *
+ * - **Tabs:**    Wrapper for the List and Panels.
+ * - **List:**    Wrapper for the Tab components.
+ * - **Tab:**     Displays the Tab and makes a connection to a Panel with the same id.
+ * - **Panel:**   Renders content related to the selected Tab.
+ *
+ * The `<Tabs>` component is a direct wrapper around the Tabs component from
  * `react-aria-components`.
  *
  * Please see the documentation for that component <a href="https://react-spectrum.adobe.com/react-aria/Tabs.html">here</a>.
  */
-const meta: Meta<typeof Tabs.Tab> = {
-  title: 'Components/Tabs/Tab',
-  component: Tabs.Tab,
-  args: {
-    id: 'Storybook-Tab-3',
-    children: 'Tab 3',
-    isDisabled: false,
-  },
-  argTypes: {
-    id: {
-      control: 'text',
-      table: { readonly: true },
-    },
-    children: {
-      control: 'object',
-    },
-    isDisabled: {
-      control: 'boolean',
-      table: { defaultValue: { summary: 'false' } },
-    },
-  },
+const meta: Meta<typeof Tabs> = {
+  title: 'Components/Tabs',
+  component: Tabs,
 };
 
 export default meta;
-type Story = StoryObj<typeof Tabs.Tab>;
+type Story = StoryObj<typeof Tabs>;
 
 export const Default: Story = {
-  render: ({ id, isDisabled, children }) => (
+  render: () => (
     <div className="flex flex-col gap-m">
       <h5 className="fg-default-light">Horizontal Orientation</h5>
       <Tabs orientation="horizontal">
-        <Tabs.List label="Storybook Horizontal Tab List">
+        <Tabs.List label="Storybook Tab List">
           <Tabs.Tab id="Storybook-Tab-1">Tab 1</Tabs.Tab>
           <Tabs.Tab id="Storybook-Tab-2">Tab 2</Tabs.Tab>
-          <Tabs.Tab id={`${id}-horizontal`} isDisabled={isDisabled}>{children}</Tabs.Tab>
+          <Tabs.Tab id="Storybook-Tab-3">Tab 3</Tabs.Tab>
         </Tabs.List>
+        <Tabs.Panel id="Storybook-Tab-1">
+          Tab 1 Content
+        </Tabs.Panel>
+        <Tabs.Panel id="Storybook-Tab-2">
+          Tab 2 Content
+        </Tabs.Panel>
+        <Tabs.Panel id="Storybook-Tab-3">
+          Tab 3 Content
+        </Tabs.Panel>
       </Tabs>
       <h5 className="fg-default-light">Vertical Orientation</h5>
       <Tabs orientation="vertical">
-        <Tabs.List label="Storybook Vertical Tab List">
+        <Tabs.List label="Storybook Tab List">
           <Tabs.Tab id="Storybook-Tab-1">Tab 1</Tabs.Tab>
           <Tabs.Tab id="Storybook-Tab-2">Tab 2</Tabs.Tab>
-          <Tabs.Tab id={`${id}-vertical`} isDisabled={isDisabled}>{children}</Tabs.Tab>
+          <Tabs.Tab id="Storybook-Tab-3">Tab 3</Tabs.Tab>
         </Tabs.List>
+        <Tabs.Panel id="Storybook-Tab-1">
+          Tab 1 Content
+        </Tabs.Panel>
+        <Tabs.Panel id="Storybook-Tab-2">
+          Tab 2 Content
+        </Tabs.Panel>
+        <Tabs.Panel id="Storybook-Tab-3">
+          Tab 3 Content
+        </Tabs.Panel>
       </Tabs>
     </div>
   ),

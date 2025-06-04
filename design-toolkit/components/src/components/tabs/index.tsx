@@ -23,24 +23,35 @@ import {
   type TabProps as AriaTabProps,
   type TabPanelProps as AriaTabPanelProps,
 } from 'react-aria-components';
+import { containsExactChildren } from '@/lib/react';
 
 /**
  * This is a tabs section.
  */
-export interface TabsProps extends AriaTabsProps {}
+export interface TabsProps extends AriaTabsProps {
+  children: React.ReactNode | React.ReactNode[];
+}
 
-export function Tabs({
+export const Tabs = ({
   children,
   className,
   orientation = 'horizontal',
   isDisabled = false,
-}: TabsProps) {
+}: TabsProps) => {
+  containsExactChildren({
+    children,
+    componentName: Tabs.displayName,
+    restrictions: {
+      [TabList.displayName]: { min: 1, max: 1 },
+    },
+  });
+
   return (
     <AriaTabs
       orientation={orientation}
       isDisabled={isDisabled}
       className={cn(
-        'flex flex-row ai-orientation-horizontal:flex-col w-content',
+        'group flex flex-row ai-orientation-horizontal:flex-col w-content',
         className,
       )}
     >
@@ -49,14 +60,17 @@ export function Tabs({
   );
 }
 
+Tabs.displayName = 'Tabs';
+
 export interface TabListProps extends AriaTabListProps<object> {
+  children: React.ReactNode | React.ReactNode[];
   label?: string;
   isIcons?: boolean;
   isDrawer?: 'left' | 'right' | 'top' | 'bottom';
 }
 
 const tabListStyles = cva(
-  'group flex flex-col ai-orientation-horizontal:flex-row',
+  'flex flex-col ai-orientation-horizontal:flex-row',
   {
     variants: {
       isIcons: {
@@ -74,13 +88,21 @@ const tabListStyles = cva(
   },
 );
 
-function TabList({
+const TabList = ({
   children,
   className,
   label,
   isIcons,
   isDrawer,
- }: TabListProps) {
+ }: TabListProps) => {
+  containsExactChildren({
+    children,
+    componentName: TabList.displayName,
+    restrictions: {
+      [Tab.displayName]: { min: 1 },
+    },
+  });
+
   return (
     <AriaTabList
       className={cn(
@@ -94,7 +116,8 @@ function TabList({
   );
 }
 
-Tabs.TabList = TabList;
+TabList.displayName = 'Tabs.TabList';
+Tabs.List = TabList;
 
 const tabBaseStyles = cn(
   'outline-none cursor-pointer fg-default-dark p-s',
@@ -144,12 +167,12 @@ export interface TabProps extends AriaTabProps {
   id: string;
 }
 
-function Tab({
+const Tab = ({
   children,
   className,
   id,
   isDisabled,
-}: TabProps) {
+}: TabProps) => {
   return (
     <AriaTab
       id={id}
@@ -167,16 +190,17 @@ function Tab({
   );
 }
 
+Tab.displayName = 'Tabs.Tab';
 Tabs.Tab = Tab;
 
 export interface TabPanelProps extends AriaTabPanelProps {}
 
-function TabPanel({ children, className, id }: TabPanelProps) {
+const TabPanel = ({ children, className, id }: TabPanelProps) => {
   return (
     <AriaTabPanel
       id={id}
       className={cn(
-        'fg-default-light',
+        'fg-default-light p-s group-ai-orientation-horizontal:pl-0 group-ai-orientation-vertical:pt-0',
         className,
       )}
     >
@@ -185,4 +209,5 @@ function TabPanel({ children, className, id }: TabPanelProps) {
   );
 }
 
-Tabs.TabPanel = TabPanel;
+TabPanel.displayName = 'Tabs.TabPanel';
+Tabs.Panel = TabPanel;

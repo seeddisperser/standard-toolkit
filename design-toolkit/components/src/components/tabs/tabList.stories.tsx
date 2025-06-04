@@ -16,14 +16,14 @@ import { Tabs } from '@/components/tabs/index';
 import { Icon } from '@/components/icon';
 
 /**
- * The `<TabList>` component is a direct wrapper around the TabList component from
+ * The `<List>` component is a direct wrapper around the TabList component from
  * `react-aria-components`.
  *
  * Please see the documentation for that component <a href="https://react-spectrum.adobe.com/react-aria/Tabs.html">here</a>.
  */
-const meta: Meta<typeof Tabs.TabList> = {
-  title: 'Components/Tabs.TabList',
-  component: Tabs.TabList,
+const meta: Meta<typeof Tabs.List> = {
+  title: 'Components/Tabs/List',
+  component: Tabs.List,
   args: {
     isIcons: false,
     isDrawer: undefined,
@@ -51,31 +51,27 @@ const meta: Meta<typeof Tabs.TabList> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof Tabs.TabList>;
+type Story = StoryObj<typeof Tabs.List>;
 
 export const Default: Story = {
   render: ({...args}) => (
     <div className="flex flex-col gap-m">
       <h5 className="fg-default-light">Horizontal Orientation</h5>
-      <div>
-        <Tabs>
-          <Tabs.TabList {...args} label="Storybook Tab List">
-            <Tabs.Tab id="Storybook-Tab-1">Tab 1</Tabs.Tab>
-            <Tabs.Tab id="Storybook-Tab-2">Tab 2</Tabs.Tab>
-            <Tabs.Tab id="Storybook-Tab-3">Tab 3</Tabs.Tab>
-          </Tabs.TabList>
-        </Tabs>
-      </div>
+      <Tabs>
+        <Tabs.List {...args} label="Storybook Tab List">
+          <Tabs.Tab id="Storybook-Tab-1">Tab 1</Tabs.Tab>
+          <Tabs.Tab id="Storybook-Tab-2">Tab 2</Tabs.Tab>
+          <Tabs.Tab id="Storybook-Tab-3">Tab 3</Tabs.Tab>
+        </Tabs.List>
+      </Tabs>
       <h5 className="fg-default-light">Vertical Orientation</h5>
-      <div>
-        <Tabs orientation="vertical">
-          <Tabs.TabList {...args} label="Storybook Vertical Tab List">
-            <Tabs.Tab id="Storybook-Vert-Tab-1">Tab 1</Tabs.Tab>
-            <Tabs.Tab id="Storybook-Vert-Tab-2">Tab 2</Tabs.Tab>
-            <Tabs.Tab id="Storybook-Vert-Tab-3">Tab 3</Tabs.Tab>
-          </Tabs.TabList>
-        </Tabs>
-      </div>
+      <Tabs orientation="vertical">
+        <Tabs.List {...args} label="Storybook Vertical Tab List">
+          <Tabs.Tab id="Storybook-Vert-Tab-1">Tab 1</Tabs.Tab>
+          <Tabs.Tab id="Storybook-Vert-Tab-2">Tab 2</Tabs.Tab>
+          <Tabs.Tab id="Storybook-Vert-Tab-3">Tab 3</Tabs.Tab>
+        </Tabs.List>
+      </Tabs>
     </div>
   ),
 };
@@ -90,21 +86,21 @@ export const Icons: Story = {
       <h5 className="fg-default-light">Horizontal Orientation</h5>
       <div>
         <Tabs>
-          <Tabs.TabList {...args} isIcons label="Storybook Icon Tab List">
+          <Tabs.List {...args} isIcons label="Storybook Icon Tab List">
             <Tabs.Tab id="Storybook-Icon-Tab-1"><Icon><Add /></Icon></Tabs.Tab>
             <Tabs.Tab id="Storybook-Icon-Tab-2"><Icon><Check /></Icon></Tabs.Tab>
             <Tabs.Tab id="Storybook-Icon-Tab-3"><Icon><Group /></Icon></Tabs.Tab>
-          </Tabs.TabList>
+          </Tabs.List>
         </Tabs>
       </div>
       <h5 className="fg-default-light">Vertical Orientation</h5>
       <div>
         <Tabs orientation="vertical">
-          <Tabs.TabList {...args} isIcons label="Storybook Vertical Icon Tab List">
+          <Tabs.List {...args} isIcons label="Storybook Vertical Icon Tab List">
             <Tabs.Tab id="Storybook-Vert-Icon-Tab-1"><Icon><Add /></Icon></Tabs.Tab>
             <Tabs.Tab id="Storybook-Vert-Icon-Tab-2"><Icon><Check /></Icon></Tabs.Tab>
             <Tabs.Tab id="Storybook-Vert-Icon-Tab-3"><Icon><Group /></Icon></Tabs.Tab>
-          </Tabs.TabList>
+          </Tabs.List>
         </Tabs>
       </div>
     </div>
