@@ -12,7 +12,7 @@
 
 import 'client-only';
 import { cn } from '@/lib/utils';
-import { Calendar } from '@accelint/icons';
+import Calendar from '@accelint/icons/calendar'; 
 import type { CalendarDate } from '@internationalized/date';
 import type { DateSegment as TDateSegment } from '@react-stately/datepicker';
 import { type VariantProps, cva } from 'cva';
