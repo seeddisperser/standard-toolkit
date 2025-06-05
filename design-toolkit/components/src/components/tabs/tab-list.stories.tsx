@@ -22,7 +22,7 @@ import { Icon } from '@/components/icon';
  * Please see the documentation for that component <a href="https://react-spectrum.adobe.com/react-aria/Tabs.html">here</a>.
  */
 const meta: Meta<typeof Tabs.List> = {
-  title: 'Components/Tabs/List',
+  title: 'Components/Tabs/Tabs.List',
   component: Tabs.List,
   args: {
     isIcons: false,

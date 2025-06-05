@@ -20,7 +20,7 @@ import { Tabs } from '@/components/tabs/index';
  * Please see the documentation for that component <a href="https://react-spectrum.adobe.com/react-aria/Tabs.html">here</a>.
  */
 const meta: Meta<typeof Tabs.Tab> = {
-  title: 'Components/Tabs/Tab',
+  title: 'Components/Tabs/Tabs.Tab',
   component: Tabs.Tab,
   args: {
     id: 'Storybook-Tab-3',
@@ -53,15 +53,15 @@ export const Default: Story = {
         <Tabs.List label="Storybook Horizontal Tab List">
           <Tabs.Tab id="Storybook-Tab-1">Tab 1</Tabs.Tab>
           <Tabs.Tab id="Storybook-Tab-2">Tab 2</Tabs.Tab>
-          <Tabs.Tab id={`${id}-horizontal`} isDisabled={isDisabled}>{children}</Tabs.Tab>
+          <Tabs.Tab id={`${id}-Horizontal`} isDisabled={isDisabled}>{children}</Tabs.Tab>
         </Tabs.List>
       </Tabs>
       <h5 className="fg-default-light">Vertical Orientation</h5>
       <Tabs orientation="vertical">
         <Tabs.List label="Storybook Vertical Tab List">
-          <Tabs.Tab id="Storybook-Tab-1">Tab 1</Tabs.Tab>
-          <Tabs.Tab id="Storybook-Tab-2">Tab 2</Tabs.Tab>
-          <Tabs.Tab id={`${id}-vertical`} isDisabled={isDisabled}>{children}</Tabs.Tab>
+          <Tabs.Tab id="Storybook-Vert-Tab-1">Tab 1</Tabs.Tab>
+          <Tabs.Tab id="Storybook-Vert-Tab-2">Tab 2</Tabs.Tab>
+          <Tabs.Tab id={`${id}-Vertical`} isDisabled={isDisabled}>{children}</Tabs.Tab>
         </Tabs.List>
       </Tabs>
     </div>
