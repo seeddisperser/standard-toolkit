@@ -14,7 +14,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Tabs } from '@/components/tabs/index';
 
 /**
- * The `<Panel>` component is a direct wrapper around the TabPanel component from
+ * The `<Tabs.Panel>` component is a direct wrapper around the `TabPanel` component from
  * `react-aria-components`.
  *
  * Please see the documentation for that component <a href="https://react-spectrum.adobe.com/react-aria/Tabs.html">here</a>.
@@ -42,41 +42,45 @@ type Story = StoryObj<typeof Tabs.Panel>;
 
 export const Default: Story = {
   render: ({ id, children }) => (
-    <div className="flex flex-col gap-m">
+    <div className='flex w-full flex-row flex-wrap gap-m'>
+      <div className='flex w-[300px] flex-col gap-m'>
       <h5 className="fg-default-light">Horizontal Orientation</h5>
-      <Tabs orientation="horizontal">
-        <Tabs.List label="Storybook Horizontal Tab List">
-          <Tabs.Tab id={id}>Tab 1</Tabs.Tab>
-          <Tabs.Tab id="Storybook-Tab-2">Tab 2</Tabs.Tab>
-          <Tabs.Tab id="Storybook-Tab-3">Tab 3</Tabs.Tab>
-        </Tabs.List>
-        <Tabs.Panel id={id}>
-          {children}
-        </Tabs.Panel>
-        <Tabs.Panel id="Storybook-Tab-2">
-          Tab 2 Content
-        </Tabs.Panel>
-        <Tabs.Panel id="Storybook-Tab-3">
-          Tab 3 Content
-        </Tabs.Panel>
-      </Tabs>
-      <h5 className="fg-default-light">Vertical Orientation</h5>
-      <Tabs orientation="vertical">
-        <Tabs.List label="Storybook Vertical Tab List">
-          <Tabs.Tab id={`${id}-Vertical`}>Tab 1</Tabs.Tab>
-          <Tabs.Tab id="Storybook-Vert-Tab-2">Tab 2</Tabs.Tab>
-          <Tabs.Tab id="Storybook-Vert-Tab-3">Tab 3</Tabs.Tab>
-        </Tabs.List>
-        <Tabs.Panel id={`${id}-Vertical`}>
-          {children}
-        </Tabs.Panel>
-        <Tabs.Panel id="Storybook-Vert-Tab-2">
-          Tab 2 Content
-        </Tabs.Panel>
-        <Tabs.Panel id="Storybook-Vert-Tab-3">
-          Tab 3 Content
-        </Tabs.Panel>
-      </Tabs>
+        <Tabs orientation="horizontal">
+          <Tabs.List label="Storybook Horizontal Tab List">
+            <Tabs.Tab id={id}>Tab 1</Tabs.Tab>
+            <Tabs.Tab id="Storybook-Tab-2">Tab 2</Tabs.Tab>
+            <Tabs.Tab id="Storybook-Tab-3">Tab 3</Tabs.Tab>
+          </Tabs.List>
+          <Tabs.Panel id={id}>
+            {children}
+          </Tabs.Panel>
+          <Tabs.Panel id="Storybook-Tab-2">
+            Tab 2 Content
+          </Tabs.Panel>
+          <Tabs.Panel id="Storybook-Tab-3">
+            Tab 3 Content
+          </Tabs.Panel>
+        </Tabs>
+      </div>
+      <div className='flex w-[300px] flex-col gap-m'>
+        <h5 className="fg-default-light">Vertical Orientation</h5>
+        <Tabs orientation="vertical">
+          <Tabs.List label="Storybook Vertical Tab List">
+            <Tabs.Tab id={`${id}-Vertical`}>Tab 1</Tabs.Tab>
+            <Tabs.Tab id="Storybook-Vert-Tab-2">Tab 2</Tabs.Tab>
+            <Tabs.Tab id="Storybook-Vert-Tab-3">Tab 3</Tabs.Tab>
+          </Tabs.List>
+          <Tabs.Panel id={`${id}-Vertical`}>
+            {children}
+          </Tabs.Panel>
+          <Tabs.Panel id="Storybook-Vert-Tab-2">
+            Tab 2 Content
+          </Tabs.Panel>
+          <Tabs.Panel id="Storybook-Vert-Tab-3">
+            Tab 3 Content
+          </Tabs.Panel>
+        </Tabs>
+      </div>
     </div>
   ),
 };

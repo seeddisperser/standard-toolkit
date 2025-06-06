@@ -16,10 +16,16 @@ import { Tabs } from '@/components/tabs/index';
 import { Icon } from '@/components/icon';
 
 /**
- * The `<Tabs>` component is a direct wrapper around the Tabs component from
+ * The `<Tabs>` component is a direct wrapper around the `Tabs` component from
  * `react-aria-components`.
  *
  * Please see the documentation for that component <a href="https://react-spectrum.adobe.com/react-aria/Tabs.html">here</a>.
+ *
+ * ## Composition Requirements
+ *
+ * Error boundaries for incorrect usage of this component:
+ *
+ * - `Tabs` must include a `Tabs.List`
  */
 const meta: Meta<typeof Tabs> = {
   title: 'Components/Tabs/Tabs',
@@ -46,24 +52,25 @@ type Story = StoryObj<typeof Tabs>;
 
 export const Default: Story = {
   render: ({...args}) => (
-    <Tabs {...args}>
-      <Tabs.List label="Storybook Tab List">
-        <Tabs.Tab id="Storybook-Tab-1">Tab 1</Tabs.Tab>
-        <Tabs.Tab id="Storybook-Tab-2">Tab 2</Tabs.Tab>
-        <Tabs.Tab id="Storybook-Tab-3">Tab 3</Tabs.Tab>
-      </Tabs.List>
-    </Tabs>
-  ),
-};
-
-export const Icons: Story = {
-  render: ({...args}) => (
-    <Tabs {...args}>
-      <Tabs.List isIcons label="Storybook Icon Tab List">
-        <Tabs.Tab id="Storybook-Icon-Tab-1"><Icon><Add /></Icon></Tabs.Tab>
-        <Tabs.Tab id="Storybook-Icon-Tab-2"><Icon><Check /></Icon></Tabs.Tab>
-        <Tabs.Tab id="Storybook-Icon-Tab-3"><Icon><Group /></Icon></Tabs.Tab>
-      </Tabs.List>
-    </Tabs>
+    <div className='flex w-full flex-row flex-wrap gap-m'>
+      <div className='w-[300px]'>
+        <Tabs {...args}>
+          <Tabs.List label="Storybook Tab List">
+            <Tabs.Tab id="Storybook-Tab-1">Tab 1</Tabs.Tab>
+            <Tabs.Tab id="Storybook-Tab-2">Tab 2</Tabs.Tab>
+            <Tabs.Tab id="Storybook-Tab-3">Tab 3</Tabs.Tab>
+          </Tabs.List>
+        </Tabs>
+      </div>
+      <div className='w-[300px]'>
+        <Tabs {...args}>
+          <Tabs.List isIcons label="Storybook Icon Tab List">
+            <Tabs.Tab id="Storybook-Icon-Tab-1"><Icon><Add /></Icon></Tabs.Tab>
+            <Tabs.Tab id="Storybook-Icon-Tab-2"><Icon><Check /></Icon></Tabs.Tab>
+            <Tabs.Tab id="Storybook-Icon-Tab-3"><Icon><Group /></Icon></Tabs.Tab>
+          </Tabs.List>
+        </Tabs>
+      </div>
+    </div>
   ),
 };

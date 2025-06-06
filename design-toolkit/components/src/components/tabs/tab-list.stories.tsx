@@ -15,12 +15,6 @@ import { Add, Check, Group } from '@accelint/icons';
 import { Tabs } from '@/components/tabs/index';
 import { Icon } from '@/components/icon';
 
-/**
- * The `<List>` component is a direct wrapper around the TabList component from
- * `react-aria-components`.
- *
- * Please see the documentation for that component <a href="https://react-spectrum.adobe.com/react-aria/Tabs.html">here</a>.
- */
 const meta: Meta<typeof Tabs.List> = {
   title: 'Components/Tabs/Tabs.List',
   component: Tabs.List,
@@ -55,23 +49,27 @@ type Story = StoryObj<typeof Tabs.List>;
 
 export const Default: Story = {
   render: ({...args}) => (
-    <div className="flex flex-col gap-m">
-      <h5 className="fg-default-light">Horizontal Orientation</h5>
-      <Tabs>
-        <Tabs.List {...args} label="Storybook Tab List">
-          <Tabs.Tab id="Storybook-Tab-1">Tab 1</Tabs.Tab>
-          <Tabs.Tab id="Storybook-Tab-2">Tab 2</Tabs.Tab>
-          <Tabs.Tab id="Storybook-Tab-3">Tab 3</Tabs.Tab>
-        </Tabs.List>
-      </Tabs>
-      <h5 className="fg-default-light">Vertical Orientation</h5>
-      <Tabs orientation="vertical">
-        <Tabs.List {...args} label="Storybook Vertical Tab List">
-          <Tabs.Tab id="Storybook-Vert-Tab-1">Tab 1</Tabs.Tab>
-          <Tabs.Tab id="Storybook-Vert-Tab-2">Tab 2</Tabs.Tab>
-          <Tabs.Tab id="Storybook-Vert-Tab-3">Tab 3</Tabs.Tab>
-        </Tabs.List>
-      </Tabs>
+    <div className='flex w-full flex-row flex-wrap gap-m'>
+      <div className='flex w-[300px] flex-col gap-m'>
+        <h5 className="fg-default-light">Horizontal Orientation</h5>
+        <Tabs>
+          <Tabs.List {...args} label="Storybook Tab List">
+            <Tabs.Tab id="Storybook-Tab-1">Tab 1</Tabs.Tab>
+            <Tabs.Tab id="Storybook-Tab-2">Tab 2</Tabs.Tab>
+            <Tabs.Tab id="Storybook-Tab-3">Tab 3</Tabs.Tab>
+          </Tabs.List>
+        </Tabs>
+      </div>
+      <div className='flex w-[300px] flex-col gap-m'>
+        <h5 className="fg-default-light">Vertical Orientation</h5>
+        <Tabs orientation="vertical">
+          <Tabs.List {...args} label="Storybook Vertical Tab List">
+            <Tabs.Tab id="Storybook-Vert-Tab-1">Tab 1</Tabs.Tab>
+            <Tabs.Tab id="Storybook-Vert-Tab-2">Tab 2</Tabs.Tab>
+            <Tabs.Tab id="Storybook-Vert-Tab-3">Tab 3</Tabs.Tab>
+          </Tabs.List>
+        </Tabs>
+      </div>
     </div>
   ),
 };
@@ -82,9 +80,9 @@ Default.args = {
 
 export const Icons: Story = {
   render: ({...args}) => (
-    <div className="flex flex-col gap-m">
-      <h5 className="fg-default-light">Horizontal Orientation</h5>
-      <div>
+    <div className='flex w-full flex-row flex-wrap gap-m'>
+      <div className='flex w-[300px] flex-col gap-m'>
+        <h5 className="fg-default-light">Horizontal Orientation</h5>
         <Tabs>
           <Tabs.List {...args} isIcons label="Storybook Icon Tab List">
             <Tabs.Tab id="Storybook-Icon-Tab-1"><Icon><Add /></Icon></Tabs.Tab>
@@ -93,8 +91,8 @@ export const Icons: Story = {
           </Tabs.List>
         </Tabs>
       </div>
-      <h5 className="fg-default-light">Vertical Orientation</h5>
-      <div>
+      <div className='flex w-[300px] flex-col gap-m'>
+        <h5 className="fg-default-light">Vertical Orientation</h5>
         <Tabs orientation="vertical">
           <Tabs.List {...args} isIcons label="Storybook Vertical Icon Tab List">
             <Tabs.Tab id="Storybook-Vert-Icon-Tab-1"><Icon><Add /></Icon></Tabs.Tab>

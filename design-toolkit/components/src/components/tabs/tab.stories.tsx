@@ -14,7 +14,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Tabs } from '@/components/tabs/index';
 
 /**
- * The `<Tab>` component is a direct wrapper around the Tab component from
+ * The `<Tabs.Tab>` component is a direct wrapper around the `Tab` component from
  * `react-aria-components`.
  *
  * Please see the documentation for that component <a href="https://react-spectrum.adobe.com/react-aria/Tabs.html">here</a>.
@@ -47,23 +47,27 @@ type Story = StoryObj<typeof Tabs.Tab>;
 
 export const Default: Story = {
   render: ({ id, isDisabled, children }) => (
-    <div className="flex flex-col gap-m">
-      <h5 className="fg-default-light">Horizontal Orientation</h5>
-      <Tabs orientation="horizontal">
-        <Tabs.List label="Storybook Horizontal Tab List">
-          <Tabs.Tab id="Storybook-Tab-1">Tab 1</Tabs.Tab>
-          <Tabs.Tab id="Storybook-Tab-2">Tab 2</Tabs.Tab>
-          <Tabs.Tab id={`${id}-Horizontal`} isDisabled={isDisabled}>{children}</Tabs.Tab>
-        </Tabs.List>
-      </Tabs>
-      <h5 className="fg-default-light">Vertical Orientation</h5>
-      <Tabs orientation="vertical">
-        <Tabs.List label="Storybook Vertical Tab List">
-          <Tabs.Tab id="Storybook-Vert-Tab-1">Tab 1</Tabs.Tab>
-          <Tabs.Tab id="Storybook-Vert-Tab-2">Tab 2</Tabs.Tab>
-          <Tabs.Tab id={`${id}-Vertical`} isDisabled={isDisabled}>{children}</Tabs.Tab>
-        </Tabs.List>
-      </Tabs>
+    <div className='flex w-full flex-row flex-wrap gap-m'>
+      <div className='flex w-[300px] flex-col gap-m'>
+        <h5 className="fg-default-light">Horizontal Orientation</h5>
+        <Tabs orientation="horizontal">
+          <Tabs.List label="Storybook Horizontal Tab List">
+            <Tabs.Tab id="Storybook-Tab-1">Tab 1</Tabs.Tab>
+            <Tabs.Tab id="Storybook-Tab-2">Tab 2</Tabs.Tab>
+            <Tabs.Tab id={`${id}-Horizontal`} isDisabled={isDisabled}>{children}</Tabs.Tab>
+          </Tabs.List>
+        </Tabs>
+      </div>
+      <div className='flex w-[300px] flex-col gap-m'>
+        <h5 className="fg-default-light">Vertical Orientation</h5>
+        <Tabs orientation="vertical">
+          <Tabs.List label="Storybook Vertical Tab List">
+            <Tabs.Tab id="Storybook-Vert-Tab-1">Tab 1</Tabs.Tab>
+            <Tabs.Tab id="Storybook-Vert-Tab-2">Tab 2</Tabs.Tab>
+            <Tabs.Tab id={`${id}-Vertical`} isDisabled={isDisabled}>{children}</Tabs.Tab>
+          </Tabs.List>
+        </Tabs>
+      </div>
     </div>
   ),
 };
