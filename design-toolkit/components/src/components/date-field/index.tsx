@@ -12,7 +12,7 @@
 
 import 'client-only';
 import { cn } from '@/lib/utils';
-import Calendar from '@accelint/icons/calendar'; 
+import Calendar from '@accelint/icons/calendar';
 import type { CalendarDate } from '@internationalized/date';
 import type { DateSegment as TDateSegment } from '@react-stately/datepicker';
 import { type VariantProps, cva } from 'cva';
@@ -27,7 +27,6 @@ import {
   DateSegment,
   type DateSegmentRenderProps,
   FieldError,
-  I18nProvider,
   useContextProps,
 } from 'react-aria-components';
 import { Icon } from '../icon';
@@ -207,56 +206,54 @@ export function DateField({
     errorMessage && isInvalid && !isDisabled && !isReadOnly;
 
   return (
-    <I18nProvider locale='en-GB'>
-      <AriaDateField
-        {...props}
-        isDisabled={isDisabled}
-        isInvalid={isInvalid}
-        isReadOnly={isReadOnly}
-        className={'flex flex-col gap-xs'}
-      >
-        {!isSmall && (
-          <Label
-            className='empty:hidden'
-            isDisabled={isDisabled}
-            isOptional={!props.isRequired}
-          >
-            {label}
-          </Label>
-        )}
-
-        <DateInput
-          className={className}
+    <AriaDateField
+      {...props}
+      isDisabled={isDisabled}
+      isInvalid={isInvalid}
+      isReadOnly={isReadOnly}
+      className={'flex flex-col gap-xs'}
+    >
+      {!isSmall && (
+        <Label
+          className='empty:hidden'
           isDisabled={isDisabled}
-          size={size}
-          isReadOnly={isReadOnly}
-          isInvalid={isInvalid}
-          {...props}
+          isOptional={!props.isRequired}
         >
-          {(segment) => (
-            <FormattedDateSegment
-              {...segment}
-              isEditable={!(isReadOnly || isDisabled)}
-            />
-          )}
-        </DateInput>
-        {shouldShowDescription && (
-          <AriaText
-            className={cn([
-              'fg-default-dark text-body-xs empty:hidden',
-              isDisabled && 'fg-disabled',
-            ])}
-            slot='description'
-          >
-            {description}
-          </AriaText>
+          {label}
+        </Label>
+      )}
+
+      <DateInput
+        className={className}
+        isDisabled={isDisabled}
+        size={size}
+        isReadOnly={isReadOnly}
+        isInvalid={isInvalid}
+        {...props}
+      >
+        {(segment) => (
+          <FormattedDateSegment
+            {...segment}
+            isEditable={!(isReadOnly || isDisabled)}
+          />
         )}
-        {shouldShowError && (
-          <FieldError className='fg-serious text-body-xs empty:hidden'>
-            {errorMessage}
-          </FieldError>
-        )}
-      </AriaDateField>
-    </I18nProvider>
+      </DateInput>
+      {shouldShowDescription && (
+        <AriaText
+          className={cn([
+            'fg-default-dark text-body-xs empty:hidden',
+            isDisabled && 'fg-disabled',
+          ])}
+          slot='description'
+        >
+          {description}
+        </AriaText>
+      )}
+      {shouldShowError && (
+        <FieldError className='fg-serious text-body-xs empty:hidden'>
+          {errorMessage}
+        </FieldError>
+      )}
+    </AriaDateField>
   );
 }
