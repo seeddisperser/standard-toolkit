@@ -22,6 +22,8 @@ import {
   type TabListProps as AriaTabListProps,
   type TabProps as AriaTabProps,
   type TabPanelProps as AriaTabPanelProps,
+  type TabRenderProps,
+  type TabPanelRenderProps,
 } from 'react-aria-components';
 import type { ReactNode } from 'react';
 
@@ -166,10 +168,7 @@ const tabStyles = cva(
 
 export interface TabProps extends AriaTabProps {
   id: string;
-  // biome-ignore lint/suspicious/noExplicitAny: aria render props include a generic type
-  children?: ReactNode | ((values: any & {
-    defaultChildren: ReactNode | undefined;
-  }) => ReactNode);
+  children?: ReactNode | ((values: TabRenderProps & { defaultChildren: ReactNode; }) => ReactNode);
   isDisabled?: boolean;
 }
 
@@ -203,10 +202,7 @@ Tabs.Tab = Tab;
 
 export interface TabPanelProps extends AriaTabPanelProps {
   id: string;
-  // biome-ignore lint/suspicious/noExplicitAny: aria render props include a generic type
-  children?: ReactNode | ((values: any & {
-    defaultChildren: ReactNode | undefined;
-  }) => ReactNode);
+  children?: ReactNode | ((values: TabPanelRenderProps & { defaultChildren: ReactNode; }) => ReactNode);
 }
 
 const TabPanel = ({
