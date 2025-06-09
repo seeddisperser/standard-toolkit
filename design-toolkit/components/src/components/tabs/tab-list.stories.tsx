@@ -19,28 +19,23 @@ const meta: Meta<typeof Tabs.List> = {
   title: 'Components/Tabs/Tabs.List',
   component: Tabs.List,
   args: {
-    isIcons: false,
-    isDrawer: undefined,
-    label: 'Storybook Tab List',
+    variant: 'default',
+    drawer: undefined,
   },
   argTypes: {
-    isIcons: {
+    variant: {
+      control: 'select',
+      options: ['default', 'icons'],
       table: {
-        defaultValue: { summary: 'false' },
+        defaultValue: { summary: 'default' },
         readonly: true,
       },
     },
-    isDrawer: {
+    drawer: {
       control: 'select',
       options: [undefined, 'left', 'right', 'top', 'bottom'],
       table: { defaultValue: { summary: 'undefined' } },
     },
-    label: {
-      table: {
-        defaultValue: { summary: '' },
-        readonly: true,
-      },
-    }
   },
 };
 
@@ -48,25 +43,25 @@ export default meta;
 type Story = StoryObj<typeof Tabs.List>;
 
 export const Default: Story = {
-  render: ({...args}) => (
+  render: ({ ...args }) => (
     <div className='flex w-full flex-row flex-wrap gap-m'>
       <div className='flex w-[300px] flex-col gap-m'>
-        <h5 className="fg-default-light">Horizontal Orientation</h5>
+        <h5 className='fg-default-light'>Horizontal Orientation</h5>
         <Tabs>
-          <Tabs.List {...args} label="Storybook Tab List">
-            <Tabs.Tab id="Storybook-Tab-1">Tab 1</Tabs.Tab>
-            <Tabs.Tab id="Storybook-Tab-2">Tab 2</Tabs.Tab>
-            <Tabs.Tab id="Storybook-Tab-3">Tab 3</Tabs.Tab>
+          <Tabs.List { ...args }>
+            <Tabs.Tab id='Storybook-Tab-1'>Tab 1</Tabs.Tab>
+            <Tabs.Tab id='Storybook-Tab-2'>Tab 2</Tabs.Tab>
+            <Tabs.Tab id='Storybook-Tab-3'>Tab 3</Tabs.Tab>
           </Tabs.List>
         </Tabs>
       </div>
       <div className='flex w-[300px] flex-col gap-m'>
-        <h5 className="fg-default-light">Vertical Orientation</h5>
-        <Tabs orientation="vertical">
-          <Tabs.List {...args} label="Storybook Vertical Tab List">
-            <Tabs.Tab id="Storybook-Vert-Tab-1">Tab 1</Tabs.Tab>
-            <Tabs.Tab id="Storybook-Vert-Tab-2">Tab 2</Tabs.Tab>
-            <Tabs.Tab id="Storybook-Vert-Tab-3">Tab 3</Tabs.Tab>
+        <h5 className='fg-default-light'>Vertical Orientation</h5>
+        <Tabs orientation='vertical'>
+          <Tabs.List { ...args }>
+            <Tabs.Tab id='Storybook-Vert-Tab-1'>Tab 1</Tabs.Tab>
+            <Tabs.Tab id='Storybook-Vert-Tab-2'>Tab 2</Tabs.Tab>
+            <Tabs.Tab id='Storybook-Vert-Tab-3'>Tab 3</Tabs.Tab>
           </Tabs.List>
         </Tabs>
       </div>
@@ -75,29 +70,29 @@ export const Default: Story = {
 };
 
 Default.args = {
-  isIcons: false,
+  variant: 'default',
 };
 
 export const Icons: Story = {
-  render: ({...args}) => (
+  render: ({ ...args }) => (
     <div className='flex w-full flex-row flex-wrap gap-m'>
       <div className='flex w-[300px] flex-col gap-m'>
-        <h5 className="fg-default-light">Horizontal Orientation</h5>
+        <h5 className='fg-default-light'>Horizontal Orientation</h5>
         <Tabs>
-          <Tabs.List {...args} isIcons label="Storybook Icon Tab List">
-            <Tabs.Tab id="Storybook-Icon-Tab-1"><Icon><Add /></Icon></Tabs.Tab>
-            <Tabs.Tab id="Storybook-Icon-Tab-2"><Icon><Check /></Icon></Tabs.Tab>
-            <Tabs.Tab id="Storybook-Icon-Tab-3"><Icon><Group /></Icon></Tabs.Tab>
+          <Tabs.List { ...args } variant='icons'>
+            <Tabs.Tab id='Storybook-Icon-Tab-1'><Icon><Add/></Icon></Tabs.Tab>
+            <Tabs.Tab id='Storybook-Icon-Tab-2'><Icon><Check/></Icon></Tabs.Tab>
+            <Tabs.Tab id='Storybook-Icon-Tab-3'><Icon><Group/></Icon></Tabs.Tab>
           </Tabs.List>
         </Tabs>
       </div>
       <div className='flex w-[300px] flex-col gap-m'>
-        <h5 className="fg-default-light">Vertical Orientation</h5>
-        <Tabs orientation="vertical">
-          <Tabs.List {...args} isIcons label="Storybook Vertical Icon Tab List">
-            <Tabs.Tab id="Storybook-Vert-Icon-Tab-1"><Icon><Add /></Icon></Tabs.Tab>
-            <Tabs.Tab id="Storybook-Vert-Icon-Tab-2"><Icon><Check /></Icon></Tabs.Tab>
-            <Tabs.Tab id="Storybook-Vert-Icon-Tab-3"><Icon><Group /></Icon></Tabs.Tab>
+        <h5 className='fg-default-light'>Vertical Orientation</h5>
+        <Tabs orientation='vertical'>
+          <Tabs.List { ...args } variant='icons'>
+            <Tabs.Tab id='Storybook-Vert-Icon-Tab-1'><Icon><Add/></Icon></Tabs.Tab>
+            <Tabs.Tab id='Storybook-Vert-Icon-Tab-2'><Icon><Check/></Icon></Tabs.Tab>
+            <Tabs.Tab id='Storybook-Vert-Icon-Tab-3'><Icon><Group/></Icon></Tabs.Tab>
           </Tabs.List>
         </Tabs>
       </div>
@@ -106,5 +101,5 @@ export const Icons: Story = {
 };
 
 Icons.args = {
-  isIcons: true,
+  variant: 'icons',
 };

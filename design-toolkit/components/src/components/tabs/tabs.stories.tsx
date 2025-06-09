@@ -51,23 +51,23 @@ export default meta;
 type Story = StoryObj<typeof Tabs>;
 
 export const Default: Story = {
-  render: ({...args}) => (
+  render: ({ ...args }) => (
     <div className='flex w-full flex-row flex-wrap gap-m'>
       <div className='w-[300px]'>
-        <Tabs {...args}>
-          <Tabs.List label="Storybook Tab List">
-            <Tabs.Tab id="Storybook-Tab-1">Tab 1</Tabs.Tab>
-            <Tabs.Tab id="Storybook-Tab-2">Tab 2</Tabs.Tab>
-            <Tabs.Tab id="Storybook-Tab-3">Tab 3</Tabs.Tab>
+        <Tabs { ...args }>
+          <Tabs.List>
+            <Tabs.Tab id='Storybook-Tab-1'>Tab 1</Tabs.Tab>
+            <Tabs.Tab id='Storybook-Tab-2'>Tab 2</Tabs.Tab>
+            <Tabs.Tab id='Storybook-Tab-3'>Tab 3</Tabs.Tab>
           </Tabs.List>
         </Tabs>
       </div>
       <div className='w-[300px]'>
-        <Tabs {...args}>
-          <Tabs.List isIcons label="Storybook Icon Tab List">
-            <Tabs.Tab id="Storybook-Icon-Tab-1"><Icon><Add /></Icon></Tabs.Tab>
-            <Tabs.Tab id="Storybook-Icon-Tab-2"><Icon><Check /></Icon></Tabs.Tab>
-            <Tabs.Tab id="Storybook-Icon-Tab-3"><Icon><Group /></Icon></Tabs.Tab>
+        <Tabs { ...args }>
+          <Tabs.List variant='icons'>
+            <Tabs.Tab id='Storybook-Icon-Tab-1'><Icon><Add/></Icon></Tabs.Tab>
+            <Tabs.Tab id='Storybook-Icon-Tab-2'><Icon><Check/></Icon></Tabs.Tab>
+            <Tabs.Tab id='Storybook-Icon-Tab-3'><Icon><Group/></Icon></Tabs.Tab>
           </Tabs.List>
         </Tabs>
       </div>

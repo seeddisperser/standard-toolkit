@@ -12,6 +12,7 @@
 
 import { cn } from '@/lib/utils';
 import { cva } from 'cva';
+import { containsExactChildren } from '@/lib/react';
 import {
   Tabs as AriaTabs,
   TabList as AriaTabList,
@@ -22,12 +23,12 @@ import {
   type TabProps as AriaTabProps,
   type TabPanelProps as AriaTabPanelProps,
 } from 'react-aria-components';
-import { containsExactChildren } from '@/lib/react';
+import type { ReactNode } from 'react';
 
-/**
- * This is a tabs section.
- */
-export interface TabsProps extends AriaTabsProps {}
+export interface TabsProps extends AriaTabsProps {
+  orientation?: 'horizontal' | 'vertical',
+  isDisabled?: boolean,
+}
 
 export const Tabs = ({
   children,
@@ -46,37 +47,37 @@ export const Tabs = ({
 
   return (
     <AriaTabs
-      orientation={orientation}
-      isDisabled={isDisabled}
-      className={cn(
+      orientation={ orientation }
+      isDisabled={ isDisabled }
+      className={ cn(
         'group flex w-content flex-row ai-orientation-horizontal:flex-col',
         className,
-      )}
-      {...rest}
+      ) }
+      { ...rest }
     >
-      {children}
+      { children }
     </AriaTabs>
   );
-}
+};
 
 Tabs.displayName = 'Tabs';
 
 export interface TabListProps extends AriaTabListProps<object> {
-  label?: string;
-  isIcons?: boolean;
-  isDrawer?: 'left' | 'right' | 'top' | 'bottom';
+  /** Whether the tabs are displaying iconography or text. */
+  variant?: 'default' | 'icons';
+  /** Whether the tabs are used as drawer controls. */
+  drawer?: 'left' | 'right' | 'top' | 'bottom';
 }
 
 const tabListStyles = cva(
   'flex ai-orientation-horizontal:flex-row flex-col',
   {
     variants: {
-      isIcons: {
-        true: '[&>*]:p-xs ai-orientation-horizontal:[&>*]:pr-s ai-orientation-horizontal:[&>*]:pl-s [&>*]:leading-[0]',
-        false: '[&>*]:p-s [&>*]:text-header-m',
-        undefined: '[&>*]:p-s [&>*]:text-header-m',
+      variant: {
+        icons: '[&>*]:p-xs ai-orientation-horizontal:[&>*]:pr-s ai-orientation-horizontal:[&>*]:pl-s [&>*]:leading-[0]',
+        'default': '[&>*]:p-s [&>*]:text-header-m',
       },
-      isDrawer: {
+      drawer: {
         left: 'ai-orientation-vertical:gap-xs rounded-r-large bg-surface-default p-s',
         right: 'ai-orientation-vertical:gap-xs rounded-l-large bg-surface-default p-s',
         top: 'ai-orientation-vertical:gap-xs rounded-b-large bg-surface-default p-s',
@@ -89,11 +90,10 @@ const tabListStyles = cva(
 const TabList = ({
   children,
   className,
-  label,
-  isIcons,
-  isDrawer,
+  variant = 'default',
+  drawer = undefined,
   ...rest
- }: TabListProps) => {
+}: TabListProps) => {
   containsExactChildren({
     children,
     componentName: TabList.displayName,
@@ -104,19 +104,20 @@ const TabList = ({
 
   return (
     <AriaTabList
-      className={cn(
-        tabListStyles({ isIcons, isDrawer }),
-        className,
-      )}
-      aria-label={label}
-      {...rest}
+      className={
+        cn(
+          tabListStyles({ variant, drawer }),
+          className,
+        )
+      }
+      { ...rest }
     >
-      {children}
+      { children }
     </AriaTabList>
   );
-}
+};
 
-TabList.displayName = 'Tabs.TabList';
+TabList.displayName = 'Tabs.List';
 Tabs.List = TabList;
 
 const tabBaseStyles = cn(
@@ -163,51 +164,70 @@ const tabStyles = cva(
   },
 );
 
-export interface TabProps extends AriaTabProps {}
+export interface TabProps extends AriaTabProps {
+  id: string;
+  // biome-ignore lint/suspicious/noExplicitAny: aria render props include a generic type
+  children?: ReactNode | ((values: any & {
+    defaultChildren: ReactNode | undefined;
+  }) => ReactNode);
+  isDisabled?: boolean;
+}
 
 const Tab = ({
+  id,
   children,
   className,
+  isDisabled = false,
   ...rest
 }: TabProps) => {
   return (
     <AriaTab
+      id={ id }
       className={
         ({ isSelected, isHovered, isFocused, isDisabled }) =>
-        cn(
-          tabStyles({ isSelected, isHovered, isFocused, isDisabled }),
-          className,
-        )
+          cn(
+            tabStyles({ isSelected, isHovered, isFocused, isDisabled }),
+            className,
+          )
       }
-      {...rest}
+      isDisabled={ isDisabled }
+      { ...rest }
     >
-      {children}
+      { children }
     </AriaTab>
   );
-}
+};
 
 Tab.displayName = 'Tabs.Tab';
 Tabs.Tab = Tab;
 
-export interface TabPanelProps extends AriaTabPanelProps {}
+export interface TabPanelProps extends AriaTabPanelProps {
+  id: string;
+  // biome-ignore lint/suspicious/noExplicitAny: aria render props include a generic type
+  children?: ReactNode | ((values: any & {
+    defaultChildren: ReactNode | undefined;
+  }) => ReactNode);
+}
 
 const TabPanel = ({
+  id,
   children,
   className,
   ...rest
 }: TabPanelProps) => {
   return (
     <AriaTabPanel
-      className={cn(
+      id={ id }
+      className={ cn(
         'fg-default-light p-s group-ai-orientation-vertical:pt-0 group-ai-orientation-horizontal:pl-0',
         className,
-      )}
-      {...rest}
+      ) }
+      { ...rest }
     >
-      {children}
+      { children }
     </AriaTabPanel>
   );
-}
+};
 
-TabPanel.displayName = 'Tabs.TabPanel';
+TabPanel.displayName = 'Tabs.Panel';
 Tabs.Panel = TabPanel;
