@@ -22,10 +22,7 @@ import {
   type TabListProps as AriaTabListProps,
   type TabProps as AriaTabProps,
   type TabPanelProps as AriaTabPanelProps,
-  type TabRenderProps,
-  type TabPanelRenderProps,
 } from 'react-aria-components';
-import type { ReactNode } from 'react';
 
 export interface TabsProps extends AriaTabsProps {
   orientation?: 'horizontal' | 'vertical',
@@ -168,7 +165,6 @@ const tabStyles = cva(
 
 export interface TabProps extends AriaTabProps {
   id: string;
-  children?: ReactNode | ((values: TabRenderProps & { defaultChildren: ReactNode; }) => ReactNode);
   isDisabled?: boolean;
 }
 
@@ -202,7 +198,6 @@ Tabs.Tab = Tab;
 
 export interface TabPanelProps extends AriaTabPanelProps {
   id: string;
-  children?: ReactNode | ((values: TabPanelRenderProps & { defaultChildren: ReactNode; }) => ReactNode);
 }
 
 const TabPanel = ({
