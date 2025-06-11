@@ -24,10 +24,7 @@ import {
   type TabPanelProps as AriaTabPanelProps,
 } from 'react-aria-components';
 
-export interface TabsProps extends AriaTabsProps {
-  orientation?: 'horizontal' | 'vertical',
-  isDisabled?: boolean,
-}
+export interface TabsProps extends AriaTabsProps {}
 
 export const Tabs = ({
   children,
@@ -163,10 +160,7 @@ const tabStyles = cva(
   },
 );
 
-export interface TabProps extends AriaTabProps {
-  id: string;
-  isDisabled?: boolean;
-}
+export interface TabProps extends AriaTabProps {}
 
 const Tab = ({
   id,
@@ -196,9 +190,7 @@ const Tab = ({
 Tab.displayName = 'Tabs.Tab';
 Tabs.Tab = Tab;
 
-export interface TabPanelProps extends AriaTabPanelProps {
-  id: string;
-}
+export interface TabPanelProps extends AriaTabPanelProps {}
 
 const TabPanel = ({
   id,
