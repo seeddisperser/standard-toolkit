@@ -16,7 +16,7 @@ import { Children, type ReactNode, isValidElement } from 'react';
 class ComponentStructureError extends Error {
   constructor(message) {
     super(message);
-    this.name = "ComponentStructureError";
+    this.name = 'ComponentStructureError';
   }
 }
 
@@ -44,34 +44,39 @@ export function containsExactChildren({
   const childrenComponents = Children.toArray(children);
 
   if (!childrenComponents.every(isValidElement)) {
-    throw new ComponentStructureError(`<${componentName}> received invalid children.`);
+    throw new ComponentStructureError(`<${ componentName }> received invalid children.`);
   }
 
   const accumulationResults = childrenComponents.reduce((acc, child) => {
     const name = child?.type?.displayName;
-    if (name) { acc[name] = (acc[name] || 0) + 1 }
+    if (name) {
+      acc[name] = (acc[name] || 0) + 1;
+    }
     return acc;
   }, {});
 
   const missingComponentsArray: string[] = [];
   const excessComponentsArray: string[] = [];
 
-  for (const [key, value] of Object.entries(accumulationResults)) {
-    const restriction = restrictions[key];
-    if (!restriction) { continue }
+  for (const [key, { min, max }] of Object.entries(restrictions)) {
+    const found = accumulationResults[key] ?? 0;
 
-    const { min, max } = restriction;
-    if (value < min) { missingComponentsArray.push(`${min - value} of <${key}>`) }
-    if (max !== undefined && value > max) { excessComponentsArray.push(`${value - max} of <${key}>`) }
+    if (found < min) {
+      missingComponentsArray.push(`${ min - found } of <${ key }>`);
+    }
+
+    if (max !== undefined && found > max) {
+      excessComponentsArray.push(`${ found - max } of <${ key }>`);
+    }
   }
 
   if (missingComponentsArray.length || excessComponentsArray.length) {
     const formatList = (label: string, items: string[]) =>
-      items.length ? `\t${label}:\n\t${items.join(', ')}\n` : '';
+      items.length ? `\t${ label }:\n\t\t${ items.join(', ') }\n` : '';
 
-    const errorMessage = `Invalid <${componentName}> structure\n
-      ${formatList('Missing the following', missingComponentsArray)}
-      ${formatList('Excess of the following', excessComponentsArray)}`;
+    const errorMessage = `Invalid <${ componentName }> structure \n` +
+      `${ formatList('Missing the following', missingComponentsArray) }` +
+      `${ formatList('Excess of the following', excessComponentsArray) }`;
 
     throw new ComponentStructureError(errorMessage.trim());
   }
@@ -103,7 +108,7 @@ export function expectsIconWrapper({ children, componentName }) {
       // icons should never be a direct child of the parent
       if (child.type.name?.startsWith('Svg')) {
         throw new Error(
-          `${componentName} is using an icon without the required Icon wrapper`,
+          `${ componentName } is using an icon without the required Icon wrapper`,
         );
       }
     }
