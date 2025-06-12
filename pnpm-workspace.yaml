@@ -15,7 +15,3 @@ onlyBuiltDependencies:
   - "lefthook"
   - "msw"
   - "sharp"
-packageExtensions:
-  "react-aria-components@1.8.0":
-    peerDependencies:
-      "@types/react": "^19.0.10"
