@@ -46,30 +46,39 @@ const textFieldStyles = cva(
   },
 );
 
-export function SearchField(
-  { placeholder = 'Search', variant = 'outlined', ...props }:
-  SearchFieldProps
-) {
+export const SearchField = ({
+  className,
+  placeholder = 'Search',
+  variant = 'outlined',
+  ...rest
+}: SearchFieldProps) => {
   return (
-    <AriaSearchField { ...props } className='group relative'>
+    <AriaSearchField
+      className={ cn(
+        'group relative',
+        className,
+      ) }
+      { ...rest }
+    >
       <Icon className='fg-interactive-hover absolute top-[6px] left-[7px]'>
         <SearchIcon />
       </Icon>
       <Input
         placeholder={ placeholder }
-        className={({ isDisabled }) =>
+        className={ ({ isDisabled }) =>
           cn(
             textFieldStyles({ isDisabled, variant }),
           )
         }
       />
-      <Button className='fg-default-dark icon-size-l hover:fg-interactive-hover absolute top-[6px] right-[8px] cursor-pointer group-ai-empty:hidden'>
+      <Button
+        className='fg-default-dark icon-size-l hover:fg-interactive-hover absolute top-[6px] right-[8px] cursor-pointer group-ai-empty:hidden'>
         <Icon>
           <CancelFill />
         </Icon>
       </Button>
     </AriaSearchField>
   );
-}
+};
 
 SearchField.displayName = 'SearchField';
