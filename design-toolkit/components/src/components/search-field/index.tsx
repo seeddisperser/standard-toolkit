@@ -19,11 +19,16 @@ import {
 import { cva } from 'cva';
 import { cn } from '@/lib/utils';
 import { Icon } from '@/components/icon';
-import { CancelFill, Search as SearchIcon } from '@accelint/icons';
+import { CancelFill, Search as SearchIcon, Loop as LoopIcon } from '@accelint/icons';
 
 export interface SearchFieldProps extends AriaSearchFieldProps {
+  /** Disables the input field and hides the clear input button. */
+  isDisabled?: boolean;
+  /** Displays a loading spinner when set to true. */
+  isLoading?: boolean;
+  /** Displays placeholder text. */
   placeholder?: string;
-  /** Whether the input is displayed with a filled background or outlined. */
+  /** Whether the input has a filled background or outlined. */
   variant?: 'filled' | 'outlined';
 }
 
@@ -50,6 +55,7 @@ export const SearchField = ({
   className,
   placeholder = 'Search',
   variant = 'outlined',
+  isLoading = false,
   ...rest
 }: SearchFieldProps) => {
   return (
@@ -71,12 +77,18 @@ export const SearchField = ({
           )
         }
       />
-      <Button
-        className='fg-default-dark icon-size-l hover:fg-interactive-hover absolute top-[6px] right-[8px] cursor-pointer group-ai-empty:hidden'>
-        <Icon>
-          <CancelFill />
+      {isLoading ? (
+        <Icon className='fg-interactive-hover absolute top-[6px] right-[8px] animate-spin'>
+          <LoopIcon className='scale-x-[-1]' />
         </Icon>
-      </Button>
+      ) : (
+        <Button
+          className='fg-default-dark icon-size-l hover:fg-interactive-hover absolute top-[6px] right-[8px] cursor-pointer group-ai-disabled:hidden group-ai-empty:hidden'>
+          <Icon>
+            <CancelFill />
+          </Icon>
+        </Button>
+      )}
     </AriaSearchField>
   );
 };

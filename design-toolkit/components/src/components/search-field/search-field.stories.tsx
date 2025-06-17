@@ -18,6 +18,7 @@ const meta: Meta<typeof SearchField> = {
   component: SearchField,
   args: {
     isDisabled: false,
+    isLoading: false,
     placeholder: 'Search',
     variant: 'outlined',
   },
@@ -31,7 +32,15 @@ const meta: Meta<typeof SearchField> = {
       control: 'select',
       options: ['outlined', 'filled'],
       table: { defaultValue: { summary: 'outlined' } },
-    }
+    },
+    isLoading: {
+      control: 'boolean',
+      table: { defaultValue: { summary: 'false' } },
+    },
+    isDisabled: {
+      control: 'boolean',
+      table: { defaultValue: { summary: 'false' } },
+    },
   },
 };
 
