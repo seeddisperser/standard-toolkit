@@ -17,12 +17,18 @@ const meta: Meta<typeof SearchField> = {
   title: 'Components/SearchField',
   component: SearchField,
   args: {
+    className: '',
     isDisabled: false,
     isLoading: false,
     placeholder: 'Search',
     variant: 'outlined',
   },
   argTypes: {
+    className: {
+      control: 'text',
+      type: 'string',
+      table: { defaultValue: { summary: '' } },
+    },
     placeholder: {
       control: 'text',
       type: 'string',

@@ -13,18 +13,18 @@
 import {
   Button,
   Input,
-  SearchField as AriaSearchField,
-  type SearchFieldProps as AriaSearchFieldProps
+  SearchField as AriaSearchField
 } from 'react-aria-components';
 import { cva } from 'cva';
 import { cn } from '@/lib/utils';
 import { Icon } from '@/components/icon';
 import { CancelFill, Search as SearchIcon, Loop as LoopIcon } from '@accelint/icons';
 
-export interface SearchFieldProps extends AriaSearchFieldProps {
-  /** Disables the input field and hides the clear input button. */
+export interface SearchFieldProps {
+  className?: string;
+  /** Disables the input field. */
   isDisabled?: boolean;
-  /** Displays a loading spinner when set to true. */
+  /** Displays a loading spinner. */
   isLoading?: boolean;
   /** Displays placeholder text. */
   placeholder?: string;
