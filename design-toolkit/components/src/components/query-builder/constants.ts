@@ -1,3 +1,4 @@
+// __private-exports
 /*
  * Copyright 2025 Hypergiant Galactic Systems Inc. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
@@ -10,28 +11,10 @@
  * governing permissions and limitations under the License.
  */
 
-import {
-  SearchField,
-  type SearchFieldProps,
-} from '@/components/search-field/index';
-import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
-
-function setup({ placeholder = 'Search' }: Partial<SearchFieldProps> = {}) {
-  render(
-    <SearchField
-      placeholder={placeholder}
-      aria-label='Test Search Field Component'
-    />,
-  );
-
-  return { placeholder };
-}
-
-describe('SearchField', () => {
-  it('should render', () => {
-    const { placeholder } = setup();
-
-    expect(screen.getByPlaceholderText(placeholder)).toBeInTheDocument();
-  });
-});
+export const multiValueOperators = [
+  'between',
+  'notBetween',
+  'during',
+  'overlapped',
+  'overlaps',
+];
