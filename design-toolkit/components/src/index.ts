@@ -41,6 +41,8 @@ export { ColorPicker, useColorPickerState } from './components/color-picker';
 export type { ColorPickerProps } from './components/color-picker';
 export { ComboBox, ComboBoxSection } from './components/combobox';
 export type { ComboBoxProps } from './components/combobox';
+export { Dialog, DialogTitle } from './components/dialog';
+export type { DialogProps } from './components/dialog';
 export { FloatingButton } from './components/floating-button';
 export type { FloatingButtonProps } from './components/floating-button';
 export { Icon } from './components/icon';
@@ -50,8 +52,17 @@ export type { IconButtonProps } from './components/icon-button';
 export { Label } from './components/label';
 export { Radio } from './components/radio';
 export type { RadioGroupProps, RadioProps } from './components/radio';
+export { SearchField } from './components/search-field';
+export type { SearchFieldProps } from './components/search-field';
 export { Switch } from './components/switch';
 export type { SwitchProps } from './components/switch';
+export { Tabs } from './components/tabs';
+export type {
+  TabListProps,
+  TabPanelProps,
+  TabProps,
+  TabsProps,
+} from './components/tabs';
 export { TextArea } from './components/text-area';
 export type { TextAreaProps } from './components/text-area';
 export { TextField } from './components/text-field';
