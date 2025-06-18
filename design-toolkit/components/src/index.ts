@@ -46,6 +46,10 @@ export type { IconProps } from './components/icon';
 export { IconButton } from './components/icon-button';
 export type { IconButtonProps } from './components/icon-button';
 export { Label } from './components/label';
+export { MenuItem } from './components/menu-item';
+export type { IMenuItem, MenuItemProps } from './components/menu-item';
+export { Options, OptionsContext, OptionsSection } from './components/options';
+export type { OptionsProps } from './components/options';
 export { Radio } from './components/radio';
 export type { RadioGroupProps, RadioProps } from './components/radio';
 export { Switch } from './components/switch';
@@ -71,4 +75,3 @@ export type {
 } from './components/tooltip';
 export { containsExactChildren, expectsIconWrapper } from './lib/react';
 export { cn, twMerge } from './lib/utils';
-export type { MenuItem } from './types/types';
