@@ -16,7 +16,7 @@ import Calendar from '@accelint/icons/calendar';
 import type { DateValue } from '@internationalized/date';
 import type { DateSegment as TDateSegment } from '@react-stately/datepicker';
 import { type VariantProps, cva } from 'cva';
-import { type ForwardedRef, createContext } from 'react';
+import type { ForwardedRef } from 'react';
 import {
   DateField as AriaDateField,
   type DateFieldProps as AriaDateFieldProps,
@@ -24,11 +24,9 @@ import {
   type DateInputProps as AriaDateInputProps,
   type DateSegmentProps as AriaDateSegmentProps,
   Text as AriaText,
-  type ContextValue,
   DateSegment,
   type DateSegmentRenderProps,
   FieldError,
-  useContextProps,
 } from 'react-aria-components';
 import { Icon } from '../icon';
 import { Label } from '../label';
@@ -145,9 +143,6 @@ interface DateInputProps
   ref?: ForwardedRef<HTMLDivElement>;
 }
 
-const DateInputContext =
-  createContext<ContextValue<DateInputProps, HTMLDivElement>>(null);
-
 const DateInput = ({
   className,
   ref = null,
@@ -155,10 +150,6 @@ const DateInput = ({
   isReadOnly,
   ...props
 }: DateInputProps) => {
-  // @ts-ignore react types are resolving to v18.3.11 instead of v19 due to other packages in monorepo
-  // TODO remove comment when versions are aligned
-  [props, ref] = useContextProps(props, ref, DateInputContext);
-
   return (
     <div className='relative flex'>
       {size === 'medium' ? (
