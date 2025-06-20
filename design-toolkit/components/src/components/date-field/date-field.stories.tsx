@@ -28,10 +28,15 @@ const meta: Meta<typeof DateField> = {
     label: 'Label',
     defaultValue: parseDate('2020-01-23'),
     size: 'medium',
+    granularity: 'day',
   },
   argTypes: {
     className: { type: 'string' },
     size: { options: ['small', 'medium'], control: 'select' },
+    granularity: {
+      options: ['day', 'hour', 'minute', 'second'],
+      control: 'select',
+    },
   },
 };
 
