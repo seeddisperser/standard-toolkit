@@ -133,6 +133,7 @@ export function ComboBox<T extends IMenuItem>({
   const isSmall = size === 'small';
   const shouldShowDescription = !(isSmall || isInvalid) || isDisabled;
   const shouldShowError = isInvalid && !isDisabled && !isReadOnly;
+  const shouldShowLabel = !isSmall && label;
 
   return (
     <AriaComboBox<T>
@@ -144,7 +145,7 @@ export function ComboBox<T extends IMenuItem>({
     >
       {({ isDisabled, isOpen }) => (
         <>
-          {!isSmall && (
+          {shouldShowLabel && (
             <Label
               className='empty:hidden'
               isDisabled={isDisabled}

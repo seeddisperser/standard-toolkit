@@ -37,6 +37,8 @@ export { ClassificationBadge } from './components/classification-badge';
 export type { ClassificationBadgeProps } from './components/classification-badge';
 export { ClassificationBanner } from './components/classification-banner';
 export type { ClassificationBannerProps } from './components/classification-banner';
+export { ColorPicker, useColorPickerState } from './components/color-picker';
+export type { ColorPickerProps } from './components/color-picker';
 export { ComboBox, ComboBoxSection } from './components/combobox';
 export type { ComboBoxProps } from './components/combobox';
 export { Dialog, DialogTitle } from './components/dialog';
@@ -52,6 +54,16 @@ export { MenuItem } from './components/menu-item';
 export type { IMenuItem, MenuItemProps } from './components/menu-item';
 export { Options, OptionsContext, OptionsSection } from './components/options';
 export type { OptionsProps } from './components/options';
+export { QueryBuilder } from './components/query-builder';
+export type {
+  ClassNames,
+  DefaultRQBProps,
+  Field,
+  QueryBuilderContextType,
+  QueryBuilderProps,
+  QueryBuilderValueEditors,
+  RuleGroupType,
+} from './components/query-builder';
 export { Radio } from './components/radio';
 export type { RadioGroupProps, RadioProps } from './components/radio';
 export { SearchField } from './components/search-field';
