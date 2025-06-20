@@ -13,15 +13,16 @@
 import 'client-only';
 import { cn } from '@/lib/utils';
 import Calendar from '@accelint/icons/calendar';
-import type { CalendarDate } from '@internationalized/date';
+import type { DateValue } from '@internationalized/date';
 import type { DateSegment as TDateSegment } from '@react-stately/datepicker';
 import { type VariantProps, cva } from 'cva';
-import { type CSSProperties, type ForwardedRef, createContext } from 'react';
+import { type ForwardedRef, createContext } from 'react';
 import {
   DateField as AriaDateField,
   type DateFieldProps as AriaDateFieldProps,
   DateInput as AriaDateInput,
   type DateInputProps as AriaDateInputProps,
+  type DateSegmentProps as AriaDateSegmentProps,
   Text as AriaText,
   type ContextValue,
   DateSegment,
@@ -47,22 +48,39 @@ const months = [
   'DEC',
 ];
 
-const MonthDateSegment = (props: DateSegmentRenderProps) => {
-  const { value, isFocused, isPlaceholder, placeholder, isReadOnly } = props;
+const MonthDateSegment = ({
+  value,
+  isFocused,
+  isPlaceholder,
+  placeholder,
+  isReadOnly,
+  shortMonth,
+}: DateSegmentRenderProps & { shortMonth?: boolean }) => {
   if (isPlaceholder) {
     return placeholder;
   }
 
-  return !isReadOnly && isFocused
-    ? `${value}`.padStart(2, '0')
-    : months[(value ?? 0) - 1];
+  let displayValue: string | undefined = `${value}`;
+
+  if (!isReadOnly && isFocused) {
+    displayValue = displayValue.padStart(2, '0');
+  } else if (shortMonth) {
+    displayValue = months[(value ?? 0) - 1];
+  }
+
+  return displayValue;
 };
 
-const dateSegmentStyle: CSSProperties = {
-  caretColor: 'white',
-};
+interface FormattedDateSegmentProps extends AriaDateSegmentProps {
+  segment: TDateSegment;
+  shortMonth?: boolean;
+}
 
-const FormattedDateSegment = (segment: TDateSegment) => {
+const FormattedDateSegment = ({
+  segment,
+  shortMonth,
+  ...props
+}: FormattedDateSegmentProps) => {
   if (segment.type === 'literal' && segment.text !== ':') {
     return <></>;
   }
@@ -70,11 +88,13 @@ const FormattedDateSegment = (segment: TDateSegment) => {
   return (
     <DateSegment
       segment={segment}
-      className='!caret-default-light focus:outline-none' // Ensure caret color is visible, RAC sets the style prop and it is not overridable. Thanks for that.
-      style={dateSegmentStyle}
+      className='focus:bg-highlight focus:text-inverse-light focus:outline-none' // Ensure caret color is visible, RAC sets the style prop and it is not overridable. Thanks for that.
+      {...props}
     >
       {segment.type === 'month'
-        ? (renderProps) => <MonthDateSegment {...renderProps} />
+        ? (renderProps) => (
+            <MonthDateSegment {...renderProps} shortMonth={shortMonth} />
+          )
         : segment.text}
     </DateSegment>
   );
@@ -169,12 +189,12 @@ const DateInput = ({
   );
 };
 
-export interface DateFieldProps
+export interface DateFieldProps<T extends DateValue>
   extends Omit<
       VariantProps<typeof dateFieldStyles>,
       'isDisabled' | 'isInvalid' | 'isReadOnly'
     >,
-    Omit<AriaDateFieldProps<CalendarDate>, 'className' | 'style'>, // Exclude className to avoid conflict with cva
+    Omit<AriaDateFieldProps<T>, 'className' | 'style'>, // Exclude className to avoid conflict with cva
     Omit<AriaDateInputProps, 'className' | 'children' | 'style'> {
   isDisabled?: boolean;
   isInvalid?: boolean;
@@ -185,9 +205,10 @@ export interface DateFieldProps
   errorMessage?: string;
   label?: string;
   placeholder?: string;
+  shortMonth?: boolean;
 }
 
-export function DateField({
+export function DateField<T extends DateValue>({
   className,
   description,
   errorMessage,
@@ -196,9 +217,11 @@ export function DateField({
   isReadOnly,
   label,
   placeholder,
+  slot,
   size = 'medium',
+  shortMonth = true,
   ...props
-}: DateFieldProps) {
+}: DateFieldProps<T>) {
   const isSmall = size === 'small';
   const shouldShowDescription =
     description && (!(isSmall || isInvalid) || isDisabled);
@@ -206,11 +229,12 @@ export function DateField({
     errorMessage && isInvalid && !isDisabled && !isReadOnly;
 
   return (
-    <AriaDateField
+    <AriaDateField<T>
       {...props}
       isDisabled={isDisabled}
       isInvalid={isInvalid}
       isReadOnly={isReadOnly}
+      slot={slot}
       className={'flex flex-col gap-xs'}
     >
       {!isSmall && (
@@ -229,13 +253,9 @@ export function DateField({
         size={size}
         isReadOnly={isReadOnly}
         isInvalid={isInvalid}
-        {...props}
       >
         {(segment) => (
-          <FormattedDateSegment
-            {...segment}
-            isEditable={!(isReadOnly || isDisabled)}
-          />
+          <FormattedDateSegment segment={segment} shortMonth={shortMonth} />
         )}
       </DateInput>
       {shouldShowDescription && (

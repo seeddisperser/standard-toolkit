@@ -41,6 +41,8 @@ export { ComboBox, ComboBoxSection } from './components/combobox';
 export type { ComboBoxProps } from './components/combobox';
 export { DateField } from './components/date-field';
 export type { DateFieldProps } from './components/date-field';
+export { Dialog, DialogTitle } from './components/dialog';
+export type { DialogProps } from './components/dialog';
 export { FloatingButton } from './components/floating-button';
 export type { FloatingButtonProps } from './components/floating-button';
 export { Icon } from './components/icon';
@@ -48,10 +50,29 @@ export type { IconProps } from './components/icon';
 export { IconButton } from './components/icon-button';
 export type { IconButtonProps } from './components/icon-button';
 export { Label } from './components/label';
+export { QueryBuilder } from './components/query-builder';
+export type {
+  ClassNames,
+  DefaultRQBProps,
+  Field,
+  QueryBuilderContextType,
+  QueryBuilderProps,
+  QueryBuilderValueEditors,
+  RuleGroupType,
+} from './components/query-builder';
 export { Radio } from './components/radio';
 export type { RadioGroupProps, RadioProps } from './components/radio';
+export { SearchField } from './components/search-field';
+export type { SearchFieldProps } from './components/search-field';
 export { Switch } from './components/switch';
 export type { SwitchProps } from './components/switch';
+export { Tabs } from './components/tabs';
+export type {
+  TabListProps,
+  TabPanelProps,
+  TabProps,
+  TabsProps,
+} from './components/tabs';
 export { TextArea } from './components/text-area';
 export type { TextAreaProps } from './components/text-area';
 export { TextField } from './components/text-field';

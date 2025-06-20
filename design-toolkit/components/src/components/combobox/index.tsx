@@ -24,8 +24,12 @@ import {
   type ListBoxItemProps as AriaListBoxItemProps,
   ListBoxSection as AriaListBoxSection,
   type ListBoxSectionProps as AriaListBoxSectionProps,
+  ListLayout as AriaListLayout,
+  type ListLayoutOptions as AriaListLayoutOptions,
   Popover as AriaPopover,
   Text as AriaText,
+  Virtualizer as AriaVirtualizer,
+  type VirtualizerProps as AriaVirtualizerProps,
 } from 'react-aria-components';
 
 import { cn } from '@/lib/utils';
@@ -104,7 +108,8 @@ export interface ComboBoxProps<T extends MenuItem>
       VariantProps<typeof textFieldStyles>,
       'isDisabled' | 'isInvalid' | 'isReadOnly'
     >,
-    Omit<AriaComboBoxProps<T>, 'children'> {
+    Omit<AriaComboBoxProps<T>, 'children'>,
+    Pick<AriaVirtualizerProps<AriaListLayoutOptions>, 'layoutOptions'> {
   className?: string;
   children: ReactNode | ((item: T) => ReactNode);
   description?: string;
@@ -123,12 +128,14 @@ export function ComboBox<T extends MenuItem>({
   isReadOnly,
   label,
   placeholder,
+  layoutOptions,
   size = 'medium',
   ...props
 }: ComboBoxProps<T>) {
   const isSmall = size === 'small';
   const shouldShowDescription = !(isSmall || isInvalid) || isDisabled;
   const shouldShowError = isInvalid && !isDisabled && !isReadOnly;
+  const shouldShowLabel = !isSmall && label;
 
   return (
     <AriaComboBox<T>
@@ -140,7 +147,7 @@ export function ComboBox<T extends MenuItem>({
     >
       {({ isDisabled, isOpen }) => (
         <>
-          {!isSmall && (
+          {shouldShowLabel && (
             <Label
               className='empty:hidden'
               isDisabled={isDisabled}
@@ -189,10 +196,15 @@ export function ComboBox<T extends MenuItem>({
             </AriaText>
           )}
           <AriaPopover className='w-(--trigger-width)'>
-            <AriaListBox className='grid max-h-[200px] grid-cols-[auto_1fr] overflow-y-auto overflow-x-clip rounded-medium bg-surface-overlay shadow-elevation-overlay outline outline-static-light'>
-              {/* @ts-expect-error package version mismatch TODO */}
-              {children}
-            </AriaListBox>
+            <AriaVirtualizer
+              layout={AriaListLayout}
+              layoutOptions={layoutOptions}
+            >
+              <AriaListBox className='grid max-h-[200px] grid-cols-[auto_1fr] overflow-y-auto overflow-x-clip rounded-medium bg-surface-overlay shadow-elevation-overlay outline outline-static-light'>
+                {/* @ts-expect-error package version mismatch TODO */}
+                {children}
+              </AriaListBox>
+            </AriaVirtualizer>
           </AriaPopover>
         </>
       )}
@@ -202,7 +214,7 @@ export function ComboBox<T extends MenuItem>({
 ComboBox.displayName = 'ComboBox';
 
 const comboBoxItemStyles = cva([
-  'fg-default-light icon-size-l col-span-2 grid grid-cols-subgrid items-center p-s pl-xs text-body-s',
+  'fg-default-light icon-size-l flex items-center p-s pl-xs text-body-s',
   '**:data-[slot=description]:fg-default-dark **:data-[slot=description]:text-body-xs',
   'hover:fg-inverse-light hover:**:data-[slot=description]:fg-inverse-light hover:bg-highlight-bold',
   'ai-focus:fg-inverse-light ai-focus:**:data-[slot=description]:fg-inverse-light ai-focus:bg-highlight-bold',
@@ -237,15 +249,20 @@ function ComboBoxItem<T extends MenuItem>({
 
         return (
           <>
-            {icon && (
-              <span className='mr-xs'>
-                <Icon>{icon}</Icon>
-              </span>
-            )}
-            <div className='col-start-2 flex flex-col gap-xxs'>
-              <AriaText slot='label'>{name}</AriaText>
+            <span className='mr-s flex w-[16px] items-center'>
+              {icon && <Icon>{icon}</Icon>}
+            </span>
+
+            <div className='flex min-w-0 flex-col gap-xxs'>
+              <AriaText className='truncate' slot='label'>
+                {name}
+              </AriaText>
               {description && (
-                <AriaText data-slot='description' slot='description'>
+                <AriaText
+                  className='truncate'
+                  data-slot='description'
+                  slot='description'
+                >
                   {description}
                 </AriaText>
               )}

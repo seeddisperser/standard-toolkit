@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import { parseDate } from '@internationalized/date';
+import { parseAbsoluteToLocal, parseDate } from '@internationalized/date';
 import type { Meta, StoryObj } from '@storybook/react';
 import { DateField } from './index';
 
@@ -19,7 +19,7 @@ const meta: Meta<typeof DateField> = {
   component: DateField,
   args: {
     className: '',
-    description: 'Format: dd mmm yyyy',
+    description: 'Format: d MMM yyyy',
     errorMessage: 'Error description',
     isDisabled: false,
     isInvalid: false,
@@ -39,5 +39,26 @@ export default meta;
 type Story = StoryObj<typeof DateField>;
 
 export const Default: Story = {
+  render: ({ children, ...args }) => <DateField {...args} />,
+};
+
+export const WithoutShortMonth: Story = {
+  args: {
+    ...Default.args,
+    granularity: 'day',
+    shortMonth: false,
+    description: 'Format: d MM yyyy',
+    defaultValue: parseDate('2020-01-23'),
+  },
+  render: ({ children, ...args }) => <DateField {...args} />,
+};
+
+export const DateTime: Story = {
+  args: {
+    ...Default.args,
+    granularity: 'second',
+    description: 'Format: d MMM yyyy hh:mm:ss a ZZZZ',
+    defaultValue: parseAbsoluteToLocal('2021-04-07T18:45:22Z'),
+  },
   render: ({ children, ...args }) => <DateField {...args} />,
 };
