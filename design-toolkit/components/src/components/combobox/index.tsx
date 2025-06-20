@@ -35,8 +35,8 @@ import { type VariantProps, cva } from 'cva';
 import type { ReactNode } from 'react';
 import { Icon } from '../icon';
 import { Label } from '../label';
-import { type IMenuItem, MenuItem } from '../menu-item';
 import { Options } from '../options';
+import { type IOptionsItem, OptionsItem } from '../options-item';
 
 const textFieldStyles = cva(
   [
@@ -101,7 +101,7 @@ const Input = ({
 };
 Input.displayName = 'ComboBox.Input';
 
-export interface ComboBoxProps<T extends IMenuItem>
+export interface ComboBoxProps<T extends IOptionsItem>
   extends Omit<
       VariantProps<typeof textFieldStyles>,
       'isDisabled' | 'isInvalid' | 'isReadOnly'
@@ -116,7 +116,7 @@ export interface ComboBoxProps<T extends IMenuItem>
   placeholder?: string;
 }
 
-export function ComboBox<T extends IMenuItem>({
+export function ComboBox<T extends IOptionsItem>({
   children,
   className,
   description,
@@ -209,14 +209,14 @@ export function ComboBox<T extends IMenuItem>({
 }
 ComboBox.displayName = 'ComboBox';
 
-ComboBox.Item = MenuItem;
+ComboBox.Item = OptionsItem;
 
-interface ComboBoxSectionProps<T extends IMenuItem>
+interface ComboBoxSectionProps<T extends IOptionsItem>
   extends AriaListBoxSectionProps<T> {
   header?: string;
 }
 
-export function ComboBoxSection<T extends IMenuItem>({
+export function ComboBoxSection<T extends IOptionsItem>({
   children,
   header,
   items,

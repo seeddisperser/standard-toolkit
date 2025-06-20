@@ -20,26 +20,31 @@ import {
   ListBoxSection as AriaListBoxSection,
   type ListBoxSectionProps as AriaListBoxSectionProps,
 } from 'react-aria-components';
-import { type IMenuItem, MenuItem, type MenuItemProps } from '../menu-item';
+import {
+  type IOptionsItem,
+  OptionsItem,
+  type OptionsItemProps,
+} from '../options-item';
 
-export interface OptionsProps<T extends IMenuItem> extends AriaListBoxProps<T> {
+export interface OptionsProps<T extends IOptionsItem>
+  extends AriaListBoxProps<T> {
   className?: string;
   description?: string;
   errorMessage?: string;
   label?: string;
   placeholder?: string;
-  size?: MenuItemProps<T>['size'];
-  type?: MenuItemProps<T>['type'];
+  size?: OptionsItemProps<T>['size'];
+  type?: OptionsItemProps<T>['type'];
 }
 
 export const OptionsContext = createContext<
-  Pick<OptionsProps<IMenuItem>, 'size' | 'type'>
+  Pick<OptionsProps<IOptionsItem>, 'size' | 'type'>
 >({
   size: 'large',
   type: 'default',
 });
 
-export function Options<T extends IMenuItem>({
+export function Options<T extends IOptionsItem>({
   children,
   className,
   description,
@@ -63,14 +68,14 @@ export function Options<T extends IMenuItem>({
 }
 Options.displayName = 'Options';
 
-Options.Item = MenuItem;
+Options.Item = OptionsItem;
 
-interface OptionsSectionProps<T extends IMenuItem>
+interface OptionsSectionProps<T extends IOptionsItem>
   extends AriaListBoxSectionProps<T> {
   header?: string;
 }
 
-export function OptionsSection<T extends IMenuItem>({
+export function OptionsSection<T extends IOptionsItem>({
   children,
   header,
   items,

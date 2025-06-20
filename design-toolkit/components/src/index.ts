@@ -50,10 +50,10 @@ export type { IconProps } from './components/icon';
 export { IconButton } from './components/icon-button';
 export type { IconButtonProps } from './components/icon-button';
 export { Label } from './components/label';
-export { MenuItem } from './components/menu-item';
-export type { IMenuItem, MenuItemProps } from './components/menu-item';
 export { Options, OptionsContext, OptionsSection } from './components/options';
 export type { OptionsProps } from './components/options';
+export { OptionsItem } from './components/options-item';
+export type { IOptionsItem, OptionsItemProps } from './components/options-item';
 export { QueryBuilder } from './components/query-builder';
 export type {
   ClassNames,

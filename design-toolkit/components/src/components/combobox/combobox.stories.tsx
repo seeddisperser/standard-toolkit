@@ -14,7 +14,7 @@ import Placeholder from '@accelint/icons/placeholder';
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
 
-import type { IMenuItem } from '../menu-item';
+import type { IOptionsItem } from '../options-item';
 import { ComboBox } from './index';
 
 const meta: Meta<typeof ComboBox> = {
@@ -46,11 +46,11 @@ const meta: Meta<typeof ComboBox> = {
 export default meta;
 type Story = StoryObj<typeof ComboBox>;
 
-interface CustomMenuItem extends IMenuItem {
+interface CustomOptionsItem extends IOptionsItem {
   isDisabled?: boolean;
 }
 
-const items: CustomMenuItem[] = [
+const items: CustomOptionsItem[] = [
   {
     id: 1,
     leftIcon: <Placeholder />,
@@ -89,7 +89,7 @@ const items: CustomMenuItem[] = [
   },
 ];
 
-const itemsWithSections: CustomMenuItem[] = [
+const itemsWithSections: CustomOptionsItem[] = [
   {
     id: 1,
     leftIcon: <Placeholder />,
@@ -138,7 +138,7 @@ const itemsWithSections: CustomMenuItem[] = [
 
 export const Default: Story = {
   render: ({ children, ...args }) => (
-    <ComboBox<CustomMenuItem> {...args} defaultItems={items}>
+    <ComboBox<CustomOptionsItem> {...args} defaultItems={items}>
       {(item) => (
         <ComboBox.Item
           key={item.id}
@@ -160,7 +160,7 @@ export const WithDynamicSections: Story = {
     },
   },
   render: ({ children, ...args }) => (
-    <ComboBox<CustomMenuItem> {...args} defaultItems={itemsWithSections}>
+    <ComboBox<CustomOptionsItem> {...args} defaultItems={itemsWithSections}>
       {(section) => (
         <ComboBox.Section header={section.name} items={section.children}>
           {(item) => (

@@ -22,7 +22,7 @@ import {
 import { Icon } from '../icon';
 import { OptionsContext } from '../options';
 
-const menuItemStyles = cva(
+const optionsItemStyles = cva(
   [
     'fg-default-light icon-size-l flex items-center gap-s p-s text-body-s ',
     '**:data-[slot=description]:fg-default-dark **:data-[slot=description]:text-body-xs',
@@ -48,8 +48,8 @@ const menuItemStyles = cva(
   },
 );
 
-export interface IMenuItem {
-  children?: IMenuItem[];
+export interface IOptionsItem {
+  children?: IOptionsItem[];
   description?: string;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
@@ -57,8 +57,8 @@ export interface IMenuItem {
   name: string;
 }
 
-export interface MenuItemProps<T extends IMenuItem>
-  extends VariantProps<typeof menuItemStyles>,
+export interface OptionsItemProps<T extends IOptionsItem>
+  extends VariantProps<typeof optionsItemStyles>,
     AriaListBoxItemProps<T> {
   description?: string;
   leftIcon?: ReactNode;
@@ -66,7 +66,7 @@ export interface MenuItemProps<T extends IMenuItem>
   name: string;
 }
 
-export function MenuItem<T extends IMenuItem>({
+export function OptionsItem<T extends IOptionsItem>({
   children,
   className,
   description,
@@ -76,7 +76,7 @@ export function MenuItem<T extends IMenuItem>({
   type: typeProp,
   size: sizeProp,
   ...props
-}: MenuItemProps<T>) {
+}: OptionsItemProps<T>) {
   const optionsContext = useContext(OptionsContext) ?? {};
 
   const { size, type } = useMemo(
@@ -92,7 +92,7 @@ export function MenuItem<T extends IMenuItem>({
     <AriaListBoxItem<T>
       textValue={name}
       {...props}
-      className={menuItemStyles({ type, size, className })}
+      className={optionsItemStyles({ type, size, className })}
     >
       {(renderProps) => {
         if (typeof children === 'function') {
@@ -128,4 +128,4 @@ export function MenuItem<T extends IMenuItem>({
     </AriaListBoxItem>
   );
 }
-MenuItem.displayName = 'MenuItem';
+OptionsItem.displayName = 'OptionsItem';

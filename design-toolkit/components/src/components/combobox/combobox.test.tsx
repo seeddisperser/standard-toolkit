@@ -12,7 +12,7 @@
 
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import type { IMenuItem } from '../menu-item';
+import type { IOptionsItem } from '../options-item';
 import { ComboBox, type ComboBoxProps } from './index';
 
 function setup({
@@ -30,7 +30,7 @@ function setup({
     </>
   ),
   ...rest
-}: Partial<ComboBoxProps<IMenuItem>> = {}) {
+}: Partial<ComboBoxProps<IOptionsItem>> = {}) {
   render(<ComboBox {...rest}>{children}</ComboBox>);
 
   return {

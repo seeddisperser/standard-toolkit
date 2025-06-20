@@ -10,7 +10,6 @@
  * governing permissions and limitations under the License.
  */
 
-import { ChevronRight } from '@accelint/icons';
 import Placeholder from '@accelint/icons/placeholder';
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
@@ -18,7 +17,7 @@ import {
   ListLayout as AriaListLayout,
   Virtualizer as AriaVirtualizer,
 } from 'react-aria-components';
-import type { IMenuItem } from '../menu-item';
+import type { IOptionsItem } from '../options-item';
 import { Options } from './index';
 
 const meta: Meta<typeof Options> = {
@@ -33,17 +32,16 @@ const meta: Meta<typeof Options> = {
 export default meta;
 type Story = StoryObj<typeof Options>;
 
-interface CustomMenuItem extends IMenuItem {
+interface CustomOptionsItem extends IOptionsItem {
   isDisabled?: boolean;
 }
 
-const items: CustomMenuItem[] = [
+const items: CustomOptionsItem[] = [
   {
     id: 1,
     leftIcon: <Placeholder />,
     name: 'Red Panda',
     description: 'Tree-dwelling mammal',
-    rightIcon: <ChevronRight />,
   },
   {
     id: 2,
@@ -78,7 +76,7 @@ const items: CustomMenuItem[] = [
   },
 ];
 
-const itemsWithSections: CustomMenuItem[] = [
+const itemsWithSections: CustomOptionsItem[] = [
   {
     id: 1,
     leftIcon: <Placeholder />,
@@ -133,7 +131,7 @@ export const Default: Story = {
   },
 
   render: ({ children, ...args }) => (
-    <Options<CustomMenuItem> {...args} items={items}>
+    <Options<CustomOptionsItem> {...args} items={items}>
       {(item) => (
         <Options.Item
           key={item.id}
@@ -153,7 +151,7 @@ export const WithDynamicSections: Story = {
     ...Default.args,
   },
   render: ({ children, ...args }) => (
-    <Options<CustomMenuItem> {...args} items={itemsWithSections}>
+    <Options<CustomOptionsItem> {...args} items={itemsWithSections}>
       {(section) => (
         <Options.Section header={section.name} items={section.children}>
           {({ children, ...item }) => <Options.Item key={item.id} {...item} />}
