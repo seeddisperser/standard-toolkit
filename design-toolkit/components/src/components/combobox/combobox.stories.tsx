@@ -53,26 +53,26 @@ interface CustomOptionsItem extends IOptionsItem {
 const items: CustomOptionsItem[] = [
   {
     id: 1,
-    leftIcon: <Placeholder />,
+    prefixIcon: <Placeholder />,
     name: 'Red Panda',
     description: 'Tree-dwelling mammal',
   },
   {
     id: 2,
-    leftIcon: <Placeholder />,
+    prefixIcon: <Placeholder />,
     name: 'Cat',
     description: 'Furry house pet',
     isDisabled: true,
   },
   {
     id: 3,
-    leftIcon: <Placeholder />,
+    prefixIcon: <Placeholder />,
     name: 'Dog',
     description: 'Loyal companion',
   },
   {
     id: 4,
-    leftIcon: <Placeholder />,
+    prefixIcon: <Placeholder />,
     name: 'Aardvark',
     description: 'Ant-eating nocturnal',
   },
@@ -83,7 +83,7 @@ const items: CustomOptionsItem[] = [
   },
   {
     id: 6,
-    leftIcon: <Placeholder />,
+    prefixIcon: <Placeholder />,
     name: 'Snake',
     description: 'Slithering reptile',
   },
@@ -92,44 +92,44 @@ const items: CustomOptionsItem[] = [
 const itemsWithSections: CustomOptionsItem[] = [
   {
     id: 1,
-    leftIcon: <Placeholder />,
+    prefixIcon: <Placeholder />,
     name: 'North American Birds',
     children: [
       {
         id: 2,
-        leftIcon: <Placeholder />,
+        prefixIcon: <Placeholder />,
         name: 'Blue jay',
       },
       {
         id: 3,
-        leftIcon: <Placeholder />,
+        prefixIcon: <Placeholder />,
         name: 'Gray catbird',
       },
       {
         id: 4,
-        leftIcon: <Placeholder />,
+        prefixIcon: <Placeholder />,
         name: 'Black-capped chickadee',
       },
       {
         id: 5,
-        leftIcon: <Placeholder />,
+        prefixIcon: <Placeholder />,
         name: 'Song sparrow',
       },
     ],
   },
   {
     id: 6,
-    leftIcon: <Placeholder />,
+    prefixIcon: <Placeholder />,
     name: 'African Birds',
     children: [
       {
         id: 6,
-        leftIcon: <Placeholder />,
+        prefixIcon: <Placeholder />,
         name: 'Lilac-breasted roller',
       },
       {
         id: 7,
-        leftIcon: <Placeholder />,
+        prefixIcon: <Placeholder />,
         name: 'Hornbill',
       },
     ],
@@ -142,7 +142,7 @@ export const Default: Story = {
       {(item) => (
         <ComboBox.Item
           key={item.id}
-          leftIcon={item.leftIcon}
+          prefixIcon={item.prefixIcon}
           name={item.name}
           description={item.description}
           isDisabled={item.isDisabled}
@@ -166,7 +166,7 @@ export const WithDynamicSections: Story = {
           {(item) => (
             <ComboBox.Item
               key={item.id}
-              leftIcon={item.leftIcon}
+              prefixIcon={item.prefixIcon}
               name={item.name}
               description={item.description}
             />
@@ -187,24 +187,30 @@ export const WithStaticSections: Story = {
   render: ({ children, ...args }) => (
     <ComboBox {...args}>
       <ComboBox.Section header='North American Birds'>
-        <ComboBox.Item leftIcon={<Placeholder />} name='Blue Jay'>
+        <ComboBox.Item prefixIcon={<Placeholder />} name='Blue Jay'>
           Blue Jay
         </ComboBox.Item>
-        <ComboBox.Item leftIcon={<Placeholder />} name='Gray catbird'>
+        <ComboBox.Item prefixIcon={<Placeholder />} name='Gray catbird'>
           Gray catbird
         </ComboBox.Item>
-        <ComboBox.Item leftIcon={<Placeholder />} name='Black-capped chickadee'>
+        <ComboBox.Item
+          prefixIcon={<Placeholder />}
+          name='Black-capped chickadee'
+        >
           Black-capped chickadee
         </ComboBox.Item>
-        <ComboBox.Item leftIcon={<Placeholder />} name='Song Sparrow'>
+        <ComboBox.Item prefixIcon={<Placeholder />} name='Song Sparrow'>
           Song Sparrow
         </ComboBox.Item>
       </ComboBox.Section>
       <ComboBox.Section header='African Birds'>
-        <ComboBox.Item leftIcon={<Placeholder />} name='Lilac-breasted roller'>
+        <ComboBox.Item
+          prefixIcon={<Placeholder />}
+          name='Lilac-breasted roller'
+        >
           Lilac-breasted roller
         </ComboBox.Item>
-        <ComboBox.Item leftIcon={<Placeholder />} name='Hornbill'>
+        <ComboBox.Item prefixIcon={<Placeholder />} name='Hornbill'>
           Hornbill
         </ComboBox.Item>
       </ComboBox.Section>
@@ -212,9 +218,9 @@ export const WithStaticSections: Story = {
   ),
 };
 
-const manyItems: { id: number; name: string; leftIcon: ReactNode }[] = [];
+const manyItems: { id: number; name: string; prefixIcon: ReactNode }[] = [];
 for (let i = 0; i < 5000; i++) {
-  manyItems.push({ id: i, name: `Item ${i}`, leftIcon: <Placeholder /> });
+  manyItems.push({ id: i, name: `Item ${i}`, prefixIcon: <Placeholder /> });
 }
 
 export const WithManyItems: Story = {
@@ -227,7 +233,11 @@ export const WithManyItems: Story = {
   render: ({ children, ...args }) => (
     <ComboBox {...args}>
       {manyItems.map((item) => (
-        <ComboBox.Item key={item.id} leftIcon={item.leftIcon} name={item.name}>
+        <ComboBox.Item
+          key={item.id}
+          prefixIcon={item.prefixIcon}
+          name={item.name}
+        >
           {item.name}
         </ComboBox.Item>
       ))}

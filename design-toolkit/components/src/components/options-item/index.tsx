@@ -51,8 +51,8 @@ const optionsItemStyles = cva(
 export interface IOptionsItem {
   children?: IOptionsItem[];
   description?: string;
-  leftIcon?: ReactNode;
-  rightIcon?: ReactNode;
+  prefixIcon?: ReactNode;
+  suffixIcon?: ReactNode;
   id?: string | number;
   name: string;
 }
@@ -61,8 +61,8 @@ export interface OptionsItemProps<T extends IOptionsItem>
   extends VariantProps<typeof optionsItemStyles>,
     AriaListBoxItemProps<T> {
   description?: string;
-  leftIcon?: ReactNode;
-  rightIcon?: ReactNode;
+  prefixIcon?: ReactNode;
+  suffixIcon?: ReactNode;
   name: string;
 }
 
@@ -70,8 +70,8 @@ export function OptionsItem<T extends IOptionsItem>({
   children,
   className,
   description,
-  leftIcon,
-  rightIcon,
+  prefixIcon,
+  suffixIcon,
   name,
   type: typeProp,
   size: sizeProp,
@@ -102,7 +102,7 @@ export function OptionsItem<T extends IOptionsItem>({
         return (
           <>
             <span className='flex w-[16px] items-center'>
-              {leftIcon && <Icon>{leftIcon}</Icon>}
+              {prefixIcon && <Icon>{prefixIcon}</Icon>}
             </span>
 
             <div className='flex min-w-0 flex-auto flex-col gap-xxs'>
@@ -120,7 +120,7 @@ export function OptionsItem<T extends IOptionsItem>({
               )}
             </div>
             <span className='flex w-[16px] items-center'>
-              {rightIcon && <Icon>{rightIcon}</Icon>}
+              {suffixIcon && <Icon>{suffixIcon}</Icon>}
             </span>
           </>
         );

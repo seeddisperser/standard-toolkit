@@ -39,27 +39,27 @@ interface CustomOptionsItem extends IOptionsItem {
 const items: CustomOptionsItem[] = [
   {
     id: 1,
-    leftIcon: <Placeholder />,
+    prefixIcon: <Placeholder />,
     name: 'Red Panda',
     description: 'Tree-dwelling mammal',
   },
   {
     id: 2,
-    leftIcon: <Placeholder />,
+    prefixIcon: <Placeholder />,
     name: 'Cat',
     description: 'Furry house pet',
     isDisabled: true,
   },
   {
     id: 3,
-    leftIcon: <Placeholder />,
+    prefixIcon: <Placeholder />,
     name: 'Dog',
     description: 'Loyal companion',
-    rightIcon: <Placeholder />,
+    suffixIcon: <Placeholder />,
   },
   {
     id: 4,
-    leftIcon: <Placeholder />,
+    prefixIcon: <Placeholder />,
     name: 'Aardvark',
     description: 'Ant-eating nocturnal',
   },
@@ -70,7 +70,7 @@ const items: CustomOptionsItem[] = [
   },
   {
     id: 6,
-    leftIcon: <Placeholder />,
+    prefixIcon: <Placeholder />,
     name: 'Snake',
     description: 'Slithering reptile',
   },
@@ -79,44 +79,44 @@ const items: CustomOptionsItem[] = [
 const itemsWithSections: CustomOptionsItem[] = [
   {
     id: 1,
-    leftIcon: <Placeholder />,
+    prefixIcon: <Placeholder />,
     name: 'North American Birds',
     children: [
       {
         id: 2,
-        leftIcon: <Placeholder />,
+        prefixIcon: <Placeholder />,
         name: 'Blue jay',
       },
       {
         id: 3,
-        leftIcon: <Placeholder />,
+        prefixIcon: <Placeholder />,
         name: 'Gray catbird',
       },
       {
         id: 4,
-        leftIcon: <Placeholder />,
+        prefixIcon: <Placeholder />,
         name: 'Black-capped chickadee',
       },
       {
         id: 5,
-        leftIcon: <Placeholder />,
+        prefixIcon: <Placeholder />,
         name: 'Song sparrow',
       },
     ],
   },
   {
     id: 6,
-    leftIcon: <Placeholder />,
+    prefixIcon: <Placeholder />,
     name: 'African Birds',
     children: [
       {
         id: 6,
-        leftIcon: <Placeholder />,
+        prefixIcon: <Placeholder />,
         name: 'Lilac-breasted roller',
       },
       {
         id: 7,
-        leftIcon: <Placeholder />,
+        prefixIcon: <Placeholder />,
         name: 'Hornbill',
       },
     ],
@@ -135,11 +135,11 @@ export const Default: Story = {
       {(item) => (
         <Options.Item
           key={item.id}
-          leftIcon={item.leftIcon}
+          prefixIcon={item.prefixIcon}
           name={item.name}
           description={item.description}
           isDisabled={item.isDisabled}
-          rightIcon={item.rightIcon}
+          suffixIcon={item.suffixIcon}
         />
       )}
     </Options>
@@ -169,24 +169,27 @@ export const WithStaticSections: Story = {
   render: ({ children, ...args }) => (
     <Options {...args}>
       <Options.Section header='North American Birds' className='w-[200px]'>
-        <Options.Item leftIcon={<Placeholder />} name='Blue Jay'>
+        <Options.Item prefixIcon={<Placeholder />} name='Blue Jay'>
           Blue Jay
         </Options.Item>
-        <Options.Item leftIcon={<Placeholder />} name='Gray catbird'>
+        <Options.Item prefixIcon={<Placeholder />} name='Gray catbird'>
           Gray catbird
         </Options.Item>
-        <Options.Item leftIcon={<Placeholder />} name='Black-capped chickadee'>
+        <Options.Item
+          prefixIcon={<Placeholder />}
+          name='Black-capped chickadee'
+        >
           Black-capped chickadee
         </Options.Item>
-        <Options.Item leftIcon={<Placeholder />} name='Song Sparrow'>
+        <Options.Item prefixIcon={<Placeholder />} name='Song Sparrow'>
           Song Sparrow
         </Options.Item>
       </Options.Section>
       <Options.Section header='African Birds'>
-        <Options.Item leftIcon={<Placeholder />} name='Lilac-breasted roller'>
+        <Options.Item prefixIcon={<Placeholder />} name='Lilac-breasted roller'>
           Lilac-breasted roller
         </Options.Item>
-        <Options.Item leftIcon={<Placeholder />} name='Hornbill'>
+        <Options.Item prefixIcon={<Placeholder />} name='Hornbill'>
           Hornbill
         </Options.Item>
       </Options.Section>
@@ -211,7 +214,7 @@ export const Virtualized: Story = {
       >
         <Options {...args}>
           {manyItems.map((item) => (
-            <Options.Item key={item.id} leftIcon={item.icon} name={item.name}>
+            <Options.Item key={item.id} prefixIcon={item.icon} name={item.name}>
               {item.name}
             </Options.Item>
           ))}

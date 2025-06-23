@@ -20,24 +20,27 @@ function setup({
   children = (
     <>
       <Options.Section header='North American Birds' className='w-[200px]'>
-        <Options.Item leftIcon={<Placeholder />} name='Blue Jay'>
+        <Options.Item prefixIcon={<Placeholder />} name='Blue Jay'>
           Blue Jay
         </Options.Item>
-        <Options.Item leftIcon={<Placeholder />} name='Gray catbird'>
+        <Options.Item prefixIcon={<Placeholder />} name='Gray catbird'>
           Gray catbird
         </Options.Item>
-        <Options.Item leftIcon={<Placeholder />} name='Black-capped chickadee'>
+        <Options.Item
+          prefixIcon={<Placeholder />}
+          name='Black-capped chickadee'
+        >
           Black-capped chickadee
         </Options.Item>
-        <Options.Item leftIcon={<Placeholder />} name='Song Sparrow'>
+        <Options.Item prefixIcon={<Placeholder />} name='Song Sparrow'>
           Song Sparrow
         </Options.Item>
       </Options.Section>
       <Options.Section header='African Birds'>
-        <Options.Item leftIcon={<Placeholder />} name='Lilac-breasted roller'>
+        <Options.Item prefixIcon={<Placeholder />} name='Lilac-breasted roller'>
           Lilac-breasted roller
         </Options.Item>
-        <Options.Item leftIcon={<Placeholder />} name='Hornbill'>
+        <Options.Item prefixIcon={<Placeholder />} name='Hornbill'>
           Hornbill
         </Options.Item>
       </Options.Section>
