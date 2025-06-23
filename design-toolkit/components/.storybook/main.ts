@@ -50,8 +50,9 @@ const config: StorybookConfig = {
       propFilter: (prop) => {
         // Exclude props that are not relevant for documentation
         return prop.parent
-          ? /react-aria-components/.test(prop.parent?.fileName) ||
-              !/node_modules/.test(prop.parent?.fileName)
+          ? /react-aria-components|@react-types\/datepicker/.test(
+              prop.parent?.fileName,
+            ) || !/node_modules/.test(prop.parent?.fileName)
           : true;
       },
     },
