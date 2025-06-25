@@ -23,9 +23,15 @@ const meta: Meta<typeof Accordion.Group> = {
   component: Accordion.Group,
   args: {
     allowsMultipleExpanded: false,
+    variant: 'cozy',
     isDisabled: false,
   },
-  argTypes: {},
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: ['cozy', 'compact'],
+    },
+  },
   parameters: {
     docs: {
       subtitle: 'Group together multiple <Accordion> components.',
