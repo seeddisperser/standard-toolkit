@@ -34,9 +34,8 @@ const meta: Meta<typeof Accordion.Group> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof Accordion.Group>;
 
-export const Default: Story = {
+export const Default: StoryObj<typeof Accordion.Group> = {
   render: ({ children, ...args }) => (
     <div className='w-[280px]'>
       <Accordion.Group {...args}>

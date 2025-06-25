@@ -23,7 +23,6 @@ const meta: Meta<typeof Accordion> = {
   component: Accordion,
   args: {
     isDisabled: false,
-    options: false,
     variant: 'cozy',
   },
   argTypes: {
@@ -40,9 +39,8 @@ const meta: Meta<typeof Accordion> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof Accordion>;
 
-export const Default: Story = {
+export const Default: StoryObj<typeof Accordion> = {
   render: ({ children, ...args }) => (
     <div className='w-[280px]'>
       <Accordion {...args}>

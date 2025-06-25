@@ -12,196 +12,183 @@
 
 'use client';
 
-import type React from 'react';
+import { type ForwardedRef, forwardRef } from 'react';
 import {
-  Disclosure as AriaDisclosure,
-  DisclosureGroup as AriaDisclosureGroup,
-  type DisclosureGroupProps as AriaDisclosureGroupProps,
-  DisclosureGroupStateContext as AriaDisclosureGroupStateContext,
-  DisclosurePanel as AriaDisclosurePanel,
-  type DisclosurePanelProps as AriaDisclosurePanelProps,
-  type DisclosureProps as AriaDisclosureProps,
   Button,
-  type ButtonProps,
+  type ContextValue,
+  Disclosure,
+  DisclosureGroup,
+  DisclosurePanel,
+  DisclosureStateContext,
   Heading,
+  useContextProps,
 } from 'react-aria-components';
 
-import { cn } from '@/lib/utils';
-import { ChevronDown, Kebab } from '@accelint/icons';
-import { type VariantProps, cva } from 'cva';
+import { callRenderProps, isSlottedContextValue } from '@/lib/utils';
+import { ChevronDown } from '@accelint/icons';
 import { createContext, useContext } from 'react';
 import { Icon } from '../icon';
-import { IconButton } from '../icon-button';
+import { AccordionStyles, AccordionStylesDefaults } from './styles';
+import type {
+  AccordionGroupProps,
+  AccordionHeaderProps,
+  AccordionPanelProps,
+  AccordionProps,
+} from './types';
 
-const accordionStyles = cva('group flex flex-col bg-transparent', {
-  variants: {
-    variant: {
-      cozy: 'is-cozy',
-      compact: 'is-compact',
-    },
-  },
-  defaultVariants: {
-    variant: 'cozy',
-  },
-});
+const { group, accordion, header, heading, trigger, panel } = AccordionStyles();
 
-interface AccordionContextType
-  extends Pick<VariantProps<typeof accordionStyles>, 'variant'> {
-  isDisabled?: boolean;
-  options?: boolean;
-}
+export const AccordionContext =
+  createContext<ContextValue<AccordionProps, HTMLDivElement>>(null);
 
-const AccordionContext = createContext<AccordionContextType>({
-  isDisabled: false,
-  options: false,
-  variant: 'cozy',
-});
-
-export interface AccordionProps
-  extends VariantProps<typeof accordionStyles>,
-    AriaDisclosureProps {
-  options?: boolean;
-}
-
-export function Accordion({
-  children,
-  className,
-  isDisabled = false,
-  options = false,
-  variant = 'cozy',
-  ...props
-}: AccordionProps) {
-  // @ts-expect-error package version mismatch TODO
-  const stateContext = useContext(AriaDisclosureGroupStateContext);
-
+const AccordionGroup = forwardRef(function AccordionGroup(
+  {
+    children,
+    className,
+    variant = AccordionStylesDefaults.variant,
+    isDisabled,
+    ...rest
+  }: AccordionGroupProps,
+  ref: ForwardedRef<HTMLDivElement>,
+) {
   return (
-    <AccordionContext.Provider
-      value={{
-        options,
-        variant,
-        isDisabled: isDisabled || stateContext?.isDisabled,
-      }}
-    >
-      <AriaDisclosure
-        {...props}
-        isDisabled={isDisabled}
-        className={cn(
-          `group w-full ${options ? 'has-options' : ''}`,
-          accordionStyles({ variant, className }),
-        )}
-      >
-        {(props) =>
-          typeof children === 'function' ? children(props) : children
+    <AccordionContext.Provider value={{ variant, isDisabled }}>
+      <DisclosureGroup
+        {...rest}
+        ref={ref}
+        className={(renderProps) =>
+          group({
+            className: callRenderProps(className, {
+              ...renderProps,
+              variant,
+            }),
+            variant,
+          })
         }
-      </AriaDisclosure>
+      >
+        {children}
+      </DisclosureGroup>
     </AccordionContext.Provider>
   );
-}
-Accordion.displayName = 'Accordion';
-
-export interface AccordionHeaderProps
-  extends Pick<AccordionProps, 'options' | 'variant'> {
-  children: React.ReactNode;
-  className?: ButtonProps['className'];
-  isDisabled?: boolean;
-}
-
-function AccordionHeader({ children }: AccordionHeaderProps) {
-  const { isDisabled, options, variant } = useContext(AccordionContext);
-
-  return (
-    <Heading
-      className={cn([
-        'fg-default-light flex w-full cursor-pointer items-center rounded-medium p-s outline-none focus-within:bg-interactive-hover-dark hover:bg-interactive-hover-dark',
-        isDisabled &&
-          'fg-disabled cursor-default focus-within:bg-transparent hover:bg-transparent',
-      ])}
-      data-variant={variant}
-    >
-      <Button
-        slot='trigger'
-        className={cn([
-          'flex w-full cursor-pointer items-center rounded-medium outline-none',
-          'data-[variant=cozy]:icon-size-xl data-[variant=cozy]:gap-s data-[variant=cozy]:text-header-m',
-          'data-[variant=compact]:icon-size-l data-[variant=compact]:gap-xs data-[variant=compact]:text-header-s',
-          'ai-disabled:cursor-default',
-        ])}
-        data-variant={variant}
-      >
-        {/* @ts-expect-error package version mismatch TODO*/}
-        <span
-          className={IconButton.as({
-            isDisabled,
-            size: variant === 'cozy' ? 'medium' : 'small',
-            variant: 'child',
-          })}
-          aria-hidden
-        >
-          <Icon>
-            <ChevronDown
-              className={cn('transform group-ai-expanded:rotate-180')}
-            />
-          </Icon>
-        </span>
-        {children}
-      </Button>
-      {options && (
-        <IconButton
-          className='ml-auto'
-          isDisabled={isDisabled}
-          size={variant === 'cozy' ? 'medium' : 'small'}
-          variant='child'
-        >
-          <Icon>
-            <Kebab />
-          </Icon>
-        </IconButton>
-      )}
-    </Heading>
-  );
-}
-AccordionHeader.displayName = 'Accordion.Header';
-Accordion.Header = AccordionHeader;
-
-export interface AccordionPanelProps extends AriaDisclosurePanelProps {}
-
-function AccordionPanel({
-  children,
-  className,
-  ...props
-}: AccordionPanelProps) {
-  return (
-    <AriaDisclosurePanel
-      {...props}
-      className={'overflow-hidden transition-all'}
-    >
-      <div className={cn('p-s', className)}>{children}</div>
-    </AriaDisclosurePanel>
-  );
-}
-AccordionPanel.displayName = 'Accordion.Panel';
-Accordion.Panel = AccordionPanel;
-
-export interface AccordionGroupProps extends AriaDisclosureGroupProps {
-  /** Whether multiple items can be expanded at the same time. */
-  allowsMultipleExpanded?: boolean;
-}
-
-function AccordionGroup({
-  allowsMultipleExpanded = false,
-  children,
-  className,
-  ...props
-}: AccordionGroupProps) {
-  return (
-    <AriaDisclosureGroup
-      {...props}
-      allowsMultipleExpanded={allowsMultipleExpanded}
-      className={cn('flex w-full flex-col', className)}
-    >
-      {(props) => (typeof children === 'function' ? children(props) : children)}
-    </AriaDisclosureGroup>
-  );
-}
+});
 AccordionGroup.displayName = 'Accordion.Group';
-Accordion.Group = AccordionGroup;
+
+const AccordionHeader = forwardRef(function AccordionHeader(
+  { children, classNames }: AccordionHeaderProps,
+  ref: ForwardedRef<HTMLDivElement>,
+) {
+  const context = useContext(AccordionContext);
+  const state = useContext(DisclosureStateContext);
+  const variant =
+    (isSlottedContextValue(context) ? undefined : context?.variant) ??
+    AccordionStylesDefaults.variant;
+  const isDisabled =
+    (isSlottedContextValue(context) ? undefined : context?.isDisabled) ??
+    AccordionStylesDefaults.isDisabled;
+  const isExpanded = state?.isExpanded ?? AccordionStylesDefaults.isExpanded;
+
+  return (
+    <div
+      ref={ref}
+      className={header({
+        className: classNames?.header,
+        variant,
+        isDisabled,
+        isExpanded,
+      })}
+    >
+      <Heading
+        className={heading({
+          className: classNames?.heading,
+          variant,
+          isDisabled,
+          isExpanded,
+        })}
+      >
+        <Button
+          slot='trigger'
+          className={(renderProps) =>
+            trigger({
+              ...renderProps,
+              className: callRenderProps(classNames?.trigger, {
+                ...renderProps,
+                variant,
+                isExpanded,
+              }),
+              variant,
+              isExpanded,
+            })
+          }
+        >
+          <Icon>
+            <ChevronDown className='transform group-dtk-expanded:rotate-180' />
+          </Icon>
+          {children}
+        </Button>
+      </Heading>
+    </div>
+  );
+});
+AccordionHeader.displayName = 'Accordion.Header';
+
+const AccordionPanel = forwardRef(function AccordionPanel(
+  { children, className, ...rest }: AccordionPanelProps,
+  ref: ForwardedRef<HTMLDivElement>,
+) {
+  return (
+    <DisclosurePanel
+      {...rest}
+      ref={ref}
+      className={(renderProps) =>
+        panel({ className: callRenderProps(className, renderProps) })
+      }
+    >
+      {children}
+    </DisclosurePanel>
+  );
+});
+AccordionPanel.displayName = 'Accordion.Panel';
+
+export const Accordion = Object.assign(
+  forwardRef(function Accordion(
+    props: AccordionProps,
+    ref: ForwardedRef<HTMLDivElement>,
+  ) {
+    [props, ref] = useContextProps(props, ref, AccordionContext);
+
+    const {
+      children,
+      className,
+      variant = AccordionStylesDefaults.variant,
+      isDisabled,
+      ...rest
+    } = props;
+
+    return (
+      <AccordionContext.Provider
+        value={{
+          variant,
+          isDisabled,
+        }}
+      >
+        <Disclosure
+          {...rest}
+          className={(renderProps) =>
+            accordion({
+              className: callRenderProps(className, renderProps),
+            })
+          }
+          isDisabled={isDisabled}
+        >
+          {children}
+        </Disclosure>
+      </AccordionContext.Provider>
+    );
+  }),
+  {
+    Group: AccordionGroup,
+    Header: AccordionHeader,
+    Panel: AccordionPanel,
+  },
+);
+Accordion.displayName = 'Accordion';
