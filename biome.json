@@ -33,7 +33,7 @@
                     "selector": {
                       "kind": "objectLiteralMember"
                     },
-                    "formats": ["PascalCase", "camelCase"]
+                    "formats": ["PascalCase", "camelCase", "CONSTANT_CASE"]
                   }
                 ]
               }
