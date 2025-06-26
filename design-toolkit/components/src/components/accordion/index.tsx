@@ -58,10 +58,7 @@ const AccordionGroup = forwardRef(function AccordionGroup(
         ref={ref}
         className={(renderProps) =>
           group({
-            className: callRenderProps(className, {
-              ...renderProps,
-              variant,
-            }),
+            className: callRenderProps(className, renderProps),
             variant,
           })
         }
@@ -110,11 +107,7 @@ const AccordionHeader = forwardRef(function AccordionHeader(
           className={(renderProps) =>
             trigger({
               ...renderProps,
-              className: callRenderProps(classNames?.trigger, {
-                ...renderProps,
-                variant,
-                isExpanded,
-              }),
+              className: callRenderProps(classNames?.trigger, renderProps),
               variant,
               isExpanded,
             })

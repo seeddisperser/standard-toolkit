@@ -15,7 +15,6 @@ import type { PropsWithChildren } from 'react';
 import type {
   ButtonRenderProps,
   DisclosureGroupProps,
-  DisclosureGroupRenderProps,
   DisclosurePanelProps,
   DisclosureProps,
 } from 'react-aria-components';
@@ -23,12 +22,8 @@ import type { AccordionStyleVariants } from './styles';
 
 export type AccordionRenderProps = Required<AccordionStyleVariants>;
 
-export type AccordionGroupProps = Omit<DisclosureGroupProps, 'className'> &
-  Pick<AccordionStyleVariants, 'variant'> & {
-    className?: RenderPropsClassName<
-      DisclosureGroupRenderProps & Omit<AccordionRenderProps, 'isExpanded'>
-    >;
-  };
+export type AccordionGroupProps = DisclosureGroupProps &
+  Pick<AccordionStyleVariants, 'variant'>;
 
 export type AccordionProps = DisclosureProps &
   Pick<AccordionStyleVariants, 'variant'>;
@@ -37,7 +32,7 @@ export type AccordionHeaderProps = PropsWithChildren<{
   classNames?: {
     header?: string;
     heading?: string;
-    trigger?: RenderPropsClassName<ButtonRenderProps & AccordionRenderProps>;
+    trigger?: RenderPropsClassName<ButtonRenderProps>;
   };
 }>;
 
