@@ -25,7 +25,6 @@ export type {
   AccordionHeaderProps,
   AccordionPanelProps,
   AccordionProps,
-  AccordionRenderProps,
 } from './components/accordion/types';
 export { Avatar } from './components/avatar';
 export type { AvatarProps } from './components/avatar';
