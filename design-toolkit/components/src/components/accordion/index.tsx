@@ -21,10 +21,11 @@ import {
   DisclosurePanel,
   DisclosureStateContext,
   Heading,
+  composeRenderProps,
   useContextProps,
 } from 'react-aria-components';
 
-import { callRenderProps, isSlottedContextValue } from '@/lib/utils';
+import { isSlottedContextValue } from '@/lib/utils';
 import { ChevronDown } from '@accelint/icons';
 import { createContext, useContext } from 'react';
 import { Icon } from '../icon';
@@ -56,12 +57,13 @@ const AccordionGroup = forwardRef(function AccordionGroup(
       <DisclosureGroup
         {...rest}
         ref={ref}
-        className={(renderProps) =>
+        className={composeRenderProps(className, (className) =>
           group({
-            className: callRenderProps(className, renderProps),
+            className,
             variant,
-          })
-        }
+            isDisabled,
+          }),
+        )}
       >
         {children}
       </DisclosureGroup>
@@ -104,14 +106,13 @@ const AccordionHeader = forwardRef(function AccordionHeader(
       >
         <Button
           slot='trigger'
-          className={(renderProps) =>
+          className={composeRenderProps(classNames?.trigger, (className) =>
             trigger({
-              ...renderProps,
-              className: callRenderProps(classNames?.trigger, renderProps),
+              className,
               variant,
               isExpanded,
-            })
-          }
+            }),
+          )}
         >
           <Icon>
             <ChevronDown className='transform group-dtk-expanded:rotate-180' />
@@ -132,9 +133,9 @@ const AccordionPanel = forwardRef(function AccordionPanel(
     <DisclosurePanel
       {...rest}
       ref={ref}
-      className={(renderProps) =>
-        panel({ className: callRenderProps(className, renderProps) })
-      }
+      className={composeRenderProps(className, (className) =>
+        panel({ className }),
+      )}
     >
       {children}
     </DisclosurePanel>
@@ -166,11 +167,11 @@ export const Accordion = Object.assign(
       >
         <Disclosure
           {...rest}
-          className={(renderProps) =>
+          className={composeRenderProps(className, (className) =>
             accordion({
-              className: callRenderProps(className, renderProps),
-            })
-          }
+              className,
+            }),
+          )}
           isDisabled={isDisabled}
         >
           {children}
