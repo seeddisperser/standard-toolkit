@@ -108,11 +108,4 @@ export type {
   StylePropRenderProps,
   StyleRenderProps,
 } from './lib/types';
-export {
-  callRenderProps,
-  cn,
-  isSlottedContextValue,
-  tv,
-  twMerge,
-  wrapRenderProps,
-} from './lib/utils';
+export { cn, isSlottedContextValue, tv, twMerge } from './lib/utils';
