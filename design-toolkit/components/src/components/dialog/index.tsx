@@ -164,7 +164,6 @@ const DialogBody = forwardRef<HTMLDivElement, DialogBodyProps>(
             size === 'lg' && 'rounded-large',
           )}
         >
-          {/* @ts-expect-error package version mismatch TODO */}
           <RACDialog className={dialogClasses({ size })}>{children}</RACDialog>
         </RACModal>
       </RACModalOverlay>
@@ -207,7 +206,6 @@ export const DialogTitle = ({
         className,
       )}
     >
-      {/* @ts-expect-error package version mismatch TODO */}
       {children}
     </RACHeading>
   );
