@@ -35,6 +35,7 @@ import type {
   AccordionHeaderProps,
   AccordionPanelProps,
   AccordionProps,
+  AccordionTriggerProps,
 } from './types';
 
 const { group, accordion, header, heading, trigger, panel } = AccordionStyles();
@@ -73,7 +74,7 @@ const AccordionGroup = forwardRef(function AccordionGroup(
 AccordionGroup.displayName = 'Accordion.Group';
 
 const AccordionHeader = forwardRef(function AccordionHeader(
-  { children, classNames }: AccordionHeaderProps,
+  { children, className }: AccordionHeaderProps,
   ref: ForwardedRef<HTMLDivElement>,
 ) {
   const context = useContext(AccordionContext);
@@ -90,40 +91,61 @@ const AccordionHeader = forwardRef(function AccordionHeader(
     <div
       ref={ref}
       className={header({
-        className: classNames?.header,
+        className,
         variant,
         isDisabled,
         isExpanded,
       })}
     >
-      <Heading
-        className={heading({
-          className: classNames?.heading,
-          variant,
-          isDisabled,
-          isExpanded,
-        })}
-      >
-        <Button
-          slot='trigger'
-          className={composeRenderProps(classNames?.trigger, (className) =>
-            trigger({
-              className,
-              variant,
-              isExpanded,
-            }),
-          )}
-        >
-          <Icon>
-            <ChevronDown className='transform group-dtk-expanded:rotate-180' />
-          </Icon>
-          {children}
-        </Button>
-      </Heading>
+      {children}
     </div>
   );
 });
 AccordionHeader.displayName = 'Accordion.Header';
+
+const AccordionTrigger = forwardRef(function AccordionHeader(
+  { children, classNames }: AccordionTriggerProps,
+  ref: ForwardedRef<HTMLDivElement>,
+) {
+  const context = useContext(AccordionContext);
+  const state = useContext(DisclosureStateContext);
+  const variant =
+    (isSlottedContextValue(context) ? undefined : context?.variant) ??
+    AccordionStylesDefaults.variant;
+  const isDisabled =
+    (isSlottedContextValue(context) ? undefined : context?.isDisabled) ??
+    AccordionStylesDefaults.isDisabled;
+  const isExpanded = state?.isExpanded ?? AccordionStylesDefaults.isExpanded;
+
+  return (
+    <Heading
+      ref={ref}
+      className={heading({
+        className: classNames?.heading,
+        variant,
+        isDisabled,
+        isExpanded,
+      })}
+    >
+      <Button
+        slot='trigger'
+        className={composeRenderProps(classNames?.trigger, (className) =>
+          trigger({
+            className,
+            variant,
+            isExpanded,
+          }),
+        )}
+      >
+        <Icon>
+          <ChevronDown className='transform group-dtk-expanded:rotate-180' />
+        </Icon>
+        {children}
+      </Button>
+    </Heading>
+  );
+});
+AccordionTrigger.displayName = 'Accordion.Trigger';
 
 const AccordionPanel = forwardRef(function AccordionPanel(
   { children, className, ...rest }: AccordionPanelProps,
@@ -183,6 +205,7 @@ export const Accordion = Object.assign(
     Group: AccordionGroup,
     Header: AccordionHeader,
     Panel: AccordionPanel,
+    Trigger: AccordionTrigger,
   },
 );
 Accordion.displayName = 'Accordion';

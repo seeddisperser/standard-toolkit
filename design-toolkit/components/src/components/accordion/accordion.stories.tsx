@@ -45,10 +45,12 @@ export const Default: StoryObj<typeof Accordion> = {
     <div className='w-[280px]'>
       <Accordion {...args}>
         <Accordion.Header>
-          <Icon>
-            <Placeholder />
-          </Icon>{' '}
-          Accordion title{' '}
+          <Accordion.Trigger>
+            <Icon>
+              <Placeholder />
+            </Icon>{' '}
+            Accordion title{' '}
+          </Accordion.Trigger>
         </Accordion.Header>
         <Accordion.Panel>
           <p className='fg-default-dark text-body-s'>

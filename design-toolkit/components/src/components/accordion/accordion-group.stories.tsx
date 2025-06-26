@@ -47,10 +47,12 @@ export const Default: StoryObj<typeof Accordion.Group> = {
       <Accordion.Group {...args}>
         <Accordion>
           <Accordion.Header>
-            <Icon>
-              <Placeholder />
-            </Icon>{' '}
-            Accordion one{' '}
+            <Accordion.Trigger>
+              <Icon>
+                <Placeholder />
+              </Icon>{' '}
+              Accordion one{' '}
+            </Accordion.Trigger>
           </Accordion.Header>
           <Accordion.Panel>
             <p className='fg-default-dark text-body-s'>
@@ -61,10 +63,12 @@ export const Default: StoryObj<typeof Accordion.Group> = {
         </Accordion>
         <Accordion>
           <Accordion.Header>
-            <Icon>
-              <Placeholder />
-            </Icon>{' '}
-            Accordion two{' '}
+            <Accordion.Trigger>
+              <Icon>
+                <Placeholder />
+              </Icon>{' '}
+              Accordion two{' '}
+            </Accordion.Trigger>
           </Accordion.Header>
           <Accordion.Panel>
             <p className='fg-default-dark text-body-s'>
@@ -75,10 +79,12 @@ export const Default: StoryObj<typeof Accordion.Group> = {
         </Accordion>
         <Accordion>
           <Accordion.Header>
-            <Icon>
-              <Placeholder />
-            </Icon>{' '}
-            Accordion three{' '}
+            <Accordion.Trigger>
+              <Icon>
+                <Placeholder />
+              </Icon>{' '}
+              Accordion three{' '}
+            </Accordion.Trigger>
           </Accordion.Header>
           <Accordion.Panel>
             <p className='fg-default-dark text-body-s'>

@@ -27,8 +27,11 @@ export type AccordionProps = DisclosureProps &
   Pick<AccordionStyleVariants, 'variant'>;
 
 export type AccordionHeaderProps = PropsWithChildren<{
+  className?: string;
+}>;
+
+export type AccordionTriggerProps = PropsWithChildren<{
   classNames?: {
-    header?: string;
     heading?: string;
     trigger?: RenderPropsClassName<ButtonRenderProps>;
   };
