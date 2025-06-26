@@ -12,7 +12,6 @@
 
 'use client';
 
-import { type ForwardedRef, forwardRef } from 'react';
 import {
   Button,
   type ContextValue,
@@ -43,16 +42,14 @@ const { group, accordion, header, heading, trigger, panel } = AccordionStyles();
 export const AccordionContext =
   createContext<ContextValue<AccordionProps, HTMLDivElement>>(null);
 
-const AccordionGroup = forwardRef(function AccordionGroup(
-  {
-    children,
-    className,
-    variant = AccordionStylesDefaults.variant,
-    isDisabled,
-    ...rest
-  }: AccordionGroupProps,
-  ref: ForwardedRef<HTMLDivElement>,
-) {
+function AccordionGroup({
+  ref,
+  children,
+  className,
+  variant = AccordionStylesDefaults.variant,
+  isDisabled,
+  ...rest
+}: AccordionGroupProps) {
   return (
     <AccordionContext.Provider value={{ variant, isDisabled }}>
       <DisclosureGroup
@@ -70,13 +67,10 @@ const AccordionGroup = forwardRef(function AccordionGroup(
       </DisclosureGroup>
     </AccordionContext.Provider>
   );
-});
+}
 AccordionGroup.displayName = 'Accordion.Group';
 
-const AccordionHeader = forwardRef(function AccordionHeader(
-  { children, className }: AccordionHeaderProps,
-  ref: ForwardedRef<HTMLDivElement>,
-) {
+function AccordionHeader({ ref, children, className }: AccordionHeaderProps) {
   const context = useContext(AccordionContext);
   const state = useContext(DisclosureStateContext);
   const variant =
@@ -100,13 +94,14 @@ const AccordionHeader = forwardRef(function AccordionHeader(
       {children}
     </div>
   );
-});
+}
 AccordionHeader.displayName = 'Accordion.Header';
 
-const AccordionTrigger = forwardRef(function AccordionHeader(
-  { children, classNames }: AccordionTriggerProps,
-  ref: ForwardedRef<HTMLDivElement>,
-) {
+function AccordionTrigger({
+  ref,
+  children,
+  classNames,
+}: AccordionTriggerProps) {
   const context = useContext(AccordionContext);
   const state = useContext(DisclosureStateContext);
   const variant =
@@ -144,13 +139,15 @@ const AccordionTrigger = forwardRef(function AccordionHeader(
       </Button>
     </Heading>
   );
-});
+}
 AccordionTrigger.displayName = 'Accordion.Trigger';
 
-const AccordionPanel = forwardRef(function AccordionPanel(
-  { children, className, ...rest }: AccordionPanelProps,
-  ref: ForwardedRef<HTMLDivElement>,
-) {
+function AccordionPanel({
+  ref,
+  children,
+  className,
+  ...rest
+}: AccordionPanelProps) {
   return (
     <DisclosurePanel
       {...rest}
@@ -162,50 +159,43 @@ const AccordionPanel = forwardRef(function AccordionPanel(
       {children}
     </DisclosurePanel>
   );
-});
+}
 AccordionPanel.displayName = 'Accordion.Panel';
 
-export const Accordion = Object.assign(
-  forwardRef(function Accordion(
-    props: AccordionProps,
-    ref: ForwardedRef<HTMLDivElement>,
-  ) {
-    [props, ref] = useContextProps(props, ref, AccordionContext);
+export function Accordion({ ref, ...props }: AccordionProps) {
+  [props, ref] = useContextProps(props, ref ?? null, AccordionContext);
 
-    const {
-      children,
-      className,
-      variant = AccordionStylesDefaults.variant,
-      isDisabled,
-      ...rest
-    } = props;
+  const {
+    children,
+    className,
+    variant = AccordionStylesDefaults.variant,
+    isDisabled,
+    ...rest
+  } = props;
 
-    return (
-      <AccordionContext.Provider
-        value={{
-          variant,
-          isDisabled,
-        }}
+  return (
+    <AccordionContext.Provider
+      value={{
+        variant,
+        isDisabled,
+      }}
+    >
+      <Disclosure
+        {...rest}
+        className={composeRenderProps(className, (className) =>
+          accordion({
+            className,
+          }),
+        )}
+        isDisabled={isDisabled}
       >
-        <Disclosure
-          {...rest}
-          className={composeRenderProps(className, (className) =>
-            accordion({
-              className,
-            }),
-          )}
-          isDisabled={isDisabled}
-        >
-          {children}
-        </Disclosure>
-      </AccordionContext.Provider>
-    );
-  }),
-  {
-    Group: AccordionGroup,
-    Header: AccordionHeader,
-    Panel: AccordionPanel,
-    Trigger: AccordionTrigger,
-  },
-);
+        {children}
+      </Disclosure>
+    </AccordionContext.Provider>
+  );
+}
 Accordion.displayName = 'Accordion';
+Accordion.Group = AccordionGroup;
+Accordion.Header = AccordionHeader;
+Accordion.Trigger = AccordionTrigger;
+Accordion.Panel = AccordionPanel;
