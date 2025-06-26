@@ -20,8 +20,6 @@ import type {
 } from 'react-aria-components';
 import type { AccordionStyleVariants } from './styles';
 
-export type AccordionRenderProps = Required<AccordionStyleVariants>;
-
 export type AccordionGroupProps = DisclosureGroupProps &
   Pick<AccordionStyleVariants, 'variant'>;
 
