@@ -11,7 +11,7 @@
  */
 
 import type { RenderPropsClassName } from '@/lib/types';
-import type { PropsWithChildren, Ref } from 'react';
+import type { PropsWithChildren, RefAttributes } from 'react';
 import type {
   ButtonRenderProps,
   DisclosureGroupProps,
@@ -21,28 +21,25 @@ import type {
 import type { AccordionStyleVariants } from './styles';
 
 export type AccordionGroupProps = DisclosureGroupProps &
-  Pick<AccordionStyleVariants, 'variant'> & {
-    ref?: Ref<HTMLDivElement>;
-  };
+  Pick<AccordionStyleVariants, 'variant'> &
+  RefAttributes<HTMLDivElement>;
 
 export type AccordionProps = DisclosureProps &
-  Pick<AccordionStyleVariants, 'variant'> & {
-    ref?: Ref<HTMLDivElement>;
-  };
+  Pick<AccordionStyleVariants, 'variant'> &
+  RefAttributes<HTMLDivElement>;
 
 export type AccordionHeaderProps = PropsWithChildren<{
-  ref?: Ref<HTMLDivElement>;
   className?: string;
-}>;
+}> &
+  RefAttributes<HTMLDivElement>;
 
 export type AccordionTriggerProps = PropsWithChildren<{
-  ref?: Ref<HTMLDivElement>;
   classNames?: {
     heading?: string;
     trigger?: RenderPropsClassName<ButtonRenderProps>;
   };
-}>;
+}> &
+  RefAttributes<HTMLDivElement>;
 
-export type AccordionPanelProps = DisclosurePanelProps & {
-  ref?: Ref<HTMLDivElement>;
-};
+export type AccordionPanelProps = DisclosurePanelProps &
+  RefAttributes<HTMLDivElement>;
