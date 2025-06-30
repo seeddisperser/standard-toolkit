@@ -48,8 +48,8 @@ export const Default: StoryObj<typeof Accordion> = {
           <Accordion.Trigger>
             <Icon>
               <Placeholder />
-            </Icon>{' '}
-            Accordion title{' '}
+            </Icon>
+            Accordion title
           </Accordion.Trigger>
         </Accordion.Header>
         <Accordion.Panel>

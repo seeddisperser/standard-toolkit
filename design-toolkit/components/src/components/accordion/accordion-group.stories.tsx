@@ -50,8 +50,8 @@ export const Default: StoryObj<typeof Accordion.Group> = {
             <Accordion.Trigger>
               <Icon>
                 <Placeholder />
-              </Icon>{' '}
-              Accordion one{' '}
+              </Icon>
+              Accordion one
             </Accordion.Trigger>
           </Accordion.Header>
           <Accordion.Panel>
@@ -66,8 +66,8 @@ export const Default: StoryObj<typeof Accordion.Group> = {
             <Accordion.Trigger>
               <Icon>
                 <Placeholder />
-              </Icon>{' '}
-              Accordion two{' '}
+              </Icon>
+              Accordion two
             </Accordion.Trigger>
           </Accordion.Header>
           <Accordion.Panel>
@@ -82,8 +82,8 @@ export const Default: StoryObj<typeof Accordion.Group> = {
             <Accordion.Trigger>
               <Icon>
                 <Placeholder />
-              </Icon>{' '}
-              Accordion three{' '}
+              </Icon>
+              Accordion three
             </Accordion.Trigger>
           </Accordion.Header>
           <Accordion.Panel>
