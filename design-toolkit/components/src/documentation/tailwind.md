@@ -60,6 +60,8 @@ The Core team has implemented the RAC TW plugin with the prefix `dtk`. This mean
 
 However, as a best practice, these should be used sparingly. They shouldn't be necessary in most cases and shouldn't be mixed with the primary approach of using TV. But for little one off things like rotating icons or something where implementing TV is overkill, it's acceptable so long as its only 1-2 classes.
 
+Avoid using these classes when a CSS pseudo class alternative is available. Use `hover:bg-normal` instead of `dtk-hover:bg-normal`, or similar with `active`, `disabled`, `focus`, etc.
+
 ```jsx
 function MyComponent() {
   return (
