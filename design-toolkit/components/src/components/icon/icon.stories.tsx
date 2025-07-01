@@ -19,7 +19,6 @@ const meta: Meta<typeof Icon> = {
   component: Icon,
   args: {
     className: 'fg-default-light',
-    children: '',
     size: 'medium',
   },
   argTypes: {
@@ -34,12 +33,29 @@ const meta: Meta<typeof Icon> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof Icon>;
 
-export const Default: Story = {
+export const Default: StoryObj<typeof Icon> = {
   render: (args) => (
     <Icon {...args}>
       <Add />
     </Icon>
+  ),
+};
+
+export const Provider: StoryObj<typeof Icon> = {
+  render: ({ className, size }) => (
+    <Icon.Provider size={size}>
+      <div className={className}>
+        <Icon>
+          <Add />
+        </Icon>
+        <Icon>
+          <Add />
+        </Icon>
+        <Icon>
+          <Add />
+        </Icon>
+      </div>
+    </Icon.Provider>
   ),
 };
