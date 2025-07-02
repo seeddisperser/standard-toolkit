@@ -71,6 +71,14 @@ export { Options, OptionsContext, OptionsSection } from './components/options';
 export type { OptionsProps } from './components/options';
 export { OptionsItem } from './components/options-item';
 export type { IOptionsItem, OptionsItemProps } from './components/options-item';
+export { Popover, PopoverTrigger } from './components/popover';
+export type {
+  PopoverBodyProps,
+  PopoverContentProps,
+  PopoverProps,
+  PopoverTitleProps,
+  PopoverTriggerProps,
+} from './components/popover/types';
 export { QueryBuilder } from './components/query-builder';
 export type {
   ClassNames,
