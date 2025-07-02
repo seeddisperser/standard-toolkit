@@ -42,7 +42,9 @@ export {
 export { ButtonStyles, ButtonStylesDefaults } from './components/button/styles';
 export type { ButtonStyleVariants } from './components/button/styles';
 export type {
+  ButtonContextValue,
   ButtonProps,
+  ButtonProviderProps,
   LinkButtonProps,
   ToggleButtonProps,
 } from './components/button/types';

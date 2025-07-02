@@ -10,10 +10,11 @@
  * governing permissions and limitations under the License.
  */
 
-import type { RefAttributes } from 'react';
+import type { PropsWithChildren, RefAttributes } from 'react';
 import type {
   ButtonProps as AriaButtonProps,
   ToggleButtonProps as AriaToggleButtonProps,
+  ContextValue,
   LinkProps,
 } from 'react-aria-components';
 import type { ButtonStyleVariants } from './styles';
@@ -29,3 +30,12 @@ export type LinkButtonProps = LinkProps &
 export type ToggleButtonProps = AriaToggleButtonProps &
   Omit<ButtonStyleVariants, 'isCurrent' | 'isPending'> &
   RefAttributes<HTMLButtonElement>;
+
+export type ButtonContextValue = ContextValue<
+  ButtonProps & LinkButtonProps & ToggleButtonProps,
+  HTMLAnchorElement & HTMLButtonElement
+>;
+
+export type ButtonProviderProps = PropsWithChildren<
+  Omit<ButtonProps | LinkButtonProps | ToggleButtonProps, 'ref'>
+>;

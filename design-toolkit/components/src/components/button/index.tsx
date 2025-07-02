@@ -13,22 +13,29 @@ import { createContext } from 'react';
 import {
   Button as AriaButton,
   ToggleButton as AriaToggleButton,
-  type ContextValue,
   Link,
   composeRenderProps,
   useContextProps,
 } from 'react-aria-components';
 import { Icon } from '../icon';
 import { ButtonStyles } from './styles';
-import type { ButtonProps, LinkButtonProps, ToggleButtonProps } from './types';
+import type {
+  ButtonContextValue,
+  ButtonProps,
+  ButtonProviderProps,
+  LinkButtonProps,
+  ToggleButtonProps,
+} from './types';
 
-export const ButtonContext =
-  createContext<
-    ContextValue<
-      ButtonProps & LinkButtonProps & ToggleButtonProps,
-      HTMLButtonElement
-    >
-  >(null);
+export const ButtonContext = createContext<ButtonContextValue>(null);
+
+function ButtonProvider({ children, ...props }: ButtonProviderProps) {
+  return (
+    <ButtonContext.Provider value={props as ButtonContextValue}>
+      {children}
+    </ButtonContext.Provider>
+  );
+}
 
 export function Button({ ref, ...props }: ButtonProps) {
   [props, ref] = useContextProps(props, ref ?? null, ButtonContext);
@@ -57,6 +64,7 @@ export function Button({ ref, ...props }: ButtonProps) {
   );
 }
 Button.displayName = 'Button';
+Button.Provider = ButtonProvider;
 
 export function LinkButton({ ref, ...props }: LinkButtonProps) {
   [props, ref] = useContextProps(props, ref ?? null, ButtonContext);
