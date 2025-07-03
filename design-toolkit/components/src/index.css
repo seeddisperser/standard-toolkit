@@ -364,6 +364,10 @@
   --icon-color: --value(--color- *);
 }
 
+body {
+  @apply font-primary;
+}
+
 @layer components {
   .hide-cancel::-webkit-search-cancel-button {
     display: none;
