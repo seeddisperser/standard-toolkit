@@ -18,47 +18,24 @@ import type {
   Key,
 } from '@react-types/shared';
 import type { VariantProps } from 'cva';
-import type { ReactElement, ReactNode } from 'react';
+import type { PropsWithChildren, ReactElement } from 'react';
 import type {
+  TextProps as AriaTextProps,
+  TreeItemContentRenderProps as AriaTreeItemContentRenderProps,
+  TreeItemProps as AriaTreeItemProps,
+  TreeProps as AriaTreeProps,
   DropTarget,
-  TreeItemProps as RACTreeItemProps,
-  TreeProps as RACTreeProps,
+  RenderProps,
 } from 'react-aria-components';
 import type { treeStyles } from './index';
 
 export type TreeSelectionType = 'visibility' | 'checkbox' | 'none';
 
-type BaseItemProps = {
+export type TreeItemProps = Omit<AriaTreeItemProps, 'textValue'> & {
   id: Key;
   label: string;
-  description?: string;
-  iconPrefix?: ReactNode;
-  treeActions?: (renderProps: TreeActionRenderProps) => ReactNode;
-  nodes?: TreeItem[];
-  isReadOnly?: boolean;
   isParentVisible?: boolean;
   isLastOfSet?: boolean;
-};
-
-export type TreeItem = BaseItemProps & {
-  isExpanded?: boolean;
-  isSelected?: boolean;
-  nodes?: TreeItem[];
-};
-
-export type TreeItemProps = Omit<RACTreeItemProps, 'textValue' | 'children'> &
-  BaseItemProps & {
-    iconPrefix?: ReactNode;
-    description?: string;
-    actions?: ReactNode;
-    children?: ReactNode;
-  };
-
-export type TreeNodeProps = BaseItemProps;
-
-export type TreeActionRenderProps = {
-  variant?: 'cozy' | 'compact' | 'tight' | null;
-  selectionType?: TreeSelectionType;
 };
 
 export type DragItem = AriaDragItem;
@@ -72,9 +49,21 @@ export type DragAndDropConfig = {
   renderDropIndicator?: (target: DropTarget) => ReactElement;
 };
 
-export type TreeProps<T extends TreeItem = TreeItem> = RACTreeProps<T> &
+export type TreeProps<T> = AriaTreeProps<T> &
   VariantProps<typeof treeStyles> & {
     dragAndDropConfig?: DragAndDropConfig;
     selectionType?: TreeSelectionType;
     showRuleLines?: boolean;
   };
+
+export type ItemTextProps = AriaTextProps & PropsWithChildren;
+
+export type ItemContentProps = Pick<
+  RenderProps<ItemContentRenderProps>,
+  'children'
+>;
+
+export type ItemContentRenderProps = AriaTreeItemContentRenderProps & {
+  variant?: VariantProps<typeof treeStyles>;
+  selectionType?: TreeSelectionType;
+};

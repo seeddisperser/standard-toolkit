@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import { DragVert, LockFill } from '@accelint/icons';
+import { DragVert } from '@accelint/icons';
 import { cva } from 'cva';
 import { createContext, memo, useContext } from 'react';
 import {
@@ -19,7 +19,6 @@ import {
   TreeItemContent as AriaTreeItemContent,
   DropIndicator,
   type DropTarget,
-  type TreeItemContentRenderProps,
   useDragAndDrop,
 } from 'react-aria-components';
 import { Icon } from '../icon';
@@ -29,16 +28,19 @@ import { cn } from '@/lib/utils';
 import { ExpandToggle } from './expand-toggle';
 import { SelectionToggle } from './selection-toggle';
 import type {
+  ItemContentProps,
+  ItemContentRenderProps,
+  ItemTextProps,
   TreeItemProps,
-  TreeItem as TreeItemType,
-  TreeNodeProps,
   TreeProps,
 } from './types';
 
 const DEFAULT_VARIANT = 'cozy';
 const DEFAULT_SELECTION = 'visibility';
 
-export const TreeContext = createContext<Partial<TreeProps>>({
+export const TreeContext = createContext<
+  Pick<TreeProps<object>, 'variant' | 'selectionType' | 'showRuleLines'>
+>({
   variant: DEFAULT_VARIANT,
   selectionType: DEFAULT_SELECTION,
   showRuleLines: true,
@@ -64,9 +66,7 @@ const defaultRenderDropIndicator = (target: DropTarget) => (
   <DropIndicator target={target} className='border border-highlight-hover' />
 );
 
-export function Tree<T extends TreeItemType = TreeItemType>(
-  props: TreeProps<T>,
-) {
+export function Tree<T extends object>(props: TreeProps<T>) {
   const {
     children,
     className,
@@ -146,161 +146,106 @@ const treeItemLabelStyles = cva('flex flex-1 items-center', {
   },
 });
 
+export function ItemContent({ children }: ItemContentProps) {
+  const { selectionType, variant, showRuleLines } = useContext(TreeContext);
+  return (
+    <AriaTreeItemContent>
+      {(renderProps: ItemContentRenderProps) => {
+        const {
+          hasChildItems,
+          isExpanded,
+          isDisabled,
+          selectionBehavior,
+          selectionMode,
+          allowsDragging,
+          isSelected,
+          level,
+        } = renderProps;
+
+        const shouldShowSelection =
+          selectionBehavior === 'toggle' && selectionMode !== 'none';
+        const isNotRoot = level > 1;
+        const sizeTranslated = variant === 'cozy' ? 'medium' : 'small';
+
+        return (
+          <div
+            className={treeItemStyles({ variant })}
+            data-variant={variant}
+            data-last-of-set={false}
+          >
+            {shouldShowSelection && (
+              <SelectionToggle
+                isSelected={isSelected}
+                isDisabled={isDisabled}
+                selectionType={selectionType ?? DEFAULT_SELECTION}
+                size={sizeTranslated}
+                slot='selection'
+              />
+            )}
+
+            {isNotRoot && (
+              <Lines level={level} showRuleLines={showRuleLines ?? true} />
+            )}
+
+            <ExpandToggle
+              hasChildItems={hasChildItems}
+              isExpanded={isExpanded}
+              size='medium'
+              isDisabled={isDisabled}
+            />
+            <div className={treeItemLabelStyles({ variant })}>
+              {typeof children === 'function'
+                ? children({
+                    ...renderProps,
+                    variant,
+                    selectionType,
+                    defaultChildren: null,
+                  })
+                : children}
+            </div>
+            {allowsDragging && (
+              <IconButton slot='drag' size={sizeTranslated}>
+                <Icon>
+                  <DragVert />
+                </Icon>
+              </IconButton>
+            )}
+          </div>
+        );
+      }}
+    </AriaTreeItemContent>
+  );
+}
+
 /**
  * Handles display of an individual item in a tree
  */
-export const TreeItem = (props: TreeItemProps) => {
-  const { selectionType, variant, showRuleLines } = useContext(TreeContext);
-
-  const {
-    id,
-    children,
-    description,
-    iconPrefix,
-    label,
-    treeActions,
-    isLastOfSet = false,
-    isReadOnly,
-    isParentVisible,
-    ...rest
-  } = props;
+export function TreeItem(props: TreeItemProps) {
+  const { id, children, label, isLastOfSet = false, ...rest } = props;
 
   return (
     <AriaTreeItem
       id={id}
-      key={id}
       className='rounded-medium border border-transparent data-[drop-target=true]:border-highlight-hover'
       textValue={label}
       {...rest}
     >
-      <AriaTreeItemContent>
-        {({
-          hasChildItems,
-          selectionBehavior,
-          selectionMode,
-          allowsDragging,
-          isExpanded,
-          isSelected,
-          isDisabled,
-          level,
-        }: TreeItemContentRenderProps) => {
-          const shouldShowSelection =
-            selectionBehavior === 'toggle' && selectionMode !== 'none';
-          const isNotRoot = level > 1;
-          const sizeTranslated = variant === 'cozy' ? 'medium' : 'small';
-
-          return (
-            <div
-              className={treeItemStyles({ variant, isParentVisible })}
-              data-variant={variant}
-              data-last-of-set={isLastOfSet}
-            >
-              {shouldShowSelection && (
-                <SelectionToggle
-                  isSelected={isSelected}
-                  isDisabled={isDisabled}
-                  selectionType={selectionType ?? DEFAULT_SELECTION}
-                  isParentVisible={isParentVisible}
-                  size={sizeTranslated}
-                  slot='selection'
-                />
-              )}
-              {isNotRoot && (
-                <Lines level={level} showRuleLines={showRuleLines ?? true} />
-              )}
-              <ExpandToggle
-                hasChildItems={hasChildItems}
-                isExpanded={isExpanded}
-                size={sizeTranslated}
-                isDisabled={isDisabled}
-              />
-              <div className={treeItemLabelStyles({ variant })}>
-                {iconPrefix && <Icon size={sizeTranslated}>{iconPrefix}</Icon>}
-                <div className='items-center text-start'>
-                  {label}
-                  {description && (
-                    <div className='fg-default-dark text-body-s'>
-                      {description}
-                    </div>
-                  )}
-                </div>
-              </div>
-              {isReadOnly && (
-                <Icon
-                  className='fg-default-dark aspect-square rounded-full bg-interactive-hover-dark p-xs'
-                  size={sizeTranslated}
-                >
-                  <LockFill />
-                </Icon>
-              )}
-              {treeActions?.({ variant, selectionType })}
-              {allowsDragging && (
-                <IconButton slot='drag' size={sizeTranslated}>
-                  <Icon>
-                    <DragVert />
-                  </Icon>
-                </IconButton>
-              )}
-            </div>
-          );
-        }}
-      </AriaTreeItemContent>
-
-      {/* @ts-expect-error package version mismatch TODO */}
       {children}
     </AriaTreeItem>
   );
-};
-
-/**
- * Provides a recursive helper to map over tree items
- * to simplify displaying tree data.
- */
-function TreeNode(props: TreeNodeProps) {
-  const {
-    id,
-    label,
-    isLastOfSet = false,
-    nodes,
-    description,
-    iconPrefix,
-    treeActions,
-    isReadOnly,
-    isParentVisible,
-  } = props;
-
-  const hasChildren = nodes && nodes.length > 0;
-
-  return (
-    <TreeItem
-      key={id}
-      id={id}
-      label={label}
-      isLastOfSet={isLastOfSet}
-      description={description}
-      iconPrefix={iconPrefix}
-      treeActions={treeActions}
-      isReadOnly={isReadOnly}
-      isParentVisible={isParentVisible}
-    >
-      {hasChildren &&
-        nodes.map((child, idx) => (
-          <TreeNode
-            key={child.id}
-            id={child.id}
-            description={child.description}
-            label={child.label}
-            iconPrefix={child.iconPrefix}
-            nodes={child.nodes}
-            treeActions={treeActions}
-            isLastOfSet={nodes.length - 1 === idx}
-            isParentVisible={child.isParentVisible}
-            isReadOnly={child.isReadOnly}
-          />
-        ))}
-    </TreeItem>
-  );
 }
 
+function ItemDescription({ children }: ItemTextProps) {
+  return <div className='fg-default-dark text-body-s'>{children}</div>;
+}
+ItemDescription.displayName = 'Tree.ItemDescription';
+
+function ItemIcon({ children }: ItemTextProps) {
+  return <Icon size='medium'>{children}</Icon>;
+}
+ItemIcon.displayName = 'Tree.ItemIcon';
+
+Tree.Content = ItemContent;
 Tree.Item = TreeItem;
-Tree.Node = TreeNode;
+Tree.Description = ItemDescription;
+Tree.Icon = ItemIcon;
