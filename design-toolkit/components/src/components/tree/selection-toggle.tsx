@@ -10,48 +10,48 @@
  * governing permissions and limitations under the License.
  */
 
+import { TreeContext } from '@/components/tree/index';
+import { TreeStyles, TreeStylesDefaults } from '@/components/tree/styles';
+import { isSlottedContextValue } from '@/lib/utils';
 import {
   CheckboxSelected,
   CheckboxUnselected,
   Hide,
   Show,
 } from '@accelint/icons';
-import { cva } from 'cva';
-import { type ForwardedRef, forwardRef } from 'react';
-import { CheckboxContext, useContextProps } from 'react-aria-components';
-import { cn } from '../../lib/utils';
-import { Checkbox, type CheckboxProps } from '../checkbox';
+import { type ForwardedRef, forwardRef, useContext } from 'react';
+import {
+  CheckboxContext,
+  composeRenderProps,
+  useContextProps,
+} from 'react-aria-components';
+import type { CheckboxProps } from '../checkbox';
 import { Icon } from '../icon';
 import { ToggleIconButton } from '../toggle-icon-button';
-import type { TreeSelectionType } from './types';
 
-const selectionStyles = cva(
-  'ai-selected:fg-default-light ai-selected:hover:bg-transparent',
-  {
-    variants: {
-      isDisabled: {
-        true: 'not-ai-selected:bg-transparent not-ai-selected:hover:bg-interactive-transparent',
-      },
-      isParentVisible: {
-        false:
-          'fg-default-dark not-ai-selected:bg-transparent not-ai-selected:hover:bg-interactive-transparent',
-      },
-    },
-  },
-);
+const { selection } = TreeStyles();
 
 type SelectionToggleProps = Partial<CheckboxProps> & {
-  selectionType: TreeSelectionType;
-  size: 'small' | 'medium';
   isParentVisible?: boolean;
 };
 
 export const SelectionToggle = forwardRef(
   (props: SelectionToggleProps, ref: ForwardedRef<HTMLLabelElement>) => {
     [props] = useContextProps(props, ref, CheckboxContext);
+    const context = useContext(TreeContext);
+
+    const variant =
+      (isSlottedContextValue(context) ? undefined : context?.variant) ??
+      TreeStylesDefaults.variant;
+
+    const selectionType =
+      (isSlottedContextValue(context) ? undefined : context?.selectionType) ??
+      TreeStylesDefaults.selectionType;
+
+    const size = variant === 'cozy' ? 'medium' : 'small';
 
     const {
-      selectionType,
+      className,
       isSelected,
       isDisabled,
       isParentVisible = true,
@@ -62,13 +62,17 @@ export const SelectionToggle = forwardRef(
       return null;
     }
 
+    //TODO - checkbox and toggleIcon hate each other
     return (
       <ToggleIconButton
         aria-label={props['aria-label']}
         aria-labelledby={props['aria-labelledby']}
         variant='minimal'
+        size={size}
         isDisabled={isDisabled}
-        className={selectionStyles({ isDisabled, isParentVisible })}
+        className={composeRenderProps(className, (className) =>
+          selection({ className, isDisabled, isParentVisible }),
+        )}
         {...rest}
       >
         {selectionType === 'visibility' ? (

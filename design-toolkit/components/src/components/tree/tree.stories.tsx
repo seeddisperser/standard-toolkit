@@ -23,9 +23,9 @@ import { Icon } from '../icon';
 import { IconButton } from '../icon-button';
 import { Tree } from './index';
 import './tree.css';
+import type { TreeNode } from '@/hooks/types';
+import { useTreeState } from '@/hooks/useTreeState';
 import type { ReactNode } from 'react';
-import type { TreeNode } from '../../hooks/types';
-import { useTreeState } from '../../hooks/useTreeState';
 import { Button } from '../button';
 
 const meta: Meta<typeof Tree> = {

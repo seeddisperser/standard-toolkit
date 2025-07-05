@@ -10,45 +10,44 @@
  * governing permissions and limitations under the License.
  */
 
+import { TreeContext } from '@/components/tree/index';
+import { TreeStyles, TreeStylesDefaults } from '@/components/tree/styles';
+import { isSlottedContextValue } from '@/lib/utils';
 import ChevronDown from '@accelint/icons/chevron-down';
 import ChevronUp from '@accelint/icons/chevron-up';
-import { cva } from 'cva';
-import { type ForwardedRef, forwardRef } from 'react';
+import { type ForwardedRef, forwardRef, useContext, useMemo } from 'react';
 import { ButtonContext, useContextProps } from 'react-aria-components';
-import { cn } from '../../lib/utils';
 import { Icon } from '../icon';
 import { IconButton, type IconButtonProps } from '../icon-button';
+
+const { lines, expansion } = TreeStyles();
 
 type ExpandToggleProps = IconButtonProps & {
   isExpanded: boolean;
   hasChildItems: boolean;
 };
 
-const expandToggleStyles = cva(
-  'fg-default-light focus:bg-transparent cursor-pointer',
-  {
-    variants: {
-      isDisabled: {
-        true: 'fg-default-dark',
-      },
-    },
-  },
-);
-
-const spacer = (
-  <div className='group-data-[variant=compact]:w-l group-data-[variant=cozy]:w-xl group-data-[variant=tight]:w-l' />
-);
-
 export const ExpandToggle = forwardRef(
   (props: ExpandToggleProps, ref: ForwardedRef<HTMLButtonElement>) => {
     [props] = useContextProps(props, ref, ButtonContext);
     const { hasChildItems, isDisabled, isExpanded, size } = props;
 
+    const context = useContext(TreeContext);
+
+    const variant =
+      (isSlottedContextValue(context) ? undefined : context?.variant) ??
+      TreeStylesDefaults.variant;
+
+    const spacer = useMemo(
+      () => <div className={lines({ variant })} />,
+      [variant],
+    );
+
     return hasChildItems ? (
       <IconButton
         slot='chevron'
         size={size}
-        className={expandToggleStyles({ isDisabled })}
+        className={expansion({ isDisabled })}
       >
         <Icon>{isExpanded ? <ChevronDown /> : <ChevronUp />}</Icon>
       </IconButton>

@@ -10,6 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
+import type { TreeStyleVariants } from '@/components/tree/styles';
 import type {
   DragItem as AriaDragItem,
   DroppableCollectionDropEvent,
@@ -17,7 +18,6 @@ import type {
   DroppableCollectionRootDropEvent,
   Key,
 } from '@react-types/shared';
-import type { VariantProps } from 'cva';
 import type { PropsWithChildren, ReactElement } from 'react';
 import type {
   TextProps as AriaTextProps,
@@ -27,7 +27,6 @@ import type {
   DropTarget,
   RenderProps,
 } from 'react-aria-components';
-import type { treeStyles } from './index';
 
 export type TreeSelectionType = 'visibility' | 'checkbox' | 'none';
 
@@ -37,6 +36,8 @@ export type TreeItemProps = Omit<AriaTreeItemProps, 'textValue'> & {
   isParentVisible?: boolean;
   isLastOfSet?: boolean;
 };
+
+type VariantProps = Pick<TreeStyleVariants, 'variant' | 'selectionType'>;
 
 export type DragItem = AriaDragItem;
 
@@ -50,7 +51,7 @@ export type DragAndDropConfig = {
 };
 
 export type TreeProps<T> = AriaTreeProps<T> &
-  VariantProps<typeof treeStyles> & {
+  VariantProps & {
     dragAndDropConfig?: DragAndDropConfig;
     selectionType?: TreeSelectionType;
     showRuleLines?: boolean;
@@ -63,7 +64,5 @@ export type ItemContentProps = Pick<
   'children'
 >;
 
-export type ItemContentRenderProps = AriaTreeItemContentRenderProps & {
-  variant?: VariantProps<typeof treeStyles>;
-  selectionType?: TreeSelectionType;
-};
+export type ItemContentRenderProps = AriaTreeItemContentRenderProps &
+  VariantProps;

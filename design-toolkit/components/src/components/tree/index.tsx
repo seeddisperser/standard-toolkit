@@ -11,20 +11,22 @@
  */
 
 import { DragVert } from '@accelint/icons';
-import { cva } from 'cva';
 import { createContext, memo, useContext } from 'react';
 import {
   Tree as AriaTree,
   TreeItem as AriaTreeItem,
   TreeItemContent as AriaTreeItemContent,
+  type ContextValue,
   DropIndicator,
   type DropTarget,
+  composeRenderProps,
   useDragAndDrop,
 } from 'react-aria-components';
 import { Icon } from '../icon';
 import { IconButton } from '../icon-button';
 import './tree.css';
-import { cn } from '@/lib/utils';
+import { TreeStyles, TreeStylesDefaults } from '@/components/tree/styles';
+import { isSlottedContextValue } from '@/lib/utils';
 import { ExpandToggle } from './expand-toggle';
 import { SelectionToggle } from './selection-toggle';
 import type {
@@ -35,32 +37,10 @@ import type {
   TreeProps,
 } from './types';
 
-const DEFAULT_VARIANT = 'cozy';
-const DEFAULT_SELECTION = 'visibility';
+const { tree, lines, item, label } = TreeStyles();
 
-export const TreeContext = createContext<
-  Pick<TreeProps<object>, 'variant' | 'selectionType' | 'showRuleLines'>
->({
-  variant: DEFAULT_VARIANT,
-  selectionType: DEFAULT_SELECTION,
-  showRuleLines: true,
-});
-
-export const treeStyles = cva(
-  'fg-default-light flex flex-col overflow-auto outline-hidden',
-  {
-    variants: {
-      variant: {
-        cozy: 'text-body-m',
-        compact: 'text-body-s',
-        tight: 'text-body-s',
-      },
-    },
-    defaultVariants: {
-      variant: 'cozy',
-    },
-  },
-);
+export const TreeContext =
+  createContext<ContextValue<TreeProps<unknown>, HTMLDivElement>>(null);
 
 const defaultRenderDropIndicator = (target: DropTarget) => (
   <DropIndicator target={target} className='border border-highlight-hover' />
@@ -70,8 +50,8 @@ export function Tree<T extends object>(props: TreeProps<T>) {
   const {
     children,
     className,
-    variant = DEFAULT_VARIANT,
-    selectionType = DEFAULT_SELECTION,
+    variant = TreeStylesDefaults.variant,
+    selectionType = 'visibility',
     selectionMode = 'multiple',
     showRuleLines = true,
     dragAndDropConfig,
@@ -93,7 +73,9 @@ export function Tree<T extends object>(props: TreeProps<T>) {
       <AriaTree
         selectionMode={selectionMode}
         dragAndDropHooks={dragAndDropHooks}
-        className={cn(className, treeStyles({ variant }))}
+        className={composeRenderProps(className, (className) =>
+          tree({ className, variant }),
+        )}
         {...rest}
       >
         {children}
@@ -102,52 +84,33 @@ export function Tree<T extends object>(props: TreeProps<T>) {
   );
 }
 
-const Lines = memo(function Lines({
-  level,
-  showRuleLines,
-}: { level: number; showRuleLines: boolean }) {
-  return Array.from({ length: level }).map((_, i) => (
-    <div
-      key={i}
-      className={cn([
-        'relative self-stretch group-data-[variant=compact]:w-l group-data-[variant=cozy]:w-xl group-data-[variant=tight]:w-l',
-        showRuleLines && (i !== level - 1 ? 'vert-line' : 'branching-line'),
-      ])}
-    />
-  ));
-});
+const Lines = memo(function Lines({ level }: { level: number }) {
+  const context = useContext(TreeContext);
+  const showRuleLines =
+    (isSlottedContextValue(context) ? undefined : context?.showRuleLines) ??
+    TreeStylesDefaults.hasRuleLines;
 
-const treeItemStyles = cva(
-  'fg-default-light overflow-x group flex w-full items-center justify-items-start rounded-medium outline-hidden hover:bg-interactive-hover-dark',
-  {
-    variants: {
-      variant: {
-        cozy: 'icon-size-xl gap-s text-header-m',
-        compact: 'icon-size-l gap-xs text-header-s',
-        tight: 'icon-size-l gap-xs text-header-s',
-      },
-      isParentVisible: {
-        false: 'fg-default-dark',
-      },
-    },
-    defaultVariants: {
-      variant: DEFAULT_VARIANT,
-    },
-  },
-);
-
-const treeItemLabelStyles = cva('flex flex-1 items-center', {
-  variants: {
-    variant: {
-      cozy: 'min-h-xxl gap-xs',
-      compact: 'min-h-[36px] gap-xs',
-      tight: 'min-h-xl gap-xs',
-    },
-  },
+  return Array.from({ length: level }).map((_, i) => {
+    const isBranch = i === level - 1;
+    return (
+      <div
+        key={i}
+        className={lines({ hasRuleLines: showRuleLines, isBranch })}
+      />
+    );
+  });
 });
 
 export function ItemContent({ children }: ItemContentProps) {
-  const { selectionType, variant, showRuleLines } = useContext(TreeContext);
+  const context = useContext(TreeContext);
+  const variant =
+    (isSlottedContextValue(context) ? undefined : context?.variant) ??
+    TreeStylesDefaults.variant;
+
+  const selectionType =
+    (isSlottedContextValue(context) ? undefined : context?.selectionType) ??
+    TreeStylesDefaults.selectionType;
+
   return (
     <AriaTreeItemContent>
       {(renderProps: ItemContentRenderProps) => {
@@ -165,11 +128,10 @@ export function ItemContent({ children }: ItemContentProps) {
         const shouldShowSelection =
           selectionBehavior === 'toggle' && selectionMode !== 'none';
         const isNotRoot = level > 1;
-        const sizeTranslated = variant === 'cozy' ? 'medium' : 'small';
 
         return (
           <div
-            className={treeItemStyles({ variant })}
+            className={item({ variant })}
             data-variant={variant}
             data-last-of-set={false}
           >
@@ -177,15 +139,11 @@ export function ItemContent({ children }: ItemContentProps) {
               <SelectionToggle
                 isSelected={isSelected}
                 isDisabled={isDisabled}
-                selectionType={selectionType ?? DEFAULT_SELECTION}
-                size={sizeTranslated}
                 slot='selection'
               />
             )}
 
-            {isNotRoot && (
-              <Lines level={level} showRuleLines={showRuleLines ?? true} />
-            )}
+            {isNotRoot && <Lines level={level} />}
 
             <ExpandToggle
               hasChildItems={hasChildItems}
@@ -193,7 +151,7 @@ export function ItemContent({ children }: ItemContentProps) {
               size='medium'
               isDisabled={isDisabled}
             />
-            <div className={treeItemLabelStyles({ variant })}>
+            <div className={label({ variant })}>
               {typeof children === 'function'
                 ? children({
                     ...renderProps,
@@ -204,7 +162,10 @@ export function ItemContent({ children }: ItemContentProps) {
                 : children}
             </div>
             {allowsDragging && (
-              <IconButton slot='drag' size={sizeTranslated}>
+              <IconButton
+                slot='drag'
+                size={variant === 'cozy' ? 'medium' : 'small'}
+              >
                 <Icon>
                   <DragVert />
                 </Icon>
