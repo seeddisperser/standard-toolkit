@@ -53,6 +53,7 @@ export type UseTreeState<T extends object> = {
   nodes: TreeNode<T>[];
   selectedKeys: Selection;
   expandedKeys: Selection;
+  hasAncestorSelected: (key: Key) => boolean;
   dragAndDropConfig: DragAndDropConfig;
   actions: TreeActions<T>;
 };

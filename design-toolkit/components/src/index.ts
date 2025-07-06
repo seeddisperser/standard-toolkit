@@ -111,14 +111,10 @@ export type {
   TooltipTriggerProps,
 } from './components/tooltip';
 export { ExpandToggle } from './components/tree/expand-toggle';
-export {
-  ItemContent,
-  Tree,
-  TreeContext,
-  TreeItem,
-  treeStyles,
-} from './components/tree';
+export { ItemContent, Tree, TreeContext, TreeItem } from './components/tree';
 export { SelectionToggle } from './components/tree/selection-toggle';
+export { TreeStyles, TreeStylesDefaults } from './components/tree/styles';
+export type { TreeStyleVariants } from './components/tree/styles';
 export type {
   DragAndDropConfig,
   DragItem,

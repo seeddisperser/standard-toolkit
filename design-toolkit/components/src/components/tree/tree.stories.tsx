@@ -23,7 +23,7 @@ import { Icon } from '../icon';
 import { IconButton } from '../icon-button';
 import { Tree } from './index';
 import './tree.css';
-import type { TreeNode } from '@/hooks/types';
+import type { TreeNode, UseTreeState } from '@/hooks/types';
 import { useTreeState } from '@/hooks/useTreeState';
 import type { ReactNode } from 'react';
 import { Button } from '../button';
@@ -166,7 +166,9 @@ export const StaticCollection: Story = {
   ),
 };
 
-function Node({ node }: { node: TreeNode<Item> }) {
+function Node<T extends object>({
+  node,
+}: { node: TreeNode<Item>; state?: UseTreeState<T> }) {
   const { description, iconPrefix, isReadOnly, hasWarning } = node.value;
 
   return (
@@ -217,13 +219,15 @@ function Node({ node }: { node: TreeNode<Item> }) {
 
 export const DataCollection: Story = {
   render: (args) => {
-    const { nodes, selectedKeys, expandedKeys, actions } = useTreeState<Item>({
+    const state = useTreeState<Item>({
       initialItems: items ?? [],
-      initialSelectedKeys: ['european-birds'],
+      initialSelectedKeys: ['black-capped-chickadee'],
       initialExpandedKeys: ['north-american-birds'],
       getKey: (item) => item.id,
       getChildren: (item) => item.items ?? [],
     });
+
+    const { nodes, selectedKeys, expandedKeys, actions } = state;
 
     return (
       <>
@@ -255,7 +259,7 @@ export const DataCollection: Story = {
           onSelectionChange={actions.setSelectedKeys}
           items={nodes}
         >
-          {(node) => <Node key={node.key} node={node} />}
+          {(node) => <Node key={node.key} node={node} state={state} />}
         </Tree>
       </>
     );

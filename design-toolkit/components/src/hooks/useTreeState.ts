@@ -17,7 +17,14 @@ import type { Selection } from 'react-aria-components';
 import type { DragAndDropConfig } from '../components/tree/types';
 import type { UseTreeState, UseTreeStateOptions } from './types';
 
-type TreeMap<T extends object> = Map<Key, T>;
+type TreeMap<T extends object> = Map<
+  Key,
+  {
+    node: TreeNode<T>;
+    ancestorKeys: Set<Key>;
+    descendantKeys: Set<Key>;
+  }
+>;
 
 export function useTreeState<T extends object>(
   options: UseTreeStateOptions<T>,
@@ -44,7 +51,19 @@ export function useTreeState<T extends object>(
   );
 
   function setSelectedKeys(keys: Selection) {
-    setSelected(new Set(keys));
+    if (keys === 'all') {
+      selectAll();
+    } else {
+      const childKeys = Array.from(keys).reduce((acc, key) => {
+        const childKeys = lookup.get(key)?.descendantKeys ?? [];
+        for (const child of childKeys) {
+          acc.add(child);
+        }
+        return acc;
+      }, new Set<Key>());
+
+      setSelected(new Set([...keys, ...childKeys]));
+    }
   }
 
   const lookup = useMemo(
@@ -52,9 +71,43 @@ export function useTreeState<T extends object>(
     [tree.items],
   );
 
+  function walkAncestry(
+    lookup: TreeMap<T>,
+    ancestors: Set<Key>,
+    parentKey?: Key | null,
+  ) {
+    if (parentKey) {
+      ancestors.add(parentKey);
+      const parent = lookup.get(parentKey)?.node.parentKey;
+      if (parent) {
+        walkAncestry(lookup, ancestors, parent);
+      }
+    }
+    return ancestors;
+  }
+
+  function walkDescendants(
+    children: TreeNode<T>[] | null,
+    descendants: Set<Key>,
+  ) {
+    if (children?.length) {
+      for (const child of children) {
+        descendants.add(child.key);
+        if (child.children?.length) {
+          walkDescendants(child.children, descendants);
+        }
+      }
+    }
+    return descendants;
+  }
+
   function buildLookup(items: TreeNode<T>[], lookup: TreeMap<T>) {
     items.map((item) => {
-      lookup.set(item.key, item.value);
+      lookup.set(item.key, {
+        node: item,
+        ancestorKeys: walkAncestry(lookup, new Set(), item.parentKey),
+        descendantKeys: walkDescendants(item.children, new Set()),
+      });
       if (item.children) {
         buildLookup(item.children, lookup);
       }
@@ -81,6 +134,14 @@ export function useTreeState<T extends object>(
     },
   };
 
+  const hasAncestorSelected = useCallback(
+    (key: Key) => {
+      const ancestors = lookup.get(key)?.ancestorKeys;
+      return Array.from(tree.selectedKeys).some((item) => ancestors?.has(item));
+    },
+    [lookup, tree.selectedKeys],
+  );
+
   const expandAll = useCallback(() => {
     setExpandedKeys(new Set(lookup.keys()));
   }, [lookup]);
@@ -101,6 +162,7 @@ export function useTreeState<T extends object>(
     nodes,
     selectedKeys: tree.selectedKeys,
     expandedKeys,
+    hasAncestorSelected,
     dragAndDropConfig,
     actions: {
       expandAll,
