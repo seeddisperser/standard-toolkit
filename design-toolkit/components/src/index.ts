@@ -45,6 +45,7 @@ export type {
   ButtonContextValue,
   ButtonProps,
   ButtonProviderProps,
+  ButtonStyleVariantProps,
   LinkButtonProps,
   ToggleButtonProps,
 } from './components/button/types';
