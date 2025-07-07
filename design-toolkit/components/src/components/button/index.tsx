@@ -9,7 +9,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { createContext } from 'react';
+import { type Ref, createContext } from 'react';
 import {
   Button as AriaButton,
   ToggleButton as AriaToggleButton,
@@ -38,7 +38,11 @@ function ButtonProvider({ children, ...props }: ButtonProviderProps) {
 }
 
 export function Button({ ref, ...props }: ButtonProps) {
-  [props, ref] = useContextProps(props, ref ?? null, ButtonContext);
+  [props, ref] = useContextProps(
+    props,
+    (ref ?? null) as Ref<HTMLAnchorElement & HTMLButtonElement>,
+    ButtonContext,
+  );
 
   const { children, className, color, hierarchy, size, variant, ...rest } =
     props;
@@ -67,7 +71,11 @@ Button.displayName = 'Button';
 Button.Provider = ButtonProvider;
 
 export function LinkButton({ ref, ...props }: LinkButtonProps) {
-  [props, ref] = useContextProps(props, ref ?? null, ButtonContext);
+  [props, ref] = useContextProps(
+    props,
+    (ref ?? null) as Ref<HTMLAnchorElement & HTMLButtonElement>,
+    ButtonContext,
+  );
 
   const { children, className, color, hierarchy, size, variant, ...rest } =
     props;
@@ -95,7 +103,11 @@ export function LinkButton({ ref, ...props }: LinkButtonProps) {
 LinkButton.displayName = 'LinkButton';
 
 export function ToggleButton({ ref, ...props }: ToggleButtonProps) {
-  [props, ref] = useContextProps(props, ref ?? null, ButtonContext);
+  [props, ref] = useContextProps(
+    props,
+    (ref ?? null) as Ref<HTMLAnchorElement & HTMLButtonElement>,
+    ButtonContext,
+  );
 
   const { children, className, color, hierarchy, size, variant, ...rest } =
     props;

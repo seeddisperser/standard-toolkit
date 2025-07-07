@@ -19,16 +19,21 @@ import type {
 } from 'react-aria-components';
 import type { ButtonStyleVariants } from './styles';
 
+export type ButtonStyleVariantProps = Omit<
+  ButtonStyleVariants,
+  'isCurrent' | 'isPending' | 'isSelected'
+>;
+
 export type ButtonProps = AriaButtonProps &
-  Omit<ButtonStyleVariants, 'isCurrent' | 'isSelected'> &
+  ButtonStyleVariantProps &
   RefAttributes<HTMLButtonElement>;
 
 export type LinkButtonProps = LinkProps &
-  Omit<ButtonStyleVariants, 'isPending' | 'isSelected'> &
+  ButtonStyleVariantProps &
   RefAttributes<HTMLAnchorElement>;
 
 export type ToggleButtonProps = AriaToggleButtonProps &
-  Omit<ButtonStyleVariants, 'isCurrent' | 'isPending'> &
+  ButtonStyleVariantProps &
   RefAttributes<HTMLButtonElement>;
 
 export type ButtonContextValue = ContextValue<

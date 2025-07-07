@@ -36,7 +36,7 @@ export const ButtonStyles = tv({
       serious: '',
       critical: '',
     },
-    // Icon & Floating specific
+    // Icon specific
     hierarchy: {
       primary: '',
       secondary: '',
