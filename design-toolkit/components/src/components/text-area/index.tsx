@@ -14,7 +14,6 @@ import 'client-only';
 import {
   Text as AriaText,
   TextArea as AriaTextArea,
-  type TextAreaProps as AriaTextAreaProps,
   TextField as AriaTextField,
   type TextFieldProps as AriaTextFieldProps,
   TextAreaContext,
@@ -22,75 +21,27 @@ import {
 } from 'react-aria-components';
 
 import { cn } from '@/lib/utils';
-import { type VariantProps, cva } from 'cva';
 import type { ForwardedRef } from 'react';
 import { Label } from '../label';
+import { TextAreaStyles, TextAreaStylesDefaults } from './styles';
+import type { TextAreaInputProps, TextAreaProps } from './types';
 
-const textAreaStyles = cva(
-  ['block w-full rounded-medium p-s font-display outline outline-interactive'],
-  {
-    variants: {
-      isDisabled: {
-        true: 'text-disabled outline-interactive-disabled placeholder:text-disabled',
-        false:
-          'text-default-light placeholder:text-default-dark hover:outline-interactive-hover focus:outline-highlight',
-      },
-      isInvalid: {
-        true: 'outline-serious',
-      },
-      isReadOnly: {
-        true: 'rounded-none p-0 outline-none',
-      },
-      size: {
-        medium: 'text-body-s',
-        small: 'text-body-xs',
-      },
-      isClearable: {
-        true: '',
-        false: '',
-      },
-    },
-    compoundVariants: [
-      {
-        isDisabled: true,
-        isInvalid: true,
-        className: 'outline-interactive-disabled',
-      },
-      {
-        isClearable: true,
-        isDisabled: false,
-        size: 'medium',
-        className: 'pr-xl',
-      },
-    ],
-    defaultVariants: {
-      isClearable: false,
-      size: 'medium',
-    },
-  },
-);
+const { wrapper, input, description, errorMessage } = TextAreaStyles();
 
-interface InputProps
-  extends VariantProps<typeof textAreaStyles>,
-    Omit<AriaTextAreaProps, 'size'> {
-  selectOnFocus?: boolean;
-  ref?: ForwardedRef<HTMLTextAreaElement>;
-}
-
-const Input = ({
+const TextAreaInput = ({
   className,
   ref = null,
   selectOnFocus = false,
-  size = 'medium',
+  size = TextAreaStylesDefaults.size,
   ...props
-}: InputProps) => {
+}: TextAreaInputProps & { ref?: ForwardedRef<HTMLTextAreaElement> }) => {
   [props, ref] = useContextProps(props, ref, TextAreaContext);
 
   if (props.readOnly) {
     return (
       <span
         className={cn(
-          textAreaStyles({
+          input({
             isDisabled: false,
             isReadOnly: props.readOnly,
             size,
@@ -117,7 +68,7 @@ const Input = ({
         ref={ref}
         className={({ isDisabled, isInvalid }) =>
           cn(
-            textAreaStyles({
+            input({
               isDisabled,
               isInvalid,
               isReadOnly: props.readOnly,
@@ -130,32 +81,18 @@ const Input = ({
     </div>
   );
 };
-Input.displayName = 'TextArea.Input';
-
-export interface TextAreaProps
-  extends Omit<
-      VariantProps<typeof textAreaStyles>,
-      'isDisabled' | 'isInvalid' | 'isReadOnly'
-    >,
-    Omit<AriaTextFieldProps, 'className'>,
-    Omit<InputProps, keyof AriaTextFieldProps> {
-  className?: string;
-  description?: string;
-  errorMessage?: string;
-  label?: string;
-  placeholder?: string;
-}
+TextAreaInput.displayName = 'TextArea.Input';
 
 export function TextArea({
   className,
-  description,
-  errorMessage,
+  description: descriptionText,
+  errorMessage: errorMessageText,
   isDisabled,
   isInvalid,
   isReadOnly,
   label,
   placeholder,
-  size = 'medium',
+  size = TextAreaStylesDefaults.size,
   ...props
 }: TextAreaProps) {
   const isSmall = size === 'small';
@@ -168,7 +105,7 @@ export function TextArea({
       isDisabled={isDisabled}
       isInvalid={isInvalid}
       isReadOnly={isReadOnly}
-      className={'flex flex-col gap-xs'}
+      className={cn(wrapper({ className }))}
     >
       {!isSmall && (
         <Label
@@ -179,24 +116,22 @@ export function TextArea({
           {label}
         </Label>
       )}
-      <Input className={className} placeholder={placeholder} size={size} />
+      <TextAreaInput
+        className={className}
+        placeholder={placeholder}
+        size={size}
+      />
       {shouldShowDescription && (
         <AriaText
-          className={cn([
-            'fg-default-dark text-body-xs empty:hidden',
-            isDisabled && 'fg-disabled',
-          ])}
+          className={cn([description({ isDisabled })])}
           slot='description'
         >
-          {description}
+          {descriptionText}
         </AriaText>
       )}
       {shouldShowError && (
-        <AriaText
-          className='fg-serious text-body-xs empty:hidden'
-          slot='errorMessage'
-        >
-          {errorMessage}
+        <AriaText className={errorMessage()} slot='errorMessage'>
+          {errorMessageText}
         </AriaText>
       )}
     </AriaTextField>
