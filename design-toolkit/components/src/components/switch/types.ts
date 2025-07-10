@@ -10,21 +10,12 @@
  * governing permissions and limitations under the License.
  */
 
-import type { Meta, StoryObj } from '@storybook/react';
-import { Label } from './index';
+import type { SwitchProps as AriaSwitchProps } from 'react-aria-components';
 
-const meta: Meta<typeof Label> = {
-  title: 'Components/Label',
-  component: Label,
-  args: {
-    children: 'Label',
-    isDisabled: false,
-    isRequired: false,
-  },
-};
-
-export default meta;
-
-export const Default: StoryObj<typeof Label> = {
-  render: Label,
+export type SwitchProps = Omit<AriaSwitchProps, 'className'> & {
+  classNames?: {
+    group?: AriaSwitchProps['className'];
+    control?: string;
+    label?: string;
+  };
 };

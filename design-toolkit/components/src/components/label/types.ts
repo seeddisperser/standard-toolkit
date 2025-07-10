@@ -10,21 +10,12 @@
  * governing permissions and limitations under the License.
  */
 
-import type { Meta, StoryObj } from '@storybook/react';
-import { Label } from './index';
+import type { PropsWithChildren, RefAttributes } from 'react';
+import type { LabelProps as AriaLabelProps } from 'react-aria-components';
+import type { LabelStyleVariants } from './styles';
 
-const meta: Meta<typeof Label> = {
-  title: 'Components/Label',
-  component: Label,
-  args: {
-    children: 'Label',
-    isDisabled: false,
-    isRequired: false,
-  },
-};
+export type LabelProps = AriaLabelProps &
+  LabelStyleVariants &
+  RefAttributes<HTMLLabelElement>;
 
-export default meta;
-
-export const Default: StoryObj<typeof Label> = {
-  render: Label,
-};
+export type LabelProviderProps = PropsWithChildren<LabelStyleVariants>;
