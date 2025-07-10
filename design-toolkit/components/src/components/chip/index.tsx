@@ -12,7 +12,6 @@
 
 import { cn } from '@/lib/utils';
 import { CancelFill } from '@accelint/icons';
-import { type VariantProps, cva } from 'cva';
 import type React from 'react';
 import { type ReactNode, createContext, useContext } from 'react';
 import {
@@ -23,36 +22,18 @@ import {
   type TagListProps as AriaTagListProps,
   type TagProps as AriaTagProps,
   Button,
+  composeRenderProps,
 } from 'react-aria-components';
+import type { VariantProps } from 'tailwind-variants';
 import { Icon } from '../icon';
-
-const chipStyles = cva(
-  cn([
-    'fg-default-light inline-flex w-content items-center justify-center gap-xxs rounded-full outline',
-  ]),
-  {
-    variants: {
-      variant: {
-        advisory: 'bg-advisory-subtle outline-advisory-bold',
-        critical: 'bg-critical-subtle outline-critical',
-        serious: 'bg-serious-subtle outline-serious',
-        normal: 'bg-normal-subtle outline-normal',
-        info: 'bg-info-subtle outline-info-bold',
-      },
-      size: {
-        medium: 'px-s py-xs text-body-s',
-        small: 'px-s py-xs text-body-xs',
-      },
-    },
-    defaultVariants: {
-      size: 'medium',
-      variant: 'info',
-    },
-  },
-);
+import {
+  ChipStyles,
+  DeletableChipStyles,
+  SelectableChipStyles,
+} from './styles';
 
 export interface ChipProps
-  extends VariantProps<typeof chipStyles>,
+  extends VariantProps<typeof ChipStyles>,
     Omit<React.HTMLProps<HTMLSpanElement>, 'children' | 'size'> {
   className?: string;
   /** Used to add text to the badge, such as the number of unread notifications. */
@@ -77,27 +58,16 @@ export const Chip = ({
   // we are being rendered inside of a `Chip.List` and need to render
   // an `<AriaTag>`.
   const Component = context ? AriaTag : 'span';
-
   return (
     <Icon.Provider size={size === 'medium' ? 'small' : 'xsmall'}>
       <Component
-        className={cn(
-          chipStyles({
-            size,
-            variant,
-            className,
-          }),
-        )}
+        className={ChipStyles({ size: size, variant: variant, className })}
         {...props}
       />
     </Icon.Provider>
   );
 };
 Chip.displayName = 'Chip';
-Chip.as = (
-  props: VariantProps<typeof chipStyles>,
-  className?: string | string[],
-) => cn(chipStyles({ ...props, className }));
 
 export interface ChipListProps<T>
   extends Omit<AriaTagGroupProps, 'children'>,
@@ -127,31 +97,8 @@ function ChipList<T extends object>({
 ChipList.displayName = 'Chip.List';
 Chip.List = ChipList;
 
-const selectableChipStyles = cva(
-  cn([
-    'fg-default-light inline-flex w-content items-center justify-center rounded-full outline outline-interactive hover:outline-interactive-hover focus:outline-interactive-hover',
-    'dtk-selected:bg-highlight-subtle dtk-selected:outline-highlight',
-  ]),
-  {
-    variants: {
-      isDisabled: {
-        true: 'fg-disabled dtk-selected:bg-transparent dtk-selected:outline-interactive-disabled outline-interactive-disabled hover:outline-interactive-disabled focus:outline-interactive-disabled',
-        false: 'cursor-pointer',
-      },
-      size: {
-        medium: 'px-s py-xs text-body-s',
-        small: 'px-s py-xs text-body-xs',
-      },
-    },
-    defaultVariants: {
-      isDisabled: false,
-      size: 'medium',
-    },
-  },
-);
-
 interface SelectableChipProps
-  extends VariantProps<typeof selectableChipStyles>,
+  extends VariantProps<typeof SelectableChipStyles>,
     Omit<AriaTagProps, 'isDisabled'> {}
 
 export const SelectableChip = ({
@@ -161,12 +108,8 @@ export const SelectableChip = ({
   ...props
 }: SelectableChipProps) => (
   <AriaTag
-    className={cn(
-      selectableChipStyles({
-        isDisabled,
-        size,
-        className,
-      }),
+    className={composeRenderProps(className, (className) =>
+      SelectableChipStyles({ size: size, isDisabled: isDisabled, className }),
     )}
     {...props}
   />
@@ -174,30 +117,8 @@ export const SelectableChip = ({
 SelectableChip.displayName = 'Chip.Selectable';
 Chip.Selectable = SelectableChip;
 
-const deletableChipStyles = cva(
-  cn([
-    'fg-default-light group inline-flex w-content items-center justify-center gap-xs rounded-full outline outline-interactive hover:outline-interactive-hover focus:outline-interactive-hover',
-  ]),
-  {
-    variants: {
-      isDisabled: {
-        true: 'fg-disabled outline-interactive-disabled hover:outline-interactive-disabled',
-        false: '',
-      },
-      size: {
-        medium: 'p-xs pl-m text-body-s',
-        small: 'p-xs pl-s text-body-xs',
-      },
-    },
-    defaultVariants: {
-      isDisabled: false,
-      size: 'medium',
-    },
-  },
-);
-
 interface DeletableChipProps
-  extends VariantProps<typeof deletableChipStyles>,
+  extends VariantProps<typeof DeletableChipStyles>,
     Omit<AriaTagProps, 'isDisabled'> {}
 
 export const DeletableChip = ({
@@ -213,12 +134,8 @@ export const DeletableChip = ({
 
   return (
     <AriaTag
-      className={cn(
-        deletableChipStyles({
-          isDisabled,
-          size,
-          className,
-        }),
+      className={composeRenderProps(className, (className) =>
+        DeletableChipStyles({ size: size, isDisabled: isDisabled, className }),
       )}
       textValue={internalTextValue}
       {...props}
