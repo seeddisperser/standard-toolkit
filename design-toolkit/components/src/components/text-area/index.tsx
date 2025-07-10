@@ -15,27 +15,39 @@ import 'client-only';
 import {
   Text as AriaText,
   TextArea as AriaTextArea,
+  TextAreaContext as AriaTextAreaContext,
   TextField as AriaTextField,
   type TextFieldProps as AriaTextFieldProps,
-  TextAreaContext,
+  FieldError,
   composeRenderProps,
   useContextProps,
 } from 'react-aria-components';
 
+import { createContext, useContext } from 'react';
 import { Label } from '../label';
 import { TextAreaStyles, TextAreaStylesDefaults } from './styles';
 import type { TextAreaInputProps, TextAreaProps } from './types';
 
-const { wrapper, input, description, errorMessage } = TextAreaStyles();
+const { field, input, description } = TextAreaStyles();
 
-const TextAreaInput = ({
+export const TextAreaContext = createContext<{
+  size?: 'small' | 'medium';
+  isDisabled?: boolean;
+  isInvalid?: boolean;
+  isReadOnly?: boolean;
+} | null>(null);
+
+export function TextAreaFieldInput({
   className,
   ref = null,
   selectOnFocus = false,
-  size = TextAreaStylesDefaults.size,
+  size,
   ...props
-}: TextAreaInputProps) => {
-  [props, ref] = useContextProps(props, ref, TextAreaContext);
+}: TextAreaInputProps) {
+  [props, ref] = useContextProps(props, ref, AriaTextAreaContext);
+
+  const context = useContext(TextAreaContext);
+  const finalSize = size ?? context?.size ?? TextAreaStylesDefaults.size;
 
   if (props.readOnly) {
     return (
@@ -43,7 +55,7 @@ const TextAreaInput = ({
         className={input({
           isDisabled: false,
           isReadOnly: props.readOnly,
-          size,
+          size: finalSize,
           className,
         })}
       >
@@ -69,18 +81,18 @@ const TextAreaInput = ({
             isDisabled,
             isInvalid,
             isReadOnly: props.readOnly,
-            size,
+            size: finalSize,
             className,
           })
         }
       />
     </div>
   );
-};
-TextAreaInput.displayName = 'TextArea.Input';
+}
+TextAreaFieldInput.displayName = 'TextAreaField.Input';
 
-export function TextArea({
-  className,
+export function TextAreaField({
+  classNames,
   description: descriptionText,
   errorMessage: errorMessageText,
   isDisabled,
@@ -88,48 +100,63 @@ export function TextArea({
   isReadOnly,
   label,
   placeholder,
-  size = TextAreaStylesDefaults.size,
+  size,
   ...props
 }: TextAreaProps) {
-  const isSmall = size === 'small';
-  const shouldShowDescription = !(isSmall || isInvalid) || isDisabled;
-  const shouldShowError = isInvalid && !isDisabled && !isReadOnly;
+  const context = useContext(TextAreaContext);
+  const finalSize = size ?? context?.size ?? TextAreaStylesDefaults.size;
+  const finalIsDisabled = isDisabled ?? context?.isDisabled ?? false;
+  const finalIsInvalid = isInvalid ?? context?.isInvalid ?? false;
+  const finalIsReadOnly = isReadOnly ?? context?.isReadOnly ?? false;
+
+  const isSmall = finalSize === 'small';
+  const shouldShowDescription = !(isSmall || finalIsInvalid) || finalIsDisabled;
 
   return (
-    <AriaTextField
-      {...(props as AriaTextFieldProps)}
-      isDisabled={isDisabled}
-      isInvalid={isInvalid}
-      isReadOnly={isReadOnly}
-      className={composeRenderProps(className, (className) =>
-        wrapper({ className }),
-      )}
+    <TextAreaContext.Provider
+      value={{
+        size: finalSize,
+        isDisabled: finalIsDisabled,
+        isInvalid: finalIsInvalid,
+        isReadOnly: finalIsReadOnly,
+      }}
     >
-      {!isSmall && (
-        <Label
-          className='empty:hidden'
-          isDisabled={isDisabled}
-          isOptional={!props.isRequired}
-        >
-          {label}
-        </Label>
-      )}
-      <TextAreaInput
-        className={className}
-        placeholder={placeholder}
-        size={size}
-      />
-      {shouldShowDescription && (
-        <AriaText className={description({ isDisabled })} slot='description'>
-          {descriptionText}
-        </AriaText>
-      )}
-      {shouldShowError && (
-        <AriaText className={errorMessage()} slot='errorMessage'>
+      <AriaTextField
+        {...(props as AriaTextFieldProps)}
+        isDisabled={finalIsDisabled}
+        isInvalid={finalIsInvalid}
+        isReadOnly={finalIsReadOnly}
+        className={composeRenderProps(classNames?.field, (className) =>
+          field({ className }),
+        )}
+      >
+        {!isSmall && (
+          <Label
+            className='empty:hidden'
+            isDisabled={finalIsDisabled}
+            isOptional={!props.isRequired}
+          >
+            {label}
+          </Label>
+        )}
+        <TextAreaFieldInput
+          className={classNames?.input}
+          placeholder={placeholder}
+          size={finalSize}
+        />
+        {shouldShowDescription && (
+          <AriaText
+            className={description({ isDisabled: finalIsDisabled })}
+            slot='description'
+          >
+            {descriptionText}
+          </AriaText>
+        )}
+        <FieldError className='fg-serious text-body-xs empty:hidden'>
           {errorMessageText}
-        </AriaText>
-      )}
-    </AriaTextField>
+        </FieldError>
+      </AriaTextField>
+    </TextAreaContext.Provider>
   );
 }
-TextArea.displayName = 'TextArea';
+TextAreaField.displayName = 'TextAreaField';

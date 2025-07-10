@@ -11,11 +11,11 @@
  */
 
 import type { Meta, StoryObj } from '@storybook/react';
-import { TextArea } from './index';
+import { TextAreaField } from './index';
 
-const meta: Meta<typeof TextArea> = {
+const meta: Meta<typeof TextAreaField> = {
   title: 'Components/TextArea',
-  component: TextArea,
+  component: TextAreaField,
   args: {
     className: '',
     cols: 0,
@@ -38,6 +38,6 @@ const meta: Meta<typeof TextArea> = {
 
 export default meta;
 
-export const Default: StoryObj<typeof TextArea> = {
-  render: TextArea,
+export const Default: StoryObj<typeof TextAreaField> = {
+  render: TextAreaField,
 };

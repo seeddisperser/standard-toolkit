@@ -98,7 +98,11 @@ export type {
   TabProps,
   TabsProps,
 } from './components/tabs';
-export { TextArea } from './components/text-area';
+export {
+  TextAreaContext,
+  TextAreaField,
+  TextAreaFieldInput,
+} from './components/text-area';
 export {
   TextAreaStyles,
   TextAreaStylesDefaults,

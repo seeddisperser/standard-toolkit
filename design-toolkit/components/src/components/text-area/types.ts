@@ -10,6 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
+import type { RenderPropsClassName } from '@/lib/types';
 import type { ForwardedRef, RefAttributes } from 'react';
 import type {
   TextAreaProps as AriaTextAreaProps,
@@ -19,10 +20,10 @@ import type { TextAreaStyleVariants } from './styles';
 
 export interface TextAreaInputProps
   extends TextAreaStyleVariants,
-    Omit<AriaTextAreaProps, 'size'> {
+    Omit<AriaTextAreaProps, 'size'>,
+    RefAttributes<HTMLTextAreaElement> {
   selectOnFocus?: boolean;
   className?: string;
-  ref?: ForwardedRef<HTMLTextAreaElement>;
 }
 
 export interface TextAreaProps
@@ -32,7 +33,12 @@ export interface TextAreaProps
     >,
     Omit<AriaTextFieldProps, 'className'>,
     Omit<TextAreaInputProps, keyof AriaTextFieldProps> {
-  className?: string;
+  classNames?: {
+    field?: RenderPropsClassName<AriaTextFieldProps>;
+    input?: string;
+    label?: string;
+    description?: RenderPropsClassName<{ isDisabled?: boolean }>;
+  };
   description?: string;
   errorMessage?: string;
   label?: string;

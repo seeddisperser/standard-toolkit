@@ -23,14 +23,13 @@ export const TextAreaStylesDefaults = {
 
 export const TextAreaStyles = tv({
   slots: {
-    wrapper: 'flex flex-col gap-xs',
+    field: 'flex flex-col gap-xs',
     input: [
       'block w-full rounded-medium p-s font-display outline outline-interactive',
       'text-default-light placeholder:text-default-dark hover:outline-interactive-hover focus:outline-highlight',
     ],
     label: '',
     description: 'fg-default-dark text-body-xs empty:hidden',
-    errorMessage: 'fg-serious text-body-xs empty:hidden',
   },
   variants: {
     size: {
@@ -41,17 +40,17 @@ export const TextAreaStyles = tv({
         input: 'text-body-xs',
       },
     },
+    isInvalid: {
+      true: {
+        input: 'outline-serious',
+      },
+      false: {},
+    },
     isDisabled: {
       true: {
         input:
           'text-disabled outline-interactive-disabled placeholder:text-disabled',
         description: 'fg-disabled',
-      },
-      false: {},
-    },
-    isInvalid: {
-      true: {
-        input: 'outline-serious',
       },
       false: {},
     },
@@ -62,18 +61,13 @@ export const TextAreaStyles = tv({
       false: {},
     },
     isClearable: {
-      true: {},
+      true: {
+        input: 'pr-xl',
+      },
       false: {},
     },
   },
   compoundVariants: [
-    {
-      isDisabled: true,
-      isInvalid: true,
-      className: {
-        input: 'outline-interactive-disabled',
-      },
-    },
     {
       isClearable: true,
       isDisabled: false,
