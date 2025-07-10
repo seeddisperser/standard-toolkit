@@ -37,8 +37,7 @@ const meta: Meta<typeof TextArea> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof TextArea>;
 
-export const Default: Story = {
-  render: ({ children, ...args }) => <TextArea {...args} />,
+export const Default: StoryObj<typeof TextArea> = {
+  render: TextArea,
 };

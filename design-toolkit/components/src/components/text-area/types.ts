@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import type { RefAttributes } from 'react';
+import type { ForwardedRef, RefAttributes } from 'react';
 import type {
   TextAreaProps as AriaTextAreaProps,
   TextFieldProps as AriaTextFieldProps,
@@ -22,6 +22,7 @@ export interface TextAreaInputProps
     Omit<AriaTextAreaProps, 'size'> {
   selectOnFocus?: boolean;
   className?: string;
+  ref?: ForwardedRef<HTMLTextAreaElement>;
 }
 
 export interface TextAreaProps

@@ -62,9 +62,7 @@ export const TextAreaStyles = tv({
       false: {},
     },
     isClearable: {
-      true: {
-        input: 'pr-xl',
-      },
+      true: {},
       false: {},
     },
   },
@@ -74,6 +72,14 @@ export const TextAreaStyles = tv({
       isInvalid: true,
       className: {
         input: 'outline-interactive-disabled',
+      },
+    },
+    {
+      isClearable: true,
+      isDisabled: false,
+      size: 'medium',
+      className: {
+        input: 'pr-xl',
       },
     },
   ],

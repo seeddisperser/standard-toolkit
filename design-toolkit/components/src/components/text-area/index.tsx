@@ -18,11 +18,10 @@ import {
   TextField as AriaTextField,
   type TextFieldProps as AriaTextFieldProps,
   TextAreaContext,
+  composeRenderProps,
   useContextProps,
 } from 'react-aria-components';
 
-import { cn } from '@/lib/utils';
-import type { ForwardedRef } from 'react';
 import { Label } from '../label';
 import { TextAreaStyles, TextAreaStylesDefaults } from './styles';
 import type { TextAreaInputProps, TextAreaProps } from './types';
@@ -35,20 +34,18 @@ const TextAreaInput = ({
   selectOnFocus = false,
   size = TextAreaStylesDefaults.size,
   ...props
-}: TextAreaInputProps & { ref?: ForwardedRef<HTMLTextAreaElement> }) => {
+}: TextAreaInputProps) => {
   [props, ref] = useContextProps(props, ref, TextAreaContext);
 
   if (props.readOnly) {
     return (
       <span
-        className={cn(
-          input({
-            isDisabled: false,
-            isReadOnly: props.readOnly,
-            size,
-            className,
-          }),
-        )}
+        className={input({
+          isDisabled: false,
+          isReadOnly: props.readOnly,
+          size,
+          className,
+        })}
       >
         {props.value || '\u00A0'}
       </span>
@@ -68,15 +65,13 @@ const TextAreaInput = ({
         }}
         ref={ref}
         className={({ isDisabled, isInvalid }) =>
-          cn(
-            input({
-              isDisabled,
-              isInvalid,
-              isReadOnly: props.readOnly,
-              size,
-              className,
-            }),
-          )
+          input({
+            isDisabled,
+            isInvalid,
+            isReadOnly: props.readOnly,
+            size,
+            className,
+          })
         }
       />
     </div>
@@ -106,7 +101,9 @@ export function TextArea({
       isDisabled={isDisabled}
       isInvalid={isInvalid}
       isReadOnly={isReadOnly}
-      className={cn(wrapper({ className }))}
+      className={composeRenderProps(className, (className) =>
+        wrapper({ className }),
+      )}
     >
       {!isSmall && (
         <Label
@@ -123,10 +120,7 @@ export function TextArea({
         size={size}
       />
       {shouldShowDescription && (
-        <AriaText
-          className={cn([description({ isDisabled })])}
-          slot='description'
-        >
+        <AriaText className={description({ isDisabled })} slot='description'>
           {descriptionText}
         </AriaText>
       )}
