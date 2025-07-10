@@ -34,7 +34,7 @@ export const ChipStyles = tv({
 });
 
 export const SelectableChipStyles = tv({
-  base: 'fg-default-light inline-flex w-content items-center justify-center rounded-full outline outline-interactive dtk-selected:bg-highlight-subtle dtk-selected:outline-highlight hover:outline-interactive-hover focus:outline-interactive-hover',
+  base: 'fg-default-light inline-flex w-content items-center justify-center rounded-full outline outline-interactive dtk-selected:bg-highlight-subtle dtk-selected:outline-highlight focus:outline-interactive-hover hover:outline-interactive-hover',
   variants: {
     isDisabled: {
       true: 'fg-disabled dtk-selected:bg-transparent dtk-selected:outline-interactive-disabled outline-interactive-disabled hover:outline-interactive-disabled focus:outline-interactive-disabled',
