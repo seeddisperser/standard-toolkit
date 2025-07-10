@@ -10,21 +10,26 @@
  * governing permissions and limitations under the License.
  */
 
-import type { Meta, StoryObj } from '@storybook/react';
-import { Label } from './index';
+import { tv } from '@/lib/utils';
+import type { VariantProps } from 'tailwind-variants';
 
-const meta: Meta<typeof Label> = {
-  title: 'Components/Label',
-  component: Label,
-  args: {
-    children: 'Label',
-    isDisabled: false,
-    isRequired: false,
+export const LabelStylesDefaults = {
+  isDisabled: false,
+} as const;
+
+export const LabelStyles = tv({
+  base: 'fg-default-light flex items-center gap-xs text-header-s',
+  variants: {
+    isDisabled: {
+      false: '',
+      true: 'fg-disabled',
+    },
+    isRequired: {
+      false: '',
+      true: '',
+    },
   },
-};
+  defaultVariants: LabelStylesDefaults,
+});
 
-export default meta;
-
-export const Default: StoryObj<typeof Label> = {
-  render: Label,
-};
+export type LabelStyleVariants = VariantProps<typeof LabelStyles>;

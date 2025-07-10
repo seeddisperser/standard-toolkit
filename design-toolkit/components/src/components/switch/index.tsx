@@ -10,66 +10,65 @@
  * governing permissions and limitations under the License.
  */
 
-import { cn } from '@/lib/utils';
-import { cva } from 'cva';
-import type { ReactNode } from 'react';
+'use client';
+import 'client-only';
+import { createContext } from 'react';
 import {
   Switch as AriaSwitch,
-  type SwitchProps as AriaSwitchProps,
+  type ContextValue,
+  composeRenderProps,
 } from 'react-aria-components';
-import { Label } from '../label';
+import { LabelStyles } from '../label/styles';
+import { SwitchStyles } from './styles';
+import type { SwitchProps, SwitchProviderProps } from './types';
 
-const labelStyles = Label.as();
+const { group, control, label } = SwitchStyles();
 
-const switchStyles = cva(
-  [
-    'relative flex h-l w-[32px] items-center rounded-round bg-transparent outline outline-interactive',
-    'before:absolute before:block before:size-m before:rounded-full before:bg-default-dark',
-    'group-hover:bg-interactive-hover-dark group-hover:outline-interactive-hover group-hover:before:bg-interactive-hover',
-    'group-focus-within:bg-interactive-hover-dark group-focus-within:outline-interactive-hover group-focus-within:before:bg-interactive-hover',
-  ],
-  {
-    variants: {
-      isSelected: {
-        true: [
-          'outline-highlight before:right-[3px] before:bg-highlight',
-          'group-hover:bg-highlight-subtle group-hover:outline-highlight group-hover:before:bg-highlight',
-          'group-focus-within:bg-highlight-subtle group-focus-within:outline-interactive-hover group-focus-within:before:bg-highlight',
-          'group-dtk-disabled:bg-interactive-disabled group-dtk-disabled:outline-interactive-disabled group-dtk-disabled:before:bg-disabled',
-        ],
-        false: 'before:left-[3px]',
-      },
-      isDisabled: {
-        true: 'group-dtk-disabled:bg-interactive-disabled group-dtk-disabled:outline-interactive-disabled group-dtk-disabled:before:bg-disabled',
-        false: '',
-      },
-    },
-    defaultVariants: {
-      isSelected: false,
-    },
-  },
-);
+export const SwitchContext =
+  createContext<ContextValue<SwitchProps, HTMLLabelElement>>(null);
 
-export interface SwitchProps extends Omit<AriaSwitchProps, 'children'> {
-  children?: ReactNode;
+function SwitchProvider({ children, ...props }: SwitchProviderProps) {
+  return (
+    <SwitchContext.Provider value={props}>{children}</SwitchContext.Provider>
+  );
 }
+SwitchProvider.displayName = 'Switch.Provider';
 
-export function Switch({ children, className, ...props }: SwitchProps) {
+export function Switch({ children, classNames, ...rest }: SwitchProps) {
   return (
     <AriaSwitch
-      {...props}
-      className='group flex dtk-disabled:cursor-not-allowed items-center gap-s'
+      {...rest}
+      className={composeRenderProps(
+        classNames?.group,
+        (className, { isDisabled, isSelected }) =>
+          group({ className, isDisabled, isSelected }),
+      )}
     >
-      {({ isDisabled, isSelected }) => (
+      {composeRenderProps(children, (children, { isDisabled, isSelected }) => (
         <>
           <div
-            className={cn(switchStyles({ className, isDisabled, isSelected }))}
+            className={control({
+              className: classNames?.control,
+              isDisabled,
+              isSelected,
+            })}
           />
-          {children && <span className={labelStyles}>{children}</span>}
+          {children && (
+            <span
+              className={label({
+                className: LabelStyles({
+                  className: classNames?.label,
+                  isDisabled,
+                }),
+              })}
+            >
+              {children}
+            </span>
+          )}
         </>
-      )}
+      ))}
     </AriaSwitch>
   );
 }
 Switch.displayName = 'Switch';
-Switch.as = (className?: string | string[]) => cn(switchStyles({ className }));
+Switch.Provider = SwitchProvider;
