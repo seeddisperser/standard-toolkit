@@ -16,6 +16,8 @@ If you run into errors, try running
 `pnpm build` after you install the dependencies and then run the preview command again. If you don't have pnpm enabled then you can enable it with the command
 [`corepack enable pnpm`](https://pnpm.io/installation#using-corepack) .
 
+Additionally, you will want to first run the build script for the icons package before running the preview script for the components package for storybook to be able to import the icons and avoid a run time error.
+
 ## Run a local build
 
 ```bash
