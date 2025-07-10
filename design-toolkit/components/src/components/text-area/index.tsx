@@ -175,7 +175,7 @@ export function TextArea({
         <Label
           className='empty:hidden'
           isDisabled={isDisabled}
-          isOptional={!props.isRequired}
+          isRequired={!props.isRequired}
         >
           {label}
         </Label>
