@@ -13,7 +13,8 @@
 import type { TreeStyleVariants } from '@/components/tree/styles';
 import type {
   DragItem as AriaDragItem,
-  DroppableCollectionDropEvent,
+  DroppableCollectionInsertDropEvent,
+  DroppableCollectionOnItemDropEvent,
   DroppableCollectionReorderEvent,
   DroppableCollectionRootDropEvent,
   Key,
@@ -27,33 +28,58 @@ import type {
   DropTarget,
   RenderProps,
 } from 'react-aria-components';
+import type { TreeNode } from '../../hooks/types';
 
 export type TreeSelectionType = 'visibility' | 'checkbox' | 'none';
 
 export type TreeItemProps = Omit<AriaTreeItemProps, 'textValue'> & {
   id: Key;
   label: string;
-  isParentVisible?: boolean;
   isLastOfSet?: boolean;
 };
 
-type VariantProps = Pick<TreeStyleVariants, 'variant' | 'selectionType'>;
+type VariantProps = Pick<TreeStyleVariants, 'variant'>;
 
 export type DragItem = AriaDragItem;
 
 export type DragAndDropConfig = {
   getItems: (key: Set<Key>) => DragItem[];
-  onDrop?: (e: DroppableCollectionDropEvent) => void;
+  /**
+   * Handler that is called when external items are dropped on the droppable collection's root.
+   */
   onRootDrop?: (e: DroppableCollectionRootDropEvent) => void;
+  /**
+   * Handler that is called when items are reordered within the collection.
+   * This handler only allows dropping between items, not on items.
+   * It does not allow moving items to a different parent item within a tree.
+   */
   onReorder?: (e: DroppableCollectionReorderEvent) => void;
+  /**
+   * Handler that is called when items are moved within the source collection.
+   * This handler allows dropping both on or between items, and items may be
+   * moved to a different parent item within a tree.
+   */
+  onMove?: (e: DroppableCollectionReorderEvent) => void;
   renderDragPreview?: (items: DragItem[]) => ReactElement;
   renderDropIndicator?: (target: DropTarget) => ReactElement;
+  acceptedDragTypes?: string[];
+  /**
+   * Handler that is called when external items are dropped "between" items.
+   */
+  onInsert?: (e: DroppableCollectionInsertDropEvent) => void;
+  /**
+   * Handler that is called when items are dropped "on" an item.
+   */
+  onItemDrop?: (e: DroppableCollectionOnItemDropEvent) => void;
 };
 
-export type TreeProps<T> = AriaTreeProps<T> &
+export type TreeProps<T> = AriaTreeProps<TreeNode<T>> &
   VariantProps & {
+    visibleKeys?: Set<Key>;
+    viewableKeys?: Set<Key>;
+    defaultVisibleKeys?: 'all' | Iterable<Key>;
+    onVisibilityChange?: (keys: Set<Key>) => void;
     dragAndDropConfig?: DragAndDropConfig;
-    selectionType?: TreeSelectionType;
     showRuleLines?: boolean;
   };
 

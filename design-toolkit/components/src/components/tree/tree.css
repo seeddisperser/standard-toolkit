@@ -17,7 +17,7 @@ div[data-last-of-set="true"] .branching-line:has(+ .branching-line) {
     repeating-linear-gradient(to right, var(--neutral-04) 0%, var(--neutral-04) 1px, transparent 1px, transparent 4px);
   background-size: 1px 4px, 50% 1px;
   background-position: center, center right;
-  background-repeat: repeat-y, no-repeat;
+  /*background-repeat: repeat-y, no-repeat;*/
 }
 
 .vert-line {

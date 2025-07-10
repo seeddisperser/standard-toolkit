@@ -133,13 +133,29 @@ export type {
   TreeProps,
   TreeSelectionType,
 } from './components/tree/types';
+export { VisibilityToggle } from './components/tree/visibility-toggle';
+export { items, nodeDefaults } from './hooks/fixtures';
+export type { Values } from './hooks/fixtures';
 export type {
   TreeActions,
+  TreeData,
+  TreeMap,
   TreeNode,
+  TreeRef,
+  UseTreeActionsOptions,
   UseTreeState,
   UseTreeStateOptions,
 } from './hooks/types';
-export { useTreeState } from './hooks/useTreeState';
+export { useTreeActions } from './hooks/use-tree-actions';
+export {
+  assert,
+  getDroppedItemPayload,
+  processDroppedItem,
+  processDroppedItems,
+  toTree,
+  withDefaults,
+} from './hooks/use-tree-actions/utils';
+export { useTreeState } from './hooks/use-tree-state';
 export { containsExactChildren, expectsIconWrapper } from './lib/react';
 export type {
   ChildrenRenderProps,

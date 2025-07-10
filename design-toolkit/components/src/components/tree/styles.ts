@@ -16,38 +16,51 @@ import type { VariantProps } from 'tailwind-variants';
 export const TreeStylesDefaults = {
   variant: 'cozy',
   hasRuleLines: true,
-  selectionType: 'visibility',
 } as const;
 
 export const TreeStyles = tv({
   slots: {
-    tree: 'fg-default-light flex flex-col overflow-auto outline-hidden',
+    tree: 'fg-default-light overflow-auto outline-hidden',
+    item: [
+      'flex items-center justify-items-start rounded-medium border border-transparent px-xs',
+      'fg-default-light overflow-x group w-full outline-hidden',
+      'data-[drop-target=true]:border-highlight-hover',
+      ' hover:bg-interactive-hover-dark',
+    ],
+    visibility: 'fg-default-light',
+    expansion: 'fg-default-light cursor-pointer focus:bg-transparent',
     lines: 'relative self-stretch',
-    item: 'fg-default-light overflow-x group flex w-full items-center justify-items-start rounded-medium outline-hidden hover:bg-interactive-hover-dark',
-    label: 'flex flex-1 items-center',
+    display:
+      'grid flex-1 grid-cols-[auto_auto_1fr_auto] items-center [grid-template-areas:"icon_label_space_action"_"icon_description_space_action"]',
+    icon: '[grid-area:icon]',
+    label: '[grid-area:label]',
+    description: 'fg-default-dark text-body-s [grid-area:description]',
+    actions: '[grid-area:action]',
     selection:
       'dtk-selected:fg-default-light dtk-selected:hover:bg-transparent',
-    expansion: 'fg-default-light cursor-pointer focus:bg-transparent',
   },
   variants: {
     variant: {
       cozy: {
         tree: 'text-body-m',
-        lines: 'group-data-[variant=cozy]:w-xl',
         item: 'icon-size-xl gap-s text-header-m',
-        label: 'min-h-xxl gap-xs',
+        lines: 'group-data-[variant=cozy]:w-xl',
+        display: 'gap-x-s',
+        label: 'gap-xs',
       },
       compact: {
         tree: 'text-body-s',
-        lines: 'group-data-[variant=compact]:w-l',
         item: 'icon-size-l gap-xs text-header-s',
-        label: 'min-h-[36px] gap-xs',
+        lines: 'group-data-[variant=compact]:w-l',
+        display: 'gap-x-xs',
+        label: 'gap-xs',
       },
       tight: {
         tree: 'text-body-s',
         lines: 'group-data-[variant=tight]:w-l',
         item: 'icon-size-l gap-xs text-header-s',
-        label: 'min-h-xl gap-xs',
+        display: 'gap-x-xs',
+        label: 'gap-xs',
       },
     },
     hasRuleLines: {
@@ -57,16 +70,11 @@ export const TreeStyles = tv({
     },
     isBranch: {
       true: {
-        lines: 'branching-line',
+        lines: 'branching-line [background-repeat:repeat-y,no-repeat]',
       },
       false: {
         lines: 'vert-line',
       },
-    },
-    selectionType: {
-      visibility: {},
-      checkbox: {},
-      none: {},
     },
     isDisabled: {
       true: {
@@ -75,10 +83,9 @@ export const TreeStyles = tv({
           'not-dtk-selected:bg-transparent not-dtk-selected:hover:bg-interactive-transparent',
       },
     },
-    isParentVisible: {
+    isViewable: {
       false: {
-        selection:
-          'fg-default-dark not-dtk-selected:bg-transparent not-dtk-selected:hover:bg-interactive-transparent',
+        visibility: 'fg-default-dark',
       },
     },
   },

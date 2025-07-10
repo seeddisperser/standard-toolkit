@@ -25,7 +25,7 @@ import {
   composeRenderProps,
   useContextProps,
 } from 'react-aria-components';
-import type { CheckboxProps } from '../checkbox';
+import { Checkbox, type CheckboxProps } from '../checkbox';
 import { Icon } from '../icon';
 import { ToggleIconButton } from '../toggle-icon-button';
 
@@ -38,51 +38,18 @@ type SelectionToggleProps = Partial<CheckboxProps> & {
 export const SelectionToggle = forwardRef(
   (props: SelectionToggleProps, ref: ForwardedRef<HTMLLabelElement>) => {
     [props] = useContextProps(props, ref, CheckboxContext);
-    const context = useContext(TreeContext);
 
-    const variant =
-      (isSlottedContextValue(context) ? undefined : context?.variant) ??
-      TreeStylesDefaults.variant;
+    const { className, isSelected, isDisabled, ...rest } = props;
 
-    const selectionType =
-      (isSlottedContextValue(context) ? undefined : context?.selectionType) ??
-      TreeStylesDefaults.selectionType;
-
-    const size = variant === 'cozy' ? 'medium' : 'small';
-
-    const {
-      className,
-      isSelected,
-      isDisabled,
-      isParentVisible = true,
-      ...rest
-    } = props;
-
-    if (selectionType === 'none') {
-      return null;
-    }
-
-    //TODO - checkbox and toggleIcon hate each other
     return (
-      <ToggleIconButton
-        aria-label={props['aria-label']}
-        aria-labelledby={props['aria-labelledby']}
-        variant='minimal'
-        size={size}
-        isDisabled={isDisabled}
-        className={composeRenderProps(className, (className) =>
-          selection({ className, isDisabled, isParentVisible }),
-        )}
+      <Checkbox
         {...rest}
-      >
-        {selectionType === 'visibility' ? (
-          <Icon>{isSelected ? <Show /> : <Hide />}</Icon>
-        ) : (
-          <Icon>
-            {isSelected ? <CheckboxSelected /> : <CheckboxUnselected />}
-          </Icon>
+        className={composeRenderProps(className, (className) =>
+          selection({ className, isDisabled }),
         )}
-      </ToggleIconButton>
+        isSelected={isSelected}
+        isDisabled={isDisabled}
+      />
     );
   },
 );

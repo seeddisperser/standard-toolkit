@@ -23,9 +23,11 @@ import { Icon } from '../icon';
 import { IconButton } from '../icon-button';
 import { Tree } from './index';
 import './tree.css';
-import type { TreeNode, UseTreeState } from '@/hooks/types';
-import { useTreeState } from '@/hooks/useTreeState';
-import type { ReactNode } from 'react';
+import type { TreeNode } from '@/hooks/types';
+import { useTreeActions } from '@/hooks/use-tree-actions';
+import { useTreeState } from '@/hooks/use-tree-state';
+import type { Key, Selection } from '@react-types/shared';
+import { type ReactNode, useState } from 'react';
 import { Button } from '../button';
 
 const meta: Meta<typeof Tree> = {
@@ -33,17 +35,12 @@ const meta: Meta<typeof Tree> = {
   component: Tree,
   args: {
     variant: 'cozy',
-    selectionType: 'visibility',
     showRuleLines: true,
   },
   argTypes: {
     variant: {
       control: 'select',
       options: ['cozy', 'compact', 'tight'],
-    },
-    selectionType: {
-      control: 'select',
-      options: ['visibility', 'checkbox', 'none'],
     },
   },
   parameters: {
@@ -57,76 +54,101 @@ const meta: Meta<typeof Tree> = {
 export default meta;
 type Story = StoryObj<typeof Tree>;
 
-type Item = {
-  id: string;
-  label: string;
+type ItemValues = {
   iconPrefix?: ReactNode;
   description?: string;
-  isReadOnly?: boolean;
-  items?: Item[];
   hasWarning?: boolean;
 };
 
-const items: Item[] = [
+/**
+ * TreeNode are all the properties that are intrinsic to the tree itself
+ * Values are the things that we are using in tree items.
+ */
+const items: TreeNode<ItemValues>[] = [
   {
-    id: 'north-american-birds',
+    key: 'north-american-birds',
     label: 'North American Birds',
-    iconPrefix: <Placeholder />,
+    isVisible: true,
     isReadOnly: false,
-    items: [
+    values: {
+      iconPrefix: <Placeholder />,
+    },
+    children: [
       {
-        id: 'blue-jay',
+        key: 'blue-jay',
+        parentKey: 'north-american-birds',
         label: 'Blue jay',
-        description: 'cyanocitta cristata',
-        iconPrefix: <Placeholder />,
         isReadOnly: false,
-        hasWarning: true,
+        isVisible: true,
+        values: {
+          description: 'cyanocitta cristata',
+          iconPrefix: <Placeholder />,
+          hasWarning: true,
+        },
       },
       {
-        id: 'gray-catbird',
+        key: 'gray-catbird',
+        parentKey: 'north-american-birds',
         label: 'Gray catbird',
-        description: 'dumetella carolinensis',
         isReadOnly: false,
-        iconPrefix: <Placeholder />,
+        isVisible: true,
+        values: {
+          description: 'dumetella carolinensis',
+          iconPrefix: <Placeholder />,
+        },
       },
       {
-        id: 'black-capped-chickadee',
+        key: 'black-capped-chickadee',
+        parentKey: 'north-american-birds',
         label: 'Black-capped chickadee',
-        description: 'Poecile atricapillus',
         isReadOnly: true,
-        iconPrefix: <Placeholder />,
-        items: [
+        isVisible: false,
+        values: {
+          description: 'Poecile atricapillus',
+          iconPrefix: <Placeholder />,
+        },
+        children: [
           {
-            id: 'northern-cardinal',
+            key: 'northern-cardinal',
+            parentKey: 'black-capped-chickadee',
             label: 'Northern Cardinal',
-            description: 'Cardinalis cardinalis',
             isReadOnly: false,
-            iconPrefix: <Placeholder />,
-            hasWarning: true,
+            values: {
+              description: 'Cardinalis cardinalis',
+              iconPrefix: <Placeholder />,
+              hasWarning: true,
+            },
           },
         ],
       },
     ],
   },
   {
-    id: 'african-birds',
+    key: 'african-birds',
     label: 'African Birds',
-    iconPrefix: <Placeholder />,
     isReadOnly: false,
-    items: [
+    values: {
+      iconPrefix: <Placeholder />,
+    },
+    children: [
       {
-        id: 'lilac-breasted-roller',
+        key: 'lilac-breasted-roller',
+        parentKey: 'african-birds',
         label: 'Lilac-breasted roller',
         isReadOnly: false,
-        iconPrefix: <Placeholder />,
+        values: {
+          iconPrefix: <Placeholder />,
+        },
       },
     ],
   },
   {
-    id: 'european-birds',
+    key: 'european-birds',
     label: 'European Birds',
-    iconPrefix: <Placeholder />,
     isReadOnly: false,
+    values: {
+      iconPrefix: <Placeholder />,
+    },
   },
 ];
 
@@ -141,93 +163,97 @@ export const StaticCollection: Story = {
       {...args}
     >
       <Tree.Item id='fruit' label='fruit'>
-        <Tree.Content>Fruit</Tree.Content>
+        <Tree.Item.Content>Fruit</Tree.Item.Content>
         <Tree.Item id='apples' label='apples'>
-          <Tree.Content>Apples</Tree.Content>
+          <Tree.Item.Content>Apples</Tree.Item.Content>
           <Tree.Item id='green' label='green-apple'>
-            <Tree.Content>Green Apple</Tree.Content>
+            <Tree.Item.Content>Green Apple</Tree.Item.Content>
           </Tree.Item>
           <Tree.Item id='red' label='red-apple' isLastOfSet>
-            <Tree.Content>Red Apple</Tree.Content>
+            <Tree.Item.Content>Red Apple</Tree.Item.Content>
+          </Tree.Item>
+          <Tree.Item id='yellow' label='yellow-apple' isLastOfSet>
+            <Tree.Item.Content>Yellow Apple</Tree.Item.Content>
           </Tree.Item>
         </Tree.Item>
       </Tree.Item>
 
       <Tree.Item id='vegetables' label='vegetables'>
-        <Tree.Content>Vegetables</Tree.Content>
+        <Tree.Item.Content>Vegetables</Tree.Item.Content>
         <Tree.Item id='carrot' label='carrot'>
-          <Tree.Content>Carrot</Tree.Content>
+          <Tree.Item.Content>Carrot</Tree.Item.Content>
         </Tree.Item>
         <Tree.Item id='kale' label='kale'>
-          <Tree.Content>Kale</Tree.Content>
+          <Tree.Item.Content>Kale</Tree.Item.Content>
         </Tree.Item>
       </Tree.Item>
     </Tree>
   ),
 };
 
-function Node<T extends object>({
-  node,
-}: { node: TreeNode<Item>; state?: UseTreeState<T> }) {
-  const { description, iconPrefix, isReadOnly, hasWarning } = node.value;
+function Node({ node }: { node: TreeNode<ItemValues> }) {
+  const { isReadOnly, values } = node;
 
   return (
-    <Tree.Item id={node.key} key={node.key} label={node.value.label}>
-      <Tree.Content>
+    <Tree.Item id={node.key} key={node.key} label={node.label}>
+      <Tree.Item.Content>
         {({ variant }) => {
+          const size = variant === 'cozy' ? 'medium' : 'small';
           return (
             <>
-              {Boolean(iconPrefix) && <Tree.Icon>{iconPrefix}</Tree.Icon>}
-              {node.value.label}
-              {description && (
-                <Tree.Description>{description}</Tree.Description>
+              {values?.iconPrefix && (
+                <Tree.Item.Icon>{values?.iconPrefix}</Tree.Item.Icon>
               )}
-              {isReadOnly && (
-                <Icon
-                  className='fg-default-dark aspect-square rounded-full bg-interactive-hover-dark p-xs'
-                  size={variant === 'cozy' ? 'medium' : 'small'}
-                >
-                  <LockFill />
-                </Icon>
+              <Tree.Item.Label>{node.label}</Tree.Item.Label>
+              {values?.description && (
+                <Tree.Item.Description>
+                  {values?.description}
+                </Tree.Item.Description>
               )}
-              {hasWarning && (
-                <Icon
-                  className='fg-serious'
-                  size={variant === 'cozy' ? 'medium' : 'small'}
-                >
-                  <Warning />
-                </Icon>
-              )}
-              <IconButton
-                size={variant === 'cozy' ? 'medium' : 'small'}
-                onPress={console.log}
-              >
-                <Icon>
-                  <CenterOn />
-                </Icon>
-              </IconButton>
+              <Tree.Item.Actions>
+                {isReadOnly && (
+                  <Icon
+                    className='fg-default-dark aspect-square rounded-full bg-interactive-hover-dark p-xs'
+                    size={size}
+                  >
+                    <LockFill />
+                  </Icon>
+                )}
+                {values?.hasWarning && (
+                  <Icon className='fg-serious' size={size}>
+                    <Warning />
+                  </Icon>
+                )}
+                <IconButton size={size}>
+                  <Icon>
+                    <CenterOn />
+                  </Icon>
+                </IconButton>
+              </Tree.Item.Actions>
             </>
           );
         }}
-      </Tree.Content>
-      {node.children?.map((child: TreeNode<Item>) => (
+      </Tree.Item.Content>
+      {node.children?.map((child) => (
         <Node key={child.key} node={child} />
       ))}
     </Tree.Item>
   );
 }
 
+/**
+ * This story is using the optional useTreeState hook, which returns
+ * which is a convenience helper that will control state for the tree
+ */
 export const DataCollection: Story = {
   render: (args) => {
-    const state = useTreeState<Item>({
-      initialItems: items ?? [],
+    const state = useTreeState<ItemValues>({
+      items,
       initialSelectedKeys: ['black-capped-chickadee'],
       initialExpandedKeys: ['north-american-birds'],
-      getKey: (item) => item.id,
-      getChildren: (item) => item.items ?? [],
     });
 
-    const { nodes, selectedKeys, expandedKeys, actions } = state;
+    const { nodes, selectedKeys, expandedKeys, visibleKeys, actions } = state;
 
     return (
       <>
@@ -254,12 +280,14 @@ export const DataCollection: Story = {
           style={{ width: '500px' }}
           aria-label='Dynamic example'
           expandedKeys={expandedKeys}
-          onExpandedChange={actions.setExpandedKeys}
+          onExpandedChange={actions.onExpandedChange}
           selectedKeys={selectedKeys}
-          onSelectionChange={actions.setSelectedKeys}
+          onSelectionChange={actions.onSelectionChange}
+          visibleKeys={visibleKeys}
+          onVisibilityChange={actions.onVisibilityChange}
           items={nodes}
         >
-          {(node) => <Node key={node.key} node={node} state={state} />}
+          {(node) => <Node key={node.key} node={node} />}
         </Tree>
       </>
     );
@@ -269,12 +297,10 @@ export const DataCollection: Story = {
 export const DragAndDrop: Story = {
   render: (args) => {
     const { nodes, selectedKeys, expandedKeys, dragAndDropConfig, actions } =
-      useTreeState<Item>({
-        initialItems: items,
+      useTreeState({
+        items,
         initialSelectedKeys: ['european-birds'],
         initialExpandedKeys: ['north-american-birds'],
-        getKey: (item) => item.id,
-        getChildren: (item) => item.items ?? [],
       });
 
     return (
@@ -283,9 +309,9 @@ export const DragAndDrop: Story = {
         style={{ width: '500px' }}
         aria-label='Drag and Drop example'
         expandedKeys={expandedKeys}
-        onExpandedChange={actions.setExpandedKeys}
+        onExpandedChange={actions.onExpandedChange}
         selectedKeys={selectedKeys}
-        onSelectionChange={actions.setSelectedKeys}
+        onSelectionChange={actions.onSelectionChange}
         dragAndDropConfig={dragAndDropConfig}
         items={nodes}
       >
@@ -295,41 +321,92 @@ export const DragAndDrop: Story = {
   },
 };
 
-/**
- * If you want to perform a different action for a tree item and leave
- * the expand/collapse behavior to be managed internally to the tree,
- * you can use the onAction event tree listener.
- */
-export const TreeState: Story = {
-  render: (args) => (
-    <Tree
-      {...args}
-      style={{ width: '500px' }}
-      aria-label='State Example'
-      onAction={(e) => console.log(e)}
-    >
-      <Tree.Item id='fruit' label='fruit'>
-        <Tree.Content>Fruit</Tree.Content>
-        <Tree.Item id='apples' label='apples'>
-          <Tree.Content>Apples</Tree.Content>
-          <Tree.Item id='green' label='green-apple'>
-            <Tree.Content>Green Apple</Tree.Content>
-          </Tree.Item>
-          <Tree.Item id='red' label='red-apple' isLastOfSet>
-            <Tree.Content>Red Apple</Tree.Content>
-          </Tree.Item>
-        </Tree.Item>
-      </Tree.Item>
+export const WithoutManagedState: Story = {
+  render: (args) => {
+    /**
+     *  IMPORTANT: This useState is just a cheap way to represent
+     *  a database in Storybook, NOT component state.
+     *
+     *  In your application, this would be your remote persistence database or localStorage,
+     *  i.e. using fetch or mutate(updateTree).
+     *
+     *  Critically, It is the fetched data from the server that is driving the
+     *  Tree, not component state.
+     */
+    const [db, setDB] = useState(items);
 
-      <Tree.Item id='vegetables' label='vegetables'>
-        <Tree.Content>Vegetables</Tree.Content>
-        <Tree.Item id='carrot' label='carrot'>
-          <Tree.Content>Carrot</Tree.Content>
-        </Tree.Item>
-        <Tree.Item id='kale' label='kale'>
-          <Tree.Content>Kale</Tree.Content>
-        </Tree.Item>
-      </Tree.Item>
-    </Tree>
-  ),
+    const actions = useTreeActions({ nodes: db });
+
+    const handleSelection = (keys: Selection) => {
+      const updated = actions.onSelectionChange(new Set(keys));
+      setDB(updated);
+    };
+
+    const handleExpansion = (keys: Set<Key>) => {
+      const newTree = actions.onExpandedChange(keys);
+      setDB(newTree);
+    };
+
+    const handleExpandAll = () => {
+      const newTree = actions.expandAll();
+      setDB(newTree);
+    };
+
+    const handleCollapseAll = () => {
+      const newTree = actions.collapseAll();
+      setDB(newTree);
+    };
+
+    const handleSelectAll = () => {
+      const newTree = actions.selectAll();
+      setDB(newTree);
+    };
+
+    const handleUnselectAll = () => {
+      const newTree = actions.unselectAll();
+      setDB(newTree);
+    };
+
+    const handleVisibility = (keys: Set<Key>) => {
+      const newTree = actions.onVisibilityChange(keys);
+      setDB(newTree);
+    };
+
+    return (
+      <>
+        <div className='flex items-center gap-m'>
+          <Button size='small' variant='flat' onPress={handleSelectAll}>
+            Select All
+          </Button>
+          <Button size='small' variant='flat' onPress={handleUnselectAll}>
+            Unselect All
+          </Button>
+          <IconButton size='small' onPress={handleExpandAll}>
+            <Icon>
+              <ExpandAll />
+            </Icon>
+          </IconButton>
+          <IconButton size='small' onPress={handleCollapseAll}>
+            <Icon>
+              <CollapseAll />
+            </Icon>
+          </IconButton>
+        </div>
+        <Tree
+          {...args}
+          style={{ width: '500px' }}
+          aria-label='Unmanaged State Example'
+          expandedKeys={actions.getExpandedKeys()}
+          onExpandedChange={handleExpansion}
+          selectedKeys={actions.getSelectedKeys()}
+          onSelectionChange={handleSelection}
+          visibleKeys={actions.getVisibleKeys()}
+          onVisibilityChange={handleVisibility}
+          items={db}
+        >
+          {(node) => <Node key={node.key} node={node} />}
+        </Tree>
+      </>
+    );
+  },
 };

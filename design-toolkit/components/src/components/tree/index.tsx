@@ -11,8 +11,15 @@
  */
 
 import { DragVert } from '@accelint/icons';
-import { createContext, memo, useContext } from 'react';
 import {
+  type PropsWithChildren,
+  createContext,
+  memo,
+  useContext,
+  useMemo,
+} from 'react';
+import {
+  Text as AriaText,
   Tree as AriaTree,
   TreeItem as AriaTreeItem,
   TreeItemContent as AriaTreeItemContent,
@@ -27,6 +34,8 @@ import { IconButton } from '../icon-button';
 import './tree.css';
 import { TreeStyles, TreeStylesDefaults } from '@/components/tree/styles';
 import { isSlottedContextValue } from '@/lib/utils';
+import type { Key } from '@react-types/shared';
+import type { TreeNode } from '../../hooks/types';
 import { ExpandToggle } from './expand-toggle';
 import { SelectionToggle } from './selection-toggle';
 import type {
@@ -36,8 +45,10 @@ import type {
   TreeItemProps,
   TreeProps,
 } from './types';
+import { VisibilityToggle } from './visibility-toggle';
 
-const { tree, lines, item, label } = TreeStyles();
+const { actions, tree, lines, icon, item, label, description, display } =
+  TreeStyles();
 
 export const TreeContext =
   createContext<ContextValue<TreeProps<unknown>, HTMLDivElement>>(null);
@@ -45,44 +56,6 @@ export const TreeContext =
 const defaultRenderDropIndicator = (target: DropTarget) => (
   <DropIndicator target={target} className='border border-highlight-hover' />
 );
-
-export function Tree<T extends object>(props: TreeProps<T>) {
-  const {
-    children,
-    className,
-    variant = TreeStylesDefaults.variant,
-    selectionType = 'visibility',
-    selectionMode = 'multiple',
-    showRuleLines = true,
-    dragAndDropConfig,
-    ...rest
-  } = props;
-
-  const { dragAndDropHooks } = useDragAndDrop({
-    getItems: dragAndDropConfig?.getItems,
-    onDrop: dragAndDropConfig?.onDrop,
-    onReorder: dragAndDropConfig?.onReorder,
-    onRootDrop: dragAndDropConfig?.onRootDrop,
-    renderDragPreview: dragAndDropConfig?.renderDragPreview,
-    renderDropIndicator:
-      dragAndDropConfig?.renderDropIndicator ?? defaultRenderDropIndicator,
-  });
-
-  return (
-    <TreeContext.Provider value={{ selectionType, variant, showRuleLines }}>
-      <AriaTree
-        selectionMode={selectionMode}
-        dragAndDropHooks={dragAndDropHooks}
-        className={composeRenderProps(className, (className) =>
-          tree({ className, variant }),
-        )}
-        {...rest}
-      >
-        {children}
-      </AriaTree>
-    </TreeContext.Provider>
-  );
-}
 
 const Lines = memo(function Lines({ level }: { level: number }) {
   const context = useContext(TreeContext);
@@ -95,11 +68,114 @@ const Lines = memo(function Lines({ level }: { level: number }) {
     return (
       <div
         key={i}
-        className={lines({ hasRuleLines: showRuleLines, isBranch })}
+        className={lines({
+          hasRuleLines: showRuleLines,
+          isBranch,
+        })}
       />
     );
   });
 });
+
+/**
+ * TODO: the many bugs in moving shit around
+ * TODO: deep equality on tree with nodes passed in to reset
+ * TODO: tests for moving multiple
+ * TODO: moving multiple with selection
+ * TODO: visibility with children/parent/sibling things
+ * TODO: accessors?
+ * TODO: generics cleanup
+ * TODO: manage re-rendering and performance
+ * TODO: lines as a separate thing
+ * TODO: visual polish
+ */
+
+export function Tree<T extends object>(props: TreeProps<T>) {
+  const {
+    children,
+    className,
+    variant = TreeStylesDefaults.variant,
+    selectionMode = 'multiple',
+    visibleKeys,
+    defaultVisibleKeys,
+    onVisibilityChange,
+    showRuleLines = true,
+    dragAndDropConfig,
+    items,
+    ...rest
+  } = props;
+
+  const { dragAndDropHooks } = useDragAndDrop({
+    getItems: dragAndDropConfig?.getItems,
+    onReorder: dragAndDropConfig?.onReorder,
+    onRootDrop: dragAndDropConfig?.onRootDrop,
+    renderDragPreview: dragAndDropConfig?.renderDragPreview,
+    renderDropIndicator:
+      dragAndDropConfig?.renderDropIndicator ?? defaultRenderDropIndicator,
+    acceptedDragTypes: dragAndDropConfig?.acceptedDragTypes,
+    onInsert: dragAndDropConfig?.onInsert,
+    onItemDrop: dragAndDropConfig?.onItemDrop,
+    onMove: () => dragAndDropConfig?.onMove,
+  });
+
+  const viewableKeys = useMemo((): Set<Key> => {
+    if (!items) {
+      return new Set();
+    }
+    const viewable = new Set<Key>();
+
+    function traverse(nodes: Iterable<TreeNode<T>>) {
+      for (const node of nodes) {
+        if (node.isViewable) {
+          viewable.add(node.key);
+        }
+        if (node.children) {
+          traverse(node.children);
+        }
+      }
+    }
+
+    traverse(items);
+    return viewable;
+  }, [items]);
+
+  return (
+    <TreeContext.Provider
+      value={{
+        visibleKeys,
+        viewableKeys,
+        defaultVisibleKeys,
+        onVisibilityChange,
+        variant,
+        showRuleLines,
+      }}
+    >
+      <AriaTree
+        selectionMode={selectionMode}
+        dragAndDropHooks={dragAndDropHooks}
+        className={composeRenderProps(className, (className) =>
+          tree({ className, variant }),
+        )}
+        items={items}
+        {...rest}
+      >
+        {children}
+      </AriaTree>
+    </TreeContext.Provider>
+  );
+}
+Tree.displayName = 'Tree';
+
+export function TreeItem(props: TreeItemProps) {
+  const { id, children, label, isLastOfSet = false, ...rest } = props;
+
+  return (
+    <AriaTreeItem id={id} className={item()} textValue={label} {...rest}>
+      {children}
+    </AriaTreeItem>
+  );
+}
+TreeItem.displayName = 'Tree.Item';
 
 export function ItemContent({ children }: ItemContentProps) {
   const context = useContext(TreeContext);
@@ -107,14 +183,23 @@ export function ItemContent({ children }: ItemContentProps) {
     (isSlottedContextValue(context) ? undefined : context?.variant) ??
     TreeStylesDefaults.variant;
 
-  const selectionType =
-    (isSlottedContextValue(context) ? undefined : context?.selectionType) ??
-    TreeStylesDefaults.selectionType;
+  const visibleKeys = isSlottedContextValue(context)
+    ? new Set()
+    : context?.visibleKeys;
+
+  const viewableKeys = isSlottedContextValue(context)
+    ? new Set()
+    : context?.viewableKeys;
+
+  const onVisibilityChange = isSlottedContextValue(context)
+    ? undefined
+    : context?.onVisibilityChange;
 
   return (
     <AriaTreeItemContent>
       {(renderProps: ItemContentRenderProps) => {
         const {
+          id,
           hasChildItems,
           isExpanded,
           isDisabled,
@@ -123,18 +208,45 @@ export function ItemContent({ children }: ItemContentProps) {
           allowsDragging,
           isSelected,
           level,
+          state,
         } = renderProps;
+
+        const isLastOfSet = !state.collection.getItem(id)?.nextKey;
 
         const shouldShowSelection =
           selectionBehavior === 'toggle' && selectionMode !== 'none';
         const isNotRoot = level > 1;
+        const isVisible = Array.from(visibleKeys ?? []).includes(id);
+        const isViewable = Array.from(viewableKeys ?? []).includes(id);
 
         return (
           <div
             className={item({ variant })}
             data-variant={variant}
-            data-last-of-set={false}
+            data-last-of-set={isLastOfSet}
           >
+            <VisibilityToggle
+              id={id}
+              isVisible={isVisible}
+              isViewable={isViewable}
+              onChange={onVisibilityChange}
+            />
+            {isNotRoot && <Lines level={level} />}
+            <ExpandToggle
+              hasChildItems={hasChildItems}
+              isExpanded={isExpanded}
+              size='medium'
+              isDisabled={isDisabled}
+            />
+            <div className={display({ variant })}>
+              {typeof children === 'function'
+                ? children({
+                    ...renderProps,
+                    variant,
+                    defaultChildren: null,
+                  })
+                : children}
+            </div>
             {shouldShowSelection && (
               <SelectionToggle
                 isSelected={isSelected}
@@ -142,25 +254,6 @@ export function ItemContent({ children }: ItemContentProps) {
                 slot='selection'
               />
             )}
-
-            {isNotRoot && <Lines level={level} />}
-
-            <ExpandToggle
-              hasChildItems={hasChildItems}
-              isExpanded={isExpanded}
-              size='medium'
-              isDisabled={isDisabled}
-            />
-            <div className={label({ variant })}>
-              {typeof children === 'function'
-                ? children({
-                    ...renderProps,
-                    variant,
-                    selectionType,
-                    defaultChildren: null,
-                  })
-                : children}
-            </div>
             {allowsDragging && (
               <IconButton
                 slot='drag'
@@ -177,36 +270,39 @@ export function ItemContent({ children }: ItemContentProps) {
     </AriaTreeItemContent>
   );
 }
+ItemContent.displayName = 'Tree.Item.Content';
 
-/**
- * Handles display of an individual item in a tree
- */
-export function TreeItem(props: TreeItemProps) {
-  const { id, children, label, isLastOfSet = false, ...rest } = props;
-
-  return (
-    <AriaTreeItem
-      id={id}
-      className='rounded-medium border border-transparent data-[drop-target=true]:border-highlight-hover'
-      textValue={label}
-      {...rest}
-    >
-      {children}
-    </AriaTreeItem>
-  );
+function ItemLabel({ children }: ItemTextProps) {
+  return <AriaText className={label()}>{children}</AriaText>;
 }
+ItemLabel.displayName = 'Tree.Item.Label';
 
 function ItemDescription({ children }: ItemTextProps) {
-  return <div className='fg-default-dark text-body-s'>{children}</div>;
+  return <AriaText className={description()}>{children}</AriaText>;
 }
-ItemDescription.displayName = 'Tree.ItemDescription';
+ItemDescription.displayName = 'Tree.Item.Description';
 
 function ItemIcon({ children }: ItemTextProps) {
-  return <Icon size='medium'>{children}</Icon>;
+  return (
+    <Icon size='medium' className={icon()}>
+      {children}
+    </Icon>
+  );
 }
-ItemIcon.displayName = 'Tree.ItemIcon';
+ItemIcon.displayName = 'Tree.Item.Icon';
 
-Tree.Content = ItemContent;
+function ItemActions({ children }: PropsWithChildren) {
+  return (
+    <div className={actions()}>
+      <div className='flex items-center gap-x-xs'>{children}</div>
+    </div>
+  );
+}
+ItemActions.displayName = 'Tree.Icon.Actions';
+
 Tree.Item = TreeItem;
-Tree.Description = ItemDescription;
-Tree.Icon = ItemIcon;
+TreeItem.Content = ItemContent;
+TreeItem.Label = ItemLabel;
+TreeItem.Description = ItemDescription;
+TreeItem.Icon = ItemIcon;
+TreeItem.Actions = ItemActions;
