@@ -59,7 +59,10 @@ export type { IconStyleVariants } from './components/icon/styles';
 export type { IconProps, IconProviderProps } from './components/icon/types';
 export { IconButton } from './components/icon-button';
 export type { IconButtonProps } from './components/icon-button';
-export { Label } from './components/label';
+export { Label, LabelContext, LabelProvider } from './components/label';
+export { LabelStyles, LabelStylesDefaults } from './components/label/styles';
+export type { LabelStyleVariants } from './components/label/styles';
+export type { LabelProps, LabelProviderProps } from './components/label/types';
 export { Options, OptionsContext, OptionsSection } from './components/options';
 export type { OptionsProps } from './components/options';
 export { OptionsItem } from './components/options-item';
@@ -90,7 +93,9 @@ export type { SearchFieldProps } from './components/search-field';
 export { RangeSlider, Slider } from './components/slider';
 export type { RangeSliderProps, SliderProps } from './components/slider';
 export { Switch } from './components/switch';
-export type { SwitchProps } from './components/switch';
+export { SwitchStyles, SwitchStylesDefaults } from './components/switch/styles';
+export type { SwitchStyleVariants } from './components/switch/styles';
+export type { SwitchProps } from './components/switch/types';
 export { Tabs } from './components/tabs';
 export type {
   TabListProps,
