@@ -166,6 +166,7 @@ function TextareaValueEditor({
       isDisabled={disabled}
       isInvalid={!valid}
       placeholder={placeholder}
+      size='small'
       value={value}
       onChange={handleOnChange}
       aria-label={name}
