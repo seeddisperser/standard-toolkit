@@ -12,15 +12,27 @@
 
 'use client';
 import 'client-only';
+import { createContext } from 'react';
 import {
   Switch as AriaSwitch,
+  type ContextValue,
   composeRenderProps,
 } from 'react-aria-components';
 import { LabelStyles } from '../label/styles';
 import { SwitchStyles } from './styles';
-import type { SwitchProps } from './types';
+import type { SwitchProps, SwitchProviderProps } from './types';
 
 const { group, control, label } = SwitchStyles();
+
+export const SwitchContext =
+  createContext<ContextValue<SwitchProps, HTMLLabelElement>>(null);
+
+function SwitchProvider({ children, ...props }: SwitchProviderProps) {
+  return (
+    <SwitchContext.Provider value={props}>{children}</SwitchContext.Provider>
+  );
+}
+SwitchProvider.displayName = 'Switch.Provider';
 
 export function Switch({ children, classNames, ...rest }: SwitchProps) {
   return (
@@ -59,3 +71,4 @@ export function Switch({ children, classNames, ...rest }: SwitchProps) {
   );
 }
 Switch.displayName = 'Switch';
+Switch.Provider = SwitchProvider;

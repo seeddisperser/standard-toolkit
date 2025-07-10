@@ -24,7 +24,7 @@ import type { LabelProps, LabelProviderProps } from './types';
 export const LabelContext =
   createContext<ContextValue<LabelProps, HTMLLabelElement>>(null);
 
-export function LabelProvider({ children, ...props }: LabelProviderProps) {
+function LabelProvider({ children, ...props }: LabelProviderProps) {
   return (
     <LabelContext.Provider value={props}>{children}</LabelContext.Provider>
   );
