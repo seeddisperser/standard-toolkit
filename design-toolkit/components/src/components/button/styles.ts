@@ -31,15 +31,8 @@ export const ButtonStyles = tv({
   variants: {
     color: {
       info: '',
-      advisory: '',
-      normal: '',
       serious: '',
       critical: '',
-    },
-    // Icon specific
-    hierarchy: {
-      primary: '',
-      secondary: '',
     },
     size: {
       large: 'gap-xs px-m py-s text-button-l',
@@ -119,26 +112,6 @@ export const ButtonStyles = tv({
 
     // COLORS
 
-    // Shared
-    {
-      hierarchy: ['primary', 'secondary'],
-      variant: 'icon',
-      className: [
-        'bg-transparent',
-        ' hover:bg-interactive-hover-dark',
-        ' focus:bg-interactive-hover-dark',
-      ],
-    },
-    {
-      hierarchy: ['primary', 'secondary'],
-      variant: 'floating',
-      className: [
-        'bg-surface-default shadow-elevation-overlay outline outline-interactive-default',
-        ' hover:outline-interactive-hover',
-        'focus:outline-interactive-hover',
-      ],
-    },
-
     // Info
     {
       color: 'info',
@@ -165,128 +138,6 @@ export const ButtonStyles = tv({
         'hover:bg-interactive-hover-dark',
         'focus:bg-interactive-hover-dark',
       ],
-    },
-    {
-      color: 'info',
-      hierarchy: 'primary',
-      variant: ['icon', 'floating'],
-      className: 'icon-default-light',
-    },
-    {
-      color: 'info',
-      hierarchy: 'secondary',
-      variant: ['icon', 'floating'],
-      className: 'icon-default-dark',
-    },
-    {
-      color: 'info',
-      hierarchy: ['primary', 'secondary'],
-      variant: 'icon',
-      className: ['hover:icon-default-light', 'focus:icon-default-light'],
-    },
-    {
-      color: 'info',
-      hierarchy: ['primary', 'secondary'],
-      variant: 'floating',
-      className: ['hover:icon-default-light', 'focus:icon-default-light'],
-    },
-
-    // Advisory
-    {
-      color: 'advisory',
-      variant: 'solid',
-      className: [
-        'bg-advisory',
-        'hover:bg-advisory-hover',
-        'focus:bg-advisory-hover',
-      ],
-    },
-    {
-      color: 'advisory',
-      variant: 'outline',
-      className: [
-        'outline-advisory-hover',
-        'hover:outline-advisory-bold',
-        'focus:outline-advisory-bold',
-      ],
-    },
-    {
-      color: 'advisory',
-      variant: 'flat',
-      className: ['hover:bg-advisory-hover', 'focus:bg-advisory-hover'],
-    },
-    {
-      color: 'advisory',
-      hierarchy: 'primary',
-      variant: ['icon', 'floating'],
-      className: 'icon-advisory',
-    },
-    {
-      color: 'advisory',
-      hierarchy: 'secondary',
-      variant: ['icon', 'floating'],
-      className: 'icon-advisory-hover',
-    },
-    {
-      color: 'advisory',
-      hierarchy: ['primary', 'secondary'],
-      variant: 'icon',
-      className: ['hover:icon-advisory', 'focus:icon-advisory'],
-    },
-    {
-      color: 'advisory',
-      hierarchy: ['primary', 'secondary'],
-      variant: 'floating',
-      className: ['hover:icon-advisory', 'focus:icon-advisory'],
-    },
-
-    // Normal
-    {
-      color: 'normal',
-      variant: 'solid',
-      className: [
-        'bg-normal',
-        'hover:bg-normal-hover',
-        'focus:bg-normal-hover',
-      ],
-    },
-    {
-      color: 'normal',
-      variant: 'outline',
-      className: [
-        'outline-normal-hover',
-        'hover:outline-normal-bold',
-        'focus:outline-normal-bold',
-      ],
-    },
-    {
-      color: 'normal',
-      variant: 'flat',
-      className: ['hover:bg-normal-hover', 'focus:bg-normal-hover'],
-    },
-    {
-      color: 'normal',
-      hierarchy: 'primary',
-      variant: ['icon', 'floating'],
-      className: 'icon-normal',
-    },
-    {
-      color: 'normal',
-      hierarchy: 'secondary',
-      variant: ['icon', 'floating'],
-      className: 'icon-normal-hover',
-    },
-    {
-      color: 'normal',
-      hierarchy: ['primary', 'secondary'],
-      variant: 'icon',
-      className: ['hover:icon-normal', 'focus:icon-normal'],
-    },
-    {
-      color: 'normal',
-      hierarchy: ['primary', 'secondary'],
-      variant: 'floating',
-      className: ['hover:icon-normal', 'focus:icon-normal'],
     },
 
     // Serious

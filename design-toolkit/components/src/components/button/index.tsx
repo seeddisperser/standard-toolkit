@@ -47,8 +47,7 @@ export function Button({ ref, ...props }: ButtonProps) {
     ButtonContext,
   );
 
-  const { children, className, color, hierarchy, size, variant, ...rest } =
-    props;
+  const { children, className, color, size, variant, ...rest } = props;
 
   return (
     <Icon.Provider size={size}>
@@ -58,7 +57,6 @@ export function Button({ ref, ...props }: ButtonProps) {
           ButtonStyles({
             className,
             color,
-            hierarchy,
             size,
             variant,
             isPending,
@@ -80,8 +78,7 @@ export function LinkButton({ ref, ...props }: LinkButtonProps) {
     ButtonContext,
   );
 
-  const { children, className, color, hierarchy, size, variant, ...rest } =
-    props;
+  const { children, className, color, size, variant, ...rest } = props;
 
   return (
     <Icon.Provider size={size}>
@@ -91,7 +88,6 @@ export function LinkButton({ ref, ...props }: LinkButtonProps) {
           ButtonStyles({
             className,
             color,
-            hierarchy,
             size,
             variant,
             isCurrent,
@@ -112,8 +108,7 @@ export function ToggleButton({ ref, ...props }: ToggleButtonProps) {
     ButtonContext,
   );
 
-  const { children, className, color, hierarchy, size, variant, ...rest } =
-    props;
+  const { children, className, color, size, variant, ...rest } = props;
 
   return (
     <Icon.Provider size={size}>
@@ -123,7 +118,6 @@ export function ToggleButton({ ref, ...props }: ToggleButtonProps) {
           ButtonStyles({
             className,
             color,
-            hierarchy,
             size,
             variant,
             isSelected,

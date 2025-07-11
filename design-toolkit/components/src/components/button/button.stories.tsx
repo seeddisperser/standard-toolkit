@@ -23,7 +23,6 @@ const meta: Meta<typeof Button> = {
   args: {
     children: 'Button',
     color: ButtonStylesDefaults.color,
-    hierarchy: ButtonStylesDefaults.hierarchy,
     size: ButtonStylesDefaults.size,
     variant: ButtonStylesDefaults.variant,
     isDisabled: false,
@@ -31,11 +30,7 @@ const meta: Meta<typeof Button> = {
   argTypes: {
     color: {
       control: 'select',
-      options: ['info', 'advisory', 'normal', 'serious', 'critical'],
-    },
-    hierarchy: {
-      control: 'select',
-      options: ['primary', 'secondary'],
+      options: ['info', 'serious', 'critical'],
     },
     size: {
       control: 'select',
