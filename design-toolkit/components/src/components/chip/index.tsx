@@ -104,6 +104,8 @@ export const SelectableChip = ({
 SelectableChip.displayName = 'Chip.Selectable';
 Chip.Selectable = SelectableChip;
 
+const { base, remove } = DeletableChipStyles();
+
 export const DeletableChip = ({
   children,
   className,
@@ -118,7 +120,7 @@ export const DeletableChip = ({
   return (
     <AriaTag
       className={composeRenderProps(className, (className) =>
-        DeletableChipStyles({ size, isDisabled, className }),
+        base({ size, isDisabled: true, className }),
       )}
       textValue={internalTextValue}
       {...props}
@@ -135,14 +137,7 @@ export const DeletableChip = ({
             {typeof children === 'function'
               ? children({ allowsRemoving, ...props })
               : children}
-            <Button
-              slot='remove'
-              className={cn([
-                'icon-default-dark group-hover:icon-default-light group-focus:icon-default-light cursor-pointer',
-                isDisabled &&
-                  'icon-disabled group-hover:icon-disabled cursor-not-allowed',
-              ])}
-            >
+            <Button slot='remove' className={remove({ isDisabled })}>
               <Icon size='small'>
                 <CancelFill />
               </Icon>

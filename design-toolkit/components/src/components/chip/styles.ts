@@ -59,9 +59,16 @@ export const SelectableChipStyles = tv({
 export const DeletableChipStyles = tv({
   extend: BaseChipStyles,
   base: 'group gap-xs outline-interactive hover:outline-interactive-hover focus:outline-interactive-hover',
+  slots: {
+    remove:
+      'icon-default-dark group-hover:icon-default-light group-focus:icon-default-light cursor-pointer',
+  },
   variants: {
     isDisabled: {
-      true: 'fg-disabled outline-interactive-disabled hover:outline-interactive-disabled',
+      true: {
+        base: 'fg-disabled outline-interactive-disabled hover:outline-interactive-disabled',
+        remove: 'icon-disabled group-hover:icon-disabled cursor-not-allowed',
+      },
       false: '',
     },
   },
