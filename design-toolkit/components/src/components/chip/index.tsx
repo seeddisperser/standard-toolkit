@@ -19,6 +19,7 @@ import {
   TagGroup as AriaTagGroup,
   TagList as AriaTagList,
   Button,
+  type ContextValue,
   composeRenderProps,
 } from 'react-aria-components';
 import { Icon } from '../icon';
@@ -35,11 +36,8 @@ import type {
   SelectableChipProps,
 } from './types';
 
-// This coordinator is used as a way for the `<Chip>` component to understand
-// whether or not it is being rendered inside of a `<Chip.List>`. This allows
-// us to opt-into using an `<AriaTag>` or a `<span>` to ensure standalone
-// functionality.
-const Coordinator = createContext(false);
+export const ChipListContext =
+  createContext<ContextValue<ChipListProps<any>, HTMLDivElement>>(null);
 
 export const Chip = ({
   className,
@@ -47,11 +45,8 @@ export const Chip = ({
   variant = 'info',
   ...props
 }: ChipProps) => {
-  const context = useContext(Coordinator);
+  const context = useContext(ChipListContext);
 
-  // If any context was returned from the `Coordinator` context, then
-  // we are being rendered inside of a `Chip.List` and need to render
-  // an `<AriaTag>`.
   const Component = context ? AriaTag : 'span';
   return (
     <Icon.Provider size={size === 'medium' ? 'small' : 'xsmall'}>
@@ -72,7 +67,7 @@ function ChipList<T extends object>({
   ...props
 }: ChipListProps<T>) {
   return (
-    <Coordinator.Provider value={true}>
+    <ChipListContext.Provider value={{ items, renderEmptyState, ...props }}>
       <AriaTagGroup {...props}>
         <AriaTagList<T>
           items={items}
@@ -84,7 +79,7 @@ function ChipList<T extends object>({
           {children}
         </AriaTagList>
       </AriaTagGroup>
-    </Coordinator.Provider>
+    </ChipListContext.Provider>
   );
 }
 ChipList.displayName = 'Chip.List';
@@ -122,7 +117,7 @@ export const DeletableChip = ({
   return (
     <AriaTag
       className={composeRenderProps(className, (className) =>
-        base({ size, isDisabled: true, className }),
+        base({ size, isDisabled, className }),
       )}
       textValue={internalTextValue}
       {...props}

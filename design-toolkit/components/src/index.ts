@@ -37,8 +37,14 @@ export { Button } from './components/button';
 export type { ButtonProps } from './components/button';
 export { Checkbox } from './components/checkbox';
 export type { CheckboxGroupProps, CheckboxProps } from './components/checkbox';
-export { Chip, DeletableChip, SelectableChip } from './components/chip';
 export {
+  Chip,
+  ChipListContext,
+  DeletableChip,
+  SelectableChip,
+} from './components/chip';
+export {
+  ChipListStyles,
   ChipStyles,
   DeletableChipStyles,
   SelectableChipStyles,
