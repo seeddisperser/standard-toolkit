@@ -12,7 +12,6 @@
 
 import { Placeholder } from '@accelint/icons';
 import type { Meta, StoryObj } from '@storybook/react';
-import { isDisabled } from '@testing-library/user-event/dist/cjs/utils/index.js';
 import { useState } from 'react';
 import { Button } from '../button';
 import { Icon } from '../icon';
@@ -96,10 +95,10 @@ const selectableData = [
 
 export const SelectableChipList: Story = {
   args: {
-    isDisabled: true,
+    disabled: true,
   },
   argTypes: {
-    isDisabled: {
+    disabled: {
       control: 'boolean',
       defaultValue: false,
     },
@@ -115,7 +114,7 @@ export const SelectableChipList: Story = {
         <Chip.Selectable
           id={item.id}
           size={args.size}
-          isDisabled={args.isDisabled}
+          isDisabled={args.disabled}
         >
           {item.name}
         </Chip.Selectable>
@@ -141,10 +140,10 @@ const deletableData = [
 
 export const DeletableChipList: Story = {
   args: {
-    isDisabled: false,
+    disabled: false,
   },
   argTypes: {
-    isDisabled: {
+    disabled: {
       control: 'boolean',
       defaultValue: false,
     },
@@ -170,7 +169,7 @@ export const DeletableChipList: Story = {
             <Chip.Deletable
               id={item.id}
               size={args.size}
-              isDisabled={args.isDisabled}
+              isDisabled={args.disabled}
             >
               {item.name}
             </Chip.Deletable>
