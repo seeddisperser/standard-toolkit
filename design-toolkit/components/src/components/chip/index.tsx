@@ -11,36 +11,29 @@
  */
 
 'use client';
+import 'client-only';
 import { cn } from '@/lib/utils';
 import { CancelFill } from '@accelint/icons';
-import 'client-only';
-import type React from 'react';
-import { type ReactNode, createContext, useContext } from 'react';
+import { createContext, useContext } from 'react';
 import {
   Tag as AriaTag,
   TagGroup as AriaTagGroup,
-  type TagGroupProps as AriaTagGroupProps,
   TagList as AriaTagList,
-  type TagListProps as AriaTagListProps,
-  type TagProps as AriaTagProps,
   Button,
   composeRenderProps,
 } from 'react-aria-components';
-import type { VariantProps } from 'tailwind-variants';
 import { Icon } from '../icon';
 import {
   ChipStyles,
   DeletableChipStyles,
   SelectableChipStyles,
 } from './styles';
-
-export interface ChipProps
-  extends VariantProps<typeof ChipStyles>,
-    Omit<React.HTMLProps<HTMLSpanElement>, 'children' | 'size'> {
-  className?: string;
-  /** Used to add text to the badge, such as the number of unread notifications. */
-  children?: ReactNode;
-}
+import type {
+  ChipListProps,
+  ChipProps,
+  DeletableChipProps,
+  SelectableChipProps,
+} from './types';
 
 // This coordinator is used as a way for the `<Chip>` component to understand
 // whether or not it is being rendered inside of a `<Chip.List>`. This allows
@@ -63,17 +56,13 @@ export const Chip = ({
   return (
     <Icon.Provider size={size === 'medium' ? 'small' : 'xsmall'}>
       <Component
-        className={ChipStyles({ size: size, variant: variant, className })}
+        className={ChipStyles({ size, variant, className })}
         {...props}
       />
     </Icon.Provider>
   );
 };
 Chip.displayName = 'Chip';
-
-export interface ChipListProps<T>
-  extends Omit<AriaTagGroupProps, 'children'>,
-    Pick<AriaTagListProps<T>, 'items' | 'children' | 'renderEmptyState'> {}
 
 function ChipList<T extends object>({
   children,
@@ -99,10 +88,6 @@ function ChipList<T extends object>({
 ChipList.displayName = 'Chip.List';
 Chip.List = ChipList;
 
-interface SelectableChipProps
-  extends VariantProps<typeof SelectableChipStyles>,
-    Omit<AriaTagProps, 'isDisabled'> {}
-
 export const SelectableChip = ({
   className,
   isDisabled = false,
@@ -111,17 +96,13 @@ export const SelectableChip = ({
 }: SelectableChipProps) => (
   <AriaTag
     className={composeRenderProps(className, (className) =>
-      SelectableChipStyles({ size: size, isDisabled: isDisabled, className }),
+      SelectableChipStyles({ size, isDisabled, className }),
     )}
     {...props}
   />
 );
 SelectableChip.displayName = 'Chip.Selectable';
 Chip.Selectable = SelectableChip;
-
-interface DeletableChipProps
-  extends VariantProps<typeof DeletableChipStyles>,
-    Omit<AriaTagProps, 'isDisabled'> {}
 
 export const DeletableChip = ({
   children,
@@ -137,7 +118,7 @@ export const DeletableChip = ({
   return (
     <AriaTag
       className={composeRenderProps(className, (className) =>
-        DeletableChipStyles({ size: size, isDisabled: isDisabled, className }),
+        DeletableChipStyles({ size, isDisabled, className }),
       )}
       textValue={internalTextValue}
       {...props}
