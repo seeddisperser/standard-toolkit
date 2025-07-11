@@ -12,8 +12,22 @@
 
 import { tv } from '@/lib/utils';
 
+const BaseChipStyles = tv({
+  base: 'fg-default-light inline-flex w-content items-center justify-center rounded-full outline',
+  variants: {
+    size: {
+      medium: 'px-s py-xs text-body-s',
+      small: 'px-s py-xs text-body-xs',
+    },
+  },
+  defaultVariants: {
+    size: 'medium',
+  },
+});
+
 export const ChipStyles = tv({
-  base: 'fg-default-light inline-flex w-content items-center justify-center gap-xxs rounded-full outline',
+  extend: BaseChipStyles,
+  base: 'gap-xxs',
   variants: {
     variant: {
       advisory: 'bg-advisory-subtle outline-advisory-bold',
@@ -22,49 +36,36 @@ export const ChipStyles = tv({
       normal: 'bg-normal-subtle outline-normal',
       info: 'bg-info-subtle outline-info-bold',
     },
-    size: {
-      medium: 'px-s py-xs text-body-s',
-      small: 'px-s py-xs text-body-xs',
-    },
   },
   defaultVariants: {
-    size: 'medium',
     variant: 'info',
   },
 });
 
 export const SelectableChipStyles = tv({
-  base: 'fg-default-light inline-flex w-content items-center justify-center rounded-full dtk-selected:bg-highlight-subtle outline dtk-selected:outline-highlight outline-interactive hover:outline-interactive-hover focus:outline-interactive-hover',
+  extend: BaseChipStyles,
+  base: 'dtk-selected:bg-highlight-subtle dtk-selected:outline-highlight outline-interactive hover:outline-interactive-hover focus:outline-interactive-hover',
   variants: {
     isDisabled: {
       true: 'fg-disabled dtk-selected:bg-transparent dtk-selected:outline-interactive-disabled outline-interactive-disabled hover:outline-interactive-disabled focus:outline-interactive-disabled',
       false: 'cursor-pointer',
     },
-    size: {
-      medium: 'px-s py-xs text-body-s',
-      small: 'px-s py-xs text-body-xs',
-    },
   },
   defaultVariants: {
     isDisabled: false,
-    size: 'medium',
   },
 });
 
 export const DeletableChipStyles = tv({
-  base: 'fg-default-light group inline-flex w-content items-center justify-center gap-xs rounded-full outline outline-interactive hover:outline-interactive-hover focus:outline-interactive-hover',
+  extend: BaseChipStyles,
+  base: 'group gap-xs outline-interactive hover:outline-interactive-hover focus:outline-interactive-hover',
   variants: {
     isDisabled: {
       true: 'fg-disabled outline-interactive-disabled hover:outline-interactive-disabled',
       false: '',
     },
-    size: {
-      medium: 'px-s py-xs text-body-s',
-      small: 'px-s py-xs text-body-xs',
-    },
   },
   defaultVariants: {
     isDisabled: false,
-    size: 'medium',
   },
 });
