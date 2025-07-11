@@ -12,6 +12,7 @@
 
 'use client';
 import 'client-only';
+import { callRenderProps } from '@/lib/utils';
 import { CancelFill } from '@accelint/icons';
 import { createContext, useContext } from 'react';
 import {
@@ -20,6 +21,7 @@ import {
   TagList as AriaTagList,
   Button,
   type ContextValue,
+  TagListContext,
   composeRenderProps,
 } from 'react-aria-components';
 import { Icon } from '../icon';
@@ -36,16 +38,13 @@ import type {
   SelectableChipProps,
 } from './types';
 
-export const ChipListContext =
-  createContext<ContextValue<ChipListProps<any>, HTMLDivElement>>(null);
-
 export const Chip = ({
   className,
   size = 'medium',
   variant = 'info',
   ...props
 }: ChipProps) => {
-  const context = useContext(ChipListContext);
+  const context = useContext(TagListContext);
 
   const Component = context ? AriaTag : 'span';
   return (
@@ -67,7 +66,7 @@ function ChipList<T extends object>({
   ...props
 }: ChipListProps<T>) {
   return (
-    <ChipListContext.Provider value={{ items, renderEmptyState, ...props }}>
+    <TagListContext.Provider value={{ items, renderEmptyState, ...props }}>
       <AriaTagGroup {...props}>
         <AriaTagList<T>
           items={items}
@@ -79,7 +78,7 @@ function ChipList<T extends object>({
           {children}
         </AriaTagList>
       </AriaTagGroup>
-    </ChipListContext.Provider>
+    </TagListContext.Provider>
   );
 }
 ChipList.displayName = 'Chip.List';
@@ -87,8 +86,8 @@ Chip.List = ChipList;
 
 export const SelectableChip = ({
   className,
-  isDisabled = false,
-  size = 'medium',
+  isDisabled,
+  size,
   ...props
 }: SelectableChipProps) => (
   <AriaTag
@@ -106,8 +105,8 @@ const { base, remove } = DeletableChipStyles();
 export const DeletableChip = ({
   children,
   className,
-  isDisabled = false,
-  size = 'medium',
+  isDisabled,
+  size,
   textValue,
   ...props
 }: DeletableChipProps) => {
@@ -134,6 +133,7 @@ export const DeletableChip = ({
             {typeof children === 'function'
               ? children({ allowsRemoving, ...props })
               : children}
+            {/* {callRenderProps(children, { allowsRemoving, ...props })} */}
             <Button slot='remove' className={remove({ isDisabled })}>
               <Icon size='small'>
                 <CancelFill />

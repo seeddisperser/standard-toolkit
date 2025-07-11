@@ -24,10 +24,8 @@ import type {
 } from './styles';
 
 export type ChipProps = VariantProps<typeof ChipStyles> &
-  Omit<HTMLProps<HTMLSpanElement>, 'children' | 'size'> & {
+  Omit<HTMLProps<HTMLSpanElement>, 'size'> & {
     className?: string;
-    /** Used to add text to the badge, such as the number of unread notifications. */
-    children?: ReactNode;
   };
 
 export type ChipListProps<T> = Omit<AriaTagGroupProps, 'children'> &

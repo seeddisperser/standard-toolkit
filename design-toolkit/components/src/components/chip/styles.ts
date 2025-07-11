@@ -12,6 +12,12 @@
 
 import { tv } from '@/lib/utils';
 
+export const ChipsStylesDefaults = {
+  size: 'medium',
+  variant: 'info',
+  isDisabled: false,
+} as const;
+
 const BaseChipStyles = tv({
   base: 'fg-default-light inline-flex w-content items-center justify-center rounded-full outline',
   variants: {
@@ -20,9 +26,7 @@ const BaseChipStyles = tv({
       small: 'px-s py-xs text-body-xs',
     },
   },
-  defaultVariants: {
-    size: 'medium',
-  },
+  defaultVariants: ChipsStylesDefaults,
 });
 
 export const ChipStyles = tv({
@@ -37,9 +41,7 @@ export const ChipStyles = tv({
       info: 'bg-info-subtle outline-info-bold',
     },
   },
-  defaultVariants: {
-    variant: 'info',
-  },
+  defaultVariants: ChipsStylesDefaults,
 });
 
 export const SelectableChipStyles = tv({
@@ -51,9 +53,7 @@ export const SelectableChipStyles = tv({
       false: 'cursor-pointer',
     },
   },
-  defaultVariants: {
-    isDisabled: false,
-  },
+  defaultVariants: ChipsStylesDefaults,
 });
 
 export const DeletableChipStyles = tv({
@@ -72,9 +72,7 @@ export const DeletableChipStyles = tv({
       false: '',
     },
   },
-  defaultVariants: {
-    isDisabled: false,
-  },
+  defaultVariants: ChipsStylesDefaults,
 });
 
 export const ChipListStyles = tv({
