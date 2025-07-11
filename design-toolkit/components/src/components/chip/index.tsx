@@ -12,7 +12,6 @@
 
 'use client';
 import 'client-only';
-import { cn } from '@/lib/utils';
 import { CancelFill } from '@accelint/icons';
 import { createContext, useContext } from 'react';
 import {
@@ -24,6 +23,7 @@ import {
 } from 'react-aria-components';
 import { Icon } from '../icon';
 import {
+  ChipListStyles,
   ChipStyles,
   DeletableChipStyles,
   SelectableChipStyles,
@@ -77,7 +77,9 @@ function ChipList<T extends object>({
         <AriaTagList<T>
           items={items}
           renderEmptyState={renderEmptyState}
-          className={cn('flex flex-wrap gap-xs', className)}
+          className={composeRenderProps(className, (className) =>
+            ChipListStyles({ className }),
+          )}
         >
           {children}
         </AriaTagList>

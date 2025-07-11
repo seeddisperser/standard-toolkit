@@ -76,3 +76,7 @@ export const DeletableChipStyles = tv({
     isDisabled: false,
   },
 });
+
+export const ChipListStyles = tv({
+  base: 'flex flex-wrap gap-xs',
+});
