@@ -20,4 +20,6 @@ export type IconProps = PropsWithChildren<
     }
 >;
 
-export type IconProviderProps = PropsWithChildren<IconStyleVariants>;
+export type IconProviderProps = PropsWithChildren<
+  Pick<IconProps, 'className' | 'size'>
+>;
