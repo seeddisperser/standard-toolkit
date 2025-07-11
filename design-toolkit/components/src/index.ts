@@ -109,7 +109,7 @@ export type {
 export {
   TextArea,
   TextAreaContext,
-  TextAreaField,
+  TextAreaInput,
 } from './components/text-area';
 export {
   TextAreaStyles,
@@ -118,8 +118,8 @@ export {
 export type { TextAreaStyleVariants } from './components/text-area/styles';
 export type {
   TextAreaFieldProps,
+  TextAreaFieldProviderProps,
   TextAreaProps,
-  TextAreaProviderProps,
 } from './components/text-area/types';
 export { TextField } from './components/text-field';
 export type { TextFieldProps } from './components/text-field';

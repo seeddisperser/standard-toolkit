@@ -19,6 +19,7 @@ export const TextAreaStylesDefaults = {
   isInvalid: false,
   isReadOnly: false,
   isClearable: false,
+  selectOnFocus: false,
 } as const;
 
 export const TextAreaStyles = tv({
@@ -30,6 +31,7 @@ export const TextAreaStyles = tv({
     ],
     label: '',
     description: 'fg-default-dark text-body-xs empty:hidden',
+    error: 'fg-serious text-body-xs empty:hidden',
   },
   variants: {
     size: {

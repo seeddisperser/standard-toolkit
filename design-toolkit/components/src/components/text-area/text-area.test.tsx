@@ -12,18 +12,18 @@
 
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { TextAreaField } from './';
+import { TextArea } from './index';
 import type { TextAreaFieldProps } from './types';
 
 function setup({ ...props }: Partial<TextAreaFieldProps> = {}) {
-  render(<TextAreaField {...props} />);
+  render(<TextArea {...props} />);
 
   return {
     ...props,
   };
 }
 
-describe('TextAreaField', () => {
+describe('TextArea', () => {
   it('should render', () => {
     setup({
       label: 'Label',
@@ -110,5 +110,39 @@ describe('TextAreaField', () => {
     expect(screen.getByText(errorMessage)).toBeInTheDocument();
     expect(screen.getByText(errorMessage)).toHaveClass('fg-serious');
     expect(screen.getByText(errorMessage)).toHaveClass('text-body-xs');
+  });
+
+  it('should hide description when size is small', () => {
+    const description = 'Test description';
+    setup({
+      size: 'small',
+      description,
+      label: 'Label',
+    });
+
+    expect(screen.queryByText(description)).not.toBeInTheDocument();
+  });
+
+  it('should hide description when isInvalid', () => {
+    const description = 'Test description';
+    setup({
+      isInvalid: true,
+      description,
+      label: 'Label',
+    });
+
+    expect(screen.queryByText(description)).not.toBeInTheDocument();
+  });
+
+  it('should show description when isDisabled', () => {
+    const description = 'Test description';
+    setup({
+      isDisabled: true,
+      description,
+      label: 'Label',
+    });
+
+    expect(screen.getByText(description)).toBeInTheDocument();
+    expect(screen.getByText(description)).toHaveClass('fg-disabled');
   });
 });

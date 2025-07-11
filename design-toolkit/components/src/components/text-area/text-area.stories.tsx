@@ -11,31 +11,32 @@
  */
 
 import type { Meta, StoryObj } from '@storybook/react';
-import { TextAreaField } from './index';
+import { TextArea } from './index';
 
-const meta: Meta<typeof TextAreaField> = {
+const meta: Meta<typeof TextArea> = {
   title: 'Components/TextArea',
-  component: TextAreaField,
+  component: TextArea,
   args: {
+    className: '',
     description: 'Helper text',
     errorMessage: 'Error description',
-    label: 'Label',
-    placeholder: 'Placeholder',
     isDisabled: false,
     isInvalid: false,
     isReadOnly: false,
     isRequired: true,
-
+    label: 'Label',
+    placeholder: 'Placeholder',
+    selectOnFocus: false,
     size: 'medium',
   },
   argTypes: {
+    className: { type: 'string' },
     size: { options: ['small', 'medium'], control: 'select' },
-    isInvalid: { control: 'boolean' },
   },
 };
 
 export default meta;
 
-export const Default: StoryObj<typeof TextAreaField> = {
-  render: TextAreaField,
+export const Default: StoryObj<typeof TextArea> = {
+  render: TextArea,
 };

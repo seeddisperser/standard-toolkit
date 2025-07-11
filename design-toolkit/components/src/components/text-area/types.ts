@@ -18,31 +18,31 @@ import type {
 } from 'react-aria-components';
 import type { TextAreaStyleVariants } from './styles';
 
-export type TextAreaProps = TextAreaStyleVariants &
-  Omit<AriaTextAreaProps, 'size'> &
+// TextArea.Input
+export type TextAreaProps = AriaTextAreaProps &
+  TextAreaStyleVariants &
   RefAttributes<HTMLTextAreaElement> & {
     selectOnFocus?: boolean;
     className?: string;
   };
 
-export type TextAreaFieldProps = Omit<AriaTextFieldProps, 'className'> &
-  Omit<TextAreaStyleVariants, 'isDisabled' | 'isInvalid' | 'isReadOnly'> &
-  RefAttributes<HTMLDivElement> & {
+// TextArea
+export type TextAreaFieldProps = AriaTextFieldProps &
+  TextAreaStyleVariants & {
+    description?: string;
+    errorMessage?: string;
+    label?: string;
+    placeholder?: string;
+    selectOnFocus?: boolean;
     classNames?: {
       field?: RenderPropsClassName<AriaTextFieldProps>;
       input?: string;
       label?: string;
       description?: RenderPropsClassName<{ isDisabled?: boolean }>;
     };
-    description?: string;
-    errorMessage?: string;
-    label?: string;
-    placeholder?: string;
   };
 
-export type TextAreaProviderProps = PropsWithChildren<
-  Pick<
-    TextAreaFieldProps,
-    'classNames' | 'isDisabled' | 'isInvalid' | 'isReadOnly' | 'size'
-  >
+// TextArea.Provider
+export type TextAreaFieldProviderProps = PropsWithChildren<
+  Omit<TextAreaFieldProps, 'className'>
 >;

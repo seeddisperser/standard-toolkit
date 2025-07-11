@@ -12,6 +12,7 @@
 
 'use client';
 import 'client-only';
+import { isSlottedContextValue } from '@/lib/utils';
 import { createContext, useContext } from 'react';
 import {
   Text as AriaText,
@@ -23,23 +24,21 @@ import {
   composeRenderProps,
   useContextProps,
 } from 'react-aria-components';
-
-import { isSlottedContextValue } from '@/lib/utils';
 import { Label } from '../label';
 import { TextAreaStyles, TextAreaStylesDefaults } from './styles';
 import type {
   TextAreaFieldProps,
+  TextAreaFieldProviderProps,
   TextAreaProps,
-  TextAreaProviderProps,
 } from './types';
 
-const { field, input, description } = TextAreaStyles();
+const { field, input, description, error } = TextAreaStyles();
 
-// context / provider
+// context
 export const TextAreaContext =
-  createContext<ContextValue<TextAreaFieldProps, HTMLDivElement>>(null);
+  createContext<ContextValue<TextAreaFieldProviderProps, HTMLDivElement>>(null);
 
-function TextAreaProvider({ children, ...props }: TextAreaProviderProps) {
+function TextAreaProvider({ children, ...props }: TextAreaFieldProviderProps) {
   return (
     <TextAreaContext.Provider value={props}>
       {children}
@@ -48,54 +47,49 @@ function TextAreaProvider({ children, ...props }: TextAreaProviderProps) {
 }
 TextAreaProvider.displayName = 'TextArea.Provider';
 
-// input
-export function TextArea({ ref, ...props }: TextAreaProps) {
+// TextArea.Input
+export function TextAreaInput({ ref, ...props }: TextAreaProps) {
   [props, ref] = useContextProps(props, ref ?? null, AriaTextAreaContext);
-
   const context = useContext(TextAreaContext);
   const finalSize =
     props.size ??
     (isSlottedContextValue(context) ? undefined : context?.size) ??
     TextAreaStylesDefaults.size;
 
+  const { className, readOnly, selectOnFocus, ...rest } = props;
+
   return (
     <div className='relative flex items-center'>
       <AriaTextArea
-        {...props}
+        {...rest}
         onFocus={(e) => {
-          if (props.selectOnFocus) {
+          if (selectOnFocus) {
             ref.current?.select();
           }
 
           props.onFocus?.(e);
         }}
         ref={ref}
-        readOnly={props.readOnly}
+        readOnly={readOnly}
         className={({ isDisabled, isInvalid }) =>
           input({
             isDisabled,
             isInvalid,
-            isReadOnly: props.readOnly,
+            isReadOnly: readOnly,
             size: finalSize,
-            className: props.className,
+            className,
           })
         }
       />
     </div>
   );
 }
-TextArea.displayName = 'TextArea';
+TextAreaInput.displayName = 'TextArea.Input';
 
-// parent component
-export function TextAreaField({
-  ref,
-  children,
-  classNames,
-  ...props
-}: TextAreaFieldProps) {
-  [props, ref] = useContextProps(props, ref ?? null, TextAreaContext);
-
-  const { size, isDisabled, isInvalid, isReadOnly } = props;
+// TextArea
+export function TextArea(props: TextAreaFieldProps) {
+  const { size, isDisabled, isInvalid, isReadOnly, classNames, selectOnFocus } =
+    props;
 
   const context = useContext(TextAreaContext);
   const finalSize =
@@ -114,6 +108,10 @@ export function TextAreaField({
     isReadOnly ??
     (isSlottedContextValue(context) ? undefined : context?.isReadOnly) ??
     TextAreaStylesDefaults.isReadOnly;
+  const finalSelectOnFocus =
+    selectOnFocus ??
+    (isSlottedContextValue(context) ? undefined : context?.selectOnFocus) ??
+    TextAreaStylesDefaults.selectOnFocus;
 
   const isSmall = finalSize === 'small';
   const shouldShowDescription = !(isSmall || finalIsInvalid) || finalIsDisabled;
@@ -125,11 +123,11 @@ export function TextAreaField({
         isDisabled: finalIsDisabled,
         isInvalid: finalIsInvalid,
         isReadOnly: finalIsReadOnly,
+        selectOnFocus: finalSelectOnFocus,
       }}
     >
       <AriaTextField
         {...props}
-        ref={ref}
         isDisabled={finalIsDisabled}
         isInvalid={finalIsInvalid}
         isReadOnly={finalIsReadOnly}
@@ -146,10 +144,11 @@ export function TextAreaField({
             {props.label}
           </Label>
         )}
-        <TextArea
+        <TextAreaInput
           className={classNames?.input}
           placeholder={props.placeholder}
           size={finalSize}
+          selectOnFocus={finalSelectOnFocus}
         />
         {shouldShowDescription && (
           <AriaText
@@ -159,13 +158,11 @@ export function TextAreaField({
             {props.description}
           </AriaText>
         )}
-        <FieldError className='fg-serious text-body-xs empty:hidden'>
-          {props.errorMessage}
-        </FieldError>
+        <FieldError className={error()}>{props.errorMessage}</FieldError>
       </AriaTextField>
     </TextAreaContext.Provider>
   );
 }
-TextAreaField.displayName = 'TextArea.Field';
-TextAreaField.Provider = TextAreaProvider;
-TextAreaField.Input = TextArea;
+TextArea.displayName = 'TextArea';
+TextArea.Provider = TextAreaProvider;
+TextArea.Input = TextAreaInput;
