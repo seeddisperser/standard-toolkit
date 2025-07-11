@@ -11,10 +11,10 @@
  */
 
 import type { HTMLProps, ReactNode } from 'react';
-import {
-  type TagGroupProps as AriaTagGroupProps,
-  type TagListProps as AriaTagListProps,
-  type TagProps as AriaTagProps,
+import type {
+  TagGroupProps as AriaTagGroupProps,
+  TagListProps as AriaTagListProps,
+  TagProps as AriaTagProps,
 } from 'react-aria-components';
 import type { VariantProps } from 'tailwind-variants';
 import type {

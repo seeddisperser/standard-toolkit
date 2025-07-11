@@ -38,12 +38,17 @@ export type { ButtonProps } from './components/button';
 export { Checkbox } from './components/checkbox';
 export type { CheckboxGroupProps, CheckboxProps } from './components/checkbox';
 export { Chip, DeletableChip, SelectableChip } from './components/chip';
-export type { ChipListProps, ChipProps } from './components/chip';
 export {
   ChipStyles,
   DeletableChipStyles,
   SelectableChipStyles,
 } from './components/chip/styles';
+export type {
+  ChipListProps,
+  ChipProps,
+  DeletableChipProps,
+  SelectableChipProps,
+} from './components/chip/types';
 export { ClassificationBadge } from './components/classification-badge';
 export type { ClassificationBadgeProps } from './components/classification-badge';
 export { ClassificationBanner } from './components/classification-banner';
