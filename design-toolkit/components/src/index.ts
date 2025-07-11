@@ -107,9 +107,9 @@ export type {
   TabsProps,
 } from './components/tabs';
 export {
+  TextArea,
   TextAreaContext,
   TextAreaField,
-  TextAreaFieldInput,
 } from './components/text-area';
 export {
   TextAreaStyles,
@@ -117,9 +117,9 @@ export {
 } from './components/text-area/styles';
 export type { TextAreaStyleVariants } from './components/text-area/styles';
 export type {
-  TextAreaInputProps,
+  TextAreaFieldProps,
   TextAreaProps,
-  TextAreaRef,
+  TextAreaProviderProps,
 } from './components/text-area/types';
 export { TextField } from './components/text-field';
 export type { TextFieldProps } from './components/text-field';

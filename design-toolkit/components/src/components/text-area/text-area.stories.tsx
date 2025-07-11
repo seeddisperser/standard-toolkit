@@ -17,22 +17,20 @@ const meta: Meta<typeof TextAreaField> = {
   title: 'Components/TextArea',
   component: TextAreaField,
   args: {
-    className: '',
-    cols: 0,
     description: 'Helper text',
     errorMessage: 'Error description',
+    label: 'Label',
+    placeholder: 'Placeholder',
     isDisabled: false,
     isInvalid: false,
     isReadOnly: false,
     isRequired: true,
-    label: 'Label',
-    placeholder: 'Placeholder',
-    selectOnFocus: false,
+
     size: 'medium',
   },
   argTypes: {
-    className: { type: 'string' },
     size: { options: ['small', 'medium'], control: 'select' },
+    isInvalid: { control: 'boolean' },
   },
 };
 

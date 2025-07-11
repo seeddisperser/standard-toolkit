@@ -11,38 +11,38 @@
  */
 
 import type { RenderPropsClassName } from '@/lib/types';
-import type { ForwardedRef, RefAttributes } from 'react';
+import type { PropsWithChildren, RefAttributes } from 'react';
 import type {
   TextAreaProps as AriaTextAreaProps,
   TextFieldProps as AriaTextFieldProps,
 } from 'react-aria-components';
 import type { TextAreaStyleVariants } from './styles';
 
-export interface TextAreaInputProps
-  extends TextAreaStyleVariants,
-    Omit<AriaTextAreaProps, 'size'>,
-    RefAttributes<HTMLTextAreaElement> {
-  selectOnFocus?: boolean;
-  className?: string;
-}
-
-export interface TextAreaProps
-  extends Omit<
-      TextAreaStyleVariants,
-      'isDisabled' | 'isInvalid' | 'isReadOnly'
-    >,
-    Omit<AriaTextFieldProps, 'className'>,
-    Omit<TextAreaInputProps, keyof AriaTextFieldProps> {
-  classNames?: {
-    field?: RenderPropsClassName<AriaTextFieldProps>;
-    input?: string;
-    label?: string;
-    description?: RenderPropsClassName<{ isDisabled?: boolean }>;
+export type TextAreaProps = TextAreaStyleVariants &
+  Omit<AriaTextAreaProps, 'size'> &
+  RefAttributes<HTMLTextAreaElement> & {
+    selectOnFocus?: boolean;
+    className?: string;
   };
-  description?: string;
-  errorMessage?: string;
-  label?: string;
-  placeholder?: string;
-}
 
-export type TextAreaRef = RefAttributes<HTMLTextAreaElement>;
+export type TextAreaFieldProps = Omit<AriaTextFieldProps, 'className'> &
+  Omit<TextAreaStyleVariants, 'isDisabled' | 'isInvalid' | 'isReadOnly'> &
+  RefAttributes<HTMLDivElement> & {
+    classNames?: {
+      field?: RenderPropsClassName<AriaTextFieldProps>;
+      input?: string;
+      label?: string;
+      description?: RenderPropsClassName<{ isDisabled?: boolean }>;
+    };
+    description?: string;
+    errorMessage?: string;
+    label?: string;
+    placeholder?: string;
+  };
+
+export type TextAreaProviderProps = PropsWithChildren<
+  Pick<
+    TextAreaFieldProps,
+    'classNames' | 'isDisabled' | 'isInvalid' | 'isReadOnly' | 'size'
+  >
+>;
