@@ -14,13 +14,12 @@
 import 'client-only';
 import { callRenderProps } from '@/lib/utils';
 import { CancelFill } from '@accelint/icons';
-import { createContext, useContext } from 'react';
+import { useContext } from 'react';
 import {
   Tag as AriaTag,
   TagGroup as AriaTagGroup,
   TagList as AriaTagList,
   Button,
-  type ContextValue,
   TagListContext,
   composeRenderProps,
 } from 'react-aria-components';
@@ -130,10 +129,7 @@ export const DeletableChip = ({
 
         return (
           <>
-            {typeof children === 'function'
-              ? children({ allowsRemoving, ...props })
-              : children}
-            {/* {callRenderProps(children, { allowsRemoving, ...props })} */}
+            {callRenderProps(children, { allowsRemoving, ...props })}
             <Button slot='remove' className={remove({ isDisabled })}>
               <Icon size='small'>
                 <CancelFill />
