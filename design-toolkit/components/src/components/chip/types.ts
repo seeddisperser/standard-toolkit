@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import type { HTMLProps, ReactNode } from 'react';
+import type { HTMLProps } from 'react';
 import type {
   TagGroupProps as AriaTagGroupProps,
   TagListProps as AriaTagListProps,
