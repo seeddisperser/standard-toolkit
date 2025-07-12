@@ -11,25 +11,23 @@
  */
 
 import { tv } from '@/lib/utils';
-import type { VariantProps } from 'tailwind-variants';
 
 export const TextAreaStylesDefaults = {
   size: 'medium',
   isDisabled: false,
   isInvalid: false,
   isReadOnly: false,
-  isClearable: false,
   selectOnFocus: false,
 } as const;
 
 export const TextAreaStyles = tv({
   slots: {
     field: 'flex flex-col gap-xs',
+    label: '',
     input: [
       'block w-full rounded-medium p-s font-display outline outline-interactive',
       'text-default-light placeholder:text-default-dark hover:outline-interactive-hover focus:outline-highlight',
     ],
-    label: '',
     description: 'fg-default-dark text-body-xs empty:hidden',
     error: 'fg-serious text-body-xs empty:hidden',
   },
@@ -48,6 +46,12 @@ export const TextAreaStyles = tv({
       },
       false: {},
     },
+    isReadOnly: {
+      true: {
+        input: 'rounded-none p-0 outline-none',
+      },
+      false: {},
+    },
     isDisabled: {
       true: {
         input:
@@ -56,30 +60,6 @@ export const TextAreaStyles = tv({
       },
       false: {},
     },
-    isReadOnly: {
-      true: {
-        input: 'rounded-none p-0 outline-none',
-      },
-      false: {},
-    },
-    isClearable: {
-      true: {
-        input: 'pr-xl',
-      },
-      false: {},
-    },
   },
-  compoundVariants: [
-    {
-      isClearable: true,
-      isDisabled: false,
-      size: 'medium',
-      className: {
-        input: 'pr-xl',
-      },
-    },
-  ],
   defaultVariants: TextAreaStylesDefaults,
 });
-
-export type TextAreaStyleVariants = VariantProps<typeof TextAreaStyles>;
