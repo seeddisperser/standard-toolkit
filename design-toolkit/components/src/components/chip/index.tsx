@@ -49,42 +49,25 @@ ChipProvider.displayName = 'Chip.Provider';
 
 const ChipListRenderingContext = createContext(false);
 
-const { list, chip } = ChipStyles();
-
-export function Chip({ ref, ...props }: ChipProps) {
+function ChipList<T extends object>({ ref, ...props }: ChipListProps<T>) {
   [props, ref] = useContextProps(props, ref ?? null, ChipContext);
 
-  const context = useContext(ChipListRenderingContext);
-  const Component = context ? AriaTag : 'span';
   const {
+    children,
     className,
+    dependencies,
+    items,
+    renderEmptyState,
     size = ChipStylesDefaults.size,
-    variant = ChipStylesDefaults.variant,
     ...rest
   } = props;
 
-  return (
-    <Icon.Provider size={size === 'medium' ? 'small' : 'xsmall'}>
-      <Component {...rest} className={chip({ size, variant, className })} />
-    </Icon.Provider>
-  );
-}
-Chip.displayName = 'Chip';
-
-function ChipList<T extends object>({
-  children,
-  className,
-  dependencies,
-  items,
-  renderEmptyState,
-  size,
-  ...rest
-}: ChipListProps<T>) {
   return (
     <ChipListRenderingContext.Provider value>
       <ChipProvider size={size}>
         <AriaTagGroup {...rest}>
           <AriaTagList<T>
+            ref={ref}
             className={composeRenderProps(className, (className) =>
               list({ className }),
             )}
@@ -111,6 +94,7 @@ function SelectableChip({ ref, ...props }: SelectableChipProps) {
   return (
     <AriaTag
       {...rest}
+      ref={ref}
       className={composeRenderProps(
         className,
         (className, { isDisabled, isSelected }) =>
@@ -137,6 +121,7 @@ function DeletableChip({ ref, ...props }: DeletableChipProps) {
   return (
     <AriaTag
       {...rest}
+      ref={ref}
       className={composeRenderProps(
         classNames?.chip,
         (className, { isDisabled }) =>
@@ -175,6 +160,31 @@ function DeletableChip({ ref, ...props }: DeletableChipProps) {
 }
 DeletableChip.displayName = 'Chip.Deletable';
 
+const { list, chip } = ChipStyles();
+
+export function Chip({ ref, ...props }: ChipProps) {
+  [props, ref] = useContextProps(props, ref ?? null, ChipContext);
+
+  const context = useContext(ChipListRenderingContext);
+  const Component = context ? AriaTag : 'span';
+  const {
+    className,
+    size = ChipStylesDefaults.size,
+    variant = ChipStylesDefaults.variant,
+    ...rest
+  } = props;
+
+  return (
+    <Icon.Provider size={size === 'medium' ? 'small' : 'xsmall'}>
+      <Component
+        {...rest}
+        ref={ref}
+        className={chip({ size, variant, className })}
+      />
+    </Icon.Provider>
+  );
+}
+Chip.displayName = 'Chip';
 Chip.Deletable = DeletableChip;
 Chip.List = ChipList;
 Chip.Selectable = SelectableChip;
