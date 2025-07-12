@@ -40,7 +40,7 @@ import type {
 } from './types';
 
 export const ChipContext =
-  createContext<ContextValue<BaseChipProps, HTMLSpanElement>>(null);
+  createContext<ContextValue<BaseChipProps, HTMLDivElement>>(null);
 
 function ChipProvider({ children, ...props }: ChipProviderProps) {
   return <ChipContext.Provider value={props}>{children}</ChipContext.Provider>;
@@ -166,7 +166,7 @@ export function Chip({ ref, ...props }: ChipProps) {
   [props, ref] = useContextProps(props, ref ?? null, ChipContext);
 
   const context = useContext(ChipListRenderingContext);
-  const Component = context ? AriaTag : 'span';
+  const Component = context ? AriaTag : 'div';
   const {
     className,
     size = ChipStylesDefaults.size,

@@ -10,7 +10,7 @@
   ],
   "compilerOptions": {
     "jsx": "react-jsx",
-    "lib": ["ESNext"],
+    "lib": ["ESNext", "DOM"],
     "rootDir": "./",
     "outDir": "dist",
     "paths": {

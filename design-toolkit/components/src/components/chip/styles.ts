@@ -21,7 +21,7 @@ export const ChipStylesDefaults = {
 
 export const BaseChipStyles = tv({
   slots: {
-    list: 'flex flex-wrap gap-xs',
+    list: 'flex w-content flex-wrap gap-xs',
     chip: 'fg-default-light inline-flex w-content items-center justify-center rounded-full outline',
   },
   variants: {

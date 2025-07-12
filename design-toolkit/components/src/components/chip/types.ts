@@ -28,8 +28,8 @@ import type {
 export type BaseChipProps = VariantProps<typeof BaseChipStyles>;
 
 export type ChipProps = VariantProps<typeof ChipStyles> &
-  Omit<HTMLProps<HTMLSpanElement>, 'size'> &
-  RefAttributes<HTMLSpanElement> & {
+  Omit<HTMLProps<HTMLDivElement>, 'size'> &
+  RefAttributes<HTMLDivElement> & {
     className?: string;
   };
 
