@@ -27,7 +27,7 @@ describe('TextAreaField', () => {
   it('should render', () => {
     setup({
       label: 'Label',
-      placeholder: 'Placeholder',
+      inputProps: { placeholder: 'Placeholder' },
     });
 
     expect(screen.getByRole('textbox')).toBeInTheDocument();

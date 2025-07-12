@@ -105,7 +105,7 @@ export function TextAreaField({ ref, ...props }: TextAreaFieldProps) {
               }),
           )}
         />
-        {size !== 'small' && !isDisabled && !isInvalid && !errorMessage && (
+        {size !== 'small' && !isInvalid && (
           <Text
             slot='description'
             className={description({
