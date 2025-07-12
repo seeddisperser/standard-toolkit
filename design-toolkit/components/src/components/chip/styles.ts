@@ -12,69 +12,84 @@
 
 import { tv } from '@/lib/utils';
 
-export const ChipsStylesDefaults = {
+export const ChipStylesDefaults = {
   size: 'medium',
   variant: 'info',
   isDisabled: false,
+  isSelected: false,
 } as const;
 
-const BaseChipStyles = tv({
-  base: 'fg-default-light inline-flex w-content items-center justify-center rounded-full outline',
+export const BaseChipStyles = tv({
+  slots: {
+    list: 'flex flex-wrap gap-xs',
+    chip: 'fg-default-light inline-flex w-content items-center justify-center rounded-full outline',
+  },
   variants: {
     size: {
-      medium: 'px-s py-xs text-body-s',
-      small: 'px-s py-xs text-body-xs',
+      medium: {
+        chip: 'px-s py-xs text-body-s',
+      },
+      small: {
+        chip: 'px-s py-xs text-body-xs',
+      },
     },
   },
-  defaultVariants: ChipsStylesDefaults,
+  defaultVariants: ChipStylesDefaults,
 });
 
 export const ChipStyles = tv({
   extend: BaseChipStyles,
-  base: 'gap-xxs',
+  slots: {
+    chip: 'gap-xxs',
+  },
   variants: {
     variant: {
-      advisory: 'bg-advisory-subtle outline-advisory-bold',
-      critical: 'bg-critical-subtle outline-critical',
-      serious: 'bg-serious-subtle outline-serious',
-      normal: 'bg-normal-subtle outline-normal',
-      info: 'bg-info-subtle outline-info-bold',
+      advisory: { chip: 'bg-advisory-subtle outline-advisory-bold' },
+      critical: { chip: 'bg-critical-subtle outline-critical' },
+      serious: { chip: 'bg-serious-subtle outline-serious' },
+      normal: { chip: 'bg-normal-subtle outline-normal' },
+      info: { chip: 'bg-info-subtle outline-info-bold' },
     },
   },
-  defaultVariants: ChipsStylesDefaults,
+  defaultVariants: ChipStylesDefaults,
 });
 
 export const SelectableChipStyles = tv({
   extend: BaseChipStyles,
-  base: 'dtk-selected:bg-highlight-subtle dtk-selected:outline-highlight outline-interactive hover:outline-interactive-hover focus:outline-interactive-hover',
+  slots: {
+    chip: 'cursor-pointer outline-interactive hover:outline-interactive-hover focus:outline-interactive-hover',
+  },
   variants: {
+    isSelected: {
+      false: '',
+      true: {
+        chip: 'bg-highlight-subtle outline-highlight',
+      },
+    },
     isDisabled: {
-      true: 'fg-disabled dtk-selected:bg-transparent dtk-selected:outline-interactive-disabled outline-interactive-disabled hover:outline-interactive-disabled focus:outline-interactive-disabled',
-      false: 'cursor-pointer',
+      false: '',
+      true: {
+        chip: 'fg-disabled cursor-not-allowed outline-interactive-disabled hover:outline-interactive-disabled focus:outline-interactive-disabled',
+      },
     },
   },
-  defaultVariants: ChipsStylesDefaults,
+  defaultVariants: ChipStylesDefaults,
 });
 
 export const DeletableChipStyles = tv({
   extend: BaseChipStyles,
-  base: 'group gap-xs outline-interactive hover:outline-interactive-hover focus:outline-interactive-hover',
   slots: {
-    remove:
-      'icon-default-dark group-hover:icon-default-light group-focus:icon-default-light cursor-pointer',
+    chip: 'group gap-xs outline-interactive hover:outline-interactive-hover focus:outline-interactive-hover',
+    remove: 'cursor-pointer',
   },
   variants: {
     isDisabled: {
-      true: {
-        base: 'fg-disabled outline-interactive-disabled hover:outline-interactive-disabled',
-        remove: 'icon-disabled group-hover:icon-disabled cursor-not-allowed',
-      },
       false: '',
+      true: {
+        chip: 'fg-disabled cursor-not-allowed outline-interactive-disabled hover:outline-interactive-disabled focus:outline-interactive-disabled',
+        remove: 'cursor-not-allowed',
+      },
     },
   },
-  defaultVariants: ChipsStylesDefaults,
-});
-
-export const ChipListStyles = tv({
-  base: 'flex flex-wrap gap-xs',
+  defaultVariants: ChipStylesDefaults,
 });

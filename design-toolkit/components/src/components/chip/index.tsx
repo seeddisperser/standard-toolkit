@@ -9,137 +9,173 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-
 'use client';
+
 import 'client-only';
-import { callRenderProps } from '@/lib/utils';
 import { CancelFill } from '@accelint/icons';
-import { useContext } from 'react';
+import { createContext, useContext } from 'react';
 import {
   Tag as AriaTag,
   TagGroup as AriaTagGroup,
   TagList as AriaTagList,
   Button,
-  TagListContext,
+  type ContextValue,
   composeRenderProps,
+  useContextProps,
 } from 'react-aria-components';
 import { Icon } from '../icon';
 import {
-  ChipListStyles,
   ChipStyles,
+  ChipStylesDefaults,
   DeletableChipStyles,
   SelectableChipStyles,
 } from './styles';
 import type {
+  BaseChipProps,
   ChipListProps,
   ChipProps,
+  ChipProviderProps,
   DeletableChipProps,
   SelectableChipProps,
 } from './types';
 
-export const Chip = ({
-  className,
-  size = 'medium',
-  variant = 'info',
-  ...props
-}: ChipProps) => {
-  const context = useContext(TagListContext);
+export const ChipContext =
+  createContext<ContextValue<BaseChipProps, HTMLSpanElement>>(null);
 
+function ChipProvider({ children, ...props }: ChipProviderProps) {
+  return <ChipContext.Provider value={props}>{children}</ChipContext.Provider>;
+}
+ChipProvider.displayName = 'Chip.Provider';
+
+const ChipListRenderingContext = createContext(false);
+
+const { list, chip } = ChipStyles();
+
+export function Chip({ ref, ...props }: ChipProps) {
+  [props, ref] = useContextProps(props, ref ?? null, ChipContext);
+
+  const context = useContext(ChipListRenderingContext);
   const Component = context ? AriaTag : 'span';
+  const {
+    className,
+    size = ChipStylesDefaults.size,
+    variant = ChipStylesDefaults.variant,
+    ...rest
+  } = props;
+
   return (
     <Icon.Provider size={size === 'medium' ? 'small' : 'xsmall'}>
-      <Component
-        className={ChipStyles({ size, variant, className })}
-        {...props}
-      />
+      <Component {...rest} className={chip({ size, variant, className })} />
     </Icon.Provider>
   );
-};
+}
 Chip.displayName = 'Chip';
 
 function ChipList<T extends object>({
   children,
   className,
+  dependencies,
   items,
   renderEmptyState,
-  ...props
+  size,
+  ...rest
 }: ChipListProps<T>) {
   return (
-    <TagListContext.Provider value={{ items, renderEmptyState, ...props }}>
-      <AriaTagGroup {...props}>
-        <AriaTagList<T>
-          items={items}
-          renderEmptyState={renderEmptyState}
-          className={composeRenderProps(className, (className) =>
-            ChipListStyles({ className }),
-          )}
-        >
-          {children}
-        </AriaTagList>
-      </AriaTagGroup>
-    </TagListContext.Provider>
+    <ChipListRenderingContext.Provider value>
+      <ChipProvider size={size}>
+        <AriaTagGroup {...rest}>
+          <AriaTagList<T>
+            className={composeRenderProps(className, (className) =>
+              list({ className }),
+            )}
+            dependencies={dependencies}
+            items={items}
+            renderEmptyState={renderEmptyState}
+          >
+            {children}
+          </AriaTagList>
+        </AriaTagGroup>
+      </ChipProvider>
+    </ChipListRenderingContext.Provider>
   );
 }
 ChipList.displayName = 'Chip.List';
-Chip.List = ChipList;
 
-export const SelectableChip = ({
-  className,
-  isDisabled,
-  size,
-  ...props
-}: SelectableChipProps) => (
-  <AriaTag
-    className={composeRenderProps(className, (className) =>
-      SelectableChipStyles({ size, isDisabled, className }),
-    )}
-    {...props}
-  />
-);
-SelectableChip.displayName = 'Chip.Selectable';
-Chip.Selectable = SelectableChip;
+const { chip: selectableChip } = SelectableChipStyles();
 
-const { base, remove } = DeletableChipStyles();
+function SelectableChip({ ref, ...props }: SelectableChipProps) {
+  [props, ref] = useContextProps(props, ref ?? null, ChipContext);
 
-export const DeletableChip = ({
-  children,
-  className,
-  isDisabled,
-  size,
-  textValue,
-  ...props
-}: DeletableChipProps) => {
-  const internalTextValue =
-    textValue ?? (typeof children === 'string' ? children : undefined);
+  const { className, size, ...rest } = props;
 
   return (
     <AriaTag
-      className={composeRenderProps(className, (className) =>
-        base({ size, isDisabled, className }),
+      {...rest}
+      className={composeRenderProps(
+        className,
+        (className, { isDisabled, isSelected }) =>
+          selectableChip({ className, size, isDisabled, isSelected }),
       )}
-      textValue={internalTextValue}
-      {...props}
-    >
-      {({ allowsRemoving, ...props }) => {
-        if (!allowsRemoving) {
-          throw new Error(
-            'You have a <Chip.Deletable> in a <Chip.List> does not specify an onRemove handler.',
-          );
-        }
+    />
+  );
+}
+SelectableChip.displayName = 'Chip.Selectable';
 
-        return (
-          <>
-            {callRenderProps(children, { allowsRemoving, ...props })}
-            <Button slot='remove' className={remove({ isDisabled })}>
-              <Icon size='small'>
-                <CancelFill />
-              </Icon>
-            </Button>
-          </>
-        );
-      }}
+const { chip: deletableChip, remove } = DeletableChipStyles();
+
+function DeletableChip({ ref, ...props }: DeletableChipProps) {
+  [props, ref] = useContextProps(props, ref ?? null, ChipContext);
+
+  const {
+    children,
+    classNames,
+    size,
+    textValue = typeof children === 'string' ? children : undefined,
+    ...rest
+  } = props;
+
+  return (
+    <AriaTag
+      {...rest}
+      className={composeRenderProps(
+        classNames?.chip,
+        (className, { isDisabled }) =>
+          deletableChip({ className, size, isDisabled }),
+      )}
+      textValue={textValue}
+    >
+      {composeRenderProps(
+        children,
+        (children, { allowsRemoving, isDisabled }) => {
+          if (!allowsRemoving) {
+            throw new Error(
+              'You have a <Chip.Deletable> in a <Chip.List> that does not specify an onRemove handler.',
+            );
+          }
+
+          return (
+            <>
+              {children}
+              <Button
+                slot='remove'
+                className={composeRenderProps(classNames?.remove, (className) =>
+                  remove({ className, isDisabled }),
+                )}
+              >
+                <Icon size='small'>
+                  <CancelFill />
+                </Icon>
+              </Button>
+            </>
+          );
+        },
+      )}
     </AriaTag>
   );
-};
+}
 DeletableChip.displayName = 'Chip.Deletable';
+
 Chip.Deletable = DeletableChip;
+Chip.List = ChipList;
+Chip.Selectable = SelectableChip;
+Chip.Provider = ChipProvider;

@@ -10,29 +10,48 @@
  * governing permissions and limitations under the License.
  */
 
-import type { HTMLProps } from 'react';
+import type { HTMLProps, PropsWithChildren, RefAttributes } from 'react';
 import type {
-  TagGroupProps as AriaTagGroupProps,
-  TagListProps as AriaTagListProps,
-  TagProps as AriaTagProps,
+  ButtonProps,
+  TagGroupProps,
+  TagListProps,
+  TagProps,
 } from 'react-aria-components';
 import type { VariantProps } from 'tailwind-variants';
 import type {
+  BaseChipStyles,
   ChipStyles,
   DeletableChipStyles,
   SelectableChipStyles,
 } from './styles';
 
+export type BaseChipProps = VariantProps<typeof BaseChipStyles>;
+
 export type ChipProps = VariantProps<typeof ChipStyles> &
-  Omit<HTMLProps<HTMLSpanElement>, 'size'> & {
+  Omit<HTMLProps<HTMLSpanElement>, 'size'> &
+  RefAttributes<HTMLSpanElement> & {
     className?: string;
   };
 
-export type ChipListProps<T> = Omit<AriaTagGroupProps, 'children'> &
-  Pick<AriaTagListProps<T>, 'items' | 'children' | 'renderEmptyState'>;
+export type ChipListProps<T> = Omit<TagGroupProps, 'children'> &
+  Pick<
+    TagListProps<T>,
+    'dependencies' | 'items' | 'children' | 'renderEmptyState'
+  > &
+  RefAttributes<HTMLDivElement> &
+  Pick<VariantProps<typeof ChipStyles>, 'size'>;
 
-export type SelectableChipProps = VariantProps<typeof SelectableChipStyles> &
-  Omit<AriaTagProps, 'isDisabled'>;
+export type SelectableChipProps = Omit<TagProps, 'isDisabled'> &
+  RefAttributes<HTMLDivElement> &
+  Omit<VariantProps<typeof SelectableChipStyles>, 'isDisabled' | 'isSelected'>;
 
-export type DeletableChipProps = VariantProps<typeof DeletableChipStyles> &
-  Omit<AriaTagProps, 'isDisabled'>;
+export type DeletableChipProps = Omit<TagProps, 'className' | 'isDisabled'> &
+  RefAttributes<HTMLDivElement> &
+  Omit<VariantProps<typeof DeletableChipStyles>, 'isDisabled'> & {
+    classNames?: {
+      chip?: TagProps['className'];
+      remove?: ButtonProps['className'];
+    };
+  };
+
+export type ChipProviderProps = PropsWithChildren<BaseChipProps>;

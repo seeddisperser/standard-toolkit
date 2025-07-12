@@ -37,17 +37,19 @@ export { Button } from './components/button';
 export type { ButtonProps } from './components/button';
 export { Checkbox } from './components/checkbox';
 export type { CheckboxGroupProps, CheckboxProps } from './components/checkbox';
-export { Chip, DeletableChip, SelectableChip } from './components/chip';
+export { Chip, ChipContext } from './components/chip';
 export {
-  ChipListStyles,
+  BaseChipStyles,
   ChipStyles,
-  ChipsStylesDefaults,
+  ChipStylesDefaults,
   DeletableChipStyles,
   SelectableChipStyles,
 } from './components/chip/styles';
 export type {
+  BaseChipProps,
   ChipListProps,
   ChipProps,
+  ChipProviderProps,
   DeletableChipProps,
   SelectableChipProps,
 } from './components/chip/types';
@@ -141,10 +143,4 @@ export type {
   StylePropRenderProps,
   StyleRenderProps,
 } from './lib/types';
-export {
-  callRenderProps,
-  cn,
-  isSlottedContextValue,
-  tv,
-  twMerge,
-} from './lib/utils';
+export { cn, isSlottedContextValue, tv, twMerge } from './lib/utils';
