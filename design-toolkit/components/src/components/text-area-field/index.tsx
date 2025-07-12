@@ -64,76 +64,74 @@ export function TextAreaField({ ref, ...props }: TextAreaFieldProps) {
   const isInvalid = isInvalidProp || !!errorMessage;
 
   return (
-    <TextAreaFieldProvider size={size}>
-      <TextField
-        {...rest}
-        className={composeRenderProps(classNames?.field, (className) =>
-          field({ className, size, isDisabled, isInvalid, isReadOnly }),
-        )}
-        isDisabled={isDisabled}
-        isInvalid={isInvalid}
-        isReadOnly={isReadOnly}
-        isRequired={isRequired}
-      >
-        {size !== 'small' && (
-          <Label
-            className={label({
-              className: classNames?.label,
-              size,
-              isDisabled,
-              isInvalid,
-              isReadOnly,
-            })}
-            isDisabled={isDisabled}
-            isRequired={isRequired}
-          >
-            {labelProp}
-          </Label>
-        )}
-        <TextArea
-          ref={inputRef}
-          {...inputProps}
-          className={composeRenderProps(
-            classNames?.input,
-            (className, { isDisabled, isInvalid }) =>
-              input({
-                className,
-                size,
-                isDisabled,
-                isInvalid,
-                isReadOnly,
-              }),
-          )}
-        />
-        {size !== 'small' && !isInvalid && (
-          <Text
-            slot='description'
-            className={description({
-              className: classNames?.description,
-              size,
-              isDisabled,
-              isInvalid,
-              isReadOnly,
-            })}
-          >
-            {descriptionProp}
-          </Text>
-        )}
-        <FieldError
-          className={composeRenderProps(classNames?.error, (className) =>
-            error({
+    <TextField
+      {...rest}
+      className={composeRenderProps(classNames?.field, (className) =>
+        field({ className, size, isDisabled, isInvalid, isReadOnly }),
+      )}
+      isDisabled={isDisabled}
+      isInvalid={isInvalid}
+      isReadOnly={isReadOnly}
+      isRequired={isRequired}
+    >
+      {size !== 'small' && (
+        <Label
+          className={label({
+            className: classNames?.label,
+            size,
+            isDisabled,
+            isInvalid,
+            isReadOnly,
+          })}
+          isDisabled={isDisabled}
+          isRequired={isRequired}
+        >
+          {labelProp}
+        </Label>
+      )}
+      <TextArea
+        ref={inputRef}
+        {...inputProps}
+        className={composeRenderProps(
+          classNames?.input,
+          (className, { isDisabled, isInvalid }) =>
+            input({
               className,
               size,
               isDisabled,
               isInvalid,
               isReadOnly,
             }),
-          )}
+        )}
+      />
+      {size !== 'small' && !isInvalid && (
+        <Text
+          slot='description'
+          className={description({
+            className: classNames?.description,
+            size,
+            isDisabled,
+            isInvalid,
+            isReadOnly,
+          })}
         >
-          {errorMessage}
-        </FieldError>
-      </TextField>
-    </TextAreaFieldProvider>
+          {descriptionProp}
+        </Text>
+      )}
+      <FieldError
+        className={composeRenderProps(classNames?.error, (className) =>
+          error({
+            className,
+            size,
+            isDisabled,
+            isInvalid,
+            isReadOnly,
+          }),
+        )}
+      >
+        {errorMessage}
+      </FieldError>
+    </TextField>
   );
 }
 TextAreaField.displayName = 'TextAreaField';
