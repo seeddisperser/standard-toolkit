@@ -17,7 +17,6 @@ export const TextAreaStylesDefaults = {
   isDisabled: false,
   isInvalid: false,
   isReadOnly: false,
-  selectOnFocus: false,
 } as const;
 
 export const TextAreaStyles = tv({
