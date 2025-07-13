@@ -27,8 +27,8 @@ export const TextAreaStyles = tv({
       'block w-full rounded-medium p-s font-display outline outline-interactive',
       'text-default-light placeholder:text-default-dark hover:outline-interactive-hover focus:outline-highlight',
     ],
-    description: 'fg-default-dark text-body-xs empty:hidden',
-    error: 'fg-serious text-body-xs empty:hidden',
+    description: 'fg-default-dark text-body-xs',
+    error: 'fg-serious text-body-xs',
   },
   variants: {
     size: {
@@ -40,24 +40,24 @@ export const TextAreaStyles = tv({
       },
     },
     isInvalid: {
+      false: '',
       true: {
         input: 'outline-serious',
       },
-      false: {},
     },
     isReadOnly: {
+      false: '',
       true: {
         input: 'rounded-none p-0 outline-none',
       },
-      false: {},
     },
     isDisabled: {
+      false: '',
       true: {
         input:
           'text-disabled outline-interactive-disabled placeholder:text-disabled',
         description: 'fg-disabled',
       },
-      false: {},
     },
   },
   defaultVariants: TextAreaStylesDefaults,

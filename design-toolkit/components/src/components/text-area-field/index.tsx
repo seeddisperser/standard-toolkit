@@ -50,7 +50,7 @@ export function TextAreaField({ ref, ...props }: TextAreaFieldProps) {
   const {
     classNames,
     description: descriptionProp,
-    errorMessage,
+    errorMessage: errorMessageProp,
     label: labelProp,
     inputRef,
     inputProps,
@@ -61,7 +61,11 @@ export function TextAreaField({ ref, ...props }: TextAreaFieldProps) {
     isRequired,
     ...rest
   } = props;
-  const isInvalid = isInvalidProp || !!errorMessage;
+  const errorMessage = errorMessageProp || null; // Protect against empty string
+  const isInvalid = isInvalidProp ?? (errorMessage ? true : undefined); // Leave uncontrolled if possible to fallback to validation state
+  const isSmall = size === 'small';
+  const renderLabel = !isSmall && !!labelProp;
+  const renderDescription = !(isSmall || isInvalid) && !!descriptionProp;
 
   return (
     <TextField
@@ -74,7 +78,7 @@ export function TextAreaField({ ref, ...props }: TextAreaFieldProps) {
       isReadOnly={isReadOnly}
       isRequired={isRequired}
     >
-      {size !== 'small' && (
+      {renderLabel && (
         <Label
           className={label({
             className: classNames?.label,
@@ -104,7 +108,7 @@ export function TextAreaField({ ref, ...props }: TextAreaFieldProps) {
             }),
         )}
       />
-      {size !== 'small' && !isInvalid && (
+      {renderDescription && (
         <Text
           slot='description'
           className={description({
