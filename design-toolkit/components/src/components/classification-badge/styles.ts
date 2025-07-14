@@ -19,7 +19,7 @@ export const ClassificationBadgeStylesDefaults = {
 } as const;
 
 export const ClassificationBadgeStyles = tv({
-  base: 'inline-flex items-center justify-center rounded-full uppercase px-s py-xs ',
+  base: 'inline-flex items-center justify-center rounded-full px-s py-xs uppercase',
   variants: {
     variant: {
       missing:
