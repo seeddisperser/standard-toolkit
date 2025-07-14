@@ -22,6 +22,7 @@ export const ClassificationBadgeStyles = tv({
   variants: {
     variant: {
       missing:
+        // TODO: dont hard code these strings into the styles
         "fg-critical bg-classification-missing [&:empty]:before:content-['Missing']",
       unclassified:
         "fg-default-light bg-classification-unclass [&:empty]:before:content-['Unclassified']",

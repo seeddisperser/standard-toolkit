@@ -47,10 +47,10 @@ export {
   ClassificationBadgeStyles,
   ClassificationBadgeStylesDefaults,
 } from './components/classification-badge/styles';
-export type { ClassificationBadgeStyleVariants } from './components/classification-badge/styles';
 export type {
   ClassificationBadgeProps,
   ClassificationBadgeProviderProps,
+  ClassificationBadgeStyleVariants,
 } from './components/classification-badge/types';
 export { ClassificationBanner } from './components/classification-banner';
 export type { ClassificationBannerProps } from './components/classification-banner';
