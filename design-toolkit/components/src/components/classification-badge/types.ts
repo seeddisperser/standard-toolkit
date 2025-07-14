@@ -9,28 +9,20 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
-import { ClassificationBadge } from './';
-import type { ClassificationBadgeProps } from './types';
 
-function setup({
-  children = 'Unclassified',
-  ...rest
-}: Partial<ClassificationBadgeProps> = {}) {
-  render(<ClassificationBadge {...rest}>{children}</ClassificationBadge>);
+import type { PropsWithChildren, RefAttributes } from 'react';
+import type { VariantProps } from 'tailwind-variants';
+import type { ClassificationBadgeStyles } from './styles';
 
-  return {
-    ...rest,
-    children,
-  };
-}
+export type ClassificationBadgeStyleVariants = VariantProps<
+  typeof ClassificationBadgeStyles
+>;
 
-describe('Classification Badge', () => {
-  it('should render', () => {
-    const { children } = setup();
-    const component = screen.getByText(`${children}`);
+export type ClassificationBadgeProps = ClassificationBadgeStyleVariants &
+  RefAttributes<HTMLSpanElement> &
+  PropsWithChildren<{
+    className?: string;
+  }>;
 
-    expect(component).toBeInTheDocument();
-  });
-});
+export type ClassificationBadgeProviderProps =
+  PropsWithChildren<ClassificationBadgeProps>;
