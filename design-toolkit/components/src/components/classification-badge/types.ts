@@ -11,26 +11,13 @@
  */
 
 import type { PropsWithChildren, RefAttributes } from 'react';
+import type { ClassificationBadgeStyleVariants } from './styles';
 
-export type ClassificationBadgeVariant =
-  | 'missing'
-  | 'unclassified'
-  | 'cui'
-  | 'confidential'
-  | 'secret'
-  | 'top-secret'
-  | 'ts-sci';
-
-export type ClassificationBadgeSize = 'medium' | 'small';
-
-export type ClassificationBadgeProps = PropsWithChildren<
-  RefAttributes<HTMLSpanElement> & {
-    variant?: ClassificationBadgeVariant;
-    size?: ClassificationBadgeSize;
+export type ClassificationBadgeProps = ClassificationBadgeStyleVariants &
+  RefAttributes<HTMLSpanElement> &
+  PropsWithChildren<{
     className?: string;
-  }
->;
+  }>;
 
-export type ClassificationBadgeProviderProps = PropsWithChildren<
-  Omit<ClassificationBadgeProps, 'ref'>
->;
+export type ClassificationBadgeProviderProps =
+  PropsWithChildren<ClassificationBadgeStyleVariants>;

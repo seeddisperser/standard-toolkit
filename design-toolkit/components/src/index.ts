@@ -39,8 +39,19 @@ export { Checkbox } from './components/checkbox';
 export type { CheckboxGroupProps, CheckboxProps } from './components/checkbox';
 export { Chip, DeletableChip, SelectableChip } from './components/chip';
 export type { ChipListProps, ChipProps } from './components/chip';
-export { ClassificationBadge } from './components/classification-badge';
-export type { ClassificationBadgeProps } from './components/classification-badge';
+export {
+  ClassificationBadge,
+  ClassificationBadgeContext,
+} from './components/classification-badge';
+export {
+  ClassificationBadgeStylesDefaults,
+  classificationBadge,
+} from './components/classification-badge/styles';
+export type { ClassificationBadgeStyleVariants } from './components/classification-badge/styles';
+export type {
+  ClassificationBadgeProps,
+  ClassificationBadgeProviderProps,
+} from './components/classification-badge/types';
 export { ClassificationBanner } from './components/classification-banner';
 export type { ClassificationBannerProps } from './components/classification-banner';
 export { ColorPicker, useColorPickerState } from './components/color-picker';
