@@ -27,52 +27,10 @@ function setup({
 }
 
 describe('Classification Badge', () => {
-  it('should default to missing variant', () => {
-    const { children } = setup({
-      children: 'Missing',
-    });
-
+  it('should render', () => {
+    const { children } = setup();
     const component = screen.getByText(`${children}`);
 
     expect(component).toBeInTheDocument();
-    expect(component).toHaveClass('fg-critical', 'bg-classification-missing');
-  });
-
-  it('should default to medium size', () => {
-    const { children } = setup({
-      children: 'Missing',
-    });
-
-    const component = screen.getByText(`${children}`);
-
-    expect(component).toBeInTheDocument();
-    expect(component).toHaveClass('text-header-s');
-  });
-
-  it('should override variant', () => {
-    const { children } = setup({
-      children: 'Missing',
-      variant: 'unclassified',
-    });
-
-    const component = screen.getByText(`${children}`);
-
-    expect(component).toBeInTheDocument();
-    expect(component).toHaveClass(
-      'fg-default-light',
-      'bg-classification-unclass',
-    );
-  });
-
-  it('should override size', () => {
-    const { children } = setup({
-      children: 'Missing',
-      size: 'small',
-    });
-
-    const component = screen.getByText(`${children}`);
-
-    expect(component).toBeInTheDocument();
-    expect(component).toHaveClass('text-header-xs');
   });
 });

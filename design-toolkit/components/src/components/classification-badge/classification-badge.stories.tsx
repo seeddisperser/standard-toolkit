@@ -11,7 +11,7 @@
  */
 
 import type { Meta, StoryObj } from '@storybook/react';
-import { ClassificationBadge } from './index';
+import { ClassificationBadge } from './';
 
 const meta: Meta<typeof ClassificationBadge> = {
   title: 'Components/ClassificationBadge',
@@ -47,58 +47,8 @@ const meta: Meta<typeof ClassificationBadge> = {
 
 export default meta;
 
-export const Missing: StoryObj<typeof ClassificationBadge> = {
+export const Default: StoryObj<typeof ClassificationBadge> = {
   render: ({ children, ...args }) => (
-    <ClassificationBadge variant='missing' {...args}>
-      {children}
-    </ClassificationBadge>
-  ),
-};
-
-export const Unclassified: StoryObj<typeof ClassificationBadge> = {
-  render: ({ children, ...args }) => (
-    <ClassificationBadge {...args} variant='unclassified'>
-      {children}
-    </ClassificationBadge>
-  ),
-};
-
-export const CUI: StoryObj<typeof ClassificationBadge> = {
-  render: ({ children, ...args }) => (
-    <ClassificationBadge {...args} variant='cui'>
-      {children}
-    </ClassificationBadge>
-  ),
-};
-
-export const Confidential: StoryObj<typeof ClassificationBadge> = {
-  render: ({ children, ...args }) => (
-    <ClassificationBadge {...args} variant='confidential'>
-      {children}
-    </ClassificationBadge>
-  ),
-};
-
-export const Secret: StoryObj<typeof ClassificationBadge> = {
-  render: ({ children, ...args }) => (
-    <ClassificationBadge {...args} variant='secret'>
-      {children}
-    </ClassificationBadge>
-  ),
-};
-
-export const TopSecret: StoryObj<typeof ClassificationBadge> = {
-  render: ({ children, ...args }) => (
-    <ClassificationBadge {...args} variant='top-secret'>
-      {children}
-    </ClassificationBadge>
-  ),
-};
-
-export const TopSecretSCI: StoryObj<typeof ClassificationBadge> = {
-  render: ({ children, ...args }) => (
-    <ClassificationBadge {...args} variant='ts-sci'>
-      {children}
-    </ClassificationBadge>
+    <ClassificationBadge {...args}>{children}</ClassificationBadge>
   ),
 };

@@ -11,7 +11,6 @@
  */
 
 import { tv } from 'tailwind-variants';
-import type { VariantProps } from 'tailwind-variants';
 
 export const ClassificationBadgeStylesDefaults = {
   variant: 'missing',
@@ -43,7 +42,3 @@ export const ClassificationBadgeStyles = tv({
   },
   defaultVariants: ClassificationBadgeStylesDefaults,
 });
-
-export type ClassificationBadgeStyleVariants = VariantProps<
-  typeof ClassificationBadgeStyles
->;
