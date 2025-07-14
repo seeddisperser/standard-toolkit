@@ -135,6 +135,106 @@ export const ButtonStyles = tv({
       className: 'enabled:outline-highlight',
     },
 
+    // Serious
+    {
+      color: 'serious',
+      variant: 'filled',
+      className: [
+        'enabled:bg-serious',
+        'enabled:hover:bg-serious-hover',
+        'enabled:focus:bg-serious-hover',
+      ],
+    },
+    {
+      color: 'serious',
+      variant: 'filled',
+      isSelected: true,
+      className: 'enabled:bg-serious-subtle',
+    },
+    {
+      color: 'serious',
+      variant: 'outline',
+      className: [
+        'enabled:fg-default-light enabled:outline-serious',
+        'enabled:hover:outline-interactive-hover',
+        'enabled:focus:outline-interactive-hover',
+      ],
+    },
+    {
+      color: 'serious',
+      variant: ['flat', 'icon'],
+      className: [
+        'enabled:fg-default-light',
+        'enabled:hover:bg-serious-hover',
+        'enabled:focus:bg-serious-hover',
+      ],
+    },
+    {
+      color: 'serious',
+      variant: 'floating',
+      className: [
+        'enabled:fg-serious enabled:bg-serious-subtle enabled:outline-serious',
+        'enabled:hover:fg-interactive-hover enabled:hover:outline-interactive-hover',
+        'enabled:focus:fg-interactive-hover enabled:focus:outline-interactive-hover',
+      ],
+    },
+    {
+      color: 'serious',
+      variant: 'floating',
+      isSelected: true,
+      className: 'enabled:outline-highlight',
+    },
+
+    // Critical
+    {
+      color: 'critical',
+      variant: 'filled',
+      className: [
+        'enabled:bg-critical',
+        'enabled:hover:bg-critical-hover',
+        'enabled:focus:bg-critical-hover',
+      ],
+    },
+    {
+      color: 'critical',
+      variant: 'filled',
+      isSelected: true,
+      className: 'enabled:bg-critical-subtle',
+    },
+    {
+      color: 'critical',
+      variant: 'outline',
+      className: [
+        'enabled:fg-default-light enabled:outline-critical',
+        'enabled:hover:outline-interactive-hover',
+        'enabled:focus:outline-interactive-hover',
+      ],
+    },
+    {
+      color: 'critical',
+      variant: ['flat', 'icon'],
+      className: [
+        'enabled:fg-default-light',
+        'enabled:hover:bg-critical-hover',
+        'enabled:focus:bg-critical-hover',
+      ],
+    },
+    {
+      color: 'critical',
+      variant: 'floating',
+      className: [
+        'enabled:fg-critical enabled:bg-critical-subtle enabled:outline-critical',
+        'enabled:hover:fg-interactive-hover enabled:hover:outline-interactive-hover',
+        'enabled:focus:fg-interactive-hover enabled:focus:outline-interactive-hover',
+      ],
+    },
+    {
+      color: 'critical',
+      variant: 'floating',
+      isSelected: true,
+      className: 'enabled:outline-highlight',
+    },
+
     // Must be last to override color values
     {
       isSelected: true,
