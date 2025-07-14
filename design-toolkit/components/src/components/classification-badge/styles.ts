@@ -19,7 +19,7 @@ export const ClassificationBadgeStylesDefaults = {
 } as const;
 
 export const ClassificationBadgeStyles = tv({
-  base: 'inline-flex items-center justify-center rounded-full uppercase',
+  base: 'inline-flex items-center justify-center rounded-full uppercase px-s py-xs ',
   variants: {
     variant: {
       missing:
@@ -37,8 +37,8 @@ export const ClassificationBadgeStyles = tv({
         "fg-inverse-light bg-classification-ts-sci [&:empty]:before:content-['TS/SCI']",
     },
     size: {
-      medium: 'px-s py-xs text-header-s',
-      small: 'px-s py-xs text-header-xs',
+      small: 'text-header-xs',
+      medium: 'text-header-s',
     },
   },
   defaultVariants: ClassificationBadgeStylesDefaults,
