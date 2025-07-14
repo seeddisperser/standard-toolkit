@@ -11,7 +11,7 @@
  */
 
 import type { Meta, StoryObj } from '@storybook/react';
-import { ClassificationBadge } from './';
+import { ClassificationBadge } from './index';
 
 const meta: Meta<typeof ClassificationBadge> = {
   title: 'Components/ClassificationBadge',
@@ -46,9 +46,8 @@ const meta: Meta<typeof ClassificationBadge> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof ClassificationBadge>;
 
-export const Missing: Story = {
+export const Missing: StoryObj<typeof ClassificationBadge> = {
   render: ({ children, ...args }) => (
     <ClassificationBadge variant='missing' {...args}>
       {children}
@@ -56,7 +55,7 @@ export const Missing: Story = {
   ),
 };
 
-export const Unclassified: Story = {
+export const Unclassified: StoryObj<typeof ClassificationBadge> = {
   render: ({ children, ...args }) => (
     <ClassificationBadge {...args} variant='unclassified'>
       {children}
@@ -64,7 +63,7 @@ export const Unclassified: Story = {
   ),
 };
 
-export const CUI: Story = {
+export const CUI: StoryObj<typeof ClassificationBadge> = {
   render: ({ children, ...args }) => (
     <ClassificationBadge {...args} variant='cui'>
       {children}
@@ -72,7 +71,7 @@ export const CUI: Story = {
   ),
 };
 
-export const Confidential: Story = {
+export const Confidential: StoryObj<typeof ClassificationBadge> = {
   render: ({ children, ...args }) => (
     <ClassificationBadge {...args} variant='confidential'>
       {children}
@@ -80,7 +79,7 @@ export const Confidential: Story = {
   ),
 };
 
-export const Secret: Story = {
+export const Secret: StoryObj<typeof ClassificationBadge> = {
   render: ({ children, ...args }) => (
     <ClassificationBadge {...args} variant='secret'>
       {children}
@@ -88,7 +87,7 @@ export const Secret: Story = {
   ),
 };
 
-export const TopSecret: Story = {
+export const TopSecret: StoryObj<typeof ClassificationBadge> = {
   render: ({ children, ...args }) => (
     <ClassificationBadge {...args} variant='top-secret'>
       {children}
@@ -96,7 +95,7 @@ export const TopSecret: Story = {
   ),
 };
 
-export const TopSecretSCI: Story = {
+export const TopSecretSCI: StoryObj<typeof ClassificationBadge> = {
   render: ({ children, ...args }) => (
     <ClassificationBadge {...args} variant='ts-sci'>
       {children}
