@@ -25,6 +25,9 @@ const meta: Meta<typeof TextAreaField> = {
     isInvalid: false,
     isReadOnly: false,
     isRequired: true,
+    inputProps: {
+      placeholder: 'Placeholder',
+    },
   },
   argTypes: {
     size: {
@@ -33,6 +36,11 @@ const meta: Meta<typeof TextAreaField> = {
     },
     isInvalid: {
       control: 'boolean',
+    },
+    inputProps: {
+      placeholder: {
+        control: 'text',
+      },
     },
   },
 };
