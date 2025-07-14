@@ -38,7 +38,7 @@ const meta: Meta<typeof Button> = {
     },
     variant: {
       control: 'select',
-      options: ['solid', 'outline', 'flat', 'icon', 'floating'],
+      options: ['filled', 'outline', 'flat', 'icon', 'floating'],
     },
   },
 };
