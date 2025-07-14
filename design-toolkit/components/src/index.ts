@@ -51,8 +51,22 @@ export type {
 } from './components/button/types';
 export { Checkbox } from './components/checkbox';
 export type { CheckboxGroupProps, CheckboxProps } from './components/checkbox';
-export { Chip, DeletableChip, SelectableChip } from './components/chip';
-export type { ChipListProps, ChipProps } from './components/chip';
+export { Chip, ChipContext } from './components/chip';
+export {
+  BaseChipStyles,
+  ChipStyles,
+  ChipStylesDefaults,
+  DeletableChipStyles,
+  SelectableChipStyles,
+} from './components/chip/styles';
+export type {
+  BaseChipProps,
+  ChipListProps,
+  ChipProps,
+  ChipProviderProps,
+  DeletableChipProps,
+  SelectableChipProps,
+} from './components/chip/types';
 export { ClassificationBadge } from './components/classification-badge';
 export type { ClassificationBadgeProps } from './components/classification-badge';
 export { ClassificationBanner } from './components/classification-banner';
@@ -116,8 +130,19 @@ export type {
   TabProps,
   TabsProps,
 } from './components/tabs';
-export { TextArea } from './components/text-area';
-export type { TextAreaProps } from './components/text-area';
+export {
+  TextAreaField,
+  TextAreaFieldContext,
+} from './components/text-area-field';
+export {
+  TextAreaStyles,
+  TextAreaStylesDefaults,
+} from './components/text-area-field/styles';
+export type {
+  TextAreaFieldProps,
+  TextAreaFieldProviderProps,
+  TextAreaStyleVariants,
+} from './components/text-area-field/types';
 export { TextField } from './components/text-field';
 export type { TextFieldProps } from './components/text-field';
 export { Tooltip, TooltipBody, TooltipTrigger } from './components/tooltip';
