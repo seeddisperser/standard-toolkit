@@ -67,8 +67,19 @@ export type {
   DeletableChipProps,
   SelectableChipProps,
 } from './components/chip/types';
-export { ClassificationBadge } from './components/classification-badge';
-export type { ClassificationBadgeProps } from './components/classification-badge';
+export {
+  ClassificationBadge,
+  ClassificationBadgeContext,
+} from './components/classification-badge';
+export {
+  ClassificationBadgeStyles,
+  ClassificationBadgeStylesDefaults,
+} from './components/classification-badge/styles';
+export type {
+  ClassificationBadgeProps,
+  ClassificationBadgeProviderProps,
+  ClassificationBadgeStyleVariants,
+} from './components/classification-badge/types';
 export { ClassificationBanner } from './components/classification-banner';
 export type { ClassificationBannerProps } from './components/classification-banner';
 export { ColorPicker, useColorPickerState } from './components/color-picker';
