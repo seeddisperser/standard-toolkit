@@ -41,6 +41,20 @@ const meta: Meta<typeof Button> = {
       options: ['filled', 'outline', 'flat', 'icon', 'floating'],
     },
   },
+  parameters: {
+    controls: {
+      exclude: [
+        'form',
+        'formAction',
+        'formEncType',
+        'formMethod',
+        'formNoValidate',
+        'formTarget',
+        'name',
+        'value',
+      ],
+    },
+  },
 };
 
 export default meta;
