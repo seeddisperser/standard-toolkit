@@ -22,7 +22,7 @@ import {
   useContextProps,
 } from 'react-aria-components';
 import { Icon } from '../icon';
-import { ButtonStyles } from './styles';
+import { ButtonStyles, LinkButtonStyles, ToggleButtonStyles } from './styles';
 import type {
   ButtonProps,
   ButtonProviderProps,
@@ -93,7 +93,7 @@ export function LinkButton({ ref, ...props }: LinkButtonProps) {
         {...rest}
         ref={ref}
         className={composeRenderProps(className, (className, { isCurrent }) =>
-          ButtonStyles({
+          LinkButtonStyles({
             className,
             color,
             size,
@@ -136,7 +136,7 @@ export function ToggleButton({ ref, ...props }: ToggleButtonProps) {
         {...rest}
         ref={ref}
         className={composeRenderProps(className, (className, { isSelected }) =>
-          ButtonStyles({
+          ToggleButtonStyles({
             className,
             color,
             size,

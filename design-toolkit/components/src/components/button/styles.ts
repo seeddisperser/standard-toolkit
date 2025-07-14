@@ -21,7 +21,7 @@ export const ButtonStylesDefaults = {
   isSelected: false,
 } as const;
 
-export const ButtonStyles = tv({
+const BaseButtonStyles = tv({
   base: [
     'flex w-content cursor-pointer items-center justify-center rounded-medium outline outline-transparent',
     'disabled:cursor-not-allowed',
@@ -47,21 +47,6 @@ export const ButtonStyles = tv({
         'rounded-full',
         'disabled:fg-disabled disabled:bg-interactive-disabled disabled:outline-interactive-disabled',
       ],
-    },
-    // Link specific
-    isCurrent: {
-      false: '',
-      true: '',
-    },
-    // Button specific
-    isPending: {
-      false: '',
-      true: '',
-    },
-    // ToggleButton specific
-    isSelected: {
-      false: '',
-      true: '',
     },
   },
   compoundVariants: [
@@ -94,12 +79,6 @@ export const ButtonStyles = tv({
     },
     {
       color: 'info',
-      variant: 'filled',
-      isSelected: true,
-      className: 'enabled:bg-info-subtle',
-    },
-    {
-      color: 'info',
       variant: 'outline',
       className: [
         'enabled:fg-default-light enabled:outline-interactive',
@@ -125,12 +104,6 @@ export const ButtonStyles = tv({
         'enabled:focus:fg-interactive-hover enabled:focus:outline-interactive-hover',
       ],
     },
-    {
-      color: 'info',
-      variant: 'floating',
-      isSelected: true,
-      className: 'enabled:outline-highlight',
-    },
 
     // Serious
     {
@@ -141,12 +114,6 @@ export const ButtonStyles = tv({
         'enabled:hover:bg-serious-hover',
         'enabled:focus:bg-serious-hover',
       ],
-    },
-    {
-      color: 'serious',
-      variant: 'filled',
-      isSelected: true,
-      className: 'enabled:bg-serious-subtle',
     },
     {
       color: 'serious',
@@ -175,12 +142,6 @@ export const ButtonStyles = tv({
         'enabled:focus:fg-interactive-hover enabled:focus:outline-interactive-hover',
       ],
     },
-    {
-      color: 'serious',
-      variant: 'floating',
-      isSelected: true,
-      className: 'enabled:outline-highlight',
-    },
 
     // Critical
     {
@@ -191,12 +152,6 @@ export const ButtonStyles = tv({
         'enabled:hover:bg-critical-hover',
         'enabled:focus:bg-critical-hover',
       ],
-    },
-    {
-      color: 'critical',
-      variant: 'filled',
-      isSelected: true,
-      className: 'enabled:bg-critical-subtle',
     },
     {
       color: 'critical',
@@ -225,13 +180,75 @@ export const ButtonStyles = tv({
         'enabled:focus:fg-interactive-hover enabled:focus:outline-interactive-hover',
       ],
     },
+  ],
+  defaultVariants: ButtonStylesDefaults,
+});
+
+export const ButtonStyles = tv({
+  extend: BaseButtonStyles,
+  variants: {
+    isPending: {
+      false: '',
+      true: '',
+    },
+  },
+});
+
+export const LinkButtonStyles = tv({
+  extend: BaseButtonStyles,
+  variants: {
+    isCurrent: {
+      false: '',
+      true: '',
+    },
+  },
+});
+
+export const ToggleButtonStyles = tv({
+  extend: BaseButtonStyles,
+  variants: {
+    isSelected: {
+      false: '',
+      true: '',
+    },
+  },
+  compoundVariants: [
+    {
+      color: 'info',
+      variant: 'filled',
+      isSelected: true,
+      className: 'enabled:bg-info-subtle',
+    },
+    {
+      color: 'info',
+      variant: 'floating',
+      isSelected: true,
+      className: 'enabled:outline-highlight',
+    },
+    {
+      color: 'serious',
+      variant: 'filled',
+      isSelected: true,
+      className: 'enabled:bg-serious-subtle',
+    },
+    {
+      color: 'serious',
+      variant: 'floating',
+      isSelected: true,
+      className: 'enabled:outline-highlight',
+    },
+    {
+      color: 'critical',
+      variant: 'filled',
+      isSelected: true,
+      className: 'enabled:bg-critical-subtle',
+    },
     {
       color: 'critical',
       variant: 'floating',
       isSelected: true,
       className: 'enabled:outline-highlight',
     },
-
     // Must be last to override color values
     {
       isSelected: true,
@@ -242,5 +259,4 @@ export const ButtonStyles = tv({
       ],
     },
   ],
-  defaultVariants: ButtonStylesDefaults,
 });
