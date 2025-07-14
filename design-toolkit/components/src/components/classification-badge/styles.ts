@@ -17,24 +17,28 @@ export const ClassificationBadgeStylesDefaults = {
   size: 'medium',
 } as const;
 
+// Classification badge default empty content per variant
+export const CLASSIFICATION_BADGE_EMPTY_LABELS = {
+  missing: 'Missing',
+  unclassified: 'Unclassified',
+  cui: 'CUI',
+  confidential: 'Confidential',
+  secret: 'Secret',
+  'top-secret': 'Top_Secret',
+  'ts-sci': 'TS/SCI',
+} as const;
+
 export const ClassificationBadgeStyles = tv({
   base: 'inline-flex items-center justify-center rounded-full px-s py-xs uppercase',
   variants: {
     variant: {
-      missing:
-        // TODO: dont hard code these strings into the styles
-        "fg-critical bg-classification-missing [&:empty]:before:content-['Missing']",
-      unclassified:
-        "fg-default-light bg-classification-unclass [&:empty]:before:content-['Unclassified']",
-      cui: "fg-default-light bg-classification-cui [&:empty]:before:content-['CUI']",
-      confidential:
-        "fg-default-light bg-classification-confidential [&:empty]:before:content-['Confidential']",
-      secret:
-        "fg-default-light bg-classification-secret [&:empty]:before:content-['Secret']",
-      'top-secret':
-        "fg-inverse-light bg-classification-top-secret [&:empty]:before:content-['Top_Secret']",
-      'ts-sci':
-        "fg-inverse-light bg-classification-ts-sci [&:empty]:before:content-['TS/SCI']",
+      missing: `fg-critical bg-classification-missing [&:empty]:before:content-['${CLASSIFICATION_BADGE_EMPTY_LABELS.missing}']`,
+      unclassified: `fg-default-light bg-classification-unclass [&:empty]:before:content-['${CLASSIFICATION_BADGE_EMPTY_LABELS.unclassified}']`,
+      cui: `fg-default-light bg-classification-cui [&:empty]:before:content-['${CLASSIFICATION_BADGE_EMPTY_LABELS.cui}']`,
+      confidential: `fg-default-light bg-classification-confidential [&:empty]:before:content-['${CLASSIFICATION_BADGE_EMPTY_LABELS.confidential}']`,
+      secret: `fg-default-light bg-classification-secret [&:empty]:before:content-['${CLASSIFICATION_BADGE_EMPTY_LABELS.secret}']`,
+      'top-secret': `fg-inverse-light bg-classification-top-secret [&:empty]:before:content-['${CLASSIFICATION_BADGE_EMPTY_LABELS['top-secret']}']`,
+      'ts-sci': `fg-inverse-light bg-classification-ts-sci [&:empty]:before:content-['${CLASSIFICATION_BADGE_EMPTY_LABELS['ts-sci']}']`,
     },
     size: {
       small: 'text-header-xs',

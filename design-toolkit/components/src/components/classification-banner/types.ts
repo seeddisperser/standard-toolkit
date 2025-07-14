@@ -12,15 +12,15 @@
 
 import type { HTMLAttributes, PropsWithChildren, RefAttributes } from 'react';
 import type { VariantProps } from 'tailwind-variants';
-import type { ClassificationBadgeStyles } from './styles';
+import type { ClassificationBannerStyles } from './styles';
 
-export type ClassificationBadgeStyleVariants = VariantProps<
-  typeof ClassificationBadgeStyles
+export type ClassificationBannerStyleVariants = VariantProps<
+  typeof ClassificationBannerStyles
 >;
 
-export type ClassificationBadgeProps = ClassificationBadgeStyleVariants &
+export type ClassificationBannerProps = ClassificationBannerStyleVariants &
   RefAttributes<HTMLSpanElement> &
   PropsWithChildren<HTMLAttributes<HTMLSpanElement>>;
 
-export type ClassificationBadgeProviderProps =
-  PropsWithChildren<ClassificationBadgeProps>;
+export type ClassificationBannerProviderProps =
+  PropsWithChildren<ClassificationBannerProps>;
