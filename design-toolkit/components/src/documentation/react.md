@@ -64,6 +64,12 @@ Because a prop like `size` isn't one of the merged props it's important that the
 - `<MyComponent />` that is composed within a context providing `large`: `large` (assuming that the context isn't slotted or that `<MyComponent slot="foo" />`'s slot matches a slot provided in the context)
 - `<MyComponent size="small" />`: `small` (doesn't matter if it was composed in a context or not, local overrides always take highest precedence)
 
+### Directives
+
+Be sure to implement the [`use client` directive](https://react.dev/reference/rsc/use-client) when developing components with context, state, event handling or references to objects like `window`. Keep in mind that (almost?) all of RACs components are client only.
+
+We also choose to utilize the "poison pill" approach of using `import 'client-only'` in case the directive is stripped for any reason. [https://nextjs.org/docs/app/getting-started/server-and-client-components#preventing-environment-poisoning](https://nextjs.org/docs/app/getting-started/server-and-client-components#preventing-environment-poisoning)
+
 ### Props
 <!--
 In light of lack of tooling support to enforce this approach, it will remain unenforced for the time being.
