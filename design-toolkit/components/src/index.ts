@@ -44,8 +44,8 @@ export {
   ClassificationBadgeContext,
 } from './components/classification-badge';
 export {
+  ClassificationBadgeStyles,
   ClassificationBadgeStylesDefaults,
-  classificationBadge,
 } from './components/classification-badge/styles';
 export type { ClassificationBadgeStyleVariants } from './components/classification-badge/styles';
 export type {

@@ -18,7 +18,7 @@ export const ClassificationBadgeStylesDefaults = {
   size: 'medium',
 } as const;
 
-export const classificationBadge = tv({
+export const ClassificationBadgeStyles = tv({
   base: 'inline-flex items-center justify-center rounded-full uppercase',
   variants: {
     variant: {
@@ -45,5 +45,5 @@ export const classificationBadge = tv({
 });
 
 export type ClassificationBadgeStyleVariants = VariantProps<
-  typeof classificationBadge
+  typeof ClassificationBadgeStyles
 >;

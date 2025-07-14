@@ -13,8 +13,8 @@
 import { createContext } from 'react';
 import { type ContextValue, useContextProps } from 'react-aria-components';
 import {
+  ClassificationBadgeStyles,
   ClassificationBadgeStylesDefaults,
-  classificationBadge,
 } from './styles';
 import type {
   ClassificationBadgeProps,
@@ -57,7 +57,7 @@ export function ClassificationBadge({
   return (
     <span
       {...rest}
-      className={classificationBadge({
+      className={ClassificationBadgeStyles({
         size,
         variant,
         className,
