@@ -65,13 +65,15 @@ Because a prop like `size` isn't one of the merged props it's important that the
 - `<MyComponent size="small" />`: `small` (doesn't matter if it was composed in a context or not, local overrides always take highest precedence)
 
 ### Props
+<!--
+In light of lack of tooling support to enforce this approach, it will remain unenforced for the time being.
 
 #### Order
 
 For the sake of readability and consistency, prop ordering helps to be able to quickly scan a component to find what you're looking for. The order which follows a sense of uniqueness, priority, and alphabetization is as follows:
 
-- id
 - key
+- id
 - className
 - (everything else not present in another group, in alpha order)
 - state flags (is[A-Z] in alpha order)
@@ -83,8 +85,8 @@ What that looks like:
 
 ```jsx
 <MyComponent
-  id="foo"
   key="bar"
+  id="foo"
   className="foo bar"
   size="small"
   variant="outline"
@@ -92,7 +94,7 @@ What that looks like:
   isOpen
   onChange={() => {}}
   onPress={() => {}}
-  aria-labeledby="mylabel"
+  aria-labeledby="foobar"
   data-testid="foobar"
 />
 ```
@@ -117,7 +119,7 @@ function MyComponent({ ref, ...props }: MyComponentProps) {
   } = props;
 }
 ```
-
+-->
 #### Spread
 
 When spreading `...rest` on a component, this should be done before the implementation of any props that are being implemented, unless it's acceptable to override them. Here's an example:
