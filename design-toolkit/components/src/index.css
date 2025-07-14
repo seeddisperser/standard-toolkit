@@ -232,6 +232,19 @@
   --icon-size-xs: var(--spacing-m);
 }
 
+/** Override default enable: https://github.com/tailwindlabs/tailwindcss/discussions/8668 **/
+@custom-variant enabled {
+  &:not([disabled], [aria-disabled="true"], [data-disabled="true"]), &:enabled {
+    @slot;
+  }
+}
+
+@custom-variant disabled {
+  &:is([disabled], [aria-disabled="true"], [data-disabled="true"]), &:disabled {
+    @slot;
+  }
+}
+
 @utility text-header-xxl {
   font-size: var(--header-xxl-size);
   font-weight: 500;
