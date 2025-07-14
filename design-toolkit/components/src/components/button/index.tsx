@@ -12,10 +12,11 @@
 'use client';
 
 import 'client-only';
-import { type Ref, createContext } from 'react';
+import { createContext } from 'react';
 import {
   Button as AriaButton,
   ToggleButton as AriaToggleButton,
+  type ContextValue,
   Link,
   composeRenderProps,
   useContextProps,
@@ -23,29 +24,26 @@ import {
 import { Icon } from '../icon';
 import { ButtonStyles } from './styles';
 import type {
-  ButtonContextValue,
   ButtonProps,
   ButtonProviderProps,
   LinkButtonProps,
+  LinkButtonProviderProps,
   ToggleButtonProps,
+  ToggleButtonProviderProps,
 } from './types';
 
-export const ButtonContext = createContext<ButtonContextValue>(null);
+export const ButtonContext =
+  createContext<ContextValue<ButtonProps, HTMLButtonElement>>(null);
 
 function ButtonProvider({ children, ...props }: ButtonProviderProps) {
   return (
-    <ButtonContext.Provider value={props as ButtonContextValue}>
-      {children}
-    </ButtonContext.Provider>
+    <ButtonContext.Provider value={props}>{children}</ButtonContext.Provider>
   );
 }
+ButtonProvider.displayName = 'Button.Provider';
 
 export function Button({ ref, ...props }: ButtonProps) {
-  [props, ref] = useContextProps(
-    props,
-    (ref ?? null) as Ref<HTMLAnchorElement & HTMLButtonElement>,
-    ButtonContext,
-  );
+  [props, ref] = useContextProps(props, ref ?? null, ButtonContext);
 
   const { children, className, color, size, variant, ...rest } = props;
 
@@ -53,6 +51,7 @@ export function Button({ ref, ...props }: ButtonProps) {
     <Icon.Provider size={size}>
       <AriaButton
         {...rest}
+        ref={ref}
         className={composeRenderProps(className, (className, { isPending }) =>
           ButtonStyles({
             className,
@@ -71,12 +70,20 @@ export function Button({ ref, ...props }: ButtonProps) {
 Button.displayName = 'Button';
 Button.Provider = ButtonProvider;
 
-export function LinkButton({ ref, ...props }: LinkButtonProps) {
-  [props, ref] = useContextProps(
-    props,
-    (ref ?? null) as Ref<HTMLAnchorElement & HTMLButtonElement>,
-    ButtonContext,
+export const LinkButtonContext =
+  createContext<ContextValue<LinkButtonProps, HTMLAnchorElement>>(null);
+
+function LinkButtonProvider({ children, ...props }: LinkButtonProviderProps) {
+  return (
+    <LinkButtonContext.Provider value={props}>
+      {children}
+    </LinkButtonContext.Provider>
   );
+}
+LinkButtonProvider.displayName = 'LinkButton.Provider';
+
+export function LinkButton({ ref, ...props }: LinkButtonProps) {
+  [props, ref] = useContextProps(props, ref ?? null, LinkButtonContext);
 
   const { children, className, color, size, variant, ...rest } = props;
 
@@ -84,6 +91,7 @@ export function LinkButton({ ref, ...props }: LinkButtonProps) {
     <Icon.Provider size={size}>
       <Link
         {...rest}
+        ref={ref}
         className={composeRenderProps(className, (className, { isCurrent }) =>
           ButtonStyles({
             className,
@@ -100,13 +108,25 @@ export function LinkButton({ ref, ...props }: LinkButtonProps) {
   );
 }
 LinkButton.displayName = 'LinkButton';
+LinkButton.Provider = LinkButtonProvider;
+
+export const ToggleButtonContext =
+  createContext<ContextValue<ToggleButtonProps, HTMLButtonElement>>(null);
+
+function ToggleButtonProvider({
+  children,
+  ...props
+}: ToggleButtonProviderProps) {
+  return (
+    <ToggleButtonContext.Provider value={props}>
+      {children}
+    </ToggleButtonContext.Provider>
+  );
+}
+ToggleButtonProvider.displayName = 'ToggleButton.Provider';
 
 export function ToggleButton({ ref, ...props }: ToggleButtonProps) {
-  [props, ref] = useContextProps(
-    props,
-    (ref ?? null) as Ref<HTMLAnchorElement & HTMLButtonElement>,
-    ButtonContext,
-  );
+  [props, ref] = useContextProps(props, ref ?? null, ToggleButtonContext);
 
   const { children, className, color, size, variant, ...rest } = props;
 
@@ -114,6 +134,7 @@ export function ToggleButton({ ref, ...props }: ToggleButtonProps) {
     <Icon.Provider size={size}>
       <AriaToggleButton
         {...rest}
+        ref={ref}
         className={composeRenderProps(className, (className, { isSelected }) =>
           ButtonStyles({
             className,
@@ -130,3 +151,4 @@ export function ToggleButton({ ref, ...props }: ToggleButtonProps) {
   );
 }
 ToggleButton.displayName = 'ToggleButton';
+ToggleButton.Provider = ToggleButtonProvider;

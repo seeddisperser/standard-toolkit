@@ -14,10 +14,12 @@ import type { PropsWithChildren, RefAttributes } from 'react';
 import type {
   ButtonProps as AriaButtonProps,
   ToggleButtonProps as AriaToggleButtonProps,
-  ContextValue,
   LinkProps,
 } from 'react-aria-components';
-import type { ButtonStyleVariants } from './styles';
+import type { VariantProps } from 'tailwind-variants';
+import type { ButtonStyles } from './styles';
+
+export type ButtonStyleVariants = VariantProps<typeof ButtonStyles>;
 
 export type ButtonStyleVariantProps = Omit<
   ButtonStyleVariants,
@@ -36,11 +38,12 @@ export type ToggleButtonProps = AriaToggleButtonProps &
   ButtonStyleVariantProps &
   RefAttributes<HTMLButtonElement>;
 
-export type ButtonContextValue = ContextValue<
-  ButtonProps & LinkButtonProps & ToggleButtonProps,
-  HTMLAnchorElement & HTMLButtonElement
+export type ButtonProviderProps = PropsWithChildren<Omit<ButtonProps, 'ref'>>;
+
+export type LinkButtonProviderProps = PropsWithChildren<
+  Omit<LinkButtonProps, 'ref'>
 >;
 
-export type ButtonProviderProps = PropsWithChildren<
-  Omit<ButtonProps | LinkButtonProps | ToggleButtonProps, 'ref'>
+export type ToggleButtonProviderProps = PropsWithChildren<
+  Omit<ToggleButtonProps, 'ref'>
 >;

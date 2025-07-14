@@ -11,11 +11,9 @@
  */
 
 import { tv } from '@/lib/utils';
-import type { VariantProps } from 'tailwind-variants';
 
 export const ButtonStylesDefaults = {
   color: 'info',
-  hierarchy: 'primary',
   size: 'medium',
   variant: 'filled',
   isCurrent: false,
@@ -83,8 +81,7 @@ export const ButtonStyles = tv({
       className: 'rounded-small',
     },
 
-    // COLORS
-
+    /** Colors **/
     // Info
     {
       color: 'info',
@@ -247,5 +244,3 @@ export const ButtonStyles = tv({
   ],
   defaultVariants: ButtonStylesDefaults,
 });
-
-export type ButtonStyleVariants = VariantProps<typeof ButtonStyles>;
