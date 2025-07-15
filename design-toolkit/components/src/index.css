@@ -126,6 +126,19 @@
   --icon-size-xs: var(--spacing-m);
 }
 
+/** Override default enable: https://github.com/tailwindlabs/tailwindcss/discussions/8668 **/
+@custom-variant enabled {
+  &:not([disabled], [aria-disabled="true"], [data-disabled="true"]), &:enabled {
+    @slot;
+  }
+}
+
+@custom-variant disabled {
+  &:is([disabled], [aria-disabled="true"], [data-disabled="true"]), &:disabled {
+    @slot;
+  }
+}
+
 @utility text-header-xxl {
   font-size: var(--typography-header-xxl-size);
   font-weight: 500;
@@ -167,7 +180,6 @@
   letter-spacing: 0.25px;
   line-height: var(--typography-header-xs-height);
 }
-
 
 @utility text-body-l {
   font-size: var(--typography-body-l-size);
