@@ -21,21 +21,16 @@ import type { ButtonStyles } from './styles';
 
 export type ButtonStyleVariants = VariantProps<typeof ButtonStyles>;
 
-export type ButtonStyleVariantProps = Omit<
-  ButtonStyleVariants,
-  'isCurrent' | 'isPending' | 'isSelected'
->;
-
 export type ButtonProps = AriaButtonProps &
-  ButtonStyleVariantProps &
+  ButtonStyleVariants &
   RefAttributes<HTMLButtonElement>;
 
 export type LinkButtonProps = LinkProps &
-  ButtonStyleVariantProps &
+  ButtonStyleVariants &
   RefAttributes<HTMLAnchorElement>;
 
 export type ToggleButtonProps = AriaToggleButtonProps &
-  ButtonStyleVariantProps &
+  ButtonStyleVariants &
   RefAttributes<HTMLButtonElement>;
 
 export type ButtonProviderProps = PropsWithChildren<Omit<ButtonProps, 'ref'>>;
