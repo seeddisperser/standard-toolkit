@@ -31,8 +31,6 @@
   --neutral-09: #222222;
   --neutral-10: #0b0b0b;
 
-  --neutral-11: #FF0000;
-
   --alpha-black-01: rgba(0, 0, 0, 0.08);
   --alpha-black-02: rgba(0, 0, 0, 0.4);
   --alpha-black-03: rgba(0, 0, 0, 0.8);
@@ -234,6 +232,19 @@
   --icon-size-xs: var(--spacing-m);
 }
 
+/** Override default enable: https://github.com/tailwindlabs/tailwindcss/discussions/8668 **/
+@custom-variant enabled {
+  &:not([disabled], [aria-disabled="true"], [data-disabled="true"]), &:enabled {
+    @slot;
+  }
+}
+
+@custom-variant disabled {
+  &:is([disabled], [aria-disabled="true"], [data-disabled="true"]), &:disabled {
+    @slot;
+  }
+}
+
 @utility text-header-xxl {
   font-size: var(--header-xxl-size);
   font-weight: 500;
@@ -275,7 +286,6 @@
   letter-spacing: 0.25px;
   line-height: var(--header-xs-height);
 }
-
 
 @utility text-body-l {
   font-size: var(--body-l-size);
