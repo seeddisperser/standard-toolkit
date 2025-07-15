@@ -17,19 +17,14 @@ const meta: Meta<typeof Label> = {
   title: 'Components/Label',
   component: Label,
   args: {
-    className: undefined,
     children: 'Label',
-    isOptional: false,
-  },
-  argTypes: {
-    className: { type: 'string' },
-    children: { type: 'string' },
+    isDisabled: false,
+    isRequired: false,
   },
 };
 
 export default meta;
-type Story = StoryObj<typeof Label>;
 
-export const Default: Story = {
-  render: ({ children, ...args }) => <Label {...args}>{children}</Label>,
+export const Default: StoryObj<typeof Label> = {
+  render: Label,
 };

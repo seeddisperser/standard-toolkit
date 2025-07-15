@@ -10,24 +10,26 @@
  * governing permissions and limitations under the License.
  */
 
-import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
-import { Chip } from './index';
-import type { ChipProps } from './types';
+import { tv } from '@/lib/utils';
+import type { VariantProps } from 'tailwind-variants';
 
-function setup({ children = 'Foo', ...rest }: Partial<ChipProps> = {}) {
-  render(<Chip {...rest}>{children}</Chip>);
+export const LabelStylesDefaults = {
+  isDisabled: false,
+} as const;
 
-  return {
-    ...rest,
-    children,
-  };
-}
-
-describe('Chip', () => {
-  it('should render', () => {
-    const { children } = setup();
-
-    expect(screen.getByText(`${children}`)).toBeInTheDocument();
-  });
+export const LabelStyles = tv({
+  base: 'fg-default-light flex items-center gap-xs text-header-s',
+  variants: {
+    isDisabled: {
+      false: '',
+      true: 'fg-disabled',
+    },
+    isRequired: {
+      false: '',
+      true: '',
+    },
+  },
+  defaultVariants: LabelStylesDefaults,
 });
+
+export type LabelStyleVariants = VariantProps<typeof LabelStyles>;

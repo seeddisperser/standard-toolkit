@@ -37,10 +37,35 @@ export { Button } from './components/button';
 export type { ButtonProps } from './components/button';
 export { Checkbox } from './components/checkbox';
 export type { CheckboxGroupProps, CheckboxProps } from './components/checkbox';
-export { Chip, DeletableChip, SelectableChip } from './components/chip';
-export type { ChipListProps, ChipProps } from './components/chip';
-export { ClassificationBadge } from './components/classification-badge';
-export type { ClassificationBadgeProps } from './components/classification-badge';
+export { Chip, ChipContext } from './components/chip';
+export {
+  BaseChipStyles,
+  ChipStyles,
+  ChipStylesDefaults,
+  DeletableChipStyles,
+  SelectableChipStyles,
+} from './components/chip/styles';
+export type {
+  BaseChipProps,
+  ChipListProps,
+  ChipProps,
+  ChipProviderProps,
+  DeletableChipProps,
+  SelectableChipProps,
+} from './components/chip/types';
+export {
+  ClassificationBadge,
+  ClassificationBadgeContext,
+} from './components/classification-badge';
+export {
+  ClassificationBadgeStyles,
+  ClassificationBadgeStylesDefaults,
+} from './components/classification-badge/styles';
+export type {
+  ClassificationBadgeProps,
+  ClassificationBadgeProviderProps,
+  ClassificationBadgeStyleVariants,
+} from './components/classification-badge/types';
 export { ClassificationBanner } from './components/classification-banner';
 export type { ClassificationBannerProps } from './components/classification-banner';
 export { ColorPicker, useColorPickerState } from './components/color-picker';
@@ -59,7 +84,10 @@ export type { IconStyleVariants } from './components/icon/styles';
 export type { IconProps, IconProviderProps } from './components/icon/types';
 export { IconButton } from './components/icon-button';
 export type { IconButtonProps } from './components/icon-button';
-export { Label } from './components/label';
+export { Label, LabelContext } from './components/label';
+export { LabelStyles, LabelStylesDefaults } from './components/label/styles';
+export type { LabelStyleVariants } from './components/label/styles';
+export type { LabelProps, LabelProviderProps } from './components/label/types';
 export { Options, OptionsContext, OptionsSection } from './components/options';
 export type { OptionsProps } from './components/options';
 export { OptionsItem } from './components/options-item';
@@ -89,8 +117,13 @@ export { SearchField } from './components/search-field';
 export type { SearchFieldProps } from './components/search-field';
 export { RangeSlider, Slider } from './components/slider';
 export type { RangeSliderProps, SliderProps } from './components/slider';
-export { Switch } from './components/switch';
-export type { SwitchProps } from './components/switch';
+export { Switch, SwitchContext } from './components/switch';
+export { SwitchStyles, SwitchStylesDefaults } from './components/switch/styles';
+export type { SwitchStyleVariants } from './components/switch/styles';
+export type {
+  SwitchProps,
+  SwitchProviderProps,
+} from './components/switch/types';
 export { Tabs } from './components/tabs';
 export type {
   TabListProps,
@@ -98,8 +131,19 @@ export type {
   TabProps,
   TabsProps,
 } from './components/tabs';
-export { TextArea } from './components/text-area';
-export type { TextAreaProps } from './components/text-area';
+export {
+  TextAreaField,
+  TextAreaFieldContext,
+} from './components/text-area-field';
+export {
+  TextAreaStyles,
+  TextAreaStylesDefaults,
+} from './components/text-area-field/styles';
+export type {
+  TextAreaFieldProps,
+  TextAreaFieldProviderProps,
+  TextAreaStyleVariants,
+} from './components/text-area-field/types';
 export { TextField } from './components/text-field';
 export type { TextFieldProps } from './components/text-field';
 export { ToggleIconButton } from './components/toggle-icon-button';

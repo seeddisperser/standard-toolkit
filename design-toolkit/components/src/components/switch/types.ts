@@ -10,24 +10,18 @@
  * governing permissions and limitations under the License.
  */
 
-import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
-import { Chip } from './index';
-import type { ChipProps } from './types';
+import type { PropsWithChildren, RefAttributes } from 'react';
+import type { SwitchProps as AriaSwitchProps } from 'react-aria-components';
 
-function setup({ children = 'Foo', ...rest }: Partial<ChipProps> = {}) {
-  render(<Chip {...rest}>{children}</Chip>);
-
-  return {
-    ...rest,
-    children,
+export type SwitchProps = Omit<AriaSwitchProps, 'className'> &
+  RefAttributes<HTMLLabelElement> & {
+    classNames?: {
+      group?: AriaSwitchProps['className'];
+      control?: string;
+      label?: string;
+    };
   };
-}
 
-describe('Chip', () => {
-  it('should render', () => {
-    const { children } = setup();
-
-    expect(screen.getByText(`${children}`)).toBeInTheDocument();
-  });
-});
+export type SwitchProviderProps = PropsWithChildren<
+  Pick<SwitchProps, 'classNames' | 'isDisabled' | 'isReadOnly'>
+>;
