@@ -7,20 +7,21 @@ This directory contains the design tokens system that generates both CSS variabl
 The design tokens system ensures consistency between CSS and JavaScript by:
 
 1. **Single Source of Truth**: All design tokens are defined in `tokens.json`
-2. **Automatic Generation**: CSS variables and JavaScript constants are generated from the same source
+2. **Automatic Generation**: CSS variables and TS constants are generated from the same source
 3. **Type Safety**: TypeScript types are generated for all tokens
 4. **Build Integration**: Token generation is part of the build process
 
 ## File Structure
 
 ```
+scripts
+├── generate-tokens.mjs # Token generator logic
+
 src/tokens/
 ├── tokens.json         # Single source of truth for all tokens
-├── generator.ts        # Token generator logic
 ├── tokens.d.ts         # TypeScript declarations
 ├── generated/          # Generated files (auto-created)
 │   ├── tokens.css      # CSS variables
-│   ├── tokens.js       # JavaScript constants
 │   └── tokens.ts       # TypeScript constants and types
 └── example-usage.tsx   # Example usage
 ```
@@ -57,7 +58,6 @@ pnpm generate:tokens
 
 This will create:
 - `src/tokens/generated/tokens.css` - CSS variables
-- `src/tokens/generated/tokens.js`  - JavaScript constants  
 - `src/tokens/generated/tokens.ts`  - TypeScript constants and types
 
 ### 3. Using Tokens in CSS
@@ -89,10 +89,9 @@ const styles = {
 ### 5. Using Tokens in Components
 
 ```tsx
-import React from 'react';
 import { tokens } from './generator';
 
-const MyComponent: React.FC = () => {
+function MyComponent() {
   return (
     <div 
       style={{ 
@@ -131,11 +130,11 @@ The system supports various token categories:
 
 ## Benefits
 
-1. **Consistency**: Same tokens used in CSS and JavaScript
+1. **Consistency**: Same tokens used in CSS and Typescript
 2. **Maintainability**: Single source of truth for all design tokens
 3. **Type Safety**: TypeScript support for all tokens
 4. **Automation**: Automatic generation during build
-5. **Flexibility**: Support for both CSS variables and JavaScript constants
+5. **Flexibility**: Support for both CSS variables and Typescript constants
 
 ## Migration from Current System
 
@@ -178,8 +177,8 @@ The generator will automatically create:
 }
 ```
 
-And JavaScript constants:
-```javascript
+And TS constants:
+```typescript
 export const colorsNeutral01 = '#ffffff';
 export const spacingL = '16px';
 ``` 

@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 /*
  * Copyright 2025 Hypergiant Galactic Systems Inc. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
@@ -20,7 +18,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Import the token generator using dynamic import with tsx
-import { readFileSync } from 'fs';
+import { readFileSync } from 'node:fs';
 
 async function generateTokens() {
   try {
@@ -51,14 +49,6 @@ async function generateTokens() {
       'utf-8',
     );
 
-    // Generate JavaScript constants
-    const jsContent = generateJavaScript(tokens);
-    await fs.promises.writeFile(
-      path.join(outputDir, 'tokens.js'),
-      jsContent,
-      'utf-8',
-    );
-
     // Generate TypeScript constants and types
     const tsContent = generateTypeScript(tokens);
     await fs.promises.writeFile(
@@ -71,7 +61,6 @@ async function generateTokens() {
     console.log(`📁 Output directory: ${outputDir}`);
     console.log('📄 Generated files:');
     console.log('   - tokens.css (CSS variables)');
-    console.log('   - tokens.js (JavaScript constants)');
     console.log('   - tokens.ts (TypeScript constants and types)');
   } catch (error) {
     console.error('❌ Error generating design tokens:', error);
@@ -106,36 +95,6 @@ function generateCSS(tokens) {
   const flattened = flattenTokens(tokens);
   const cssLines = [];
 
-  // Add copyright header
-  cssLines.push('/*');
-  cssLines.push(
-    ' * Copyright 2025 Hypergiant Galactic Systems Inc. All rights reserved.',
-  );
-  cssLines.push(
-    ' * This file is licensed to you under the Apache License, Version 2.0 (the "License");',
-  );
-  cssLines.push(
-    ' * you may not use this file except in compliance with the License. You may obtain a copy',
-  );
-  cssLines.push(
-    ' * of the License at https://www.apache.org/licenses/LICENSE-2.0',
-  );
-  cssLines.push(' *');
-  cssLines.push(
-    ' * Unless required by applicable law or agreed to in writing, software distributed under',
-  );
-  cssLines.push(
-    ' * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS',
-  );
-  cssLines.push(
-    ' * OF ANY KIND, either express or implied. See the License for the specific language',
-  );
-  cssLines.push(' * governing permissions and limitations under the License.');
-  cssLines.push(' */');
-  cssLines.push('');
-  cssLines.push('/* Auto-generated from tokens.json - DO NOT EDIT */');
-  cssLines.push('');
-
   // Start :root block
   cssLines.push(':root {');
 
@@ -150,82 +109,9 @@ function generateCSS(tokens) {
   return cssLines.join('\n');
 }
 
-function generateJavaScript(tokens) {
-  const flattened = flattenTokens(tokens);
-  const jsLines = [];
-
-  // Add copyright header
-  jsLines.push('/*');
-  jsLines.push(
-    ' * Copyright 2025 Hypergiant Galactic Systems Inc. All rights reserved.',
-  );
-  jsLines.push(
-    ' * This file is licensed to you under the Apache License, Version 2.0 (the "License");',
-  );
-  jsLines.push(
-    ' * you may not use this file except in compliance with the License. You may obtain a copy',
-  );
-  jsLines.push(
-    ' * of the License at https://www.apache.org/licenses/LICENSE-2.0',
-  );
-  jsLines.push(' *');
-  jsLines.push(
-    ' * Unless required by applicable law or agreed to in writing, software distributed under',
-  );
-  jsLines.push(
-    ' * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS',
-  );
-  jsLines.push(
-    ' * OF ANY KIND, either express or implied. See the License for the specific language',
-  );
-  jsLines.push(' * governing permissions and limitations under the License.');
-  jsLines.push(' */');
-  jsLines.push('');
-  jsLines.push('/* Auto-generated from tokens.json - DO NOT EDIT */');
-  jsLines.push('');
-
-  // Generate JavaScript constants
-  for (const [key, value] of Object.entries(flattened)) {
-    const camelCaseKey = toCamelCase(key);
-    jsLines.push(`export const ${camelCaseKey} = '${value}';`);
-  }
-
-  return jsLines.join('\n');
-}
-
 function generateTypeScript(tokens) {
   const flattened = flattenTokens(tokens);
   const tsLines = [];
-
-  // Add copyright header
-  tsLines.push('/*');
-  tsLines.push(
-    ' * Copyright 2025 Hypergiant Galactic Systems Inc. All rights reserved.',
-  );
-  tsLines.push(
-    ' * This file is licensed to you under the Apache License, Version 2.0 (the "License");',
-  );
-  tsLines.push(
-    ' * you may not use this file except in compliance with the License. You may obtain a copy',
-  );
-  tsLines.push(
-    ' * of the License at https://www.apache.org/licenses/LICENSE-2.0',
-  );
-  tsLines.push(' *');
-  tsLines.push(
-    ' * Unless required by applicable law or agreed to in writing, software distributed under',
-  );
-  tsLines.push(
-    ' * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS',
-  );
-  tsLines.push(
-    ' * OF ANY KIND, either express or implied. See the License for the specific language',
-  );
-  tsLines.push(' * governing permissions and limitations under the License.');
-  tsLines.push(' */');
-  tsLines.push('');
-  tsLines.push('/* Auto-generated from tokens.json - DO NOT EDIT */');
-  tsLines.push('');
 
   // Generate TypeScript types
   const tokenKeys = Object.keys(flattened).map((key) => toCamelCase(key));

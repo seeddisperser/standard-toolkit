@@ -10,8 +10,6 @@
  * governing permissions and limitations under the License.
  */
 
-/* Auto-generated from tokens.json - DO NOT EDIT */
-
 export type DesignToken =
   | 'colorsNeutral10'
   | 'colorsNeutral11'

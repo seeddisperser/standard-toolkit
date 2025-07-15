@@ -10,7 +10,6 @@
  * governing permissions and limitations under the License.
  */
 
-import React from 'react';
 import {
   colorsHighlightPrimary03,
   colorsNeutral01,
@@ -19,8 +18,7 @@ import {
   typographyBodyLSize,
 } from './generated/tokens';
 
-// Example of using tokens in JavaScript/TypeScript
-const TokenExample: React.FC = () => {
+export const TokenExample = () => {
   // You can use tokens directly in JavaScript
   const primaryColor = colorsHighlightPrimary03; // "#28f5be"
   const spacingLarge = spacingL; // "16px"
@@ -40,7 +38,7 @@ const TokenExample: React.FC = () => {
       <div style={inlineStyle}>This div uses tokens for inline styles</div>
 
       {/* Using tokens in className (via CSS variables) */}
-      <div className='bg-highlight-primary-03 p-l rounded-medium'>
+      <div className='rounded-medium bg-highlight-primary-03 p-l'>
         This div uses tokens via CSS classes
       </div>
 
@@ -56,5 +54,3 @@ const TokenExample: React.FC = () => {
     </div>
   );
 };
-
-export default TokenExample;

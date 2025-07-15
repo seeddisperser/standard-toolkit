@@ -31,7 +31,7 @@ const IGNORE_LIST = [
   '**/__{fixtures,fixture,mocks,mock,tests,test}__',
   '**/*.{bench,spec,test,test-d,stories}.*',
   '**/examples.*',
-  '**/tokens/generated/**',
+  '**/tokens/example-usage.tsx',
 ];
 
 const require = createRequire(import.meta.url);
