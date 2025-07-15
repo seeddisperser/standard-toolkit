@@ -61,7 +61,7 @@ Keep in mind, when implementing variants within `tv`, you should not implement a
 
 ### [RAC State Classes](https://react-spectrum.adobe.com/react-aria/styling.html#plugin)
 
-The Core team has chosen not to implement the RAC TW plugin directly. Instead we've implemented a modified version that follows the same patterns which being locked into RAC selectors or using a prefix that separates selector types. This means that RAC state based classes are available to utilize, they're just merged with CSS pseudo selectors and will work with any component that implements the cooresponding data attributes (when CSS pseudo selectors don't work).
+The Core team has chosen not to implement the RAC TW plugin directly. Instead we've implemented a modified version that follows the same patterns without being locked into RAC selectors or using a prefix that separates selector types. This means that RAC state based classes are available to utilize, they're just merged with CSS pseudo selectors and will work with any component that implements the cooresponding data attributes (when CSS pseudo selectors don't work).
 
 Because we have a custom implementation, there may be additional variants available than what is documented in RAC. Check out [index.css](../index.css) to see the custom variants defined and the selectors associated with each.
 
