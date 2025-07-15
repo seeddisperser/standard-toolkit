@@ -109,18 +109,59 @@ function generateCSS(tokens) {
   return cssLines.join('\n');
 }
 
+function extractVarReference(value) {
+  if (typeof value !== 'string') {
+    return null;
+  }
+  const varMatch = value.match(/^var\(--([a-zA-Z0-9-_]+)\)$/);
+  return varMatch ? varMatch[1] : null;
+}
+
+function resolveReferences(flattened) {
+  // Recursively resolve var(--...) references to their concrete values
+  const resolved = {};
+  const resolving = {};
+  function resolveValue(key) {
+    if (resolved[key] !== undefined) {
+      return resolved[key];
+    }
+    if (resolving[key]) {
+      throw new Error(`Circular reference detected for token: ${key}`);
+    }
+    resolving[key] = true;
+    const value = flattened[key];
+    const refKey = extractVarReference(value);
+    if (refKey) {
+      if (refKey in flattened) {
+        resolved[key] = resolveValue(refKey);
+      } else {
+        resolved[key] = value; // fallback to original if not found
+      }
+    } else {
+      resolved[key] = value;
+    }
+    resolving[key] = false;
+    return resolved[key];
+  }
+  for (const key of Object.keys(flattened)) {
+    resolveValue(key);
+  }
+  return resolved;
+}
+
 function generateTypeScript(tokens) {
   const flattened = flattenTokens(tokens);
+  const resolved = resolveReferences(flattened);
   const tsLines = [];
 
   // Generate TypeScript types
-  const tokenKeys = Object.keys(flattened).map((key) => toCamelCase(key));
+  const tokenKeys = Object.keys(resolved).map((key) => toCamelCase(key));
   tsLines.push('export type DesignToken =');
   tsLines.push(`  | ${tokenKeys.map((key) => `'${key}'`).join('\n  | ')};`);
   tsLines.push('');
 
   // Generate TypeScript constants (no type annotation)
-  for (const [key, value] of Object.entries(flattened)) {
+  for (const [key, value] of Object.entries(resolved)) {
     const camelCaseKey = toCamelCase(key);
     tsLines.push(`export const ${camelCaseKey} = '${value}';`);
   }

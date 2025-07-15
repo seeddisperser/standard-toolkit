@@ -244,7 +244,7 @@ export const shadowsElevationRaised =
   '0 5px 5px 0 rgba(0 0 0 / 0.2), 0 3px 14px 0 rgba(0 0 0 / 0.12), 0 8px 10px 0 rgba(0 0 0 / 0.14)';
 export const fontsPrimary = '"Roboto Flex", sans-serif';
 export const fontsDisplay = '"Roboto Mono", monospace';
-export const iconsSizeL = 'var(--spacing-xl)';
+export const iconsSizeL = '24px';
 export const iconsSizeM = '20px';
-export const iconsSizeS = 'var(--spacing-l)';
-export const iconsSizeXs = 'var(--spacing-m)';
+export const iconsSizeS = '16px';
+export const iconsSizeXs = '12px';
