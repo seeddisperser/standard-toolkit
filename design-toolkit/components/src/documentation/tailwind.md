@@ -48,14 +48,16 @@ import { MyStyles } from './styles';
 
 const { foo, bar } = MyStyles();
 
-function MyComponent({ children, className, isDisabled }: MyComponentProps) {
+function MyComponent({ children, className, size }: MyComponentProps) {
   return (
-    <Foo className={foo({ className, isDisabled })}>
-      <Bar className={bar({ isDisabled })}>{children}</Bar>
+    <Foo className={foo({ className, size })}>
+      <Bar className={bar({ size })}>{children}</Bar>
     </Foo>
   )
 }
 ```
+
+Keep in mind, when implementing variants within `tv`, you should not implement a variant that is covered by one of the state classes below. Use these state classes instead of implementing a local variant, if possible.
 
 ### [RAC State Classes](https://react-spectrum.adobe.com/react-aria/styling.html#plugin)
 
