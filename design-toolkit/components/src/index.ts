@@ -87,8 +87,19 @@ export type {
   ClassificationBadgeProviderProps,
   ClassificationBadgeStyleVariants,
 } from './components/classification-badge/types';
-export { ClassificationBanner } from './components/classification-banner';
-export type { ClassificationBannerProps } from './components/classification-banner';
+export {
+  ClassificationBanner,
+  ClassificationBannerContext,
+} from './components/classification-banner';
+export {
+  ClassificationBannerStyles,
+  ClassificationBannerStylesDefaults,
+} from './components/classification-banner/styles';
+export type {
+  ClassificationBannerProps,
+  ClassificationBannerProviderProps,
+  ClassificationBannerStyleVariants,
+} from './components/classification-banner/types';
 export { ColorPicker, useColorPickerState } from './components/color-picker';
 export type { ColorPickerProps } from './components/color-picker';
 export { ComboBox, ComboBoxSection } from './components/combobox';
