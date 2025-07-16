@@ -140,7 +140,8 @@ export type {
   RuleGroupType,
 } from './components/query-builder';
 export { Radio } from './components/radio';
-export type { RadioGroupProps, RadioProps } from './components/radio';
+export { RadioStyles } from './components/radio/styles';
+export type { RadioGroupProps, RadioProps } from './components/radio/types';
 export { SearchField } from './components/search-field';
 export type { SearchFieldProps } from './components/search-field';
 export { RangeSlider, Slider } from './components/slider';
