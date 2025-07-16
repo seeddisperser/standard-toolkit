@@ -43,11 +43,13 @@ describe('hooks/use-tree-actions/utils', () => {
             key: 'two',
             parentKey: 'one',
             label: 'Two',
+            children: [],
           },
           {
             key: 'three',
             parentKey: 'one',
             label: 'Three',
+            children: [],
           },
         ],
       },
