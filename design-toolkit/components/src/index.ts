@@ -79,7 +79,6 @@ export {
   ClassificationBadgeContext,
 } from './components/classification-badge';
 export {
-  CLASSIFICATION_BADGE_EMPTY_LABELS,
   ClassificationBadgeStyles,
   ClassificationBadgeStylesDefaults,
 } from './components/classification-badge/styles';
@@ -93,7 +92,6 @@ export {
   ClassificationBannerContext,
 } from './components/classification-banner';
 export {
-  CLASSIFICATION_BANNER_EMPTY_LABELS,
   ClassificationBannerStyles,
   ClassificationBannerStylesDefaults,
 } from './components/classification-banner/styles';
