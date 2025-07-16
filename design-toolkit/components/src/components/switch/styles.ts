@@ -21,7 +21,7 @@ export const SwitchStylesDefaults = {
 export const SwitchStyles = tv({
   slots: {
     group:
-      'group flex cursor-pointer dtk-disabled:cursor-not-allowed items-center gap-s',
+      'group flex cursor-pointer items-center gap-s disabled:cursor-not-allowed',
     control: [
       'flex rounded-round bg-transparent p-xxs outline outline-interactive',
       'before:mr-l before:block before:size-m before:rounded-full before:bg-default-dark',

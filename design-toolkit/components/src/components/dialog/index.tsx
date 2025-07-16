@@ -223,7 +223,7 @@ const DialogButton = ({ children, className, ...props }: ButtonProps) => {
       {...props}
       //overriding the style to deal with rac's pressed state inherited
       //from the trigger state
-      className={cn('dtk-pressed:bg-initial', className)}
+      className={cn('pressed:bg-initial', className)}
     >
       {children}
     </Button>

@@ -27,7 +27,7 @@ export const AccordionStyles = tv({
       'fg-default-light flex w-full items-center gap-s rounded-medium p-s outline-none',
     heading: 'grow',
     trigger: [
-      'flex w-full cursor-pointer dtk-disabled:cursor-default items-center rounded-medium outline-none',
+      'flex w-full cursor-pointer items-center rounded-medium outline-none disabled:cursor-default',
     ],
     panel: 'p-s',
   },
