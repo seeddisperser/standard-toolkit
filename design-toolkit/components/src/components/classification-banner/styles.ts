@@ -20,7 +20,8 @@ export const ClassificationBannerStyles = tv({
   base: 'flex select-none items-center justify-center font-medium text-header-m uppercase',
   variants: {
     variant: {
-      missing: `fg-critical bg-classification-missing [&:empty]:before:content-['Missing_Classification']`,
+      // TODO: dont hard code these strings into the styles
+      missing: `fg-critical bg-classification-missing [&:empty]:before:content-['Missing']`,
       unclassified: `fg-default-light bg-classification-unclass [&:empty]:before:content-['Unclassified']`,
       cui: `fg-default-light bg-classification-cui [&:empty]:before:content-['CUI']`,
       confidential: `fg-default-light bg-classification-confidential [&:empty]:before:content-['Confidential']`,

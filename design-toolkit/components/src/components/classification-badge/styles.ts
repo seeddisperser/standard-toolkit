@@ -21,6 +21,7 @@ export const ClassificationBadgeStyles = tv({
   base: 'inline-flex items-center justify-center rounded-full px-s py-xs uppercase',
   variants: {
     variant: {
+      // TODO: dont hard code these strings into the styles
       missing: `fg-critical bg-classification-missing [&:empty]:before:content-['Missing']`,
       unclassified: `fg-default-light bg-classification-unclass [&:empty]:before:content-['Unclassified']`,
       cui: `fg-default-light bg-classification-cui [&:empty]:before:content-['CUI']`,
