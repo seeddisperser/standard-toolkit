@@ -33,14 +33,61 @@ export { Badge } from './components/badge';
 export type { BadgeProps } from './components/badge';
 export { Box } from './components/box';
 export type { BoxProps } from './components/box';
-export { Button } from './components/button';
-export type { ButtonProps } from './components/button';
+export {
+  Button,
+  ButtonContext,
+  LinkButton,
+  LinkButtonContext,
+  ToggleButton,
+  ToggleButtonContext,
+} from './components/button';
+export {
+  ButtonStyles,
+  ButtonStylesDefaults,
+  LinkButtonStyles,
+  ToggleButtonStyles,
+} from './components/button/styles';
+export type {
+  ButtonProps,
+  ButtonProviderProps,
+  ButtonStyleVariantProps,
+  ButtonStyleVariants,
+  LinkButtonProps,
+  LinkButtonProviderProps,
+  ToggleButtonProps,
+  ToggleButtonProviderProps,
+} from './components/button/types';
 export { Checkbox } from './components/checkbox';
 export type { CheckboxGroupProps, CheckboxProps } from './components/checkbox';
-export { Chip, DeletableChip, SelectableChip } from './components/chip';
-export type { ChipListProps, ChipProps } from './components/chip';
-export { ClassificationBadge } from './components/classification-badge';
-export type { ClassificationBadgeProps } from './components/classification-badge';
+export { Chip, ChipContext } from './components/chip';
+export {
+  BaseChipStyles,
+  ChipStyles,
+  ChipStylesDefaults,
+  DeletableChipStyles,
+  SelectableChipStyles,
+} from './components/chip/styles';
+export type {
+  BaseChipProps,
+  ChipListProps,
+  ChipProps,
+  ChipProviderProps,
+  DeletableChipProps,
+  SelectableChipProps,
+} from './components/chip/types';
+export {
+  ClassificationBadge,
+  ClassificationBadgeContext,
+} from './components/classification-badge';
+export {
+  ClassificationBadgeStyles,
+  ClassificationBadgeStylesDefaults,
+} from './components/classification-badge/styles';
+export type {
+  ClassificationBadgeProps,
+  ClassificationBadgeProviderProps,
+  ClassificationBadgeStyleVariants,
+} from './components/classification-badge/types';
 export { ClassificationBanner } from './components/classification-banner';
 export type { ClassificationBannerProps } from './components/classification-banner';
 export { ColorPicker, useColorPickerState } from './components/color-picker';
@@ -51,14 +98,10 @@ export { DateField } from './components/date-field';
 export type { DateFieldProps } from './components/date-field';
 export { Dialog, DialogTitle } from './components/dialog';
 export type { DialogProps } from './components/dialog';
-export { FloatingButton } from './components/floating-button';
-export type { FloatingButtonProps } from './components/floating-button';
 export { Icon, IconContext } from './components/icon';
 export { IconStyles, IconStylesDefaults } from './components/icon/styles';
 export type { IconStyleVariants } from './components/icon/styles';
 export type { IconProps, IconProviderProps } from './components/icon/types';
-export { IconButton } from './components/icon-button';
-export type { IconButtonProps } from './components/icon-button';
 export { Label, LabelContext } from './components/label';
 export { LabelStyles, LabelStylesDefaults } from './components/label/styles';
 export type { LabelStyleVariants } from './components/label/styles';
@@ -106,12 +149,21 @@ export type {
   TabProps,
   TabsProps,
 } from './components/tabs';
-export { TextArea } from './components/text-area';
-export type { TextAreaProps } from './components/text-area';
+export {
+  TextAreaField,
+  TextAreaFieldContext,
+} from './components/text-area-field';
+export {
+  TextAreaStyles,
+  TextAreaStylesDefaults,
+} from './components/text-area-field/styles';
+export type {
+  TextAreaFieldProps,
+  TextAreaFieldProviderProps,
+  TextAreaStyleVariants,
+} from './components/text-area-field/types';
 export { TextField } from './components/text-field';
 export type { TextFieldProps } from './components/text-field';
-export { ToggleIconButton } from './components/toggle-icon-button';
-export type { ToggleIconButtonProps } from './components/toggle-icon-button';
 export { Tooltip, TooltipBody, TooltipTrigger } from './components/tooltip';
 export type {
   TooltipBodyProps,

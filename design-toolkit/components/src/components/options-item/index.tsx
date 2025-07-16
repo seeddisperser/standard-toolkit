@@ -102,10 +102,11 @@ export function OptionsItem<T extends IOptionsItem>({
 
         return (
           <>
-            <span className='flex w-[16px] items-center'>
-              {prefixIcon && <Icon>{prefixIcon}</Icon>}
-            </span>
-
+            {prefixIcon && (
+              <span className='flex w-[16px] items-center'>
+                <Icon>{prefixIcon}</Icon>
+              </span>
+            )}
             <div className='flex min-w-0 flex-auto flex-col gap-xxs'>
               <AriaText className='truncate' slot='label'>
                 {name}
@@ -120,9 +121,11 @@ export function OptionsItem<T extends IOptionsItem>({
                 </AriaText>
               )}
             </div>
-            <span className='flex w-[16px] items-center'>
-              {suffixIcon && <Icon size='small'>{suffixIcon}</Icon>}
-            </span>
+            {suffixIcon && (
+              <span className='flex w-[16px] items-center'>
+                <Icon size='small'>{suffixIcon}</Icon>
+              </span>
+            )}
           </>
         );
       }}
