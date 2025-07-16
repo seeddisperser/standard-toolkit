@@ -18,7 +18,6 @@ import {
   type ContextValue,
   composeRenderProps,
 } from 'react-aria-components';
-import { LabelStyles } from '../label/styles';
 import { SwitchStyles } from './styles';
 import type { SwitchProps, SwitchProviderProps } from './types';
 
@@ -56,10 +55,7 @@ export function Switch({ children, classNames, ...rest }: SwitchProps) {
           {children && (
             <span
               className={label({
-                className: LabelStyles({
-                  className: classNames?.label,
-                  isDisabled,
-                }),
+                className: classNames?.label,
               })}
             >
               {children}
