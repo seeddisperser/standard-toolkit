@@ -10,24 +10,14 @@
  * governing permissions and limitations under the License.
  */
 
-import { TreeContext } from '@/components/tree/index';
-import { TreeStyles, TreeStylesDefaults } from '@/components/tree/styles';
-import { isSlottedContextValue } from '@/lib/utils';
-import {
-  CheckboxSelected,
-  CheckboxUnselected,
-  Hide,
-  Show,
-} from '@accelint/icons';
-import { type ForwardedRef, forwardRef, useContext } from 'react';
+import { TreeStyles } from '@/components/tree/styles';
+import { type ForwardedRef, forwardRef } from 'react';
 import {
   CheckboxContext,
   composeRenderProps,
   useContextProps,
 } from 'react-aria-components';
 import { Checkbox, type CheckboxProps } from '../checkbox';
-import { Icon } from '../icon';
-import { ToggleIconButton } from '../toggle-icon-button';
 
 const { selection } = TreeStyles();
 

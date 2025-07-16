@@ -10,19 +10,20 @@
  * governing permissions and limitations under the License.
  */
 
-import { TreeContext } from '@/components/tree/index';
 import { TreeStyles, TreeStylesDefaults } from '@/components/tree/styles';
 import { isSlottedContextValue } from '@/lib/utils';
 import ChevronDown from '@accelint/icons/chevron-down';
 import ChevronUp from '@accelint/icons/chevron-up';
 import { type ForwardedRef, forwardRef, useContext, useMemo } from 'react';
 import { ButtonContext, useContextProps } from 'react-aria-components';
+import { Button } from '../button';
+import type { ButtonProps } from '../button/types';
 import { Icon } from '../icon';
-import { IconButton, type IconButtonProps } from '../icon-button';
+import { TreeContext } from './';
 
 const { lines, expansion } = TreeStyles();
 
-type ExpandToggleProps = IconButtonProps & {
+type ExpandToggleProps = ButtonProps & {
   isExpanded: boolean;
   hasChildItems: boolean;
 };
@@ -44,13 +45,14 @@ export const ExpandToggle = forwardRef(
     );
 
     return hasChildItems ? (
-      <IconButton
+      <Button
         slot='chevron'
+        variant='icon'
         size={size}
         className={expansion({ isDisabled })}
       >
         <Icon>{isExpanded ? <ChevronDown /> : <ChevronUp />}</Icon>
-      </IconButton>
+      </Button>
     ) : (
       spacer
     );

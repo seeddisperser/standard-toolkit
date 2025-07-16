@@ -20,7 +20,6 @@ import {
 import Warning from '@accelint/icons/warning';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Icon } from '../icon';
-import { IconButton } from '../icon-button';
 import { Tree } from './index';
 import './tree.css';
 import type { TreeNode } from '@/hooks/types';
@@ -224,11 +223,11 @@ function Node({ node }: { node: TreeNode<ItemValues> }) {
                     <Warning />
                   </Icon>
                 )}
-                <IconButton size={size}>
+                <Button variant='icon' size={size}>
                   <Icon>
                     <CenterOn />
                   </Icon>
-                </IconButton>
+                </Button>
               </Tree.Item.Actions>
             </>
           );
@@ -264,16 +263,16 @@ export const DataCollection: Story = {
           <Button size='small' variant='flat' onPress={actions.unselectAll}>
             Unselect All
           </Button>
-          <IconButton size='small' onPress={actions.expandAll}>
+          <Button size='small' variant='icon' onPress={actions.expandAll}>
             <Icon>
               <ExpandAll />
             </Icon>
-          </IconButton>
-          <IconButton size='small' onPress={actions.collapseAll}>
+          </Button>
+          <Button size='small' variant='icon' onPress={actions.collapseAll}>
             <Icon>
               <CollapseAll />
             </Icon>
-          </IconButton>
+          </Button>
         </div>
         <Tree
           {...args}
@@ -375,22 +374,22 @@ export const WithoutManagedState: Story = {
     return (
       <>
         <div className='flex items-center gap-m'>
-          <Button size='small' variant='flat' onPress={handleSelectAll}>
+          <Button size='small' variant='icon' onPress={handleSelectAll}>
             Select All
           </Button>
-          <Button size='small' variant='flat' onPress={handleUnselectAll}>
+          <Button size='small' variant='icon' onPress={handleUnselectAll}>
             Unselect All
           </Button>
-          <IconButton size='small' onPress={handleExpandAll}>
+          <Button size='small' onPress={handleExpandAll}>
             <Icon>
               <ExpandAll />
             </Icon>
-          </IconButton>
-          <IconButton size='small' onPress={handleCollapseAll}>
+          </Button>
+          <Button size='small' onPress={handleCollapseAll}>
             <Icon>
               <CollapseAll />
             </Icon>
-          </IconButton>
+          </Button>
         </div>
         <Tree
           {...args}

@@ -14,8 +14,8 @@ import { Hide, Show } from '@accelint/icons';
 import type { Key } from '@react-types/shared';
 import { useContext } from 'react';
 import { isSlottedContextValue } from '../../lib/utils';
+import { Button } from '../button';
 import { Icon } from '../icon';
-import { IconButton } from '../icon-button';
 import { TreeContext } from './index';
 import { TreeStyles } from './styles';
 
@@ -44,8 +44,12 @@ export const VisibilityToggle = (props: VisibilityToggleProps) => {
   };
 
   return (
-    <IconButton onPress={handlePress} className={visibility({ isViewable })}>
+    <Button
+      variant='icon'
+      onPress={handlePress}
+      className={visibility({ isViewable })}
+    >
       <Icon>{isVisible ? <Show /> : <Hide />}</Icon>
-    </IconButton>
+    </Button>
   );
 };

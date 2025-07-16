@@ -29,8 +29,8 @@ import {
   composeRenderProps,
   useDragAndDrop,
 } from 'react-aria-components';
+import { Button } from '../button';
 import { Icon } from '../icon';
-import { IconButton } from '../icon-button';
 import './tree.css';
 import { TreeStyles, TreeStylesDefaults } from '@/components/tree/styles';
 import { isSlottedContextValue } from '@/lib/utils';
@@ -255,14 +255,15 @@ export function ItemContent({ children }: ItemContentProps) {
               />
             )}
             {allowsDragging && (
-              <IconButton
+              <Button
                 slot='drag'
+                variant='icon'
                 size={variant === 'cozy' ? 'medium' : 'small'}
               >
                 <Icon>
                   <DragVert />
                 </Icon>
-              </IconButton>
+              </Button>
             )}
           </div>
         );
