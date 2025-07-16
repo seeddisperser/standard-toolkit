@@ -251,6 +251,10 @@ function generateTypeScript(tokens) {
       } else {
         tsLines.push(`export const ${camelCaseKey} = '${value}';`);
       }
+    } else if (typeof value === 'string' && value.endsWith('px')) {
+      // Emit pixel values as numbers
+      const num = Number.parseFloat(value.replace('px', ''));
+      tsLines.push(`export const ${camelCaseKey} = ${num};`);
     } else {
       tsLines.push(`export const ${camelCaseKey} = '${value}';`);
     }

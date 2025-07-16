@@ -82,7 +82,7 @@ import { colorsNeutral01, spacingL } from './tokens/generated/tokens';
 // colorsNeutral01 is a tuple: [255, 255, 255, 1]
 const styles = {
   backgroundColor: `rgba(${colorsNeutral01.join(', ')})`,
-  padding: spacingL // still a string, e.g. '16px'
+  padding: spacingL // number, e.g. 16
 };
 ```
 
@@ -105,7 +105,7 @@ const layer = new ScatterplotLayer({
   getRadius: d => d.size,
   getFillColor: () => colorsHighlight01, // Use a token for color
   getLineColor: () => colorsNeutral01,   // Use a token for outline
-  radiusMinPixels: parseInt(spacingL, 10), // Use a spacing token for minimum radius
+  radiusMinPixels: spacingL, // Use a spacing token for minimum radius (number)
   stroked: true,
   lineWidthMinPixels: 2
 });
@@ -200,10 +200,10 @@ The generator will automatically create:
 And TS constants:
 ```typescript
 export const colorsNeutral01 = [255, 255, 255, 1]; // [r, g, b, a] tuple
-export const spacingL = '16px';
+export const spacingL = 16;
 ```
 
 ## TypeScript Types
 
-- Color tokens are exported as `[r, g, b, a]` tuples (type: `number[]`).
-- Spacing, radius, and other tokens remain as strings (e.g., `'16px'`).
+- Color tokens are exported as `[r, g, b, a]` tuples (type: `[number, number, number, number]`).
+- Spacing, radius, and other pixel tokens are exported as numbers (e.g., `16`).
