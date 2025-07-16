@@ -9,19 +9,21 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-
 'use client';
+
 import 'client-only';
 import { createContext } from 'react';
 import {
   Switch as AriaSwitch,
   type ContextValue,
   composeRenderProps,
+  useContextProps,
 } from 'react-aria-components';
 import { SwitchStyles } from './styles';
 import type { SwitchProps, SwitchProviderProps } from './types';
 
-const { group, control, label } = SwitchStyles();
+// "switch" is a reserved term in JS
+const { switch: switchClassNames, control, label } = SwitchStyles();
 
 export const SwitchContext =
   createContext<ContextValue<SwitchProps, HTMLLabelElement>>(null);
@@ -33,31 +35,24 @@ function SwitchProvider({ children, ...props }: SwitchProviderProps) {
 }
 SwitchProvider.displayName = 'Switch.Provider';
 
-export function Switch({ children, classNames, ...rest }: SwitchProps) {
+export function Switch({ ref, ...props }: SwitchProps) {
+  [props, ref] = useContextProps(props, ref ?? null, SwitchContext);
+
+  const { children, classNames, ...rest } = props;
+
   return (
     <AriaSwitch
       {...rest}
-      className={composeRenderProps(
-        classNames?.group,
-        (className, { isDisabled, isSelected }) =>
-          group({ className, isDisabled, isSelected }),
+      ref={ref}
+      className={composeRenderProps(classNames?.switch, (className) =>
+        switchClassNames({ className }),
       )}
     >
-      {composeRenderProps(children, (children, { isDisabled, isSelected }) => (
+      {composeRenderProps(children, (children) => (
         <>
-          <div
-            className={control({
-              className: classNames?.control,
-              isDisabled,
-              isSelected,
-            })}
-          />
+          <span className={control({ className: classNames?.control })} />
           {children && (
-            <span
-              className={label({
-                className: classNames?.label,
-              })}
-            >
+            <span className={label({ className: classNames?.label })}>
               {children}
             </span>
           )}

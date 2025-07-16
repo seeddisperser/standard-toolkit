@@ -145,8 +145,7 @@ export type { SearchFieldProps } from './components/search-field';
 export { RangeSlider, Slider } from './components/slider';
 export type { RangeSliderProps, SliderProps } from './components/slider';
 export { Switch, SwitchContext } from './components/switch';
-export { SwitchStyles, SwitchStylesDefaults } from './components/switch/styles';
-export type { SwitchStyleVariants } from './components/switch/styles';
+export { SwitchStyles } from './components/switch/styles';
 export type {
   SwitchProps,
   SwitchProviderProps,
