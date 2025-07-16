@@ -22,7 +22,7 @@ import type {
 } from './types';
 
 export const ClassificationBannerContext =
-  createContext<ContextValue<ClassificationBannerProps, HTMLSpanElement>>(null);
+  createContext<ContextValue<ClassificationBannerProps, HTMLDivElement>>(null);
 
 function ClassificationBannerProvider({
   children,
@@ -54,7 +54,7 @@ export function ClassificationBanner({
   } = props;
 
   return (
-    <span
+    <div
       {...rest}
       className={ClassificationBannerStyles({
         variant,
@@ -62,7 +62,7 @@ export function ClassificationBanner({
       })}
     >
       {children}
-    </span>
+    </div>
   );
 }
 ClassificationBanner.displayName = 'ClassificationBanner';

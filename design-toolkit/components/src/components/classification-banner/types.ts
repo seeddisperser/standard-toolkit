@@ -19,8 +19,8 @@ export type ClassificationBannerStyleVariants = VariantProps<
 >;
 
 export type ClassificationBannerProps = ClassificationBannerStyleVariants &
-  RefAttributes<HTMLSpanElement> &
-  PropsWithChildren<HTMLAttributes<HTMLSpanElement>>;
+  RefAttributes<HTMLDivElement> &
+  PropsWithChildren<HTMLAttributes<HTMLDivElement>>;
 
 export type ClassificationBannerProviderProps =
   PropsWithChildren<ClassificationBannerProps>;
