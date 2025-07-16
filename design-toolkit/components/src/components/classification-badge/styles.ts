@@ -22,13 +22,19 @@ export const ClassificationBadgeStyles = tv({
   variants: {
     variant: {
       // TODO: dont hard code these strings into the styles
-      missing: `fg-critical bg-classification-missing [&:empty]:before:content-['Missing']`,
-      unclassified: `fg-default-light bg-classification-unclass [&:empty]:before:content-['Unclassified']`,
-      cui: `fg-default-light bg-classification-cui [&:empty]:before:content-['CUI']`,
-      confidential: `fg-default-light bg-classification-confidential [&:empty]:before:content-['Confidential']`,
-      secret: `fg-default-light bg-classification-secret [&:empty]:before:content-['Secret']`,
-      'top-secret': `fg-inverse-light bg-classification-top-secret [&:empty]:before:content-['Top_Secret']`,
-      'ts-sci': `fg-inverse-light bg-classification-ts-sci [&:empty]:before:content-['TS/SCI']`,
+      missing:
+        "fg-critical bg-classification-missing [&:empty]:before:content-['Missing']",
+      unclassified:
+        "fg-default-light bg-classification-unclass [&:empty]:before:content-['Unclassified']",
+      cui: "fg-default-light bg-classification-cui [&:empty]:before:content-['CUI']",
+      confidential:
+        "fg-default-light bg-classification-confidential [&:empty]:before:content-['Confidential']",
+      secret:
+        "fg-default-light bg-classification-secret [&:empty]:before:content-['Secret']",
+      'top-secret':
+        "fg-inverse-light bg-classification-top-secret [&:empty]:before:content-['Top_Secret']",
+      'ts-sci':
+        "fg-inverse-light bg-classification-ts-sci [&:empty]:before:content-['TS/SCI']",
     },
     size: {
       small: 'text-header-xs',
