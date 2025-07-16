@@ -6,13 +6,11 @@
     "github.remotehub",
     "ms-vscode.remote-repositories",
     "github.vscode-pull-request-github",
-    "gitlab.gitlab-workflow",
-    "eamodio.gitlens",
     "mhutchie.git-graph",
     "streetsidesoftware.code-spell-checker",
     "bradlc.vscode-tailwindcss",
     "natqe.reload",
     "johnpapa.vscode-peacock",
-    "anseki.vscode-color"
+    "kamikillerto.vscode-colorize"
   ]
 }
