@@ -12,7 +12,7 @@
 
 import { isTextDropItem } from '@react-aria/dnd';
 import type { DropItem, Key, TextDropItem } from '@react-types/shared';
-import type { TreeNode, TreeRef } from './types';
+import type { TreeNode, TreeRef } from '../types';
 
 export async function processDroppedItems(
   items: DropItem[],
