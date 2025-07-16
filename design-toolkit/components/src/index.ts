@@ -301,4 +301,4 @@ export {
   typographyHeaderXxlHeight,
   typographyHeaderXxlSize,
 } from './tokens/generated/tokens';
-export type { DesignToken } from './tokens/generated/tokens';
+export type { RGBAColor } from './tokens/generated/tokens';

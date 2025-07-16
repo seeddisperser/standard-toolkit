@@ -23,7 +23,6 @@ src/tokens/
 ├── generated/          # Generated files (auto-created)
 │   ├── tokens.css      # CSS variables
 │   └── tokens.ts       # TypeScript constants and types
-└── example-usage.tsx   # Example usage
 ```
 
 ## Usage
@@ -80,29 +79,50 @@ Import the generated constants:
 ```typescript
 import { colorsNeutral01, spacingL } from './tokens/generated/tokens';
 
+// colorsNeutral01 is a tuple: [255, 255, 255, 1]
 const styles = {
-  backgroundColor: colorsNeutral01,
-  padding: spacingL
+  backgroundColor: `rgba(${colorsNeutral01.join(', ')})`,
+  padding: spacingL // still a string, e.g. '16px'
 };
 ```
 
 ### 5. Using Tokens in Components
 
 ```tsx
-import { tokens } from './generator';
+import DeckGL from '@deck.gl/react';
+import { ScatterplotLayer } from '@deck.gl/layers';
+import { colorsNeutral01, colorsHighlight01, spacingL } from './tokens/generated/tokens';
 
-function MyComponent() {
+const data = [
+  { position: [-122.45, 37.78], size: 100 },
+  { position: [-122.46, 37.76], size: 200 }
+];
+
+const layer = new ScatterplotLayer({
+  id: 'scatter',
+  data,
+  getPosition: d => d.position,
+  getRadius: d => d.size,
+  getFillColor: () => colorsHighlight01, // Use a token for color
+  getLineColor: () => colorsNeutral01,   // Use a token for outline
+  radiusMinPixels: parseInt(spacingL, 10), // Use a spacing token for minimum radius
+  stroked: true,
+  lineWidthMinPixels: 2
+});
+
+export default function MyDeckGLMap() {
   return (
-    <div 
-      style={{ 
-        backgroundColor: tokens.colors.neutral['01'],
-        padding: tokens.spacing.l 
+    <DeckGL
+      initialViewState={{
+        longitude: -122.45,
+        latitude: 37.78,
+        zoom: 12
       }}
-    >
-      Content
-    </div>
+      controller={true}
+      layers={[layer]}
+    />
   );
-};
+}
 ```
 
 ## Build Integration
@@ -112,7 +132,7 @@ The token generation is automatically integrated into the build process:
 ```json
 {
   "scripts": {
-    "build": "pnpm generate:tokens && pnpm tsup && pnpm build:css"
+    "build": "pnpm gen:tokens && pnpm tsup && pnpm build:css"
   }
 }
 ```
@@ -179,6 +199,11 @@ The generator will automatically create:
 
 And TS constants:
 ```typescript
-export const colorsNeutral01 = '#ffffff';
+export const colorsNeutral01 = [255, 255, 255, 1]; // [r, g, b, a] tuple
 export const spacingL = '16px';
-``` 
+```
+
+## TypeScript Types
+
+- Color tokens are exported as `[r, g, b, a]` tuples (type: `number[]`).
+- Spacing, radius, and other tokens remain as strings (e.g., `'16px'`).

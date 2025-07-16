@@ -110,10 +110,15 @@ function generateCSS(tokens) {
 }
 
 function extractVarReference(value) {
+  // Check if the value is a string
   if (typeof value !== 'string') {
     return null;
   }
+
+  // Check if the value is a var(--...) reference
   const varMatch = value.match(/^var\(--([a-zA-Z0-9-_]+)\)$/);
+
+  // Return the matched variable name or null if not found
   return varMatch ? varMatch[1] : null;
 }
 
@@ -149,21 +154,106 @@ function resolveReferences(flattened) {
   return resolved;
 }
 
+function hexToRgbaTuple(hex) {
+  let c = hex.replace('#', '');
+
+  // Convert shorthand hex to full hex
+  if (c.length === 3) {
+    c = c
+      .split('')
+      .map((x) => x + x)
+      .join('');
+  }
+
+  // Add alpha channel if not present
+  if (c.length === 6) {
+    c += 'ff';
+  }
+
+  // Ensure we have 8 characters (6 for hex + 2 for alpha)
+  if (c.length !== 8) {
+    throw new Error(`Invalid hex color: ${hex}`);
+  }
+
+  // Convert hex to RGBA tuple
+  const num = Number.parseInt(c, 16);
+  const r = (num >> 24) & 0xff;
+  const g = (num >> 16) & 0xff;
+  const b = (num >> 8) & 0xff;
+  const a = Math.round(((num & 0xff) / 255) * 1000) / 1000;
+
+  // Return the RGBA tuple
+  return [r, g, b, a];
+}
+
+function rgbaStringToRgbaTuple(rgbaStr) {
+  // Matches rgba(0, 0, 0, 0.08) or rgba(0,0,0,0.08)
+  // Extract the RGBA values from the string
+  const match = rgbaStr.match(
+    /^rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*([\d.]+)\s*\)$/i,
+  );
+
+  // Return null if the string does not match the pattern
+  if (!match) {
+    return null;
+  }
+
+  // Return the RGBA tuple
+  const [, r, g, b, a] = match;
+  return [
+    Number.parseInt(r, 10),
+    Number.parseInt(g, 10),
+    Number.parseInt(b, 10),
+    Number.parseFloat(a),
+  ];
+}
+
+function isHexColor(value) {
+  return (
+    typeof value === 'string' &&
+    /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(value)
+  );
+}
+
+function isRgbaString(value) {
+  // Check if the value is a string and matches the rgba string pattern
+  return (
+    typeof value === 'string' &&
+    /^rgba\(\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*\d{1,3}\s*,\s*[\d.]+\s*\)$/i.test(
+      value,
+    )
+  );
+}
+
 function generateTypeScript(tokens) {
   const flattened = flattenTokens(tokens);
   const resolved = resolveReferences(flattened);
   const tsLines = [];
 
-  // Generate TypeScript types
-  const tokenKeys = Object.keys(resolved).map((key) => toCamelCase(key));
-  tsLines.push('export type DesignToken =');
-  tsLines.push(`  | ${tokenKeys.map((key) => `'${key}'`).join('\n  | ')};`);
+  tsLines.push('');
+  tsLines.push('export type RGBAColor = [number, number, number, number];');
   tsLines.push('');
 
-  // Generate TypeScript constants (no type annotation)
+  // Generate TypeScript constants (with RGBAColor type for colors)
   for (const [key, value] of Object.entries(resolved)) {
     const camelCaseKey = toCamelCase(key);
-    tsLines.push(`export const ${camelCaseKey} = '${value}';`);
+    if (isHexColor(value)) {
+      const rgba = hexToRgbaTuple(value);
+      tsLines.push(
+        `export const ${camelCaseKey}: RGBAColor = [${rgba.join(', ')}];`,
+      );
+    } else if (isRgbaString(value)) {
+      const rgba = rgbaStringToRgbaTuple(value);
+      if (rgba) {
+        tsLines.push(
+          `export const ${camelCaseKey}: RGBAColor = [${rgba.join(', ')}];`,
+        );
+      } else {
+        tsLines.push(`export const ${camelCaseKey} = '${value}';`);
+      }
+    } else {
+      tsLines.push(`export const ${camelCaseKey} = '${value}';`);
+    }
   }
 
   return tsLines.join('\n');

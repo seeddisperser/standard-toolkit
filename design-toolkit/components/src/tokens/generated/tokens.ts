@@ -10,188 +10,71 @@
  * governing permissions and limitations under the License.
  */
 
-export type DesignToken =
-  | 'colorsNeutral10'
-  | 'colorsNeutral11'
-  | 'colorsNeutral01'
-  | 'colorsNeutral02'
-  | 'colorsNeutral03'
-  | 'colorsNeutral04'
-  | 'colorsNeutral05'
-  | 'colorsNeutral06'
-  | 'colorsNeutral07'
-  | 'colorsNeutral08'
-  | 'colorsNeutral09'
-  | 'colorsAlphaBlack01'
-  | 'colorsAlphaBlack02'
-  | 'colorsAlphaBlack03'
-  | 'colorsAlphaWhite01'
-  | 'colorsAlphaWhite02'
-  | 'colorsAlphaWhite03'
-  | 'colorsHighlightPrimary01'
-  | 'colorsHighlightPrimary02'
-  | 'colorsHighlightPrimary03'
-  | 'colorsHighlightPrimary04'
-  | 'colorsHighlightPrimary05'
-  | 'colorsHighlightSecondary01'
-  | 'colorsHighlightSecondary02'
-  | 'colorsHighlightSecondary03'
-  | 'colorsHighlightSecondary04'
-  | 'colorsHighlightSecondary05'
-  | 'colorsHighlightTertiary01'
-  | 'colorsHighlightTertiary02'
-  | 'colorsHighlightTertiary03'
-  | 'colorsHighlightTertiary04'
-  | 'colorsHighlightTertiary05'
-  | 'colorsUtilityInfo01'
-  | 'colorsUtilityInfo02'
-  | 'colorsUtilityInfo03'
-  | 'colorsUtilityInfo04'
-  | 'colorsUtilityInfo05'
-  | 'colorsUtilityAdvisory01'
-  | 'colorsUtilityAdvisory02'
-  | 'colorsUtilityAdvisory03'
-  | 'colorsUtilityAdvisory04'
-  | 'colorsUtilityAdvisory05'
-  | 'colorsUtilityNormal01'
-  | 'colorsUtilityNormal02'
-  | 'colorsUtilityNormal03'
-  | 'colorsUtilityNormal04'
-  | 'colorsUtilityNormal05'
-  | 'colorsUtilitySerious01'
-  | 'colorsUtilitySerious02'
-  | 'colorsUtilitySerious03'
-  | 'colorsUtilitySerious04'
-  | 'colorsUtilitySerious05'
-  | 'colorsUtilityCritical01'
-  | 'colorsUtilityCritical02'
-  | 'colorsUtilityCritical03'
-  | 'colorsUtilityCritical04'
-  | 'colorsUtilityCritical05'
-  | 'colorsClassificationUnclass'
-  | 'colorsClassificationCui'
-  | 'colorsClassificationConfidential'
-  | 'colorsClassificationSecret'
-  | 'colorsClassificationTopSecret'
-  | 'colorsClassificationTsSci'
-  | 'typographyHeaderXxlSize'
-  | 'typographyHeaderXxlHeight'
-  | 'typographyHeaderXlSize'
-  | 'typographyHeaderXlHeight'
-  | 'typographyHeaderLSize'
-  | 'typographyHeaderLHeight'
-  | 'typographyHeaderMSize'
-  | 'typographyHeaderMHeight'
-  | 'typographyHeaderSSize'
-  | 'typographyHeaderSHeight'
-  | 'typographyHeaderXsSize'
-  | 'typographyHeaderXsHeight'
-  | 'typographyBodyLSize'
-  | 'typographyBodyLHeight'
-  | 'typographyBodyMSize'
-  | 'typographyBodyMHeight'
-  | 'typographyBodySSize'
-  | 'typographyBodySHeight'
-  | 'typographyBodyXsSize'
-  | 'typographyBodyXsHeight'
-  | 'typographyBodyXxsSize'
-  | 'typographyBodyXxsHeight'
-  | 'typographyButtonLSize'
-  | 'typographyButtonLHeight'
-  | 'typographyButtonMSize'
-  | 'typographyButtonMHeight'
-  | 'typographyButtonSSize'
-  | 'typographyButtonSHeight'
-  | 'typographyButtonXsSize'
-  | 'typographyButtonXsHeight'
-  | 'spacing0'
-  | 'spacingNone'
-  | 'spacingXxs'
-  | 'spacingXs'
-  | 'spacingS'
-  | 'spacingM'
-  | 'spacingL'
-  | 'spacingXl'
-  | 'spacingXxl'
-  | 'spacingOversized'
-  | 'radiusNone'
-  | 'radiusSmall'
-  | 'radiusMedium'
-  | 'radiusLarge'
-  | 'radiusRound'
-  | 'shadowsElevationDefault'
-  | 'shadowsElevationOverlay'
-  | 'shadowsElevationRaised'
-  | 'fontsPrimary'
-  | 'fontsDisplay'
-  | 'iconsSizeL'
-  | 'iconsSizeM'
-  | 'iconsSizeS'
-  | 'iconsSizeXs';
+export type RGBAColor = [number, number, number, number];
 
-export const colorsNeutral10 = '#0b0b0b';
-export const colorsNeutral11 = '#FF0000';
-export const colorsNeutral01 = '#ffffff';
-export const colorsNeutral02 = '#e6e6e6';
-export const colorsNeutral03 = '#898989';
-export const colorsNeutral04 = '#686868';
-export const colorsNeutral05 = '#565656';
-export const colorsNeutral06 = '#424242';
-export const colorsNeutral07 = '#383838';
-export const colorsNeutral08 = '#2f2f31';
-export const colorsNeutral09 = '#222222';
-export const colorsAlphaBlack01 = 'rgba(0, 0, 0, 0.08)';
-export const colorsAlphaBlack02 = 'rgba(0, 0, 0, 0.4)';
-export const colorsAlphaBlack03 = 'rgba(0, 0, 0, 0.8)';
-export const colorsAlphaWhite01 = 'rgba(255, 255, 255, 0.08)';
-export const colorsAlphaWhite02 = 'rgba(255, 255, 255, 0.4)';
-export const colorsAlphaWhite03 = 'rgba(255, 255, 255, 0.8)';
-export const colorsHighlightPrimary01 = '#c9fdef';
-export const colorsHighlightPrimary02 = '#7df9d8';
-export const colorsHighlightPrimary03 = '#28f5be';
-export const colorsHighlightPrimary04 = '#189372';
-export const colorsHighlightPrimary05 = '#0a3d30';
-export const colorsHighlightSecondary01 = '#c9f6fd';
-export const colorsHighlightSecondary02 = '#7ee9f9';
-export const colorsHighlightSecondary03 = '#28dcf5';
-export const colorsHighlightSecondary04 = '#188493';
-export const colorsHighlightSecondary05 = '#0a373d';
-export const colorsHighlightTertiary01 = '#f9c5e2';
-export const colorsHighlightTertiary02 = '#f174b9';
-export const colorsHighlightTertiary03 = '#e8178a';
-export const colorsHighlightTertiary04 = '#8a0e53';
-export const colorsHighlightTertiary05 = '#3a0623';
-export const colorsUtilityInfo01 = '#e6e6e6';
-export const colorsUtilityInfo02 = '#898989';
-export const colorsUtilityInfo03 = '#686868';
-export const colorsUtilityInfo04 = '#424244';
-export const colorsUtilityInfo05 = '#222222';
-export const colorsUtilityAdvisory01 = '#e0edff';
-export const colorsUtilityAdvisory02 = '#a1caff';
-export const colorsUtilityAdvisory03 = '#62a6ff';
-export const colorsUtilityAdvisory04 = '#3a6499';
-export const colorsUtilityAdvisory05 = '#142133';
-export const colorsUtilityNormal01 = '#d6f6e5';
-export const colorsUtilityNormal02 = '#82e4b2';
-export const colorsUtilityNormal03 = '#30d27e';
-export const colorsUtilityNormal04 = '#1c7e4c';
-export const colorsUtilityNormal05 = '#0a2a19';
-export const colorsUtilitySerious01 = '#feedcc';
-export const colorsUtilitySerious02 = '#fdc865';
-export const colorsUtilitySerious03 = '#fca400';
-export const colorsUtilitySerious04 = '#976201';
-export const colorsUtilitySerious05 = '#322100';
-export const colorsUtilityCritical01 = '#f6d3d2';
-export const colorsUtilityCritical02 = '#e57b77';
-export const colorsUtilityCritical03 = '#d4231d';
-export const colorsUtilityCritical04 = '#7f1511';
-export const colorsUtilityCritical05 = '#2a0706';
-export const colorsClassificationUnclass = '#007A33';
-export const colorsClassificationCui = '#502b85';
-export const colorsClassificationConfidential = '#0033a0';
-export const colorsClassificationSecret = '#c8102e';
-export const colorsClassificationTopSecret = '#ff8c00';
-export const colorsClassificationTsSci = '#fce83a';
+export const colorsNeutral10: RGBAColor = [11, 11, 11, 1];
+export const colorsNeutral11: RGBAColor = [255, 0, 0, 1];
+export const colorsNeutral01: RGBAColor = [255, 255, 255, 1];
+export const colorsNeutral02: RGBAColor = [230, 230, 230, 1];
+export const colorsNeutral03: RGBAColor = [137, 137, 137, 1];
+export const colorsNeutral04: RGBAColor = [104, 104, 104, 1];
+export const colorsNeutral05: RGBAColor = [86, 86, 86, 1];
+export const colorsNeutral06: RGBAColor = [66, 66, 66, 1];
+export const colorsNeutral07: RGBAColor = [56, 56, 56, 1];
+export const colorsNeutral08: RGBAColor = [47, 47, 49, 1];
+export const colorsNeutral09: RGBAColor = [34, 34, 34, 1];
+export const colorsAlphaBlack01: RGBAColor = [0, 0, 0, 0.08];
+export const colorsAlphaBlack02: RGBAColor = [0, 0, 0, 0.4];
+export const colorsAlphaBlack03: RGBAColor = [0, 0, 0, 0.8];
+export const colorsAlphaWhite01: RGBAColor = [255, 255, 255, 0.08];
+export const colorsAlphaWhite02: RGBAColor = [255, 255, 255, 0.4];
+export const colorsAlphaWhite03: RGBAColor = [255, 255, 255, 0.8];
+export const colorsHighlightPrimary01: RGBAColor = [201, 253, 239, 1];
+export const colorsHighlightPrimary02: RGBAColor = [125, 249, 216, 1];
+export const colorsHighlightPrimary03: RGBAColor = [40, 245, 190, 1];
+export const colorsHighlightPrimary04: RGBAColor = [24, 147, 114, 1];
+export const colorsHighlightPrimary05: RGBAColor = [10, 61, 48, 1];
+export const colorsHighlightSecondary01: RGBAColor = [201, 246, 253, 1];
+export const colorsHighlightSecondary02: RGBAColor = [126, 233, 249, 1];
+export const colorsHighlightSecondary03: RGBAColor = [40, 220, 245, 1];
+export const colorsHighlightSecondary04: RGBAColor = [24, 132, 147, 1];
+export const colorsHighlightSecondary05: RGBAColor = [10, 55, 61, 1];
+export const colorsHighlightTertiary01: RGBAColor = [249, 197, 226, 1];
+export const colorsHighlightTertiary02: RGBAColor = [241, 116, 185, 1];
+export const colorsHighlightTertiary03: RGBAColor = [232, 23, 138, 1];
+export const colorsHighlightTertiary04: RGBAColor = [138, 14, 83, 1];
+export const colorsHighlightTertiary05: RGBAColor = [58, 6, 35, 1];
+export const colorsUtilityInfo01: RGBAColor = [230, 230, 230, 1];
+export const colorsUtilityInfo02: RGBAColor = [137, 137, 137, 1];
+export const colorsUtilityInfo03: RGBAColor = [104, 104, 104, 1];
+export const colorsUtilityInfo04: RGBAColor = [66, 66, 68, 1];
+export const colorsUtilityInfo05: RGBAColor = [34, 34, 34, 1];
+export const colorsUtilityAdvisory01: RGBAColor = [224, 237, 255, 1];
+export const colorsUtilityAdvisory02: RGBAColor = [161, 202, 255, 1];
+export const colorsUtilityAdvisory03: RGBAColor = [98, 166, 255, 1];
+export const colorsUtilityAdvisory04: RGBAColor = [58, 100, 153, 1];
+export const colorsUtilityAdvisory05: RGBAColor = [20, 33, 51, 1];
+export const colorsUtilityNormal01: RGBAColor = [214, 246, 229, 1];
+export const colorsUtilityNormal02: RGBAColor = [130, 228, 178, 1];
+export const colorsUtilityNormal03: RGBAColor = [48, 210, 126, 1];
+export const colorsUtilityNormal04: RGBAColor = [28, 126, 76, 1];
+export const colorsUtilityNormal05: RGBAColor = [10, 42, 25, 1];
+export const colorsUtilitySerious01: RGBAColor = [254, 237, 204, 1];
+export const colorsUtilitySerious02: RGBAColor = [253, 200, 101, 1];
+export const colorsUtilitySerious03: RGBAColor = [252, 164, 0, 1];
+export const colorsUtilitySerious04: RGBAColor = [151, 98, 1, 1];
+export const colorsUtilitySerious05: RGBAColor = [50, 33, 0, 1];
+export const colorsUtilityCritical01: RGBAColor = [246, 211, 210, 1];
+export const colorsUtilityCritical02: RGBAColor = [229, 123, 119, 1];
+export const colorsUtilityCritical03: RGBAColor = [212, 35, 29, 1];
+export const colorsUtilityCritical04: RGBAColor = [127, 21, 17, 1];
+export const colorsUtilityCritical05: RGBAColor = [42, 7, 6, 1];
+export const colorsClassificationUnclass: RGBAColor = [0, 122, 51, 1];
+export const colorsClassificationCui: RGBAColor = [80, 43, 133, 1];
+export const colorsClassificationConfidential: RGBAColor = [0, 51, 160, 1];
+export const colorsClassificationSecret: RGBAColor = [200, 16, 46, 1];
+export const colorsClassificationTopSecret: RGBAColor = [255, 140, 0, 1];
+export const colorsClassificationTsSci: RGBAColor = [252, 232, 58, 1];
 export const typographyHeaderXxlSize = '32px';
 export const typographyHeaderXxlHeight = '40px';
 export const typographyHeaderXlSize = '24px';
