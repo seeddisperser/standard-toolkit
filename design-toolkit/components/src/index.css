@@ -14,10 +14,6 @@
 @import '@fontsource/roboto-flex';
 @import '@fontsource/roboto-mono';
 @import 'tailwindcss';
-@plugin 'tailwindcss-react-aria-components' {
-  prefix: 'dtk'
-}
-@source './components/foundation';
 
 /* Import generated tokens */
 @import './tokens/generated/tokens.css';
@@ -126,18 +122,88 @@
   --icon-size-xs: var(--spacing-m);
 }
 
-/** Override default enable: https://github.com/tailwindlabs/tailwindcss/discussions/8668 **/
-@custom-variant enabled {
-  &:not([disabled], [aria-disabled="true"], [data-disabled="true"]), &:enabled {
-    @slot;
-  }
-}
+/** Recreating https://github.com/adobe/react-spectrum/blob/main/packages/tailwindcss-react-aria-components/src/index.js without RAC selectors (:where([data-rac])) or prefix and combining with native selectors **/
+@custom-variant placement-left { &[data-placement="left"] { @slot }}
+@custom-variant placement-right { &[data-placement="right"] { @slot }}
+@custom-variant placement-top { &[data-placement="top"] { @slot }}
+@custom-variant placement-bottom { &[data-placement="bottom"] { @slot }}
 
-@custom-variant disabled {
-  &:is([disabled], [aria-disabled="true"], [data-disabled="true"]), &:disabled {
-    @slot;
-  }
-}
+@custom-variant type-literal { &[data-type="literal"] { @slot }}
+@custom-variant type-year { &[data-type="year"] { @slot }}
+@custom-variant type-month { &[data-type="month"] { @slot }}
+@custom-variant type-day { &[data-type="day"] { @slot }}
+
+@custom-variant layout-grid { &[data-layout="grid"] { @slot }}
+@custom-variant layout-stack { &[data-layout="stack"] { @slot }}
+
+@custom-variant orientation-horizontal { &[data-orientation="horizontal"] { @slot }}
+@custom-variant orientation-vertical { &[data-orientation="vertical"] { @slot }}
+
+@custom-variant selection-single { &[data-selection-mode="single"] { @slot }}
+@custom-variant selection-multiple { &[data-selection-mode="multiple"] { @slot }}
+
+@custom-variant resizable-right { &[data-resizable-direction="right"] { @slot }}
+@custom-variant resizable-left { &[data-resizable-direction="left"] { @slot }}
+@custom-variant resizable-both { &[data-resizable-direction="both"] { @slot }}
+
+@custom-variant sort-ascending { &[data-sort-direction="ascending"] { @slot }}
+@custom-variant sort-descending { &[data-sort-direction="descending"] { @slot }}
+
+@custom-variant allows-removing { &[data-allows-removing] { @slot }}
+@custom-variant allows-sorting { &[data-allows-sorting] { @slot }}
+@custom-variant allows-dragging { &[data-allows-dragging] { @slot }}
+
+@custom-variant has-submenu { &[data-has-submenu] { @slot }}
+@custom-variant has-child-items { &[data-has-child-items] { @slot }}
+
+@custom-variant open { &:is([open], [data-open]), &:open { @slot }}
+@custom-variant expanded { &:is([expanded], [data-expanded]) { @slot }}
+
+@custom-variant entering { &[data-entering] { @slot }}
+@custom-variant exiting { &[data-exiting] { @slot }}
+
+@custom-variant indeterminate { &[data-indeterminate], &:indeterminate { @slot }}
+
+@custom-variant placeholder-shown { &[data-placeholder], &:placeholder-shown { @slot }}
+
+@custom-variant current { &[data-current] { @slot }}
+
+@custom-variant optional { &:not([required], [data-required]), &:optional { @slot }}
+@custom-variant required { &:is([required], [data-required]), &:required { @slot }}
+
+@custom-variant unavailable { &[data-unavailable] { @slot }}
+
+@custom-variant invalid { &:is([invalid], [data-invalid]), &:invalid { @slot }}
+
+@custom-variant read-only { &:is([readonly], [data-readonly]), &:read-only { @slot }}
+
+@custom-variant outside-month { &[data-outside-month] { @slot }}
+@custom-variant outside-visible-range { &[data-outside-visible-range] { @slot }}
+
+@custom-variant pending { &[data-pending] { @slot }}
+
+@custom-variant empty { &[data-empty], &:empty { @slot }}
+
+@custom-variant focus-within { &[data-focus-within], &:focus-within { @slot }}
+
+@custom-variant hover { &[data-hovered], &:hover { @slot }}
+
+@custom-variant focus { &[data-focused], &:focus { @slot }}
+@custom-variant focus-visible { &[data-focus-visible], &:focus-visible { @slot }}
+
+@custom-variant pressed { &[data-pressed], &:active { @slot }}
+
+@custom-variant selected { &[data-selected] { @slot }}
+@custom-variant selection-start { &[data-selection-start] { @slot }}
+@custom-variant selection-end { &[data-selection-end] { @slot }}
+
+@custom-variant dragging { &[data-dragging] { @slot }}
+@custom-variant drop-target { &[data-drop-target] { @slot }}
+
+@custom-variant resizing { &[data-resizing] { @slot }}
+
+@custom-variant enabled { &:not([disabled], [data-disabled]), &:enabled { @slot }}
+@custom-variant disabled { &:is([disabled], [data-disabled]), &:disabled { @slot }}
 
 @utility text-header-xxl {
   font-size: var(--typography-header-xxl-size);

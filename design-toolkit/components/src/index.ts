@@ -50,7 +50,6 @@ export {
 export type {
   ButtonProps,
   ButtonProviderProps,
-  ButtonStyleVariantProps,
   ButtonStyleVariants,
   LinkButtonProps,
   LinkButtonProviderProps,
