@@ -24,7 +24,7 @@ import { Label } from '../label';
 import { RadioStyles } from './styles';
 import type { RadioGroupProps, RadioProps } from './types';
 
-const { group, radio, control, label } = RadioStyles();
+const { group, groupLabel, radio, control, label } = RadioStyles();
 
 export const RadioContext =
   createContext<ContextValue<RadioGroupProps, HTMLDivElement>>(null);
@@ -49,7 +49,7 @@ function RadioGroup({ ref, ...props }: RadioGroupProps) {
         <>
           {label && (
             <Label
-              className={classNames?.label}
+              className={groupLabel({ className: classNames?.label })}
               isDisabled={isDisabled}
               isRequired={isRequired}
             >

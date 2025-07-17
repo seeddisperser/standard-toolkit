@@ -17,9 +17,16 @@ const meta: Meta<typeof Radio.Group> = {
   title: 'Components/Radio',
   component: Radio.Group,
   args: {
+    orientation: 'vertical',
     isDisabled: false,
     isRequired: false,
     label: 'Header',
+  },
+  argTypes: {
+    orientation: {
+      control: 'select',
+      options: ['horizontal', 'vertical'],
+    },
   },
   parameters: {
     controls: {

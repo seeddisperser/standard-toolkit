@@ -14,24 +14,29 @@ import { tv } from '@/lib/utils';
 
 export const RadioStyles = tv({
   slots: {
-    group: ['flex gap-xs', 'orientation-vertical:flex-col'],
+    group: [
+      'group/radio-group flex gap-xs',
+      'orientation-horizontal:flex-wrap',
+      'orientation-vertical:flex-col',
+    ],
+    groupLabel: 'w-full',
     radio: [
-      'group flex cursor-pointer items-center gap-m',
+      'group/radio flex cursor-pointer items-center gap-m group-orientation-horizontal/radio-group:grow group-orientation-horizontal/radio-group:basis-1/3',
       'disabled:cursor-not-allowed',
     ],
     control: [
       'my-xxs flex size-l items-center justify-center rounded-full outline outline-interactive before:block before:size-s before:rounded-full',
-      'group-enabled:group-focus:outline-interactive-hover',
-      'group-enabled:group-hover:outline-interactive-hover',
-      'group-enabled:group-selected:outline-highlight group-enabled:group-selected:before:bg-highlight',
-      'group-enabled:group-selected:group-focus:outline-interactive-hover',
-      'group-enabled:group-selected:group-hover:outline-interactive-hover',
-      'group-disabled:outline-interactive-disabled',
-      'group-disabled:group-selected:before:bg-interactive-disabled',
+      'group-enabled/radio:group-focus/radio:outline-interactive-hover',
+      'group-enabled/radio:group-hover/radio:outline-interactive-hover',
+      'group-enabled/radio:group-selected/radio:outline-highlight group-enabled/radio:group-selected/radio:before:bg-highlight',
+      'group-enabled/radio:group-selected/radio:group-focus/radio:outline-interactive-hover',
+      'group-enabled/radio:group-selected/radio:group-hover/radio:outline-interactive-hover',
+      'group-disabled/radio:outline-interactive-disabled',
+      'group-disabled/radio:group-selected/radio:before:bg-interactive-disabled',
     ],
     label: [
       'text-body-s text-interactive-default',
-      'group-disabled:text-interactive-disabled',
+      'group-disabled/radio:text-interactive-disabled',
     ],
   },
 });
