@@ -11,49 +11,23 @@
  */
 
 import { tv } from '@/lib/utils';
-import type { VariantProps } from 'tailwind-variants';
-
-export const SwitchStylesDefaults = {
-  isDisabled: false,
-  isSelected: false,
-} as const;
 
 export const SwitchStyles = tv({
   slots: {
-    group:
-      'group flex cursor-pointer dtk-disabled:cursor-not-allowed items-center gap-s',
+    switch:
+      'group flex cursor-pointer items-center gap-s disabled:cursor-not-allowed',
     control: [
-      'flex rounded-round bg-transparent p-xxs outline outline-interactive',
-      'before:mr-l before:block before:size-m before:rounded-full before:bg-default-dark',
-      'group-hover:bg-interactive-hover-dark group-hover:outline-interactive-hover group-hover:before:bg-interactive-hover',
-      'group-focus-within:bg-interactive-hover-dark group-focus-within:outline-interactive-hover group-focus-within:before:bg-interactive-hover',
+      'flex rounded-round bg-transparent p-xxs outline outline-interactive before:mr-l before:block before:size-m before:rounded-full before:bg-default-dark',
+      'group-enabled:group-focus:bg-interactive-hover-dark group-enabled:group-focus:outline-interactive-hover group-enabled:group-focus:before:bg-interactive-hover',
+      'group-enabled:group-hover:bg-interactive-hover-dark group-enabled:group-hover:outline-interactive-hover group-enabled:group-hover:before:bg-interactive-hover',
+      'group-enabled:group-selected:outline-highlight group-selected:before:mr-0 group-selected:before:ml-l group-enabled:group-selected:before:bg-highlight',
+      'group-enabled:group-selected:group-focus:bg-highlight-subtle group-enabled:group-selected:group-focus:outline-interactive-hover group-enabled:group-selected:group-focus:before:bg-highlight',
+      'group-enabled:group-selected:group-hover:bg-highlight-subtle group-enabled:group-selected:group-hover:outline-highlight group-enabled:group-selected:group-hover:before:bg-highlight',
+      'group-disabled:bg-interactive-disabled group-disabled:outline-interactive-disabled group-disabled:before:bg-disabled',
     ],
-    label: '',
+    label: [
+      'text-body-s text-interactive-default',
+      'group-disabled:text-interactive-disabled',
+    ],
   },
-  variants: {
-    isSelected: {
-      false: '',
-      true: {
-        control: [
-          'outline-highlight before:mr-0 before:ml-l before:bg-highlight',
-          'group-hover:bg-highlight-subtle group-hover:outline-highlight group-hover:before:bg-highlight',
-          'group-focus-within:bg-highlight-subtle group-focus-within:outline-interactive-hover group-focus-within:before:bg-highlight',
-        ],
-      },
-    },
-    isDisabled: {
-      false: '',
-      true: {
-        group: 'cursor-not-allowed',
-        control: [
-          'bg-interactive-disabled outline-interactive-disabled before:bg-disabled',
-          'group-hover:bg-interactive-disabled group-hover:outline-interactive-disabled group-hover:before:bg-disabled',
-          'group-focus-within:bg-interactive-disabled group-focus-within:outline-interactive-disabled group-focus-within:before:bg-disabled',
-        ],
-      },
-    },
-  },
-  defaultVariants: SwitchStylesDefaults,
 });
-
-export type SwitchStyleVariants = VariantProps<typeof SwitchStyles>;

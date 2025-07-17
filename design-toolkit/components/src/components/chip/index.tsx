@@ -95,10 +95,8 @@ function SelectableChip({ ref, ...props }: SelectableChipProps) {
     <AriaTag
       {...rest}
       ref={ref}
-      className={composeRenderProps(
-        className,
-        (className, { isDisabled, isSelected }) =>
-          selectableChip({ className, size, isDisabled, isSelected }),
+      className={composeRenderProps(className, (className) =>
+        selectableChip({ className, size }),
       )}
     />
   );
@@ -122,39 +120,34 @@ function DeletableChip({ ref, ...props }: DeletableChipProps) {
     <AriaTag
       {...rest}
       ref={ref}
-      className={composeRenderProps(
-        classNames?.chip,
-        (className, { isDisabled }) =>
-          deletableChip({ className, size, isDisabled }),
+      className={composeRenderProps(classNames?.chip, (className) =>
+        deletableChip({ className, size }),
       )}
       textValue={textValue}
     >
-      {composeRenderProps(
-        children,
-        (children, { allowsRemoving, isDisabled }) => {
-          if (!allowsRemoving) {
-            throw new Error(
-              'You have a <Chip.Deletable> in a <Chip.List> that does not specify an onRemove handler.',
-            );
-          }
-
-          return (
-            <>
-              {children}
-              <Button
-                slot='remove'
-                className={composeRenderProps(classNames?.remove, (className) =>
-                  remove({ className, isDisabled }),
-                )}
-              >
-                <Icon size='small'>
-                  <CancelFill />
-                </Icon>
-              </Button>
-            </>
+      {composeRenderProps(children, (children, { allowsRemoving }) => {
+        if (!allowsRemoving) {
+          throw new Error(
+            'You have a <Chip.Deletable> in a <Chip.List> that does not specify an onRemove handler.',
           );
-        },
-      )}
+        }
+
+        return (
+          <>
+            {children}
+            <Button
+              slot='remove'
+              className={composeRenderProps(classNames?.remove, (className) =>
+                remove({ className }),
+              )}
+            >
+              <Icon size='small'>
+                <CancelFill />
+              </Icon>
+            </Button>
+          </>
+        );
+      })}
     </AriaTag>
   );
 }
@@ -185,7 +178,7 @@ export function Chip({ ref, ...props }: ChipProps) {
   );
 }
 Chip.displayName = 'Chip';
-Chip.Deletable = DeletableChip;
-Chip.List = ChipList;
-Chip.Selectable = SelectableChip;
 Chip.Provider = ChipProvider;
+Chip.List = ChipList;
+Chip.Deletable = DeletableChip;
+Chip.Selectable = SelectableChip;

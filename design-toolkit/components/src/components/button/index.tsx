@@ -52,13 +52,12 @@ export function Button({ ref, ...props }: ButtonProps) {
       <AriaButton
         {...rest}
         ref={ref}
-        className={composeRenderProps(className, (className, { isPending }) =>
+        className={composeRenderProps(className, (className) =>
           ButtonStyles({
             className,
             color,
             size,
             variant,
-            isPending,
           }),
         )}
       >
@@ -92,13 +91,12 @@ export function LinkButton({ ref, ...props }: LinkButtonProps) {
       <Link
         {...rest}
         ref={ref}
-        className={composeRenderProps(className, (className, { isCurrent }) =>
+        className={composeRenderProps(className, (className) =>
           LinkButtonStyles({
             className,
             color,
             size,
             variant,
-            isCurrent,
           }),
         )}
       >
@@ -135,13 +133,12 @@ export function ToggleButton({ ref, ...props }: ToggleButtonProps) {
       <AriaToggleButton
         {...rest}
         ref={ref}
-        className={composeRenderProps(className, (className, { isSelected }) =>
+        className={composeRenderProps(className, (className) =>
           ToggleButtonStyles({
             className,
             color,
             size,
             variant,
-            isSelected,
           }),
         )}
       >

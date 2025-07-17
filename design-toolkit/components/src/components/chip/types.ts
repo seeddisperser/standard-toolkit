@@ -39,15 +39,15 @@ export type ChipListProps<T> = Omit<TagGroupProps, 'children'> &
     'dependencies' | 'items' | 'children' | 'renderEmptyState'
   > &
   RefAttributes<HTMLDivElement> &
-  Pick<VariantProps<typeof ChipStyles>, 'size'>;
+  BaseChipProps;
 
 export type SelectableChipProps = Omit<TagProps, 'isDisabled'> &
   RefAttributes<HTMLDivElement> &
-  Omit<VariantProps<typeof SelectableChipStyles>, 'isDisabled' | 'isSelected'>;
+  VariantProps<typeof SelectableChipStyles>;
 
 export type DeletableChipProps = Omit<TagProps, 'className' | 'isDisabled'> &
   RefAttributes<HTMLDivElement> &
-  Omit<VariantProps<typeof DeletableChipStyles>, 'isDisabled'> & {
+  VariantProps<typeof DeletableChipStyles> & {
     classNames?: {
       chip?: TagProps['className'];
       remove?: ButtonProps['className'];

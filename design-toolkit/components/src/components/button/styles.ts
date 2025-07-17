@@ -16,9 +16,6 @@ export const ButtonStylesDefaults = {
   color: 'info',
   size: 'medium',
   variant: 'filled',
-  isCurrent: false,
-  isPending: false,
-  isSelected: false,
 } as const;
 
 const BaseButtonStyles = tv({
@@ -186,76 +183,75 @@ const BaseButtonStyles = tv({
 
 export const ButtonStyles = tv({
   extend: BaseButtonStyles,
-  variants: {
-    isPending: {
-      false: '',
-      true: '',
-    },
-  },
 });
 
 export const LinkButtonStyles = tv({
   extend: BaseButtonStyles,
-  variants: {
-    isCurrent: {
-      false: '',
-      true: '',
-    },
-  },
 });
 
 export const ToggleButtonStyles = tv({
   extend: BaseButtonStyles,
-  variants: {
-    isSelected: {
-      false: '',
-      true: '',
-    },
-  },
   compoundVariants: [
     {
       color: 'info',
       variant: 'filled',
-      isSelected: true,
-      className: 'enabled:bg-info-subtle',
+      className: [
+        'enabled:selected:bg-info-subtle',
+        'enabled:selected:hover:bg-interactive-hover-light',
+        'enabled:selected:focus:bg-interactive-hover-light',
+      ],
     },
     {
       color: 'info',
       variant: 'floating',
-      isSelected: true,
-      className: 'enabled:outline-highlight',
+      className: [
+        'enabled:selected:outline-highlight',
+        'enabled:selected:hover:outline-interactive-hover',
+        'enabled:selected:focus:outline-interactive-hover',
+      ],
     },
     {
       color: 'serious',
       variant: 'filled',
-      isSelected: true,
-      className: 'enabled:bg-serious-subtle',
+      className: [
+        'enabled:selected:bg-serious-subtle',
+        'enabled:selected:hover:bg-serious-hover',
+        'enabled:selected:focus:bg-serious-hover',
+      ],
     },
     {
       color: 'serious',
       variant: 'floating',
-      isSelected: true,
-      className: 'enabled:outline-highlight',
+      className: [
+        'enabled:selected:outline-highlight',
+        'enabled:selected:hover:outline-interactive-hover',
+        'enabled:selected:focus:outline-interactive-hover',
+      ],
     },
     {
       color: 'critical',
       variant: 'filled',
-      isSelected: true,
-      className: 'enabled:bg-critical-subtle',
+      className: [
+        'enabled:selected:bg-critical-subtle',
+        'enabled:selected:hover:bg-critical-hover',
+        'enabled:selected:focus:bg-critical-hover',
+      ],
     },
     {
       color: 'critical',
       variant: 'floating',
-      isSelected: true,
-      className: 'enabled:outline-highlight',
+      className: [
+        'enabled:selected:outline-highlight',
+        'enabled:selected:hover:outline-interactive-hover',
+        'enabled:selected:focus:outline-interactive-hover',
+      ],
     },
     // Must be last to override color values
     {
-      isSelected: true,
       className: [
-        'enabled:fg-highlight',
-        'enabled:hover:fg-highlight',
-        'enabled:focus:fg-highlight',
+        'enabled:selected:fg-highlight',
+        'enabled:selected:hover:fg-highlight',
+        'enabled:selected:focus:fg-highlight',
       ],
     },
   ],

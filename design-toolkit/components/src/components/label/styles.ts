@@ -11,25 +11,7 @@
  */
 
 import { tv } from '@/lib/utils';
-import type { VariantProps } from 'tailwind-variants';
-
-export const LabelStylesDefaults = {
-  isDisabled: false,
-} as const;
 
 export const LabelStyles = tv({
-  base: 'fg-default-light flex items-center gap-xs text-header-s',
-  variants: {
-    isDisabled: {
-      false: '',
-      true: 'fg-disabled',
-    },
-    isRequired: {
-      false: '',
-      true: '',
-    },
-  },
-  defaultVariants: LabelStylesDefaults,
+  base: ['text-header-s', 'enabled:fg-default-light', 'disabled:fg-disabled'],
 });
-
-export type LabelStyleVariants = VariantProps<typeof LabelStyles>;

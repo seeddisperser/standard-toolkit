@@ -50,7 +50,6 @@ export {
 export type {
   ButtonProps,
   ButtonProviderProps,
-  ButtonStyleVariantProps,
   ButtonStyleVariants,
   LinkButtonProps,
   LinkButtonProviderProps,
@@ -88,8 +87,19 @@ export type {
   ClassificationBadgeProviderProps,
   ClassificationBadgeStyleVariants,
 } from './components/classification-badge/types';
-export { ClassificationBanner } from './components/classification-banner';
-export type { ClassificationBannerProps } from './components/classification-banner';
+export {
+  ClassificationBanner,
+  ClassificationBannerContext,
+} from './components/classification-banner';
+export {
+  ClassificationBannerStyles,
+  ClassificationBannerStylesDefaults,
+} from './components/classification-banner/styles';
+export type {
+  ClassificationBannerProps,
+  ClassificationBannerProviderProps,
+  ClassificationBannerStyleVariants,
+} from './components/classification-banner/types';
 export { ColorPicker, useColorPickerState } from './components/color-picker';
 export type { ColorPickerProps } from './components/color-picker';
 export { ComboBox, ComboBoxSection } from './components/combobox';
@@ -103,8 +113,7 @@ export { IconStyles, IconStylesDefaults } from './components/icon/styles';
 export type { IconStyleVariants } from './components/icon/styles';
 export type { IconProps, IconProviderProps } from './components/icon/types';
 export { Label, LabelContext } from './components/label';
-export { LabelStyles, LabelStylesDefaults } from './components/label/styles';
-export type { LabelStyleVariants } from './components/label/styles';
+export { LabelStyles } from './components/label/styles';
 export type { LabelProps, LabelProviderProps } from './components/label/types';
 export { Options, OptionsContext, OptionsSection } from './components/options';
 export type { OptionsProps } from './components/options';
@@ -136,8 +145,7 @@ export type { SearchFieldProps } from './components/search-field';
 export { RangeSlider, Slider } from './components/slider';
 export type { RangeSliderProps, SliderProps } from './components/slider';
 export { Switch, SwitchContext } from './components/switch';
-export { SwitchStyles, SwitchStylesDefaults } from './components/switch/styles';
-export type { SwitchStyleVariants } from './components/switch/styles';
+export { SwitchStyles } from './components/switch/styles';
 export type {
   SwitchProps,
   SwitchProviderProps,
