@@ -12,13 +12,12 @@
 
 import { tv } from 'tailwind-variants';
 
-export const ClassificationBadgeStylesDefaults = {
+export const ClassificationBannerStylesDefaults = {
   variant: 'missing',
-  size: 'medium',
 } as const;
 
-export const ClassificationBadgeStyles = tv({
-  base: 'inline-flex items-center justify-center rounded-full px-s py-xs uppercase',
+export const ClassificationBannerStyles = tv({
+  base: 'flex select-none items-center justify-center font-medium text-header-m uppercase',
   variants: {
     variant: {
       // TODO: dont hard code these strings into the styles
@@ -34,12 +33,8 @@ export const ClassificationBadgeStyles = tv({
       'top-secret':
         "fg-inverse-light bg-classification-top-secret [&:empty]:before:content-['Top_Secret']",
       'ts-sci':
-        "fg-inverse-light bg-classification-ts-sci [&:empty]:before:content-['TS/SCI']",
-    },
-    size: {
-      small: 'text-header-xs',
-      medium: 'text-header-s',
+        "fg-inverse-light bg-classification-ts-sci [&:empty]:before:content-['Top_Secret/SCI']",
     },
   },
-  defaultVariants: ClassificationBadgeStylesDefaults,
+  defaultVariants: ClassificationBannerStylesDefaults,
 });
