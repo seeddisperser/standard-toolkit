@@ -9,8 +9,8 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-
 'use client';
+
 import 'client-only';
 import { createContext } from 'react';
 import {
@@ -39,7 +39,9 @@ export function Label({ ref, ...props }: LabelProps) {
   return (
     <AriaLabel
       {...rest}
-      className={LabelStyles({ className, isDisabled, isRequired })}
+      className={LabelStyles({ className })}
+      data-disabled={isDisabled || null}
+      data-required={isRequired || null}
     >
       {children}
       {!isRequired && ' (optional)'}

@@ -12,10 +12,11 @@
 
 import type { PropsWithChildren, RefAttributes } from 'react';
 import type { LabelProps as AriaLabelProps } from 'react-aria-components';
-import type { LabelStyleVariants } from './styles';
 
 export type LabelProps = AriaLabelProps &
-  LabelStyleVariants &
-  RefAttributes<HTMLLabelElement>;
+  RefAttributes<HTMLLabelElement> & {
+    isDisabled?: boolean;
+    isRequired?: boolean;
+  };
 
-export type LabelProviderProps = PropsWithChildren<LabelStyleVariants>;
+export type LabelProviderProps = PropsWithChildren<LabelProps>;

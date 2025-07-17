@@ -16,12 +16,10 @@ import type { SwitchProps as AriaSwitchProps } from 'react-aria-components';
 export type SwitchProps = Omit<AriaSwitchProps, 'className'> &
   RefAttributes<HTMLLabelElement> & {
     classNames?: {
-      group?: AriaSwitchProps['className'];
+      switch?: AriaSwitchProps['className'];
       control?: string;
       label?: string;
     };
   };
 
-export type SwitchProviderProps = PropsWithChildren<
-  Pick<SwitchProps, 'classNames' | 'isDisabled' | 'isReadOnly'>
->;
+export type SwitchProviderProps = PropsWithChildren<SwitchProps>;
