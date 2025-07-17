@@ -111,6 +111,7 @@ export type TreeActions<T> = {
   // moving
   moveAfter: (target: Key | null, items: Set<Key>) => TreeData<T>;
   moveBefore: (target: Key | null, items: Set<Key>) => TreeData<T>;
+  moveInto: (target: Key | null, items: Set<Key>) => TreeData<T>;
 
   // expansion
   getExpandedKeys: () => Set<Key>;

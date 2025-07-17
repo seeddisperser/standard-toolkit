@@ -13,6 +13,7 @@
 import type {
   DragItem,
   DroppableCollectionInsertDropEvent,
+  DroppableCollectionOnItemDropEvent,
   DroppableCollectionReorderEvent,
   DroppableCollectionRootDropEvent,
   Key,
@@ -97,13 +98,13 @@ export function useTreeState<T extends object>(
         }
       })();
     },
-    onItemDrop: ({ target, items }: any) => {
-      if (target.dropPosition === 'on') {
-        (async () => {
-          const key = await items[0].getText('key');
-          setTree(actions.moveAfter(target.key, new Set([key])));
-        })();
-      }
+    onItemDrop: ({ target, items }: DroppableCollectionOnItemDropEvent) => {
+      (async () => {
+        if (target.dropPosition === 'on') {
+          const key = await items[0]?.getText('key');
+          setTree(actions.moveInto(target.key, new Set([key])));
+        }
+      })();
     },
     onRootDrop: ({ items }: DroppableCollectionRootDropEvent) => {
       (async () => {

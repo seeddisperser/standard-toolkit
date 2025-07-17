@@ -236,6 +236,19 @@ export function useTreeActions<T extends object>({
     return toTree(treeRef.current);
   }
 
+  function moveInto(target: Key | null, items: Set<Key>) {
+    if (target === null) {
+      toRoot(items, 'after');
+      return toTree(treeRef.current);
+    }
+
+    for (const key of items) {
+      into(target, key);
+    }
+
+    return toTree(treeRef.current);
+  }
+
   function updateAll(patch: Partial<TreeNode<T>>) {
     for (const node of lookup.values()) {
       lookup.set(node.key, {
@@ -344,9 +357,6 @@ export function useTreeActions<T extends object>({
         lookup.set(n.key, { ...n, isViewable: isVisible }),
       );
     }
-
-    console.log(treeRef.current.lookup);
-
     return toTree(treeRef.current);
   }
 
@@ -454,6 +464,26 @@ export function useTreeActions<T extends object>({
     }
   }
 
+  function into(target: Key, key: Key) {
+    const parent = lookup.get(target);
+    const node = lookup.get(key);
+    assert(parent !== undefined, `Key of ${target} does not exist in tree`);
+    assert(node !== undefined, `Key of ${key} does not exist in tree`);
+
+    lookup.set(target, {
+      ...parent,
+      children: parent.children?.concat({
+        ...node,
+        parentKey: parent.key,
+      }),
+    });
+
+    // remove node from previous parent or root
+    node.parentKey
+      ? removeFromParent(node.parentKey, key)
+      : removeFromRoot(key);
+  }
+
   return {
     getTreeNode,
     insertAfter,
@@ -462,6 +492,7 @@ export function useTreeActions<T extends object>({
     update,
     moveAfter,
     moveBefore,
+    moveInto,
     getSelectedKeys,
     onSelectionChange,
     selectAll,

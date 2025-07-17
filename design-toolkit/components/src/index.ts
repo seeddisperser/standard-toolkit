@@ -199,15 +199,13 @@ export type {
   UseTreeStateOptions,
 } from './hooks/types';
 export { useTreeActions } from './hooks/use-tree-actions';
+export { assert, toTree, withDefaults } from './hooks/use-tree-actions/utils';
+export { useTreeState } from './hooks/use-tree-state';
 export {
-  assert,
   getDroppedItemPayload,
   processDroppedItem,
   processDroppedItems,
-  toTree,
-  withDefaults,
-} from './hooks/use-tree-actions/utils';
-export { useTreeState } from './hooks/use-tree-state';
+} from './hooks/use-tree-state/utils';
 export { containsExactChildren, expectsIconWrapper } from './lib/react';
 export type {
   ChildrenRenderProps,
