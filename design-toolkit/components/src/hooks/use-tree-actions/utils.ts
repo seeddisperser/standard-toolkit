@@ -10,44 +10,8 @@
  * governing permissions and limitations under the License.
  */
 
-import { isTextDropItem } from '@react-aria/dnd';
-import type { DropItem, Key, TextDropItem } from '@react-types/shared';
+import type { Key } from '@react-types/shared';
 import type { TreeNode, TreeRef } from '../types';
-
-export async function processDroppedItems(
-  items: DropItem[],
-  acceptedDragTypes: string[],
-) {
-  return await Promise.all(
-    items
-      .filter(isTextDropItem)
-      .map((item) => processDroppedItem(item, acceptedDragTypes)),
-  );
-}
-
-export async function processDroppedItem(
-  item: TextDropItem,
-  acceptedDragTypes: string[],
-) {
-  const payload = await getDroppedItemPayload(item, acceptedDragTypes);
-
-  return payload
-    ? JSON.parse(payload)
-    : Promise.reject(new Error('No supported type payload'));
-}
-
-export async function getDroppedItemPayload(
-  item: TextDropItem,
-  acceptedDragTypes: string[],
-) {
-  return await Promise.any(
-    acceptedDragTypes.map(
-      async (type) =>
-        (await item.getText(type)) ??
-        Promise.reject(new Error('Unsupported type')),
-    ),
-  );
-}
 
 export function assert(
   condition: boolean,

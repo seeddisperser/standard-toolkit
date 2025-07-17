@@ -97,6 +97,7 @@ export type UseTreeActionsOptions<T> = {
  *
  */
 export type TreeActions<T> = {
+  getTreeNode: (key: Key) => TreeNode<T> | undefined;
   // inserting
   insertBefore: (target: Key | null, ...items: TreeNode<T>[]) => TreeData<T>;
   insertAfter: (target: Key | null, ...items: TreeNode<T>[]) => TreeData<T>;

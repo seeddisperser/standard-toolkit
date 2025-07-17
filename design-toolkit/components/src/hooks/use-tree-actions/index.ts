@@ -67,6 +67,10 @@ export function useTreeActions<T extends object>({
     return { lookup, roots };
   }
 
+  function getTreeNode(key: Key) {
+    return lookup.get(key);
+  }
+
   /** INSERT NODES **/
   function insert(
     parentKey: Key | null,
@@ -451,6 +455,7 @@ export function useTreeActions<T extends object>({
   }
 
   return {
+    getTreeNode,
     insertAfter,
     insertBefore,
     remove,

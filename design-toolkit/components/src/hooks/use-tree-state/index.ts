@@ -11,17 +11,18 @@
  */
 
 import type {
+  DragItem,
   DroppableCollectionInsertDropEvent,
   DroppableCollectionReorderEvent,
   DroppableCollectionRootDropEvent,
   Key,
   Selection,
 } from '@react-types/shared';
-// import { processDroppedItems } from './utils';
 import { useEffect, useState } from 'react';
 import type { DragAndDropConfig } from '../../components/tree/types';
 import type { UseTreeState, UseTreeStateOptions } from '../types';
 import { useTreeActions } from '../use-tree-actions';
+import { processDroppedItems } from './utils';
 
 export function useTreeState<T extends object>(
   options: UseTreeStateOptions<T>,
@@ -64,12 +65,15 @@ export function useTreeState<T extends object>(
   const handleVisibility = (keys: Set<Key>) =>
     setTree(actions.onVisibilityChange(keys));
 
-  // onDragEnd onDragStart expansion?
   const dragAndDropConfig: DragAndDropConfig = {
-    getItems: (keys: Set<Key>) =>
-      [...keys].map((key) => ({
-        'text/plain': `${key}`,
-      })),
+    getItems: (keys: Set<Key>): DragItem[] =>
+      [...keys].map((key) => {
+        const node = actions.getTreeNode(key);
+        return {
+          key: String(key),
+          'text/plain': JSON.stringify(node ?? ''),
+        };
+      }),
     onReorder: (e: DroppableCollectionReorderEvent) => {
       console.log('onReorder', e);
       if (e.target.dropPosition === 'before') {
@@ -79,59 +83,39 @@ export function useTreeState<T extends object>(
       }
     },
     onInsert: ({ items, target }: DroppableCollectionInsertDropEvent) => {
-      console.log('onInsert', { items, target });
-
       (async () => {
-        // const processedItems = await processDroppedItems(
-        //   items,
-        //   dragAndDropConfig.acceptedDragTypes ?? [],
-        // );
-        // actions.remove(...processedItems.map((item) => item.id));
-        //
-        // if (target.dropPosition === 'before') {
-        //   actions.insertBefore(target.key, ...processedItems);
-        // } else if (target.dropPosition === 'after') {
-        //   actions.insertAfter(target.key, ...processedItems);
-        // }
+        const processedItems = await processDroppedItems(
+          items,
+          dragAndDropConfig.acceptedDragTypes ?? [],
+        );
+        setTree(actions.remove(...processedItems.map((item) => item.id)));
+
+        if (target.dropPosition === 'before') {
+          setTree(actions.insertBefore(target.key, ...processedItems));
+        } else if (target.dropPosition === 'after') {
+          setTree(actions.insertAfter(target.key, ...processedItems));
+        }
       })();
     },
     onItemDrop: ({ target, items }: any) => {
-      console.log('onItemDrop', { target, items });
-      setTree(actions.moveAfter(target, items));
-    },
-    onMove: (e: DroppableCollectionReorderEvent) => {
-      console.log('onMove', e);
-      // if (target.dropPosition === 'before') {
-      //   actions.moveBefore(target.key, keys);
-      // } else if (target.dropPosition === 'after') {
-      //   actions.moveAfter(target.key, keys);
-      // } else if (target.dropPosition === 'on') {
-      //   // Move items to become children of the target
-      //   const targetNode = actions.getItem(target.key);
-      //   if (targetNode) {
-      //     const targetIndex = targetNode.children
-      //       ? targetNode.children.length
-      //       : 0;
-      //     const keyArray = Array.from(keys);
-      //     for (let i = 0; i < keyArray.length; i++) {
-      //       // biome-ignore lint/style/noNonNullAssertion: <explanation>
-      //       tree.move(keyArray[i]!, target.key, targetIndex + i);
-      //     }
-      //   }
-      // }
+      if (target.dropPosition === 'on') {
+        (async () => {
+          const key = await items[0].getText('key');
+          setTree(actions.moveAfter(target.key, new Set([key])));
+        })();
+      }
     },
     onRootDrop: ({ items }: DroppableCollectionRootDropEvent) => {
-      console.log('onRootDrop', items);
-      // (async () => {
-      // const processedItems = await processDroppedItems(
-      //   items,
-      //   dragAndDropConfig.acceptedDragTypes ?? [],
-      // );
-      //
-      // actions.remove(...processedItems.map((item) => item.key));
-      //
-      // actions.insertAfter(null, ...processedItems);
-      // })();
+      (async () => {
+        const processedItems = await processDroppedItems(
+          items,
+          dragAndDropConfig.acceptedDragTypes ?? [],
+        );
+
+        setTree(actions.remove(...processedItems.map((item) => item.key)));
+
+        setTree(actions.insertAfter(null, ...processedItems));
+      })();
     },
   };
 
