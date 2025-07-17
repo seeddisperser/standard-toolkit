@@ -35,10 +35,19 @@ async function generateTokens() {
     const tokensContent = readFileSync(tokensPath, 'utf-8');
     const tokens = JSON.parse(tokensContent);
 
+    // Read the semantic.json file
+    const semanticPath = path.join(
+      __dirname,
+      '..',
+      'src',
+      'tokens',
+      'semantic.json',
+    );
+    const semanticContent = readFileSync(semanticPath, 'utf-8');
+    const semantic = JSON.parse(semanticContent);
+
     // Generate files in the src/tokens directory
     const outputDir = path.join(__dirname, '..', 'src', 'tokens', 'generated');
-
-    // Ensure output directory exists
     await fs.promises.mkdir(outputDir, { recursive: true });
 
     // Generate CSS variables
@@ -50,10 +59,18 @@ async function generateTokens() {
     );
 
     // Generate TypeScript constants and types
-    const tsContent = generateTypeScript(tokens);
+    const tsContent = generateTypeScript(tokens, semantic);
     await fs.promises.writeFile(
       path.join(outputDir, 'tokens.ts'),
       tsContent,
+      'utf-8',
+    );
+
+    // Generate theme blocks CSS
+    const themesContent = generateThemesCSS(tokens, semantic);
+    await fs.promises.writeFile(
+      path.join(outputDir, 'themes.css'),
+      themesContent,
       'utf-8',
     );
 
@@ -62,6 +79,7 @@ async function generateTokens() {
     console.log('📄 Generated files:');
     console.log('   - tokens.css (CSS variables)');
     console.log('   - tokens.ts (TypeScript constants and types)');
+    console.log('   - themes.css (Theme blocks)');
   } catch (error) {
     console.error('❌ Error generating design tokens:', error);
     process.exit(1);
@@ -70,17 +88,14 @@ async function generateTokens() {
 
 function flattenTokens(obj, prefix = '') {
   const result = {};
-
   for (const [key, value] of Object.entries(obj)) {
     const newKey = prefix ? `${prefix}-${key}` : key;
-
     if (typeof value === 'object' && value !== null) {
       Object.assign(result, flattenTokens(value, newKey));
     } else {
       result[newKey] = value;
     }
   }
-
   return result;
 }
 
@@ -225,7 +240,46 @@ function isRgbaString(value) {
   );
 }
 
-function generateTypeScript(tokens) {
+function processSemanticColor(fallback, varName) {
+  if (isHexColor(fallback)) {
+    const rgba = hexToRgbaTuple(fallback);
+    return `export const ${varName}: RGBAColor = [${rgba.join(', ')}];`;
+  }
+  if (isRgbaString(fallback)) {
+    const rgba = rgbaStringToRgbaTuple(fallback);
+    if (rgba) {
+      return `export const ${varName}: RGBAColor = [${rgba.join(', ')}];`;
+    }
+  }
+  return `export const ${varName} = '${fallback}';`;
+}
+
+function generateSemanticColorExports(semantic, resolved) {
+  const lines = [];
+
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: <explanation>
+  function walkSemanticForTS(obj, prefix = 'color') {
+    for (const [k, v] of Object.entries(obj)) {
+      if (typeof v === 'string' && v.startsWith('--')) {
+        const tokenKey = v.replace(/^--/, '');
+        const fallback = resolved[tokenKey];
+        if (fallback) {
+          const camelCaseKey = toCamelCase(`${prefix}-${k}`);
+          // Special case: omit "base" from the variable name
+          const varName = k === 'base' ? toCamelCase(prefix) : camelCaseKey;
+          lines.push(processSemanticColor(fallback, varName));
+        }
+      } else if (typeof v === 'object' && v !== null) {
+        walkSemanticForTS(v, `${prefix}-${k}`);
+      }
+    }
+  }
+
+  walkSemanticForTS(semantic.colors || {});
+  return lines;
+}
+
+function generateTypeScript(tokens, semantic) {
   const flattened = flattenTokens(tokens);
   const resolved = resolveReferences(flattened);
   const tsLines = [];
@@ -234,24 +288,21 @@ function generateTypeScript(tokens) {
   tsLines.push('export type RGBAColor = [number, number, number, number];');
   tsLines.push('');
 
-  // Generate TypeScript constants (with RGBAColor type for colors)
+  // Generate semantic color exports
+  const semanticColorLines = generateSemanticColorExports(semantic, resolved);
+  tsLines.push('/** Semantic Colors **/');
+  tsLines.push(...semanticColorLines);
+  tsLines.push('/** Other Design Tokens **/');
+
+  // Generate other token exports (non-colors)
   for (const [key, value] of Object.entries(resolved)) {
+    // Skip color tokens since they're handled by semantic exports
+    if (key.startsWith('colors-')) {
+      continue;
+    }
+
     const camelCaseKey = toCamelCase(key);
-    if (isHexColor(value)) {
-      const rgba = hexToRgbaTuple(value);
-      tsLines.push(
-        `export const ${camelCaseKey}: RGBAColor = [${rgba.join(', ')}];`,
-      );
-    } else if (isRgbaString(value)) {
-      const rgba = rgbaStringToRgbaTuple(value);
-      if (rgba) {
-        tsLines.push(
-          `export const ${camelCaseKey}: RGBAColor = [${rgba.join(', ')}];`,
-        );
-      } else {
-        tsLines.push(`export const ${camelCaseKey} = '${value}';`);
-      }
-    } else if (typeof value === 'string' && value.endsWith('px')) {
+    if (typeof value === 'string' && value.endsWith('px')) {
       // Emit pixel values as numbers
       const num = Number.parseFloat(value.replace('px', ''));
       tsLines.push(`export const ${camelCaseKey} = ${num};`);
@@ -261,6 +312,71 @@ function generateTypeScript(tokens) {
   }
 
   return tsLines.join('\n');
+}
+
+function generateThemesCSS(tokens, semantic) {
+  const generatedDoNotEditBlock = `/*
+  This file is generated by the generate-tokens.mjs script.
+  Do not edit this file manually.
+ */`;
+  const importBlock = `@import './tokens.css';`;
+  console.log('🔄 Generating themes.css...');
+
+  const flattened = flattenTokens(tokens);
+  // 1. Tailwind reset block
+  const tailwindBlock =
+    '@theme {\n  /* Remove the default Tailwind styles. */\n  --color-* : initial;\n  --font-* : initial;\n  --radius-* : initial;\n  --shadow-* : initial;\n  --spacing-* : initial;\n  --text-* : initial;\n}';
+
+  // 2. Semantic colors block (same as before)
+  function getTokenFallback(tokenRef) {
+    // tokenRef is like --colors-neutral-10
+    const key = tokenRef.replace(/^--/, '');
+    return flattened[key];
+  }
+  function walkSemantic(obj, prefix = 'color') {
+    let lines = [];
+    for (const [k, v] of Object.entries(obj)) {
+      if (typeof v === 'string' && v.startsWith('--')) {
+        const fallback = getTokenFallback(v);
+        // Special case: omit "base" from the variable name
+        const varName = k === 'base' ? prefix : `${prefix}-${k}`;
+        lines.push(`  --${varName}: var(${v}, ${fallback});`);
+      } else if (typeof v === 'object' && v !== null) {
+        lines = lines.concat(walkSemantic(v, `${prefix}-${k}`));
+      }
+    }
+    return lines;
+  }
+  const semanticColorLines = walkSemantic(semantic.colors || {});
+  const semanticColorsBlock = `@theme {\n  /** Colors (semantic) **/\n${semanticColorLines.join('\n')}\n}`;
+
+  // 3. Dynamic @theme blocks for each top-level key in tokens.json
+  function walkTokens(obj, prefix) {
+    let lines = [];
+    for (const [k, v] of Object.entries(obj)) {
+      if (typeof v === 'object' && v !== null) {
+        lines = lines.concat(walkTokens(v, `${prefix}-${k}`));
+      } else {
+        lines.push(`  --${prefix}-${k}: var(--${prefix}-${k});`);
+      }
+    }
+    return lines;
+  }
+
+  const dynamicThemeBlocks = Object.entries(tokens)
+    .filter(([topKey]) => topKey !== 'colors') // Exclude colors since they're handled by semantic block
+    .map(([topKey, value]) => {
+      const lines = walkTokens(value, topKey);
+      return `@theme {\n  /** ${topKey.charAt(0).toUpperCase() + topKey.slice(1)} **/\n${lines.join('\n')}\n}`;
+    });
+
+  return [
+    generatedDoNotEditBlock,
+    importBlock,
+    tailwindBlock,
+    semanticColorsBlock,
+    ...dynamicThemeBlocks,
+  ].join('\n\n');
 }
 
 // Run the generator if this script is executed directly
