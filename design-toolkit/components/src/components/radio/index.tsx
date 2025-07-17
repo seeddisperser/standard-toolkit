@@ -12,10 +12,13 @@
 'use client';
 
 import 'client-only';
+import { createContext } from 'react';
 import {
   Radio as AriaRadio,
   RadioGroup as AriaRadioGroup,
+  type ContextValue,
   composeRenderProps,
+  useContextProps,
 } from 'react-aria-components';
 import { Label } from '../label';
 import { RadioStyles } from './styles';
@@ -23,17 +26,19 @@ import type { RadioGroupProps, RadioProps } from './types';
 
 const { group, radio, control, label } = RadioStyles();
 
-function RadioGroup({
-  children,
-  classNames,
-  label,
-  isDisabled,
-  isRequired,
-  ...rest
-}: RadioGroupProps) {
+export const RadioContext =
+  createContext<ContextValue<RadioGroupProps, HTMLDivElement>>(null);
+
+function RadioGroup({ ref, ...props }: RadioGroupProps) {
+  [props, ref] = useContextProps(props, ref ?? null, RadioContext);
+
+  const { children, classNames, label, isDisabled, isRequired, ...rest } =
+    props;
+
   return (
     <AriaRadioGroup
       {...rest}
+      ref={ref}
       className={composeRenderProps(classNames?.group, (className) =>
         group({ className }),
       )}
