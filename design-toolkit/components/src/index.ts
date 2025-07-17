@@ -113,8 +113,7 @@ export { IconStyles, IconStylesDefaults } from './components/icon/styles';
 export type { IconStyleVariants } from './components/icon/styles';
 export type { IconProps, IconProviderProps } from './components/icon/types';
 export { Label, LabelContext } from './components/label';
-export { LabelStyles, LabelStylesDefaults } from './components/label/styles';
-export type { LabelStyleVariants } from './components/label/styles';
+export { LabelStyles } from './components/label/styles';
 export type { LabelProps, LabelProviderProps } from './components/label/types';
 export { Options, OptionsContext, OptionsSection } from './components/options';
 export type { OptionsProps } from './components/options';
@@ -151,8 +150,7 @@ export type { SearchFieldProps } from './components/search-field';
 export { RangeSlider, Slider } from './components/slider';
 export type { RangeSliderProps, SliderProps } from './components/slider';
 export { Switch, SwitchContext } from './components/switch';
-export { SwitchStyles, SwitchStylesDefaults } from './components/switch/styles';
-export type { SwitchStyleVariants } from './components/switch/styles';
+export { SwitchStyles } from './components/switch/styles';
 export type {
   SwitchProps,
   SwitchProviderProps,
