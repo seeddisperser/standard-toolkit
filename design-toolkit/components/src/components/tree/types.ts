@@ -77,7 +77,6 @@ export type TreeProps<T> = AriaTreeProps<TreeNode<T>> &
   VariantProps & {
     visibleKeys?: Set<Key>;
     viewableKeys?: Set<Key>;
-    defaultVisibleKeys?: 'all' | Iterable<Key>;
     onVisibilityChange?: (keys: Set<Key>) => void;
     dragAndDropConfig?: DragAndDropConfig;
     showRuleLines?: boolean;

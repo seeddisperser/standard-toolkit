@@ -155,39 +155,45 @@ const items: TreeNode<ItemValues>[] = [
  * Static collections can use the Tree components directly.
  */
 export const StaticCollection: Story = {
-  render: (args) => (
-    <Tree
-      style={{ width: '500px' }}
-      aria-label='Basic Static Example'
-      {...args}
-    >
-      <Tree.Item id='fruit' label='fruit'>
-        <Tree.Item.Content>Fruit</Tree.Item.Content>
-        <Tree.Item id='apples' label='apples'>
-          <Tree.Item.Content>Apples</Tree.Item.Content>
-          <Tree.Item id='green' label='green-apple'>
-            <Tree.Item.Content>Green Apple</Tree.Item.Content>
-          </Tree.Item>
-          <Tree.Item id='red' label='red-apple' isLastOfSet>
-            <Tree.Item.Content>Red Apple</Tree.Item.Content>
-          </Tree.Item>
-          <Tree.Item id='yellow' label='yellow-apple' isLastOfSet>
-            <Tree.Item.Content>Yellow Apple</Tree.Item.Content>
-          </Tree.Item>
-        </Tree.Item>
-      </Tree.Item>
+  render: (args) => {
+    const [visibility, setVisibility] = useState<Set<Key>>(new Set());
 
-      <Tree.Item id='vegetables' label='vegetables'>
-        <Tree.Item.Content>Vegetables</Tree.Item.Content>
-        <Tree.Item id='carrot' label='carrot'>
-          <Tree.Item.Content>Carrot</Tree.Item.Content>
+    return (
+      <Tree
+        style={{ width: '500px' }}
+        aria-label='Basic Static Example'
+        visibleKeys={visibility}
+        onVisibilityChange={setVisibility}
+        {...args}
+      >
+        <Tree.Item id='fruit' label='fruit'>
+          <Tree.Item.Content>Fruit</Tree.Item.Content>
+          <Tree.Item id='apples' label='apples'>
+            <Tree.Item.Content>Apples</Tree.Item.Content>
+            <Tree.Item id='green' label='green-apple'>
+              <Tree.Item.Content>Green Apple</Tree.Item.Content>
+            </Tree.Item>
+            <Tree.Item id='red' label='red-apple' isLastOfSet>
+              <Tree.Item.Content>Red Apple</Tree.Item.Content>
+            </Tree.Item>
+            <Tree.Item id='yellow' label='yellow-apple' isLastOfSet>
+              <Tree.Item.Content>Yellow Apple</Tree.Item.Content>
+            </Tree.Item>
+          </Tree.Item>
         </Tree.Item>
-        <Tree.Item id='kale' label='kale'>
-          <Tree.Item.Content>Kale</Tree.Item.Content>
+
+        <Tree.Item id='vegetables' label='vegetables'>
+          <Tree.Item.Content>Vegetables</Tree.Item.Content>
+          <Tree.Item id='carrot' label='carrot'>
+            <Tree.Item.Content>Carrot</Tree.Item.Content>
+          </Tree.Item>
+          <Tree.Item id='kale' label='kale'>
+            <Tree.Item.Content>Kale</Tree.Item.Content>
+          </Tree.Item>
         </Tree.Item>
-      </Tree.Item>
-    </Tree>
-  ),
+      </Tree>
+    );
+  },
 };
 
 function Node({ node }: { node: TreeNode<ItemValues> }) {
@@ -295,12 +301,18 @@ export const DataCollection: Story = {
 
 export const DragAndDrop: Story = {
   render: (args) => {
-    const { nodes, selectedKeys, expandedKeys, dragAndDropConfig, actions } =
-      useTreeState({
-        items,
-        initialSelectedKeys: ['european-birds'],
-        initialExpandedKeys: ['north-american-birds'],
-      });
+    const {
+      nodes,
+      selectedKeys,
+      expandedKeys,
+      visibleKeys,
+      dragAndDropConfig,
+      actions,
+    } = useTreeState({
+      items,
+      initialSelectedKeys: ['european-birds'],
+      initialExpandedKeys: ['north-american-birds'],
+    });
 
     return (
       <Tree
@@ -312,6 +324,8 @@ export const DragAndDrop: Story = {
         selectedKeys={selectedKeys}
         onSelectionChange={actions.onSelectionChange}
         dragAndDropConfig={dragAndDropConfig}
+        visibleKeys={visibleKeys}
+        onVisibilityChange={actions.onVisibilityChange}
         items={nodes}
       >
         {(node) => <Node key={node.key} node={node} />}

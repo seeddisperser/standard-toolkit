@@ -97,7 +97,6 @@ export function Tree<T extends object>(props: TreeProps<T>) {
     variant = TreeStylesDefaults.variant,
     selectionMode = 'multiple',
     visibleKeys,
-    defaultVisibleKeys,
     onVisibilityChange,
     showRuleLines = true,
     dragAndDropConfig,
@@ -118,6 +117,7 @@ export function Tree<T extends object>(props: TreeProps<T>) {
     onMove: () => dragAndDropConfig?.onMove,
   });
 
+  // Flatten viewable keys data from items
   const viewableKeys = useMemo((): Set<Key> => {
     if (!items) {
       return new Set();
@@ -142,12 +142,11 @@ export function Tree<T extends object>(props: TreeProps<T>) {
   return (
     <TreeContext.Provider
       value={{
+        showRuleLines,
         visibleKeys,
         viewableKeys,
-        defaultVisibleKeys,
         onVisibilityChange,
         variant,
-        showRuleLines,
       }}
     >
       <AriaTree
