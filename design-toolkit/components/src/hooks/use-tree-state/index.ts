@@ -98,11 +98,13 @@ export function useTreeState<T extends object>(
         }
       })();
     },
-    onItemDrop: ({ target, items }: DroppableCollectionOnItemDropEvent) => {
+    onItemDrop: ({ target, items }) => {
       (async () => {
         if (target.dropPosition === 'on') {
           const key = await items[0]?.getText('key');
-          setTree(actions.moveInto(target.key, new Set([key])));
+          if (key) {
+            setTree(actions.moveInto(target.key, new Set([key])));
+          }
         }
       })();
     },

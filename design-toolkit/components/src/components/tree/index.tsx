@@ -78,7 +78,6 @@ const Lines = memo(function Lines({ level }: { level: number }) {
 });
 
 /**
- * TODO: the many bugs in moving shit around
  * TODO: deep equality on tree with nodes passed in to reset
  * TODO: tests for moving multiple
  * TODO: moving multiple with selection
