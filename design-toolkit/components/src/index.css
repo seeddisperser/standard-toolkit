@@ -18,6 +18,9 @@
 /* Import generated themes.css */
 @import './tokens/generated/themes.css';
 
+@theme {
+  --color-current: currentColor;
+}
 
 /** Recreating https://github.com/adobe/react-spectrum/blob/main/packages/tailwindcss-react-aria-components/src/index.js without RAC selectors (:where([data-rac])) or prefix and combining with native selectors **/
 @custom-variant placement-left { &[data-placement="left"] { @slot }}
