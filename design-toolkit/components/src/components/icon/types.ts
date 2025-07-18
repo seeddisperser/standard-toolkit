@@ -11,7 +11,10 @@
  */
 
 import type { HTMLAttributes, PropsWithChildren, RefAttributes } from 'react';
-import type { IconStyleVariants } from './styles';
+import type { VariantProps } from 'tailwind-variants';
+import type { IconStyles } from './styles';
+
+export type IconStyleVariants = VariantProps<typeof IconStyles>;
 
 export type IconProps = PropsWithChildren<
   RefAttributes<HTMLSpanElement> &

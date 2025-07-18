@@ -20,7 +20,7 @@ export const ButtonStylesDefaults = {
 
 const BaseButtonStyles = tv({
   base: [
-    'flex w-content cursor-pointer items-center justify-center rounded-medium outline outline-transparent',
+    'group/button flex w-content cursor-pointer items-center justify-center rounded-medium outline outline-transparent',
     'disabled:cursor-not-allowed',
   ],
   variants: {

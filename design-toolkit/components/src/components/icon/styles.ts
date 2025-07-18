@@ -11,7 +11,6 @@
  */
 
 import { tv } from '@/lib/utils';
-import type { VariantProps } from 'tailwind-variants';
 
 export const IconStylesDefaults = {
   size: 'unset',
@@ -30,5 +29,3 @@ export const IconStyles = tv({
   },
   defaultVariants: IconStylesDefaults,
 });
-
-export type IconStyleVariants = VariantProps<typeof IconStyles>;
