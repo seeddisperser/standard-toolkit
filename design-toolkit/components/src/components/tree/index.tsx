@@ -10,7 +10,10 @@
  * governing permissions and limitations under the License.
  */
 
+import { TreeStyles, TreeStylesDefaults } from '@/components/tree/styles';
+import { isSlottedContextValue } from '@/lib/utils';
 import { DragVert } from '@accelint/icons';
+import type { Key } from '@react-types/shared';
 import {
   type PropsWithChildren,
   createContext,
@@ -29,13 +32,10 @@ import {
   composeRenderProps,
   useDragAndDrop,
 } from 'react-aria-components';
+import type { TreeNode } from '../../hooks/types';
 import { Button } from '../button';
 import { Icon } from '../icon';
-import './tree.css';
-import { TreeStyles, TreeStylesDefaults } from '@/components/tree/styles';
-import { isSlottedContextValue } from '@/lib/utils';
-import type { Key } from '@react-types/shared';
-import type { TreeNode } from '../../hooks/types';
+import { Lines } from '../lines';
 import { ExpandToggle } from './expand-toggle';
 import { SelectionToggle } from './selection-toggle';
 import type {
@@ -47,8 +47,7 @@ import type {
 } from './types';
 import { VisibilityToggle } from './visibility-toggle';
 
-const { actions, tree, lines, icon, item, label, description, display } =
-  TreeStyles();
+const { actions, tree, icon, item, label, description, display } = TreeStyles();
 
 export const TreeContext =
   createContext<ContextValue<TreeProps<unknown>, HTMLDivElement>>(null);
@@ -57,36 +56,39 @@ const defaultRenderDropIndicator = (target: DropTarget) => (
   <DropIndicator target={target} className='border border-highlight-hover' />
 );
 
-const Lines = memo(function Lines({ level }: { level: number }) {
+const TreeLines = memo(function TreeLines({
+  level,
+  isLastOfSet,
+}: { level: number; isLastOfSet: boolean }) {
   const context = useContext(TreeContext);
   const showRuleLines =
     (isSlottedContextValue(context) ? undefined : context?.showRuleLines) ??
     TreeStylesDefaults.hasRuleLines;
 
+  const variant =
+    (isSlottedContextValue(context) ? undefined : context?.variant) ??
+    TreeStylesDefaults.variant;
+
   return Array.from({ length: level }).map((_, i) => {
-    const isBranch = i === level - 1;
+    const type = i === level - 1 ? 'branch' : 'vert';
+    const line = isLastOfSet && i > 0 ? 'last' : type;
+    const size = variant === 'cozy' ? 'large' : 'medium';
+
     return (
-      <div
-        key={i}
-        className={lines({
-          hasRuleLines: showRuleLines,
-          isBranch,
-        })}
-      />
+      <Lines key={i} variant={line} size={size} showLines={showRuleLines} />
     );
   });
 });
 
 /**
  * TODO: deep equality on tree with nodes passed in to reset
- * TODO: tests for moving multiple
  * TODO: moving multiple with selection
  * TODO: visibility with children/parent/sibling things
  * TODO: accessors?
  * TODO: generics cleanup
  * TODO: manage re-rendering and performance
- * TODO: lines as a separate thing
  * TODO: visual polish
+ * TODO: classNames refactor
  */
 
 export function Tree<T extends object>(props: TreeProps<T>) {
@@ -165,7 +167,7 @@ export function Tree<T extends object>(props: TreeProps<T>) {
 Tree.displayName = 'Tree';
 
 export function TreeItem(props: TreeItemProps) {
-  const { id, children, label, isLastOfSet = false, ...rest } = props;
+  const { id, children, label, ...rest } = props;
 
   return (
     <AriaTreeItem id={id} className={item()} textValue={label} {...rest}>
@@ -229,7 +231,7 @@ export function ItemContent({ children }: ItemContentProps) {
               isViewable={isViewable}
               onChange={onVisibilityChange}
             />
-            {isNotRoot && <Lines level={level} />}
+            {isNotRoot && <TreeLines level={level} isLastOfSet={isLastOfSet} />}
             <ExpandToggle
               hasChildItems={hasChildItems}
               isExpanded={isExpanded}

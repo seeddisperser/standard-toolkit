@@ -10,6 +10,9 @@
  * governing permissions and limitations under the License.
  */
 
+import type { TreeNode } from '@/hooks/types';
+import { useTreeActions } from '@/hooks/use-tree-actions';
+import { useTreeState } from '@/hooks/use-tree-state';
 import {
   CenterOn,
   CollapseAll,
@@ -18,16 +21,12 @@ import {
   Placeholder,
 } from '@accelint/icons';
 import Warning from '@accelint/icons/warning';
-import type { Meta, StoryObj } from '@storybook/react';
-import { Icon } from '../icon';
-import { Tree } from './index';
-import './tree.css';
-import type { TreeNode } from '@/hooks/types';
-import { useTreeActions } from '@/hooks/use-tree-actions';
-import { useTreeState } from '@/hooks/use-tree-state';
 import type { Key, Selection } from '@react-types/shared';
+import type { Meta, StoryObj } from '@storybook/react';
 import { type ReactNode, useState } from 'react';
 import { Button } from '../button';
+import { Icon } from '../icon';
+import { Tree } from './index';
 
 const meta: Meta<typeof Tree> = {
   title: 'Components/TreeView',

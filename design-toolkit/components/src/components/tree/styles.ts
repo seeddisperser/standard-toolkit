@@ -44,20 +44,17 @@ export const TreeStyles = tv({
       cozy: {
         tree: 'text-body-m',
         item: 'icon-size-xl gap-s text-header-m',
-        lines: 'group-data-[variant=cozy]:w-xl',
         display: 'gap-x-s',
         label: 'gap-xs',
       },
       compact: {
         tree: 'text-body-s',
         item: 'icon-size-l gap-xs text-header-s',
-        lines: 'group-data-[variant=compact]:w-l',
         display: 'gap-x-xs',
         label: 'gap-xs',
       },
       tight: {
         tree: 'text-body-s',
-        lines: 'group-data-[variant=tight]:w-l',
         item: 'icon-size-l gap-xs text-header-s',
         display: 'gap-x-xs',
         label: 'gap-xs',
