@@ -20,7 +20,9 @@ export type ClassificationBadgeStyleVariants = VariantProps<
 
 export type ClassificationBadgeProps = ClassificationBadgeStyleVariants &
   RefAttributes<HTMLSpanElement> &
-  PropsWithChildren<HTMLAttributes<HTMLSpanElement>>;
+  PropsWithChildren<HTMLAttributes<HTMLSpanElement>> & {
+    size?: 'medium' | 'small';
+  };
 
 export type ClassificationBadgeProviderProps =
   PropsWithChildren<ClassificationBadgeProps>;

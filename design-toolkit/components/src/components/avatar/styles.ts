@@ -12,24 +12,17 @@
 
 import { tv } from '@/lib/utils';
 
-export const AvatarStylesDefaults = {
-  size: 'medium',
-} as const;
-
 export const AvatarStyles = tv({
   slots: {
-    avatar: `group/avatar grid [grid-template-areas:'content'] rounded-full bg-surface-overlay fg-default-dark`,
+    avatar: [
+      `group/avatar grid [grid-template-areas:'content'] rounded-full bg-surface-overlay fg-default-dark`,
+      'size-medium:size-[32px] size-medium:text-header-m',
+      'size-small:size-xl size-small:text-header-xs',
+    ],
     image:
       'size-full overflow-hidden rounded-full object-cover object-center [grid-area:content]',
     fallback: 'flex size-full items-center justify-center [grid-area:content]',
     content:
       'relative flex size-full items-center justify-center [grid-area:content]',
   },
-  variants: {
-    size: {
-      medium: { avatar: 'size-[32px] text-header-m' },
-      small: { avatar: 'size-xl text-header-xs' },
-    },
-  },
-  defaultVariants: AvatarStylesDefaults,
 });

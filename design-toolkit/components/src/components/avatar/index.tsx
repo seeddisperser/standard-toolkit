@@ -12,20 +12,27 @@
 'use client';
 
 import 'client-only';
-import { spacingXs } from '@/tokens/generated/tokens';
+import { spacingXs } from '@/tokens/';
 import { Person } from '@accelint/icons';
 import { Fallback, Image, Root } from '@radix-ui/react-avatar';
 import { createContext } from 'react';
 import { type ContextValue, useContextProps } from 'react-aria-components';
 import { Badge } from '../badge';
 import { Icon } from '../icon';
-import { AvatarStyles, AvatarStylesDefaults } from './styles';
-import type { AvatarProps } from './types';
+import { AvatarStyles } from './styles';
+import type { AvatarProps, AvatarProviderProps } from './types';
 
 const { avatar, image, fallback, content } = AvatarStyles();
 
 export const AvatarContext =
   createContext<ContextValue<AvatarProps, HTMLSpanElement>>(null);
+
+function AvatarProvider({ children, ...props }: AvatarProviderProps) {
+  return (
+    <AvatarContext.Provider value={props}>{children}</AvatarContext.Provider>
+  );
+}
+AvatarProvider.displayName = 'Avatar.Provider';
 
 export function Avatar({ ref, ...props }: AvatarProps) {
   [props, ref] = useContextProps(props, ref ?? null, AvatarContext);
@@ -35,7 +42,7 @@ export function Avatar({ ref, ...props }: AvatarProps) {
     classNames,
     fallbackProps,
     imageProps,
-    size = AvatarStylesDefaults.size,
+    size = 'medium',
     ...rest
   } = props;
 
@@ -45,6 +52,7 @@ export function Avatar({ ref, ...props }: AvatarProps) {
         {...rest}
         className={avatar({ size, className: classNames?.avatar })}
         role='img'
+        data-size={size}
       >
         <Image
           {...imageProps}
@@ -70,3 +78,4 @@ export function Avatar({ ref, ...props }: AvatarProps) {
   );
 }
 Avatar.displayName = 'Avatar';
+Avatar.Provider = AvatarProvider;

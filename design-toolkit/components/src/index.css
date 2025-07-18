@@ -16,7 +16,7 @@
 @import 'tailwindcss';
 
 /* Import generated themes.css */
-@import './tokens/generated/themes.css';
+@import './tokens/themes.css';
 
 @theme {
   --color-current: currentColor;
@@ -27,6 +27,12 @@
 @custom-variant placement-right { &[data-placement~="right"] { @slot }}
 @custom-variant placement-top { &[data-placement~="top"] { @slot }}
 @custom-variant placement-bottom { &[data-placement~="bottom"] { @slot }}
+
+@custom-variant size-xlarge { &[data-size="xlarge"] { @slot }}
+@custom-variant size-large { &[data-size="large"] { @slot }}
+@custom-variant size-medium { &[data-size="medium"] { @slot }}
+@custom-variant size-small { &[data-size="small"] { @slot }}
+@custom-variant size-xsmall { &[data-size="xsmall"] { @slot }}
 
 @custom-variant type-literal { &[data-type="literal"] { @slot }}
 @custom-variant type-year { &[data-type="year"] { @slot }}
