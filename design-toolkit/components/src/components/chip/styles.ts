@@ -15,8 +15,6 @@ import { tv } from '@/lib/utils';
 export const ChipStylesDefaults = {
   size: 'medium',
   variant: 'info',
-  isDisabled: false,
-  isSelected: false,
 } as const;
 
 export const BaseChipStyles = tv({
@@ -51,45 +49,31 @@ export const ChipStyles = tv({
       info: { chip: 'bg-info-subtle outline-info-bold' },
     },
   },
-  defaultVariants: ChipStylesDefaults,
 });
 
 export const SelectableChipStyles = tv({
   extend: BaseChipStyles,
   slots: {
-    chip: 'cursor-pointer outline-interactive hover:outline-interactive-hover focus:outline-interactive-hover',
+    chip: [
+      'cursor-pointer outline-interactive',
+      'enabled:focus:outline-interactive-hover',
+      'enabled:hover:outline-interactive-hover',
+      'enabled:selected:bg-highlight-subtle enabled:selected:outline-highlight',
+      'disabled:fg-disabled disabled:cursor-not-allowed disabled:outline-interactive-disabled',
+      'disabled:selected:bg-interactive-disabled',
+    ],
   },
-  variants: {
-    isSelected: {
-      false: '',
-      true: {
-        chip: 'bg-highlight-subtle outline-highlight',
-      },
-    },
-    isDisabled: {
-      false: '',
-      true: {
-        chip: 'fg-disabled cursor-not-allowed outline-interactive-disabled hover:outline-interactive-disabled focus:outline-interactive-disabled',
-      },
-    },
-  },
-  defaultVariants: ChipStylesDefaults,
 });
 
 export const DeletableChipStyles = tv({
   extend: BaseChipStyles,
   slots: {
-    chip: 'group gap-xs outline-interactive hover:outline-interactive-hover focus:outline-interactive-hover',
-    remove: 'cursor-pointer',
+    chip: [
+      'group gap-xs outline-interactive',
+      'enabled:focus:outline-interactive-hover',
+      'enabled:hover:outline-interactive-hover',
+      'disabled:fg-disabled disabled:cursor-not-allowed disabled:outline-interactive-disabled',
+    ],
+    remove: ['cursor-pointer', 'disabled:cursor-not-allowed'],
   },
-  variants: {
-    isDisabled: {
-      false: '',
-      true: {
-        chip: 'fg-disabled cursor-not-allowed outline-interactive-disabled hover:outline-interactive-disabled focus:outline-interactive-disabled',
-        remove: 'cursor-not-allowed',
-      },
-    },
-  },
-  defaultVariants: ChipStylesDefaults,
 });

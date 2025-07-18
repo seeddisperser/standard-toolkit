@@ -10,17 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import type { HTMLAttributes, PropsWithChildren, RefAttributes } from 'react';
-import type { VariantProps } from 'tailwind-variants';
-import type { ClassificationBadgeStyles } from './styles';
-
-export type ClassificationBadgeStyleVariants = VariantProps<
-  typeof ClassificationBadgeStyles
->;
-
-export type ClassificationBadgeProps = ClassificationBadgeStyleVariants &
-  RefAttributes<HTMLSpanElement> &
-  PropsWithChildren<HTMLAttributes<HTMLSpanElement>>;
-
-export type ClassificationBadgeProviderProps =
-  PropsWithChildren<ClassificationBadgeProps>;
+declare module '*.json' {
+  const value: unknown;
+  export default value;
+}

@@ -10,16 +10,29 @@
  * governing permissions and limitations under the License.
  */
 
-import type { PropsWithChildren, RefAttributes } from 'react';
-import type { SwitchProps as AriaSwitchProps } from 'react-aria-components';
+import type { Orientation } from '@react-types/shared';
+import type { RefAttributes } from 'react';
+import type {
+  CheckboxGroupProps as AriaCheckboxGroupProps,
+  CheckboxProps as AriaCheckboxProps,
+} from 'react-aria-components';
+import type { LabelProps } from '../label/types';
 
-export type SwitchProps = Omit<AriaSwitchProps, 'className'> &
+export type CheckboxGroupProps = Omit<AriaCheckboxGroupProps, 'className'> &
+  RefAttributes<HTMLDivElement> & {
+    classNames?: {
+      group?: AriaCheckboxGroupProps['className'];
+      label?: LabelProps['className'];
+    };
+    label?: string;
+    orientation?: Orientation;
+  };
+
+export type CheckboxProps = Omit<AriaCheckboxProps, 'className'> &
   RefAttributes<HTMLLabelElement> & {
     classNames?: {
-      switch?: AriaSwitchProps['className'];
+      checkbox?: AriaCheckboxProps['className'];
       control?: string;
       label?: string;
     };
   };
-
-export type SwitchProviderProps = PropsWithChildren<SwitchProps>;

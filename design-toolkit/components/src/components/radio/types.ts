@@ -11,12 +11,28 @@
  */
 
 import type { PropsWithChildren, RefAttributes } from 'react';
-import type { LabelProps as AriaLabelProps } from 'react-aria-components';
+import type {
+  RadioGroupProps as AriaRadioGroupProps,
+  RadioProps as AriaRadioProps,
+} from 'react-aria-components';
+import type { LabelProps } from '../label/types';
 
-export type LabelProps = AriaLabelProps &
-  RefAttributes<HTMLLabelElement> & {
-    isDisabled?: boolean;
-    isRequired?: boolean;
+export type RadioGroupProps = Omit<AriaRadioGroupProps, 'className'> &
+  RefAttributes<HTMLDivElement> & {
+    classNames?: {
+      group?: AriaRadioGroupProps['className'];
+      label?: LabelProps['className'];
+    };
+    label?: string;
   };
 
-export type LabelProviderProps = PropsWithChildren<LabelProps>;
+export type RadioProps = Omit<AriaRadioProps, 'className'> &
+  RefAttributes<HTMLLabelElement> & {
+    classNames?: {
+      radio?: AriaRadioProps['className'];
+      control?: string;
+      label?: string;
+    };
+  };
+
+export type RadioProviderProps = PropsWithChildren<RadioGroupProps>;
