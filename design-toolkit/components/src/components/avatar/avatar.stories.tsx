@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import { WatchTower } from '@accelint/icons';
+import { Placeholder } from '@accelint/icons';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Badge } from '../badge';
 import { Icon } from '../icon';
@@ -63,14 +63,28 @@ export const WithContent: StoryObj<typeof Avatar> = {
       <span className='fg-interactive-default text-shadow-2xs'>DS</span>
     ),
   },
-  render: Avatar,
+  render: ({ children, ...args }) => (
+    <div className='flex items-center gap-m'>
+      <Avatar {...args}>{children}</Avatar>
+      <Avatar {...args}>
+        <Icon className='fg-interactive-default'>
+          <Placeholder />
+        </Icon>
+      </Avatar>
+      <Avatar {...args} classNames={{ content: 'items-end' }}>
+        <Badge offset={0} placement='bottom' variant='critical'>
+          Offline
+        </Badge>
+      </Avatar>
+    </div>
+  ),
 };
 
 // Needs to be static (or memoized) to not cause max call stack error with rerendering Fallback (Storybook only issue?)
 const fallbackPropsIcon = {
   children: (
     <Icon>
-      <WatchTower />
+      <Placeholder />
     </Icon>
   ),
 };
