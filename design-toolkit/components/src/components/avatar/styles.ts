@@ -10,36 +10,24 @@
  * governing permissions and limitations under the License.
  */
 
-import type { Meta, StoryObj } from '@storybook/react';
-import { Badge } from './';
+import { tv } from '@/lib/utils';
 
-const meta: Meta<typeof Badge> = {
-  title: 'Components/Badge',
-  component: Badge,
-  args: {
-    className: undefined,
-    children: undefined,
-    variant: 'info',
+export const AvatarStylesDefaults = {
+  size: 'medium',
+} as const;
+
+export const AvatarStyles = tv({
+  slots: {
+    avatar: 'group/avatar relative block',
+    image: 'size-full overflow-hidden rounded-full object-cover object-center',
+    fallback:
+      'fg-default-dark flex size-full items-center justify-center overflow-hidden rounded-full bg-surface-overlay',
   },
-  argTypes: {
-    children: {
-      control: 'text',
-    },
-    variant: {
-      control: 'select',
-      options: ['info', 'normal', 'serious', 'critical', 'advisory'],
+  variants: {
+    size: {
+      medium: { avatar: 'size-[32px] text-header-m' },
+      small: { avatar: 'size-xl text-header-xs' },
     },
   },
-};
-
-export default meta;
-
-export const Default: StoryObj<typeof Badge> = {
-  render: Badge,
-};
-
-export const WithText: StoryObj<typeof Badge> = {
-  render: ({ children, ...rest }) => (
-    <Badge {...rest}>{children || '99+'}</Badge>
-  ),
-};
+  defaultVariants: AvatarStylesDefaults,
+});

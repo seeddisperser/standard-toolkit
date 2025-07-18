@@ -27,10 +27,12 @@ export type {
   AccordionProps,
   AccordionTriggerProps,
 } from './components/accordion/types';
-export { Avatar } from './components/avatar';
-export type { AvatarProps } from './components/avatar';
-export { Badge } from './components/badge';
-export type { BadgeProps } from './components/badge';
+export { Avatar, AvatarContext } from './components/avatar';
+export { AvatarStyles, AvatarStylesDefaults } from './components/avatar/styles';
+export type { AvatarProps } from './components/avatar/types';
+export { Badge, BadgeContext } from './components/badge';
+export { BadgeStyles, BadgeStylesDefaults } from './components/badge/styles';
+export type { BadgeProps, BadgeProviderProps } from './components/badge/types';
 export { Box } from './components/box';
 export type { BoxProps } from './components/box';
 export {
