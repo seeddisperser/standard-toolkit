@@ -28,7 +28,7 @@ export type {
   AccordionTriggerProps,
 } from './components/accordion/types';
 export { Avatar, AvatarContext } from './components/avatar';
-export { AvatarStyles, AvatarStylesDefaults } from './components/avatar/styles';
+export { AvatarStyles } from './components/avatar/styles';
 export type {
   AvatarProps,
   AvatarProviderProps,
@@ -122,8 +122,7 @@ export type { DateFieldProps } from './components/date-field';
 export { Dialog, DialogTitle } from './components/dialog';
 export type { DialogProps } from './components/dialog';
 export { Icon, IconContext } from './components/icon';
-export { IconStyles, IconStylesDefaults } from './components/icon/styles';
-export type { IconStyleVariants } from './components/icon/styles';
+export { IconStyles } from './components/icon/styles';
 export type { IconProps, IconProviderProps } from './components/icon/types';
 export { Label, LabelContext } from './components/label';
 export { LabelStyles } from './components/label/styles';
@@ -203,10 +202,7 @@ export {
   TextAreaField,
   TextAreaFieldContext,
 } from './components/text-area-field';
-export {
-  TextAreaStyles,
-  TextAreaStylesDefaults,
-} from './components/text-area-field/styles';
+export { TextAreaStyles } from './components/text-area-field/styles';
 export type {
   TextAreaFieldProps,
   TextAreaFieldProviderProps,

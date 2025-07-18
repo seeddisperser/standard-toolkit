@@ -19,7 +19,7 @@ import { createContext } from 'react';
 import { type ContextValue, useContextProps } from 'react-aria-components';
 import { Badge } from '../badge';
 import { Icon } from '../icon';
-import { AvatarStyles, AvatarStylesDefaults } from './styles';
+import { AvatarStyles } from './styles';
 import type { AvatarProps, AvatarProviderProps } from './types';
 
 const { avatar, image, fallback, content } = AvatarStyles();
@@ -42,7 +42,7 @@ export function Avatar({ ref, ...props }: AvatarProps) {
     classNames,
     fallbackProps,
     imageProps,
-    size = AvatarStylesDefaults.size,
+    size = 'medium',
     ...rest
   } = props;
 
@@ -52,6 +52,7 @@ export function Avatar({ ref, ...props }: AvatarProps) {
         {...rest}
         className={avatar({ size, className: classNames?.avatar })}
         role='img'
+        data-size={size}
       >
         <Image
           {...imageProps}

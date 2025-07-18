@@ -11,15 +11,12 @@
  */
 
 import type { HTMLAttributes, PropsWithChildren, RefAttributes } from 'react';
-import type { VariantProps } from 'tailwind-variants';
-import type { IconStyles } from './styles';
-
-export type IconStyleVariants = VariantProps<typeof IconStyles>;
 
 export type IconProps = PropsWithChildren<
   RefAttributes<HTMLSpanElement> &
-    HTMLAttributes<HTMLSpanElement> &
-    IconStyleVariants
+    HTMLAttributes<HTMLSpanElement> & {
+      size?: 'large' | 'medium' | 'small' | 'xsmall';
+    }
 >;
 
-export type IconProviderProps = PropsWithChildren<Omit<IconProps, 'ref'>>;
+export type IconProviderProps = PropsWithChildren<IconProps>;
