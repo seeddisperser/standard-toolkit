@@ -10,18 +10,13 @@
  * governing permissions and limitations under the License.
  */
 
-import type { Fallback, Image } from '@radix-ui/react-avatar';
-import type {
-  ComponentProps,
-  HTMLAttributes,
-  PropsWithChildren,
-  RefAttributes,
-} from 'react';
+import type { Avatar, Fallback, Image } from '@radix-ui/react-avatar';
+import type { ComponentProps, PropsWithChildren, RefAttributes } from 'react';
 import type { VariantProps } from 'tailwind-variants';
 import type { AvatarStyles } from './styles';
 
 export type AvatarProps = RefAttributes<HTMLSpanElement> &
-  Omit<HTMLAttributes<HTMLSpanElement>, 'className'> &
+  Omit<ComponentProps<typeof Avatar>, 'className'> &
   VariantProps<typeof AvatarStyles> &
   PropsWithChildren<{
     classNames?: {
