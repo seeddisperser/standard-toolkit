@@ -22,7 +22,7 @@ import { Icon } from '../icon';
 import { AvatarStyles, AvatarStylesDefaults } from './styles';
 import type { AvatarProps } from './types';
 
-const { avatar, image, fallback } = AvatarStyles();
+const { avatar, image, fallback, content } = AvatarStyles();
 
 export const AvatarContext =
   createContext<ContextValue<AvatarProps, HTMLSpanElement>>(null);
@@ -61,7 +61,9 @@ export function Avatar({ ref, ...props }: AvatarProps) {
           )}
         </Fallback>
         <Badge.Provider offset={spacingXs} placement='top right'>
-          {children}
+          <span className={content({ className: classNames?.content, size })}>
+            {children}
+          </span>
         </Badge.Provider>
       </Root>
     </Icon.Provider>

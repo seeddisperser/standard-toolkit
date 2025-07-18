@@ -57,6 +57,15 @@ export const WithBadge: StoryObj<typeof Avatar> = {
   ),
 };
 
+export const WithContent: StoryObj<typeof Avatar> = {
+  args: {
+    children: (
+      <span className='fg-interactive-default text-shadow-2xs'>DS</span>
+    ),
+  },
+  render: Avatar,
+};
+
 // Needs to be static (or memoized) to not cause max call stack error with rerendering Fallback (Storybook only issue?)
 const fallbackPropsIcon = {
   children: (

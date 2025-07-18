@@ -28,6 +28,7 @@ export type AvatarProps = RefAttributes<HTMLSpanElement> &
       avatar?: string;
       image?: string;
       fallback?: string;
+      content?: string;
     };
     fallbackProps?: Omit<ComponentProps<typeof Fallback>, 'className'>;
     imageProps?: Omit<ComponentProps<typeof Image>, 'className'>;

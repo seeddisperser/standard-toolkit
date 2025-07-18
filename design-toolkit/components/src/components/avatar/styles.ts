@@ -18,10 +18,12 @@ export const AvatarStylesDefaults = {
 
 export const AvatarStyles = tv({
   slots: {
-    avatar: 'group/avatar relative block',
-    image: 'size-full overflow-hidden rounded-full object-cover object-center',
-    fallback:
-      'fg-default-dark flex size-full items-center justify-center overflow-hidden rounded-full bg-surface-overlay',
+    avatar: `group/avatar grid [grid-template-areas:'content'] rounded-full bg-surface-overlay fg-default-dark`,
+    image:
+      'size-full overflow-hidden rounded-full object-cover object-center [grid-area:content]',
+    fallback: 'flex size-full items-center justify-center [grid-area:content]',
+    content:
+      'relative flex size-full items-center justify-center [grid-area:content]',
   },
   variants: {
     size: {
