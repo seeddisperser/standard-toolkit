@@ -25,6 +25,7 @@ function BadgeProvider({ children, ...props }: BadgeProviderProps) {
     <BadgeContext.Provider value={props}>{children}</BadgeContext.Provider>
   );
 }
+BadgeProvider.displayName = 'Badge.Provider';
 
 export function Badge({ ref, ...props }: BadgeProps) {
   [props, ref] = useContextProps(props, ref ?? null, BadgeContext);

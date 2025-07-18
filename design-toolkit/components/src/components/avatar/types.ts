@@ -28,3 +28,5 @@ export type AvatarProps = RefAttributes<HTMLSpanElement> &
     fallbackProps?: Omit<ComponentProps<typeof Fallback>, 'className'>;
     imageProps?: Omit<ComponentProps<typeof Image>, 'className'>;
   }>;
+
+export type AvatarProviderProps = PropsWithChildren<AvatarProps>;

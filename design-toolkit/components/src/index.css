@@ -16,7 +16,7 @@
 @import 'tailwindcss';
 
 /* Import generated themes.css */
-@import './tokens/generated/themes.css';
+@import './tokens/themes.css';
 
 @theme {
   --color-current: currentColor;
