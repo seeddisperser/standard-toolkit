@@ -224,7 +224,6 @@ export type {
   UseTreeStateOptions,
 } from './hooks/types';
 export { useTreeActions } from './hooks/use-tree-actions';
-export { assert, toTree, withDefaults } from './hooks/use-tree-actions/utils';
 export { useTreeState } from './hooks/use-tree-state';
 export {
   getDroppedItemPayload,
