@@ -35,7 +35,7 @@ export function useTreeState<T extends object>(
     initialVisibleKeys,
   } = options;
   const [tree, setTree] = useState(items);
-  const actions = useTreeActions({ nodes: items });
+  const actions = useTreeActions({ nodes: tree });
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: we only want to run this once
   useEffect(() => {
@@ -98,9 +98,10 @@ export function useTreeState<T extends object>(
         }
       })();
     },
-    onItemDrop: ({ target, items }) => {
+    onItemDrop: ({ target, items }: DroppableCollectionOnItemDropEvent) => {
       (async () => {
         if (target.dropPosition === 'on') {
+          // @ts-ignore TODO
           const key = await items[0]?.getText('key');
           if (key) {
             setTree(actions.moveInto(target.key, new Set([key])));

@@ -81,14 +81,14 @@ const TreeLines = memo(function TreeLines({
 });
 
 /**
- * TODO: deep equality on tree with nodes passed in to reset
- * TODO: moving multiple with selection
  * TODO: visibility with children/parent/sibling things
+ * TODO: moving multiple with selection
  * TODO: accessors?
  * TODO: generics cleanup
  * TODO: manage re-rendering and performance
  * TODO: visual polish
  * TODO: classNames refactor
+ * TODO: docs
  */
 
 export function Tree<T extends object>(props: TreeProps<T>) {

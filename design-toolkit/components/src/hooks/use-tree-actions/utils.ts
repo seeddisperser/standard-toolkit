@@ -11,6 +11,7 @@
  */
 
 import type { Key } from '@react-types/shared';
+import { useRef } from 'react';
 import type { TreeNode, TreeRef } from '../types';
 
 export function assert(
@@ -58,4 +59,16 @@ export function withDefaults<T>(node: TreeNode<T>): TreeNode<T> {
     children: [],
     ...node,
   };
+}
+
+export function useIsFirstMount(): boolean {
+  const isFirst = useRef(true);
+
+  if (isFirst.current) {
+    isFirst.current = false;
+
+    return true;
+  }
+
+  return isFirst.current;
 }
