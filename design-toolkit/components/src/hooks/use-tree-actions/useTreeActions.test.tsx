@@ -41,7 +41,7 @@ const nodeDefaults = {
   isVisible: false,
 };
 
-const tree: TreeNode<Values>[] = [
+const defaultTree: TreeNode<Values>[] = [
   {
     ...nodeDefaults,
     key: 'one',
@@ -64,16 +64,117 @@ const tree: TreeNode<Values>[] = [
 ];
 
 describe('useTreeActions', () => {
+  describe('get node', () => {
+    it('returns a node', () => {
+      const { result: hook } = setup({ nodes: defaultTree });
+
+      expect(hook.current.getTreeNode('two')).toStrictEqual({
+        ...nodeDefaults,
+        key: 'two',
+        parentKey: 'one',
+        label: 'Two',
+      });
+    });
+
+    it('returns a node with children', () => {
+      const { result: hook } = setup({ nodes: defaultTree });
+
+      expect(hook.current.getTreeNode('one')).toStrictEqual({
+        ...nodeDefaults,
+        key: 'one',
+        label: 'One',
+        children: [
+          {
+            ...nodeDefaults,
+            key: 'two',
+            parentKey: 'one',
+            label: 'Two',
+          },
+          {
+            ...nodeDefaults,
+            key: 'three',
+            parentKey: 'one',
+            label: 'Three',
+          },
+        ],
+      });
+    });
+
+    it('returns a node with all descendants', () => {
+      const { result: hook } = setup({
+        nodes: [
+          {
+            ...nodeDefaults,
+            key: 'one',
+            label: 'One',
+            children: [
+              {
+                ...nodeDefaults,
+                key: 'two',
+                parentKey: 'one',
+                label: 'Two',
+                children: [
+                  {
+                    ...nodeDefaults,
+                    key: 'four',
+                    parentKey: 'two',
+                    label: 'Four',
+                  },
+                ],
+              },
+              {
+                ...nodeDefaults,
+                key: 'three',
+                parentKey: 'one',
+                label: 'Three',
+              },
+            ],
+          },
+        ],
+      });
+
+      expect(hook.current.getTreeNode('one')).toStrictEqual({
+        ...nodeDefaults,
+        key: 'one',
+        label: 'One',
+        children: [
+          {
+            ...nodeDefaults,
+            key: 'two',
+            parentKey: 'one',
+            label: 'Two',
+            children: [
+              {
+                ...nodeDefaults,
+                key: 'four',
+                parentKey: 'two',
+                label: 'Four',
+              },
+            ],
+          },
+          {
+            ...nodeDefaults,
+            key: 'three',
+            parentKey: 'one',
+            label: 'Three',
+          },
+        ],
+      });
+    });
+  });
+
   /** ADD NODES **/
   describe('insert actions', () => {
     it('should insert a single node at root start', () => {
-      const { result: hook } = setup({ nodes: tree });
+      const { result: hook } = setup({ nodes: defaultTree });
 
       expect(
-        hook.current.insertBefore(null, {
-          key: 'four',
-          label: 'Four',
-        }),
+        hook.current.insertBefore(null, [
+          {
+            key: 'four',
+            label: 'Four',
+          },
+        ]),
       ).toStrictEqual([
         {
           ...nodeDefaults,
@@ -104,13 +205,15 @@ describe('useTreeActions', () => {
     });
 
     it('should insert a single node at root end', () => {
-      const { result: hook } = setup({ nodes: tree });
+      const { result: hook } = setup({ nodes: defaultTree });
 
       expect(
-        hook.current.insertAfter(null, {
-          key: 'four',
-          label: 'Four',
-        }),
+        hook.current.insertAfter(null, [
+          {
+            key: 'four',
+            label: 'Four',
+          },
+        ]),
       ).toStrictEqual([
         {
           ...nodeDefaults,
@@ -141,13 +244,15 @@ describe('useTreeActions', () => {
     });
 
     it('should insert a node before the target', () => {
-      const { result: hook } = setup({ nodes: tree });
+      const { result: hook } = setup({ nodes: defaultTree });
 
       expect(
-        hook.current.insertBefore('two', {
-          key: 'four',
-          label: 'Four',
-        }),
+        hook.current.insertBefore('two', [
+          {
+            key: 'four',
+            label: 'Four',
+          },
+        ]),
       ).toStrictEqual([
         {
           ...nodeDefaults,
@@ -178,13 +283,15 @@ describe('useTreeActions', () => {
     });
 
     it('should insert a node after the target', () => {
-      const { result: hook } = setup({ nodes: tree });
+      const { result: hook } = setup({ nodes: defaultTree });
 
       expect(
-        hook.current.insertAfter('two', {
-          key: 'four',
-          label: 'Four',
-        }),
+        hook.current.insertAfter('two', [
+          {
+            key: 'four',
+            label: 'Four',
+          },
+        ]),
       ).toStrictEqual([
         {
           ...nodeDefaults,
@@ -214,22 +321,50 @@ describe('useTreeActions', () => {
       ]);
     });
 
-    it('should throw an error if given a fictional target', () => {
-      const { result: hook } = setup({ nodes: tree });
-
-      // expect(
-      //   hook.current.insertAfter('foo', {
-      //     key: 'four',
-      //     label: 'Four',
-      //   }),
-      // ).toThrowError('Key of foo does not exist in tree');
-      expect(true).toBe(true);
+    it('should insert under a parent', () => {
+      const { result: hook } = setup({ nodes: defaultTree });
+      expect(
+        hook.current.insertInto('two', [
+          {
+            key: 'four',
+            label: 'Four',
+          },
+        ]),
+      ).toStrictEqual([
+        {
+          ...nodeDefaults,
+          key: 'one',
+          label: 'One',
+          children: [
+            {
+              ...nodeDefaults,
+              key: 'two',
+              parentKey: 'one',
+              label: 'Two',
+              children: [
+                {
+                  ...nodeDefaults,
+                  key: 'four',
+                  parentKey: 'two',
+                  label: 'Four',
+                },
+              ],
+            },
+            {
+              ...nodeDefaults,
+              key: 'three',
+              parentKey: 'one',
+              label: 'Three',
+            },
+          ],
+        },
+      ]);
     });
   });
 
   /** REMOVE NODES **/
   describe('remove actions', () => {
-    it('should remove a root node and children', () => {
+    it('should remove a root node and descendants', () => {
       const { result: hook } = setup({
         nodes: [
           {
@@ -243,6 +378,14 @@ describe('useTreeActions', () => {
                 key: 'two',
                 parentKey: 'one',
                 label: 'Two',
+                children: [
+                  {
+                    ...nodeDefaults,
+                    key: 'four',
+                    parentKey: 'two',
+                    label: 'Four',
+                  },
+                ],
               },
             ],
           },
@@ -266,7 +409,7 @@ describe('useTreeActions', () => {
     });
 
     it('should remove a single node', () => {
-      const { result: hook } = setup({ nodes: tree });
+      const { result: hook } = setup({ nodes: defaultTree });
 
       expect(hook.current.remove('two')).toStrictEqual([
         {
@@ -289,11 +432,12 @@ describe('useTreeActions', () => {
   /** UPDATE NODE **/
   describe('update actions', () => {
     it('should update a node by key', () => {
-      const { result } = setup({ nodes: tree });
+      const { result: hook } = setup({ nodes: defaultTree });
 
-      const update = result.current.update('one', {
+      const update = hook.current.updateNode('one', (node) => ({
+        ...node,
         label: 'Updated One',
-      });
+      }));
 
       expect(update).toStrictEqual([
         {
@@ -323,7 +467,7 @@ describe('useTreeActions', () => {
   /** MOVE NODES **/
   describe('move actions', () => {
     it('should move a node to root start', () => {
-      const { result: hook } = setup({ nodes: tree });
+      const { result: hook } = setup({ nodes: defaultTree });
       expect(hook.current.moveBefore(null, new Set(['three']))).toStrictEqual([
         {
           ...nodeDefaults,
@@ -348,7 +492,7 @@ describe('useTreeActions', () => {
     });
 
     it('should move a node to root end', () => {
-      const { result: hook } = setup({ nodes: tree });
+      const { result: hook } = setup({ nodes: defaultTree });
       expect(hook.current.moveAfter(null, new Set(['three']))).toStrictEqual([
         {
           ...nodeDefaults,
@@ -418,7 +562,7 @@ describe('useTreeActions', () => {
     });
 
     it('should move a node before target in same parent', () => {
-      const { result: hook } = setup({ nodes: tree });
+      const { result: hook } = setup({ nodes: defaultTree });
 
       expect(hook.current.moveBefore('two', new Set(['three']))).toStrictEqual([
         {
@@ -487,7 +631,7 @@ describe('useTreeActions', () => {
             {
               ...nodeDefaults,
               key: 'four',
-              parentKey: 'three',
+              parentKey: 'one',
               label: 'Four',
             },
             {
@@ -620,7 +764,7 @@ describe('useTreeActions', () => {
             {
               ...nodeDefaults,
               key: 'four',
-              parentKey: 'three',
+              parentKey: 'one',
               label: 'Four',
             },
           ],
@@ -638,50 +782,338 @@ describe('useTreeActions', () => {
 
   /** SELECTION **/
   describe('selection actions', () => {
-    it('should toggle a single tree item', () => {
-      // TODO
-      expect(true).toBe(true);
+    it('should remove selection if not in set', () => {
+      const { result: hook } = setup({
+        nodes: [
+          {
+            ...nodeDefaults,
+            key: 'one',
+            label: 'One',
+            children: [
+              {
+                ...nodeDefaults,
+                key: 'two',
+                parentKey: 'one',
+                label: 'Two',
+                isSelected: true,
+              },
+              {
+                ...nodeDefaults,
+                key: 'three',
+                parentKey: 'one',
+                label: 'Three',
+                isSelected: true,
+              },
+            ],
+          },
+        ],
+      });
+
+      expect(hook.current.onSelectionChange(new Set(['two']))).toStrictEqual([
+        {
+          ...nodeDefaults,
+          key: 'one',
+          label: 'One',
+          children: [
+            {
+              ...nodeDefaults,
+              key: 'two',
+              parentKey: 'one',
+              label: 'Two',
+              isSelected: true,
+            },
+            {
+              ...nodeDefaults,
+              key: 'three',
+              parentKey: 'one',
+              label: 'Three',
+              isSelected: false,
+            },
+          ],
+        },
+      ]);
     });
 
-    it('should allow multiple selection of tree items', () => {
-      // TODO
-      expect(true).toBe(true);
+    it('should add selection if in set', () => {
+      const { result: hook } = setup({
+        nodes: [
+          {
+            ...nodeDefaults,
+            key: 'one',
+            label: 'One',
+            children: [
+              {
+                ...nodeDefaults,
+                key: 'two',
+                parentKey: 'one',
+                label: 'Two',
+                isSelected: true,
+              },
+              {
+                ...nodeDefaults,
+                key: 'three',
+                parentKey: 'one',
+                label: 'Three',
+              },
+            ],
+          },
+        ],
+      });
+
+      expect(
+        hook.current.onSelectionChange(new Set(['two', 'three'])),
+      ).toStrictEqual([
+        {
+          ...nodeDefaults,
+          key: 'one',
+          label: 'One',
+          children: [
+            {
+              ...nodeDefaults,
+              key: 'two',
+              parentKey: 'one',
+              label: 'Two',
+              isSelected: true,
+            },
+            {
+              ...nodeDefaults,
+              key: 'three',
+              parentKey: 'one',
+              label: 'Three',
+              isSelected: true,
+            },
+          ],
+        },
+      ]);
     });
   });
 
   /** EXPANSION **/
   describe('expansion actions', () => {
-    it('should test expansion', () => {
-      // TODO
-      expect(true).toBe(true);
+    it('should collapse if not in set', () => {
+      const { result: hook } = setup({
+        nodes: [
+          {
+            ...nodeDefaults,
+            key: 'one',
+            label: 'One',
+            isExpanded: true,
+            children: [
+              {
+                ...nodeDefaults,
+                key: 'two',
+                parentKey: 'one',
+                label: 'Two',
+              },
+              {
+                ...nodeDefaults,
+                key: 'three',
+                parentKey: 'one',
+                label: 'Three',
+              },
+            ],
+          },
+        ],
+      });
+
+      expect(hook.current.onExpandedChange(new Set())).toStrictEqual([
+        {
+          ...nodeDefaults,
+          key: 'one',
+          label: 'One',
+          children: [
+            {
+              ...nodeDefaults,
+              key: 'two',
+              parentKey: 'one',
+              label: 'Two',
+            },
+            {
+              ...nodeDefaults,
+              key: 'three',
+              parentKey: 'one',
+              label: 'Three',
+            },
+          ],
+        },
+      ]);
+    });
+
+    it('should expand if in set', () => {
+      const { result: hook } = setup({ nodes: defaultTree });
+
+      expect(hook.current.onExpandedChange(new Set(['one']))).toStrictEqual([
+        {
+          ...nodeDefaults,
+          key: 'one',
+          label: 'One',
+          isExpanded: true,
+          children: [
+            {
+              ...nodeDefaults,
+              key: 'two',
+              parentKey: 'one',
+              label: 'Two',
+            },
+            {
+              ...nodeDefaults,
+              key: 'three',
+              parentKey: 'one',
+              label: 'Three',
+            },
+          ],
+        },
+      ]);
     });
   });
 
   /** VISIBILITY **/
   describe('visibility actions', () => {
-    it('should change the visibility of a single item without children', () => {
-      // TODO
-      expect(true).toBe(true);
+    it('should update node visibility with children', () => {
+      const { result: hook } = setup({
+        nodes: [
+          {
+            ...nodeDefaults,
+            key: 'one',
+            label: 'One',
+            children: [
+              {
+                ...nodeDefaults,
+                key: 'two',
+                parentKey: 'one',
+                label: 'Two',
+                children: [
+                  {
+                    ...nodeDefaults,
+                    key: 'four',
+                    parentKey: 'two',
+                    label: 'Four',
+                  },
+                ],
+              },
+              {
+                ...nodeDefaults,
+                key: 'three',
+                parentKey: 'one',
+                label: 'Three',
+              },
+            ],
+          },
+        ],
+      });
+      expect(hook.current.onVisibilityChange(new Set(['one']))).toStrictEqual([
+        {
+          ...nodeDefaults,
+          key: 'one',
+          label: 'One',
+          isVisible: true,
+          isViewable: true,
+          children: [
+            {
+              ...nodeDefaults,
+              key: 'two',
+              parentKey: 'one',
+              label: 'Two',
+              isViewable: true,
+              children: [
+                {
+                  ...nodeDefaults,
+                  key: 'four',
+                  parentKey: 'two',
+                  label: 'Four',
+                  isViewable: true,
+                },
+              ],
+            },
+            {
+              ...nodeDefaults,
+              key: 'three',
+              parentKey: 'one',
+              label: 'Three',
+              isViewable: true,
+            },
+          ],
+        },
+      ]);
     });
 
-    it('should have children not viewable when parent is not visible', () => {
-      // TODO
-      expect(true).toBe(true);
-    });
-
-    it('should have children viewable when parent is visible', () => {
-      // TODO
-      expect(true).toBe(true);
-    });
-
-    it('should change visibility of parent when all children are not visible', () => {
-      // TODO
-      expect(true).toBe(true);
-    });
-
-    it('disabled children are skipped', () => {
-      // TODO
-      expect(true).toBe(true);
+    it('should set children not viewable when parent is not visible', () => {
+      const { result: hook } = setup({
+        nodes: [
+          {
+            ...nodeDefaults,
+            key: 'one',
+            label: 'One',
+            isVisible: true,
+            isViewable: true,
+            children: [
+              {
+                ...nodeDefaults,
+                key: 'two',
+                parentKey: 'one',
+                label: 'Two',
+                isViewable: true,
+                isVisible: true,
+                children: [
+                  {
+                    ...nodeDefaults,
+                    key: 'four',
+                    parentKey: 'two',
+                    label: 'Four',
+                    isViewable: true,
+                    isVisible: true,
+                  },
+                ],
+              },
+              {
+                ...nodeDefaults,
+                key: 'three',
+                parentKey: 'one',
+                label: 'Three',
+                isViewable: true,
+                isVisible: false,
+              },
+            ],
+          },
+        ],
+      });
+      expect(hook.current.onVisibilityChange(new Set())).toStrictEqual([
+        {
+          ...nodeDefaults,
+          key: 'one',
+          label: 'One',
+          isVisible: false,
+          isViewable: false,
+          children: [
+            {
+              ...nodeDefaults,
+              key: 'two',
+              parentKey: 'one',
+              label: 'Two',
+              isViewable: false,
+              isVisible: true,
+              children: [
+                {
+                  ...nodeDefaults,
+                  key: 'four',
+                  parentKey: 'two',
+                  label: 'Four',
+                  isViewable: false,
+                  isVisible: true,
+                },
+              ],
+            },
+            {
+              ...nodeDefaults,
+              key: 'three',
+              parentKey: 'one',
+              label: 'Three',
+              isViewable: false,
+              isVisible: false,
+            },
+          ],
+        },
+      ]);
     });
   });
 });

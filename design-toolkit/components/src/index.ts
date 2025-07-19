@@ -214,11 +214,11 @@ export { VisibilityToggle } from './components/tree/visibility-toggle';
 export { items, nodeDefaults } from './hooks/fixtures';
 export type { Values } from './hooks/fixtures';
 export type {
+  Position,
   TreeActions,
   TreeData,
-  TreeMap,
   TreeNode,
-  TreeRef,
+  TreeNodeBase,
   UseTreeActionsOptions,
   UseTreeState,
   UseTreeStateOptions,

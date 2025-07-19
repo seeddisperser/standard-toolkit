@@ -23,7 +23,7 @@ import {
 import Warning from '@accelint/icons/warning';
 import type { Key, Selection } from '@react-types/shared';
 import type { Meta, StoryObj } from '@storybook/react';
-import { type ReactNode, useState } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 import { Button } from '../button';
 import { Icon } from '../icon';
 import { Tree } from './index';
@@ -68,6 +68,7 @@ const items: TreeNode<ItemValues>[] = [
     label: 'North American Birds',
     isVisible: true,
     isReadOnly: false,
+    isExpanded: true,
     values: {
       iconPrefix: <Placeholder />,
     },
@@ -344,10 +345,17 @@ export const WithoutManagedState: Story = {
      *
      *  Critically, It is the fetched data from the server that is driving the
      *  Tree, not component state.
+     *
+     *  It is important that the data does not change under, you can't touch the
+     *  nodes that are passed without letting the tree know about it
      */
     const [db, setDB] = useState(items);
-
     const actions = useTreeActions({ nodes: db });
+
+    // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+    useEffect(() => {
+      setDB(actions.initialize());
+    }, []);
 
     const handleSelection = (keys: Selection) => {
       const updated = actions.onSelectionChange(new Set(keys));

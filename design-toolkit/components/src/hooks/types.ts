@@ -51,14 +51,9 @@ export type UseTreeState<T extends object> = {
   };
 };
 
-export type TreeMap<T extends object> = Map<Key, TreeNode<T>>;
-
 export type TreeData<T> = TreeNode<T>[];
 
-export type TreeRef<T extends object> = {
-  lookup: TreeMap<T>;
-  roots: Key[];
-};
+export type Position = 'before' | 'after' | 'under';
 
 /**
  * The TreeNode is a wrapper that describes the relationship of this node
@@ -66,21 +61,25 @@ export type TreeRef<T extends object> = {
  * TreeNode properties describe the metadata - state and position of the node.
  * The item property represents the action tree item data.
  */
-export type TreeNode<T> = {
+
+export type TreeNodeBase<T> = {
   /** A unique key for the tree node. */
   key: Key;
   /** Label string **/
   label: string;
-  /** The key of the parent node. */
-  parentKey?: Key | null;
-  /** Children of the tree node. */
-  children?: TreeNode<T>[] | null;
   values?: T;
   isExpanded?: boolean;
   isSelected?: boolean;
   isVisible?: boolean;
   isViewable?: boolean;
   isReadOnly?: boolean;
+};
+
+export type TreeNode<T> = TreeNodeBase<T> & {
+  /** The key of the parent node. */
+  parentKey?: Key | null;
+  /** Children of the tree node. */
+  children?: TreeNode<T>[] | null;
 };
 
 export type UseTreeActionsOptions<T> = {
@@ -97,21 +96,26 @@ export type UseTreeActionsOptions<T> = {
  *
  */
 export type TreeActions<T> = {
+  initialize: () => TreeData<T>;
   getTreeNode: (key: Key) => TreeNode<T> | undefined;
   // inserting
-  insertBefore: (target: Key | null, ...items: TreeNode<T>[]) => TreeData<T>;
-  insertAfter: (target: Key | null, ...items: TreeNode<T>[]) => TreeData<T>;
+  insertInto: (target: Key | null, nodes: TreeNode<T>[]) => TreeData<T>;
+  insertBefore: (target: Key | null, nodes: TreeNode<T>[]) => TreeData<T>;
+  insertAfter: (target: Key | null, nodes: TreeNode<T>[]) => TreeData<T>;
 
   // removing
   remove: (...keys: Key[]) => TreeData<T>;
 
   // update
-  update: (key: Key, patch: Partial<TreeNode<T>>) => TreeData<T>;
+  updateNode: (
+    key: Key,
+    callback: (node: TreeNode<T>) => TreeNode<T>,
+  ) => TreeData<T>;
 
   // moving
-  moveAfter: (target: Key | null, items: Set<Key>) => TreeData<T>;
-  moveBefore: (target: Key | null, items: Set<Key>) => TreeData<T>;
-  moveInto: (target: Key | null, items: Set<Key>) => TreeData<T>;
+  moveAfter: (target: Key | null, nodes: Set<Key>) => TreeData<T>;
+  moveBefore: (target: Key | null, nodes: Set<Key>) => TreeData<T>;
+  moveInto: (target: Key | null, nodes: Set<Key>) => TreeData<T>;
 
   // expansion
   getExpandedKeys: () => Set<Key>;

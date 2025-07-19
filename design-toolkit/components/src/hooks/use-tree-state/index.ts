@@ -76,7 +76,6 @@ export function useTreeState<T extends object>(
         };
       }),
     onReorder: (e: DroppableCollectionReorderEvent) => {
-      console.log('onReorder', e);
       if (e.target.dropPosition === 'before') {
         setTree(actions.moveBefore(e.target.key, e.keys));
       } else {
@@ -92,9 +91,9 @@ export function useTreeState<T extends object>(
         setTree(actions.remove(...processedItems.map((item) => item.id)));
 
         if (target.dropPosition === 'before') {
-          setTree(actions.insertBefore(target.key, ...processedItems));
+          setTree(actions.insertBefore(target.key, processedItems));
         } else if (target.dropPosition === 'after') {
-          setTree(actions.insertAfter(target.key, ...processedItems));
+          setTree(actions.insertAfter(target.key, processedItems));
         }
       })();
     },
@@ -118,7 +117,7 @@ export function useTreeState<T extends object>(
 
         setTree(actions.remove(...processedItems.map((item) => item.key)));
 
-        setTree(actions.insertAfter(null, ...processedItems));
+        setTree(actions.insertAfter(null, processedItems));
       })();
     },
   };

@@ -82,7 +82,12 @@ export const TreeStyles = tv({
     },
     isViewable: {
       false: {
+        item: 'fg-default-dark',
         visibility: 'fg-default-dark',
+      },
+      true: {
+        item: 'fg-default-light',
+        visibility: 'fg-default-light',
       },
     },
   },

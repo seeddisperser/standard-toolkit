@@ -11,57 +11,48 @@
  */
 
 import type { Key } from '@react-types/shared';
-import { isEqual } from 'lodash';
 import { useRef } from 'react';
 import type {
   TreeActions,
   TreeData,
-  TreeMap,
   TreeNode,
-  TreeRef,
+  TreeNodeBase,
   UseTreeActionsOptions,
 } from '../types';
-import { assert, toTree, useIsFirstMount, withDefaults } from './utils';
+import {
+  assert,
+  addNodes,
+  buildLookup,
+  deleteNode,
+  getAllNodes,
+  getNode,
+  getVisibilityChange,
+  insert,
+  move,
+  moveNodes,
+  setAllNodes,
+  setNode,
+  setViewable,
+  toTree,
+  validateCache,
+} from './utils';
 
-function buildLookup<T extends object>(
-  nodes: TreeNode<T>[],
-  lookup: TreeMap<T>,
-  parentKey?: Key | null,
-): TreeRef<T> {
-  console.log('...building');
+function useIsFirstMount(): boolean {
+  const isFirst = useRef(true);
+  if (isFirst.current) {
+    isFirst.current = false;
 
-  nodes.map((node) => {
-    lookup.set(node.key, {
-      parentKey: parentKey ?? null,
-      ...withDefaults(node),
-      ...node,
-    });
-    if (node.children) {
-      buildLookup(node.children, lookup, node.key);
-    }
-  });
-  const roots = nodes.map((node) => node.key);
-  return { lookup, roots };
+    return true;
+  }
+  return isFirst.current;
 }
 
 /**
- * This is a cache created only for performance reasons and is considered
- * to be only a temporary mirror of the data. The data is *always* correct
- * and the cache should be updated according to the data, only
- *
- * This will run once, to build the initial information,
- * then will only be updated with each tree operation, to maximize performance.
- * Writing the lookup is expensive, reading cheap
- *
- * Maybe a sanity check here that if the data doesn't match a toTree build,
- * we completely rebuild the lookup? So we are never out of sync with data?
- */
-
-let cache: TreeRef<any> = { lookup: new Map(), roots: [] };
-
-/**
  * Stateless hook that transforms tree data according to actions
- * it takes in tree and returns a new version of the tree
+ * it takes in nodes and returns a new version of the tree.
+ *
+ * Note: each operation returns the whole tree. Future iterations
+ * might want to return only the changed portion of the tree.
  *
  * @param nodes
  */
@@ -72,245 +63,118 @@ export function useTreeActions<T extends object>({
   const lastBuild = useRef<TreeNode<T>[] | null>(null);
 
   if (isFirstMount) {
-    cache = buildLookup<T>(nodes ?? [], new Map());
-    lastBuild.current = toTree(cache);
+    buildLookup<T>(nodes ?? [], new Map());
+    lastBuild.current = toTree();
   }
 
-  // if the nodes coming in don't match our cache, rebuild from data
-  if (!isEqual(nodes, lastBuild.current)) {
-    cache = buildLookup(nodes, new Map());
+  validateCache<T>(nodes, lastBuild.current);
+
+  function initialize() {
+    return updateAndReturn();
   }
 
-  function getTreeNode(key: Key) {
-    return cache.lookup.get(key);
-  }
+  function getTreeNode(key: Key): TreeNode<T> | undefined {
+    const node = getNode<T>(key);
 
-  /** INSERT NODES **/
-  function insert(
-    parentKey: Key | null,
-    index: number,
-    position: 'before' | 'after',
-    ...items: TreeNode<T>[]
-  ) {
-    items.map((item) => {
-      // Create nodes in the lookup
-      cache.lookup.set(item.key, {
-        parentKey: parentKey ?? null,
-        ...withDefaults(item),
-        ...item,
-      });
-
-      if (parentKey === null) {
-        position === 'before'
-          ? cache.roots.unshift(item.key)
-          : cache.roots.push(item.key);
-      } else {
-        // Then update the parent's children
-        addToParent(parentKey, item, index);
-      }
-    });
-
-    return updateCacheAndReturn(cache);
-  }
-
-  function insertBefore(target: Key | null, ...items: TreeNode<T>[]) {
-    if (target === null) {
-      return insert(null, 0, 'before', ...items);
+    if (!node) {
+      return undefined;
     }
 
-    const node = cache.lookup.get(target);
-    assert(node !== undefined, `Key of ${target} does not exist in tree`);
-
-    if (node.parentKey) {
-      const parent = cache.lookup.get(node.parentKey);
-      assert(
-        parent !== undefined,
-        `Key of ${node.parentKey} does not exist in tree`,
-      );
-
-      const nodes = parent.children ?? [];
-      const index = nodes.findIndex((n) => n.key === node.key);
-
-      return index >= 0
-        ? insert(node.parentKey, index, 'before', ...items)
-        : insert(null, 0, 'before', ...items);
-    }
-
-    return updateCacheAndReturn(cache);
-  }
-
-  function insertAfter(target: Key | null, ...items: TreeNode<T>[]) {
-    if (target === null) {
-      return insert(null, 0, 'after', ...items);
-    }
-
-    const node = cache.lookup.get(target);
-    assert(node !== undefined, `Key of ${target} does not exist in tree`);
-
-    if (node.parentKey) {
-      const parent = cache.lookup.get(node.parentKey);
-      assert(
-        parent !== undefined,
-        `Key of ${node.parentKey} does not exist in tree`,
-      );
-
-      const nodes = parent.children ?? [];
-      const index = nodes.findIndex((n) => n.key === node.key);
-
-      return index >= 0
-        ? insert(node.parentKey, index + 1, 'after', ...items)
-        : insert(null, 0, 'after', ...items);
-    }
-
-    return updateCacheAndReturn(cache);
+    return node;
   }
 
   /** REMOVE NODES **/
   function remove(...keys: Key[]) {
     if (keys.length === 0) {
-      return toTree(cache);
+      return lastBuild.current ?? updateAndReturn();
     }
-
-    for (const key of keys) {
-      const node = cache.lookup.get(key);
-      if (!node) {
-        return toTree(cache);
-      }
-
-      // remove children
-      node.children?.map((child) => cache.lookup.delete(child.key));
-
-      // remove node from previous parent or root
-      node.parentKey
-        ? removeFromParent(node.parentKey, key)
-        : removeFromRoot(key);
-
-      cache.lookup.delete(key);
-    }
-
-    return updateCacheAndReturn(cache);
+    keys.map((key) => deleteNode(key));
+    return updateAndReturn();
   }
 
   /** UPDATE NODES **/
-  function update(key: Key, patch: Partial<TreeNode<T>>) {
-    // this is using setState to update the values in our useState cache
-    // we are generating new values with the updateTree function that does the walking
-    // previousValue --> updateTree --> write new values to state
+  /**
+   *
+   * @param key
+   * @param callback
+   */
+  function updateNode(
+    key: Key,
+    callback: (node: TreeNodeBase<T>) => TreeNodeBase<T>,
+  ) {
+    const node = getNode<T>(key);
+    const newNode = callback(node);
+    setNode<T>(key, newNode);
+    return updateAndReturn();
+  }
 
-    // return updateTree(key, (oldNode) => {
-    //   const node: TreeNode<T> = {
-    //     key: oldNode.key,
-    //     label: oldNode.label,
-    //     parentKey: oldNode.parentKey,
-    //     values: item.values,
-    //     children: null,
-    //   };
-    //
-    //   const tree = buildTree(getChildren(oldNode) ?? [], cache.lookup, node.key);
-    //   node.children = tree.items;
-    //   return node;
-    // });
+  /** INSERT NODES **/
+  function insertInto(target: Key | null, nodes: TreeNode<T>[]) {
+    nodes.map((node) => insert(target, node, 0));
+    return updateAndReturn();
+  }
 
-    const node = cache.lookup.get(key);
-    assert(node !== undefined, `Key of ${key} does not exist in tree`);
+  function insertBefore(target: Key | null, nodes: TreeNode<T>[]) {
+    addNodes(target, nodes, 'before');
+    return updateAndReturn();
+  }
 
-    const newNode = {
-      ...node,
-      ...patch,
-    };
-
-    cache.lookup.set(key, newNode);
-    return updateCacheAndReturn(cache);
+  function insertAfter(target: Key | null, nodes: TreeNode<T>[]) {
+    addNodes(target, nodes, 'after');
+    return updateAndReturn();
   }
 
   /** MOVE NODES **/
-
-  function moveBefore(target: Key | null, items: Set<Key>) {
-    if (target === null) {
-      toRoot(items, 'before');
-      return toTree(cache);
-    }
-
-    for (const key of items) {
-      move(target, key, 'before');
-    }
-
-    return updateCacheAndReturn(cache);
+  function moveInto(target: Key | null, nodes: Set<Key>) {
+    Array.from(nodes).map((key) => move(target, key, 0));
+    return updateAndReturn();
   }
 
-  function moveAfter(target: Key | null, items: Set<Key>) {
-    if (target === null) {
-      toRoot(items, 'after');
-      return toTree(cache);
-    }
-
-    for (const key of items) {
-      move(target, key, 'after');
-    }
-
-    return updateCacheAndReturn(cache);
+  function moveBefore(target: Key | null, nodes: Set<Key>) {
+    moveNodes(target, nodes, 'before');
+    return updateAndReturn();
   }
 
-  function moveInto(target: Key | null, items: Set<Key>) {
-    if (target === null) {
-      toRoot(items, 'after');
-      return toTree(cache);
-    }
-
-    for (const key of items) {
-      into(target, key);
-    }
-
-    return updateCacheAndReturn(cache);
-  }
-
-  function updateAll(patch: Partial<TreeNode<T>>) {
-    for (const node of cache.lookup.values()) {
-      cache.lookup.set(node.key, {
-        ...node,
-        ...patch,
-      });
-    }
+  function moveAfter(target: Key | null, nodes: Set<Key>) {
+    moveNodes(target, nodes, 'after');
+    return updateAndReturn();
   }
 
   /** SELECTION **/
   function getSelectedKeys() {
-    const selected = new Set<Key>();
-    for (const node of cache.lookup.values()) {
-      if (node.isSelected) {
-        selected.add(node.key);
-      }
-    }
-    return selected;
+    return Array.from(getAllNodes()).reduce(
+      (acc, node) => (node.isSelected ? acc.add(node.key) : acc),
+      new Set<Key>(),
+    );
   }
 
   function onSelectionChange(keys: Set<Key>) {
     for (const key of new Set([...keys, ...getSelectedKeys()])) {
-      const node = cache.lookup.get(key);
+      const node = getNode<T>(key);
       assert(node !== undefined, `Key of ${key} does not exist in tree`);
 
-      cache.lookup.set(node.key, {
+      setNode<T>(node.key, {
         ...node,
         isSelected: keys.has(key),
       });
     }
 
-    return updateCacheAndReturn(cache);
+    return updateAndReturn();
   }
 
   function selectAll() {
-    updateAll({ isSelected: true });
-    return updateCacheAndReturn(cache);
+    setAllNodes({ isSelected: true });
+    return updateAndReturn();
   }
 
   function unselectAll() {
-    updateAll({ isSelected: false });
-    return updateCacheAndReturn(cache);
+    setAllNodes({ isSelected: false });
+    return updateAndReturn();
   }
 
   /** EXPANSION **/
   function getExpandedKeys() {
-    return Array.from(cache.lookup.values()).reduce(
+    return Array.from(getAllNodes()).reduce(
       (acc, node) => (node.isExpanded ? acc.add(node.key) : acc),
       new Set<Key>(),
     );
@@ -318,200 +182,91 @@ export function useTreeActions<T extends object>({
 
   function onExpandedChange(keys: Set<Key>): TreeNode<T>[] {
     for (const key of new Set([...keys, ...getExpandedKeys()])) {
-      const node = cache.lookup.get(key);
+      const node = getNode<T>(key);
       assert(node !== undefined, `Key of ${key} does not exist in tree`);
 
       const isExpanded = keys.has(key);
 
-      cache.lookup.set(node.key, {
+      setNode(node.key, {
         ...node,
         isExpanded,
       });
     }
 
-    return updateCacheAndReturn(cache);
+    return updateAndReturn();
   }
 
   function expandAll() {
-    updateAll({ isExpanded: true });
-    return updateCacheAndReturn(cache);
+    setAllNodes({ isExpanded: true });
+    return updateAndReturn();
   }
 
   function collapseAll() {
-    updateAll({ isExpanded: false });
-    return updateCacheAndReturn(cache);
+    setAllNodes({ isExpanded: false });
+    return updateAndReturn();
   }
 
   /** VISIBILITY **/
+  /**
+   * Visible keys are a Set of keys where isVisible is a boolean type
+   */
   function getVisibleKeys() {
-    const visible = new Set<Key>();
-    for (const node of cache.lookup.values()) {
-      if (node.isVisible) {
-        visible.add(node.key);
-      }
-    }
-    return visible;
+    return Array.from(getAllNodes()).reduce(
+      (acc, node) => (node.isVisible ? acc.add(node.key) : acc),
+      new Set<Key>(),
+    );
   }
 
+  /**
+   * Changes isVisible and isViewable node properties.
+   * If the key is not in the Set<key>, then it is not visible.
+   *
+   * @returns TreeNode<T>[]
+   * @param keys
+   */
   function onVisibilityChange(keys: Set<Key>): TreeData<T> {
-    for (const key of new Set([...keys, ...getVisibleKeys()])) {
-      const node = cache.lookup.get(key);
-      assert(node !== undefined, `Key of ${key} does not exist in tree`);
+    const { key, state } = getVisibilityChange(keys, getVisibleKeys());
 
-      const isVisible = keys.has(key);
+    if (key) {
+      const node = getNode<T>(key);
+      const isVisible = state;
 
-      cache.lookup.set(node.key, {
+      // update visibility for nodes
+      setNode(node.key, {
         ...node,
         isVisible,
         isViewable: isVisible,
       });
 
-      // set children viewable to match changed parent
-      // needs to be recursive
-      node.children?.map((n) =>
-        cache.lookup.set(n.key, { ...n, isViewable: isVisible }),
-      );
+      node.children?.map((child) => setViewable(child.key, isVisible));
     }
-    return updateCacheAndReturn(cache);
+
+    return updateAndReturn();
   }
 
   function revealAll() {
-    updateAll({ isVisible: true });
-    return updateCacheAndReturn(cache);
+    setAllNodes({ isVisible: true });
+    return updateAndReturn();
   }
 
   function hideAll() {
-    updateAll({ isVisible: false });
-    return updateCacheAndReturn(cache);
+    setAllNodes({ isVisible: false });
+    return updateAndReturn();
   }
 
-  /** NODE HELPERS - MUTATIONS TO cache.lookup, ROOT OBJECT **/
-
-  function toRoot(items: Set<Key>, position: 'before' | 'after') {
-    for (const key of items) {
-      const node = cache.lookup.get(key);
-      assert(node !== undefined, `Key of ${key} does not exist in tree`);
-
-      // remove from parent if it had one
-      if (node.parentKey) {
-        const parent = cache.lookup.get(node.parentKey);
-        if (parent) {
-          cache.lookup.set(node.parentKey, {
-            ...parent,
-            children: parent.children?.filter((child) => child.key !== key),
-          });
-        }
-      }
-
-      // change parentKey to root
-      cache.lookup.set(key, {
-        ...node,
-        parentKey: null,
-      });
-
-      position === 'before'
-        ? cache.roots.unshift(node.key)
-        : cache.roots.push(node.key);
-    }
-  }
-
-  function removeFromParent(parentKey: Key, childKey: Key) {
-    const parent = cache.lookup.get(parentKey);
-    assert(parent !== undefined, `Key of ${parentKey} does not exist in tree`);
-
-    cache.lookup.set(parentKey, {
-      ...parent,
-      children: parent.children?.filter((child) => child.key !== childKey),
-    });
-  }
-
-  function removeFromRoot(key: Key) {
-    const idx = cache.roots.indexOf(key);
-    cache.roots.splice(idx, 1);
-  }
-
-  function addToParent(parentKey: Key, item: TreeNode<T>, index: number) {
-    const parent = cache.lookup.get(parentKey);
-    assert(parent !== undefined, `Key of ${parentKey} does not exist in tree`);
-    assert(index >= 0, 'Target key not found in tree.');
-
-    cache.lookup.set(parentKey, {
-      ...parent,
-      children: [
-        ...(parent.children ?? []).slice(0, index),
-        {
-          ...withDefaults(item),
-          ...item,
-          parentKey: parentKey,
-        },
-        ...(parent.children ?? []).slice(index),
-      ],
-    });
-  }
-
-  function move(target: Key, key: Key, position: 'before' | 'after') {
-    const node = cache.lookup.get(key);
-    assert(node !== undefined, `Key of ${key} does not exist in tree`);
-
-    const targetParent = cache.lookup.get(target)?.parentKey;
-
-    // remove node from previous parent or root
-    node.parentKey
-      ? removeFromParent(node.parentKey, key)
-      : removeFromRoot(key);
-
-    // if target has parent, add as child
-    if (targetParent) {
-      const parent = cache.lookup.get(targetParent);
-      assert(
-        parent !== undefined,
-        `Key of ${targetParent} does not exist in tree`,
-      );
-      const idx =
-        parent.children?.findIndex((child) => child.key === target) ?? 0;
-
-      position === 'before'
-        ? addToParent(targetParent, node, idx)
-        : addToParent(targetParent, node, idx + 1);
-
-      // else add to root
-    } else {
-      const idx = cache.roots.indexOf(target);
-      cache.roots.splice(idx, 0, key);
-    }
-  }
-
-  function into(target: Key, key: Key) {
-    const parent = cache.lookup.get(target);
-    const node = cache.lookup.get(key);
-    assert(parent !== undefined, `Key of ${target} does not exist in tree`);
-    assert(node !== undefined, `Key of ${key} does not exist in tree`);
-
-    cache.lookup.set(target, {
-      ...parent,
-      children: parent.children?.concat({
-        ...node,
-        parentKey: parent.key,
-      }),
-    });
-
-    // remove node from previous parent or root
-    node.parentKey
-      ? removeFromParent(node.parentKey, key)
-      : removeFromRoot(key);
-  }
-
-  function updateCacheAndReturn(cache: TreeRef<T>) {
-    lastBuild.current = toTree(cache);
+  function updateAndReturn() {
+    lastBuild.current = toTree();
     return lastBuild.current;
   }
 
   return {
+    initialize,
     getTreeNode,
+    insertInto,
     insertAfter,
     insertBefore,
     remove,
-    update,
+    updateNode,
     moveAfter,
     moveBefore,
     moveInto,

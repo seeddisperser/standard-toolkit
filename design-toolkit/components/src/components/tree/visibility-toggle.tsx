@@ -30,12 +30,11 @@ const { visibility } = TreeStyles();
 
 export const VisibilityToggle = (props: VisibilityToggleProps) => {
   const context = useContext(TreeContext);
+  const { id, isVisible, isViewable, onChange } = props;
 
   const visibleKeys =
     (isSlottedContextValue(context) ? undefined : context?.visibleKeys) ??
     new Set();
-
-  const { id, isVisible, isViewable, onChange } = props;
 
   const handlePress = () => {
     const keys = new Set(visibleKeys);

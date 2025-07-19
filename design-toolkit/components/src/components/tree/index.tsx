@@ -11,6 +11,7 @@
  */
 
 import { TreeStyles, TreeStylesDefaults } from '@/components/tree/styles';
+import type { TreeNode } from '@/hooks/types';
 import { isSlottedContextValue } from '@/lib/utils';
 import { DragVert } from '@accelint/icons';
 import type { Key } from '@react-types/shared';
@@ -32,7 +33,6 @@ import {
   composeRenderProps,
   useDragAndDrop,
 } from 'react-aria-components';
-import type { TreeNode } from '../../hooks/types';
 import { Button } from '../button';
 import { Icon } from '../icon';
 import { Lines } from '../lines';
@@ -80,20 +80,22 @@ const TreeLines = memo(function TreeLines({
   });
 });
 
+function reducer<T, I>(
+  nodes: TreeNode<T>[],
+  callback: (acc: I, node: TreeNode<T>) => I,
+  initial: I,
+): I {
+  return nodes.reduce(
+    (acc, node) => reducer(node.children ?? [], callback, callback(acc, node)),
+    initial,
+  );
+}
+
 /**
- * TODO: visibility with children/parent/sibling things
- *
- * TODO: moving multiple with selection
- * TODO: accessors?
- *
- * TODO: generics cleanup
- * TODO: manage re-rendering and performance
- *
  * TODO: visual polish
  * TODO: classNames refactor
- * TODO: docs
+ * TODO: docs!
  */
-
 export function Tree<T extends object>(props: TreeProps<T>) {
   const {
     children,
@@ -121,26 +123,17 @@ export function Tree<T extends object>(props: TreeProps<T>) {
   });
 
   // Flatten viewable keys data from items
-  const viewableKeys = useMemo((): Set<Key> => {
-    if (!items) {
-      return new Set();
-    }
-    const viewable = new Set<Key>();
-
-    function traverse(nodes: Iterable<TreeNode<T>>) {
-      for (const node of nodes) {
-        if (node.isViewable) {
-          viewable.add(node.key);
-        }
-        if (node.children) {
-          traverse(node.children);
-        }
-      }
-    }
-
-    traverse(items);
-    return viewable;
-  }, [items]);
+  const viewableKeys = useMemo(
+    () =>
+      reducer(
+        Array.from(items ?? []),
+        (acc, node) => {
+          return node.isViewable ? acc.add(node.key) : acc;
+        },
+        new Set<Key>(),
+      ),
+    [items],
+  );
 
   return (
     <TreeContext.Provider
@@ -226,11 +219,11 @@ export function ItemContent({ children }: ItemContentProps) {
           selectionBehavior === 'toggle' && selectionMode !== 'none';
         const isNotRoot = level > 1;
         const isVisible = Array.from(visibleKeys ?? []).includes(id);
-        const isViewable = Array.from(viewableKeys ?? []).includes(id);
+        const isViewable = viewableKeys?.has(id) ?? false;
 
         return (
           <div
-            className={item({ variant })}
+            className={item({ variant, isViewable })}
             data-variant={variant}
             data-last-of-set={isLastOfSet}
           >
