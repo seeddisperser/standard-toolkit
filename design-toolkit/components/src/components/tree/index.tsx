@@ -115,7 +115,6 @@ export function Tree<T extends object>(props: TreeProps<T>) {
     acceptedDragTypes: dragAndDropConfig?.acceptedDragTypes,
     onInsert: dragAndDropConfig?.onInsert,
     onItemDrop: dragAndDropConfig?.onItemDrop,
-    onMove: () => dragAndDropConfig?.onMove,
   });
 
   // Flatten viewable keys data from items
@@ -167,10 +166,17 @@ export function Tree<T extends object>(props: TreeProps<T>) {
 Tree.displayName = 'Tree';
 
 export function TreeItem(props: TreeItemProps) {
-  const { id, children, label, ...rest } = props;
+  const { id, children, className, label, ...rest } = props;
 
   return (
-    <AriaTreeItem id={id} className={item()} textValue={label} {...rest}>
+    <AriaTreeItem
+      id={id}
+      className={composeRenderProps(className, (className) =>
+        item({ className }),
+      )}
+      textValue={label}
+      {...rest}
+    >
       {children}
     </AriaTreeItem>
   );
@@ -273,13 +279,17 @@ export function ItemContent({ children }: ItemContentProps) {
 }
 ItemContent.displayName = 'Tree.Item.Content';
 
-function ItemLabel({ children }: ItemTextProps) {
-  return <AriaText className={label()}>{children}</AriaText>;
+function ItemLabel({ children, className }: ItemTextProps) {
+  return <AriaText className={label({ className })}>{children}</AriaText>;
 }
 ItemLabel.displayName = 'Tree.Item.Label';
 
-function ItemDescription({ children }: ItemTextProps) {
-  return <AriaText className={description()}>{children}</AriaText>;
+function ItemDescription({ children, className }: ItemTextProps) {
+  return (
+    <AriaText data-slot='description' className={description({ className })}>
+      {children}
+    </AriaText>
+  );
 }
 ItemDescription.displayName = 'Tree.Item.Description';
 
@@ -292,9 +302,12 @@ function ItemIcon({ children }: ItemTextProps) {
 }
 ItemIcon.displayName = 'Tree.Item.Icon';
 
-function ItemActions({ children }: PropsWithChildren) {
+function ItemActions({
+  children,
+  className,
+}: PropsWithChildren & { className?: string }) {
   return (
-    <div className={actions()}>
+    <div className={actions({ className })}>
       <div className='flex items-center gap-x-xs'>{children}</div>
     </div>
   );
