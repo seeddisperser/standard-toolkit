@@ -10,14 +10,19 @@
  * governing permissions and limitations under the License.
  */
 
-import { tv } from '@/lib/utils';
+import type { Axis } from '@react-types/overlays';
+import type { HTMLAttributes, PropsWithChildren, RefAttributes } from 'react';
+import type { VariantProps } from 'tailwind-variants';
+import type { BadgeStyles } from './styles';
 
-export const IconStyles = tv({
-  base: [
-    'block h-[var(--icon-size,var(--icon-size-m))] w-[var(--icon-size,var(--icon-size-m))] [color:var(--icon-color,currentColor)]',
-    'size-large:[--icon-size:var(--icon-size-l)]',
-    'size-medium:[--icon-size:var(--icon-size-m)]',
-    'size-small:[--icon-size:var(--icon-size-s)]',
-    'size-xsmall:[--icon-size:var(--icon-size-xs)]',
-  ],
-});
+export type BadgeProps = RefAttributes<HTMLSpanElement> &
+  HTMLAttributes<HTMLSpanElement> &
+  VariantProps<typeof BadgeStyles> & {
+    children?: string;
+    offset?: number | { x?: number; y?: number };
+    placement?: Axis | `${'top' | 'bottom'} ${'left' | 'right'}`;
+  };
+
+export type BadgeProviderProps = PropsWithChildren<
+  Omit<BadgeProps, 'children'>
+>;

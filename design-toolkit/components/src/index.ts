@@ -27,10 +27,15 @@ export type {
   AccordionProps,
   AccordionTriggerProps,
 } from './components/accordion/types';
-export { Avatar } from './components/avatar';
-export type { AvatarProps } from './components/avatar';
-export { Badge } from './components/badge';
-export type { BadgeProps } from './components/badge';
+export { Avatar, AvatarContext } from './components/avatar';
+export { AvatarStyles } from './components/avatar/styles';
+export type {
+  AvatarProps,
+  AvatarProviderProps,
+} from './components/avatar/types';
+export { Badge, BadgeContext } from './components/badge';
+export { BadgeStyles, BadgeStylesDefaults } from './components/badge/styles';
+export type { BadgeProps, BadgeProviderProps } from './components/badge/types';
 export { Box } from './components/box';
 export type { BoxProps } from './components/box';
 export {
@@ -117,8 +122,7 @@ export type { DateFieldProps } from './components/date-field';
 export { Dialog, DialogTitle } from './components/dialog';
 export type { DialogProps } from './components/dialog';
 export { Icon, IconContext } from './components/icon';
-export { IconStyles, IconStylesDefaults } from './components/icon/styles';
-export type { IconStyleVariants } from './components/icon/styles';
+export { IconStyles } from './components/icon/styles';
 export type { IconProps, IconProviderProps } from './components/icon/types';
 export { Label, LabelContext } from './components/label';
 export { LabelStyles } from './components/label/styles';
@@ -127,6 +131,30 @@ export { Lines } from './components/lines';
 export { LinesStyles } from './components/lines/styles';
 export type { LinesStylesVariants } from './components/lines/styles';
 export type { LinesProps } from './components/lines/types';
+export {
+  Menu,
+  MenuContext,
+  MenuDescription,
+  MenuItem,
+  MenuItemIcon,
+  MenuItemKeyboard,
+  MenuLabel,
+  MenuSection,
+  MenuSeparator,
+} from './components/menu';
+export { MenuStyles, MenuStylesDefaults } from './components/menu/styles';
+export type { MenuStyleVariants } from './components/menu/styles';
+export type {
+  MenuIconProps,
+  MenuItemProps,
+  MenuKeyboardProps,
+  MenuProps,
+  MenuSectionProps,
+  MenuTextProps,
+  MenuTriggerProps,
+  SeparatorProps,
+  SubmenuTriggerProps,
+} from './components/menu/types';
 export { Options, OptionsContext, OptionsSection } from './components/options';
 export type { OptionsProps } from './components/options';
 export { OptionsItem } from './components/options-item';
@@ -178,10 +206,7 @@ export {
   TextAreaField,
   TextAreaFieldContext,
 } from './components/text-area-field';
-export {
-  TextAreaStyles,
-  TextAreaStylesDefaults,
-} from './components/text-area-field/styles';
+export { TextAreaStyles } from './components/text-area-field/styles';
 export type {
   TextAreaFieldProps,
   TextAreaFieldProviderProps,
@@ -346,5 +371,5 @@ export {
   typographyHeaderXsSize,
   typographyHeaderXxlHeight,
   typographyHeaderXxlSize,
-} from './tokens/generated/tokens';
-export type { RGBAColor } from './tokens/generated/tokens';
+} from './tokens';
+export type { RGBAColor } from './tokens';
