@@ -21,76 +21,102 @@ export const TreeStylesDefaults = {
 export const TreeStyles = tv({
   slots: {
     tree: 'fg-default-light overflow-auto outline-hidden',
-    item: [
+    item: '',
+    content: [
       'flex items-center justify-items-start rounded-medium px-xs',
-      'fg-default-light overflow-x group w-full outline-hidden',
+      'overflow-x group w-full outline-hidden',
       'data-[drop-target=true]:border-highlight-hover',
-      ' hover:bg-interactive-hover-dark',
+      'hover:bg-interactive-hover-dark',
     ],
-    visibility: 'fg-default-light',
-    expansion: 'fg-default-light cursor-pointer focus:bg-transparent',
-    lines: 'relative self-stretch',
     display:
       'grid flex-1 grid-cols-[auto_auto_1fr_auto] items-center [grid-template-areas:"icon_label_space_action"_"icon_description_space_action"]',
     icon: '[grid-area:icon]',
     label: 'not-has-[+[data-slot=description]]:row-span-full [grid-area:label]',
     description: 'fg-default-dark text-body-s [grid-area:description]',
     actions: '[grid-area:action]',
-    selection:
-      'dtk-selected:fg-default-light dtk-selected:hover:bg-transparent',
+    spacing: '',
+    visibility: '',
+    expansion: '',
+    selection: '',
+    drag: '',
   },
   variants: {
     variant: {
       cozy: {
-        tree: 'text-body-m',
-        item: 'icon-size-xl gap-s text-header-m',
-        display: 'gap-x-s',
+        content: 'min-h-[42px] gap-s text-header-m',
+        display: 'gap-x-s pl-xs',
         label: 'gap-xs',
+        spacing: 'min-h-[44px] w-[28px]',
+        item: 'min-h-s',
       },
       compact: {
-        tree: 'text-body-s',
-        item: 'icon-size-l gap-xs text-header-s',
-        display: 'gap-x-xs',
+        content: 'min-h-[36px] gap-xs text-header-s',
+        display: 'gap-x-s pl-xxs',
         label: 'gap-xs',
+        spacing: 'min-h-[38px] w-[20px]',
+        item: 'min-h-l',
       },
-      tight: {
-        tree: 'text-body-s',
-        item: 'icon-size-l gap-xs text-header-s',
-        display: 'gap-x-xs',
+      crammed: {
+        content: 'gap-xs text-header-s',
+        display: 'gap-x-xs pl-xxs',
         label: 'gap-xs',
-      },
-    },
-    hasRuleLines: {
-      false: {
-        lines: 'bg-none',
-      },
-    },
-    isBranch: {
-      true: {
-        lines: 'branching-line [background-repeat:repeat-y,no-repeat]',
-      },
-      false: {
-        lines: 'vert-line',
+        description: 'hidden',
+        spacing: 'min-h-[24px] w-[20px]',
+        item: 'min-h-s',
       },
     },
     isDisabled: {
-      true: {
-        expansion: 'fg-default-dark',
-        selection:
-          'not-dtk-selected:bg-transparent not-dtk-selected:hover:bg-interactive-transparent',
-      },
+      true: '',
     },
     isViewable: {
-      false: {
-        item: 'fg-default-dark',
-        visibility: 'fg-default-dark',
-      },
-      true: {
-        item: 'fg-default-light',
-        visibility: 'fg-default-light',
-      },
+      false: '',
+    },
+    isVisible: {
+      false: '',
     },
   },
+  compoundVariants: [
+    {
+      isViewable: true,
+      isVisible: true,
+      className: {
+        content: 'fg-default-light',
+        visibility: 'fg-default-light',
+        expansion: 'fg-default-light',
+        drag: 'fg-default-light',
+      },
+    },
+    {
+      isViewable: false,
+      isVisible: true,
+      className: {
+        content: 'fg-default-dark',
+        visibility: 'enabled:fg-default-dark',
+        expansion: 'enabled:fg-default-dark',
+        drag: 'enabled:fg-default-dark',
+      },
+    },
+    {
+      isViewable: true,
+      isVisible: false,
+      className: {
+        content: 'fg-default-dark',
+        visibility: 'enabled:fg-default-dark',
+        expansion: 'enabled:fg-default-dark',
+        drag: 'enabled:fg-default-dark',
+      },
+    },
+    {
+      isViewable: false,
+      isVisible: false,
+      className: {
+        content: 'fg-default-dark',
+        visibility: 'enabled:fg-default-dark',
+        expansion: 'enabled:fg-default-dark',
+        drag: 'enabled:fg-default-dark',
+      },
+    },
+  ],
   defaultVariants: TreeStylesDefaults,
 });
 

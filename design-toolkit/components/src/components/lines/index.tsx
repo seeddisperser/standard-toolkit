@@ -14,6 +14,8 @@ import { LinesStyles } from './styles';
 import type { LinesProps } from './types';
 
 export function Lines(props: LinesProps) {
-  const { size, variant, showLines = true } = props;
-  return <div className={LinesStyles({ size, variant, showLines })} />;
+  const { className, size, variant, showLines = true } = props;
+  return (
+    <div className={LinesStyles({ className, size, variant, showLines })} />
+  );
 }

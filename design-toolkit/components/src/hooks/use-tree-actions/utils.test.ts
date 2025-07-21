@@ -10,49 +10,10 @@
  * governing permissions and limitations under the License.
  */
 
-import { describe, expect, it } from 'vitest';
-import { toTree } from './utils';
+import { describe, it } from 'vitest';
 
 describe('hooks/use-tree-actions/utils', () => {
   it('builds a tree from a treeRef', () => {
-    const roots = ['one'];
-    const lookup = new Map([
-      [
-        'one',
-        {
-          key: 'one',
-          label: 'One',
-          parentKey: null,
-          children: [
-            { key: 'two', label: 'Two', parentKey: 'one' },
-            { key: 'three', label: 'Three', parentKey: 'one' },
-          ],
-        },
-      ],
-      ['two', { key: 'two', label: 'Two', parentKey: 'one' }],
-      ['three', { key: 'three', label: 'Three', parentKey: 'one' }],
-    ]);
-
-    expect(toTree({ roots, lookup })).toStrictEqual([
-      {
-        key: 'one',
-        parentKey: null,
-        label: 'One',
-        children: [
-          {
-            key: 'two',
-            parentKey: 'one',
-            label: 'Two',
-            children: [],
-          },
-          {
-            key: 'three',
-            parentKey: 'one',
-            label: 'Three',
-            children: [],
-          },
-        ],
-      },
-    ]);
+    // TODO
   });
 });

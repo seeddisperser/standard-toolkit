@@ -38,7 +38,10 @@ export type TreeItemProps = Omit<AriaTreeItemProps, 'textValue'> & {
   isLastOfSet?: boolean;
 };
 
-type VariantProps = Pick<TreeStyleVariants, 'variant'>;
+type VariantProps = Pick<
+  TreeStyleVariants,
+  'variant' | 'isViewable' | 'isVisible'
+>;
 
 export type DragItem = AriaDragItem;
 

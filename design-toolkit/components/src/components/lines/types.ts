@@ -10,8 +10,10 @@
  * governing permissions and limitations under the License.
  */
 
+import type { HTMLProps } from 'react';
 import type { LinesStylesVariants } from './styles';
 
-export type LinesProps = LinesStylesVariants & {
-  showLines?: boolean;
-};
+export type LinesProps = Omit<HTMLProps<HTMLDivElement>, 'size'> &
+  LinesStylesVariants & {
+    showLines?: boolean;
+  };

@@ -47,7 +47,18 @@ import type {
 } from './types';
 import { VisibilityToggle } from './visibility-toggle';
 
-const { actions, tree, icon, item, label, description, display } = TreeStyles();
+const {
+  tree,
+  item,
+  content,
+  display,
+  icon,
+  label,
+  actions,
+  spacing,
+  description,
+  drag,
+} = TreeStyles();
 
 export const TreeContext =
   createContext<ContextValue<TreeProps<unknown>, HTMLDivElement>>(null);
@@ -75,7 +86,13 @@ const TreeLines = memo(function TreeLines({
     const size = variant === 'cozy' ? 'large' : 'medium';
 
     return (
-      <Lines key={i} variant={line} size={size} showLines={showRuleLines} />
+      <Lines
+        key={i}
+        variant={line}
+        size={size}
+        showLines={showRuleLines}
+        className={spacing({ variant })}
+      />
     );
   });
 });
@@ -91,11 +108,6 @@ function reducer<T, I>(
   );
 }
 
-/**
- * TODO: visual polish
- * TODO: classNames refactor
- * TODO: docs!
- */
 export function Tree<T extends object>(props: TreeProps<T>) {
   const {
     children,
@@ -197,6 +209,8 @@ export function ItemContent({ children }: ItemContentProps) {
     ? undefined
     : context?.onVisibilityChange;
 
+  const size = variant === 'cozy' ? 'medium' : 'small';
+
   return (
     <AriaTreeItemContent>
       {(renderProps: ItemContentRenderProps) => {
@@ -213,7 +227,9 @@ export function ItemContent({ children }: ItemContentProps) {
           state,
         } = renderProps;
 
-        const isLastOfSet = !state.collection.getItem(id)?.nextKey;
+        const isLastOfSet = !(
+          state.collection.getItem(id)?.nextKey || hasChildItems
+        );
 
         const shouldShowSelection =
           selectionBehavior === 'toggle' && selectionMode !== 'none';
@@ -223,7 +239,7 @@ export function ItemContent({ children }: ItemContentProps) {
 
         return (
           <div
-            className={item({ variant, isViewable })}
+            className={content({ variant, isViewable, isVisible })}
             data-variant={variant}
             data-last-of-set={isLastOfSet}
           >
@@ -231,13 +247,17 @@ export function ItemContent({ children }: ItemContentProps) {
               id={id}
               isVisible={isVisible}
               isViewable={isViewable}
+              isDisabled={isDisabled}
+              size={size}
               onChange={onVisibilityChange}
             />
             {isNotRoot && <TreeLines level={level} isLastOfSet={isLastOfSet} />}
             <ExpandToggle
               hasChildItems={hasChildItems}
+              isVisible={isVisible}
+              isViewable={isViewable}
               isExpanded={isExpanded}
-              size='medium'
+              size={size}
               isDisabled={isDisabled}
             />
             <div className={display({ variant })}>
@@ -245,6 +265,8 @@ export function ItemContent({ children }: ItemContentProps) {
                 ? children({
                     ...renderProps,
                     variant,
+                    isVisible,
+                    isViewable,
                     defaultChildren: null,
                   })
                 : children}
@@ -253,6 +275,7 @@ export function ItemContent({ children }: ItemContentProps) {
               <SelectionToggle
                 isSelected={isSelected}
                 isDisabled={isDisabled}
+                size={size}
                 slot='selection'
               />
             )}
@@ -260,7 +283,8 @@ export function ItemContent({ children }: ItemContentProps) {
               <Button
                 slot='drag'
                 variant='icon'
-                size={variant === 'cozy' ? 'medium' : 'small'}
+                size={size}
+                className={drag({ isVisible, isViewable })}
               >
                 <Icon>
                   <DragVert />
@@ -281,8 +305,17 @@ function ItemLabel({ children, className }: ItemTextProps) {
 ItemLabel.displayName = 'Tree.Item.Label';
 
 function ItemDescription({ children, className }: ItemTextProps) {
+  const context = useContext(TreeContext);
+
+  const variant =
+    (isSlottedContextValue(context) ? undefined : context?.variant) ??
+    TreeStylesDefaults.variant;
+
   return (
-    <AriaText data-slot='description' className={description({ className })}>
+    <AriaText
+      data-slot='description'
+      className={description({ className, variant })}
+    >
       {children}
     </AriaText>
   );
@@ -290,8 +323,14 @@ function ItemDescription({ children, className }: ItemTextProps) {
 ItemDescription.displayName = 'Tree.Item.Description';
 
 function ItemIcon({ children }: ItemTextProps) {
+  const context = useContext(TreeContext);
+
+  const variant =
+    (isSlottedContextValue(context) ? undefined : context?.variant) ??
+    TreeStylesDefaults.variant;
+
   return (
-    <Icon size='medium' className={icon()}>
+    <Icon size={variant === 'cozy' ? 'medium' : 'small'} className={icon()}>
       {children}
     </Icon>
   );

@@ -38,7 +38,7 @@ const meta: Meta<typeof Tree> = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['cozy', 'compact', 'tight'],
+      options: ['cozy', 'compact', 'crammed'],
     },
   },
   parameters: {
@@ -63,6 +63,14 @@ type ItemValues = {
  * Values are the things that we are using in tree items.
  */
 const items: TreeNode<ItemValues>[] = [
+  {
+    key: 'european-birds',
+    label: 'European Birds',
+    isReadOnly: false,
+    values: {
+      iconPrefix: <Placeholder />,
+    },
+  },
   {
     key: 'north-american-birds',
     label: 'North American Birds',
@@ -141,14 +149,6 @@ const items: TreeNode<ItemValues>[] = [
       },
     ],
   },
-  {
-    key: 'european-birds',
-    label: 'European Birds',
-    isReadOnly: false,
-    values: {
-      iconPrefix: <Placeholder />,
-    },
-  },
 ];
 
 /**
@@ -202,7 +202,7 @@ function Node({ node }: { node: TreeNode<ItemValues> }) {
   return (
     <Tree.Item id={node.key} key={node.key} label={node.label}>
       <Tree.Item.Content>
-        {({ variant }) => {
+        {({ variant, isViewable, isVisible }) => {
           const size = variant === 'cozy' ? 'medium' : 'small';
           return (
             <>
@@ -229,7 +229,11 @@ function Node({ node }: { node: TreeNode<ItemValues> }) {
                     <Warning />
                   </Icon>
                 )}
-                <Button variant='icon' size={size}>
+                <Button
+                  variant='icon'
+                  size={size}
+                  isDisabled={!(isViewable && isVisible)}
+                >
                   <Icon>
                     <CenterOn />
                   </Icon>

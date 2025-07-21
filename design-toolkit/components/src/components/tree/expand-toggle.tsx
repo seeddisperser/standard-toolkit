@@ -21,17 +21,26 @@ import type { ButtonProps } from '../button/types';
 import { Icon } from '../icon';
 import { TreeContext } from './';
 
-const { lines, expansion } = TreeStyles();
+const { spacing, expansion } = TreeStyles();
 
 type ExpandToggleProps = ButtonProps & {
   isExpanded: boolean;
+  isVisible: boolean;
+  isViewable: boolean;
   hasChildItems: boolean;
 };
 
 export const ExpandToggle = forwardRef(
   (props: ExpandToggleProps, ref: ForwardedRef<HTMLButtonElement>) => {
     [props] = useContextProps(props, ref, ButtonContext);
-    const { hasChildItems, isDisabled, isExpanded, size } = props;
+    const {
+      hasChildItems,
+      isDisabled,
+      isExpanded,
+      isViewable,
+      isVisible,
+      size,
+    } = props;
 
     const context = useContext(TreeContext);
 
@@ -40,7 +49,7 @@ export const ExpandToggle = forwardRef(
       TreeStylesDefaults.variant;
 
     const spacer = useMemo(
-      () => <div className={lines({ variant })} />,
+      () => <div className={spacing({ variant })} />,
       [variant],
     );
 
@@ -49,7 +58,7 @@ export const ExpandToggle = forwardRef(
         slot='chevron'
         variant='icon'
         size={size}
-        className={expansion({ isDisabled })}
+        className={expansion({ isViewable, isVisible, isDisabled })}
       >
         <Icon>{isExpanded ? <ChevronDown /> : <ChevronUp />}</Icon>
       </Button>

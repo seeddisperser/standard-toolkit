@@ -15,11 +15,12 @@ import type { Key } from '@react-types/shared';
 import { useContext } from 'react';
 import { isSlottedContextValue } from '../../lib/utils';
 import { Button } from '../button';
+import type { ButtonProps } from '../button/types';
 import { Icon } from '../icon';
 import { TreeContext } from './index';
 import { TreeStyles } from './styles';
 
-type VisibilityToggleProps = {
+type VisibilityToggleProps = Omit<ButtonProps, 'id'> & {
   id: Key;
   isVisible: boolean;
   isViewable: boolean;
@@ -30,14 +31,14 @@ const { visibility } = TreeStyles();
 
 export const VisibilityToggle = (props: VisibilityToggleProps) => {
   const context = useContext(TreeContext);
-  const { id, isVisible, isViewable, onChange } = props;
+  const { id, size, isVisible, isViewable, isDisabled, onChange } = props;
 
   const visibleKeys =
     (isSlottedContextValue(context) ? undefined : context?.visibleKeys) ??
     new Set();
 
   const handlePress = () => {
-    const keys = new Set(visibleKeys);
+    const keys = new Set<Key>(visibleKeys);
     visibleKeys.has(id) ? keys.delete(id) : keys.add(id);
     onChange?.(keys);
   };
@@ -45,8 +46,11 @@ export const VisibilityToggle = (props: VisibilityToggleProps) => {
   return (
     <Button
       variant='icon'
+      color='info'
+      size={size}
       onPress={handlePress}
-      className={visibility({ isViewable })}
+      isDisabled={isDisabled}
+      className={visibility({ isViewable, isVisible, isDisabled })}
     >
       <Icon>{isVisible ? <Show /> : <Hide />}</Icon>
     </Button>

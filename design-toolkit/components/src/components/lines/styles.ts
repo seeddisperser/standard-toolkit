@@ -14,11 +14,10 @@ import { tv } from '@/lib/utils';
 import type { VariantProps } from 'tailwind-variants';
 
 export const LinesStyles = tv({
-  // base: 'border',
   variants: {
     size: {
-      small: 'h-l w-m ',
-      medium: 'h-xl w-l',
+      small: 'min-h-l w-m ',
+      medium: 'min-h-xl w-l',
       large: 'h-xxl w-xl',
     },
     variant: {
