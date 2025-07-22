@@ -20,7 +20,7 @@ export const TreeStylesDefaults = {
 
 export const TreeStyles = tv({
   slots: {
-    tree: 'fg-default-light overflow-auto outline-hidden',
+    tree: 'overflow-auto outline-hidden',
     item: '',
     content: [
       'flex items-center justify-items-start rounded-medium px-xs',

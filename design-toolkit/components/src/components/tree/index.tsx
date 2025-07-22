@@ -61,7 +61,9 @@ const {
 } = TreeStyles();
 
 export const TreeContext =
-  createContext<ContextValue<TreeProps<unknown>, HTMLDivElement>>(null);
+  createContext<
+    ContextValue<TreeProps<unknown> & { isStatic?: boolean }, HTMLDivElement>
+  >(null);
 
 const defaultRenderDropIndicator = (target: DropTarget) => (
   <DropIndicator target={target} className='border border-highlight-hover' />
@@ -134,7 +136,6 @@ export function Tree<T extends object>(props: TreeProps<T>) {
     onItemDrop: dragAndDropConfig?.onItemDrop,
   });
 
-  // Flatten viewable keys data from items
   const viewableKeys = useMemo(
     () =>
       reducer(
@@ -155,6 +156,7 @@ export function Tree<T extends object>(props: TreeProps<T>) {
         viewableKeys,
         onVisibilityChange,
         variant,
+        isStatic: !items,
       }}
     >
       <AriaTree
@@ -197,6 +199,8 @@ export function ItemContent({ children }: ItemContentProps) {
     (isSlottedContextValue(context) ? undefined : context?.variant) ??
     TreeStylesDefaults.variant;
 
+  const isStatic = isSlottedContextValue(context) ? false : context?.isStatic;
+
   const visibleKeys = isSlottedContextValue(context)
     ? new Set()
     : context?.visibleKeys;
@@ -235,7 +239,9 @@ export function ItemContent({ children }: ItemContentProps) {
           selectionBehavior === 'toggle' && selectionMode !== 'none';
         const isNotRoot = level > 1;
         const isVisible = Array.from(visibleKeys ?? []).includes(id);
-        const isViewable = viewableKeys?.has(id) ?? false;
+        const isViewable = isStatic ? true : (viewableKeys?.has(id) ?? false);
+
+        console.log(isStatic);
 
         return (
           <div

@@ -42,6 +42,9 @@ const meta: Meta<typeof Tree> = {
     },
   },
   parameters: {
+    controls: {
+      include: ['showRuleLines', 'variant'],
+    },
     docs: {
       subtitle:
         'Tree component that provides users with a way to navigate nested hierarchical information, with support for keyboard navigation and selection.',
@@ -151,51 +154,6 @@ const items: TreeNode<ItemValues>[] = [
   },
 ];
 
-/**
- * Static collections can use the Tree components directly.
- */
-export const StaticCollection: Story = {
-  render: (args) => {
-    const [visibility, setVisibility] = useState<Set<Key>>(new Set());
-
-    return (
-      <Tree
-        style={{ width: '500px' }}
-        aria-label='Basic Static Example'
-        visibleKeys={visibility}
-        onVisibilityChange={setVisibility}
-        {...args}
-      >
-        <Tree.Item id='fruit' label='fruit'>
-          <Tree.Item.Content>Fruit</Tree.Item.Content>
-          <Tree.Item id='apples' label='apples'>
-            <Tree.Item.Content>Apples</Tree.Item.Content>
-            <Tree.Item id='green' label='green-apple'>
-              <Tree.Item.Content>Green Apple</Tree.Item.Content>
-            </Tree.Item>
-            <Tree.Item id='red' label='red-apple' isLastOfSet>
-              <Tree.Item.Content>Red Apple</Tree.Item.Content>
-            </Tree.Item>
-            <Tree.Item id='yellow' label='yellow-apple' isLastOfSet>
-              <Tree.Item.Content>Yellow Apple</Tree.Item.Content>
-            </Tree.Item>
-          </Tree.Item>
-        </Tree.Item>
-
-        <Tree.Item id='vegetables' label='vegetables'>
-          <Tree.Item.Content>Vegetables</Tree.Item.Content>
-          <Tree.Item id='carrot' label='carrot'>
-            <Tree.Item.Content>Carrot</Tree.Item.Content>
-          </Tree.Item>
-          <Tree.Item id='kale' label='kale'>
-            <Tree.Item.Content>Kale</Tree.Item.Content>
-          </Tree.Item>
-        </Tree.Item>
-      </Tree>
-    );
-  },
-};
-
 function Node({ node }: { node: TreeNode<ItemValues> }) {
   const { isReadOnly, values } = node;
 
@@ -252,57 +210,9 @@ function Node({ node }: { node: TreeNode<ItemValues> }) {
 
 /**
  * This story is using the optional useTreeState hook, which returns
- * which is a convenience helper that will control state for the tree
+ * which is a convenience helper that will control state for the tree.
+ * The useTreeState hook also provides drag and drop hooks.
  */
-export const DataCollection: Story = {
-  render: (args) => {
-    const state = useTreeState<ItemValues>({
-      items,
-      initialSelectedKeys: ['black-capped-chickadee'],
-      initialExpandedKeys: ['north-american-birds'],
-    });
-
-    const { nodes, selectedKeys, expandedKeys, visibleKeys, actions } = state;
-
-    return (
-      <>
-        <div className='flex items-center gap-m'>
-          <Button size='small' variant='flat' onPress={actions.selectAll}>
-            Select All
-          </Button>
-          <Button size='small' variant='flat' onPress={actions.unselectAll}>
-            Unselect All
-          </Button>
-          <Button size='small' variant='icon' onPress={actions.expandAll}>
-            <Icon>
-              <ExpandAll />
-            </Icon>
-          </Button>
-          <Button size='small' variant='icon' onPress={actions.collapseAll}>
-            <Icon>
-              <CollapseAll />
-            </Icon>
-          </Button>
-        </div>
-        <Tree
-          {...args}
-          style={{ width: '500px' }}
-          aria-label='Dynamic example'
-          expandedKeys={expandedKeys}
-          onExpandedChange={actions.onExpandedChange}
-          selectedKeys={selectedKeys}
-          onSelectionChange={actions.onSelectionChange}
-          visibleKeys={visibleKeys}
-          onVisibilityChange={actions.onVisibilityChange}
-          items={nodes}
-        >
-          {(node) => <Node key={node.key} node={node} />}
-        </Tree>
-      </>
-    );
-  },
-};
-
 export const DragAndDrop: Story = {
   render: (args) => {
     const {
@@ -338,28 +248,29 @@ export const DragAndDrop: Story = {
   },
 };
 
-export const WithoutManagedState: Story = {
+/**
+ * A Stateless tree uses data from a remote source to drive tree display
+ * and operations. An optional useTreeActions hook will provide basic tree
+ * data operations.
+ */
+export const Stateless: Story = {
   render: (args) => {
     /**
      *  IMPORTANT: This useState is just a cheap way to represent
-     *  a database in Storybook, NOT component state.
-     *
-     *  In your application, this would be your remote persistence database or localStorage,
+     *  a database in Storybook, NOT component state. In your application,
+     *  this would be your remote persistence database or localStorage,
      *  i.e. using fetch or mutate(updateTree).
      *
      *  Critically, It is the fetched data from the server that is driving the
      *  Tree, not component state.
      *
-     *  It is important that the data does not change under, you can't touch the
-     *  nodes that are passed without letting the tree know about it
      */
     const [db, setDB] = useState(items);
     const actions = useTreeActions({ nodes: db });
 
-    // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
     useEffect(() => {
       setDB(actions.initialize());
-    }, []);
+    }, [actions.initialize]);
 
     const handleSelection = (keys: Selection) => {
       const updated = actions.onSelectionChange(new Set(keys));
@@ -419,7 +330,7 @@ export const WithoutManagedState: Story = {
         <Tree
           {...args}
           style={{ width: '500px' }}
-          aria-label='Unmanaged State Example'
+          aria-label='Stateless Example'
           expandedKeys={actions.getExpandedKeys()}
           onExpandedChange={handleExpansion}
           selectedKeys={actions.getSelectedKeys()}
@@ -431,6 +342,51 @@ export const WithoutManagedState: Story = {
           {(node) => <Node key={node.key} node={node} />}
         </Tree>
       </>
+    );
+  },
+};
+
+/**
+ * Static collections can use the Tree components directly, for simple use cases.
+ */
+export const StaticCollection: Story = {
+  render: (args) => {
+    const [visibility, setVisibility] = useState<Set<Key>>(new Set(['fruit']));
+
+    return (
+      <Tree
+        style={{ width: '500px' }}
+        aria-label='Basic Static Example'
+        visibleKeys={visibility}
+        onVisibilityChange={setVisibility}
+        {...args}
+      >
+        <Tree.Item id='fruit' label='fruit'>
+          <Tree.Item.Content>Fruit</Tree.Item.Content>
+          <Tree.Item id='apples' label='apples'>
+            <Tree.Item.Content>Apples</Tree.Item.Content>
+            <Tree.Item id='green' label='green-apple'>
+              <Tree.Item.Content>Green Apple</Tree.Item.Content>
+            </Tree.Item>
+            <Tree.Item id='red' label='red-apple' isLastOfSet>
+              <Tree.Item.Content>Red Apple</Tree.Item.Content>
+            </Tree.Item>
+            <Tree.Item id='yellow' label='yellow-apple' isLastOfSet>
+              <Tree.Item.Content>Yellow Apple</Tree.Item.Content>
+            </Tree.Item>
+          </Tree.Item>
+        </Tree.Item>
+
+        <Tree.Item id='vegetables' label='vegetables'>
+          <Tree.Item.Content>Vegetables</Tree.Item.Content>
+          <Tree.Item id='carrot' label='carrot'>
+            <Tree.Item.Content>Carrot</Tree.Item.Content>
+          </Tree.Item>
+          <Tree.Item id='kale' label='kale'>
+            <Tree.Item.Content>Kale</Tree.Item.Content>
+          </Tree.Item>
+        </Tree.Item>
+      </Tree>
     );
   },
 };
