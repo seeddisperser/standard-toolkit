@@ -281,7 +281,6 @@ export function ItemContent({ children }: ItemContentProps) {
               <SelectionToggle
                 isSelected={isSelected}
                 isDisabled={isDisabled}
-                size={size}
                 slot='selection'
               />
             )}
