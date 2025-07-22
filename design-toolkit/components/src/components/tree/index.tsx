@@ -241,8 +241,6 @@ export function ItemContent({ children }: ItemContentProps) {
         const isVisible = Array.from(visibleKeys ?? []).includes(id);
         const isViewable = isStatic ? true : (viewableKeys?.has(id) ?? false);
 
-        console.log(isStatic);
-
         return (
           <div
             className={content({ variant, isViewable, isVisible })}

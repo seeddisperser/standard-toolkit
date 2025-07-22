@@ -34,16 +34,21 @@ const meta: Meta<typeof Tree> = {
   args: {
     variant: 'cozy',
     showRuleLines: true,
+    selectionMode: 'multiple',
   },
   argTypes: {
     variant: {
       control: 'select',
       options: ['cozy', 'compact', 'crammed'],
     },
+    selectionMode: {
+      control: 'select',
+      options: ['none', 'multiple', 'single'],
+    },
   },
   parameters: {
     controls: {
-      include: ['showRuleLines', 'variant'],
+      include: ['showRuleLines', 'variant', 'selectionMode'],
     },
     docs: {
       subtitle:
