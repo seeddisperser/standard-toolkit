@@ -84,34 +84,49 @@
   /** Typography **/
   --typography-header-xxl-size: var(--typography-header-xxl-size);
   --typography-header-xxl-height: var(--typography-header-xxl-height);
+  --typography-header-xxl-spacing: var(--typography-header-xxl-spacing);
   --typography-header-xl-size: var(--typography-header-xl-size);
   --typography-header-xl-height: var(--typography-header-xl-height);
+  --typography-header-xl-spacing: var(--typography-header-xl-spacing);
   --typography-header-l-size: var(--typography-header-l-size);
   --typography-header-l-height: var(--typography-header-l-height);
+  --typography-header-l-spacing: var(--typography-header-l-spacing);
   --typography-header-m-size: var(--typography-header-m-size);
   --typography-header-m-height: var(--typography-header-m-height);
+  --typography-header-m-spacing: var(--typography-header-m-spacing);
   --typography-header-s-size: var(--typography-header-s-size);
   --typography-header-s-height: var(--typography-header-s-height);
+  --typography-header-s-spacing: var(--typography-header-s-spacing);
   --typography-header-xs-size: var(--typography-header-xs-size);
   --typography-header-xs-height: var(--typography-header-xs-height);
+  --typography-header-xs-spacing: var(--typography-header-xs-spacing);
   --typography-body-l-size: var(--typography-body-l-size);
   --typography-body-l-height: var(--typography-body-l-height);
+  --typography-body-l-spacing: var(--typography-body-l-spacing);
   --typography-body-m-size: var(--typography-body-m-size);
   --typography-body-m-height: var(--typography-body-m-height);
+  --typography-body-m-spacing: var(--typography-body-m-spacing);
   --typography-body-s-size: var(--typography-body-s-size);
   --typography-body-s-height: var(--typography-body-s-height);
+  --typography-body-s-spacing: var(--typography-body-s-spacing);
   --typography-body-xs-size: var(--typography-body-xs-size);
   --typography-body-xs-height: var(--typography-body-xs-height);
+  --typography-body-xs-spacing: var(--typography-body-xs-spacing);
   --typography-body-xxs-size: var(--typography-body-xxs-size);
   --typography-body-xxs-height: var(--typography-body-xxs-height);
+  --typography-body-xxs-spacing: var(--typography-body-xxs-spacing);
   --typography-button-l-size: var(--typography-button-l-size);
   --typography-button-l-height: var(--typography-button-l-height);
+  --typography-button-l-spacing: var(--typography-button-l-spacing);
   --typography-button-m-size: var(--typography-button-m-size);
   --typography-button-m-height: var(--typography-button-m-height);
+  --typography-button-m-spacing: var(--typography-button-m-spacing);
   --typography-button-s-size: var(--typography-button-s-size);
   --typography-button-s-height: var(--typography-button-s-height);
+  --typography-button-s-spacing: var(--typography-button-s-spacing);
   --typography-button-xs-size: var(--typography-button-xs-size);
   --typography-button-xs-height: var(--typography-button-xs-height);
+  --typography-button-xs-spacing: var(--typography-button-xs-spacing);
 }
 
 @theme {

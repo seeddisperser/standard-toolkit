@@ -10,30 +10,22 @@
  * governing permissions and limitations under the License.
  */
 
-import type { PropsWithChildren, RefAttributes } from 'react';
-import type {
-  FieldErrorProps,
-  TextAreaProps,
-  TextFieldProps,
-} from 'react-aria-components';
+import type { RefAttributes } from 'react';
+import type { InputProps as AriaInputProps } from 'react-aria-components';
+import type { VariantProps } from 'tailwind-variants';
+import type { ButtonProps } from '../button/types';
+import type { InputStyles } from './styles';
 
-export type TextAreaFieldProps = Omit<
-  TextFieldProps,
-  'children' | 'className'
-> &
-  RefAttributes<HTMLDivElement> & {
+export type InputProps = Omit<AriaInputProps, 'className' | 'size' | 'type'> &
+  RefAttributes<HTMLInputElement> &
+  Omit<VariantProps<typeof InputStyles>, 'isEmpty'> & {
     classNames?: {
-      field?: TextFieldProps['className'];
-      label?: string;
-      input?: TextAreaProps['className'];
-      description?: string;
-      error?: FieldErrorProps['className'];
+      container?: string;
+      sizer?: string;
+      input?: AriaInputProps['className'];
+      clear?: ButtonProps['className'];
     };
-    label?: string;
-    inputProps?: Omit<TextAreaProps, 'className'>;
-    description?: string;
-    errorMessage?: FieldErrorProps['children'];
     size?: 'medium' | 'small';
+    isClearable?: boolean;
+    isInvalid?: boolean;
   };
-
-export type TextAreaFieldProviderProps = PropsWithChildren<TextAreaFieldProps>;

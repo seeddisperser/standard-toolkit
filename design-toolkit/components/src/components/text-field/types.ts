@@ -12,28 +12,29 @@
 
 import type { PropsWithChildren, RefAttributes } from 'react';
 import type {
+  TextFieldProps as AriaTextFieldProps,
   FieldErrorProps,
-  TextAreaProps,
-  TextFieldProps,
 } from 'react-aria-components';
+import type { InputProps } from '../input/types';
+import type { LabelProps } from '../label/types';
 
-export type TextAreaFieldProps = Omit<
-  TextFieldProps,
+export type TextFieldProps = Omit<
+  AriaTextFieldProps,
   'children' | 'className'
 > &
   RefAttributes<HTMLDivElement> & {
     classNames?: {
-      field?: TextFieldProps['className'];
-      label?: string;
-      input?: TextAreaProps['className'];
+      field?: AriaTextFieldProps['className'];
+      label?: LabelProps['className'];
+      input?: InputProps['classNames'];
       description?: string;
       error?: FieldErrorProps['className'];
     };
     label?: string;
-    inputProps?: Omit<TextAreaProps, 'className'>;
+    inputProps?: InputProps;
     description?: string;
-    errorMessage?: FieldErrorProps['children'];
+    errorMessage?: string;
     size?: 'medium' | 'small';
   };
 
-export type TextAreaFieldProviderProps = PropsWithChildren<TextAreaFieldProps>;
+export type TextFieldProviderProps = PropsWithChildren<TextFieldProps>;
