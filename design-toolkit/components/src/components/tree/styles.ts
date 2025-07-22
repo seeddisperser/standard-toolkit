@@ -21,7 +21,7 @@ export const TreeStylesDefaults = {
 export const TreeStyles = tv({
   slots: {
     tree: 'overflow-auto outline-hidden',
-    item: '',
+    item: 'data-[drop-target=true]:border data-[drop-target=true]:border-highlight-hover data-[drop-target=true]:bg-highlight/20',
     content: [
       'flex items-center justify-items-start rounded-medium px-xs',
       'overflow-x group w-full outline-hidden',
