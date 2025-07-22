@@ -30,7 +30,8 @@ export type TextAreaFieldProps = Omit<
       error?: FieldErrorProps['className'];
     };
     label?: string;
-    inputProps?: Omit<TextAreaProps, 'className'>;
+    inputProps?: Omit<TextAreaProps, 'className'> &
+      RefAttributes<HTMLTextAreaElement>;
     description?: string;
     errorMessage?: FieldErrorProps['children'];
     size?: 'medium' | 'small';
