@@ -268,9 +268,10 @@ export const Stateless: Story = {
     const [db, setDB] = useState(items);
     const actions = useTreeActions({ nodes: db });
 
+    // biome-ignore lint/correctness/useExhaustiveDependencies: only run once to normalize data
     useEffect(() => {
       setDB(actions.initialize());
-    }, [actions.initialize]);
+    }, []);
 
     const handleSelection = (keys: Selection) => {
       const updated = actions.onSelectionChange(new Set(keys));
