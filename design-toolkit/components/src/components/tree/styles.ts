@@ -37,7 +37,6 @@ export const TreeStyles = tv({
     spacing: '',
     visibility: '',
     expansion: '',
-    selection: '',
     drag: '',
   },
   variants: {

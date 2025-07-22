@@ -10,16 +10,10 @@
  * governing permissions and limitations under the License.
  */
 
-import { TreeStyles } from '@/components/tree/styles';
 import { type ForwardedRef, forwardRef } from 'react';
-import {
-  CheckboxContext,
-  composeRenderProps,
-  useContextProps,
-} from 'react-aria-components';
-import { Checkbox, type CheckboxProps } from '../checkbox';
-
-const { selection } = TreeStyles();
+import { CheckboxContext, useContextProps } from 'react-aria-components';
+import { Checkbox } from '../checkbox';
+import type { CheckboxProps } from '../checkbox/types';
 
 type SelectionToggleProps = Partial<CheckboxProps> & {
   isParentVisible?: boolean;
@@ -29,14 +23,12 @@ export const SelectionToggle = forwardRef(
   (props: SelectionToggleProps, ref: ForwardedRef<HTMLLabelElement>) => {
     [props] = useContextProps(props, ref, CheckboxContext);
 
-    const { className, isSelected, isDisabled, ...rest } = props;
+    const { classNames, isSelected, isDisabled, ...rest } = props;
 
     return (
       <Checkbox
         {...rest}
-        className={composeRenderProps(className, (className) =>
-          selection({ className, isDisabled }),
-        )}
+        classNames={classNames}
         isSelected={isSelected}
         isDisabled={isDisabled}
       />
