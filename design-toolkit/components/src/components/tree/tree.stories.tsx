@@ -234,21 +234,42 @@ export const DragAndDrop: Story = {
     });
 
     return (
-      <Tree
-        {...args}
-        style={{ width: '500px' }}
-        aria-label='Drag and Drop example'
-        expandedKeys={expandedKeys}
-        onExpandedChange={actions.onExpandedChange}
-        selectedKeys={selectedKeys}
-        onSelectionChange={actions.onSelectionChange}
-        dragAndDropConfig={dragAndDropConfig}
-        visibleKeys={visibleKeys}
-        onVisibilityChange={actions.onVisibilityChange}
-        items={nodes}
-      >
-        {(node) => <Node key={node.key} node={node} />}
-      </Tree>
+      <>
+        <div className='flex items-center gap-m'>
+          <Button size='small' variant='flat' onPress={actions.selectAll}>
+            Select All
+          </Button>
+          <Button size='small' variant='flat' onPress={actions.unselectAll}>
+            Unselect All
+          </Button>
+          <Button size='small' variant='icon' onPress={actions.expandAll}>
+            <Icon>
+              <ExpandAll />
+            </Icon>
+          </Button>
+          <Button size='small' variant='icon' onPress={actions.collapseAll}>
+            <Icon>
+              <CollapseAll />
+            </Icon>
+          </Button>
+        </div>
+
+        <Tree
+          {...args}
+          style={{ width: '500px' }}
+          aria-label='Drag and Drop example'
+          expandedKeys={expandedKeys}
+          onExpandedChange={actions.onExpandedChange}
+          selectedKeys={selectedKeys}
+          onSelectionChange={actions.onSelectionChange}
+          dragAndDropConfig={dragAndDropConfig}
+          visibleKeys={visibleKeys}
+          onVisibilityChange={actions.onVisibilityChange}
+          items={nodes}
+        >
+          {(node) => <Node key={node.key} node={node} />}
+        </Tree>
+      </>
     );
   },
 };
