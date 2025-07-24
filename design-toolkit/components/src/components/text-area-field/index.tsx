@@ -52,7 +52,6 @@ export function TextAreaField({ ref, ...props }: TextAreaFieldProps) {
     description: descriptionProp,
     errorMessage: errorMessageProp,
     label: labelProp,
-    inputRef,
     inputProps,
     size = 'medium',
     isInvalid: isInvalidProp,
@@ -64,6 +63,7 @@ export function TextAreaField({ ref, ...props }: TextAreaFieldProps) {
   return (
     <TextField
       {...rest}
+      ref={ref}
       className={composeRenderProps(classNames?.field, (className) =>
         field({ className }),
       )}
@@ -84,7 +84,6 @@ export function TextAreaField({ ref, ...props }: TextAreaFieldProps) {
             </Label>
           )}
           <TextArea
-            ref={inputRef}
             {...inputProps}
             className={composeRenderProps(classNames?.input, (className) =>
               input({ className }),
