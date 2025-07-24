@@ -121,14 +121,9 @@ export { DateField } from './components/date-field';
 export type { DateFieldProps } from './components/date-field';
 export { Dialog, DialogTitle } from './components/dialog';
 export type { DialogProps } from './components/dialog';
-export { Hero } from './components/hero';
-export { HeroStyles, HeroStylesDefaults } from './components/hero/styles';
-export type {
-  ChildProps,
-  HeroProps,
-  HeroSlots,
-  HeroStyleVariants,
-} from './components/hero/types';
+export { Hero, HeroContext } from './components/hero';
+export { HeroStyles } from './components/hero/styles';
+export type { HeroProps } from './components/hero/types';
 export { Icon, IconContext } from './components/icon';
 export { IconStyles } from './components/icon/styles';
 export type { IconProps, IconProviderProps } from './components/icon/types';
@@ -143,8 +138,6 @@ export {
   MenuContext,
   MenuDescription,
   MenuItem,
-  MenuItemIcon,
-  MenuItemKeyboard,
   MenuLabel,
   MenuSection,
   MenuSeparator,
@@ -152,9 +145,7 @@ export {
 export { MenuStyles, MenuStylesDefaults } from './components/menu/styles';
 export type { MenuStyleVariants } from './components/menu/styles';
 export type {
-  MenuIconProps,
   MenuItemProps,
-  MenuKeyboardProps,
   MenuProps,
   MenuSectionProps,
   MenuTextProps,

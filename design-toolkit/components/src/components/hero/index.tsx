@@ -9,12 +9,29 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+'use client';
 
-import { HeadingContext, Provider, TextContext } from 'react-aria-components';
-import { IconContext } from '../icon';
-import { getSlots } from './get-slots';
+import 'client-only';
+import { containsExactChildren } from '@/lib/react';
+import { createContext } from 'react';
+import {
+  type ContextValue,
+  Header,
+  Heading,
+  HeadingContext,
+  Provider,
+  Text,
+  TextContext,
+  useContextProps,
+} from 'react-aria-components';
+import { Icon, IconContext } from '../icon';
 import { HeroStyles } from './styles';
 import type { HeroProps } from './types';
+
+const { hero, icon, title, subtitle } = HeroStyles();
+
+export const HeroContext =
+  createContext<ContextValue<HeroProps, HTMLElement>>(null);
 
 /**
  * A versatile hero component that displays an icon alongside primary and secondary content.
@@ -52,35 +69,47 @@ import type { HeroProps } from './types';
  * - **Stack** (default): Vertical layout with larger icon and stacked content
  * - **Grid** (compact=true): Horizontal layout with smaller icon beside content
  */
-export function Hero({ children, className, compact, ...props }: HeroProps) {
-  const slots = getSlots(children);
-  const styles = HeroStyles({ hasInvalid: !!slots.invalid.length });
+export function Hero({ ref, ...props }: HeroProps) {
+  [props, ref] = useContextProps(props, ref ?? null, HeroContext);
 
-  if (slots.invalid.length) {
-    console.warn(
-      `Hero received ${slots.invalid.length} invalid children: ${slots.invalid.map((child) => `${child.type}`).join(', ')}`,
-    );
-  }
+  const { children, classNames, compact, ...rest } = props;
+
+  containsExactChildren({
+    children,
+    componentName: Hero.displayName,
+    restrictions: [
+      [Icon, { min: 1, max: 1 }],
+      [Heading, { min: 1, max: 1 }],
+      [Text, { min: 0 }],
+    ],
+  });
 
   return (
     <Provider
       values={[
-        [IconContext, { className: styles.icon() }],
-        [HeadingContext, { className: styles.primary(), level: 2 }],
-        [TextContext, { className: styles.secondary() }],
+        [
+          IconContext,
+          { className: icon({ className: classNames?.icon }), size: 'large' },
+        ],
+        [
+          HeadingContext,
+          { className: title({ className: classNames?.title }), level: 2 },
+        ],
+        [
+          TextContext,
+          { className: subtitle({ className: classNames?.subtitle }) },
+        ],
       ]}
     >
-      <header
-        className={styles.container({ className })}
+      <Header
+        {...rest}
+        ref={ref}
+        className={hero({ className: classNames?.hero })}
         data-layout={compact ? 'grid' : 'stack'}
-        {...props}
       >
-        <aside>{slots.icon}</aside>
-        <main>
-          {slots.primary}
-          {slots.secondary}
-        </main>
-      </header>
+        {children}
+      </Header>
     </Provider>
   );
 }
+Hero.displayName = 'Hero';

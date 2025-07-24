@@ -13,23 +13,15 @@
 import Placeholder from '@accelint/icons/placeholder';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Heading, Text } from 'react-aria-components';
-import { Hero } from '.';
 import { Icon } from '../icon';
+import { Hero } from './';
 
 const meta: Meta<typeof Hero> = {
+  title: 'Components/Hero',
+  component: Hero,
   args: {
     compact: false,
   },
-  argTypes: {
-    compact: {
-      control: 'boolean',
-    },
-    className: {
-      control: false,
-    },
-  },
-  component: Hero,
-  title: 'Components/Hero',
 };
 
 export default meta;
@@ -38,7 +30,7 @@ export const Default: StoryObj<typeof Hero> = {
   render: (args) => (
     <div className='w-[480px]'>
       <Hero {...args}>
-        <Icon size='large'>
+        <Icon>
           <Placeholder />
         </Icon>
         <Heading>{'{object.name}'}</Heading>
@@ -51,9 +43,11 @@ export const Default: StoryObj<typeof Hero> = {
 
 export const SlotOrdering: StoryObj<typeof Hero> = {
   render: (args) => (
-    <div className='space-y-4'>
+    <div className='flex flex-col gap-xl'>
       <div className='w-[480px]'>
-        <h3 className='mb-2 font-semibold text-sm'>Normal Order</h3>
+        <h3 className='fg-default-light mb-m font-semibold text-sm'>
+          Normal Order
+        </h3>
         <Hero {...args}>
           <Icon size='large'>
             <Placeholder />
@@ -62,9 +56,8 @@ export const SlotOrdering: StoryObj<typeof Hero> = {
           <Text>Secondary Information</Text>
         </Hero>
       </div>
-
       <div className='w-[480px]'>
-        <h3 className='mb-2 font-semibold text-sm'>
+        <h3 className='fg-default-light mb-m font-semibold text-sm'>
           Reversed Order (should render the same)
         </h3>
         <Hero {...args}>
@@ -77,9 +70,8 @@ export const SlotOrdering: StoryObj<typeof Hero> = {
           </Icon>
         </Hero>
       </div>
-
       <div className='w-[480px]'>
-        <h3 className='mb-2 font-semibold text-sm'>
+        <h3 className='fg-default-light mb-m font-semibold text-sm'>
           Mixed with other elements
         </h3>
         <Hero {...args}>
