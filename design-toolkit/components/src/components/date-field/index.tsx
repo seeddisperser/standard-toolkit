@@ -28,9 +28,11 @@ import {
   DateSegment,
   type DateSegmentRenderProps,
   FieldError,
+  composeRenderProps,
 } from 'react-aria-components';
 import { Icon } from '../icon';
 import { Label } from '../label';
+import { DateFieldStyles } from './styles';
 
 const months = [
   'JAN',
@@ -99,47 +101,8 @@ const FormattedDateSegment = ({
   );
 };
 
-const dateFieldStyles = cva(
-  [
-    'flex w-full gap-xs rounded-medium px-s py-xs font-display outline outline-interactive',
-  ],
-  {
-    variants: {
-      isDisabled: {
-        true: 'text-disabled outline-interactive-disabled placeholder:text-disabled',
-        false:
-          'text-default-light placeholder:text-default-dark focus-within:outline-highlight hover:outline-interactive-hover',
-      },
-      isInvalid: {
-        true: 'outline-serious',
-      },
-      isReadOnly: {
-        true: 'rounded-none p-0 outline-none',
-      },
-      size: {
-        medium: ['text-body-s', 'pl-[32px]'],
-        small: 'text-body-xs',
-      },
-    },
-    compoundVariants: [
-      {
-        isDisabled: true,
-        isInvalid: true,
-        className: 'outline-interactive-disabled',
-      },
-      {
-        isDisabled: false,
-        size: 'medium',
-      },
-    ],
-    defaultVariants: {
-      size: 'medium',
-    },
-  },
-);
-
 interface DateInputProps
-  extends VariantProps<typeof dateFieldStyles>,
+  extends VariantProps<typeof DateFieldStyles>,
     Omit<AriaDateInputProps, 'size'> {
   ref?: ForwardedRef<HTMLDivElement>;
 }
@@ -165,17 +128,15 @@ const DateInput = ({
       ) : null}
       <AriaDateInput
         {...props}
-        className={({ isDisabled, isInvalid }) =>
-          cn(
-            dateFieldStyles({
-              isDisabled,
-              isInvalid,
-              isReadOnly: isReadOnly,
-              size,
-              className,
-            }),
-          )
-        }
+        className={composeRenderProps(className, (className) =>
+          DateFieldStyles({
+            isDisabled: props.isDisabled,
+            isInvalid: props.isInvalid,
+            isReadOnly,
+            size,
+            className,
+          }),
+        )}
       />
     </div>
   );
@@ -183,7 +144,7 @@ const DateInput = ({
 
 export interface DateFieldProps<T extends DateValue>
   extends Omit<
-      VariantProps<typeof dateFieldStyles>,
+      VariantProps<typeof DateFieldStyles>,
       'isDisabled' | 'isInvalid' | 'isReadOnly'
     >,
     Omit<AriaDateFieldProps<T>, 'className' | 'style'>, // Exclude className to avoid conflict with cva
