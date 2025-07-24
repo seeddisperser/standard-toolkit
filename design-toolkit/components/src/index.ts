@@ -119,6 +119,7 @@ export { ComboBox, ComboBoxSection } from './components/combobox';
 export type { ComboBoxProps } from './components/combobox';
 export { DateField } from './components/date-field';
 export type { DateFieldProps } from './components/date-field';
+export { DateFieldStyles } from './components/date-field/styles';
 export { Dialog, DialogTitle } from './components/dialog';
 export type { DialogProps } from './components/dialog';
 export { Icon, IconContext } from './components/icon';
@@ -135,8 +136,6 @@ export {
   MenuContext,
   MenuDescription,
   MenuItem,
-  MenuItemIcon,
-  MenuItemKeyboard,
   MenuLabel,
   MenuSection,
   MenuSeparator,
@@ -144,9 +143,7 @@ export {
 export { MenuStyles, MenuStylesDefaults } from './components/menu/styles';
 export type { MenuStyleVariants } from './components/menu/styles';
 export type {
-  MenuIconProps,
   MenuItemProps,
-  MenuKeyboardProps,
   MenuProps,
   MenuSectionProps,
   MenuTextProps,
