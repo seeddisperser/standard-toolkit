@@ -44,6 +44,7 @@ export function Input({ ref, ...props }: InputProps) {
 
   const {
     classNames,
+    autoSize,
     defaultValue = '',
     disabled,
     placeholder,
@@ -79,6 +80,7 @@ export function Input({ ref, ...props }: InputProps) {
     <div
       className={container({
         className: classNames?.container,
+        autoSize,
         type,
         isClearable,
         isEmpty,
@@ -94,6 +96,7 @@ export function Input({ ref, ...props }: InputProps) {
       <div
         className={sizer({
           className: classNames?.sizer,
+          autoSize,
           type,
           isClearable,
           isEmpty,
@@ -103,7 +106,7 @@ export function Input({ ref, ...props }: InputProps) {
           {...rest}
           ref={ref}
           className={composeRenderProps(classNames?.input, (className) =>
-            input({ className, type, isClearable, isEmpty }),
+            input({ className, autoSize, type, isClearable, isEmpty }),
           )}
           disabled={disabled}
           placeholder={placeholder}
@@ -128,7 +131,7 @@ export function Input({ ref, ...props }: InputProps) {
       {isClearable && (
         <Button
           className={composeRenderProps(classNames?.clear, (className) =>
-            clear({ className, type, isClearable, isEmpty }),
+            clear({ className, autoSize, type, isClearable, isEmpty }),
           )}
           excludeFromTabOrder
           size='small'

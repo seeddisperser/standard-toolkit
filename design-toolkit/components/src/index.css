@@ -22,95 +22,106 @@
   --color-current: currentColor;
 }
 
-/** Recreating https://github.com/adobe/react-spectrum/blob/main/packages/tailwindcss-react-aria-components/src/index.js without RAC selectors (:where([data-rac])) or prefix and combining with native selectors **/
-@custom-variant placement-left (&[data-placement~="left"]);
-@custom-variant placement-right (&[data-placement~="right"]);
-@custom-variant placement-top (&[data-placement~="top"]);
-@custom-variant placement-bottom (&[data-placement~="bottom"]);
+/**
+ * Recreating https://github.com/adobe/react-spectrum/blob/main/packages/tailwindcss-react-aria-components/src/index.js without RAC selectors (:where([data-rac])) or prefix and combining with native selectors
+ *
+ * The order of implementation of these variants is critically important!
+ *
+ * The order is from lowest to highest priority, meaning that a variant further down the list will "win" in the case of a style conflict
+ */
+@custom-variant placement-left (&:where([data-placement~="left"]));
+@custom-variant placement-right (&:where([data-placement~="right"]));
+@custom-variant placement-top (&:where([data-placement~="top"]));
+@custom-variant placement-bottom (&:where([data-placement~="bottom"]));
 
-@custom-variant size-xlarge (&[data-size="xlarge"]);
-@custom-variant size-large (&[data-size="large"]);
-@custom-variant size-medium (&[data-size="medium"]);
-@custom-variant size-small (&[data-size="small"]);
-@custom-variant size-xsmall (&[data-size="xsmall"]);
+@custom-variant size-xlarge (&:where([data-size="xlarge"]));
+@custom-variant size-large (&:where([data-size="large"]));
+@custom-variant size-medium (&:where([data-size="medium"]));
+@custom-variant size-small (&:where([data-size="small"]));
+@custom-variant size-xsmall (&:where([data-size="xsmall"]));
 
-@custom-variant type-literal (&[data-type="literal"]);
-@custom-variant type-year (&[data-type="year"]);
-@custom-variant type-month (&[data-type="month"]);
-@custom-variant type-day (&[data-type="day"]);
+@custom-variant type-literal (&:where([data-type="literal"]));
+@custom-variant type-year (&:where([data-type="year"]));
+@custom-variant type-month (&:where([data-type="month"]));
+@custom-variant type-day (&:where([data-type="day"]));
 
-@custom-variant layout-grid (&[data-layout="grid"]);
-@custom-variant layout-stack (&[data-layout="stack"]);
+@custom-variant layout-grid (&:where([data-layout="grid"]));
+@custom-variant layout-stack (&:where([data-layout="stack"]));
 
-@custom-variant orientation-horizontal (&[data-orientation="horizontal"]);
-@custom-variant orientation-vertical (&[data-orientation="vertical"]);
+@custom-variant orientation-horizontal (&:where([data-orientation="horizontal"]));
+@custom-variant orientation-vertical (&:where([data-orientation="vertical"]));
 
-@custom-variant selection-single (&[data-selection-mode="single"]);
-@custom-variant selection-multiple (&[data-selection-mode="multiple"]);
+@custom-variant selection-single (&:where([data-selection-mode="single"]));
+@custom-variant selection-multiple (&:where([data-selection-mode="multiple"]));
 
-@custom-variant resizable-right (&[data-resizable-direction="right"]);
-@custom-variant resizable-left (&[data-resizable-direction="left"]);
-@custom-variant resizable-both (&[data-resizable-direction="both"]);
+@custom-variant resizable-right (&:where([data-resizable-direction="right"]));
+@custom-variant resizable-left (&:where([data-resizable-direction="left"]));
+@custom-variant resizable-both (&:where([data-resizable-direction="both"]));
 
-@custom-variant sort-ascending (&[data-sort-direction="ascending"]);
-@custom-variant sort-descending (&[data-sort-direction="descending"]);
+@custom-variant sort-ascending (&:where([data-sort-direction="ascending"]));
+@custom-variant sort-descending (&:where([data-sort-direction="descending"]));
 
-@custom-variant allows-removing (&[data-allows-removing]);
-@custom-variant allows-sorting (&[data-allows-sorting]);
-@custom-variant allows-dragging (&[data-allows-dragging]);
+@custom-variant allows-removing (&:where([data-allows-removing]));
+@custom-variant allows-sorting (&:where([data-allows-sorting]));
+@custom-variant allows-dragging (&:where([data-allows-dragging]));
 
-@custom-variant has-submenu (&[data-has-submenu]);
-@custom-variant has-child-items (&[data-has-child-items]);
+@custom-variant has-submenu (&:where([data-has-submenu]));
+@custom-variant has-child-items (&:where([data-has-child-items]));
 
-@custom-variant open (&:is([open], [data-open]), &:open);
-@custom-variant expanded (&:is([expanded], [data-expanded]));
+@custom-variant open (&:where([open], [data-open], :open));
+@custom-variant expanded (&:where([expanded], [data-expanded]));
 
-@custom-variant entering (&[data-entering]);
-@custom-variant exiting (&[data-exiting]);
+@custom-variant entering (&:where([data-entering]));
+@custom-variant exiting (&:where([data-exiting]));
 
-@custom-variant indeterminate (&[data-indeterminate], &:indeterminate);
+@custom-variant indeterminate (&:where([data-indeterminate], :indeterminate));
 
-@custom-variant placeholder-shown (&[data-placeholder], &:placeholder-shown);
+@custom-variant placeholder-shown (&:where([data-placeholder], :placeholder-shown));
 
-@custom-variant current (&[data-current]);
+@custom-variant current (&:where([data-current]));
 
-@custom-variant optional (&:not([required], [data-required]), &:optional);
-@custom-variant required (&:is([required], [data-required]), &:required);
+@custom-variant optional (&:where(:not([required], [data-required]), :optional));
+@custom-variant required (&:where([required], [data-required], :required));
 
-@custom-variant unavailable (&[data-unavailable]);
+@custom-variant unavailable (&:where([data-unavailable]));
 
-@custom-variant invalid (&:is([invalid], [data-invalid]), &:invalid);
+@custom-variant invalid (&:where([invalid], [data-invalid], :invalid));
 
-@custom-variant read-only (&:is([readonly], [data-readonly]), &:read-only);
+@custom-variant read-only (&:where([readonly], [data-readonly], :read-only));
 
-@custom-variant outside-month (&[data-outside-month]);
-@custom-variant outside-visible-range (&[data-outside-visible-range]);
+@custom-variant outside-month (&:where([data-outside-month]));
+@custom-variant outside-visible-range (&:where([data-outside-visible-range]));
 
-@custom-variant pending (&[data-pending]);
+@custom-variant pending (&:where([data-pending]));
 
-@custom-variant empty (&[data-empty], &:empty);
+@custom-variant empty (&:where([data-empty], :empty));
 
-@custom-variant focus-within (&[data-focus-within], &:focus-within);
+@custom-variant focus-within (&:where([data-focus-within], :focus-within));
 
-@custom-variant hover (&[data-hovered], &:hover);
+@custom-variant hover (&:where([data-hovered], :hover));
 
-@custom-variant focus (&[data-focused], &:focus);
-@custom-variant focus-visible (&[data-focus-visible], &:focus-visible);
+@custom-variant focus (&:where([data-focused], :focus));
+@custom-variant focus-visible (&:where([data-focus-visible], :focus-visible));
 
-@custom-variant pressed (&[data-pressed], &:active);
+@custom-variant pressed (&:where([data-pressed], :active));
 
-@custom-variant selected (&[data-selected], &:checked);
-@custom-variant selection-start (&[data-selection-start]);
-@custom-variant selection-end (&[data-selection-end]);
+@custom-variant selected (&:where([data-selected], :checked));
+@custom-variant selection-start (&:where([data-selection-start]));
+@custom-variant selection-end (&:where([data-selection-end]));
 
-@custom-variant dragging (&[data-dragging]);
-@custom-variant drop-target (&[data-drop-target]);
+@custom-variant dragging (&:where([data-dragging]));
+@custom-variant drop-target (&:where([data-drop-target]));
 
-@custom-variant resizing (&[data-resizing]);
+@custom-variant resizing (&:where([data-resizing]));
 
-@custom-variant enabled (&:not([disabled], [data-disabled]), &:enabled);
-@custom-variant disabled (&:is([disabled], [data-disabled]), &:disabled);
+@custom-variant enabled (&:where(:not([disabled], [data-disabled]), :enabled));
+@custom-variant disabled (&:where([disabled], [data-disabled], :disabled));
 
+/**
+ * DesignTK chooses to implement outlines instead of borders to make it so
+ * that the style doesn't impact box model dimensions. This way elements with
+ * or without a "border" are consistently sized based on content and padding alone
+ */
 @utility outline {
   outline-offset: -1px;
 }

@@ -17,10 +17,12 @@ const meta: Meta<typeof Input> = {
   title: 'Components/Input',
   component: Input,
   args: {
+    autoSize: false,
     disabled: false,
     placeholder: 'Placeholder',
     size: 'medium',
     isClearable: true,
+    isInvalid: false,
   },
   argTypes: {
     size: {

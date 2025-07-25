@@ -228,3 +228,11 @@ function MyComponent({ className, isDisabled }: Props) {
   return <div className={styles({ className, isDisabled })} />
 }
 ```
+
+## Implementation Specifics
+
+### Border vs Outline
+
+DesignTK chooses to implement outlines instead of borders to make it so that the style doesn't impact box model dimensions. This way elements with or without a "border" are consistently sized based on content and padding alone. This also helps with sibling components rendering at the same size when their border styles may not match.
+
+Do not implement borders, do implement outlines
