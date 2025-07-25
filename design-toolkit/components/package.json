@@ -48,7 +48,7 @@
   },
   "scripts": {
     "bench": "pnpm vitest bench --run --dir src",
-    "build": "pnpm gen:tokens && gen:variants && pnpm tsup && pnpm build:css",
+    "build": "pnpm gen:tokens && pnpm gen:variants && pnpm tsup && pnpm build:css",
     "build:css": "pnpm tailwindcss -i ./src/index.css -o ./dist/styles.css",
     "dev": "pnpm tsc --watch",
     "gen:tokens": "node scripts/generate-tokens.mjs",
