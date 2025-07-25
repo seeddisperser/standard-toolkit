@@ -12,47 +12,47 @@
 
 'use client';
 import 'client-only';
-import { mergeProps } from '@react-aria/utils';
-import { createContext } from 'react';
+import { createContext, useContext } from 'react';
 import {
   Header as AriaHeader,
   ListBox as AriaListBox,
   Collection as AriaListBoxCollection,
+  ListBoxItem as AriaListBoxItem,
   ListBoxSection as AriaListBoxSection,
+  Text as AriaText,
   type ContextValue,
   composeRenderProps,
   useContextProps,
 } from 'react-aria-components';
-import 'client-only';
-import { useContext, useMemo } from 'react';
-import {
-  ListBoxItem as AriaListBoxItem,
-  Text as AriaText,
-} from 'react-aria-components';
-import { Icon } from '../icon';
 
+import { isSlottedContextValue } from '@/lib/utils';
+import { Icon } from '../icon';
+import { OptionsStyles } from './styles';
 import type {
-  IOptionsItem,
-  OptionsItemIconProps,
   OptionsItemProps,
   OptionsItemTextProps,
+  OptionsItem as OptionsItemType,
   OptionsProps,
   OptionsSectionProps,
 } from './types';
 
-import { OptionsStyles } from './styles';
+const {
+  list,
+  section,
+  sectionHeader,
+  item,
+  itemIcon,
+  itemContent,
+  itemLabel,
+  itemDescription,
+} = OptionsStyles();
 
-const { list, section, sectionHeader, item, itemIcon, itemContent } =
-  OptionsStyles();
+export const OptionsContext =
+  createContext<ContextValue<OptionsProps<OptionsItemType>, HTMLDivElement>>(
+    null,
+  );
 
-export const OptionsContext = createContext<
-  ContextValue<OptionsProps<IOptionsItem>, HTMLDivElement>
->({
-  size: 'large',
-  color: 'default',
-});
-
-export function Options<T extends IOptionsItem>({
+export function Options<T extends OptionsItemType>({
   ref,
   ...props
 }: OptionsProps<T>) {
@@ -70,7 +70,13 @@ export function Options<T extends IOptionsItem>({
   } = props;
   return (
     <OptionsContext.Provider value={{ size, color }}>
-      <AriaListBox<T> ref={ref} className={list()} {...rest}>
+      <AriaListBox<T>
+        ref={ref}
+        className={composeRenderProps(className, (className) =>
+          list({ className }),
+        )}
+        {...rest}
+      >
         {children}
       </AriaListBox>
     </OptionsContext.Provider>
@@ -78,7 +84,7 @@ export function Options<T extends IOptionsItem>({
 }
 Options.displayName = 'Options';
 
-export function OptionsSection<T extends IOptionsItem>({
+export function OptionsSection<T extends OptionsItemType>({
   children,
   header,
   items,
@@ -100,29 +106,27 @@ export function OptionsItem({
   ...props
 }: OptionsItemProps) {
   const context = useContext(OptionsContext) ?? {};
-
-  const { size, color } = useMemo(
-    () =>
-      mergeProps(context, {
-        size: sizeProp,
-        color: colorProp,
-      }),
-    [context, sizeProp, colorProp],
-  );
+  const color =
+    (isSlottedContextValue(context) ? undefined : context?.color) ?? colorProp;
+  const size =
+    (isSlottedContextValue(context) ? undefined : context?.size) ?? sizeProp;
 
   return (
     <AriaListBoxItem
       {...props}
-      className={composeRenderProps(className, () => item({ size, color }))}
+      data-size={size}
+      className={composeRenderProps(className, (className) =>
+        item({ color, className }),
+      )}
     >
       {composeRenderProps(children, (children) => (
-        <>
+        <Icon.Provider size='small' className={itemIcon()}>
           {typeof children === 'string' ? (
             <OptionsItemLabel>{children}</OptionsItemLabel>
           ) : (
             children
           )}
-        </>
+        </Icon.Provider>
       ))}
     </AriaListBoxItem>
   );
@@ -135,7 +139,7 @@ function OptionsItemContent({
   ...props
 }: OptionsItemTextProps) {
   return (
-    <div {...props} className={itemContent()}>
+    <div {...props} className={itemContent({ className })}>
       {children}
     </div>
   );
@@ -148,7 +152,7 @@ function OptionsItemLabel({
   ...props
 }: OptionsItemTextProps) {
   return (
-    <AriaText {...props} className='truncate' slot='label'>
+    <AriaText {...props} className={itemLabel({ className })} slot='label'>
       {children}
     </AriaText>
   );
@@ -163,8 +167,7 @@ function OptionsItemDescription({
   return (
     <AriaText
       {...props}
-      className='truncate'
-      data-slot='description'
+      className={itemDescription({ className })}
       slot='description'
     >
       {children}
@@ -173,24 +176,8 @@ function OptionsItemDescription({
 }
 OptionsItemDescription.displayName = 'Options.Item.Description';
 
-function OptionsItemIcon({
-  children,
-  className,
-  ...props
-}: OptionsItemIconProps) {
-  return (
-    <span className={itemIcon()}>
-      <Icon size='small' {...props}>
-        {children}
-      </Icon>
-    </span>
-  );
-}
-OptionsItemIcon.displayName = 'Options.Item.Icon';
-
 OptionsItem.Label = OptionsItemLabel;
 OptionsItem.Content = OptionsItemContent;
 OptionsItem.Description = OptionsItemDescription;
-OptionsItem.Icon = OptionsItemIcon;
 Options.Item = OptionsItem;
 Options.Section = OptionsSection;

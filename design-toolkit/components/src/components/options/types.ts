@@ -17,41 +17,41 @@ import type {
   ListBoxSectionProps as AriaListBoxSectionProps,
   TextProps,
 } from 'react-aria-components';
-import type { IconProps } from '../icon/types';
-import type { OptionsStyleVariants } from './styles';
+import type { VariantProps } from 'tailwind-variants';
+import type { OptionsStyles } from './styles';
 
-export interface IOptionsItem {
-  children?: IOptionsItem[];
+export interface OptionsItem {
+  children?: OptionsItem[];
   id: string | number;
   name: string;
 }
 
-export interface OptionsItemProps extends AriaListBoxItemProps {
-  color?: OptionsStyleVariants['color'];
-  size?: OptionsStyleVariants['size'];
+type OptionsItemSize = 'small' | 'large';
+
+export interface OptionsItemProps
+  extends AriaListBoxItemProps,
+    OptionsStyleVariants {
+  size?: OptionsItemSize;
 }
 
-export interface OptionsProps<T extends IOptionsItem>
+export interface OptionsProps<T extends OptionsItem>
   extends Omit<AriaListBoxProps<T>, 'orientation' | 'layout'>,
     RefAttributes<HTMLDivElement> {
-  className?: string;
   description?: string;
   errorMessage?: string;
   label?: string;
   placeholder?: string;
-  size?: OptionsItemProps['size'];
+  size?: OptionsItemSize;
   color?: OptionsItemProps['color'];
 }
 
-export interface OptionsSectionProps<T extends IOptionsItem>
+export interface OptionsSectionProps<T extends OptionsItem>
   extends AriaListBoxSectionProps<T> {
   header?: string;
 }
 
 export interface OptionsItemTextProps extends TextProps {
-  className?: string;
+  // className?: string;
 }
 
-export interface OptionsItemIconProps extends IconProps {
-  className?: string;
-}
+export type OptionsStyleVariants = VariantProps<typeof OptionsStyles>;

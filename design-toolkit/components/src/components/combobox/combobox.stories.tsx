@@ -14,6 +14,7 @@ import Placeholder from '@accelint/icons/placeholder';
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
 
+import { Icon } from '../icon';
 import { ComboBox } from './index';
 
 const meta: Meta<typeof ComboBox> = {
@@ -146,9 +147,7 @@ export const Default: Story = {
     <ComboBox<CustomOptionsItem> {...args} defaultItems={items}>
       {(item) => (
         <ComboBox.Item key={item.id} isDisabled={item.isDisabled}>
-          {item.prefixIcon && (
-            <ComboBox.Item.Icon>{item.prefixIcon}</ComboBox.Item.Icon>
-          )}
+          {item.prefixIcon && <Icon>{item.prefixIcon}</Icon>}
           <ComboBox.Item.Content>
             <ComboBox.Item.Label>{item.name}</ComboBox.Item.Label>
             {item.description && (
@@ -176,9 +175,7 @@ export const WithDynamicSections: Story = {
         <ComboBox.Section header={section.name} items={section.children}>
           {(item) => (
             <ComboBox.Item key={item.id}>
-              {item.prefixIcon && (
-                <ComboBox.Item.Icon>{item.prefixIcon}</ComboBox.Item.Icon>
-              )}
+              {item.prefixIcon && <Icon>{item.prefixIcon}</Icon>}
               <ComboBox.Item.Content>
                 <ComboBox.Item.Label>{item.name}</ComboBox.Item.Label>
                 {item.description && (
@@ -206,41 +203,41 @@ export const WithStaticSections: Story = {
     <ComboBox {...args}>
       <ComboBox.Section header='North American Birds'>
         <ComboBox.Item>
-          <ComboBox.Item.Icon>
+          <Icon>
             <Placeholder />
-          </ComboBox.Item.Icon>
+          </Icon>
           <ComboBox.Item.Label>Blue Jay</ComboBox.Item.Label>
         </ComboBox.Item>
         <ComboBox.Item>
-          <ComboBox.Item.Icon>
+          <Icon>
             <Placeholder />
-          </ComboBox.Item.Icon>
+          </Icon>
           <ComboBox.Item.Label>Gray catbird</ComboBox.Item.Label>
         </ComboBox.Item>
         <ComboBox.Item>
-          <ComboBox.Item.Icon>
+          <Icon>
             <Placeholder />
-          </ComboBox.Item.Icon>
+          </Icon>
           <ComboBox.Item.Label>Black-capped chickadee</ComboBox.Item.Label>
         </ComboBox.Item>
         <ComboBox.Item>
-          <ComboBox.Item.Icon>
+          <Icon>
             <Placeholder />
-          </ComboBox.Item.Icon>
+          </Icon>
           <ComboBox.Item.Label>Song Sparrow</ComboBox.Item.Label>
         </ComboBox.Item>
       </ComboBox.Section>
       <ComboBox.Section header='African Birds'>
         <ComboBox.Item>
-          <ComboBox.Item.Icon>
+          <Icon>
             <Placeholder />
-          </ComboBox.Item.Icon>
+          </Icon>
           <ComboBox.Item.Label>Lilac-breasted roller</ComboBox.Item.Label>
         </ComboBox.Item>
         <ComboBox.Item>
-          <ComboBox.Item.Icon>
+          <Icon>
             <Placeholder />
-          </ComboBox.Item.Icon>
+          </Icon>
           <ComboBox.Item.Label>Hornbill</ComboBox.Item.Label>
         </ComboBox.Item>
       </ComboBox.Section>
@@ -264,9 +261,7 @@ export const WithManyItems: Story = {
     <ComboBox {...args}>
       {manyItems.map((item) => (
         <ComboBox.Item key={item.id}>
-          {item.prefixIcon && (
-            <ComboBox.Item.Icon>{item.prefixIcon}</ComboBox.Item.Icon>
-          )}
+          {item.prefixIcon && <Icon>{item.prefixIcon}</Icon>}
           <ComboBox.Item.Label>{item.name}</ComboBox.Item.Label>
         </ComboBox.Item>
       ))}

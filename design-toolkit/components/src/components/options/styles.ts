@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import { type VariantProps, tv } from 'tailwind-variants';
+import { tv } from 'tailwind-variants';
 
 export const OptionsStyles = tv({
   slots: {
@@ -18,15 +18,23 @@ export const OptionsStyles = tv({
     section: 'mt-s border-default-dark border-t first:border-none',
     sectionHeader: 'm-xs my-s text-default-dark text-header-xs',
     item: [
+      'group/item',
       'fg-default-light flex items-center gap-s p-s text-body-s ',
-      '**:data-[slot=description]:fg-default-dark **:data-[slot=description]:text-body-xs',
-      'hover:fg-inverse-light hover:**:data-[slot=description]:fg-inverse-light',
-      'focus:fg-inverse-light focus:**:data-[slot=description]:fg-inverse-light ',
-      'disabled:fg-disabled disabled:**:data-[slot=description]:fg-disabled disabled:bg-transparent',
+      'hover:fg-inverse-light',
+      'focus:fg-inverse-light',
+      'disabled:fg-disabled disabled:bg-transparent',
       'hover:bg-highlight-bold focus:bg-highlight-bold',
+      'pt-s size-small:pt-xs pb-s size-small:pb-xs',
     ],
     itemContent: 'flex min-w-0 flex-auto flex-col gap-xxs',
     itemIcon: 'flex w-[16px] items-center',
+    itemLabel: 'truncate',
+    itemDescription: [
+      'fg-default-dark truncate text-body-xs',
+      'group-hover/item:fg-inverse-light',
+      'group-focus/item:fg-inverse-light',
+      'group-disabled/item:fg-disabled',
+    ],
   },
   variants: {
     color: {
@@ -37,16 +45,5 @@ export const OptionsStyles = tv({
         item: 'hover:bg-highlight-bold focus:bg-highlight-bold',
       },
     },
-    size: {
-      large: {
-        item: 'pt-s pb-s',
-      },
-      small: { item: 'pt-xs pb-xs' },
-    },
-  },
-  defaultVariants: {
-    size: 'large',
   },
 });
-
-export type OptionsStyleVariants = VariantProps<typeof OptionsStyles>;

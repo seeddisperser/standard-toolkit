@@ -13,56 +13,57 @@
 import Placeholder from '@accelint/icons/placeholder';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
+import { Icon } from '../icon';
 import { Options } from './index';
-import type { IOptionsItem, OptionsProps } from './types';
+import type { OptionsItem, OptionsProps } from './types';
 
 function setup({
   children = (
     <>
       <Options.Section header='North American Birds' className='w-[200px]'>
         <Options.Item>
-          <Options.Item.Icon>
+          <Icon>
             <Placeholder />
-          </Options.Item.Icon>
+          </Icon>
           <Options.Item.Label>Blue Jay</Options.Item.Label>
         </Options.Item>
         <Options.Item>
-          <Options.Item.Icon>
+          <Icon>
             <Placeholder />
-          </Options.Item.Icon>
+          </Icon>
           <Options.Item.Label>Gray catbird</Options.Item.Label>
         </Options.Item>
         <Options.Item>
-          <Options.Item.Icon>
+          <Icon>
             <Placeholder />
-          </Options.Item.Icon>
+          </Icon>
           <Options.Item.Label>Black-capped chickadee</Options.Item.Label>
         </Options.Item>
         <Options.Item>
-          <Options.Item.Icon>
+          <Icon>
             <Placeholder />
-          </Options.Item.Icon>
+          </Icon>
           <Options.Item.Label>Song Sparrow</Options.Item.Label>
         </Options.Item>
       </Options.Section>
       <Options.Section header='African Birds'>
         <Options.Item>
-          <Options.Item.Icon>
+          <Icon>
             <Placeholder />
-          </Options.Item.Icon>
+          </Icon>
           <Options.Item.Label>Lilac-breasted roller</Options.Item.Label>
         </Options.Item>
         <Options.Item>
-          <Options.Item.Icon>
+          <Icon>
             <Placeholder />
-          </Options.Item.Icon>
+          </Icon>
           <Options.Item.Label>Hornbill</Options.Item.Label>
         </Options.Item>
       </Options.Section>
     </>
   ),
   ...rest
-}: Partial<OptionsProps<IOptionsItem>> = {}) {
+}: Partial<OptionsProps<OptionsItem>> = {}) {
   render(<Options {...rest}>{children}</Options>);
 
   return {
