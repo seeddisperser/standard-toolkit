@@ -108,10 +108,7 @@ const DateInput = ({
     <div className='relative flex'>
       {size === 'medium' ? (
         <Icon
-          className={
-            '-translate-y-1/2 absolute top-1/2 left-s' +
-            (props.isDisabled ? ' text-disabled' : ' text-default-light')
-          }
+          className={`-translate-y-1/2 absolute top-1/2 left-s ${props.isDisabled ? ' text-disabled' : ' text-default-light'}`}
         >
           <Calendar />
         </Icon>
@@ -184,10 +181,7 @@ export function DateField<T extends DateValue>({
       </DateInput>
       {shouldShowDescription && (
         <AriaText
-          className={
-            'fg-default-dark text-body-xs empty:hidden' +
-            (isDisabled && 'fg-disabled')
-          }
+          className={`fg-default-dark text-body-xs empty:hidden ${isDisabled && 'fg-disabled'}`}
           slot='description'
         >
           {description}
