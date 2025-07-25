@@ -48,10 +48,11 @@
   },
   "scripts": {
     "bench": "pnpm vitest bench --run --dir src",
-    "build": "pnpm gen:tokens && pnpm tsup && pnpm build:css",
+    "build": "pnpm gen:tokens && gen:variants && pnpm tsup && pnpm build:css",
     "build:css": "pnpm tailwindcss -i ./src/index.css -o ./dist/styles.css",
     "dev": "pnpm tsc --watch",
     "gen:tokens": "node scripts/generate-tokens.mjs",
+    "gen:variants": "node scripts/generate-variants.mjs",
     "index": "pnpm zx ../../scripts/indexer.mjs design-toolkit/components",
     "lint": "pnpm biome lint",
     "preview": "pnpm storybook dev -p 6006",
