@@ -31,7 +31,7 @@ import { OptionsStyles } from './styles';
 import type {
   OptionsItemProps,
   OptionsItemTextProps,
-  OptionsItem as OptionsItemType,
+  IOptionsItem,
   OptionsProps,
   OptionsSectionProps,
 } from './types';
@@ -48,11 +48,11 @@ const {
 } = OptionsStyles();
 
 export const OptionsContext =
-  createContext<ContextValue<OptionsProps<OptionsItemType>, HTMLDivElement>>(
+  createContext<ContextValue<OptionsProps<IOptionsItem>, HTMLDivElement>>(
     null,
   );
 
-export function Options<T extends OptionsItemType>({
+export function Options<T extends IOptionsItem>({
   ref,
   ...props
 }: OptionsProps<T>) {
@@ -84,7 +84,7 @@ export function Options<T extends OptionsItemType>({
 }
 Options.displayName = 'Options';
 
-export function OptionsSection<T extends OptionsItemType>({
+export function OptionsSection<T extends IOptionsItem>({
   children,
   header,
   items,

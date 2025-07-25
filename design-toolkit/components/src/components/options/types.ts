@@ -20,8 +20,8 @@ import type {
 import type { VariantProps } from 'tailwind-variants';
 import type { OptionsStyles } from './styles';
 
-export interface OptionsItem {
-  children?: OptionsItem[];
+export interface IOptionsItem {
+  children?: IOptionsItem[];
   id: string | number;
   name: string;
 }
@@ -34,7 +34,7 @@ export interface OptionsItemProps
   size?: OptionsItemSize;
 }
 
-export interface OptionsProps<T extends OptionsItem>
+export interface OptionsProps<T extends IOptionsItem>
   extends Omit<AriaListBoxProps<T>, 'orientation' | 'layout'>,
     RefAttributes<HTMLDivElement> {
   description?: string;
@@ -45,7 +45,7 @@ export interface OptionsProps<T extends OptionsItem>
   color?: OptionsItemProps['color'];
 }
 
-export interface OptionsSectionProps<T extends OptionsItem>
+export interface OptionsSectionProps<T extends IOptionsItem>
   extends AriaListBoxSectionProps<T> {
   header?: string;
 }

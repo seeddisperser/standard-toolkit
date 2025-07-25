@@ -15,7 +15,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { Icon } from '../icon';
 import { Options } from './index';
-import type { OptionsItem, OptionsProps } from './types';
+import type { IOptionsItem, OptionsProps } from './types';
 
 function setup({
   children = (
@@ -63,7 +63,7 @@ function setup({
     </>
   ),
   ...rest
-}: Partial<OptionsProps<OptionsItem>> = {}) {
+}: Partial<OptionsProps<IOptionsItem>> = {}) {
   render(<Options {...rest}>{children}</Options>);
 
   return {

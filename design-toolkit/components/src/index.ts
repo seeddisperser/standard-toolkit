@@ -157,10 +157,9 @@ export {
   OptionsSection,
 } from './components/options';
 export { OptionsStyles } from './components/options/styles';
-export type { OptionsStyleVariants } from './components/options/styles';
 export type {
+  OptionsStyleVariants,
   IOptionsItem,
-  OptionsItemIconProps,
   OptionsItemProps,
   OptionsItemTextProps,
   OptionsProps,
