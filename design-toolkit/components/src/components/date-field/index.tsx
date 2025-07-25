@@ -12,7 +12,6 @@
 
 'use client';
 import 'client-only';
-import { cn } from '@/lib/utils';
 import Calendar from '@accelint/icons/calendar';
 import type { DateValue } from '@internationalized/date';
 import type { DateSegment as TDateSegment } from '@react-stately/datepicker';
@@ -109,10 +108,10 @@ const DateInput = ({
     <div className='relative flex'>
       {size === 'medium' ? (
         <Icon
-          className={cn([
-            '-translate-y-1/2 absolute top-1/2 left-s',
-            props.isDisabled ? 'text-disabled' : 'text-default-light',
-          ])}
+          className={
+            '-translate-y-1/2 absolute top-1/2 left-s' +
+            (props.isDisabled ? ' text-disabled' : ' text-default-light')
+          }
         >
           <Calendar />
         </Icon>
@@ -185,10 +184,10 @@ export function DateField<T extends DateValue>({
       </DateInput>
       {shouldShowDescription && (
         <AriaText
-          className={cn([
-            'fg-default-dark text-body-xs empty:hidden',
-            isDisabled && 'fg-disabled',
-          ])}
+          className={
+            'fg-default-dark text-body-xs empty:hidden' +
+            (isDisabled && 'fg-disabled')
+          }
           slot='description'
         >
           {description}
