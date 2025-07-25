@@ -22,95 +22,21 @@
   --color-current: currentColor;
 }
 
-/** Recreating https://github.com/adobe/react-spectrum/blob/main/packages/tailwindcss-react-aria-components/src/index.js without RAC selectors (:where([data-rac])) or prefix and combining with native selectors **/
-@custom-variant placement-left (&[data-placement~="left"]);
-@custom-variant placement-right (&[data-placement~="right"]);
-@custom-variant placement-top (&[data-placement~="top"]);
-@custom-variant placement-bottom (&[data-placement~="bottom"]);
+@import './variants/variants.css';
 
-@custom-variant size-xlarge (&[data-size="xlarge"]);
-@custom-variant size-large (&[data-size="large"]);
-@custom-variant size-medium (&[data-size="medium"]);
-@custom-variant size-small (&[data-size="small"]);
-@custom-variant size-xsmall (&[data-size="xsmall"]);
+/**
+ * Provides an escalation selector allowing for easier bump in specificity
+ * instead of having to target the same level established by a previous style.
+ *
+ * Can be stacked if necessary, just don't get carried away with power.
+ */
+@custom-variant sudo (&&);
 
-@custom-variant type-literal (&[data-type="literal"]);
-@custom-variant type-year (&[data-type="year"]);
-@custom-variant type-month (&[data-type="month"]);
-@custom-variant type-day (&[data-type="day"]);
-
-@custom-variant layout-grid (&[data-layout="grid"]);
-@custom-variant layout-stack (&[data-layout="stack"]);
-
-@custom-variant orientation-horizontal (&[data-orientation="horizontal"]);
-@custom-variant orientation-vertical (&[data-orientation="vertical"]);
-
-@custom-variant selection-single (&[data-selection-mode="single"]);
-@custom-variant selection-multiple (&[data-selection-mode="multiple"]);
-
-@custom-variant resizable-right (&[data-resizable-direction="right"]);
-@custom-variant resizable-left (&[data-resizable-direction="left"]);
-@custom-variant resizable-both (&[data-resizable-direction="both"]);
-
-@custom-variant sort-ascending (&[data-sort-direction="ascending"]);
-@custom-variant sort-descending (&[data-sort-direction="descending"]);
-
-@custom-variant allows-removing (&[data-allows-removing]);
-@custom-variant allows-sorting (&[data-allows-sorting]);
-@custom-variant allows-dragging (&[data-allows-dragging]);
-
-@custom-variant has-submenu (&[data-has-submenu]);
-@custom-variant has-child-items (&[data-has-child-items]);
-
-@custom-variant open (&:is([open], [data-open]), &:open);
-@custom-variant expanded (&:is([expanded], [data-expanded]));
-
-@custom-variant entering (&[data-entering]);
-@custom-variant exiting (&[data-exiting]);
-
-@custom-variant indeterminate (&[data-indeterminate], &:indeterminate);
-
-@custom-variant placeholder-shown (&[data-placeholder], &:placeholder-shown);
-
-@custom-variant current (&[data-current]);
-
-@custom-variant optional (&:not([required], [data-required]), &:optional);
-@custom-variant required (&:is([required], [data-required]), &:required);
-
-@custom-variant unavailable (&[data-unavailable]);
-
-@custom-variant invalid (&:is([invalid], [data-invalid]), &:invalid);
-
-@custom-variant read-only (&:is([readonly], [data-readonly]), &:read-only);
-
-@custom-variant outside-month (&[data-outside-month]);
-@custom-variant outside-visible-range (&[data-outside-visible-range]);
-
-@custom-variant pending (&[data-pending]);
-
-@custom-variant empty (&[data-empty], &:empty);
-
-@custom-variant focus-within (&[data-focus-within], &:focus-within);
-
-@custom-variant hover (&[data-hovered], &:hover);
-
-@custom-variant focus (&[data-focused], &:focus);
-@custom-variant focus-visible (&[data-focus-visible], &:focus-visible);
-
-@custom-variant pressed (&[data-pressed], &:active);
-
-@custom-variant selected (&[data-selected], &:checked);
-@custom-variant selection-start (&[data-selection-start]);
-@custom-variant selection-end (&[data-selection-end]);
-
-@custom-variant dragging (&[data-dragging]);
-@custom-variant drop-target (&[data-drop-target]);
-
-@custom-variant resizing (&[data-resizing]);
-
-@custom-variant enabled (&:not([disabled], [data-disabled]), &:enabled);
-@custom-variant disabled (&:is([disabled], [data-disabled]), &:disabled);
-
+/**
+ * DesignTK chooses to implement outlines instead of borders to make it so
+ * that the style doesn't impact box model dimensions. This way elements with
+ * or without a "border" are consistently sized based on content and padding alone
+ */
 @utility outline {
   outline-offset: -1px;
 }
