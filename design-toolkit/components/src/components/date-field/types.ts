@@ -11,10 +11,10 @@
  */
 
 import type { ForwardedRef } from 'react';
-import {
-  type DateFieldProps as AriaDateFieldProps,
-  type DateInputProps as AriaDateInputProps,
-  type DateValue,
+import type {
+  DateFieldProps as AriaDateFieldProps,
+  DateInputProps as AriaDateInputProps,
+  DateValue,
 } from 'react-aria-components';
 import type { VariantProps } from 'tailwind-variants';
 import type { DateFieldStyles } from './styles';
