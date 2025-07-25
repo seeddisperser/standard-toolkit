@@ -11,18 +11,14 @@
  */
 
 'use client';
+import 'client-only';
 import { cn } from '@/lib/utils';
 import Calendar from '@accelint/icons/calendar';
 import type { DateValue } from '@internationalized/date';
 import type { DateSegment as TDateSegment } from '@react-stately/datepicker';
-import 'client-only';
-import type { VariantProps } from 'cva';
-import type { ForwardedRef } from 'react';
 import {
   DateField as AriaDateField,
-  type DateFieldProps as AriaDateFieldProps,
   DateInput as AriaDateInput,
-  type DateInputProps as AriaDateInputProps,
   type DateSegmentProps as AriaDateSegmentProps,
   Text as AriaText,
   DateSegment,
@@ -33,6 +29,7 @@ import {
 import { Icon } from '../icon';
 import { Label } from '../label';
 import { DateFieldStyles } from './styles';
+import type { DateFieldProps, DateInputProps } from './types';
 
 const months = [
   'JAN',
@@ -101,12 +98,6 @@ const FormattedDateSegment = ({
   );
 };
 
-interface DateInputProps
-  extends VariantProps<typeof DateFieldStyles>,
-    Omit<AriaDateInputProps, 'size'> {
-  ref?: ForwardedRef<HTMLDivElement>;
-}
-
 const DateInput = ({
   className,
   ref = null,
@@ -141,25 +132,6 @@ const DateInput = ({
     </div>
   );
 };
-
-export interface DateFieldProps<T extends DateValue>
-  extends Omit<
-      VariantProps<typeof DateFieldStyles>,
-      'isDisabled' | 'isInvalid' | 'isReadOnly'
-    >,
-    Omit<AriaDateFieldProps<T>, 'className' | 'style'>, // Exclude className to avoid conflict with cva
-    Omit<AriaDateInputProps, 'className' | 'children' | 'style'> {
-  isDisabled?: boolean;
-  isInvalid?: boolean;
-  isReadOnly?: boolean;
-  size?: 'small' | 'medium';
-  className?: string;
-  description?: string;
-  errorMessage?: string;
-  label?: string;
-  placeholder?: string;
-  shortMonth?: boolean;
-}
 
 export function DateField<T extends DateValue>({
   className,
