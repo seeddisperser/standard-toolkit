@@ -12,6 +12,7 @@
 
 import {
   Children,
+  Fragment,
   type JSXElementConstructor,
   type ReactNode,
   isValidElement,
@@ -24,18 +25,39 @@ class ComponentStructureError extends Error {
   }
 }
 
+type ChildrenTypes =
+  | ReactNode
+  | ReactNode[]
+  | ((
+      // biome-ignore lint/suspicious/noExplicitAny: aria render props include a generic type
+      values: any & {
+        defaultChildren: ReactNode | undefined;
+      },
+    ) => ReactNode);
+
+function getChildren(children: ChildrenTypes) {
+  if (typeof children === 'function') {
+    children = children({ state: {}, defaultChildren: <></> });
+  }
+
+  return Children.toArray(children as ReactNode | ReactNode[]).flatMap(
+    (child) => {
+      // @ts-expect-error
+      if (child.type === Fragment) {
+        // @ts-expect-error
+        return Children.toArray(child.props.children);
+      }
+
+      return [child];
+    },
+  );
+}
+
 type ContainsExactChildrenProps = {
   componentName: string;
-  children:
-    | ReactNode
-    | ReactNode[]
-    | ((
-        // biome-ignore lint/suspicious/noExplicitAny: aria render props include a generic type
-        values: any & {
-          defaultChildren: ReactNode | undefined;
-        },
-      ) => ReactNode);
+  children: ChildrenTypes;
   restrictions: [
+    // biome-ignore lint/suspicious/noExplicitAny: allow all props
     string | JSXElementConstructor<any>,
     { min: number; max?: number },
   ][];
@@ -53,9 +75,11 @@ export function containsExactChildren({
   componentName,
   restrictions,
 }: ContainsExactChildrenProps) {
-  const childrenComponents = Children.toArray(
-    children as ReactNode | ReactNode[],
-  );
+  if (process.env.NODE_ENV === 'production') {
+    return;
+  }
+
+  const childrenComponents = getChildren(children);
 
   if (!childrenComponents.every(isValidElement)) {
     throw new ComponentStructureError(
@@ -65,8 +89,9 @@ export function containsExactChildren({
 
   const accumulationResults = childrenComponents.reduce(
     (acc: Record<string, number>, child) => {
-      // @ts-expect-error Accessing undocumented / untyped properties of React components
-      const name = child.type?.name ?? child.type?.render?.name;
+      const name =
+        // @ts-expect-error Accessing undocumented / untyped properties of React components
+        child.type?.name ?? child.type?.displayName ?? child.type?.render?.name;
 
       if (name) {
         acc[name] = (acc[name] || 0) + 1;
@@ -85,6 +110,7 @@ export function containsExactChildren({
         ? component
         : // @ts-expect-error Accessing undocumented / untyped properties of React components
           (component.name ?? component.displayName ?? component.render?.name);
+
     const found = accumulationResults[name] ?? 0;
 
     if (found < min) {
@@ -131,6 +157,10 @@ export function expectsIconWrapper({
   children,
   componentName,
 }: Omit<ContainsExactChildrenProps, 'restrictions'>) {
+  if (process.env.NODE_ENV === 'production') {
+    return;
+  }
+
   const childrenComponents = Children.toArray(
     children as ReactNode | ReactNode[],
   );

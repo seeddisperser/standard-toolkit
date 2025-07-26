@@ -12,7 +12,6 @@
 
 import Placeholder from '@accelint/icons/placeholder';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Heading, Text } from 'react-aria-components';
 import { Icon } from '../icon';
 import { Hero } from './';
 
@@ -33,58 +32,10 @@ export const Default: StoryObj<typeof Hero> = {
         <Icon>
           <Placeholder />
         </Icon>
-        <Heading>{'{object.name}'}</Heading>
-        <Text>additional-metadata-01</Text>
-        <Text>additional-metadata-002</Text>
+        <Hero.Title>{'{object.name}'}</Hero.Title>
+        <Hero.Subtitle>additional-metadata-01</Hero.Subtitle>
+        <Hero.Subtitle>additional-metadata-002</Hero.Subtitle>
       </Hero>
-    </div>
-  ),
-};
-
-export const SlotOrdering: StoryObj<typeof Hero> = {
-  render: (args) => (
-    <div className='flex flex-col gap-xl'>
-      <div className='w-[480px]'>
-        <h3 className='fg-default-light mb-m font-semibold text-sm'>
-          Normal Order
-        </h3>
-        <Hero {...args}>
-          <Icon size='large'>
-            <Placeholder />
-          </Icon>
-          <Heading>Primary Content</Heading>
-          <Text>Secondary Information</Text>
-        </Hero>
-      </div>
-      <div className='w-[480px]'>
-        <h3 className='fg-default-light mb-m font-semibold text-sm'>
-          Reversed Order (should render the same)
-        </h3>
-        <Hero {...args}>
-          <Text>Secondary Information 3</Text>
-          <Text>Secondary Information 2</Text>
-          <Text>Secondary Information 1</Text>
-          <Heading>Primary Content</Heading>
-          <Icon size='large'>
-            <Placeholder />
-          </Icon>
-        </Hero>
-      </div>
-      <div className='w-[480px]'>
-        <h3 className='fg-default-light mb-m font-semibold text-sm'>
-          Mixed with other elements
-        </h3>
-        <Hero {...args}>
-          <div>This is a regular div</div>
-          <Text>Secondary Information</Text>
-          <span>Another regular element</span>
-          <Heading>Primary Content</Heading>
-          <Icon size='large'>
-            <Placeholder />
-          </Icon>
-          <p>Yet another element</p>
-        </Hero>
-      </div>
     </div>
   ),
 };

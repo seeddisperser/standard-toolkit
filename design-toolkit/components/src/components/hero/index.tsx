@@ -42,15 +42,15 @@ export const HeroContext =
  * // Basic hero with icon and content
  * <Hero>
  *   <Icon><Placeholder /></Icon>
- *   <Heading>Primary Title</Heading>
- *   <Text>Secondary information</Text>
+ *   <Hero.Title>Primary Title</Hero.Title>
+ *   <Hero.Subtitle>Secondary information</Hero.Subtitle>
  * </Hero>
  *
  * // Grid layout for compact display
  * <Hero compact>
  *   <Icon><Settings /></Icon>
- *   <Heading>Settings</Heading>
- *   <Text>Configure your preferences</Text>
+ *   <Hero.Title>Settings</Hero.Title>
+ *   <Hero.Subtitle>Configure your preferences</Hero.Subtitle>
  * </Hero>
  * ```
  *
@@ -61,9 +61,8 @@ export const HeroContext =
  *
  * ## Child Component Behavior
  * - **Icon**: Only one allowed. Subsequent icons will be marked as invalid in development.
- * - **Heading**: Only one allowed. Subsequent headings will be marked as invalid in development.
- * - **Text**: Any number allowed as secondary content.
- * - **Other elements**: Marked as invalid in development builds and displayed in a debug panel.
+ * - **Hero.Title**: Only one allowed. Subsequent headings will be marked as invalid in development.
+ * - **Hero.Subtitle**: Any number allowed as secondary content.
  *
  * ## Layout Modes
  * - **Stack** (default): Vertical layout with larger icon and stacked content
@@ -79,8 +78,8 @@ export function Hero({ ref, ...props }: HeroProps) {
     componentName: Hero.displayName,
     restrictions: [
       [Icon, { min: 1, max: 1 }],
-      [Heading, { min: 1, max: 1 }],
-      [Text, { min: 0 }],
+      [Hero.Title, { min: 1, max: 1 }],
+      [Hero.Subtitle, { min: 0 }],
     ],
   });
 
@@ -113,3 +112,7 @@ export function Hero({ ref, ...props }: HeroProps) {
   );
 }
 Hero.displayName = 'Hero';
+Hero.Title = Heading;
+Hero.Title.displayName = 'Hero.Title';
+Hero.Subtitle = Text;
+Hero.Subtitle.displayName = 'Hero.Subtitle';
