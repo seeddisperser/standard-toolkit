@@ -128,6 +128,14 @@ export type {
 } from './components/details-list/types';
 export { Dialog, DialogTitle } from './components/dialog';
 export type { DialogProps } from './components/dialog';
+export { Hero } from './components/hero';
+export { HeroStyles, HeroStylesDefaults } from './components/hero/styles';
+export type {
+  ChildProps,
+  HeroProps,
+  HeroSlots,
+  HeroStyleVariants,
+} from './components/hero/types';
 export { Icon, IconContext } from './components/icon';
 export { IconStyles } from './components/icon/styles';
 export type { IconProps, IconProviderProps } from './components/icon/types';
