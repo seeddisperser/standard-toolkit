@@ -10,24 +10,15 @@
  * governing permissions and limitations under the License.
  */
 
-import type { PropsWithChildren, ReactElement } from 'react';
-import type { VariantProps } from 'tailwind-variants';
-import type { HeroStyles } from './styles';
+import type { PropsWithChildren, RefAttributes } from 'react';
 
-export interface ChildProps extends PropsWithChildren {
-  className?: string;
-}
-
-export interface HeroProps extends PropsWithChildren {
-  className?: string;
-  compact?: boolean;
-}
-
-export type HeroSlots = {
-  icon: ReactElement | null;
-  primary: ReactElement | null;
-  secondary: ReactElement[];
-  invalid: ReactElement[];
-};
-
-export type HeroStyleVariants = VariantProps<typeof HeroStyles>;
+export type HeroProps = RefAttributes<HTMLElement> &
+  PropsWithChildren<{
+    classNames?: {
+      hero?: string;
+      icon?: string;
+      title?: string;
+      subtitle?: string;
+    };
+    compact?: boolean;
+  }>;

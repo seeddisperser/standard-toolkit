@@ -12,29 +12,11 @@
 
 import { tv } from '@/lib/utils';
 
-export const HeroStylesDefaults = {
-  layout: 'stack',
-} as const;
-
 export const HeroStyles = tv({
   slots: {
-    container:
-      'grid layout-grid:grid-cols-[auto_1fr] layout-stack:grid-cols-[auto] layout-grid:grid-rows-[auto] layout-stack:grid-rows-[auto_1fr] layout-grid:items-start rounded-large layout-stack:bg-transparent-light px-l py-xl',
-    icon: 'fg-default-dark layout-grid:col-start-1 layout-grid:row-start-1 mr-l mb-l',
-    primary:
-      'fg-default-light layout-grid:col-start-2 layout-grid:row-start-1 mb-s text-header-xl',
-    secondary:
-      'fg-default-dark layout-grid:col-start-2 layout-grid:row-start-1 block text-header-l',
-  },
-  variants: {
-    hasInvalid: {
-      true: {
-        container:
-          'before:fg-[red] relative outline outline-dashed outline-1 outline-[red] outline-offset-8 before:absolute before:top-0 before:right-0 before:z-10 before:px-l before:py-s before:content-["Invalid_child_elements"]',
-      },
-    },
-  },
-  defaultVariants: {
-    hasInvalid: false,
+    hero: 'group/hero relative flex flex-col layout-stack:rounded-large layout-stack:bg-transparent-light layout-stack:px-l layout-stack:py-xl layout-grid:pl-xxl',
+    icon: 'fg-default-dark -order-3 group-layout-grid/hero:absolute group-layout-grid/hero:top-xxs group-layout-grid/hero:left-xs group-layout-stack/hero:mb-l group-layout-stack/hero:size-[48px]',
+    title: 'fg-default-light -order-2 mb-xs text-header-xl',
+    subtitle: 'fg-default-dark -order-1 block text-header-l',
   },
 });
