@@ -29,10 +29,7 @@ export type {
 } from './components/accordion/types';
 export { Avatar, AvatarContext } from './components/avatar';
 export { AvatarStyles } from './components/avatar/styles';
-export type {
-  AvatarProps,
-  AvatarProviderProps,
-} from './components/avatar/types';
+export type { AvatarProps } from './components/avatar/types';
 export { Badge, BadgeContext } from './components/badge';
 export { BadgeStyles, BadgeStylesDefaults } from './components/badge/styles';
 export type { BadgeProps, BadgeProviderProps } from './components/badge/types';

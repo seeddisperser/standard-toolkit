@@ -57,5 +57,5 @@ export type SlottedValue<T> = {
 };
 
 export type ProviderProps<T> = PropsWithChildren<
-  Omit<T, 'children'> & SlottedValue<T>
+  Omit<T, 'children' | 'slot'> & SlottedValue<T>
 >;
