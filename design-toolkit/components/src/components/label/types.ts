@@ -10,13 +10,11 @@
  * governing permissions and limitations under the License.
  */
 
-import type { PropsWithChildren, RefAttributes } from 'react';
+import type { PropsWithRef } from '@/lib/types';
 import type { LabelProps as AriaLabelProps } from 'react-aria-components';
 
 export type LabelProps = AriaLabelProps &
-  RefAttributes<HTMLLabelElement> & {
+  PropsWithRef<'label'> & {
     isDisabled?: boolean;
     isRequired?: boolean;
   };
-
-export type LabelProviderProps = PropsWithChildren<LabelProps>;

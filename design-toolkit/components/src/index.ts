@@ -133,7 +133,7 @@ export { InputStyles, InputStylesDefaults } from './components/input/styles';
 export type { InputProps } from './components/input/types';
 export { Label, LabelContext } from './components/label';
 export { LabelStyles } from './components/label/styles';
-export type { LabelProps, LabelProviderProps } from './components/label/types';
+export type { LabelProps } from './components/label/types';
 export { Menu, MenuContext } from './components/menu';
 export { MenuStyles, MenuStylesDefaults } from './components/menu/styles';
 export type { MenuStyleVariants } from './components/menu/styles';
