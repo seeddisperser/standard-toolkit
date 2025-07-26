@@ -10,15 +10,14 @@
  * governing permissions and limitations under the License.
  */
 
-import type { PropsWithChildren, RefAttributes } from 'react';
+import type { ComponentPropsWithRef } from 'react';
 
-export type HeroProps = RefAttributes<HTMLElement> &
-  PropsWithChildren<{
-    classNames?: {
-      hero?: string;
-      icon?: string;
-      title?: string;
-      subtitle?: string;
-    };
-    compact?: boolean;
-  }>;
+export type HeroProps = Omit<ComponentPropsWithRef<'header'>, 'className'> & {
+  classNames?: {
+    hero?: string;
+    icon?: string;
+    title?: string;
+    subtitle?: string;
+  };
+  compact?: boolean;
+};
