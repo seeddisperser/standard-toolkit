@@ -171,11 +171,7 @@ export type {
 } from './components/query-builder';
 export { Radio, RadioContext } from './components/radio';
 export { RadioStyles } from './components/radio/styles';
-export type {
-  RadioGroupProps,
-  RadioProps,
-  RadioProviderProps,
-} from './components/radio/types';
+export type { RadioGroupProps, RadioProps } from './components/radio/types';
 export { SearchField } from './components/search-field';
 export type { SearchFieldProps } from './components/search-field';
 export { Skeleton } from './components/skeleton';
