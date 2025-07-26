@@ -77,7 +77,6 @@ export type {
   BaseChipProps,
   ChipListProps,
   ChipProps,
-  ChipProviderProps,
   DeletableChipProps,
   SelectableChipProps,
 } from './components/chip/types';
@@ -91,7 +90,6 @@ export {
 } from './components/classification-badge/styles';
 export type {
   ClassificationBadgeProps,
-  ClassificationBadgeProviderProps,
   ClassificationBadgeStyleVariants,
 } from './components/classification-badge/types';
 export {
