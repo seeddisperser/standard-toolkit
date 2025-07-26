@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import type { PropsWithChildren, RefAttributes } from 'react';
+import type { PropsWithRef } from '@/lib/types';
 import type {
   ButtonProps as AriaButtonProps,
   ToggleButtonProps as AriaToggleButtonProps,
@@ -25,22 +25,12 @@ export type ButtonStyleVariants = VariantProps<typeof ButtonStyles> & {
 
 export type ButtonProps = AriaButtonProps &
   ButtonStyleVariants &
-  RefAttributes<HTMLButtonElement>;
+  PropsWithRef<'button'>;
 
 export type LinkButtonProps = LinkProps &
   ButtonStyleVariants &
-  RefAttributes<HTMLAnchorElement>;
+  PropsWithRef<'a'>;
 
 export type ToggleButtonProps = AriaToggleButtonProps &
   ButtonStyleVariants &
-  RefAttributes<HTMLButtonElement>;
-
-export type ButtonProviderProps = PropsWithChildren<Omit<ButtonProps, 'ref'>>;
-
-export type LinkButtonProviderProps = PropsWithChildren<
-  Omit<LinkButtonProps, 'ref'>
->;
-
-export type ToggleButtonProviderProps = PropsWithChildren<
-  Omit<ToggleButtonProps, 'ref'>
->;
+  PropsWithRef<'button'>;

@@ -32,7 +32,7 @@ export { AvatarStyles } from './components/avatar/styles';
 export type { AvatarProps } from './components/avatar/types';
 export { Badge, BadgeContext } from './components/badge';
 export { BadgeStyles, BadgeStylesDefaults } from './components/badge/styles';
-export type { BadgeProps, BadgeProviderProps } from './components/badge/types';
+export type { BadgeProps } from './components/badge/types';
 export { Box } from './components/box';
 export type { BoxProps } from './components/box';
 export {
@@ -51,12 +51,9 @@ export {
 } from './components/button/styles';
 export type {
   ButtonProps,
-  ButtonProviderProps,
   ButtonStyleVariants,
   LinkButtonProps,
-  LinkButtonProviderProps,
   ToggleButtonProps,
-  ToggleButtonProviderProps,
 } from './components/button/types';
 export {
   Checkbox,
@@ -233,6 +230,7 @@ export { containsExactChildren, expectsIconWrapper } from './lib/react';
 export type {
   ChildrenRenderProps,
   ClassNameRenderProps,
+  PropsWithRef,
   ProviderProps,
   RenderProps,
   RenderPropsChildren,

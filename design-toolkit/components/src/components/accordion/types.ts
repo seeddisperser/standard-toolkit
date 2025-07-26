@@ -10,13 +10,14 @@
  * governing permissions and limitations under the License.
  */
 
-import type { RenderPropsClassName } from '@/lib/types';
+import type { PropsWithRef, RenderPropsClassName } from '@/lib/types';
 import type { ComponentPropsWithRef } from 'react';
 import type {
   ButtonRenderProps,
   DisclosureGroupProps,
   DisclosurePanelProps,
   DisclosureProps,
+  Heading,
 } from 'react-aria-components';
 import type { VariantProps } from 'tailwind-variants';
 import type { AccordionStyles } from './styles';
@@ -25,16 +26,16 @@ export type AccordionStyleVariants = VariantProps<typeof AccordionStyles>;
 
 export type AccordionGroupProps = DisclosureGroupProps &
   Pick<AccordionStyleVariants, 'variant'> &
-  ComponentPropsWithRef<'div'>;
+  PropsWithRef<'div'>;
 
 export type AccordionProps = DisclosureProps &
   Pick<AccordionStyleVariants, 'variant'> &
-  ComponentPropsWithRef<'div'>;
+  PropsWithRef<'div'>;
 
 export type AccordionHeaderProps = ComponentPropsWithRef<'header'>;
 
 export type AccordionTriggerProps = Omit<
-  ComponentPropsWithRef<'h1'>,
+  ComponentPropsWithRef<typeof Heading>,
   'className'
 > & {
   classNames?: {
@@ -43,5 +44,4 @@ export type AccordionTriggerProps = Omit<
   };
 };
 
-export type AccordionPanelProps = DisclosurePanelProps &
-  ComponentPropsWithRef<'div'>;
+export type AccordionPanelProps = DisclosurePanelProps & PropsWithRef<'div'>;

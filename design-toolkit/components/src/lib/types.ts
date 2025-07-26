@@ -10,7 +10,13 @@
  * governing permissions and limitations under the License.
  */
 
-import type { CSSProperties, PropsWithChildren, ReactNode } from 'react';
+import type {
+  CSSProperties,
+  ComponentPropsWithRef,
+  ElementType,
+  PropsWithChildren,
+  ReactNode,
+} from 'react';
 
 /**
  * Re-export due to not being exported by library
@@ -58,4 +64,12 @@ export type SlottedValue<T> = {
 
 export type ProviderProps<T> = PropsWithChildren<
   Omit<T, 'children' | 'slot'> & SlottedValue<T>
+>;
+
+/**
+ * Returns props of component or element, but omits 'children' | 'className' | 'style' to deconflict with RAC render props
+ */
+export type PropsWithRef<T extends ElementType> = Omit<
+  ComponentPropsWithRef<T>,
+  'children' | 'className' | 'style'
 >;
