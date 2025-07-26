@@ -10,6 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
+import type { PropsWithRef } from '@/lib/types';
 import type { ComponentPropsWithRef } from 'react';
 import type { TextProps } from 'react-aria-components';
 import type { VariantProps } from 'tailwind-variants';
@@ -25,7 +26,7 @@ export type DetailsListProps = Omit<ComponentPropsWithRef<'dl'>, 'className'> &
   };
 
 export type DetailsListLabelProps = Omit<TextProps, 'elementType'> &
-  ComponentPropsWithRef<'dt'>;
+  PropsWithRef<'dt'>;
 
 export type DetailsListValueProps = Omit<TextProps, 'elementType'> &
-  ComponentPropsWithRef<'dd'>;
+  PropsWithRef<'dd'>;

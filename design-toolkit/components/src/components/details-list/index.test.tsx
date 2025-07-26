@@ -46,8 +46,7 @@ describe('DetailsList', () => {
     setup();
 
     // Check semantic structure - use querySelector since dl doesn't have role="list"
-    const list = document.querySelector('dl');
-    expect(list).toBeInTheDocument();
+    expect(document.querySelector('dl')).toBeInTheDocument();
 
     for (const [label, value] of Object.entries(defaults)) {
       expect(screen.getByText(label)).toBeInTheDocument();
