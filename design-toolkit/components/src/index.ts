@@ -19,12 +19,12 @@ export {
   AccordionStyles,
   AccordionStylesDefaults,
 } from './components/accordion/styles';
-export type { AccordionStyleVariants } from './components/accordion/styles';
 export type {
   AccordionGroupProps,
   AccordionHeaderProps,
   AccordionPanelProps,
   AccordionProps,
+  AccordionStyleVariants,
   AccordionTriggerProps,
 } from './components/accordion/types';
 export { Avatar, AvatarContext } from './components/avatar';
@@ -119,8 +119,11 @@ export { ComboBox, ComboBoxSection } from './components/combobox';
 export type { ComboBoxProps } from './components/combobox';
 export { DateField } from './components/date-field';
 export type { DateFieldProps } from './components/date-field';
-export { DetailsList } from './components/details-list';
-export { DetailsListStyles } from './components/details-list/styles';
+export { DetailsList, DetailsListContext } from './components/details-list';
+export {
+  DetailsListStyles,
+  DetailsListStylesDefaults,
+} from './components/details-list/styles';
 export type {
   DetailsListLabelProps,
   DetailsListProps,
@@ -140,15 +143,7 @@ export type { InputProps } from './components/input/types';
 export { Label, LabelContext } from './components/label';
 export { LabelStyles } from './components/label/styles';
 export type { LabelProps, LabelProviderProps } from './components/label/types';
-export {
-  Menu,
-  MenuContext,
-  MenuDescription,
-  MenuItem,
-  MenuLabel,
-  MenuSection,
-  MenuSeparator,
-} from './components/menu';
+export { Menu, MenuContext } from './components/menu';
 export { MenuStyles, MenuStylesDefaults } from './components/menu/styles';
 export type { MenuStyleVariants } from './components/menu/styles';
 export type {
@@ -241,10 +236,12 @@ export { containsExactChildren, expectsIconWrapper } from './lib/react';
 export type {
   ChildrenRenderProps,
   ClassNameRenderProps,
+  ProviderProps,
   RenderProps,
   RenderPropsChildren,
   RenderPropsClassName,
   RenderPropsStyle,
+  SlottedValue,
   StylePropRenderProps,
   StyleRenderProps,
 } from './lib/types';
