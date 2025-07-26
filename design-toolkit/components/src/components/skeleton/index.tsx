@@ -10,12 +10,8 @@
  * governing permissions and limitations under the License.
  */
 
-import type { PropsWithChildren } from 'react';
-import { type SkeletonStyleVariants, SkeletonStyles } from './styles';
-
-interface Props extends SkeletonStyleVariants, PropsWithChildren {
-  className?: string;
-}
+import { SkeletonStyles, SkeletonStylesDefaults } from './styles';
+import type { SkeletonProps } from './types';
 
 /**
  * Skeleton - A flexible skeleton loader component for indicating loading states
@@ -46,17 +42,12 @@ interface Props extends SkeletonStyleVariants, PropsWithChildren {
  * @example
  * // Custom styling
  * <Skeleton className="w-[50%] mt-l" />
- *
- * @param shape - Visual shape of the placeholder
- *   - 'rect': Rectangular placeholder (default, good for text/content)
- *   - 'circ': Circular placeholder (good for avatars/profile images)
- * @param className - Additional CSS classes for custom styling
- * @param children - Optional content to display within the placeholder
  */
-export function Skeleton({ children, className, shape, ...props }: Props) {
-  return (
-    <div {...props} className={SkeletonStyles({ className, shape })}>
-      {children}
-    </div>
-  );
+export function Skeleton({
+  children,
+  className,
+  shape = SkeletonStylesDefaults.shape,
+  ...rest
+}: SkeletonProps) {
+  return <div {...rest} className={SkeletonStyles({ className, shape })} />;
 }

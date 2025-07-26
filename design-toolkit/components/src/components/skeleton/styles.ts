@@ -11,9 +11,6 @@
  */
 
 import { tv } from '@/lib/utils';
-import type { VariantProps } from 'tailwind-variants';
-
-export type SkeletonStyleVariants = VariantProps<typeof SkeletonStyles>;
 
 export const SkeletonStylesDefaults = {
   shape: 'rect',

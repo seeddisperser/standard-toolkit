@@ -54,11 +54,6 @@ export const HeroContext =
  * </Hero>
  * ```
  *
- * @param children - Icon, Heading, and Text components. Order doesn't matter as they're automatically sorted.
- * @param className - Additional CSS classes to apply to the container
- * @param compact - When true, uses grid layout with icon on left and content on right. When false (default), uses stacked layout.
- * @param props - Additional HTML attributes passed to the header element
- *
  * ## Child Component Behavior
  * - **Icon**: Only one allowed. Subsequent icons will be marked as invalid in development.
  * - **Hero.Title**: Only one allowed. Subsequent headings will be marked as invalid in development.

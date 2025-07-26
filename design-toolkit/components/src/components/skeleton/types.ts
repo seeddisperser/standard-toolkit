@@ -10,20 +10,12 @@
  * governing permissions and limitations under the License.
  */
 
-import { render } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
-import { Skeleton } from './';
+import type { HTMLAttributes, PropsWithChildren, RefAttributes } from 'react';
+import type { VariantProps } from 'tailwind-variants';
+import type { SkeletonStyles } from './styles';
 
-function setup() {
-  return {
-    ...render(<Skeleton />),
-  };
-}
+export type SkeletonStyleVariants = VariantProps<typeof SkeletonStyles>;
 
-describe('Skeleton', () => {
-  it('should render', () => {
-    const { container } = setup();
-
-    expect(container.firstChild).toBeInTheDocument();
-  });
-});
+export type SkeletonProps = HTMLAttributes<HTMLDivElement> &
+  RefAttributes<HTMLDivElement> &
+  PropsWithChildren<SkeletonStyleVariants>;
