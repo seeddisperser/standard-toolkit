@@ -10,12 +10,11 @@
  * governing permissions and limitations under the License.
  */
 
-import type { HTMLAttributes, PropsWithChildren, RefAttributes } from 'react';
+import type { ComponentPropsWithRef } from 'react';
 import type { VariantProps } from 'tailwind-variants';
 import type { SkeletonStyles } from './styles';
 
 export type SkeletonStyleVariants = VariantProps<typeof SkeletonStyles>;
 
-export type SkeletonProps = HTMLAttributes<HTMLDivElement> &
-  RefAttributes<HTMLDivElement> &
-  PropsWithChildren<SkeletonStyleVariants>;
+export type SkeletonProps = ComponentPropsWithRef<'div'> &
+  SkeletonStyleVariants;

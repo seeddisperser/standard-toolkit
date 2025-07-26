@@ -11,7 +11,7 @@
  */
 
 import type { Meta, StoryObj } from '@storybook/react';
-import { Skeleton } from '.';
+import { Skeleton } from './';
 import { SkeletonStylesDefaults } from './styles';
 
 const meta: Meta<typeof Skeleton> = {
