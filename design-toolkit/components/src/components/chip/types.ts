@@ -10,7 +10,8 @@
  * governing permissions and limitations under the License.
  */
 
-import type { HTMLProps, PropsWithChildren, RefAttributes } from 'react';
+import type { PropsWithRef } from '@/lib/types';
+import type { ComponentPropsWithRef } from 'react';
 import type {
   ButtonProps,
   TagGroupProps,
@@ -24,32 +25,29 @@ export type BaseChipProps = {
   size?: 'medium' | 'small';
 };
 
-export type ChipProps = VariantProps<typeof ChipStyles> &
-  Omit<HTMLProps<HTMLDivElement>, 'size'> &
-  RefAttributes<HTMLDivElement> &
-  BaseChipProps & {
-    className?: string;
-  };
-
 export type ChipListProps<T> = Omit<TagGroupProps, 'children'> &
   Pick<
     TagListProps<T>,
     'dependencies' | 'items' | 'children' | 'renderEmptyState'
   > &
-  RefAttributes<HTMLDivElement> &
+  PropsWithRef<'div'> &
   BaseChipProps;
 
+export type ChipProps = VariantProps<typeof ChipStyles> &
+  Omit<ComponentPropsWithRef<'div'>, 'size'> &
+  BaseChipProps & {
+    className?: string;
+  };
+
 export type SelectableChipProps = Omit<TagProps, 'isDisabled'> &
-  RefAttributes<HTMLDivElement> &
+  PropsWithRef<'div'> &
   BaseChipProps;
 
 export type DeletableChipProps = Omit<TagProps, 'className' | 'isDisabled'> &
-  RefAttributes<HTMLDivElement> &
+  PropsWithRef<'div'> &
   BaseChipProps & {
     classNames?: {
       chip?: TagProps['className'];
       remove?: ButtonProps['className'];
     };
   };
-
-export type ChipProviderProps = PropsWithChildren<BaseChipProps>;

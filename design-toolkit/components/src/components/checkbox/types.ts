@@ -10,8 +10,8 @@
  * governing permissions and limitations under the License.
  */
 
+import type { PropsWithRef } from '@/lib/types';
 import type { Orientation } from '@react-types/shared';
-import type { RefAttributes } from 'react';
 import type {
   CheckboxGroupProps as AriaCheckboxGroupProps,
   CheckboxProps as AriaCheckboxProps,
@@ -19,7 +19,7 @@ import type {
 import type { LabelProps } from '../label/types';
 
 export type CheckboxGroupProps = Omit<AriaCheckboxGroupProps, 'className'> &
-  RefAttributes<HTMLDivElement> & {
+  PropsWithRef<'div'> & {
     classNames?: {
       group?: AriaCheckboxGroupProps['className'];
       label?: LabelProps['className'];
@@ -29,7 +29,7 @@ export type CheckboxGroupProps = Omit<AriaCheckboxGroupProps, 'className'> &
   };
 
 export type CheckboxProps = Omit<AriaCheckboxProps, 'className'> &
-  RefAttributes<HTMLLabelElement> & {
+  PropsWithRef<'label'> & {
     classNames?: {
       checkbox?: AriaCheckboxProps['className'];
       control?: string;
