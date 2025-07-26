@@ -11,131 +11,47 @@
  */
 
 import { render, screen } from '@testing-library/react';
+import { Fragment } from 'react';
 import { describe, expect, it } from 'vitest';
-import { DetailsList } from './index';
+import { DetailsList } from './';
+import type { DetailsListProps } from './types';
+
+const defaults = {
+  Location: 'New York, NY',
+  Status: 'Active',
+};
+
+function setup({
+  children = (
+    <>
+      {Object.entries(defaults).map(([label, value]: [string, string]) => (
+        <Fragment key={label}>
+          <DetailsList.Label>{label}</DetailsList.Label>
+          <DetailsList.Value>{value}</DetailsList.Value>
+        </Fragment>
+      ))}
+    </>
+  ),
+  ...rest
+}: Partial<DetailsListProps> = {}) {
+  return {
+    ...render(<DetailsList {...rest}>{children}</DetailsList>),
+    ...rest,
+    children,
+  };
+}
 
 describe('DetailsList', () => {
   it('renders basic details list structure', () => {
-    render(
-      <DetailsList>
-        <DetailsList.Label>Location</DetailsList.Label>
-        <DetailsList.Value>New York, NY</DetailsList.Value>
-
-        <DetailsList.Label>Status</DetailsList.Label>
-        <DetailsList.Value>Active</DetailsList.Value>
-      </DetailsList>,
-    );
+    setup();
 
     // Check semantic structure - use querySelector since dl doesn't have role="list"
     const list = document.querySelector('dl');
     expect(list).toBeInTheDocument();
-    expect(list?.tagName).toBe('DL');
 
-    // Check labels
-    expect(screen.getByText('Location')).toBeInTheDocument();
-    expect(screen.getByText('Status')).toBeInTheDocument();
-
-    // Check values
-    expect(screen.getByText('New York, NY')).toBeInTheDocument();
-    expect(screen.getByText('Active')).toBeInTheDocument();
-  });
-
-  it('supports multiple values per label', () => {
-    render(
-      <DetailsList>
-        <DetailsList.Label>Coordinates</DetailsList.Label>
-        <DetailsList.Value>40.7128° N</DetailsList.Value>
-        <DetailsList.Value>74.0060° W</DetailsList.Value>
-
-        <DetailsList.Label>Tags</DetailsList.Label>
-        <DetailsList.Value>Important</DetailsList.Value>
-        <DetailsList.Value>Verified</DetailsList.Value>
-        <DetailsList.Value>Public</DetailsList.Value>
-      </DetailsList>,
-    );
-
-    expect(screen.getByText('40.7128° N')).toBeInTheDocument();
-    expect(screen.getByText('74.0060° W')).toBeInTheDocument();
-    expect(screen.getByText('Important')).toBeInTheDocument();
-    expect(screen.getByText('Verified')).toBeInTheDocument();
-    expect(screen.getByText('Public')).toBeInTheDocument();
-  });
-
-  it('applies custom className to main container', () => {
-    render(
-      <DetailsList className='custom-class'>
-        <DetailsList.Label>Test</DetailsList.Label>
-        <DetailsList.Value>Value</DetailsList.Value>
-      </DetailsList>,
-    );
-
-    const list = document.querySelector('dl');
-    expect(list).toHaveClass('custom-class');
-  });
-
-  it('supports custom props and attributes', () => {
-    render(
-      <DetailsList data-testid='details-list' aria-label='Map object details'>
-        <DetailsList.Label data-testid='label'>Location</DetailsList.Label>
-        <DetailsList.Value data-testid='value'>New York</DetailsList.Value>
-      </DetailsList>,
-    );
-
-    expect(screen.getByTestId('details-list')).toHaveAttribute(
-      'aria-label',
-      'Map object details',
-    );
-    expect(screen.getByTestId('label')).toBeInTheDocument();
-    expect(screen.getByTestId('value')).toBeInTheDocument();
-  });
-
-  it('applies alignment variants correctly', () => {
-    render(
-      <DetailsList
-        data-testid='details-list'
-        justifyLabel='right'
-        justifyValue='center'
-      >
-        <DetailsList.Label data-testid='label'>Test Label</DetailsList.Label>
-        <DetailsList.Value data-testid='value'>Test Value</DetailsList.Value>
-      </DetailsList>,
-    );
-
-    const list = screen.getByTestId('details-list');
-    const label = screen.getByTestId('label');
-    const value = screen.getByTestId('value');
-
-    expect(list).toBeInTheDocument();
-    expect(label).toHaveClass('text-right');
-    expect(value).toHaveClass('text-center');
-  });
-
-  it('applies spacing variants correctly', () => {
-    render(
-      <DetailsList data-testid='details-list' spacing='large'>
-        <DetailsList.Label>Test Label</DetailsList.Label>
-        <DetailsList.Value>Test Value</DetailsList.Value>
-      </DetailsList>,
-    );
-
-    const list = screen.getByTestId('details-list');
-    expect(list).toHaveClass('gap-x-l', 'gap-y-m');
-  });
-
-  it('uses default variants when none specified', () => {
-    render(
-      <DetailsList data-testid='details-list'>
-        <DetailsList.Label data-testid='label'>Default Label</DetailsList.Label>
-        <DetailsList.Value data-testid='value'>Default Value</DetailsList.Value>
-      </DetailsList>,
-    );
-
-    const list = screen.getByTestId('details-list');
-    const label = screen.getByTestId('label');
-    const value = screen.getByTestId('value');
-
-    expect(list).toHaveClass('gap-x-m', 'gap-y-s'); // default spacing: medium
-    expect(label).toHaveClass('text-left'); // default justifyLabel: left
-    expect(value).toHaveClass('text-left'); // default justifyValue: left
+    for (const [label, value] of Object.entries(defaults)) {
+      expect(screen.getByText(label)).toBeInTheDocument();
+      expect(screen.getByText(value)).toBeInTheDocument();
+    }
   });
 });

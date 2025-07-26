@@ -10,14 +10,22 @@
  * governing permissions and limitations under the License.
  */
 
-import type { ComponentProps } from 'react';
+import type { ComponentPropsWithRef } from 'react';
+import type { TextProps } from 'react-aria-components';
 import type { VariantProps } from 'tailwind-variants';
 import type { DetailsListStyles } from './styles';
 
-export interface DetailsListProps
-  extends ComponentProps<'dl'>,
-    VariantProps<typeof DetailsListStyles> {}
+export type DetailsListProps = Omit<ComponentPropsWithRef<'dl'>, 'className'> &
+  VariantProps<typeof DetailsListStyles> & {
+    classNames?: {
+      list?: string;
+      label?: string;
+      value?: string;
+    };
+  };
 
-export interface DetailsListLabelProps extends ComponentProps<'dt'> {}
+export type DetailsListLabelProps = Omit<TextProps, 'elementType'> &
+  ComponentPropsWithRef<'dt'>;
 
-export interface DetailsListValueProps extends ComponentProps<'dd'> {}
+export type DetailsListValueProps = Omit<TextProps, 'elementType'> &
+  ComponentPropsWithRef<'dd'>;

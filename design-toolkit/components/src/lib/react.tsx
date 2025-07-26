@@ -36,21 +36,44 @@ type ChildrenTypes =
     ) => ReactNode);
 
 function getChildren(children: ChildrenTypes) {
-  if (typeof children === 'function') {
-    children = children({ state: {}, defaultChildren: <></> });
+  const childrenArray = Children.toArray(
+    typeof children === 'function'
+      ? children({ state: {}, defaultChildren: <></> })
+      : children,
+  );
+  let index = 0;
+
+  while (index < childrenArray.length) {
+    const child = childrenArray[index];
+
+    if (
+      child == null ||
+      typeof child === 'bigint' ||
+      typeof child === 'number' ||
+      typeof child === 'string' ||
+      child instanceof Promise
+    ) {
+      index++;
+
+      continue;
+    }
+
+    // @ts-expect-error TODO: Not enough type narriowing
+    if (child.type === Fragment) {
+      childrenArray.splice(
+        index,
+        1,
+        // @ts-expect-error see above
+        ...Children.toArray(child.props.children),
+      );
+
+      continue;
+    }
+
+    index++;
   }
 
-  return Children.toArray(children as ReactNode | ReactNode[]).flatMap(
-    (child) => {
-      // @ts-expect-error
-      if (child.type === Fragment) {
-        // @ts-expect-error
-        return Children.toArray(child.props.children);
-      }
-
-      return [child];
-    },
-  );
+  return childrenArray;
 }
 
 type ContainsExactChildrenProps = {

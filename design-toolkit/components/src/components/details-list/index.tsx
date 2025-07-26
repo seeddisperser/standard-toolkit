@@ -9,19 +9,52 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+'use client';
 
-import type { ComponentProps } from 'react';
-import { createContext, useContext } from 'react';
-import { DetailsListStyles } from './styles';
-import type { DetailsListProps } from './types';
+import 'client-only';
+import { containsExactChildren } from '@/lib/react';
+import type { ProviderProps } from '@/lib/types';
+import { createContext } from 'react';
+import {
+  type ContextValue,
+  DEFAULT_SLOT,
+  Text,
+  TextContext,
+  useContextProps,
+} from 'react-aria-components';
+import { DetailsListStyles, DetailsListStylesDefaults } from './styles';
+import type {
+  DetailsListLabelProps,
+  DetailsListProps,
+  DetailsListValueProps,
+} from './types';
 
-type Justify = 'left' | 'center' | 'right';
+const { list, label, value } = DetailsListStyles();
 
-// Context to pass styling variants to child components
-const DetailsListContext = createContext<{
-  justifyLabel?: Justify;
-  justifyValue?: Justify;
-}>({});
+export const DetailsListContext =
+  createContext<ContextValue<DetailsListProps, HTMLDListElement>>(null);
+
+function DetailsListProvider({
+  children,
+  ...props
+}: ProviderProps<DetailsListProps>) {
+  return (
+    <DetailsListContext.Provider value={props}>
+      {children}
+    </DetailsListContext.Provider>
+  );
+}
+DetailsListProvider.displayName = 'DetailsListProvider.Provider';
+
+function DetailsListLabel(props: DetailsListLabelProps) {
+  return <Text {...props} elementType='dt' slot='label' />;
+}
+DetailsListLabel.displayName = 'DetailsList.Label';
+
+function DetailsListValue(props: DetailsListValueProps) {
+  return <Text {...props} elementType='dd' slot='value' />;
+}
+DetailsListValue.displayName = 'DetailsList.Value';
 
 /**
  * A semantic details list component for displaying metadata in key-value pairs.
@@ -30,11 +63,7 @@ const DetailsListContext = createContext<{
  *
  * @example
  * ```tsx
- * <DetailsList
- *   justifyLabel="right"
- *   justifyValue="center"
- *   spacing="large"
- * >
+ * <DetailsList align="left">
  *   <DetailsList.Label>Key</DetailsList.Label>
  *   <DetailsList.Value>Value</DetailsList.Value>
  *
@@ -52,71 +81,46 @@ const DetailsListContext = createContext<{
  *   </DetailsList.Value>
  * </DetailsList>
  * ```
- *
- * Props for the DetailsList component
- *
- * @param justifyLabel - Horizontal text alignment for labels ('left' | 'center' | 'right')
- * @param justifyValue - Horizontal text alignment for values ('left' | 'center' | 'right')
- * @param spacing - Grid gap spacing between items ('small' | 'medium' | 'large')
- * @param children - React children (DetailsList.Label and DetailsList.Value components)
- * @param className - Additional CSS classes to apply to the dl element
+ * ## Child Component Behavior
+ * - **DetailsList.Label**: Minimum of 1
+ * - **DetailsList.Value**: Minimum of 1
  */
-export function DetailsList({
-  children,
-  className,
-  justifyLabel,
-  justifyValue,
-  spacing,
-  ...props
-}: DetailsListProps) {
-  const styles = DetailsListStyles({
-    justifyLabel,
-    justifyValue,
-    spacing,
+export function DetailsList({ ref, ...props }: DetailsListProps) {
+  [props, ref] = useContextProps(props, ref ?? null, DetailsListContext);
+
+  const {
+    children,
+    classNames,
+    align = DetailsListStylesDefaults.align,
+    ...rest
+  } = props;
+
+  containsExactChildren({
+    children,
+    componentName: DetailsList.displayName,
+    restrictions: [
+      [DetailsList.Label, { min: 1 }],
+      [DetailsList.Value, { min: 1 }],
+    ],
   });
 
   return (
-    <DetailsListContext.Provider value={{ justifyLabel, justifyValue }}>
-      <dl className={styles.list({ className })} {...props}>
+    <TextContext
+      value={{
+        slots: {
+          [DEFAULT_SLOT]: {},
+          label: { className: label({ className: classNames?.label, align }) },
+          value: { className: value({ className: classNames?.value, align }) },
+        },
+      }}
+    >
+      <dl {...rest} className={list({ className: classNames?.list, align })}>
         {children}
       </dl>
-    </DetailsListContext.Provider>
+    </TextContext>
   );
 }
-
-/**
- * Label component for a details list item. Renders as a `<dt>` element.
- */
-DetailsList.Label = function DetailsListLabel({
-  children,
-  className,
-  ...props
-}: ComponentProps<'dt'>) {
-  const { justifyLabel, justifyValue } = useContext(DetailsListContext);
-  const styles = DetailsListStyles({ justifyLabel, justifyValue });
-
-  return (
-    <dt className={styles.label({ className })} {...props}>
-      {children}
-    </dt>
-  );
-};
-
-/**
- * Value component for a details list item. Renders as a `<dd>` element.
- * Multiple values can be associated with a single label.
- */
-DetailsList.Value = function DetailsListValue({
-  children,
-  className,
-  ...props
-}: ComponentProps<'dd'>) {
-  const { justifyLabel, justifyValue } = useContext(DetailsListContext);
-  const styles = DetailsListStyles({ justifyLabel, justifyValue });
-
-  return (
-    <dd className={styles.value({ className })} {...props}>
-      {children}
-    </dd>
-  );
-};
+DetailsList.displayName = 'DetailsList';
+DetailsList.Provider = DetailsListProvider;
+DetailsList.Label = DetailsListLabel;
+DetailsList.Value = DetailsListValue;

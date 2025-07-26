@@ -11,7 +11,7 @@
  */
 
 import type { Meta, StoryObj } from '@storybook/react';
-import { DetailsList } from './index';
+import { DetailsList } from './';
 
 const meta: Meta<typeof DetailsList> = {
   title: 'Components/DetailsList',
@@ -25,35 +25,21 @@ const meta: Meta<typeof DetailsList> = {
       },
     },
   },
+  args: {
+    align: 'justify',
+  },
   argTypes: {
-    spacing: {
+    align: {
       control: 'select',
-      options: ['small', 'medium', 'large'],
-      description: 'Spacing between grid items',
-    },
-    justifyLabel: {
-      control: 'select',
-      options: ['left', 'center', 'right'],
-      description: 'Horizontal alignment of labels',
-    },
-    justifyValue: {
-      control: 'select',
-      options: ['left', 'center', 'right'],
-      description: 'Horizontal alignment of values',
+      options: ['left', 'justify', 'center'],
     },
   },
   tags: ['autodocs'],
 };
 
 export default meta;
-type Story = StoryObj<typeof DetailsList>;
 
-export const Default: Story = {
-  args: {
-    spacing: 'medium',
-    justifyLabel: 'left',
-    justifyValue: 'left',
-  },
+export const Default: StoryObj<typeof DetailsList> = {
   render: (args) => (
     <DetailsList {...args}>
       <DetailsList.Label>Key</DetailsList.Label>

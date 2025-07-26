@@ -12,32 +12,22 @@
 
 import { tv } from '@/lib/utils';
 
+export const DetailsListStylesDefaults = {
+  align: 'justify',
+} as const;
+
 export const DetailsListStyles = tv({
   slots: {
+    list: 'grid grid-cols-[auto_1fr] gap-x-m text-body-m',
     label: 'fg-default-dark col-start-1',
-    list: 'fg-default-light grid grid-cols-[auto_1fr]',
-    value: 'col-start-2',
+    value: 'fg-default-light col-start-2',
   },
   variants: {
-    spacing: {
-      large: { list: 'gap-x-l gap-y-m' },
-      medium: { list: 'gap-x-m gap-y-s' },
-      small: { list: 'gap-x-s gap-y-0' },
-    },
-    justifyLabel: {
-      left: { label: 'text-left' },
-      center: { label: 'text-center' },
-      right: { label: 'text-right' },
-    },
-    justifyValue: {
-      left: { value: 'text-left' },
-      center: { value: 'text-center' },
-      right: { value: 'text-right' },
+    align: {
+      left: { label: 'text-left', value: 'text-left' },
+      center: { label: 'text-right', value: 'text-left' },
+      justify: { label: 'text-left', value: 'text-right' },
     },
   },
-  defaultVariants: {
-    spacing: 'medium',
-    justifyLabel: 'left',
-    justifyValue: 'left',
-  },
+  defaultVariants: DetailsListStylesDefaults,
 });

@@ -55,9 +55,9 @@ export const HeroContext =
  * ```
  *
  * ## Child Component Behavior
- * - **Icon**: Only one allowed. Subsequent icons will be marked as invalid in development.
- * - **Hero.Title**: Only one allowed. Subsequent headings will be marked as invalid in development.
- * - **Hero.Subtitle**: Any number allowed as secondary content.
+ * - **Icon**: Only one allowed
+ * - **Hero.Title**: Only one allowed
+ * - **Hero.Subtitle**: Any number allowed as secondary content
  *
  * ## Layout Modes
  * - **Stack** (default): Vertical layout with larger icon and stacked content
