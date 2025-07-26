@@ -127,7 +127,7 @@ export { HeroStyles } from './components/hero/styles';
 export type { HeroProps } from './components/hero/types';
 export { Icon, IconContext } from './components/icon';
 export { IconStyles } from './components/icon/styles';
-export type { IconProps, IconProviderProps } from './components/icon/types';
+export type { IconProps } from './components/icon/types';
 export { Input, InputContext } from './components/input';
 export { InputStyles, InputStylesDefaults } from './components/input/styles';
 export type { InputProps } from './components/input/types';
