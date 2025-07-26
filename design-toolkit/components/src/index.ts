@@ -102,7 +102,6 @@ export {
 } from './components/classification-banner/styles';
 export type {
   ClassificationBannerProps,
-  ClassificationBannerProviderProps,
   ClassificationBannerStyleVariants,
 } from './components/classification-banner/types';
 export { ColorPicker, useColorPickerState } from './components/color-picker';
