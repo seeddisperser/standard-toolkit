@@ -61,11 +61,9 @@ function getChildren(children: ChildrenTypes) {
         1,
         ...Children.toArray(child.props.children as ReactNode | ReactNode[]),
       );
-
-      continue;
+    } else {
+      index++;
     }
-
-    index++;
   }
 
   return childrenArray;
