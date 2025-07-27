@@ -200,10 +200,7 @@ export {
   TextAreaFieldContext,
 } from './components/text-area-field';
 export { TextAreaStyles } from './components/text-area-field/styles';
-export type {
-  TextAreaFieldProps,
-  TextAreaFieldProviderProps,
-} from './components/text-area-field/types';
+export type { TextAreaFieldProps } from './components/text-area-field/types';
 export { TextField, TextFieldContext } from './components/text-field';
 export { TextFieldStyles } from './components/text-field/styles';
 export type {
