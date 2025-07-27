@@ -203,10 +203,7 @@ export { TextAreaStyles } from './components/text-area-field/styles';
 export type { TextAreaFieldProps } from './components/text-area-field/types';
 export { TextField, TextFieldContext } from './components/text-field';
 export { TextFieldStyles } from './components/text-field/styles';
-export type {
-  TextFieldProps,
-  TextFieldProviderProps,
-} from './components/text-field/types';
+export type { TextFieldProps } from './components/text-field/types';
 export { Tooltip, TooltipBody, TooltipTrigger } from './components/tooltip';
 export type {
   TooltipBodyProps,
