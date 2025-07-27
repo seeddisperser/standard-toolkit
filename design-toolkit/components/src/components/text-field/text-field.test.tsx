@@ -12,17 +12,17 @@
 
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { TextAreaField } from './';
-import type { TextAreaFieldProps } from './types';
+import { TextField } from './';
+import type { TextFieldProps } from './types';
 
-function setup(props: Partial<TextAreaFieldProps> = {}) {
+function setup(props: Partial<TextFieldProps> = {}) {
   return {
-    ...render(<TextAreaField {...props} />),
+    ...render(<TextField {...props} />),
     ...props,
   };
 }
 
-describe('TextAreaField', () => {
+describe('TextField', () => {
   it('should render', () => {
     setup({
       label: 'Label',
