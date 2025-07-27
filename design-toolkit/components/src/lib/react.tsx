@@ -47,24 +47,19 @@ function getChildren(children: ChildrenTypes) {
     const child = childrenArray[index];
 
     if (
-      child == null ||
-      typeof child === 'bigint' ||
-      typeof child === 'number' ||
-      typeof child === 'string' ||
-      child instanceof Promise
+      child != null &&
+      typeof child === 'object' &&
+      !(child instanceof Promise) &&
+      !(Symbol.iterator in child) &&
+      child.type === Fragment &&
+      child.props != null &&
+      typeof child.props === 'object' &&
+      'children' in child.props
     ) {
-      index++;
-
-      continue;
-    }
-
-    // @ts-expect-error TODO: Not enough type narriowing
-    if (child.type === Fragment) {
       childrenArray.splice(
         index,
         1,
-        // @ts-expect-error see above
-        ...Children.toArray(child.props.children),
+        ...Children.toArray(child.props.children as ReactNode | ReactNode[]),
       );
 
       continue;
