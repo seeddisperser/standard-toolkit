@@ -187,10 +187,7 @@ export { RangeSlider, Slider } from './components/slider';
 export type { RangeSliderProps, SliderProps } from './components/slider';
 export { Switch, SwitchContext } from './components/switch';
 export { SwitchStyles } from './components/switch/styles';
-export type {
-  SwitchProps,
-  SwitchProviderProps,
-} from './components/switch/types';
+export type { SwitchProps } from './components/switch/types';
 export { Tabs } from './components/tabs';
 export type {
   TabListProps,
