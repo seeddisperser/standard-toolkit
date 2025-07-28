@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import type { TreeNode } from './types';
+import type { TreeNode } from '../types';
 
 export type Values = {
   test?: string;
@@ -27,7 +27,7 @@ export const nodeDefaults = {
   isVisible: false,
 };
 
-export const items: TreeNode<Values>[] = [
+export const defaultTree: TreeNode<Values>[] = [
   {
     ...nodeDefaults,
     key: 'one',

@@ -12,13 +12,9 @@
 
 import { renderHook } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import type { TreeNode, UseTreeActionsOptions } from '../types';
+import type { UseTreeActionsOptions } from '../types';
 import { useTreeActions } from './';
-
-type Values = {
-  test?: string;
-  isTrue?: boolean;
-};
+import { type Values, defaultTree, nodeDefaults } from './_fixtures';
 
 function setup({ nodes }: UseTreeActionsOptions<Values>) {
   const options = {};
@@ -30,38 +26,6 @@ function setup({ nodes }: UseTreeActionsOptions<Values>) {
     options,
   };
 }
-
-const nodeDefaults = {
-  parentKey: null,
-  children: [],
-  isExpanded: false,
-  isReadOnly: false,
-  isSelected: false,
-  isViewable: false,
-  isVisible: false,
-};
-
-const defaultTree: TreeNode<Values>[] = [
-  {
-    ...nodeDefaults,
-    key: 'one',
-    label: 'One',
-    children: [
-      {
-        ...nodeDefaults,
-        key: 'two',
-        parentKey: 'one',
-        label: 'Two',
-      },
-      {
-        ...nodeDefaults,
-        key: 'three',
-        parentKey: 'one',
-        label: 'Three',
-      },
-    ],
-  },
-];
 
 describe('useTreeActions', () => {
   describe('get node', () => {

@@ -10,10 +10,72 @@
  * governing permissions and limitations under the License.
  */
 
-import { describe, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
+import type { TreeNode } from '../types';
+import { type Values, defaultTree, nodeDefaults } from './_fixtures';
+import { treeCache } from './treeCache';
 
-describe('hooks/use-tree-actions/utils', () => {
+const setup = (props: { nodes?: TreeNode<Values>[] } = {}) => {
+  const { nodes = defaultTree } = props;
+  const cache = treeCache();
+  cache.buildLookup<Values>(nodes ?? [], new Map());
+  return cache;
+};
+
+describe('treeCache module', () => {
   it('builds a tree from a treeRef', () => {
-    // TODO
+    const cache = setup();
+    expect(cache.toTree()).toStrictEqual([
+      {
+        ...nodeDefaults,
+        key: 'one',
+        label: 'One',
+        children: [
+          {
+            ...nodeDefaults,
+            parentKey: 'one',
+            key: 'two',
+            label: 'Two',
+          },
+          {
+            ...nodeDefaults,
+            parentKey: 'one',
+            key: 'three',
+            label: 'Three',
+          },
+        ],
+      },
+    ]);
+  });
+
+  it('gets a node by key', () => {
+    const cache = setup();
+    expect(cache.getNode('two')).toStrictEqual({
+      ...nodeDefaults,
+      key: 'two',
+      label: 'Two',
+      parentKey: 'one',
+    });
+  });
+
+  it('sets a node value', () => {
+    const cache = setup();
+    const node = cache.getNode('two');
+    cache.setNode('two', {
+      ...node,
+      label: 'Dos',
+      values: {
+        isTrue: true,
+        test: 'foo',
+      },
+    });
+    expect(cache.getNode('two')).toStrictEqual({
+      ...node,
+      label: 'Dos',
+      values: {
+        isTrue: true,
+        test: 'foo',
+      },
+    });
   });
 });
