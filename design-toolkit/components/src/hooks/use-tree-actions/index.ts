@@ -11,7 +11,7 @@
  */
 
 import type { Key } from '@react-types/shared';
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import type {
   TreeActions,
   TreeData,
@@ -19,23 +19,7 @@ import type {
   TreeNodeBase,
   UseTreeActionsOptions,
 } from '../types';
-import {
-  assert,
-  addNodes,
-  buildLookup,
-  deleteNode,
-  getAllNodes,
-  getNode,
-  getVisibilityChange,
-  insert,
-  move,
-  moveNodes,
-  setAllNodes,
-  setNode,
-  setViewable,
-  toTree,
-  validateCache,
-} from './utils';
+import { treeCache } from './treeCache';
 
 function useIsFirstMount(): boolean {
   const isFirst = useRef(true);
@@ -62,19 +46,21 @@ export function useTreeActions<T extends object>({
   const isFirstMount = useIsFirstMount();
   const lastBuild = useRef<TreeNode<T>[] | null>(null);
 
+  const cache = useMemo(() => treeCache(), []);
+
   if (isFirstMount) {
-    buildLookup<T>(nodes ?? [], new Map());
-    lastBuild.current = toTree();
+    cache.buildLookup<T>(nodes ?? [], new Map());
+    lastBuild.current = cache.toTree();
   }
 
-  validateCache<T>(nodes, lastBuild.current);
+  cache.validateCache<T>(nodes, lastBuild.current);
 
   function initialize() {
     return updateAndReturn();
   }
 
   function getTreeNode(key: Key): TreeNode<T> | undefined {
-    const node = getNode<T>(key);
+    const node = cache.getNode<T>(key);
 
     if (!node) {
       return undefined;
@@ -88,7 +74,7 @@ export function useTreeActions<T extends object>({
     if (keys.length === 0) {
       return lastBuild.current ?? updateAndReturn();
     }
-    keys.map((key) => deleteNode(key));
+    keys.map((key) => cache.deleteNode(key));
     return updateAndReturn();
   }
 
@@ -102,47 +88,47 @@ export function useTreeActions<T extends object>({
     key: Key,
     callback: (node: TreeNodeBase<T>) => TreeNodeBase<T>,
   ) {
-    const node = getNode<T>(key);
+    const node = cache.getNode<T>(key);
     const newNode = callback(node);
-    setNode<T>(key, newNode);
+    cache.setNode<T>(key, newNode);
     return updateAndReturn();
   }
 
   /** INSERT NODES **/
   function insertInto(target: Key | null, nodes: TreeNode<T>[]) {
-    nodes.map((node) => insert(target, node, 0));
+    nodes.map((node) => cache.insert(target, node, 0));
     return updateAndReturn();
   }
 
   function insertBefore(target: Key | null, nodes: TreeNode<T>[]) {
-    addNodes(target, nodes, 'before');
+    cache.addNodes(target, nodes, 'before');
     return updateAndReturn();
   }
 
   function insertAfter(target: Key | null, nodes: TreeNode<T>[]) {
-    addNodes(target, nodes, 'after');
+    cache.addNodes(target, nodes, 'after');
     return updateAndReturn();
   }
 
   /** MOVE NODES **/
   function moveInto(target: Key | null, nodes: Set<Key>) {
-    Array.from(nodes).map((key) => move(target, key, 0));
+    Array.from(nodes).map((key) => cache.move(target, key, 0));
     return updateAndReturn();
   }
 
   function moveBefore(target: Key | null, nodes: Set<Key>) {
-    moveNodes(target, nodes, 'before');
+    cache.moveNodes(target, nodes, 'before');
     return updateAndReturn();
   }
 
   function moveAfter(target: Key | null, nodes: Set<Key>) {
-    moveNodes(target, nodes, 'after');
+    cache.moveNodes(target, nodes, 'after');
     return updateAndReturn();
   }
 
   /** SELECTION **/
   function getSelectedKeys() {
-    return Array.from(getAllNodes()).reduce(
+    return Array.from(cache.getAllNodes()).reduce(
       (acc, node) => (node.isSelected ? acc.add(node.key) : acc),
       new Set<Key>(),
     );
@@ -150,10 +136,8 @@ export function useTreeActions<T extends object>({
 
   function onSelectionChange(keys: Set<Key>) {
     for (const key of new Set([...keys, ...getSelectedKeys()])) {
-      const node = getNode<T>(key);
-      assert(node !== undefined, `Key of ${key} does not exist in tree`);
-
-      setNode<T>(node.key, {
+      const node = cache.getNode<T>(key);
+      cache.setNode<T>(node.key, {
         ...node,
         isSelected: keys.has(key),
       });
@@ -163,18 +147,18 @@ export function useTreeActions<T extends object>({
   }
 
   function selectAll() {
-    setAllNodes({ isSelected: true });
+    cache.setAllNodes({ isSelected: true });
     return updateAndReturn();
   }
 
   function unselectAll() {
-    setAllNodes({ isSelected: false });
+    cache.setAllNodes({ isSelected: false });
     return updateAndReturn();
   }
 
   /** EXPANSION **/
   function getExpandedKeys() {
-    return Array.from(getAllNodes()).reduce(
+    return Array.from(cache.getAllNodes()).reduce(
       (acc, node) => (node.isExpanded ? acc.add(node.key) : acc),
       new Set<Key>(),
     );
@@ -182,27 +166,23 @@ export function useTreeActions<T extends object>({
 
   function onExpandedChange(keys: Set<Key>): TreeNode<T>[] {
     for (const key of new Set([...keys, ...getExpandedKeys()])) {
-      const node = getNode<T>(key);
-      assert(node !== undefined, `Key of ${key} does not exist in tree`);
-
+      const node = cache.getNode<T>(key);
       const isExpanded = keys.has(key);
-
-      setNode(node.key, {
+      cache.setNode(node.key, {
         ...node,
         isExpanded,
       });
     }
-
     return updateAndReturn();
   }
 
   function expandAll() {
-    setAllNodes({ isExpanded: true });
+    cache.setAllNodes({ isExpanded: true });
     return updateAndReturn();
   }
 
   function collapseAll() {
-    setAllNodes({ isExpanded: false });
+    cache.setAllNodes({ isExpanded: false });
     return updateAndReturn();
   }
 
@@ -211,7 +191,7 @@ export function useTreeActions<T extends object>({
    * Visible keys are a Set of keys where isVisible is a boolean type
    */
   function getVisibleKeys() {
-    return Array.from(getAllNodes()).reduce(
+    return Array.from(cache.getAllNodes()).reduce(
       (acc, node) => (node.isVisible ? acc.add(node.key) : acc),
       new Set<Key>(),
     );
@@ -225,37 +205,37 @@ export function useTreeActions<T extends object>({
    * @param keys
    */
   function onVisibilityChange(keys: Set<Key>): TreeData<T> {
-    const { key, state } = getVisibilityChange(keys, getVisibleKeys());
+    const { key, state } = cache.getVisibilityChange(keys, getVisibleKeys());
 
     if (key) {
-      const node = getNode<T>(key);
+      const node = cache.getNode<T>(key);
       const isVisible = state;
 
       // update visibility for nodes
-      setNode(node.key, {
+      cache.setNode(node.key, {
         ...node,
         isVisible,
         isViewable: isVisible,
       });
 
-      node.children?.map((child) => setViewable(child.key, isVisible));
+      node.children?.map((child) => cache.setViewable(child.key, isVisible));
     }
 
     return updateAndReturn();
   }
 
   function revealAll() {
-    setAllNodes({ isVisible: true });
+    cache.setAllNodes({ isVisible: true });
     return updateAndReturn();
   }
 
   function hideAll() {
-    setAllNodes({ isVisible: false });
+    cache.setAllNodes({ isVisible: false });
     return updateAndReturn();
   }
 
   function updateAndReturn() {
-    lastBuild.current = toTree();
+    lastBuild.current = cache.toTree();
     return lastBuild.current;
   }
 
