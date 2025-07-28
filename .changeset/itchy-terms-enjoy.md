@@ -1,5 +1,5 @@
 ---
-"@accelint/design-toolkit": minor
+"@accelint/design-toolkit": patch
 ---
 
-Update Options/Combobox to follow DesignTK styling standards
+Update Options to follow DesignTK styling standards
