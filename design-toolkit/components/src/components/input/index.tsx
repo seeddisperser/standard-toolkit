@@ -19,6 +19,7 @@ import { type ChangeEvent, createContext } from 'react';
 import {
   Input as AriaInput,
   InputContext as AriaInputContext,
+  type InputProps as AriaInputProps,
   type ContextValue,
   composeRenderProps,
   useContextProps,
@@ -47,20 +48,24 @@ export function Input({ ref, ...props }: InputProps) {
    * the purposes of supporting the clear button and to capture the length
    * of the current value for the autoSize feature
    */
-  [props, ref] = useContextProps(props, ref ?? null, AriaInputContext);
-  [props, ref] = useContextProps(props, ref ?? null, InputContext);
+  const [contextProps] = useContextProps<
+    AriaInputProps,
+    AriaInputProps,
+    HTMLInputElement
+  >({}, ref ?? null, AriaInputContext);
+  [props, ref] = useContextProps({ ...props }, ref ?? null, InputContext);
 
   const {
     classNames,
     autoSize,
-    defaultValue = '',
+    defaultValue = contextProps.defaultValue ?? '',
     disabled,
     placeholder,
     readOnly,
     required,
     size,
     type = InputStylesDefaults.type,
-    value: valueProp,
+    value: valueProp = contextProps.value,
     isClearable,
     isInvalid,
     onChange,
@@ -77,6 +82,7 @@ export function Input({ ref, ...props }: InputProps) {
   const isEmpty = value == null || value === '';
 
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
+    contextProps.onChange?.(event);
     onChange?.(event);
 
     if (!event.defaultPrevented) {

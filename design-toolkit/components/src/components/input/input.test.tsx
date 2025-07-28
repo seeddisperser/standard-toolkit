@@ -12,7 +12,7 @@
 
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { Input } from './';
 import type { InputProps } from './types';
 
@@ -57,6 +57,22 @@ describe('Input', () => {
     expect(input).toHaveValue('');
   });
 
+  it('should clear input on click of clear button when controlled', async () => {
+    const user = userEvent.setup();
+    const value = 'Foo';
+    const { onChange } = setup({
+      value: 'Foo',
+      isClearable: true,
+      onChange: vi.fn(),
+    });
+
+    expect(screen.getByRole('textbox')).toHaveValue(value);
+
+    await user.click(screen.getByRole('button'));
+
+    expect(onChange).toHaveBeenCalledWith({ target: { value: '' } });
+  });
+
   it('should clear input on escape', async () => {
     const user = userEvent.setup();
 
@@ -72,5 +88,19 @@ describe('Input', () => {
     await user.type(input, '[Escape]');
 
     expect(input).toHaveValue('');
+  });
+
+  it('should clear input on escape when controlled', async () => {
+    const user = userEvent.setup();
+    const value = 'Foo';
+    const { onChange } = setup({ value, isClearable: true, onChange: vi.fn() });
+
+    const input = screen.getByRole('textbox');
+
+    expect(screen.getByRole('textbox')).toHaveValue(value);
+
+    await user.type(input, '[Escape]');
+
+    expect(onChange).toHaveBeenCalledWith({ target: { value: '' } });
   });
 });
