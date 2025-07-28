@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import type { PropsWithRef } from '@/lib/types';
+import type { RefAttributes } from 'react';
 import type {
   TextFieldProps as AriaTextFieldProps,
   FieldErrorProps,
@@ -19,19 +19,20 @@ import type { InputProps } from '../input/types';
 import type { LabelProps } from '../label/types';
 
 export type TextFieldProps = Omit<
-  AriaTextFieldProps & PropsWithRef<'div'>,
+  AriaTextFieldProps,
   'children' | 'className'
-> & {
-  classNames?: {
-    field?: AriaTextFieldProps['className'];
-    label?: LabelProps['className'];
-    input?: InputProps['classNames'];
+> &
+  RefAttributes<HTMLDivElement> & {
+    classNames?: {
+      field?: AriaTextFieldProps['className'];
+      label?: LabelProps['className'];
+      input?: InputProps['classNames'];
+      description?: string;
+      error?: FieldErrorProps['className'];
+    };
+    label?: string;
+    inputProps?: InputProps;
     description?: string;
-    error?: FieldErrorProps['className'];
+    errorMessage?: string;
+    size?: 'medium' | 'small';
   };
-  label?: string;
-  inputProps?: InputProps;
-  description?: string;
-  errorMessage?: string;
-  size?: 'medium' | 'small';
-};

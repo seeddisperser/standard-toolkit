@@ -10,31 +10,27 @@
  * governing permissions and limitations under the License.
  */
 
-import type { PropsWithRef } from '@/lib/types';
+import type { RefAttributes } from 'react';
 import type {
   RadioGroupProps as AriaRadioGroupProps,
   RadioProps as AriaRadioProps,
 } from 'react-aria-components';
 import type { LabelProps } from '../label/types';
 
-export type RadioGroupProps = Omit<
-  AriaRadioGroupProps & PropsWithRef<'div'>,
-  'className'
-> & {
-  classNames?: {
-    group?: AriaRadioGroupProps['className'];
-    label?: LabelProps['className'];
-  };
-  label?: string;
-};
-
-export type RadioProps = Omit<
-  AriaRadioProps & PropsWithRef<'label'>,
-  'className'
-> & {
-  classNames?: {
-    radio?: AriaRadioProps['className'];
-    control?: string;
+export type RadioGroupProps = Omit<AriaRadioGroupProps, 'className'> &
+  RefAttributes<HTMLDivElement> & {
+    classNames?: {
+      group?: AriaRadioGroupProps['className'];
+      label?: LabelProps['className'];
+    };
     label?: string;
   };
-};
+
+export type RadioProps = Omit<AriaRadioProps, 'className'> &
+  RefAttributes<HTMLLabelElement> & {
+    classNames?: {
+      radio?: AriaRadioProps['className'];
+      control?: string;
+      label?: string;
+    };
+  };

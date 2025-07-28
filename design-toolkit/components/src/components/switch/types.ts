@@ -10,16 +10,14 @@
  * governing permissions and limitations under the License.
  */
 
-import type { PropsWithRef } from '@/lib/types';
+import type { RefAttributes } from 'react';
 import type { SwitchProps as AriaSwitchProps } from 'react-aria-components';
 
-export type SwitchProps = Omit<
-  AriaSwitchProps & PropsWithRef<'label'>,
-  'className'
-> & {
-  classNames?: {
-    switch?: AriaSwitchProps['className'];
-    control?: string;
-    label?: string;
+export type SwitchProps = Omit<AriaSwitchProps, 'className'> &
+  RefAttributes<HTMLLabelElement> & {
+    classNames?: {
+      switch?: AriaSwitchProps['className'];
+      control?: string;
+      label?: string;
+    };
   };
-};

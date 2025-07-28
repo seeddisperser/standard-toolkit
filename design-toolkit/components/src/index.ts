@@ -214,7 +214,6 @@ export { containsExactChildren, expectsIconWrapper } from './lib/react';
 export type {
   ChildrenRenderProps,
   ClassNameRenderProps,
-  PropsWithRef,
   ProviderProps,
   RenderProps,
   RenderPropsChildren,

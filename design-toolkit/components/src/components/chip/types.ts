@@ -10,8 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import type { PropsWithRef } from '@/lib/types';
-import type { ComponentPropsWithRef } from 'react';
+import type { ComponentPropsWithRef, RefAttributes } from 'react';
 import type {
   ButtonProps,
   TagGroupProps,
@@ -30,7 +29,7 @@ export type ChipListProps<T> = Omit<TagGroupProps, 'children'> &
     TagListProps<T>,
     'dependencies' | 'items' | 'children' | 'renderEmptyState'
   > &
-  PropsWithRef<'div'> &
+  RefAttributes<HTMLDivElement> &
   BaseChipProps;
 
 export type ChipProps = VariantProps<typeof ChipStyles> &
@@ -40,11 +39,11 @@ export type ChipProps = VariantProps<typeof ChipStyles> &
   };
 
 export type SelectableChipProps = Omit<TagProps, 'isDisabled'> &
-  PropsWithRef<'div'> &
+  RefAttributes<HTMLDivElement> &
   BaseChipProps;
 
 export type DeletableChipProps = Omit<TagProps, 'className' | 'isDisabled'> &
-  PropsWithRef<'div'> &
+  RefAttributes<HTMLDivElement> &
   BaseChipProps & {
     classNames?: {
       chip?: TagProps['className'];

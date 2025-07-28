@@ -10,8 +10,8 @@
  * governing permissions and limitations under the License.
  */
 
-import type { PropsWithRef, RenderPropsClassName } from '@/lib/types';
-import type { ComponentPropsWithRef } from 'react';
+import type { RenderPropsClassName } from '@/lib/types';
+import type { ComponentPropsWithRef, RefAttributes } from 'react';
 import type {
   ButtonRenderProps,
   DisclosureGroupProps,
@@ -26,11 +26,11 @@ export type AccordionStyleVariants = VariantProps<typeof AccordionStyles>;
 
 export type AccordionGroupProps = DisclosureGroupProps &
   Pick<AccordionStyleVariants, 'variant'> &
-  PropsWithRef<'div'>;
+  RefAttributes<HTMLDivElement>;
 
 export type AccordionProps = DisclosureProps &
   Pick<AccordionStyleVariants, 'variant'> &
-  PropsWithRef<'div'>;
+  RefAttributes<HTMLDivElement>;
 
 export type AccordionHeaderProps = ComponentPropsWithRef<'header'>;
 
@@ -44,4 +44,5 @@ export type AccordionTriggerProps = Omit<
   };
 };
 
-export type AccordionPanelProps = DisclosurePanelProps & PropsWithRef<'div'>;
+export type AccordionPanelProps = DisclosurePanelProps &
+  RefAttributes<HTMLDivElement>;

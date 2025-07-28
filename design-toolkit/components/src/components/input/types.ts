@@ -10,16 +10,14 @@
  * governing permissions and limitations under the License.
  */
 
-import type { PropsWithRef } from '@/lib/types';
+import type { RefAttributes } from 'react';
 import type { InputProps as AriaInputProps } from 'react-aria-components';
 import type { VariantProps } from 'tailwind-variants';
 import type { ButtonProps } from '../button/types';
 import type { InputStyles } from './styles';
 
-export type InputProps = Omit<
-  AriaInputProps & PropsWithRef<'input'>,
-  'className' | 'size' | 'type'
-> &
+export type InputProps = Omit<AriaInputProps, 'className' | 'size' | 'type'> &
+  RefAttributes<HTMLInputElement> &
   Omit<VariantProps<typeof InputStyles>, 'isEmpty'> & {
     classNames?: {
       container?: string;
