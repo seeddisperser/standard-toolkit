@@ -23,7 +23,6 @@ const meta: Meta<typeof DateField> = {
     errorMessage: 'Error description',
     isDisabled: false,
     isInvalid: false,
-    isReadOnly: false,
     isRequired: true,
     label: 'Label',
     defaultValue: parseDate('2020-01-23'),

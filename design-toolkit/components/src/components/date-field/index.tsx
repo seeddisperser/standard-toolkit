@@ -101,14 +101,13 @@ const DateInput = ({
   className,
   ref = null,
   size = 'medium',
-  isReadOnly,
   ...props
 }: DateInputProps) => {
   return (
     <div className='relative flex'>
       {size === 'medium' ? (
         <Icon
-          className={`-translate-y-1/2 absolute top-1/2 left-s ${props.isDisabled ? ' text-disabled' : ' text-default-light'}`}
+          className={`-translate-y-1/2 absolute top-1/2 left-s text-default-light disabled:text-disabled `}
         >
           <Calendar />
         </Icon>
@@ -117,8 +116,6 @@ const DateInput = ({
         {...props}
         className={composeRenderProps(className, (className) =>
           DateFieldStyles({
-            isDisabled: props.isDisabled,
-            isInvalid: props.isInvalid,
             size,
             className,
           }),
@@ -167,13 +164,7 @@ export function DateField<T extends DateValue>({
         </Label>
       )}
 
-      <DateInput
-        className={className}
-        isDisabled={isDisabled}
-        size={size}
-        isReadOnly={isReadOnly}
-        isInvalid={isInvalid}
-      >
+      <DateInput className={className} size={size}>
         {(segment) => (
           <FormattedDateSegment segment={segment} shortMonth={shortMonth} />
         )}
