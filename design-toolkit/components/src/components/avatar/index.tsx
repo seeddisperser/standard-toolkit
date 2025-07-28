@@ -13,7 +13,7 @@
 
 import 'client-only';
 import type { ProviderProps } from '@/lib/types';
-import { spacingXs } from '@/tokens/';
+import { spacingXs } from '@/tokens';
 import { Person } from '@accelint/icons';
 import { Fallback, Image, Root } from '@radix-ui/react-avatar';
 import { createContext } from 'react';
