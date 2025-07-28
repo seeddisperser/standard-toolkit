@@ -12,46 +12,49 @@
 
 import type { RefAttributes } from 'react';
 import type {
-  ListBoxItemProps as AriaListBoxItemProps,
-  ListBoxProps as AriaListBoxProps,
-  ListBoxSectionProps as AriaListBoxSectionProps,
+  Key,
+  ListBoxItemProps,
+  ListBoxProps,
+  ListBoxSectionProps,
   TextProps,
 } from 'react-aria-components';
-import type { VariantProps } from 'tailwind-variants';
-import type { OptionsStyles } from './styles';
+import type { IconProps } from '../icon/types';
 
-export interface IOptionsItem {
-  children?: IOptionsItem[];
-  id: string | number;
+export type OptionsDataItem = {
+  id: Key;
   name: string;
-}
+  children?: OptionsDataItem[];
+};
 
-type OptionsItemSize = 'small' | 'large';
+export type OptionsItemProps<T extends OptionsDataItem> = Omit<
+  ListBoxItemProps,
+  'className'
+> &
+  RefAttributes<T> & {
+    classNames?: {
+      item?: ListBoxItemProps['className'];
+      icon?: IconProps['className'];
+    };
+    color?: 'info' | 'serious';
+  };
 
-export interface OptionsItemProps
-  extends AriaListBoxItemProps,
-    OptionsStyleVariants {
-  size?: OptionsItemSize;
-}
+export type OptionsProps<T extends OptionsDataItem> = Omit<
+  ListBoxProps<T>,
+  'orientation' | 'layout'
+> &
+  RefAttributes<HTMLDivElement> & {
+    size?: 'small' | 'large';
+  };
 
-export interface OptionsProps<T extends IOptionsItem>
-  extends Omit<AriaListBoxProps<T>, 'orientation' | 'layout'>,
-    RefAttributes<HTMLDivElement> {
-  description?: string;
-  errorMessage?: string;
-  label?: string;
-  placeholder?: string;
-  size?: OptionsItemSize;
-  color?: OptionsItemProps['color'];
-}
-
-export interface OptionsSectionProps<T extends IOptionsItem>
-  extends AriaListBoxSectionProps<T> {
+export type OptionsSectionProps<T extends OptionsDataItem> = Omit<
+  ListBoxSectionProps<T>,
+  'className'
+> & {
+  classNames?: {
+    section?: ListBoxSectionProps<T>['className'];
+    header?: string;
+  };
   header?: string;
-}
+};
 
-export interface OptionsItemTextProps extends TextProps {
-  // className?: string;
-}
-
-export type OptionsStyleVariants = VariantProps<typeof OptionsStyles>;
+export type OptionsItemTextProps = TextProps;

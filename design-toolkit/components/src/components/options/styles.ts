@@ -14,36 +14,45 @@ import { tv } from 'tailwind-variants';
 
 export const OptionsStyles = tv({
   slots: {
-    list: 'max-h-[200px] overflow-y-auto overflow-x-clip rounded-medium bg-surface-overlay shadow-elevation-overlay outline outline-static-light',
-    section: 'mt-s border-default-dark border-t first:border-none',
-    sectionHeader: 'm-xs my-s text-default-dark text-header-xs',
+    list: 'group/options max-h-[200px] overflow-y-auto overflow-x-clip rounded-medium bg-surface-overlay shadow-elevation-overlay outline outline-static-light',
+    section: 'mt-s',
+    header: 'm-xs my-s text-default-dark text-header-xs',
     item: [
-      'group/item',
-      'fg-default-light flex items-center gap-s p-s text-body-s ',
-      'hover:fg-inverse-light',
-      'focus:fg-inverse-light',
-      'disabled:fg-disabled disabled:bg-transparent',
-      'hover:bg-highlight-bold focus:bg-highlight-bold',
-      'pt-s size-small:pt-xs pb-s size-small:pb-xs',
+      'group/options-item fg-default-light flex items-center gap-s p-s text-body-s',
+      'group-size-small/options:pt-xs group-size-small/options:pb-xs',
+      'group-size-large/options:pt-s group-size-large/options:pb-s',
+      'enabled:cursor-pointer',
+      'enabled:hover:fg-inverse-light',
+      'enabled:focus:fg-inverse-light',
+      'enabled:focus:color-info:bg-highlight-bold',
+      'enabled:hover:color-info:bg-highlight-bold',
+      'enabled:hover:color-serious:bg-serious-bold',
+      'enabled:focus:color-serious:bg-serious-bold',
+      'disabled:fg-disabled disabled:cursor-not-allowed disabled:bg-transparent',
     ],
-    itemContent: 'flex min-w-0 flex-auto flex-col gap-xxs',
-    itemIcon: 'flex w-[16px] items-center',
-    itemLabel: 'truncate',
-    itemDescription: [
-      'fg-default-dark truncate text-body-xs',
-      'group-hover/item:fg-inverse-light',
-      'group-focus/item:fg-inverse-light',
-      'group-disabled/item:fg-disabled',
+    content: 'flex min-w-0 flex-auto flex-col gap-xxs',
+    icon: [
+      'group-enabled/options-item:group-color-info/options-item:fg-default-light',
+      'group-enabled/options-item:group-hover/options-item:group-color-info/options-item:fg-inverse-light',
+      'group-enabled/options-item:group-focus/options-item:group-color-info/options-item:fg-inverse-light',
+      'group-enabled/options-item:group-color-serious/options-item:fg-serious',
+      'group-enabled/options-item:group-hover/options-item:group-color-serious/options-item:fg-inverse-light',
+      'group-enabled/options-item:group-focus/options-item:group-color-serious/options-item:fg-inverse-light',
     ],
-  },
-  variants: {
-    color: {
-      destructive: {
-        item: 'hover:bg-serious-bold focus:bg-serious-bold',
-      },
-      default: {
-        item: 'hover:bg-highlight-bold focus:bg-highlight-bold',
-      },
-    },
+    label: [
+      'truncate',
+      'group-enabled/options-item:group-color-info/options-item:fg-default-light',
+      'group-enabled/options-item:group-hover/options-item:group-color-info/options-item:fg-inverse-light',
+      'group-enabled/options-item:group-focus/options-item:group-color-info/options-item:fg-inverse-light',
+      'group-enabled/options-item:group-color-serious/options-item:fg-serious',
+      'group-enabled/options-item:group-hover/options-item:group-color-serious/options-item:fg-inverse-light',
+      'group-enabled/options-item:group-focus/options-item:group-color-serious/options-item:fg-inverse-light',
+    ],
+    description: [
+      'group-enabled/options-item:fg-default-dark truncate text-body-xs',
+      'group-enabled/options-item:group-hover/options-item:fg-inverse-light',
+      'group-enabled/options-item:group-focus/options-item:fg-inverse-light',
+      'group-disabled/options-item:fg-disabled',
+    ],
   },
 });

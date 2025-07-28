@@ -18,19 +18,22 @@ import {
   Virtualizer as AriaVirtualizer,
 } from 'react-aria-components';
 import { Icon } from '../icon';
-import { Options } from './index';
+import { Options } from './';
 
 const meta: Meta<typeof Options> = {
   title: 'Components/Options',
   component: Options,
   args: {
     size: 'large',
-    color: 'default',
+  },
+  argTypes: {
+    size: {
+      control: 'select',
+    },
   },
 };
 
 export default meta;
-type Story = StoryObj<typeof Options>;
 
 interface CustomOptionsItem {
   id: number;
@@ -129,15 +132,9 @@ const itemsWithSections: CustomOptionsItem[] = [
   },
 ];
 
-export const Default: Story = {
-  args: {
-    size: 'large',
-    selectionBehavior: 'toggle',
-    color: 'default',
-  },
-
+export const Default: StoryObj<typeof Options> = {
   render: ({ children, ...args }) => (
-    <Options<CustomOptionsItem> {...args} items={items}>
+    <Options {...args} items={items}>
       {(item) => (
         <Options.Item key={item.id} id={item.id} isDisabled={item.isDisabled}>
           {item.prefixIcon && <Icon>{item.prefixIcon}</Icon>}
@@ -156,12 +153,9 @@ export const Default: Story = {
   ),
 };
 
-export const WithDynamicSections: Story = {
-  args: {
-    ...Default.args,
-  },
+export const WithDynamicSections: StoryObj<typeof Options> = {
   render: ({ children, ...args }) => (
-    <Options<CustomOptionsItem> {...args} items={itemsWithSections}>
+    <Options {...args} items={itemsWithSections}>
       {(section) => (
         <Options.Section header={section.name} items={section.children}>
           {({ children, ...item }) => (
@@ -184,14 +178,13 @@ export const WithDynamicSections: Story = {
   ),
 };
 
-export const WithStaticSections: Story = {
-  args: {
-    ...Default.args,
-    size: 'large',
-  },
+export const WithStaticSections: StoryObj<typeof Options> = {
   render: ({ children, ...args }) => (
     <Options {...args}>
-      <Options.Section header='North American Birds' className='w-[200px]'>
+      <Options.Section
+        header='North American Birds'
+        classNames={{ section: 'w-[200px]' }}
+      >
         <Options.Item>
           <Icon>
             <Placeholder />
@@ -204,7 +197,7 @@ export const WithStaticSections: Story = {
           </Icon>
           <Options.Item.Label>Gray catbird</Options.Item.Label>
         </Options.Item>
-        <Options.Item>
+        <Options.Item color='serious'>
           <Icon>
             <Placeholder />
           </Icon>
@@ -235,15 +228,13 @@ export const WithStaticSections: Story = {
   ),
 };
 
-const manyItems: { id: number; name: string; icon: ReactNode }[] = [];
-for (let i = 0; i < 5000; i++) {
-  manyItems.push({ id: i, name: `Item ${i}`, icon: <Placeholder /> });
-}
+const manyItems = Array.from({ length: 5000 }, (_, index) => ({
+  id: index,
+  name: `Item ${index}`,
+  icon: <Placeholder />,
+}));
 
-export const Virtualized: Story = {
-  args: {
-    ...Default.args,
-  },
+export const Virtualized: StoryObj<typeof Options> = {
   render: ({ children, ...args }) => (
     <div className='w-[200px]'>
       <AriaVirtualizer

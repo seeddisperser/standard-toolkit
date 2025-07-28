@@ -9,29 +9,27 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-
 'use client';
+
 import 'client-only';
-import { createContext, useContext } from 'react';
+import { createContext } from 'react';
 import {
-  Header as AriaHeader,
-  ListBox as AriaListBox,
-  Collection as AriaListBoxCollection,
-  ListBoxItem as AriaListBoxItem,
-  ListBoxSection as AriaListBoxSection,
-  Text as AriaText,
+  Collection,
   type ContextValue,
+  Header,
+  ListBox,
+  ListBoxItem,
+  ListBoxSection,
+  Text,
   composeRenderProps,
   useContextProps,
 } from 'react-aria-components';
-
-import { isSlottedContextValue } from '@/lib/utils';
 import { Icon } from '../icon';
 import { OptionsStyles } from './styles';
 import type {
+  OptionsDataItem,
   OptionsItemProps,
   OptionsItemTextProps,
-  IOptionsItem,
   OptionsProps,
   OptionsSectionProps,
 } from './types';
@@ -39,88 +37,75 @@ import type {
 const {
   list,
   section,
-  sectionHeader,
+  header: headerClassNames,
   item,
-  itemIcon,
-  itemContent,
-  itemLabel,
-  itemDescription,
+  content,
+  icon,
+  label,
+  description,
 } = OptionsStyles();
 
 export const OptionsContext =
-  createContext<ContextValue<OptionsProps<IOptionsItem>, HTMLDivElement>>(
+  createContext<ContextValue<OptionsProps<OptionsDataItem>, HTMLDivElement>>(
     null,
   );
 
-export function Options<T extends IOptionsItem>({
-  ref,
-  ...props
-}: OptionsProps<T>) {
-  [props, ref] = useContextProps(props, ref ?? null, OptionsContext);
-  const {
-    children,
-    className,
-    description,
-    errorMessage,
-    label,
-    placeholder,
-    size,
-    color,
-    ...rest
-  } = props;
-  return (
-    <OptionsContext.Provider value={{ size, color }}>
-      <AriaListBox<T>
-        ref={ref}
-        className={composeRenderProps(className, (className) =>
-          list({ className }),
-        )}
-        {...rest}
-      >
-        {children}
-      </AriaListBox>
-    </OptionsContext.Provider>
-  );
-}
-Options.displayName = 'Options';
-
-export function OptionsSection<T extends IOptionsItem>({
+function OptionsSection<T extends OptionsDataItem>({
   children,
+  classNames,
   header,
   items,
 }: OptionsSectionProps<T>) {
   return (
-    <AriaListBoxSection id={header} className={section()}>
-      <AriaHeader className={sectionHeader()}>{header}</AriaHeader>
-      <AriaListBoxCollection items={items}>{children}</AriaListBoxCollection>
-    </AriaListBoxSection>
+    <ListBoxSection
+      id={header}
+      className={section({ className: classNames?.section })}
+    >
+      <Header className={headerClassNames({ className: classNames?.header })}>
+        {header}
+      </Header>
+      <Collection items={items}>{children}</Collection>
+    </ListBoxSection>
   );
 }
 OptionsSection.displayName = 'Options.Section';
 
-export function OptionsItem({
-  children,
-  className,
-  size: sizeProp,
-  color: colorProp,
-  ...props
-}: OptionsItemProps) {
-  const context = useContext(OptionsContext) ?? {};
-  const color =
-    (isSlottedContextValue(context) ? undefined : context?.color) ?? colorProp;
-  const size =
-    (isSlottedContextValue(context) ? undefined : context?.size) ?? sizeProp;
+function OptionsItemContent({ className, ...rest }: OptionsItemTextProps) {
+  return <div {...rest} className={content({ className })} />;
+}
+OptionsItemContent.displayName = 'Options.Item.Content';
 
+function OptionsItemLabel({ className, ...rest }: OptionsItemTextProps) {
+  return <Text {...rest} slot='label' className={label({ className })} />;
+}
+OptionsItemLabel.displayName = 'Options.Item.Label';
+
+function OptionsItemDescription({ className, ...rest }: OptionsItemTextProps) {
   return (
-    <AriaListBoxItem
-      {...props}
-      data-size={size}
-      className={composeRenderProps(className, (className) =>
-        item({ color, className }),
+    <Text {...rest} slot='description' className={description({ className })} />
+  );
+}
+OptionsItemDescription.displayName = 'Options.Item.Description';
+
+function OptionsItem<T extends OptionsDataItem>({
+  children,
+  classNames,
+  color = 'info',
+  ...rest
+}: OptionsItemProps<T>) {
+  return (
+    <ListBoxItem
+      {...rest}
+      className={composeRenderProps(classNames?.item, (className) =>
+        item({ className }),
       )}
+      data-color={color}
     >
       {composeRenderProps(children, (children) => (
-        <Icon.Provider size='small' className={itemIcon()}>
+        <Icon.Provider
+          className={icon({ className: classNames?.icon })}
+          size='small'
+        >
           {typeof children === 'string' ? (
             <OptionsItemLabel>{children}</OptionsItemLabel>
           ) : (
@@ -128,56 +113,35 @@ export function OptionsItem({
           )}
         </Icon.Provider>
       ))}
-    </AriaListBoxItem>
+    </ListBoxItem>
   );
 }
 OptionsItem.displayName = 'Options.Item';
-
-function OptionsItemContent({
-  children,
-  className,
-  ...props
-}: OptionsItemTextProps) {
-  return (
-    <div {...props} className={itemContent({ className })}>
-      {children}
-    </div>
-  );
-}
-OptionsItemContent.displayName = 'Options.Item.Content';
-
-function OptionsItemLabel({
-  children,
-  className,
-  ...props
-}: OptionsItemTextProps) {
-  return (
-    <AriaText {...props} className={itemLabel({ className })} slot='label'>
-      {children}
-    </AriaText>
-  );
-}
-OptionsItemLabel.displayName = 'Options.Item.Label';
-
-function OptionsItemDescription({
-  children,
-  className,
-  ...props
-}: OptionsItemTextProps) {
-  return (
-    <AriaText
-      {...props}
-      className={itemDescription({ className })}
-      slot='description'
-    >
-      {children}
-    </AriaText>
-  );
-}
-OptionsItemDescription.displayName = 'Options.Item.Description';
-
 OptionsItem.Label = OptionsItemLabel;
 OptionsItem.Content = OptionsItemContent;
 OptionsItem.Description = OptionsItemDescription;
+
+export function Options<T extends OptionsDataItem>({
+  ref,
+  ...props
+}: OptionsProps<T>) {
+  [props, ref] = useContextProps(props, ref ?? null, OptionsContext);
+
+  const { children, className, size, ...rest } = props;
+
+  return (
+    <ListBox<T>
+      {...rest}
+      ref={ref}
+      className={composeRenderProps(className, (className) =>
+        list({ className }),
+      )}
+      data-size={size}
+    >
+      {children}
+    </ListBox>
+  );
+}
+Options.displayName = 'Options';
 Options.Item = OptionsItem;
 Options.Section = OptionsSection;

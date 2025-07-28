@@ -15,7 +15,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
 
 import { Icon } from '../icon';
-import { ComboBox } from './index';
+import { Options } from '../options';
+import { ComboBox } from './';
 
 const meta: Meta<typeof ComboBox> = {
   title: 'Components/ComboBox',
@@ -146,17 +147,17 @@ export const Default: Story = {
   render: ({ children, ...args }) => (
     <ComboBox<CustomOptionsItem> {...args} defaultItems={items}>
       {(item) => (
-        <ComboBox.Item key={item.id} isDisabled={item.isDisabled}>
+        <Options.Item key={item.id} isDisabled={item.isDisabled}>
           {item.prefixIcon && <Icon>{item.prefixIcon}</Icon>}
-          <ComboBox.Item.Content>
-            <ComboBox.Item.Label>{item.name}</ComboBox.Item.Label>
+          <Options.Item.Content>
+            <Options.Item.Label>{item.name}</Options.Item.Label>
             {item.description && (
-              <ComboBox.Item.Description>
+              <Options.Item.Description>
                 {item.description}
-              </ComboBox.Item.Description>
+              </Options.Item.Description>
             )}
-          </ComboBox.Item.Content>
-        </ComboBox.Item>
+          </Options.Item.Content>
+        </Options.Item>
       )}
     </ComboBox>
   ),
@@ -172,21 +173,21 @@ export const WithDynamicSections: Story = {
   render: ({ children, ...args }) => (
     <ComboBox<CustomOptionsItem> {...args} defaultItems={itemsWithSections}>
       {(section) => (
-        <ComboBox.Section header={section.name} items={section.children}>
+        <Options.Section header={section.name} items={section.children}>
           {(item) => (
-            <ComboBox.Item key={item.id}>
+            <Options.Item key={item.id}>
               {item.prefixIcon && <Icon>{item.prefixIcon}</Icon>}
-              <ComboBox.Item.Content>
-                <ComboBox.Item.Label>{item.name}</ComboBox.Item.Label>
+              <Options.Item.Content>
+                <Options.Item.Label>{item.name}</Options.Item.Label>
                 {item.description && (
-                  <ComboBox.Item.Description>
+                  <Options.Item.Description>
                     {item.description}
-                  </ComboBox.Item.Description>
+                  </Options.Item.Description>
                 )}
-              </ComboBox.Item.Content>
-            </ComboBox.Item>
+              </Options.Item.Content>
+            </Options.Item>
           )}
-        </ComboBox.Section>
+        </Options.Section>
       )}
     </ComboBox>
   ),
@@ -201,46 +202,46 @@ export const WithStaticSections: Story = {
   },
   render: ({ children, ...args }) => (
     <ComboBox {...args}>
-      <ComboBox.Section header='North American Birds'>
-        <ComboBox.Item>
+      <Options.Section header='North American Birds'>
+        <Options.Item>
           <Icon>
             <Placeholder />
           </Icon>
-          <ComboBox.Item.Label>Blue Jay</ComboBox.Item.Label>
-        </ComboBox.Item>
-        <ComboBox.Item>
+          <Options.Item.Label>Blue Jay</Options.Item.Label>
+        </Options.Item>
+        <Options.Item>
           <Icon>
             <Placeholder />
           </Icon>
-          <ComboBox.Item.Label>Gray catbird</ComboBox.Item.Label>
-        </ComboBox.Item>
-        <ComboBox.Item>
+          <Options.Item.Label>Gray catbird</Options.Item.Label>
+        </Options.Item>
+        <Options.Item>
           <Icon>
             <Placeholder />
           </Icon>
-          <ComboBox.Item.Label>Black-capped chickadee</ComboBox.Item.Label>
-        </ComboBox.Item>
-        <ComboBox.Item>
+          <Options.Item.Label>Black-capped chickadee</Options.Item.Label>
+        </Options.Item>
+        <Options.Item>
           <Icon>
             <Placeholder />
           </Icon>
-          <ComboBox.Item.Label>Song Sparrow</ComboBox.Item.Label>
-        </ComboBox.Item>
-      </ComboBox.Section>
-      <ComboBox.Section header='African Birds'>
-        <ComboBox.Item>
+          <Options.Item.Label>Song Sparrow</Options.Item.Label>
+        </Options.Item>
+      </Options.Section>
+      <Options.Section header='African Birds'>
+        <Options.Item>
           <Icon>
             <Placeholder />
           </Icon>
-          <ComboBox.Item.Label>Lilac-breasted roller</ComboBox.Item.Label>
-        </ComboBox.Item>
-        <ComboBox.Item>
+          <Options.Item.Label>Lilac-breasted roller</Options.Item.Label>
+        </Options.Item>
+        <Options.Item>
           <Icon>
             <Placeholder />
           </Icon>
-          <ComboBox.Item.Label>Hornbill</ComboBox.Item.Label>
-        </ComboBox.Item>
-      </ComboBox.Section>
+          <Options.Item.Label>Hornbill</Options.Item.Label>
+        </Options.Item>
+      </Options.Section>
     </ComboBox>
   ),
 };
@@ -260,10 +261,10 @@ export const WithManyItems: Story = {
   render: ({ children, ...args }) => (
     <ComboBox {...args}>
       {manyItems.map((item) => (
-        <ComboBox.Item key={item.id}>
+        <Options.Item key={item.id}>
           {item.prefixIcon && <Icon>{item.prefixIcon}</Icon>}
-          <ComboBox.Item.Label>{item.name}</ComboBox.Item.Label>
-        </ComboBox.Item>
+          <Options.Item.Label>{item.name}</Options.Item.Label>
+        </Options.Item>
       ))}
     </ComboBox>
   ),
