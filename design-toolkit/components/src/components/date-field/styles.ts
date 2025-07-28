@@ -23,9 +23,6 @@ export const DateFieldStyles = tv({
     isInvalid: {
       true: 'outline-serious',
     },
-    isReadOnly: {
-      true: 'rounded-none p-0 outline-none',
-    },
     size: {
       medium: ['text-body-s', 'pl-[32px]'],
       small: 'text-body-xs',

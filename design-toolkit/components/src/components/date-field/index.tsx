@@ -119,7 +119,6 @@ const DateInput = ({
           DateFieldStyles({
             isDisabled: props.isDisabled,
             isInvalid: props.isInvalid,
-            isReadOnly,
             size,
             className,
           }),
