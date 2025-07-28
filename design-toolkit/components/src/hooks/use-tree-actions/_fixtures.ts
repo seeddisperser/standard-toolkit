@@ -1,3 +1,4 @@
+// __private-exports
 /*
  * Copyright 2025 Hypergiant Galactic Systems Inc. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
@@ -44,6 +45,54 @@ export const defaultTree: TreeNode<Values>[] = [
         key: 'three',
         parentKey: 'one',
         label: 'Three',
+      },
+    ],
+  },
+];
+
+// Helper function to create a more complex tree for testing moveNodes
+export const complexTree = [
+  {
+    ...nodeDefaults,
+    key: 'root1',
+    label: 'Root 1',
+    children: [
+      {
+        ...nodeDefaults,
+        key: 'child1',
+        parentKey: 'root1',
+        label: 'Child 1',
+      },
+      {
+        ...nodeDefaults,
+        key: 'child2',
+        parentKey: 'root1',
+        label: 'Child 2',
+      },
+      {
+        ...nodeDefaults,
+        key: 'child3',
+        parentKey: 'root1',
+        label: 'Child 3',
+      },
+    ],
+  },
+  {
+    ...nodeDefaults,
+    key: 'root2',
+    label: 'Root 2',
+    children: [
+      {
+        ...nodeDefaults,
+        key: 'child4',
+        parentKey: 'root2',
+        label: 'Child 4',
+      },
+      {
+        ...nodeDefaults,
+        key: 'child5',
+        parentKey: 'root2',
+        label: 'Child 5',
       },
     ],
   },

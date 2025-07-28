@@ -12,7 +12,12 @@
 
 import { describe, expect, it } from 'vitest';
 import type { TreeNode } from '../types';
-import { type Values, defaultTree, nodeDefaults } from './_fixtures';
+import {
+  type Values,
+  complexTree,
+  defaultTree,
+  nodeDefaults,
+} from './_fixtures';
 import { treeCache } from './treeCache';
 
 const setup = (props: { nodes?: TreeNode<Values>[] } = {}) => {
@@ -76,6 +81,131 @@ describe('treeCache module', () => {
         isTrue: true,
         test: 'foo',
       },
+    });
+  });
+
+  describe('moveNodes', () => {
+    it('moves a single node before a target node', () => {
+      const cache = setup({ nodes: complexTree });
+      cache.moveNodes('child4', new Set(['child2']), 'before');
+
+      const tree = cache.toTree();
+      const result = tree.find((node) => node.key === 'root2');
+
+      expect(result?.children).toHaveLength(3);
+      expect(result?.children?.[0]?.key).toBe('child2');
+      expect(result?.children?.[1]?.key).toBe('child4');
+      expect(result?.children?.[2]?.key).toBe('child5');
+
+      expect(cache.getNode('child2').parentKey).toBe('root2');
+    });
+
+    it('moves a single node after a target node', () => {
+      const cache = setup({ nodes: complexTree });
+      cache.moveNodes('child4', new Set(['child1']), 'after');
+
+      const tree = cache.toTree();
+      const result = tree.find((node) => node.key === 'root2');
+
+      expect(result?.children).toHaveLength(3);
+      expect(result?.children?.[0]?.key).toBe('child4');
+      expect(result?.children?.[1]?.key).toBe('child1');
+      expect(result?.children?.[2]?.key).toBe('child5');
+
+      expect(cache.getNode('child1').parentKey).toBe('root2');
+    });
+
+    it('moves multiple nodes before a target node', () => {
+      const cache = setup({ nodes: complexTree });
+      cache.moveNodes('child4', new Set(['child1', 'child2']), 'before');
+
+      const tree = cache.toTree();
+      const result = tree.find((node) => node.key === 'root2');
+
+      expect(result?.children).toHaveLength(4);
+      expect(result?.children?.[0]?.key).toBe('child1');
+      expect(result?.children?.[1]?.key).toBe('child2');
+      expect(result?.children?.[2]?.key).toBe('child4');
+      expect(result?.children?.[3]?.key).toBe('child5');
+
+      expect(cache.getNode('child1').parentKey).toBe('root2');
+      expect(cache.getNode('child2').parentKey).toBe('root2');
+    });
+
+    it('moves multiple nodes after a target node', () => {
+      const cache = setup({ nodes: complexTree });
+      cache.moveNodes('child4', new Set(['child2', 'child3']), 'after');
+
+      const tree = cache.toTree();
+      const result = tree.find((node) => node.key === 'root2');
+
+      expect(result?.children).toHaveLength(4);
+      expect(result?.children?.[0]?.key).toBe('child4');
+      expect(result?.children?.[1]?.key).toBe('child2');
+      expect(result?.children?.[2]?.key).toBe('child3');
+      expect(result?.children?.[3]?.key).toBe('child5');
+
+      expect(cache.getNode('child2').parentKey).toBe('root2');
+      expect(cache.getNode('child3').parentKey).toBe('root2');
+    });
+
+    it('moves nodes to the beginning of root level when target is null and position is before', () => {
+      const cache = setup({ nodes: complexTree });
+      cache.moveNodes(null, new Set(['child1', 'child2']), 'before');
+
+      const tree = cache.toTree();
+
+      expect(tree).toHaveLength(4);
+      expect(tree[0]?.key).toBe('child1');
+      expect(tree[1]?.key).toBe('child2');
+      expect(tree[2]?.key).toBe('root1');
+      expect(tree[3]?.key).toBe('root2');
+
+      expect(cache.getNode('child1').parentKey).toBe(null);
+      expect(cache.getNode('child2').parentKey).toBe(null);
+    });
+
+    it('moves nodes to the end of root level when target is null and position is after', () => {
+      const cache = setup({ nodes: complexTree });
+      cache.moveNodes(null, new Set(['child1', 'child2']), 'after');
+
+      const tree = cache.toTree();
+
+      expect(tree).toHaveLength(4);
+      expect(tree[0]?.key).toBe('root1');
+      expect(tree[1]?.key).toBe('root2');
+      expect(tree[2]?.key).toBe('child1');
+      expect(tree[3]?.key).toBe('child2');
+
+      expect(cache.getNode('child1').parentKey).toBe(null);
+      expect(cache.getNode('child2').parentKey).toBe(null);
+    });
+
+    it('reorders nodes within the same parent', () => {
+      const cache = setup({ nodes: complexTree });
+      cache.moveNodes('child1', new Set(['child3']), 'before');
+
+      const tree = cache.toTree();
+      const result = tree.find((node) => node.key === 'root1');
+
+      expect(result?.children).toHaveLength(3);
+      expect(result?.children?.[0]?.key).toBe('child3');
+      expect(result?.children?.[1]?.key).toBe('child1');
+      expect(result?.children?.[2]?.key).toBe('child2');
+
+      // Verify child3's parent remains the same
+      expect(cache.getNode('child3').parentKey).toBe('root1');
+    });
+
+    it('removes moved nodes from their original parent', () => {
+      const cache = setup({ nodes: complexTree });
+      cache.moveNodes('child4', new Set(['child1', 'child2']), 'before');
+
+      const tree = cache.toTree();
+      const result = tree.find((node) => node.key === 'root1');
+
+      expect(result?.children).toHaveLength(1);
+      expect(result?.children?.[0]?.key).toBe('child3');
     });
   });
 });

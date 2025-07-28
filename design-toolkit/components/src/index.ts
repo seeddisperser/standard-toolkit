@@ -238,8 +238,6 @@ export type {
   TreeSelectionType,
 } from './components/tree/types';
 export { VisibilityToggle } from './components/tree/visibility-toggle';
-export { items, nodeDefaults } from './hooks/fixtures';
-export type { Values } from './hooks/fixtures';
 export type {
   Position,
   TreeActions,
