@@ -14,7 +14,7 @@ import type { RefAttributes } from 'react';
 import type { LabelProps as AriaLabelProps } from 'react-aria-components';
 
 export type LabelProps = AriaLabelProps &
-  RefAttributes<'label'> & {
+  RefAttributes<HTMLLabelElement> & {
     isDisabled?: boolean;
     isRequired?: boolean;
   };
