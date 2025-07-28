@@ -11,24 +11,18 @@
  */
 
 import type { Meta, StoryObj } from '@storybook/react';
-import { TextField } from './';
+import { Input } from './';
 
-const meta: Meta<typeof TextField> = {
-  title: 'Components/TextField',
-  component: TextField,
+const meta: Meta<typeof Input> = {
+  title: 'Components/Input',
+  component: Input,
   args: {
-    label: 'Label',
-    inputProps: {
-      placeholder: 'Placeholder',
-      type: 'text',
-      isClearable: true,
-    },
-    description: 'Helper text',
-    errorMessage: '',
+    autoSize: false,
+    disabled: false,
+    placeholder: 'Placeholder',
     size: 'medium',
-    isDisabled: false,
+    isClearable: true,
     isInvalid: false,
-    isRequired: true,
   },
   argTypes: {
     size: {
@@ -40,6 +34,6 @@ const meta: Meta<typeof TextField> = {
 
 export default meta;
 
-export const Default: StoryObj<typeof TextField> = {
-  render: TextField,
+export const Default: StoryObj<typeof Input> = {
+  render: Input,
 };

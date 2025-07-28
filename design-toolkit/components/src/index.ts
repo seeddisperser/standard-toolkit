@@ -124,6 +124,9 @@ export type { DialogProps } from './components/dialog';
 export { Icon, IconContext } from './components/icon';
 export { IconStyles } from './components/icon/styles';
 export type { IconProps, IconProviderProps } from './components/icon/types';
+export { Input, InputContext } from './components/input';
+export { InputStyles, InputStylesDefaults } from './components/input/styles';
+export type { InputProps } from './components/input/types';
 export { Label, LabelContext } from './components/label';
 export { LabelStyles } from './components/label/styles';
 export type { LabelProps, LabelProviderProps } from './components/label/types';
@@ -136,8 +139,6 @@ export {
   MenuContext,
   MenuDescription,
   MenuItem,
-  MenuItemIcon,
-  MenuItemKeyboard,
   MenuLabel,
   MenuSection,
   MenuSeparator,
@@ -145,9 +146,7 @@ export {
 export { MenuStyles, MenuStylesDefaults } from './components/menu/styles';
 export type { MenuStyleVariants } from './components/menu/styles';
 export type {
-  MenuIconProps,
   MenuItemProps,
-  MenuKeyboardProps,
   MenuProps,
   MenuSectionProps,
   MenuTextProps,
@@ -210,10 +209,13 @@ export { TextAreaStyles } from './components/text-area-field/styles';
 export type {
   TextAreaFieldProps,
   TextAreaFieldProviderProps,
-  TextAreaStyleVariants,
 } from './components/text-area-field/types';
-export { TextField } from './components/text-field';
-export type { TextFieldProps } from './components/text-field';
+export { TextField, TextFieldContext } from './components/text-field';
+export { TextFieldStyles } from './components/text-field/styles';
+export type {
+  TextFieldProps,
+  TextFieldProviderProps,
+} from './components/text-field/types';
 export { Tooltip, TooltipBody, TooltipTrigger } from './components/tooltip';
 export type {
   TooltipBodyProps,
@@ -328,9 +330,9 @@ export {
   radiusNone,
   radiusRound,
   radiusSmall,
-  shadowsElevationDefault,
-  shadowsElevationOverlay,
-  shadowsElevationRaised,
+  shadowElevationDefault,
+  shadowElevationOverlay,
+  shadowElevationRaised,
   spacing0,
   spacingL,
   spacingM,
@@ -343,33 +345,48 @@ export {
   spacingXxs,
   typographyBodyLHeight,
   typographyBodyLSize,
+  typographyBodyLSpacing,
   typographyBodyMHeight,
   typographyBodyMSize,
+  typographyBodyMSpacing,
   typographyBodySHeight,
   typographyBodySSize,
+  typographyBodySSpacing,
   typographyBodyXsHeight,
   typographyBodyXsSize,
+  typographyBodyXsSpacing,
   typographyBodyXxsHeight,
   typographyBodyXxsSize,
+  typographyBodyXxsSpacing,
   typographyButtonLHeight,
   typographyButtonLSize,
+  typographyButtonLSpacing,
   typographyButtonMHeight,
   typographyButtonMSize,
+  typographyButtonMSpacing,
   typographyButtonSHeight,
   typographyButtonSSize,
+  typographyButtonSSpacing,
   typographyButtonXsHeight,
   typographyButtonXsSize,
+  typographyButtonXsSpacing,
   typographyHeaderLHeight,
   typographyHeaderLSize,
+  typographyHeaderLSpacing,
   typographyHeaderMHeight,
   typographyHeaderMSize,
+  typographyHeaderMSpacing,
   typographyHeaderSHeight,
   typographyHeaderSSize,
+  typographyHeaderSSpacing,
   typographyHeaderXlHeight,
   typographyHeaderXlSize,
+  typographyHeaderXlSpacing,
   typographyHeaderXsHeight,
   typographyHeaderXsSize,
+  typographyHeaderXsSpacing,
   typographyHeaderXxlHeight,
   typographyHeaderXxlSize,
+  typographyHeaderXxlSpacing,
 } from './tokens';
 export type { RGBAColor } from './tokens';
