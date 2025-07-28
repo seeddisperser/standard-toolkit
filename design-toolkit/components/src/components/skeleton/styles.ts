@@ -20,7 +20,7 @@ export const SkeletonStyles = tv({
   base: 'fg-default-light bg-transparent-light px-l py-s motion-safe:animate-pulse',
   variants: {
     shape: {
-      circ: 'aspect-square h-[1lh] rounded-full',
+      circ: 'aspect-square w-[1lh] rounded-full',
       rect: 'min-h-[1lh] w-full rounded-small',
     },
   },
