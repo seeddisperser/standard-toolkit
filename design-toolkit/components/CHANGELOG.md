@@ -1,5 +1,26 @@
 # @accelint/design-toolkit
 
+## 2.4.3
+
+### Patch Changes
+
+- 382bbc2: Fixes a build issue caused by an import with trailing character in `components/avatar/index.tsx`.
+
+## 2.4.2
+
+### Patch Changes
+
+- 93b3750: Fixed controlled usage of field input
+
+## 2.4.1
+
+### Patch Changes
+
+- f57cb86: Adds fallback for some css tokens
+- 4fa066a: - Converted Input autoSize behavior to an optional prop variant
+  - Lowered custom variant selector specificity to reduce friction of overrides
+  - Fixed Checkbox styling for state of indeterminate + disabled
+
 ## 2.4.0
 
 ### Minor Changes

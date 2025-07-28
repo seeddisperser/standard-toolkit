@@ -39,11 +39,20 @@ export const InputContext =
   createContext<ContextValue<InputProps, HTMLInputElement>>(null);
 
 export function Input({ ref, ...props }: InputProps) {
+  /**
+   * It is necessary to pull in the AriaInputContext to capture defaultValue,
+   * value & onChange props that may be supplied by a Field component
+   *
+   * These are necessary due to the implementation of useControlledState for
+   * the purposes of supporting the clear button and to capture the length
+   * of the current value for the autoSize feature
+   */
   [props, ref] = useContextProps(props, ref ?? null, AriaInputContext);
-  [props, ref] = useContextProps(props, ref ?? null, InputContext);
+  [props, ref] = useContextProps({ ...props }, ref ?? null, InputContext);
 
   const {
     classNames,
+    autoSize,
     defaultValue = '',
     disabled,
     placeholder,
@@ -59,11 +68,7 @@ export function Input({ ref, ...props }: InputProps) {
     ...rest
   } = props;
 
-  const [value, setValue] = useControlledState(
-    valueProp,
-    defaultValue,
-    onChange,
-  );
+  const [value, setValue] = useControlledState(valueProp, defaultValue);
   const length = (`${value ?? ''}`.length || placeholder?.length) ?? 0;
   const isEmpty = value == null || value === '';
 
@@ -79,6 +84,7 @@ export function Input({ ref, ...props }: InputProps) {
     <div
       className={container({
         className: classNames?.container,
+        autoSize,
         type,
         isClearable,
         isEmpty,
@@ -94,6 +100,7 @@ export function Input({ ref, ...props }: InputProps) {
       <div
         className={sizer({
           className: classNames?.sizer,
+          autoSize,
           type,
           isClearable,
           isEmpty,
@@ -103,7 +110,7 @@ export function Input({ ref, ...props }: InputProps) {
           {...rest}
           ref={ref}
           className={composeRenderProps(classNames?.input, (className) =>
-            input({ className, type, isClearable, isEmpty }),
+            input({ className, autoSize, type, isClearable, isEmpty }),
           )}
           disabled={disabled}
           placeholder={placeholder}
@@ -128,7 +135,7 @@ export function Input({ ref, ...props }: InputProps) {
       {isClearable && (
         <Button
           className={composeRenderProps(classNames?.clear, (className) =>
-            clear({ className, type, isClearable, isEmpty }),
+            clear({ className, autoSize, type, isClearable, isEmpty }),
           )}
           excludeFromTabOrder
           size='small'

@@ -80,11 +80,6 @@ async function generateTokens() {
     );
 
     console.log('✅ Design tokens generated successfully!');
-    console.log(`📁 Output directory: ${outputDir}`);
-    console.log('📄 Generated files:');
-    console.log('   - tokens.css (CSS variables)');
-    console.log('   - tokens.ts (TypeScript constants and types)');
-    console.log('   - themes.css (Theme blocks)');
   } catch (error) {
     console.error('❌ Error generating design tokens:', error);
     process.exit(1);

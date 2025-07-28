@@ -40,6 +40,10 @@ export const InputStyles = tv({
     ],
   },
   variants: {
+    autoSize: {
+      false: '',
+      true: '',
+    },
     type: {
       button: '',
       checkbox: '',
@@ -86,11 +90,33 @@ export const InputStyles = tv({
   },
   compoundVariants: [
     {
+      type: [
+        'color',
+        'date',
+        'datetime-local',
+        'email',
+        'number',
+        'password',
+        'search',
+        'tel',
+        'text',
+        'time',
+        'url',
+      ],
+      className: {
+        sizer: [
+          'group-size-medium/input:min-w-[160px] group-size-medium/input:max-w-[400px]',
+          'group-size-medium/input:min-w-[80px] group-size-small/input:max-w-[200px]',
+        ],
+      },
+    },
+    {
+      autoSize: true,
       type: ['number', 'text'],
       className: {
         sizer: [
-          'group-size-medium/input:w-[calc((var(--length)*1ch)+((var(--length)-1)*var(--typography-body-s-spacing))+(var(--spacing-s)*2)+var(--room))] group-size-medium/input:min-w-[160px] group-size-medium/input:max-w-[400px]',
-          'group-size-small/input:w-[calc((var(--length)*1ch)+((var(--length)-1)*var(--typography-body-xs-spacing))+(var(--spacing-s)*2)+var(--room))] group-size-small/input:min-w-[calc(2ch+((var(--length)-1)*var(--typography-body-xs-spacing))+(var(--spacing-s)*2)+var(--room))] group-size-small/input:max-w-[200px]',
+          'group-size-medium/input:w-[calc((var(--length)*1ch)+((var(--length)-1)*var(--typography-body-s-spacing))+(var(--spacing-s)*2)+var(--room))]',
+          'group-size-small/input:w-[calc((var(--length)*1ch)+((var(--length)-1)*var(--typography-body-xs-spacing))+(var(--spacing-s)*2)+var(--room))] group-size-small/input:min-w-[calc(2ch+((var(--length)-1)*var(--typography-body-xs-spacing))+(var(--spacing-s)*2)+var(--room))]',
         ],
       },
     },
