@@ -12,28 +12,29 @@
 
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import type { IOptionsItem } from '../options/types';
-import { ComboBox, type ComboBoxProps } from './index';
+import { Options } from '../options';
+import type { OptionsDataItem } from '../options/types';
+import { ComboBox, type ComboBoxProps } from './';
 
 function setup({
   children = (
     <>
-      <ComboBox.Item isDisabled>
-        <ComboBox.Item.Label>Red Panda</ComboBox.Item.Label>
-        <ComboBox.Item.Description>Some ice cream</ComboBox.Item.Description>
-      </ComboBox.Item>
-      <ComboBox.Item>
-        <ComboBox.Item.Label>Cat</ComboBox.Item.Label>
-        <ComboBox.Item.Description>Some ice cream</ComboBox.Item.Description>
-      </ComboBox.Item>
-      <ComboBox.Item>
-        <ComboBox.Item.Label>Dog</ComboBox.Item.Label>
-        <ComboBox.Item.Description>Some ice cream</ComboBox.Item.Description>
-      </ComboBox.Item>
+      <Options.Item isDisabled>
+        <Options.Item.Label>Red Panda</Options.Item.Label>
+        <Options.Item.Description>Some ice cream</Options.Item.Description>
+      </Options.Item>
+      <Options.Item>
+        <Options.Item.Label>Cat</Options.Item.Label>
+        <Options.Item.Description>Some ice cream</Options.Item.Description>
+      </Options.Item>
+      <Options.Item>
+        <Options.Item.Label>Dog</Options.Item.Label>
+        <Options.Item.Description>Some ice cream</Options.Item.Description>
+      </Options.Item>
     </>
   ),
   ...rest
-}: Partial<ComboBoxProps<IOptionsItem>> = {}) {
+}: Partial<ComboBoxProps<OptionsDataItem>> = {}) {
   render(<ComboBox {...rest}>{children}</ComboBox>);
 
   return {
