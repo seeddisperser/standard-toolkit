@@ -35,4 +35,5 @@ export default defineConfig({
   sourcemap: true,
   splitting: true,
   treeshake: true,
+  metafile: true,
 });
