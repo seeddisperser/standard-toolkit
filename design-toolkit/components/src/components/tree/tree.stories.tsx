@@ -164,14 +164,21 @@ function Node({ node }: { node: TreeNode<ItemValues> }) {
   const { isReadOnly, values } = node;
 
   return (
-    <Tree.Item id={node.key} key={node.key} label={node.label}>
+    <Tree.Item
+      id={node.key}
+      key={node.key}
+      label={node.label}
+      isDisabled={isReadOnly}
+    >
       <Tree.Item.Content>
         {({ variant, isViewable, isVisible }) => {
           const size = variant === 'cozy' ? 'medium' : 'small';
           return (
             <>
               {values?.iconPrefix && (
-                <Tree.Item.Icon>{values?.iconPrefix}</Tree.Item.Icon>
+                <Tree.Item.PrefixIcon>
+                  {values?.iconPrefix}
+                </Tree.Item.PrefixIcon>
               )}
               <Tree.Item.Label>{node.label}</Tree.Item.Label>
               {values?.description && (

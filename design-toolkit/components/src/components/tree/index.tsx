@@ -294,6 +294,7 @@ export function ItemContent({ children }: ItemContentProps) {
                 slot='drag'
                 variant='icon'
                 size={size}
+                isDisabled={isDisabled}
                 className={drag({ isVisible, isViewable })}
               >
                 <Icon>
@@ -332,7 +333,7 @@ function ItemDescription({ children, className }: ItemTextProps) {
 }
 ItemDescription.displayName = 'Tree.Item.Description';
 
-function ItemIcon({ children }: ItemTextProps) {
+function ItemIcon({ children, className }: ItemTextProps) {
   const context = useContext(TreeContext);
 
   const variant =
@@ -340,12 +341,15 @@ function ItemIcon({ children }: ItemTextProps) {
     TreeStylesDefaults.variant;
 
   return (
-    <Icon size={variant === 'cozy' ? 'medium' : 'small'} className={icon()}>
+    <Icon
+      size={variant === 'cozy' ? 'medium' : 'small'}
+      className={icon({ className })}
+    >
       {children}
     </Icon>
   );
 }
-ItemIcon.displayName = 'Tree.Item.Icon';
+ItemIcon.displayName = 'Tree.Item.PrefixIcon';
 
 function ItemActions({
   children,
@@ -363,5 +367,5 @@ Tree.Item = TreeItem;
 TreeItem.Content = ItemContent;
 TreeItem.Label = ItemLabel;
 TreeItem.Description = ItemDescription;
-TreeItem.Icon = ItemIcon;
+TreeItem.PrefixIcon = ItemIcon;
 TreeItem.Actions = ItemActions;
