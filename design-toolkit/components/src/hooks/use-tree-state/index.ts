@@ -66,6 +66,10 @@ export function useTreeState<T extends object>(
   const handleVisibility = (keys: Set<Key>) =>
     setTree(actions.onVisibilityChange(keys));
 
+  const handleRevealAll = () => setTree(actions.revealAll());
+
+  const handleHideAll = () => setTree(actions.hideAll());
+
   const dragAndDropConfig: DragAndDropConfig = {
     getItems: (keys: Set<Key>): DragItem[] =>
       [...keys].map((key) => {
@@ -136,6 +140,8 @@ export function useTreeState<T extends object>(
       onExpandedChange: handleExpansion,
       onSelectionChange: handleSelection,
       onVisibilityChange: handleVisibility,
+      revealAll: handleRevealAll,
+      hideAll: handleHideAll,
     },
   };
 }

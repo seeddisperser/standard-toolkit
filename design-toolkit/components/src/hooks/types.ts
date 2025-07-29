@@ -42,6 +42,8 @@ export type UseTreeState<T extends object> = {
     expandAll: () => void;
     collapseAll: () => void;
     onVisibilityChange: (keys: Set<Key>) => void;
+    revealAll: () => void;
+    hideAll: () => void;
   };
 };
 
