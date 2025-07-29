@@ -148,7 +148,7 @@ export function DateField<T extends DateValue>({
       isInvalid={isInvalid}
       isReadOnly={isReadOnly}
       slot={slot}
-      className={'flex flex-col gap-xs'}
+      className='group/date-field flex flex-col gap-xs'
     >
       {!isSmall && (
         <Label
