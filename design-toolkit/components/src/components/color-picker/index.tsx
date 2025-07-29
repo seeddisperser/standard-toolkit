@@ -11,37 +11,31 @@
  */
 
 'use client';
-import { cn } from '@/lib/utils';
-import { useControlledState } from '@react-stately/utils';
 import 'client-only';
-import {
-  type ForwardedRef,
-  type ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-} from 'react';
+import { useControlledState } from '@react-stately/utils';
+import { createContext, useContext, useEffect, useMemo } from 'react';
 import {
   ColorSwatch as AriaColorSwatch,
   ColorSwatchContext as AriaColorSwatchContext,
-  type ColorSwatchPickerItemProps as AriaColorSwatchPickerItemProps,
   type ColorSwatchPickerProps as AriaColorSwatchPickerProps,
   ListBox as AriaListBox,
   ListBoxItem as AriaListBoxItem,
   type Color,
   ColorSwatchPickerContext,
+  composeRenderProps,
   parseColor,
   useContextProps,
   useLocale,
 } from 'react-aria-components';
+import { ColorPickerStyles } from './styles';
+import type {
+  ColorPickerProps,
+  ColorPickerState,
+  ColorSwatchPickerItemProps,
+  ColorSwatchPickerProps,
+} from './types';
 
-interface ColorPickerState {
-  /** The current color value of the color picker. */
-  color: Color | null;
-  /** Sets the current color value of the color picker. */
-  setColor(color: Color | null): void;
-}
+const { colorPicker, swatchItem, swatchPicker, swatch } = ColorPickerStyles();
 
 const parseColorFromProp = (value?: Color | string) => {
   if (typeof value === 'string') {
@@ -92,13 +86,12 @@ export function useColorPickerState(
  */
 function ColorSwatchPickerItem({
   ref = null,
-  color: colorFromProps,
+  children,
+  className,
+  // color: colorFromProps,
   ...props
-}: Omit<AriaColorSwatchPickerItemProps, 'style'> & {
-  children: ReactNode;
-  ref?: ForwardedRef<HTMLDivElement>;
-}) {
-  const propColor = colorFromProps || '#0000';
+}: ColorSwatchPickerItemProps) {
+  const propColor = props.color || '#0000';
   const color = useMemo(
     () => (typeof propColor === 'string' ? parseColor(propColor) : propColor),
     [propColor],
@@ -114,6 +107,7 @@ function ColorSwatchPickerItem({
   useEffect(() => {
     const key = color.toString('hexa');
     map?.set(key, color);
+
     return () => {
       map?.delete(key);
     };
@@ -125,25 +119,18 @@ function ColorSwatchPickerItem({
       ref={ref}
       id={color.toString('hexa')}
       textValue={color.getColorName(locale)}
-      className='w-fit outline-none outline outline-offset-1 hover:outline-interactive-hover hover:outline-solid focus:outline-interactive-hover focus:outline-solid data-selected:outline-highlight data-selected:outline-solid'
+      className={composeRenderProps(className, (className) =>
+        swatchItem({ className }),
+      )}
     >
       <AriaColorSwatchContext.Provider value={{ color }}>
-        {props.children}
+        {children}
       </AriaColorSwatchContext.Provider>
     </AriaListBoxItem>
   );
 }
 
 const ColorMapContext = createContext<Map<string, Color> | null>(null);
-
-export interface ColorPickerProps extends AriaColorSwatchPickerProps {
-  options: AriaColorSwatchPickerItemProps['color'][];
-  ref?: ForwardedRef<HTMLDivElement>;
-}
-
-interface ColorSwatchPickerProps extends Omit<ColorPickerProps, 'options'> {
-  children?: ReactNode;
-}
 
 function ColorSwatchPicker({
   ref = null,
@@ -154,11 +141,15 @@ function ColorSwatchPicker({
   [props, ref] = useContextProps(props, ref, ColorSwatchPickerContext);
   const state = useColorPickerState(props);
   const colorMap = useMemo(() => new Map(), []);
+  const { layout = 'grid', ...rest } = props;
+
   return (
     <AriaListBox
-      className={cn('flex flex-wrap gap-s', className)}
-      style={props.style}
-      layout={props.layout || 'grid'}
+      {...rest}
+      className={composeRenderProps(className, (className) =>
+        swatchPicker({ className }),
+      )}
+      layout={layout}
       selectionMode='single'
       selectedKeys={state.color ? [state.color.toString('hexa')] : undefined}
       onSelectionChange={(keys) => {
@@ -181,19 +172,73 @@ function ColorSwatchPicker({
   );
 }
 
+/**
+ * A color picker component that renders a grid of color swatches for selection.
+ *
+ * This component provides a simple interface for users to select from a predefined
+ * set of colors. It renders each color as an interactive swatch that can be clicked
+ * to select that color. The component supports keyboard navigation, accessibility
+ * features, and fine-grained styling control through the classNames prop.
+ *
+ * @param options - Array of color values to display as selectable swatches
+ * @param className - Additional CSS class name for the picker container
+ * @param classNames - Object containing CSS class names for fine-grained styling control
+ * @param classNames.picker - CSS class name for the main picker container
+ * @param classNames.item - CSS class name for individual swatch items
+ * @param classNames.swatch - CSS class name for the color swatch elements
+ * @param props - Additional props passed to the underlying ColorSwatchPicker
+ *
+ * @example
+ * ```tsx
+ * import { parseColor } from 'react-aria-components';
+ *
+ * const colors = [
+ *   parseColor('#ff0000'),
+ *   parseColor('#00ff00'),
+ *   parseColor('#0000ff'),
+ * ];
+ *
+ * <ColorPicker
+ *   options={colors}
+ *   value={parseColor('#ff0000')}
+ *   onChange={(color) => console.log('Selected:', color)}
+ *   classNames={{
+ *     picker: 'gap-4',
+ *     item: 'rounded-lg',
+ *     swatch: 'w-8 h-8'
+ *   }}
+ * />
+ * ```
+ *
+ * @remarks
+ * - Colors can be provided as Color objects or color strings
+ * - The component automatically handles color parsing and validation
+ * - Supports all accessibility features from react-aria-components
+ * - Uses a grid layout by default but can be customized via the layout prop
+ */
 export function ColorPicker({
   options,
-  className,
+  classNames,
   ...props
 }: ColorPickerProps) {
   return (
     <ColorSwatchPicker
-      className={cn('flex flex-wrap gap-s', className)}
+      className={composeRenderProps(classNames?.picker, (className) =>
+        colorPicker({ className }),
+      )}
       {...props}
     >
       {options.map((color) => (
-        <ColorSwatchPickerItem key={color.toString()} color={color}>
-          <AriaColorSwatch className='h-[16px] w-[16px]' />
+        <ColorSwatchPickerItem
+          className={classNames?.item}
+          color={color}
+          key={color.toString()}
+        >
+          <AriaColorSwatch
+            className={composeRenderProps(classNames?.swatch, (className) =>
+              swatch({ className }),
+            )}
+          />
         </ColorSwatchPickerItem>
       ))}
     </ColorSwatchPicker>

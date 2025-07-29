@@ -105,7 +105,13 @@ export type {
   ClassificationBannerStyleVariants,
 } from './components/classification-banner/types';
 export { ColorPicker, useColorPickerState } from './components/color-picker';
-export type { ColorPickerProps } from './components/color-picker';
+export { ColorPickerStyles } from './components/color-picker/styles';
+export type {
+  ColorPickerProps,
+  ColorPickerState,
+  ColorSwatchPickerItemProps,
+  ColorSwatchPickerProps,
+} from './components/color-picker/types';
 export { ComboBox } from './components/combobox';
 export type { ComboBoxProps } from './components/combobox';
 export { DateField } from './components/date-field';

@@ -10,31 +10,14 @@
  * governing permissions and limitations under the License.
  */
 
-import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
-import { ColorPicker } from './';
-import type { ColorPickerProps } from './types';
+import { tv } from '@/lib/utils';
 
-const options = [
-  '#ECECE6',
-  '#898989',
-  '#62a6ff',
-  '#30D27E',
-  '#FCA400',
-  '#D4231D',
-];
-
-function setup({ ...rest }: Partial<ColorPickerProps> = {}) {
-  render(<ColorPicker options={options} {...rest} />);
-  return {
-    ...rest,
-  };
-}
-
-describe('ColorPicker', () => {
-  it('should render', () => {
-    setup();
-
-    expect(screen.getByRole('listbox')).toBeInTheDocument();
-  });
+export const ColorPickerStyles = tv({
+  slots: {
+    colorPicker: 'flex flex-wrap gap-s',
+    swatchItem:
+      'w-fit outline-none outline selected:outline-highlight selected:outline-solid hover:outline-interactive-hover hover:outline-solid focus:outline-interactive-hover focus:outline-solid',
+    swatchPicker: 'flex flex-wrap gap-s',
+    swatch: 'h-[16px] w-[16px]',
+  },
 });
