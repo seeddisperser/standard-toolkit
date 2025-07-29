@@ -23,6 +23,7 @@ export interface DateInputProps
   extends VariantProps<typeof DateFieldStyles>,
     Omit<AriaDateInputProps, 'size'> {
   ref?: ForwardedRef<HTMLDivElement>;
+  size?: 'small' | 'medium';
 }
 
 export interface DateFieldProps<T extends DateValue>
@@ -30,7 +31,7 @@ export interface DateFieldProps<T extends DateValue>
       VariantProps<typeof DateFieldStyles>,
       'isDisabled' | 'isInvalid' | 'isReadOnly'
     >,
-    Omit<AriaDateFieldProps<T>, 'className' | 'style'>, // Exclude className to avoid conflict with cva
+    Omit<AriaDateFieldProps<T>, 'className' | 'style'>,
     Omit<AriaDateInputProps, 'className' | 'children' | 'style'> {
   isDisabled?: boolean;
   isInvalid?: boolean;

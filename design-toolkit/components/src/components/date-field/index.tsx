@@ -30,6 +30,8 @@ import { Label } from '../label';
 import { DateFieldStyles } from './styles';
 import type { DateFieldProps, DateInputProps } from './types';
 
+const { base, icon } = DateFieldStyles();
+
 const months = [
   'JAN',
   'FEB',
@@ -106,20 +108,16 @@ const DateInput = ({
   return (
     <div className='relative flex'>
       {size === 'medium' ? (
-        <Icon
-          className={`-translate-y-1/2 absolute top-1/2 left-s text-default-light disabled:text-disabled `}
-        >
+        <Icon className={icon({ size })}>
           <Calendar />
         </Icon>
       ) : null}
       <AriaDateInput
         {...props}
         className={composeRenderProps(className, (className) =>
-          DateFieldStyles({
-            size,
-            className,
-          }),
+          base({ size, className }),
         )}
+        data-size={size}
       />
     </div>
   );

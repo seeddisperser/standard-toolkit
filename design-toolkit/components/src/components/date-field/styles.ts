@@ -13,17 +13,19 @@
 import { tv } from 'tailwind-variants';
 
 export const DateFieldStyles = tv({
-  base: [
-    'flex w-full gap-xs rounded-medium px-s py-xs font-display outline outline-interactive',
-    'disabled:text-disabled disabled:outline-interactive-disabled disabled:placeholder:text-disabled',
-    'text-default-light placeholder:text-default-dark focus-within:outline-highlight hover:outline-interactive-hover',
-    'invalid:outline-serious',
-  ],
-  variants: {
-    size: {
-      medium: ['text-body-s', 'pl-[32px]'],
-      small: 'text-body-xs',
-    },
+  slots: {
+    base: [
+      'flex w-full gap-xs rounded-medium px-s py-xs font-display outline outline-interactive',
+      'disabled:text-disabled disabled:outline-interactive-disabled disabled:placeholder:text-disabled',
+      'text-default-light placeholder:text-default-dark focus-within:outline-highlight hover:outline-interactive-hover',
+      'invalid:outline-serious',
+      'size-medium:text-body-s size-medium:pl-[32px]',
+      'size-small:text-body-xs',
+    ],
+    icon: [
+      '-translate-y-1/2 absolute top-1/2 left-s text-default-light',
+      'disabled:text-disabled',
+    ],
   },
   compoundVariants: [
     {
