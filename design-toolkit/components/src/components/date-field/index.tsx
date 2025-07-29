@@ -31,7 +31,6 @@ import { DateFieldStyles } from './styles';
 import type { DateFieldProps, DateInputProps } from './types';
 
 const { field, icon, descriptionText, error, dateSegment } = DateFieldStyles();
-
 const months = [
   'JAN',
   'FEB',
@@ -98,20 +97,23 @@ const FormattedDateSegment = ({
 const DateInput = ({
   className,
   ref = null,
-  size = 'medium',
+  size,
   ...props
 }: DateInputProps) => {
   return (
     <div className='relative flex'>
       {size === 'medium' ? (
-        <Icon className={icon({ size })}>
+        <Icon className={icon({})}>
           <Calendar />
         </Icon>
       ) : null}
       <AriaDateInput
         {...props}
         className={composeRenderProps(className, (className) =>
-          field({ size, className }),
+          field({
+            size,
+            className,
+          }),
         )}
         data-size={size}
       />
