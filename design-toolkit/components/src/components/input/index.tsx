@@ -39,8 +39,16 @@ export const InputContext =
   createContext<ContextValue<InputProps, HTMLInputElement>>(null);
 
 export function Input({ ref, ...props }: InputProps) {
+  /**
+   * It is necessary to pull in the AriaInputContext to capture defaultValue,
+   * value & onChange props that may be supplied by a Field component
+   *
+   * These are necessary due to the implementation of useControlledState for
+   * the purposes of supporting the clear button and to capture the length
+   * of the current value for the autoSize feature
+   */
   [props, ref] = useContextProps(props, ref ?? null, AriaInputContext);
-  [props, ref] = useContextProps(props, ref ?? null, InputContext);
+  [props, ref] = useContextProps({ ...props }, ref ?? null, InputContext);
 
   const {
     classNames,
@@ -60,11 +68,7 @@ export function Input({ ref, ...props }: InputProps) {
     ...rest
   } = props;
 
-  const [value, setValue] = useControlledState(
-    valueProp,
-    defaultValue,
-    onChange,
-  );
+  const [value, setValue] = useControlledState(valueProp, defaultValue);
   const length = (`${value ?? ''}`.length || placeholder?.length) ?? 0;
   const isEmpty = value == null || value === '';
 
