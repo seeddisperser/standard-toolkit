@@ -30,7 +30,7 @@ import { Label } from '../label';
 import { DateFieldStyles } from './styles';
 import type { DateFieldProps, DateInputProps } from './types';
 
-const { field, icon, descriptionText, error } = DateFieldStyles();
+const { field, icon, descriptionText, error, dateSegment } = DateFieldStyles();
 
 const months = [
   'JAN',
@@ -85,11 +85,7 @@ const FormattedDateSegment = ({
   }
 
   return (
-    <DateSegment
-      segment={segment}
-      className='focus:bg-highlight focus:text-inverse-light focus:outline-none' // Ensure caret color is visible, RAC sets the style prop and it is not overridable. Thanks for that.
-      {...props}
-    >
+    <DateSegment segment={segment} className={dateSegment({})} {...props}>
       {segment.type === 'month'
         ? (renderProps) => (
             <MonthDateSegment {...renderProps} shortMonth={shortMonth} />

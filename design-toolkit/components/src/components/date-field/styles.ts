@@ -31,6 +31,8 @@ export const DateFieldStyles = tv({
       'group-disabled/date-field:fg-disabled',
     ],
     error: 'fg-serious text-body-xs empty:hidden',
+    dateSegment:
+      'focus:bg-highlight focus:text-inverse-light focus:outline-none',
   },
   compoundVariants: [
     {
