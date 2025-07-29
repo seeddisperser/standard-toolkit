@@ -12,6 +12,10 @@
 
 import { tv } from 'tailwind-variants';
 
+export const DateFieldStylesDefault = {
+  size: 'medium',
+} as const;
+
 export const DateFieldStyles = tv({
   slots: {
     field: [
@@ -45,7 +49,5 @@ export const DateFieldStyles = tv({
       size: 'medium',
     },
   ],
-  defaultVariants: {
-    size: 'medium',
-  },
+  defaultVariants: DateFieldStylesDefault,
 });
