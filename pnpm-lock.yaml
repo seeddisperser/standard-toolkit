@@ -389,11 +389,8 @@ importers:
         specifier: 10.4.20
         version: 10.4.20(postcss@8.4.47)
       esbuild-fix-imports-plugin:
-        specifier: 1.0.19
-        version: 1.0.19
-      esbuild-plugin-file-path-extensions:
-        specifier: 2.1.3
-        version: 2.1.3
+        specifier: 1.0.21
+        version: 1.0.21
       jsdom:
         specifier: 25.0.1
         version: 25.0.1
@@ -446,9 +443,9 @@ importers:
       '@types/react-dom':
         specifier: 19.1.2
         version: 19.1.2(@types/react@19.1.2)
-      esbuild-plugin-file-path-extensions:
-        specifier: 2.1.3
-        version: 2.1.3
+      esbuild-fix-imports-plugin:
+        specifier: 1.0.21
+        version: 1.0.21
       tsup:
         specifier: 8.3.0
         version: 8.3.0(@swc/core@1.12.6(@swc/helpers@0.5.17))(jiti@2.4.2)(postcss@8.5.6)(tsx@4.20.3)(typescript@5.7.3)(yaml@2.8.0)
@@ -6473,8 +6470,8 @@ packages:
   esast-util-from-js@2.0.1:
     resolution: {integrity: sha512-8Ja+rNJ0Lt56Pcf3TAmpBZjmx8ZcK5Ts4cAzIOjsjevg9oSXJnl6SUQ2EevU8tv3h6ZLWmoKL5H4fgWvdvfETw==}
 
-  esbuild-fix-imports-plugin@1.0.19:
-    resolution: {integrity: sha512-VsI6ozJaEOiRYRr/hWHbP8S+Pm7HNjHPbEctWVAUZ5NRUpES1PBLMSkMvB4WXKGniTKw0zupd01BlHog2bqsSg==}
+  esbuild-fix-imports-plugin@1.0.21:
+    resolution: {integrity: sha512-Ee4W4fU5nPL2klGqtPciRm8Ke553EIa6By1jsw/aG7lvHtlrtuqxBEFD7BttsCVb0eUWW5bag3KA2BVwxMAZxQ==}
 
   esbuild-plugin-file-path-extensions@2.1.3:
     resolution: {integrity: sha512-yLriKqLz32F0zGDqrfuTx8aENTVnf0l0HZ6qAgPhQpxFIcrZRNc4DfXjZs8pq0VPeBazzpb3WJ05B0S6s3ucSQ==}
@@ -17941,7 +17938,7 @@ snapshots:
       esast-util-from-estree: 2.0.0
       vfile-message: 4.0.2
 
-  esbuild-fix-imports-plugin@1.0.19: {}
+  esbuild-fix-imports-plugin@1.0.21: {}
 
   esbuild-plugin-file-path-extensions@2.1.3: {}
 
