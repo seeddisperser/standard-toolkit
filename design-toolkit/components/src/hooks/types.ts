@@ -18,12 +18,6 @@ export type UseTreeStateOptions<T> = {
   /** Initial root items in the tree. If omitted, will return an empty tree. */
   items: TreeNode<T>[];
 
-  /** An accessor function that returns a unique key for an item object. */
-  getKey?: (item: T) => Key;
-
-  /** An accessor function that returns the children for an item object. */
-  getChildren?: (item: T) => T[];
-
   /** Keys for the initially selected items. */
   initialSelectedKeys?: Key[];
 
