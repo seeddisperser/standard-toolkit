@@ -83,6 +83,7 @@ export type TreeProps<T> = AriaTreeProps<TreeNode<T>> &
     onVisibilityChange?: (keys: Set<Key>) => void;
     dragAndDropConfig?: DragAndDropConfig;
     showRuleLines?: boolean;
+    showVisibility?: boolean;
   };
 
 export type ItemTextProps = AriaTextProps & PropsWithChildren;

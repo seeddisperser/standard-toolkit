@@ -119,6 +119,7 @@ export function Tree<T extends object>(props: TreeProps<T>) {
     visibleKeys,
     onVisibilityChange,
     showRuleLines = true,
+    showVisibility = true,
     dragAndDropConfig,
     items,
     ...rest
@@ -152,6 +153,7 @@ export function Tree<T extends object>(props: TreeProps<T>) {
     <TreeContext.Provider
       value={{
         showRuleLines,
+        showVisibility,
         visibleKeys,
         viewableKeys,
         onVisibilityChange,
@@ -199,6 +201,9 @@ export function ItemContent({ children }: ItemContentProps) {
     (isSlottedContextValue(context) ? undefined : context?.variant) ??
     TreeStylesDefaults.variant;
 
+  const showVisibility = isSlottedContextValue(context)
+    ? true
+    : context?.showVisibility;
   const isStatic = isSlottedContextValue(context) ? false : context?.isStatic;
 
   const visibleKeys = isSlottedContextValue(context)
@@ -247,14 +252,16 @@ export function ItemContent({ children }: ItemContentProps) {
             data-variant={variant}
             data-last-of-set={isLastOfSet}
           >
-            <VisibilityToggle
-              id={id}
-              isVisible={isVisible}
-              isViewable={isViewable}
-              isDisabled={isDisabled}
-              size={size}
-              onChange={onVisibilityChange}
-            />
+            {showVisibility && (
+              <VisibilityToggle
+                id={id}
+                isVisible={isVisible}
+                isViewable={isViewable}
+                isDisabled={isDisabled}
+                size={size}
+                onChange={onVisibilityChange}
+              />
+            )}
             {isNotRoot && <TreeLines level={level} isLastOfSet={isLastOfSet} />}
             <ExpandToggle
               hasChildItems={hasChildItems}

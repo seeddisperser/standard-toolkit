@@ -35,6 +35,7 @@ const meta: Meta<typeof Tree> = {
     variant: 'cozy',
     showRuleLines: true,
     selectionMode: 'multiple',
+    showVisibility: true,
   },
   argTypes: {
     variant: {
@@ -48,7 +49,7 @@ const meta: Meta<typeof Tree> = {
   },
   parameters: {
     controls: {
-      include: ['showRuleLines', 'variant', 'selectionMode'],
+      include: ['showRuleLines', 'showVisibility', 'variant', 'selectionMode'],
     },
     docs: {
       subtitle:
