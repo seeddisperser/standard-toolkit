@@ -196,6 +196,7 @@ export function treeCache() {
 
   function insert<T>(parentKey: Key | null, node: TreeNode<T>, idx: number) {
     const { children, ...rest } = node;
+
     const newNode = {
       parentKey,
       isVisible: node.isVisible ?? false,
@@ -203,10 +204,13 @@ export function treeCache() {
       isSelected: node.isSelected ?? false,
       isExpanded: node.isExpanded ?? false,
       isReadOnly: node.isReadOnly ?? false,
+      children: children?.map((child) => child.key),
       ...rest,
     };
 
     _setNode<T>(node.key, newNode);
+
+    node.children?.map((child, i) => insert(node.key, child, i));
 
     parentKey === null
       ? _addToRoot(node.key, idx)
