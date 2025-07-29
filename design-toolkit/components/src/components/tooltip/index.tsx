@@ -10,24 +10,20 @@
  * governing permissions and limitations under the License.
  */
 'use client';
-import { containsExactChildren } from '@/lib/react';
-import { cn } from '@/lib/utils';
 import 'client-only';
-import { type VariantProps, cva } from 'cva';
-import type React from 'react';
+import { containsExactChildren } from '@/lib/react';
 import {
   Focusable,
   Tooltip as RACTooltip,
-  type TooltipProps as RACTooltipProps,
   TooltipTrigger as RACTooltipTrigger,
-  type TooltipTriggerComponentProps,
+  composeRenderProps,
 } from 'react-aria-components';
-
-const tooltipStyles = cva(
-  'fg-default-light flex max-w-[160px] items-center justify-center break-words rounded-small bg-surface-overlay px-s py-xs text-center text-body-xs shadow-elevation-overlay',
-);
-
-export interface TooltipProps extends TooltipTriggerComponentProps {}
+import { TooltipStyles } from './styles';
+import type {
+  TooltipBodyProps,
+  TooltipProps,
+  TooltipTriggerProps,
+} from './types';
 
 export function Tooltip({
   children,
@@ -51,40 +47,32 @@ export function Tooltip({
   );
 }
 Tooltip.displayName = 'Tooltip';
-Tooltip.as = (
-  props: VariantProps<typeof tooltipStyles>,
-  className?: string | string[],
-) => cn(tooltipStyles({ ...props, className }));
+Tooltip.Trigger = TooltipTrigger;
+Tooltip.Body = TooltipBody;
 
-export interface TooltipTriggerProps
-  extends React.ComponentProps<typeof Focusable> {}
-
-export const TooltipTrigger = ({ children, ...props }: TooltipTriggerProps) => {
+function TooltipTrigger({ children, ...props }: TooltipTriggerProps) {
   return <Focusable {...props}>{children}</Focusable>;
-};
+}
 TooltipTrigger.displayName = 'Tooltip.Trigger';
 
-export interface TooltipBodyProps extends RACTooltipProps {}
-
-export const TooltipBody = ({
+function TooltipBody({
   children,
   className,
   offset = 5,
   placement = 'bottom',
   ...props
-}: TooltipBodyProps) => {
+}: TooltipBodyProps) {
   return (
     <RACTooltip
       {...props}
-      className={cn(tooltipStyles({ className }))}
+      className={composeRenderProps(className, (className) =>
+        TooltipStyles({ className }),
+      )}
       offset={offset}
       placement={placement}
     >
       {children}
     </RACTooltip>
   );
-};
+}
 TooltipBody.displayName = 'Tooltip.Body';
-
-Tooltip.Trigger = TooltipTrigger;
-Tooltip.Body = TooltipBody;

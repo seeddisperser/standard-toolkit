@@ -204,12 +204,13 @@ export type { TextAreaFieldProps } from './components/text-area-field/types';
 export { TextField, TextFieldContext } from './components/text-field';
 export { TextFieldStyles } from './components/text-field/styles';
 export type { TextFieldProps } from './components/text-field/types';
-export { Tooltip, TooltipBody, TooltipTrigger } from './components/tooltip';
+export { Tooltip } from './components/tooltip';
+export { TooltipStyles } from './components/tooltip/styles';
 export type {
   TooltipBodyProps,
   TooltipProps,
   TooltipTriggerProps,
-} from './components/tooltip';
+} from './components/tooltip/types';
 export { containsExactChildren, expectsIconWrapper } from './lib/react';
 export type {
   ChildrenRenderProps,
