@@ -23,7 +23,7 @@ export const DateFieldStyles = tv({
       'disabled:text-disabled disabled:outline-interactive-disabled disabled:placeholder:text-disabled',
       'text-default-light placeholder:text-default-dark focus-within:outline-highlight hover:outline-interactive-hover',
       'invalid:outline-serious',
-      'size-medium:text-body-s size-medium:pl-[32px]',
+      'size-medium:pl-[32px]·size-medium:text-body-s',
       'size-small:text-body-xs',
     ],
     icon: [
