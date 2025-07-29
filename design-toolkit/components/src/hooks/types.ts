@@ -61,7 +61,6 @@ export type Position = 'before' | 'after' | 'under';
  * TreeNode properties describe the metadata - state and position of the node.
  * The item property represents the action tree item data.
  */
-
 export type TreeNodeBase<T> = {
   /** A unique key for the tree node. */
   key: Key;
@@ -89,49 +88,125 @@ export type UseTreeActionsOptions<T> = {
 /**
  * Set of actions returned from useTreeActions
  * that are a stateless collection of transform functions
- *
- * You pass in your data from the database ish (see data format)
- * and it returns to you tree nodes that you can update your
- * database with and also pipe into the tree view?
- *
  */
 export type TreeActions<T> = {
+  /**
+   * Initializes the tree cache and returns the current tree structure,
+   * with complete properties and defaults for TreeNode<T>.
+   * Use this to ensure nodes are complete.
+   */
   initialize: () => TreeData<T>;
+
+  /**
+   * Retrieves a specific tree node by key
+   * If not found, throws error
+   */
   getTreeNode: (key: Key) => TreeNode<T> | undefined;
-  // inserting
+
+  /**
+   * Inserts nodes as children of the target node
+   */
   insertInto: (target: Key | null, nodes: TreeNode<T>[]) => TreeData<T>;
+
+  /**
+   * Inserts nodes before the target node
+   */
   insertBefore: (target: Key | null, nodes: TreeNode<T>[]) => TreeData<T>;
+
+  /**
+   * Inserts nodes after the target node
+   */
   insertAfter: (target: Key | null, nodes: TreeNode<T>[]) => TreeData<T>;
 
-  // removing
+  /**
+   * Removes one or more nodes from the tree by their keys.
+   * Does nothing if the key is not found.
+   */
   remove: (...keys: Key[]) => TreeData<T>;
 
-  // update
+  /**
+   * Updates a specific node using a callback function
+   */
   updateNode: (
     key: Key,
     callback: (node: TreeNode<T>) => TreeNode<T>,
   ) => TreeData<T>;
 
-  // moving
-  moveAfter: (target: Key | null, nodes: Set<Key>) => TreeData<T>;
-  moveBefore: (target: Key | null, nodes: Set<Key>) => TreeData<T>;
+  /**
+   * Moves nodes as children of the target node
+   */
   moveInto: (target: Key | null, nodes: Set<Key>) => TreeData<T>;
 
-  // expansion
+  /**
+   * Moves nodes before the target node
+   */
+  moveBefore: (target: Key | null, nodes: Set<Key>) => TreeData<T>;
+
+  /**
+   * Moves nodes after the target node
+   */
+  moveAfter: (target: Key | null, nodes: Set<Key>) => TreeData<T>;
+
+  /**
+   * Gets all currently expanded node keys
+   */
   getExpandedKeys: () => Set<Key>;
+
+  /**
+   * Updates the expansion state of nodes. If a key is not
+   * in the set, it is collapsed.
+   */
   onExpandedChange: (keys: Set<Key>) => TreeData<T>;
+
+  /**
+   * Expands all nodes in the tree
+   */
   expandAll: () => TreeData<T>;
+
+  /**
+   * Collapses all nodes in the tree
+   */
   collapseAll: () => TreeData<T>;
 
-  // selection
+  /**
+   * Gets all currently selected node keys
+   */
   getSelectedKeys: () => Set<Key>;
+
+  /**
+   * Updates the selection state of nodes. If a key is
+   * not in the Set, it is unselected.
+   */
   onSelectionChange: (keys: Set<Key>) => TreeData<T>;
+
+  /**
+   * Selects all nodes in the tree
+   */
   selectAll: () => TreeData<T>;
+
+  /**
+   * Unselects all nodes in the tree
+   */
   unselectAll: () => TreeData<T>;
 
-  // visibility
+  /**
+   * Gets all currently visible node keys
+   */
   getVisibleKeys: () => Set<Key>;
+
+  /**
+   * Changes visibility of nodes. Updates both isVisible and isViewable properties.
+   * If a key is not in the Set, it will be hidden.
+   */
   onVisibilityChange: (keys: Set<Key>) => TreeData<T>;
+
+  /**
+   * Makes all nodes visible in the tree
+   */
   revealAll: () => TreeData<T>;
+
+  /**
+   * Hides all nodes in the tree
+   */
   hideAll: () => TreeData<T>;
 };
