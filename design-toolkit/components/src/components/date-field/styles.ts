@@ -14,8 +14,8 @@ import { tv } from 'tailwind-variants';
 
 export const DateFieldStyles = tv({
   slots: {
-    base: [
-      'flex w-full gap-xs rounded-medium px-s py-xs font-display outline outline-interactive',
+    field: [
+      'group/date-field flex w-full gap-xs rounded-medium px-s py-xs font-display outline outline-interactive',
       'disabled:text-disabled disabled:outline-interactive-disabled disabled:placeholder:text-disabled',
       'text-default-light placeholder:text-default-dark focus-within:outline-highlight hover:outline-interactive-hover',
       'invalid:outline-serious',
@@ -24,8 +24,13 @@ export const DateFieldStyles = tv({
     ],
     icon: [
       '-translate-y-1/2 absolute top-1/2 left-s text-default-light',
-      'disabled:text-disabled',
+      'group-disabled/date-field:text-disabled',
     ],
+    descriptionText: [
+      'fg-default-dark text-body-xs empty:hidden',
+      'group-disabled/date-field:fg-disabled',
+    ],
+    error: 'fg-serious text-body-xs empty:hidden',
   },
   compoundVariants: [
     {

@@ -30,7 +30,7 @@ import { Label } from '../label';
 import { DateFieldStyles } from './styles';
 import type { DateFieldProps, DateInputProps } from './types';
 
-const { base, icon } = DateFieldStyles();
+const { field, icon, descriptionText, error } = DateFieldStyles();
 
 const months = [
   'JAN',
@@ -115,7 +115,7 @@ const DateInput = ({
       <AriaDateInput
         {...props}
         className={composeRenderProps(className, (className) =>
-          base({ size, className }),
+          field({ size, className }),
         )}
         data-size={size}
       />
@@ -168,17 +168,12 @@ export function DateField<T extends DateValue>({
         )}
       </DateInput>
       {shouldShowDescription && (
-        <AriaText
-          className={`fg-default-dark text-body-xs empty:hidden ${isDisabled && 'fg-disabled'}`}
-          slot='description'
-        >
+        <AriaText className={descriptionText({})} slot='description'>
           {description}
         </AriaText>
       )}
       {shouldShowError && (
-        <FieldError className='fg-serious text-body-xs empty:hidden'>
-          {errorMessage}
-        </FieldError>
+        <FieldError className={error({})}>{errorMessage}</FieldError>
       )}
     </AriaDateField>
   );
