@@ -27,15 +27,9 @@ export interface DateInputProps
 }
 
 export interface DateFieldProps<T extends DateValue>
-  extends Omit<
-      VariantProps<typeof DateFieldStyles>,
-      'isDisabled' | 'isInvalid' | 'isReadOnly'
-    >,
-    Omit<AriaDateFieldProps<T>, 'className' | 'style'>,
-    Omit<AriaDateInputProps, 'className' | 'children' | 'style'> {
-  isDisabled?: boolean;
-  isInvalid?: boolean;
-  isReadOnly?: boolean;
+  extends VariantProps<typeof DateFieldStyles>,
+    Omit<AriaDateFieldProps<T>, 'style'>,
+    Omit<AriaDateInputProps, 'children' | 'style'> {
   size?: 'small' | 'medium';
   className?: string;
   description?: string;
