@@ -10,13 +10,16 @@
  * governing permissions and limitations under the License.
  */
 'use client';
+import { createContext } from 'react';
 import 'client-only';
 import { containsExactChildren } from '@/lib/react';
 import {
+  Tooltip as AriaTooltip,
+  TooltipTrigger as AriaTooltipTrigger,
+  type ContextValue,
   Focusable,
-  Tooltip as RACTooltip,
-  TooltipTrigger as RACTooltipTrigger,
   composeRenderProps,
+  useContextProps,
 } from 'react-aria-components';
 import { TooltipStyles } from './styles';
 import type {
@@ -25,12 +28,14 @@ import type {
   TooltipTriggerProps,
 } from './types';
 
-export function Tooltip({
-  children,
-  closeDelay = 0,
-  delay = 400,
-  ...props
-}: TooltipProps) {
+export const TooltipContext =
+  createContext<ContextValue<TooltipProps, HTMLDivElement>>(null);
+
+export function Tooltip({ ref, ...props }: TooltipProps) {
+  [props, ref] = useContextProps(props, ref ?? null, TooltipContext);
+
+  const { children, ...rest } = props;
+
   containsExactChildren({
     children,
     componentName: Tooltip.displayName,
@@ -40,15 +45,9 @@ export function Tooltip({
     ],
   });
 
-  return (
-    <RACTooltipTrigger closeDelay={closeDelay} delay={delay} {...props}>
-      {children}
-    </RACTooltipTrigger>
-  );
+  return <AriaTooltipTrigger {...rest}>{children}</AriaTooltipTrigger>;
 }
 Tooltip.displayName = 'Tooltip';
-Tooltip.Trigger = TooltipTrigger;
-Tooltip.Body = TooltipBody;
 
 function TooltipTrigger({ children, ...props }: TooltipTriggerProps) {
   return <Focusable {...props}>{children}</Focusable>;
@@ -63,7 +62,7 @@ function TooltipBody({
   ...props
 }: TooltipBodyProps) {
   return (
-    <RACTooltip
+    <AriaTooltip
       {...props}
       className={composeRenderProps(className, (className) =>
         TooltipStyles({ className }),
@@ -72,7 +71,10 @@ function TooltipBody({
       placement={placement}
     >
       {children}
-    </RACTooltip>
+    </AriaTooltip>
   );
 }
 TooltipBody.displayName = 'Tooltip.Body';
+
+Tooltip.Trigger = TooltipTrigger;
+Tooltip.Body = TooltipBody;
