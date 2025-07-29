@@ -38,16 +38,5 @@ export const DateFieldStyles = tv({
     dateSegment:
       'focus:bg-highlight focus:text-inverse-light focus:outline-none',
   },
-  compoundVariants: [
-    {
-      isDisabled: true,
-      isInvalid: true,
-      className: 'outline-interactive-disabled',
-    },
-    {
-      isDisabled: false,
-      size: 'medium',
-    },
-  ],
   defaultVariants: DateFieldStylesDefault,
 });
