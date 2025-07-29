@@ -242,11 +242,6 @@ export type {
 } from './hooks/types';
 export { useTreeActions } from './hooks/use-tree-actions';
 export { useTreeState } from './hooks/use-tree-state';
-export {
-  getDroppedItemPayload,
-  processDroppedItem,
-  processDroppedItems,
-} from './hooks/use-tree-state/utils';
 export { containsExactChildren, expectsIconWrapper } from './lib/react';
 export type {
   ChildrenRenderProps,
