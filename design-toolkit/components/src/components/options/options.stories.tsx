@@ -136,7 +136,12 @@ export const Default: StoryObj<typeof Options> = {
   render: ({ children, ...args }) => (
     <Options {...args} items={items}>
       {(item) => (
-        <Options.Item key={item.id} id={item.id} isDisabled={item.isDisabled}>
+        <Options.Item
+          key={item.id}
+          id={item.id}
+          textValue={item.name}
+          isDisabled={item.isDisabled}
+        >
           {item.prefixIcon && <Icon>{item.prefixIcon}</Icon>}
           <Options.Item.Content>
             <Options.Item.Label>{item.name}</Options.Item.Label>
@@ -159,7 +164,7 @@ export const WithDynamicSections: StoryObj<typeof Options> = {
       {(section) => (
         <Options.Section header={section.name} items={section.children}>
           {({ children, ...item }) => (
-            <Options.Item key={item.id} id={item.id}>
+            <Options.Item key={item.id} id={item.id} textValue={item.name}>
               {item.prefixIcon && <Icon>{item.prefixIcon}</Icon>}
               <Options.Item.Content>
                 <Options.Item.Label>{item.name}</Options.Item.Label>
@@ -185,39 +190,39 @@ export const WithStaticSections: StoryObj<typeof Options> = {
         header='North American Birds'
         classNames={{ section: 'w-[200px]' }}
       >
-        <Options.Item>
+        <Options.Item textValue='Blue Jay'>
           <Icon>
             <Placeholder />
           </Icon>
           <Options.Item.Label>Blue Jay</Options.Item.Label>
         </Options.Item>
-        <Options.Item>
+        <Options.Item textValue='Gray catbird'>
           <Icon>
             <Placeholder />
           </Icon>
           <Options.Item.Label>Gray catbird</Options.Item.Label>
         </Options.Item>
-        <Options.Item color='serious'>
+        <Options.Item textValue='Black-capped chickadee'>
           <Icon>
             <Placeholder />
           </Icon>
           <Options.Item.Label>Black-capped chickadee</Options.Item.Label>
         </Options.Item>
-        <Options.Item>
+        <Options.Item textValue='Song Sparrow'>
           <Icon>
             <Placeholder />
           </Icon>
-          <Options.Item.Label>Song sparrow</Options.Item.Label>
+          <Options.Item.Label>Song Sparrow</Options.Item.Label>
         </Options.Item>
       </Options.Section>
       <Options.Section header='African Birds'>
-        <Options.Item>
+        <Options.Item textValue='Lilac-breasted roller'>
           <Icon>
             <Placeholder />
           </Icon>
           <Options.Item.Label>Lilac-breasted roller</Options.Item.Label>
         </Options.Item>
-        <Options.Item>
+        <Options.Item textValue='Hornbill'>
           <Icon>
             <Placeholder />
           </Icon>
@@ -243,7 +248,7 @@ export const Virtualized: StoryObj<typeof Options> = {
       >
         <Options {...args}>
           {manyItems.map((item) => (
-            <Options.Item key={item.id} id={item.id}>
+            <Options.Item key={item.id} id={item.id} textValue={item.name}>
               {item.icon && <Icon>{item.icon}</Icon>}
               <Options.Item.Label>{item.name}</Options.Item.Label>
             </Options.Item>

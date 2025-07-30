@@ -15,12 +15,15 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { Icon } from '../icon';
 import { Options } from './index';
-import type { IOptionsItem, OptionsProps } from './types';
+import type { OptionsDataItem, OptionsProps } from './types';
 
 function setup({
   children = (
     <>
-      <Options.Section header='North American Birds' className='w-[200px]'>
+      <Options.Section
+        header='North American Birds'
+        classNames={{ section: 'w-[200px]' }}
+      >
         <Options.Item>
           <Icon>
             <Placeholder />
@@ -63,7 +66,7 @@ function setup({
     </>
   ),
   ...rest
-}: Partial<OptionsProps<IOptionsItem>> = {}) {
+}: Partial<OptionsProps<OptionsDataItem>> = {}) {
   render(<Options {...rest}>{children}</Options>);
 
   return {

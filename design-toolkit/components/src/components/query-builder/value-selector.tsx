@@ -13,7 +13,6 @@
 
 import type { Key } from '@react-types/shared';
 import { useCallback, useMemo } from 'react';
-import {} from 'react-aria-components';
 import {
   type ValueSelectorProps,
   isOptionGroupArray,

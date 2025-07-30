@@ -91,6 +91,7 @@ function OptionsItem<T extends OptionsDataItem>({
   children,
   classNames,
   color = 'info',
+  textValue = typeof children === 'string' ? children : '',
   ...rest
 }: OptionsItemProps<T>) {
   return (
@@ -99,6 +100,7 @@ function OptionsItem<T extends OptionsDataItem>({
       className={composeRenderProps(classNames?.item, (className) =>
         item({ className }),
       )}
+      textValue={textValue}
       data-color={color}
     >
       {composeRenderProps(children, (children) => (

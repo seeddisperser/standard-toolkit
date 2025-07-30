@@ -147,7 +147,11 @@ export const Default: Story = {
   render: ({ children, ...args }) => (
     <ComboBox<CustomOptionsItem> {...args} defaultItems={items}>
       {(item) => (
-        <Options.Item key={item.id} isDisabled={item.isDisabled}>
+        <Options.Item
+          key={item.id}
+          textValue={item.name}
+          isDisabled={item.isDisabled}
+        >
           {item.prefixIcon && <Icon>{item.prefixIcon}</Icon>}
           <Options.Item.Content>
             <Options.Item.Label>{item.name}</Options.Item.Label>
@@ -175,7 +179,7 @@ export const WithDynamicSections: Story = {
       {(section) => (
         <Options.Section header={section.name} items={section.children}>
           {(item) => (
-            <Options.Item key={item.id}>
+            <Options.Item key={item.id} textValue={item.name}>
               {item.prefixIcon && <Icon>{item.prefixIcon}</Icon>}
               <Options.Item.Content>
                 <Options.Item.Label>{item.name}</Options.Item.Label>
@@ -203,25 +207,25 @@ export const WithStaticSections: Story = {
   render: ({ children, ...args }) => (
     <ComboBox {...args}>
       <Options.Section header='North American Birds'>
-        <Options.Item>
+        <Options.Item textValue='Blue Jay'>
           <Icon>
             <Placeholder />
           </Icon>
           <Options.Item.Label>Blue Jay</Options.Item.Label>
         </Options.Item>
-        <Options.Item>
+        <Options.Item textValue='Gray catbird'>
           <Icon>
             <Placeholder />
           </Icon>
           <Options.Item.Label>Gray catbird</Options.Item.Label>
         </Options.Item>
-        <Options.Item>
+        <Options.Item textValue='Black-capped chickadee'>
           <Icon>
             <Placeholder />
           </Icon>
           <Options.Item.Label>Black-capped chickadee</Options.Item.Label>
         </Options.Item>
-        <Options.Item>
+        <Options.Item textValue='Song Sparrow'>
           <Icon>
             <Placeholder />
           </Icon>
@@ -229,13 +233,13 @@ export const WithStaticSections: Story = {
         </Options.Item>
       </Options.Section>
       <Options.Section header='African Birds'>
-        <Options.Item>
+        <Options.Item textValue='Lilac-breasted roller'>
           <Icon>
             <Placeholder />
           </Icon>
           <Options.Item.Label>Lilac-breasted roller</Options.Item.Label>
         </Options.Item>
-        <Options.Item>
+        <Options.Item textValue='Hornbill'>
           <Icon>
             <Placeholder />
           </Icon>
@@ -261,7 +265,7 @@ export const WithManyItems: Story = {
   render: ({ children, ...args }) => (
     <ComboBox {...args}>
       {manyItems.map((item) => (
-        <Options.Item key={item.id}>
+        <Options.Item key={item.id} textValue={item.name}>
           {item.prefixIcon && <Icon>{item.prefixIcon}</Icon>}
           <Options.Item.Label>{item.name}</Options.Item.Label>
         </Options.Item>
