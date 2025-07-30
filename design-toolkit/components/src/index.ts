@@ -106,7 +106,7 @@ export type {
 } from './components/classification-banner/types';
 export { ColorPicker, useColorPickerState } from './components/color-picker';
 export type { ColorPickerProps } from './components/color-picker';
-export { ComboBox, ComboBoxSection } from './components/combobox';
+export { ComboBox } from './components/combobox';
 export type { ComboBoxProps } from './components/combobox';
 export { DateField } from './components/date-field';
 export type { DateFieldProps } from './components/date-field';
@@ -146,10 +146,15 @@ export type {
   SeparatorProps,
   SubmenuTriggerProps,
 } from './components/menu/types';
-export { Options, OptionsContext, OptionsSection } from './components/options';
-export type { OptionsProps } from './components/options';
-export { OptionsItem } from './components/options-item';
-export type { IOptionsItem, OptionsItemProps } from './components/options-item';
+export { Options, OptionsContext } from './components/options';
+export { OptionsStyles } from './components/options/styles';
+export type {
+  OptionsDataItem,
+  OptionsItemProps,
+  OptionsItemTextProps,
+  OptionsProps,
+  OptionsSectionProps,
+} from './components/options/types';
 export { Popover, PopoverTrigger } from './components/popover';
 export { PopoverStyles } from './components/popover/styles';
 export type {
