@@ -111,7 +111,6 @@ const DateInput = ({
         {...props}
         className={composeRenderProps(className, (className) =>
           field({
-            size,
             className,
           }),
         )}
@@ -138,8 +137,6 @@ export function DateField<T extends DateValue>({
   const isSmall = size === 'small';
   const shouldShowDescription =
     description && (!(isSmall || isInvalid) || isDisabled);
-  const shouldShowError =
-    errorMessage && isInvalid && !isDisabled && !isReadOnly;
 
   return (
     <AriaDateField<T>
@@ -154,7 +151,7 @@ export function DateField<T extends DateValue>({
         <Label
           className='empty:hidden'
           isDisabled={isDisabled}
-          isRequired={props.isRequired}
+          isRequired={isRequired}
         >
           {label}
         </Label>
@@ -170,9 +167,7 @@ export function DateField<T extends DateValue>({
           {description}
         </AriaText>
       )}
-      {shouldShowError && (
-        <FieldError className={error({})}>{errorMessage}</FieldError>
-      )}
+      <FieldError className={error({})}>{errorMessage}</FieldError>
     </AriaDateField>
   );
 }
