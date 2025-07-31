@@ -18,7 +18,8 @@ export const DateFieldStylesDefault = {
 
 export const DateFieldStyles = tv({
   slots: {
-    field: [
+    field: 'group/date-field flex flex-col gap-xs',
+    dateInput: [
       'group/date-field flex w-full gap-xs rounded-medium px-s py-xs font-display outline outline-interactive',
       'disabled:text-disabled disabled:outline-interactive-disabled disabled:placeholder:text-disabled',
       'text-default-light placeholder:text-default-dark focus-within:outline-highlight hover:outline-interactive-hover',

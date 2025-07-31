@@ -15,6 +15,8 @@ import type {
   DateFieldProps as AriaDateFieldProps,
   DateInputProps as AriaDateInputProps,
   DateValue,
+  FieldErrorProps,
+  LabelProps,
 } from 'react-aria-components';
 import type { VariantProps } from 'tailwind-variants';
 import type { DateFieldStyles } from './styles';
@@ -24,17 +26,25 @@ export interface DateInputProps
     Omit<AriaDateInputProps, 'size'> {
   ref?: ForwardedRef<HTMLDivElement>;
   size?: 'small' | 'medium';
+  isInvalid?: boolean;
 }
 
 export interface DateFieldProps<T extends DateValue>
   extends VariantProps<typeof DateFieldStyles>,
-    Omit<AriaDateFieldProps<T>, 'style'>,
+    Omit<AriaDateFieldProps<T>, 'style' | 'className'>,
     Omit<AriaDateInputProps, 'children' | 'style'> {
+  classNames?: {
+    field?: AriaDateFieldProps<T>['className'];
+    label?: LabelProps['className'];
+    input?: DateInputProps['className'];
+    description?: string;
+    error?: FieldErrorProps['className'];
+  };
   size?: 'small' | 'medium';
-  className?: string;
   description?: string;
   errorMessage?: string;
   label?: string;
   placeholder?: string;
   shortMonth?: boolean;
+  isRequired?: boolean;
 }

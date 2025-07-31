@@ -13,7 +13,7 @@
 'use client';
 import 'client-only';
 import Calendar from '@accelint/icons/calendar';
-import type { DateValue } from '@internationalized/date';
+import type { DateField, DateValue } from '@internationalized/date';
 import type { DateSegment as TDateSegment } from '@react-stately/datepicker';
 import {
   DateField as AriaDateField,
@@ -30,7 +30,8 @@ import { Label } from '../label';
 import { DateFieldStyles } from './styles';
 import type { DateFieldProps, DateInputProps } from './types';
 
-const { field, icon, descriptionText, error, dateSegment } = DateFieldStyles();
+const { field, dateInput, icon, descriptionText, error, dateSegment } =
+  DateFieldStyles();
 const months = [
   'JAN',
   'FEB',
@@ -110,7 +111,7 @@ const DateInput = ({
       <AriaDateInput
         {...props}
         className={composeRenderProps(className, (className) =>
-          field({
+          dateInput({
             className,
           }),
         )}
@@ -121,53 +122,72 @@ const DateInput = ({
 };
 
 export function DateField<T extends DateValue>({
-  className,
+  classNames,
   description,
-  errorMessage,
+  errorMessage: errorMessageProp,
   isDisabled,
-  isInvalid,
+  isInvalid: isInvalidProp,
   isReadOnly,
   label,
   placeholder,
   slot,
   size = 'medium',
   shortMonth = true,
+  isRequired,
   ...props
 }: DateFieldProps<T>) {
+  const errorMessage = errorMessageProp || null; // Protect against empty string
   const isSmall = size === 'small';
   const shouldShowDescription =
-    description && (!(isSmall || isInvalid) || isDisabled);
+    description && (!(isSmall || isInvalidProp) || isDisabled);
 
   return (
     <AriaDateField<T>
       {...props}
       isDisabled={isDisabled}
-      isInvalid={isInvalid}
+      isInvalid={isInvalidProp || (errorMessage ? true : undefined)} // Leave uncontrolled if possible to fallback to validation state
       isReadOnly={isReadOnly}
       slot={slot}
-      className='group/date-field flex flex-col gap-xs'
+      className={composeRenderProps(classNames?.field, (className) =>
+        field({ className }),
+      )}
     >
-      {!isSmall && (
-        <Label
-          className='empty:hidden'
-          isDisabled={isDisabled}
-          isRequired={isRequired}
-        >
-          {label}
-        </Label>
+      {(
+        { isDisabled, isInvalid }, // Rely on internal state, not props, since state could differ from props
+      ) => (
+        <>
+          {!isSmall && label && (
+            <Label
+              className={classNames?.label}
+              isDisabled={isDisabled}
+              isRequired={isRequired}
+            >
+              {label}
+            </Label>
+          )}
+          <DateInput
+            className={classNames?.input}
+            size={size}
+            isInvalid={isInvalid}
+          >
+            {(segment) => (
+              <FormattedDateSegment segment={segment} shortMonth={shortMonth} />
+            )}
+          </DateInput>
+          {shouldShowDescription && (
+            <AriaText className={descriptionText({})} slot='description'>
+              {description}
+            </AriaText>
+          )}
+          <FieldError
+            className={composeRenderProps(classNames?.error, (className) =>
+              error({ className }),
+            )}
+          >
+            {errorMessage}
+          </FieldError>
+        </>
       )}
-
-      <DateInput className={className} size={size}>
-        {(segment) => (
-          <FormattedDateSegment segment={segment} shortMonth={shortMonth} />
-        )}
-      </DateInput>
-      {shouldShowDescription && (
-        <AriaText className={descriptionText({})} slot='description'>
-          {description}
-        </AriaText>
-      )}
-      <FieldError className={error({})}>{errorMessage}</FieldError>
     </AriaDateField>
   );
 }

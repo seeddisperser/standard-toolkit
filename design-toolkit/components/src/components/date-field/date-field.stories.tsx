@@ -20,7 +20,7 @@ const meta: Meta<typeof DateField> = {
   args: {
     className: '',
     description: 'Format: d MMM yyyy',
-    errorMessage: 'Error description',
+    errorMessage: '',
     isDisabled: false,
     isInvalid: false,
     isRequired: true,
