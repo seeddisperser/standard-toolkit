@@ -11,11 +11,11 @@
  */
 
 import type { ReactNode } from 'react';
-import {
-  type ComboBoxProps as AriaComboBoxProps,
-  type InputProps as AriaInputProps,
-  type ListLayoutOptions as AriaListLayoutOptions,
-  type VirtualizerProps as AriaVirtualizerProps,
+import type {
+  ComboBoxProps as AriaComboBoxProps,
+  InputProps as AriaInputProps,
+  ListLayoutOptions as AriaListLayoutOptions,
+  VirtualizerProps as AriaVirtualizerProps,
 } from 'react-aria-components';
 import type { VariantProps } from 'tailwind-variants';
 import type { OptionsDataItem } from '../options/types';

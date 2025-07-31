@@ -142,11 +142,7 @@ export function ComboBox<T extends OptionsDataItem>({
       {({ isDisabled, isOpen }) => (
         <>
           {shouldShowLabel && (
-            <Label
-              className='empty:hidden'
-              isDisabled={isDisabled}
-              isRequired={props.isRequired}
-            >
+            <Label isDisabled={isDisabled} isRequired={props.isRequired}>
               {label}
             </Label>
           )}
@@ -162,7 +158,6 @@ export function ComboBox<T extends OptionsDataItem>({
                 'fg-default-light absolute right-xs transform',
                 isDisabled && 'fg-disabled',
                 isOpen && 'rotate-180',
-                isReadOnly && 'hidden',
               ])}
             >
               <Icon size='small'>

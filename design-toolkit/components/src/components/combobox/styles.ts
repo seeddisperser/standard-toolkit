@@ -26,6 +26,19 @@ export const ComboBoxStyles = tv({
       'size-medium:text-body-s',
       'size-small:text-body-xs',
     ],
+    comboBox: 'flex flex-col gap-xs',
+    input: 'relative flex items-center',
+    button: [
+      'fg-default-light absolute right-xs transform',
+      'disabled:fg-disabled',
+      'open:rotate-180',
+    ],
+    description: [
+      'fg-default-dark text-body-xs empty:hidden',
+      'disabled:fg-disabled',
+    ],
+    error: ['fg-serious text-body-xs empty:hidden'],
+    popOver: 'w-(--trigger-width)',
   },
   defaultVariants: ComboBoxStylesDefault,
 });
