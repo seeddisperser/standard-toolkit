@@ -108,6 +108,11 @@ export { ColorPicker, useColorPickerState } from './components/color-picker';
 export type { ColorPickerProps } from './components/color-picker';
 export { ComboBox } from './components/combobox';
 export type { ComboBoxProps } from './components/combobox';
+export {
+  ComboBoxStyles,
+  ComboBoxStylesDefault,
+} from './components/combobox/styles';
+export type { ComboBoxProps, InputProps } from './components/combobox/types';
 export { DateField } from './components/date-field';
 export {
   DateFieldStyles,
