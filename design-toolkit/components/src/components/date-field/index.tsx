@@ -30,8 +30,16 @@ import { Label } from '../label';
 import { DateFieldStyles } from './styles';
 import type { DateFieldProps, DateInputProps } from './types';
 
-const { field, dateInput, icon, descriptionText, error, dateSegment } =
-  DateFieldStyles();
+const {
+  field,
+  dateInput,
+  dateInputContainer,
+  icon,
+  descriptionText,
+  error,
+  dateSegment,
+} = DateFieldStyles();
+
 const months = [
   'JAN',
   'FEB',
@@ -102,7 +110,7 @@ const DateInput = ({
   ...props
 }: DateInputProps) => {
   return (
-    <div className='relative flex'>
+    <div className={dateInputContainer({})}>
       {size === 'medium' ? (
         <Icon className={icon({})}>
           <Calendar />
@@ -123,7 +131,7 @@ const DateInput = ({
 
 export function DateField<T extends DateValue>({
   classNames,
-  description,
+  description: descriptionProp,
   errorMessage: errorMessageProp,
   isDisabled,
   isInvalid: isInvalidProp,
@@ -138,8 +146,6 @@ export function DateField<T extends DateValue>({
 }: DateFieldProps<T>) {
   const errorMessage = errorMessageProp || null; // Protect against empty string
   const isSmall = size === 'small';
-  const shouldShowDescription =
-    description && (!(isSmall || isInvalidProp) || isDisabled);
 
   return (
     <AriaDateField<T>
@@ -174,9 +180,9 @@ export function DateField<T extends DateValue>({
               <FormattedDateSegment segment={segment} shortMonth={shortMonth} />
             )}
           </DateInput>
-          {shouldShowDescription && (
+          {descriptionProp && (!(isSmall || isInvalidProp) || isDisabled) && (
             <AriaText className={descriptionText({})} slot='description'>
-              {description}
+              {descriptionProp}
             </AriaText>
           )}
           <FieldError

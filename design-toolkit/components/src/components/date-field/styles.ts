@@ -27,6 +27,7 @@ export const DateFieldStyles = tv({
       'size-medium:pl-[32px] size-medium:text-body-s',
       'size-small:text-body-xs',
     ],
+    dateInputContainer: 'relative flex',
     icon: [
       '-translate-y-1/2 absolute top-1/2 left-s text-default-light',
       'group-disabled/date-field:text-disabled',
