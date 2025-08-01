@@ -14,10 +14,13 @@ import { tv } from '@/lib/utils';
 
 export const ColorPickerStyles = tv({
   slots: {
-    colorPicker: 'flex flex-wrap gap-s',
-    swatchItem:
-      'w-fit outline-none outline selected:outline-highlight selected:outline-solid hover:outline-interactive-hover hover:outline-solid focus:outline-interactive-hover focus:outline-solid',
-    swatchPicker: 'flex flex-wrap gap-s',
-    swatch: 'h-[16px] w-[16px]',
+    picker: 'flex flex-wrap gap-s',
+    item: [
+      'w-fit cursor-pointer outline outline-transparent',
+      'focus:outline-interactive-hover',
+      'hover:outline-interactive-hover',
+      'selected:outline-highlight',
+    ],
+    swatch: 'size-l',
   },
 });

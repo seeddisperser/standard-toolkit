@@ -9,41 +9,22 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import type { PropsWithChildren, RefAttributes } from 'react';
+import type { RefAttributes } from 'react';
 import type {
-  ColorSwatchPickerItemProps as AriaColorSwatchPickerItemProps,
-  ColorSwatchPickerProps as AriaColorSwatchPickerProps,
-  ListBoxItemProps as AriaListBoxItemProps,
-  Color,
+  ColorSwatchPickerItemProps,
+  ColorSwatchPickerProps,
+  ColorSwatchProps,
 } from 'react-aria-components';
 
-export interface ColorPickerState {
-  /** The current color value of the color picker. */
-  color: Color | null;
-  /** Sets the current color value of the color picker. */
-  setColor(color: Color | null): void;
-}
-
-export interface ColorPickerProps
-  extends AriaColorSwatchPickerProps,
-    RefAttributes<HTMLDivElement> {
-  options: AriaColorSwatchPickerItemProps['color'][];
-  classNames?: {
-    picker?: AriaColorSwatchPickerProps['className'];
-    item?: ColorSwatchPickerItemProps['className'];
-    swatch?: string;
+export type ColorPickerProps = Omit<
+  ColorSwatchPickerProps,
+  'children' | 'layout'
+> &
+  RefAttributes<HTMLDivElement> & {
+    classNames?: {
+      picker?: ColorSwatchPickerProps['className'];
+      item?: ColorSwatchPickerItemProps['className'];
+      swatch?: ColorSwatchProps['className'];
+    };
+    items: ColorSwatchPickerItemProps['color'][];
   };
-}
-
-export interface ColorSwatchPickerItemProps
-  extends Omit<AriaListBoxItemProps, 'children'>,
-    RefAttributes<HTMLDivElement>,
-    PropsWithChildren {
-  className?: AriaListBoxItemProps['className'];
-  color: AriaColorSwatchPickerItemProps['color'];
-}
-
-export interface ColorSwatchPickerProps
-  extends Omit<ColorPickerProps, 'options'> {
-  className?: AriaColorSwatchPickerProps['className'];
-}

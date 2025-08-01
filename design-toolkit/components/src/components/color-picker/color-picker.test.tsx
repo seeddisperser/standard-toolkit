@@ -15,7 +15,7 @@ import { describe, expect, it } from 'vitest';
 import { ColorPicker } from './';
 import type { ColorPickerProps } from './types';
 
-const options = [
+const items = [
   '#ECECE6',
   '#898989',
   '#62a6ff',
@@ -24,10 +24,10 @@ const options = [
   '#D4231D',
 ];
 
-function setup({ ...rest }: Partial<ColorPickerProps> = {}) {
-  render(<ColorPicker options={options} {...rest} />);
+function setup(props: Partial<ColorPickerProps> = {}) {
   return {
-    ...rest,
+    ...render(<ColorPicker items={items} {...props} />),
+    ...props,
   };
 }
 
