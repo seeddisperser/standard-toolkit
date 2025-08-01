@@ -11,7 +11,10 @@
  */
 
 import type { RefAttributes } from 'react';
-import type { SearchFieldProps as AriaSearchFieldProps } from 'react-aria-components';
+import type {
+  SearchFieldProps as AriaSearchFieldProps,
+  InputProps,
+} from 'react-aria-components';
 import type { VariantProps } from 'tailwind-variants';
 import type { SearchFieldStyles } from './styles';
 
@@ -21,12 +24,13 @@ export interface SearchFieldProps
   extends Omit<AriaSearchFieldProps, 'className'>,
     RefAttributes<HTMLDivElement> {
   classNames?: {
-    searchField?: AriaSearchFieldProps['className'];
-    searchIcon?: string;
+    clearButton?: string;
     input?: string;
     loadingIcon?: string;
-    clearButton?: string;
+    searchField?: AriaSearchFieldProps['className'];
+    searchIcon?: string;
   };
+  inputProps?: InputProps;
   /** Displays a loading spinner. */
   isLoading?: boolean;
   /** Placeholder text for the input field. */

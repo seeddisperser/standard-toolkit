@@ -11,6 +11,7 @@
  */
 
 import type { Meta, StoryObj } from '@storybook/react';
+import type { PropsWithChildren } from 'react';
 import { SearchField } from './index';
 
 const meta: Meta<typeof SearchField> = {
@@ -23,13 +24,13 @@ const meta: Meta<typeof SearchField> = {
     variant: 'outlined',
   },
   argTypes: {
-    classNames: {
-      control: 'object',
-      description: 'Styles for different parts of the search field',
-      table: {
-        type: { summary: 'object' },
-        defaultValue: { summary: '{}' },
-      },
+    isDisabled: {
+      control: 'boolean',
+      table: { defaultValue: { summary: 'false' } },
+    },
+    isLoading: {
+      control: 'boolean',
+      table: { defaultValue: { summary: 'false' } },
     },
     placeholder: {
       control: 'text',
@@ -41,14 +42,12 @@ const meta: Meta<typeof SearchField> = {
       options: ['outlined', 'filled'],
       table: { defaultValue: { summary: 'outlined' } },
     },
-    isLoading: {
-      control: 'boolean',
-      table: { defaultValue: { summary: 'false' } },
-    },
-    isDisabled: {
-      control: 'boolean',
-      table: { defaultValue: { summary: 'false' } },
-    },
+
+    // disable and remove controls for these fields
+    children: { control: false, if: { arg: '' } },
+    style: { control: false, if: { arg: '' } },
+    slot: { control: false, if: { arg: '' } },
+    validationBehavior: { control: false, if: { arg: '' } },
   },
 };
 
@@ -61,81 +60,80 @@ export const Default: Story = {
   ),
 };
 
-export const WithCustomClassNames: Story = {
-  args: {
-    placeholder: 'Custom styled search',
-    classNames: {
-      searchField: 'border-2 border-blue-500 rounded-lg',
-      input: 'bg-blue-50 text-blue-900',
-      searchIcon: 'text-blue-600',
+export const AllVariants: Story = {
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      description: {
+        story:
+          'A comprehensive view of all SearchField variants and states for visual testing.',
+      },
     },
   },
-  render: ({ ...args }) => (
-    <SearchField {...args} aria-label='Custom styled search field' />
-  ),
-};
-
-export const Loading: Story = {
-  args: {
-    isLoading: true,
-    placeholder: 'Searching...',
-  },
-  render: ({ ...args }) => (
-    <SearchField {...args} aria-label='Loading search field' />
-  ),
-};
-
-export const FilledVariant: Story = {
-  args: {
-    variant: 'filled',
-    placeholder: 'Search products',
-    classNames: {
-      input: 'bg-gray-100',
-      searchIcon: 'text-blue-600',
-    },
-  },
-  render: ({ ...args }) => (
-    <SearchField {...args} aria-label='Filled variant search field' />
-  ),
-};
-
-export const WithEventHandlers: Story = {
-  args: {
-    placeholder: 'Type to search',
-  },
-  render: ({ ...args }) => (
-    <SearchField
-      {...args}
-      aria-label='Search with event handlers'
-      onSubmit={(value) => console.log('Search submitted:', value)}
-      onChange={(value) => console.log('Search changed:', value)}
-    />
-  ),
-};
-
-export const WithProvider: Story = {
   render: () => (
-    <SearchField.Provider variant='filled'>
-      <div className='space-y-4'>
-        <SearchField placeholder='Search 1' aria-label='First search field' />
-        <SearchField placeholder='Search 2' aria-label='Second search field' />
-      </div>
-    </SearchField.Provider>
+    <div className='flex flex-col gap-xxl'>
+      <Variant title='Outlined (default)'>
+        <SearchField
+          aria-label='Outlined search field'
+          placeholder='Search...'
+        />
+      </Variant>
+
+      <Variant title='Filled'>
+        <SearchField
+          aria-label='Filled search field'
+          placeholder='Search...'
+          variant='filled'
+        />
+      </Variant>
+
+      <Variant title='Loading'>
+        <SearchField
+          aria-label='Loading search field'
+          isLoading={true}
+          placeholder='Searching...'
+        />
+      </Variant>
+
+      <Variant title='Clear Button'>
+        <SearchField
+          aria-label='Search field with clear button'
+          placeholder='Search...'
+          value='example search'
+        />
+      </Variant>
+
+      <Variant title='Disabled'>
+        <SearchField
+          aria-label='Disabled search field'
+          isDisabled={true}
+          placeholder='Search...'
+        />
+      </Variant>
+
+      <Variant title='Multiple fields with shared defaults'>
+        <SearchField.Provider variant='filled'>
+          <div className='space-y-3'>
+            <SearchField
+              placeholder='Search products...'
+              aria-label='Product search'
+            />
+            <SearchField
+              placeholder='Search categories...'
+              aria-label='Category search'
+            />
+          </div>
+        </SearchField.Provider>
+      </Variant>
+    </div>
   ),
 };
 
-export const AllClassNames: Story = {
-  args: {
-    placeholder: 'Fully customized search',
-    classNames: {
-      searchField: 'border-2 border-purple-500 rounded-xl p-1',
-      searchIcon: 'text-purple-600',
-      input: 'bg-purple-50 text-purple-900 placeholder-purple-400',
-      loadingIcon: 'text-purple-500',
-      clearButton: 'text-purple-700 hover:text-purple-900',
-    },
-  },
-  render: ({ ...args }) => (
-    <SearchField {...args} aria-label='Fully customized search field' />
-  ),
-};
+function Variant({ children, title }: { title: string } & PropsWithChildren) {
+  return (
+    <div>
+      <p className='fg-default-light'>{title}</p>
+      {children}
+    </div>
+  );
+}

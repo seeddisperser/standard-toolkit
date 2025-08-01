@@ -90,11 +90,13 @@ export function SearchField({ ref, ...props }: SearchFieldProps) {
 
   const {
     classNames,
+    inputProps,
+    isLoading = false,
     placeholder,
     variant = 'outlined',
-    isLoading = false,
     ...rest
   } = props;
+
   return (
     <AriaSearchField
       className={composeRenderProps(
@@ -107,14 +109,13 @@ export function SearchField({ ref, ...props }: SearchFieldProps) {
         <SearchIcon />
       </Icon>
       <Input
+        {...inputProps}
+        className={input({ variant, className: classNames?.input })}
         placeholder={placeholder}
-        className={({ isDisabled }) =>
-          input({ isDisabled, variant, className: classNames?.input })
-        }
       />
       {isLoading ? (
         <Icon className={loadingIcon({ className: classNames?.loadingIcon })}>
-          <LoopIcon className='scale-x-[-1]' />
+          <LoopIcon />
         </Icon>
       ) : (
         <Button className={clearButton({ className: classNames?.clearButton })}>

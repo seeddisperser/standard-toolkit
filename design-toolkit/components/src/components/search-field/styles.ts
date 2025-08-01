@@ -18,24 +18,21 @@ export const SearchFieldStylesDefaults = {
 
 export const SearchFieldStyles = tv({
   slots: {
-    clearButton:
-      'fg-default-dark hover:fg-interactive-hover absolute cursor-pointer group-empty:hidden group-disabled:hidden',
-    input: 'hide-cancel block w-full rounded-round font-display outline',
-    loadingIcon: 'fg-interactive-hover absolute animate-spin',
-    searchField: 'group relative',
-    searchIcon: 'fg-interactive-hover absolute',
+    clearButton: [
+      'fg-default-dark hover:fg-interactive-hover absolute top-[6px] right-[8px] cursor-pointer',
+      'group-empty/search-field:hidden group-disabled/search-field:hidden',
+    ],
+    input: [
+      'hide-cancel block w-full rounded-round p-s pr-[30px] pl-[35px] font-display text-body-s text-default-light outline',
+      'placeholder:text-default-dark hover:outline-interactive-hover focus:outline-highlight',
+      'disabled:text-disabled disabled:outline-interactive-disabled disabled:placeholder:text-disabled',
+    ],
+    loadingIcon:
+      'fg-interactive-hover absolute top-[6px] right-[8px] animate-spin',
+    searchField: 'group/search-field relative',
+    searchIcon: 'fg-interactive-hover absolute top-[6px] left-[7px]',
   },
   variants: {
-    isDisabled: {
-      true: {
-        input:
-          'text-disabled outline-interactive-disabled placeholder:text-disabled',
-      },
-      false: {
-        input:
-          'text-default-light placeholder:text-default-dark hover:outline-interactive-hover focus:outline-highlight',
-      },
-    },
     variant: {
       filled: {
         input: 'bg-surface-raised outline-static-dark',
