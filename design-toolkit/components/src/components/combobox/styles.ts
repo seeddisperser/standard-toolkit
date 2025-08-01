@@ -19,7 +19,7 @@ export const ComboBoxStylesDefault = {
 export const ComboBoxStyles = tv({
   slots: {
     textFieldBase: [
-      'block w-full rounded-medium py-xs pr-[32px] pl-s font-display outline outline-interactive',
+      'group/combo-box block w-full rounded-medium py-xs pr-[32px] pl-s font-display outline outline-interactive',
       'text-default-light placeholder:text-default-dark hover:outline-interactive-hover focus:outline-highlight',
       'disabled:text-disabled disabled:outline-interactive-disabled disabled:placeholder:text-disabled',
       'invalid:outline-serious',
@@ -33,11 +33,11 @@ export const ComboBoxStyles = tv({
       'disabled:fg-disabled',
       'open:rotate-180',
     ],
-    description: [
+    descriptionText: [
       'fg-default-dark text-body-xs empty:hidden',
-      'disabled:fg-disabled',
+      'group-disabled/combo-box:fg-disabled',
     ],
-    error: ['fg-serious text-body-xs empty:hidden'],
+    error: 'fg-serious text-body-xs empty:hidden',
     popOver: 'w-(--trigger-width)',
   },
   defaultVariants: ComboBoxStylesDefault,

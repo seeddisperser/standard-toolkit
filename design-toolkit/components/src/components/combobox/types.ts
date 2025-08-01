@@ -16,6 +16,7 @@ import type {
   InputProps as AriaInputProps,
   ListLayoutOptions as AriaListLayoutOptions,
   VirtualizerProps as AriaVirtualizerProps,
+  LabelProps,
 } from 'react-aria-components';
 import type { VariantProps } from 'tailwind-variants';
 import type { OptionsDataItem } from '../options/types';
@@ -34,7 +35,11 @@ export interface ComboBoxProps<T extends OptionsDataItem>
     >,
     Omit<AriaComboBoxProps<T>, 'children'>,
     Pick<AriaVirtualizerProps<AriaListLayoutOptions>, 'layoutOptions'> {
-  className?: string;
+  classNames?: {
+    label?: LabelProps['className'];
+    input?: InputProps['className'];
+    description?: string;
+  };
   children: ReactNode | ((item: T) => ReactNode);
   description?: string;
   errorMessage?: string;
