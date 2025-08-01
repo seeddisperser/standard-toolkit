@@ -13,20 +13,14 @@
 import type { ReactNode } from 'react';
 import type {
   ComboBoxProps as AriaComboBoxProps,
-  InputProps as AriaInputProps,
   ListLayoutOptions as AriaListLayoutOptions,
   VirtualizerProps as AriaVirtualizerProps,
   LabelProps,
 } from 'react-aria-components';
 import type { VariantProps } from 'tailwind-variants';
+import type { InputProps } from '../input/types';
 import type { OptionsDataItem } from '../options/types';
 import type { ComboBoxStyles } from './styles';
-
-export interface InputProps
-  extends VariantProps<typeof ComboBoxStyles>,
-    Omit<AriaInputProps, 'size'> {
-  isReadOnly?: boolean;
-}
 
 export interface ComboBoxProps<T extends OptionsDataItem>
   extends Omit<
@@ -37,7 +31,7 @@ export interface ComboBoxProps<T extends OptionsDataItem>
     Pick<AriaVirtualizerProps<AriaListLayoutOptions>, 'layoutOptions'> {
   classNames?: {
     label?: LabelProps['className'];
-    input?: InputProps['className'];
+    input?: InputProps['classNames'];
     description?: string;
   };
   children: ReactNode | ((item: T) => ReactNode);

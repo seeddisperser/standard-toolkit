@@ -76,7 +76,7 @@ export function ComboBox<T extends OptionsDataItem>({
           )}
           <div className={input({})}>
             <Input
-              classNames={{ input: classNames?.input }}
+              classNames={classNames?.input}
               placeholder={placeholder}
               size={size}
             />
