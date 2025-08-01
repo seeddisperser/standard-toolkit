@@ -9,32 +9,22 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+import type { RefAttributes } from 'react';
+import type {
+  ColorSwatchPickerItemProps,
+  ColorSwatchPickerProps,
+  ColorSwatchProps,
+} from 'react-aria-components';
 
-import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
-import { ColorPicker } from './';
-import type { ColorPickerProps } from './types';
-
-const items = [
-  '#ECECE6',
-  '#898989',
-  '#62a6ff',
-  '#30D27E',
-  '#FCA400',
-  '#D4231D',
-];
-
-function setup(props: Partial<ColorPickerProps> = {}) {
-  return {
-    ...render(<ColorPicker items={items} {...props} />),
-    ...props,
+export type ColorPickerProps = Omit<
+  ColorSwatchPickerProps,
+  'children' | 'layout'
+> &
+  RefAttributes<HTMLDivElement> & {
+    classNames?: {
+      picker?: ColorSwatchPickerProps['className'];
+      item?: ColorSwatchPickerItemProps['className'];
+      swatch?: ColorSwatchProps['className'];
+    };
+    items: ColorSwatchPickerItemProps['color'][];
   };
-}
-
-describe('ColorPicker', () => {
-  it('should render', () => {
-    setup();
-
-    expect(screen.getByRole('listbox')).toBeInTheDocument();
-  });
-});
