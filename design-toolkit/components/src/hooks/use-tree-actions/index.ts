@@ -62,10 +62,10 @@ function useIsFirstMount(): boolean {
  * // Use tree actions
  * const updatedTree = treeActions.insertAfter('child1', [
  *   { key: 'newChild', label: 'New Child' }
- * ]);
+ * ]);Type T | undefined is not assignable to type T | undefined. Two different types with this name exist, but they are unrelated.
  * ```
  */
-export function useTreeActions<T extends object>({
+export function useTreeActions<T>({
   nodes,
 }: UseTreeActionsOptions<T>): TreeActions<T> {
   const isFirstMount = useIsFirstMount();

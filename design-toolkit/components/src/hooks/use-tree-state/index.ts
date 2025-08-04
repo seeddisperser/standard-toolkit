@@ -25,7 +25,7 @@ import type { UseTreeState, UseTreeStateOptions } from '../types';
 import { useTreeActions } from '../use-tree-actions';
 import { processDroppedItems } from './utils';
 
-export function useTreeState<T extends object>(
+export function useTreeState<T>(
   options: UseTreeStateOptions<T>,
 ): UseTreeState<T> {
   const {
@@ -35,7 +35,7 @@ export function useTreeState<T extends object>(
     initialVisibleKeys,
   } = options;
   const [tree, setTree] = useState(items);
-  const actions = useTreeActions({ nodes: tree });
+  const actions = useTreeActions<T>({ nodes: tree });
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: we only want to run this once
   useEffect(() => {

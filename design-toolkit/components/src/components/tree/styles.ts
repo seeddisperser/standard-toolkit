@@ -34,7 +34,7 @@ export const TreeStyles = tv({
     icon: '[grid-area:icon]',
     label: 'not-has-[+[data-slot=description]]:row-span-full [grid-area:label]',
     description: 'fg-default-dark text-body-s [grid-area:description]',
-    actions: '[grid-area:action] flex items-center',
+    actions: 'flex·items-center [grid-area:action]',
     spacing: '',
     visibility: '',
     expansion: '',
@@ -70,7 +70,7 @@ export const TreeStyles = tv({
     },
     isDisabled: {
       true: {
-        item: 'border-none data-[drop-target=true]:bg-transparent cursor-not-allowed hover:bg-transparent',
+        item: 'cursor-not-allowed border-none hover:bg-transparent data-[drop-target=true]:bg-transparent',
       },
     },
     isViewable: {

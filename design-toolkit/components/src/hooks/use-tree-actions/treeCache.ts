@@ -15,13 +15,6 @@ import type { Key } from '@react-types/shared';
 import { isEqual } from 'lodash';
 import type { TreeNode } from '../types';
 
-type TreeRef<T extends object> = {
-  lookup: TreeMap<T>;
-  roots: Key[];
-};
-
-type TreeMap<T extends object> = Map<Key, CacheTreeNode<T>>;
-
 type CacheTreeNode<T> = Omit<TreeNode<T>, 'children'> & {
   children?: Key[];
 };
@@ -41,8 +34,8 @@ function assert(condition: boolean, message?: string): asserts condition {
  * This will initialize once on load with data, then
  * updated with each tree operation.
  */
-export function treeCache() {
-  let cache: TreeRef<any> = { lookup: new Map(), roots: [] };
+export function treeCache<T>() {
+  let cache = { lookup: new Map<Key, CacheTreeNode<T>>(), roots: [] as Key[] };
 
   /**
    * Validates the cache against incoming tree data
@@ -50,7 +43,7 @@ export function treeCache() {
    *
    * TODO: optimization - invalidate sections, not the whole cache
    */
-  function validateCache<T extends object>(
+  function validateCache<T>(
     nodes: TreeNode<T>[],
     lastBuild: TreeNode<T>[] | null,
   ) {
@@ -66,7 +59,7 @@ export function treeCache() {
    * Rebuild only from the changed node up the tree to avoid
    * rebuilding the entire tree
    */
-  function toTree<T extends object>(): TreeNode<T>[] {
+  function toTree<T>(): TreeNode<T>[] {
     return cache.roots.map((key: Key) => buildNode(key));
   }
 
@@ -77,9 +70,9 @@ export function treeCache() {
    * @param lookup
    * @param parentKey
    */
-  function buildLookup<T extends object>(
+  function buildLookup<T>(
     nodes: TreeNode<T>[],
-    lookup: TreeMap<T>,
+    lookup: Map<Key, CacheTreeNode<T>>,
     parentKey?: Key | null,
   ) {
     nodes.map((node) => {

@@ -28,7 +28,7 @@ export type UseTreeStateOptions<T> = {
   initialVisibleKeys?: Key[];
 };
 
-export type UseTreeState<T extends object> = {
+export type UseTreeState<T> = {
   nodes: TreeNode<T>[];
   selectedKeys: Selection;
   expandedKeys: Set<Key>;

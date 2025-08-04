@@ -110,7 +110,7 @@ function reducer<T, I>(
   );
 }
 
-export function Tree<T extends object>(props: TreeProps<T>) {
+export function Tree<T>(props: TreeProps<T>) {
   const {
     children,
     className,
