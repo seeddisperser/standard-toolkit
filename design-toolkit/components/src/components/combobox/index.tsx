@@ -94,7 +94,7 @@ export function ComboBox<T extends OptionsDataItem>({
             </AriaButton>
           </div>
           {shouldShowDescription && (
-            <AriaText className={descriptionText({})} slot='description'>
+            <AriaText className={descriptionText({className: classNames?.description})} slot='description'>
               {description}
             </AriaText>
           )}
