@@ -61,6 +61,10 @@ const meta: Meta<typeof Tree> = {
 export default meta;
 type Story = StoryObj<typeof Tree>;
 
+/**
+ * This type is for customizing and using application-specific values.
+ * These values will be available in component `Node` that you build.
+ */
 type ItemValues = {
   iconPrefix?: ReactNode;
   description?: string;

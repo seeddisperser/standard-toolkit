@@ -133,6 +133,8 @@ export function Tree<T extends object>(props: TreeProps<T>) {
     renderDropIndicator:
       dragAndDropConfig?.renderDropIndicator ?? defaultRenderDropIndicator,
     acceptedDragTypes: dragAndDropConfig?.acceptedDragTypes,
+    getAllowedDropOperations: () => ['move'],
+    getDropOperation: () => 'move',
     onInsert: dragAndDropConfig?.onInsert,
     onItemDrop: dragAndDropConfig?.onItemDrop,
   });
@@ -178,13 +180,13 @@ export function Tree<T extends object>(props: TreeProps<T>) {
 Tree.displayName = 'Tree';
 
 export function TreeItem(props: TreeItemProps) {
-  const { id, children, className, label, ...rest } = props;
+  const { id, children, className, label, isDisabled, ...rest } = props;
 
   return (
     <AriaTreeItem
       id={id}
       className={composeRenderProps(className, (className) =>
-        item({ className }),
+        item({ className, isDisabled }),
       )}
       textValue={label}
       {...rest}
@@ -248,7 +250,7 @@ export function ItemContent({ children }: ItemContentProps) {
 
         return (
           <div
-            className={content({ variant, isViewable, isVisible })}
+            className={content({ variant, isViewable, isVisible, isDisabled })}
             data-variant={variant}
             data-last-of-set={isLastOfSet}
           >

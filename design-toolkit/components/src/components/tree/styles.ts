@@ -21,12 +21,13 @@ export const TreeStylesDefaults = {
 export const TreeStyles = tv({
   slots: {
     tree: 'overflow-auto outline-hidden',
-    item: 'data-[drop-target=true]:border data-[drop-target=true]:border-highlight-hover data-[drop-target=true]:bg-highlight/20',
+    item: [
+      'rounded-medium hover:bg-interactive-hover-dark',
+      'data-[drop-target=true]:border data-[drop-target=true]:border-highlight-hover data-[drop-target=true]:bg-highlight/20',
+    ],
     content: [
-      'flex items-center justify-items-start rounded-medium px-xs',
+      'flex items-center justify-items-start px-xs',
       'overflow-x group w-full outline-hidden',
-      'data-[drop-target=true]:border-highlight-hover',
-      'hover:bg-interactive-hover-dark',
     ],
     display:
       'grid flex-1 grid-cols-[auto_auto_1fr_auto] items-center [grid-template-areas:"icon_label_space_action"_"icon_description_space_action"]',
@@ -65,7 +66,9 @@ export const TreeStyles = tv({
       },
     },
     isDisabled: {
-      true: '',
+      true: {
+        item: 'border-none data-[drop-target=true]:bg-transparent cursor-not-allowed hover:bg-transparent',
+      },
     },
     isViewable: {
       false: '',

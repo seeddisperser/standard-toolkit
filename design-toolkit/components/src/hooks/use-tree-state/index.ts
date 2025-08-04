@@ -103,10 +103,13 @@ export function useTreeState<T extends object>(
     },
     onItemDrop: ({ target, items }: DroppableCollectionOnItemDropEvent) => {
       (async () => {
-        if (target.dropPosition === 'on') {
+        const targetNode = actions.getTreeNode(target.key);
+
+        if (target.dropPosition === 'on' && targetNode) {
           // @ts-ignore TODO
           const key = await items[0]?.getText('key');
-          if (key) {
+
+          if (key && !targetNode.isReadOnly) {
             setTree(actions.moveInto(target.key, new Set([key])));
           }
         }
