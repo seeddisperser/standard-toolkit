@@ -18,20 +18,20 @@ export const ComboBoxStylesDefault = {
 
 export const ComboBoxStyles = tv({
   slots: {
+    comboBox: 'group/combo-box flex flex-col gap-xs',
     textFieldBase: [
-      'group/combo-box block w-full rounded-medium py-xs pr-[32px] pl-s font-display outline outline-interactive',
+      'block w-full rounded-medium py-xs pr-[32px] pl-s font-display outline outline-interactive',
       'text-default-light placeholder:text-default-dark hover:outline-interactive-hover focus:outline-highlight',
-      'disabled:text-disabled disabled:outline-interactive-disabled disabled:placeholder:text-disabled',
-      'invalid:outline-serious',
+      'group-disabled/combo-box:text-disabled disabled:outline-interactive-disabled disabled:placeholder:text-disabled',
+      'group-invalid/combo-box:outline-serious',
       'size-medium:text-body-s',
       'size-small:text-body-xs',
     ],
-    comboBox: 'flex flex-col gap-xs',
     input: 'relative flex items-center',
     button: [
       'fg-default-light absolute right-xs transform',
-      'disabled:fg-disabled',
-      'open:rotate-180',
+      'group-disabled/combo-box:fg-disabled',
+      'group-open/combo-box:rotate-180',
     ],
     descriptionText: [
       'fg-default-dark text-body-xs empty:hidden',

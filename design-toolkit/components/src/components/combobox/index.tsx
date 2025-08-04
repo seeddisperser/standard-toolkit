@@ -12,7 +12,6 @@
 'use client';
 
 import 'client-only';
-import { cn } from '@/lib/utils';
 import { ChevronDown } from '@accelint/icons';
 import {
   Button as AriaButton,
@@ -31,7 +30,15 @@ import type { OptionsDataItem } from '../options/types';
 import { ComboBoxStyles } from './styles';
 import type { ComboBoxProps } from './types';
 
-const { textFieldBase, comboBox, input, error, popOver } = ComboBoxStyles();
+const {
+  textFieldBase,
+  comboBox,
+  input,
+  error,
+  popOver,
+  descriptionText,
+  button,
+} = ComboBoxStyles();
 
 const Input = ({ classNames, size = 'medium', ...props }: InputProps) => {
   return (
@@ -67,10 +74,10 @@ export function ComboBox<T extends OptionsDataItem>({
       isReadOnly={isReadOnly}
       className={comboBox({})}
     >
-      {({ isDisabled, isOpen }) => (
+      {({ isDisabled, isRequired }) => (
         <>
           {shouldShowLabel && (
-            <Label isDisabled={isDisabled} isRequired={props.isRequired}>
+            <Label isDisabled={isDisabled} isRequired={isRequired}>
               {label}
             </Label>
           )}
@@ -80,26 +87,14 @@ export function ComboBox<T extends OptionsDataItem>({
               placeholder={placeholder}
               size={size}
             />
-            <AriaButton
-              className={cn([
-                'fg-default-light absolute right-xs transform',
-                isDisabled && 'fg-disabled',
-                isOpen && 'rotate-180',
-              ])}
-            >
+            <AriaButton className={button({})}>
               <Icon size='small'>
                 <ChevronDown />
               </Icon>
             </AriaButton>
           </div>
           {shouldShowDescription && (
-            <AriaText
-              className={cn([
-                'fg-default-dark text-body-xs empty:hidden',
-                isDisabled && 'fg-disabled',
-              ])}
-              slot='description'
-            >
+            <AriaText className={descriptionText({})} slot='description'>
               {description}
             </AriaText>
           )}

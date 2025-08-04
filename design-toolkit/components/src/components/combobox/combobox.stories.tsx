@@ -27,7 +27,6 @@ const meta: Meta<typeof ComboBox> = {
     errorMessage: 'Error description',
     isDisabled: false,
     isInvalid: false,
-    isReadOnly: false,
     isRequired: true,
     label: 'Label',
     placeholder: 'Placeholder',
