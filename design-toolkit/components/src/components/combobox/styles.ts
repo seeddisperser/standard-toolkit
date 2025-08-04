@@ -22,7 +22,7 @@ export const ComboBoxStyles = tv({
     textFieldBase: [
       'block w-full rounded-medium py-xs pr-[32px] pl-s font-display outline outline-interactive',
       'text-default-light placeholder:text-default-dark hover:outline-interactive-hover focus:outline-highlight',
-      'group-disabled/combo-box:text-disabled disabled:outline-interactive-disabled disabled:placeholder:text-disabled',
+      'group-disabled/combo-box:text-disabled group-disabled/combo-box:outline-interactive-disabled group-disabled/combo-box:placeholder:text-disabled',
       'group-invalid/combo-box:outline-serious',
       'size-medium:text-body-s',
       'size-small:text-body-xs',
