@@ -355,12 +355,12 @@ export const Stateless: Story = {
           <Button size='small' variant='icon' onPress={handleUnselectAll}>
             Unselect All
           </Button>
-          <Button size='small' onPress={handleExpandAll}>
+          <Button size='small' variant='icon' onPress={handleExpandAll}>
             <Icon>
               <ExpandAll />
             </Icon>
           </Button>
-          <Button size='small' onPress={handleCollapseAll}>
+          <Button size='small' variant='icon' onPress={handleCollapseAll}>
             <Icon>
               <CollapseAll />
             </Icon>
