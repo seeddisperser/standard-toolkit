@@ -228,9 +228,7 @@ export type {
   TooltipProps,
   TooltipTriggerProps,
 } from './components/tooltip/types';
-export { ExpandToggle } from './components/tree/expand-toggle';
 export { ItemContent, Tree, TreeContext, TreeItem } from './components/tree';
-export { SelectionToggle } from './components/tree/selection-toggle';
 export { TreeStyles, TreeStylesDefaults } from './components/tree/styles';
 export type { TreeStyleVariants } from './components/tree/styles';
 export type {
@@ -243,7 +241,6 @@ export type {
   TreeProps,
   TreeSelectionType,
 } from './components/tree/types';
-export { VisibilityToggle } from './components/tree/visibility-toggle';
 export type {
   Position,
   TreeActions,
