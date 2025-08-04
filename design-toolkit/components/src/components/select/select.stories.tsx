@@ -27,6 +27,11 @@ const meta: Meta<typeof Select> = {
     isDisabled: false,
     isInvalid: false,
     isRequired: true,
+    autoFocus: true,
+    placeholder: 'Select...',
+    layoutOptions: {
+      estimatedRowHeight: 46,
+    },
   },
   argTypes: {
     size: {

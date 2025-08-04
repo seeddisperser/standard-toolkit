@@ -9,16 +9,24 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+'use client';
 
+import 'client-only';
 import ChevronDown from '@accelint/icons/chevron-down';
+import ChevronUp from '@accelint/icons/chevron-up';
+import { createContext } from 'react';
 import {
+  ListLayout as AriaListLayout,
   Select as AriaSelect,
   SelectValue as AriaSelectValue,
   Text as AriaText,
+  Virtualizer as AriaVirtualizer,
+  type ContextValue,
   FieldError,
   composeRenderProps,
 } from 'react-aria-components';
 import { Popover as AriaPopover } from 'react-aria-components';
+import type { ProviderProps } from '../../lib/types';
 import { Button } from '../button';
 import { Icon } from '../icon';
 import { Label } from '../label';
@@ -28,6 +36,16 @@ import type { SelectProps } from './types';
 
 const { select, label, description, error } = SelectStyles();
 
+export const SelectContext =
+  createContext<ContextValue<SelectProps, HTMLDivElement>>(null);
+
+function SelectProvider({ children, ...props }: ProviderProps<SelectProps>) {
+  return (
+    <SelectContext.Provider value={props}>{children}</SelectContext.Provider>
+  );
+}
+SelectProvider.displayName = 'Select.Provider';
+
 export function Select(props: SelectProps) {
   const {
     size,
@@ -36,6 +54,7 @@ export function Select(props: SelectProps) {
     description: descriptionProp,
     errorMessage,
     label: labelProp,
+    layoutOptions,
     isDisabled,
     isInvalid,
     isReadOnly,
@@ -48,50 +67,62 @@ export function Select(props: SelectProps) {
 
   return (
     <AriaSelect
-      className={select({ className: classNames?.select })}
+      className={composeRenderProps(classNames?.select, (className) =>
+        select({ className }),
+      )}
       isInvalid={isInvalid}
       isRequired={isRequired}
       isDisabled={isDisabled}
       {...rest}
       data-size={size}
     >
-      {showLabel && (
-        <Label
-          className={label({ className: classNames?.label })}
-          isRequired={isRequired}
-          isDisabled={isDisabled}
-        >
-          {labelProp}
-        </Label>
-      )}
-      <Button variant='outline' size={size === 'small' ? 'small' : 'medium'}>
-        <AriaSelectValue />
-        <span aria-hidden='true'>
-          <Icon>
-            <ChevronDown />
-          </Icon>
-        </span>
-      </Button>
-      {showDescription && (
-        <AriaText
-          className={description({ className: classNames?.description })}
-          slot='description'
-        >
-          {descriptionProp}
-        </AriaText>
-      )}
-      <FieldError
-        className={composeRenderProps(classNames?.error, (className) =>
-          error({ className }),
-        )}
-      >
-        {errorMessage}
-      </FieldError>
-      <AriaPopover>
-        <Options>
-          <>{children}</>
-        </Options>
-      </AriaPopover>
+      {composeRenderProps(children, (children, { isOpen }) => (
+        <>
+          {showLabel && (
+            <Label
+              className={label({ className: classNames?.label })}
+              isRequired={isRequired}
+              isDisabled={isDisabled}
+            >
+              {labelProp}
+            </Label>
+          )}
+          <Button
+            variant='outline'
+            size={size === 'small' ? 'small' : 'medium'}
+          >
+            <AriaSelectValue />
+            <span aria-hidden='true'>
+              <Icon>{isOpen ? <ChevronUp /> : <ChevronDown />}</Icon>
+            </span>
+          </Button>
+          {showDescription && (
+            <AriaText
+              className={description({ className: classNames?.description })}
+              slot='description'
+            >
+              {descriptionProp}
+            </AriaText>
+          )}
+          <FieldError
+            className={composeRenderProps(classNames?.error, (className) =>
+              error({ className }),
+            )}
+          >
+            {errorMessage}
+          </FieldError>
+          <AriaPopover className='w-(--trigger-width)'>
+            <AriaVirtualizer
+              layout={AriaListLayout}
+              layoutOptions={layoutOptions}
+            >
+              <Options>{children}</Options>
+            </AriaVirtualizer>
+          </AriaPopover>
+        </>
+      ))}
     </AriaSelect>
   );
 }
+Select.displayName = 'Select';
+Select.Provider = SelectProvider;

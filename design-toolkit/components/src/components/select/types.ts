@@ -12,21 +12,24 @@
 
 import type {
   SelectProps as AriaSelectProps,
+  VirtualizerProps as AriaVirtualizerProps,
   FieldErrorProps,
 } from 'react-aria-components';
+import type { ListLayoutOptions as AriaListLayoutOptions } from 'react-aria-components';
 import type { LabelProps } from '../label/types';
 
-export type SelectProps = Omit<AriaSelectProps, 'className'> & {
-  classNames?: {
-    select?: string;
-    label?: LabelProps['className'];
+export type SelectProps = Omit<AriaSelectProps, 'className'> &
+  Pick<AriaVirtualizerProps<AriaListLayoutOptions>, 'layoutOptions'> & {
+    classNames?: {
+      select?: string;
+      label?: LabelProps['className'];
+      description?: string;
+      error?: FieldErrorProps['className'];
+    };
+  } & {
+    label?: string;
     description?: string;
-    error?: FieldErrorProps['className'];
+    errorMessage?: string;
+    size?: 'medium' | 'small';
+    isReadOnly?: boolean;
   };
-} & {
-  label?: string;
-  description?: string;
-  errorMessage?: string;
-  size?: 'medium' | 'small';
-  isReadOnly?: boolean;
-};
