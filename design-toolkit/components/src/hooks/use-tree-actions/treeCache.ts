@@ -15,7 +15,7 @@ import type { Key } from '@react-types/shared';
 import { isEqual } from 'lodash';
 import type { TreeNode } from '../types';
 
-type CacheTreeNode<T> = Omit<TreeNode<T>, 'children'> & {
+type CacheTreeNode<T> = Omit<TreeNode<T>, 'children' | 'values'> & {
   children?: Key[];
 };
 
