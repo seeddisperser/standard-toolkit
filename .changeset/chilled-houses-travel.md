@@ -1,5 +1,5 @@
 ---
-"@accelint/design-toolkit": major
+"@accelint/design-toolkit": minor
 ---
 
-search-field introduces a breaking change by using the `classNames` pattern instead of `className`
+Refactor SearchField to follow styling standards
