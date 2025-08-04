@@ -71,21 +71,21 @@ export function useTreeActions<T>({
   const isFirstMount = useIsFirstMount();
   const lastBuild = useRef<TreeNode<T>[] | null>(null);
 
-  const cache = useMemo(() => treeCache(), []);
+  const cache = useMemo(() => treeCache<T>(), []);
 
   if (isFirstMount) {
-    cache.buildLookup<T>(nodes ?? [], new Map());
+    cache.buildLookup(nodes ?? [], new Map());
     lastBuild.current = cache.toTree();
   }
 
-  cache.validateCache<T>(nodes, lastBuild.current);
+  cache.validateCache(nodes, lastBuild.current);
 
   function initialize(): TreeNode<T>[] {
     return updateAndReturn();
   }
 
   function getTreeNode(key: Key): TreeNode<T> | undefined {
-    const node = cache.getNode<T>(key);
+    const node = cache.getNode(key);
 
     if (!node) {
       return undefined;
@@ -108,9 +108,9 @@ export function useTreeActions<T>({
     key: Key,
     callback: (node: TreeNodeBase<T>) => TreeNodeBase<T>,
   ): TreeNode<T>[] {
-    const node = cache.getNode<T>(key);
+    const node = cache.getNode(key);
     const newNode = callback(node);
-    cache.setNode<T>(key, newNode);
+    cache.setNode(key, newNode);
     return updateAndReturn();
   }
 
@@ -162,8 +162,8 @@ export function useTreeActions<T>({
 
   function onSelectionChange(keys: Set<Key>): TreeNode<T>[] {
     for (const key of new Set([...keys, ...getSelectedKeys()])) {
-      const node = cache.getNode<T>(key);
-      cache.setNode<T>(node.key, {
+      const node = cache.getNode(key);
+      cache.setNode(node.key, {
         ...node,
         isSelected: keys.has(key),
       });
@@ -192,7 +192,7 @@ export function useTreeActions<T>({
 
   function onExpandedChange(keys: Set<Key>): TreeNode<T>[] {
     for (const key of new Set([...keys, ...getExpandedKeys()])) {
-      const node = cache.getNode<T>(key);
+      const node = cache.getNode(key);
       const isExpanded = keys.has(key);
       cache.setNode(node.key, {
         ...node,
@@ -224,7 +224,7 @@ export function useTreeActions<T>({
     const { key, state } = cache.getVisibilityChange(keys, getVisibleKeys());
 
     if (key) {
-      const node = cache.getNode<T>(key);
+      const node = cache.getNode(key);
       const isVisible = state;
 
       // update visibility for nodes

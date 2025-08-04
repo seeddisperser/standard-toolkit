@@ -15,7 +15,7 @@ import type { Key } from '@react-types/shared';
 import { isEqual } from 'lodash';
 import type { TreeNode } from '../types';
 
-type CacheTreeNode<T> = Omit<TreeNode<T>, 'children' | 'values'> & {
+type CacheTreeNode<T> = Omit<TreeNode<T>, 'children'> & {
   children?: Key[];
 };
 
@@ -43,7 +43,7 @@ export function treeCache<T>() {
    *
    * TODO: optimization - invalidate sections, not the whole cache
    */
-  function validateCache<T>(
+  function validateCache(
     nodes: TreeNode<T>[],
     lastBuild: TreeNode<T>[] | null,
   ) {
@@ -59,7 +59,7 @@ export function treeCache<T>() {
    * Rebuild only from the changed node up the tree to avoid
    * rebuilding the entire tree
    */
-  function toTree<T>(): TreeNode<T>[] {
+  function toTree(): TreeNode<T>[] {
     return cache.roots.map((key: Key) => buildNode(key));
   }
 
@@ -70,7 +70,7 @@ export function treeCache<T>() {
    * @param lookup
    * @param parentKey
    */
-  function buildLookup<T>(
+  function buildLookup(
     nodes: TreeNode<T>[],
     lookup: Map<Key, CacheTreeNode<T>>,
     parentKey?: Key | null,
@@ -99,7 +99,7 @@ export function treeCache<T>() {
    *
    * @param key
    */
-  function buildNode<T>(key: Key): TreeNode<T> {
+  function buildNode(key: Key): TreeNode<T> {
     const node = cache.lookup.get(key);
     assert(node !== undefined, `Key of ${key} does not exist in tree`);
 
@@ -125,12 +125,12 @@ export function treeCache<T>() {
    * These manage cache operations. No cache operations should ever be done
    * outside this file.
    **/
-  function getNode<T>(key: Key): TreeNode<T> {
+  function getNode(key: Key): TreeNode<T> {
     const node = _getNode(key);
 
     return {
       ...node,
-      children: node.children?.map((key) => buildNode<T>(key)),
+      children: node.children?.map((key) => buildNode(key)),
     } as TreeNode<T>;
   }
 
@@ -138,14 +138,14 @@ export function treeCache<T>() {
     return cache.lookup.values();
   }
 
-  function setNode<T>(key: Key, node: TreeNode<T>) {
+  function setNode(key: Key, node: TreeNode<T>) {
     _setNode(key, {
       ...node,
       children: (node.children ?? []).map((child) => child.key),
     });
   }
 
-  function setAllNodes<T>(patch: Partial<TreeNode<T>>) {
+  function setAllNodes(patch: Partial<TreeNode<T>>) {
     const { parentKey, children, ...rest } = patch;
 
     for (const node of cache.lookup.values()) {
@@ -175,7 +175,7 @@ export function treeCache<T>() {
     _deleteNode(key);
   }
 
-  function addNodes<T>(
+  function addNodes(
     target: Key | null,
     nodes: TreeNode<T>[],
     position: 'before' | 'after',
@@ -187,7 +187,7 @@ export function treeCache<T>() {
       : nodes.map((node, i) => insert(parentKey, node, index + 1 + i));
   }
 
-  function insert<T>(parentKey: Key | null, node: TreeNode<T>, idx: number) {
+  function insert(parentKey: Key | null, node: TreeNode<T>, idx: number) {
     const { children, ...rest } = node;
 
     const newNode = {
@@ -201,7 +201,7 @@ export function treeCache<T>() {
       ...rest,
     };
 
-    _setNode<T>(node.key, newNode);
+    _setNode(node.key, newNode);
 
     node.children?.map((child, i) => insert(node.key, child, i));
 
@@ -272,7 +272,7 @@ export function treeCache<T>() {
     return node;
   }
 
-  function _setNode<T>(key: Key, node: CacheTreeNode<T>) {
+  function _setNode(key: Key, node: CacheTreeNode<T>) {
     cache.lookup.set(key, node);
   }
 
