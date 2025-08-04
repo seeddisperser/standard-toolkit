@@ -175,8 +175,7 @@ function Node({ node }: { node: TreeNode<ItemValues> }) {
       isDisabled={isReadOnly}
     >
       <Tree.Item.Content>
-        {({ variant, isViewable, isVisible }) => {
-          const size = variant === 'cozy' ? 'medium' : 'small';
+        {({ isViewable, isVisible }) => {
           return (
             <>
               {values?.iconPrefix && (
@@ -192,23 +191,16 @@ function Node({ node }: { node: TreeNode<ItemValues> }) {
               )}
               <Tree.Item.Actions>
                 {isReadOnly && (
-                  <Icon
-                    className='fg-default-dark aspect-square rounded-full bg-interactive-hover-dark p-xs'
-                    size={size}
-                  >
+                  <Icon className='fg-default-dark aspect-square rounded-full bg-interactive-hover-dark p-xxs'>
                     <LockFill />
                   </Icon>
                 )}
                 {values?.hasWarning && (
-                  <Icon className='fg-serious' size={size}>
+                  <Icon className='fg-serious'>
                     <Warning />
                   </Icon>
                 )}
-                <Button
-                  variant='icon'
-                  size={size}
-                  isDisabled={!(isViewable && isVisible)}
-                >
+                <Button variant='icon' isDisabled={!(isViewable && isVisible)}>
                   <Icon>
                     <CenterOn />
                   </Icon>

@@ -249,62 +249,71 @@ export function ItemContent({ children }: ItemContentProps) {
         const isViewable = isStatic ? true : (viewableKeys?.has(id) ?? false);
 
         return (
-          <div
-            className={content({ variant, isViewable, isVisible, isDisabled })}
-            data-variant={variant}
-            data-last-of-set={isLastOfSet}
-          >
-            {showVisibility && (
-              <VisibilityToggle
-                id={id}
+          <Icon.Provider size={size}>
+            <div
+              className={content({
+                variant,
+                isViewable,
+                isVisible,
+                isDisabled,
+              })}
+              data-variant={variant}
+              data-last-of-set={isLastOfSet}
+            >
+              {showVisibility && (
+                <VisibilityToggle
+                  id={id}
+                  isVisible={isVisible}
+                  isViewable={isViewable}
+                  isDisabled={isDisabled}
+                  size={size}
+                  onChange={onVisibilityChange}
+                />
+              )}
+              {isNotRoot && (
+                <TreeLines level={level} isLastOfSet={isLastOfSet} />
+              )}
+              <ExpandToggle
+                hasChildItems={hasChildItems}
                 isVisible={isVisible}
                 isViewable={isViewable}
-                isDisabled={isDisabled}
+                isExpanded={isExpanded}
                 size={size}
-                onChange={onVisibilityChange}
+                isDisabled={isDisabled}
               />
-            )}
-            {isNotRoot && <TreeLines level={level} isLastOfSet={isLastOfSet} />}
-            <ExpandToggle
-              hasChildItems={hasChildItems}
-              isVisible={isVisible}
-              isViewable={isViewable}
-              isExpanded={isExpanded}
-              size={size}
-              isDisabled={isDisabled}
-            />
-            <div className={display({ variant })}>
-              {typeof children === 'function'
-                ? children({
-                    ...renderProps,
-                    variant,
-                    isVisible,
-                    isViewable,
-                    defaultChildren: null,
-                  })
-                : children}
+              <div className={display({ variant })}>
+                {typeof children === 'function'
+                  ? children({
+                      ...renderProps,
+                      variant,
+                      isVisible,
+                      isViewable,
+                      defaultChildren: null,
+                    })
+                  : children}
+              </div>
+              {shouldShowSelection && (
+                <SelectionToggle
+                  isSelected={isSelected}
+                  isDisabled={isDisabled}
+                  slot='selection'
+                />
+              )}
+              {allowsDragging && (
+                <Button
+                  slot='drag'
+                  variant='icon'
+                  size={size}
+                  isDisabled={isDisabled}
+                  className={drag({ isVisible, isViewable })}
+                >
+                  <Icon>
+                    <DragVert />
+                  </Icon>
+                </Button>
+              )}
             </div>
-            {shouldShowSelection && (
-              <SelectionToggle
-                isSelected={isSelected}
-                isDisabled={isDisabled}
-                slot='selection'
-              />
-            )}
-            {allowsDragging && (
-              <Button
-                slot='drag'
-                variant='icon'
-                size={size}
-                isDisabled={isDisabled}
-                className={drag({ isVisible, isViewable })}
-              >
-                <Icon>
-                  <DragVert />
-                </Icon>
-              </Button>
-            )}
-          </div>
+          </Icon.Provider>
         );
       }}
     </AriaTreeItemContent>
@@ -336,20 +345,7 @@ function ItemDescription({ children, className }: ItemTextProps) {
 ItemDescription.displayName = 'Tree.Item.Description';
 
 function ItemIcon({ children, className }: ItemTextProps) {
-  const context = useContext(TreeContext);
-
-  const variant =
-    (isSlottedContextValue(context) ? undefined : context?.variant) ??
-    TreeStylesDefaults.variant;
-
-  return (
-    <Icon
-      size={variant === 'cozy' ? 'medium' : 'small'}
-      className={icon({ className })}
-    >
-      {children}
-    </Icon>
-  );
+  return <Icon className={icon({ className })}>{children}</Icon>;
 }
 ItemIcon.displayName = 'Tree.Item.PrefixIcon';
 
@@ -357,11 +353,7 @@ function ItemActions({
   children,
   className,
 }: PropsWithChildren & { className?: string }) {
-  return (
-    <div className={actions({ className })}>
-      <div className='flex items-center gap-x-xs'>{children}</div>
-    </div>
-  );
+  return <div className={actions({ className })}>{children}</div>;
 }
 ItemActions.displayName = 'Tree.Icon.Actions';
 
