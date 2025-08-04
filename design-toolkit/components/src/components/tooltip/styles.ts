@@ -10,31 +10,8 @@
  * governing permissions and limitations under the License.
  */
 
-import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
-import { ColorPicker } from './';
-import type { ColorPickerProps } from './types';
+import { tv } from '@/lib/utils';
 
-const items = [
-  '#ECECE6',
-  '#898989',
-  '#62a6ff',
-  '#30D27E',
-  '#FCA400',
-  '#D4231D',
-];
-
-function setup(props: Partial<ColorPickerProps> = {}) {
-  return {
-    ...render(<ColorPicker items={items} {...props} />),
-    ...props,
-  };
-}
-
-describe('ColorPicker', () => {
-  it('should render', () => {
-    setup();
-
-    expect(screen.getByRole('listbox')).toBeInTheDocument();
-  });
+export const TooltipStyles = tv({
+  base: 'fg-default-light flex max-w-[160px] items-center justify-center break-words rounded-small bg-surface-overlay px-s py-xs text-center text-body-xs shadow-elevation-overlay',
 });

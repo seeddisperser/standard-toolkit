@@ -104,12 +104,20 @@ export type {
   ClassificationBannerProps,
   ClassificationBannerStyleVariants,
 } from './components/classification-banner/types';
-export { ColorPicker, useColorPickerState } from './components/color-picker';
-export type { ColorPickerProps } from './components/color-picker';
-export { ComboBox, ComboBoxSection } from './components/combobox';
+export { ColorPicker } from './components/color-picker';
+export { ColorPickerStyles } from './components/color-picker/styles';
+export type { ColorPickerProps } from './components/color-picker/types';
+export { ComboBox } from './components/combobox';
 export type { ComboBoxProps } from './components/combobox';
 export { DateField } from './components/date-field';
-export type { DateFieldProps } from './components/date-field';
+export {
+  DateFieldStyles,
+  DateFieldStylesDefault,
+} from './components/date-field/styles';
+export type {
+  DateFieldProps,
+  DateInputProps,
+} from './components/date-field/types';
 export { DetailsList, DetailsListContext } from './components/details-list';
 export {
   DetailsListStyles,
@@ -150,10 +158,15 @@ export type {
   SeparatorProps,
   SubmenuTriggerProps,
 } from './components/menu/types';
-export { Options, OptionsContext, OptionsSection } from './components/options';
-export type { OptionsProps } from './components/options';
-export { OptionsItem } from './components/options-item';
-export type { IOptionsItem, OptionsItemProps } from './components/options-item';
+export { Options, OptionsContext } from './components/options';
+export { OptionsStyles } from './components/options/styles';
+export type {
+  OptionsDataItem,
+  OptionsItemProps,
+  OptionsItemTextProps,
+  OptionsProps,
+  OptionsSectionProps,
+} from './components/options/types';
 export { Popover, PopoverTrigger } from './components/popover';
 export { PopoverStyles } from './components/popover/styles';
 export type {
@@ -172,7 +185,7 @@ export type {
   QueryBuilderProps,
   QueryBuilderValueEditors,
   RuleGroupType,
-} from './components/query-builder';
+} from './components/query-builder/types';
 export { Radio, RadioContext } from './components/radio';
 export { RadioStyles } from './components/radio/styles';
 export type { RadioGroupProps, RadioProps } from './components/radio/types';
@@ -208,12 +221,13 @@ export type { TextAreaFieldProps } from './components/text-area-field/types';
 export { TextField, TextFieldContext } from './components/text-field';
 export { TextFieldStyles } from './components/text-field/styles';
 export type { TextFieldProps } from './components/text-field/types';
-export { Tooltip, TooltipBody, TooltipTrigger } from './components/tooltip';
+export { Tooltip, TooltipContext } from './components/tooltip';
+export { TooltipStyles } from './components/tooltip/styles';
 export type {
   TooltipBodyProps,
   TooltipProps,
   TooltipTriggerProps,
-} from './components/tooltip';
+} from './components/tooltip/types';
 export { ExpandToggle } from './components/tree/expand-toggle';
 export { ItemContent, Tree, TreeContext, TreeItem } from './components/tree';
 export { SelectionToggle } from './components/tree/selection-toggle';

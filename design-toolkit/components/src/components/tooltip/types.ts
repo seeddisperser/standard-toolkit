@@ -9,32 +9,16 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+import type { ComponentProps, ComponentPropsWithRef } from 'react';
+import type {
+  TooltipProps as AriaTooltipProps,
+  Focusable,
+  TooltipTriggerComponentProps,
+} from 'react-aria-components';
 
-import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
-import { ColorPicker } from './';
-import type { ColorPickerProps } from './types';
+export type TooltipBodyProps = AriaTooltipProps;
 
-const items = [
-  '#ECECE6',
-  '#898989',
-  '#62a6ff',
-  '#30D27E',
-  '#FCA400',
-  '#D4231D',
-];
+export type TooltipProps = Omit<ComponentPropsWithRef<'div'>, 'className'> &
+  TooltipTriggerComponentProps;
 
-function setup(props: Partial<ColorPickerProps> = {}) {
-  return {
-    ...render(<ColorPicker items={items} {...props} />),
-    ...props,
-  };
-}
-
-describe('ColorPicker', () => {
-  it('should render', () => {
-    setup();
-
-    expect(screen.getByRole('listbox')).toBeInTheDocument();
-  });
-});
+export type TooltipTriggerProps = ComponentProps<typeof Focusable>;
