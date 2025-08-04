@@ -19,7 +19,7 @@ import type {
   TreeNodeBase,
   UseTreeActionsOptions,
 } from '../types';
-import { treeCache } from './treeCache';
+import { treeCache } from './tree-cache';
 
 /**
  * Hook that tracks whether this is the first mount of the component

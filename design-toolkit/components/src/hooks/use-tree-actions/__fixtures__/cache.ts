@@ -11,7 +11,7 @@
  * governing permissions and limitations under the License.
  */
 
-import type { TreeNode } from '../types';
+import type { TreeNode } from '../../types';
 
 export type Values = {
   test?: string;

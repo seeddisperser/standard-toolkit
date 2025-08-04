@@ -17,8 +17,8 @@ import {
   complexTree,
   defaultTree,
   nodeDefaults,
-} from './_fixtures';
-import { treeCache } from './treeCache';
+} from './__fixtures__/cache';
+import { treeCache } from './tree-cache';
 
 const setup = (props: { nodes?: TreeNode<Values>[] } = {}) => {
   const { nodes = defaultTree } = props;

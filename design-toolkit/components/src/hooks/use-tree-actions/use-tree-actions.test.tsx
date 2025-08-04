@@ -14,7 +14,7 @@ import { renderHook } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import type { UseTreeActionsOptions } from '../types';
 import { useTreeActions } from './';
-import { type Values, defaultTree, nodeDefaults } from './_fixtures';
+import { type Values, defaultTree, nodeDefaults } from './__fixtures__/cache';
 
 function setup({ nodes }: UseTreeActionsOptions<Values>) {
   const options = {};
