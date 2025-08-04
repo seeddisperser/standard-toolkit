@@ -16,25 +16,24 @@ import type {
   InputProps,
 } from 'react-aria-components';
 import type { VariantProps } from 'tailwind-variants';
+import type { ButtonProps } from '../button/types';
+import type { IconProps } from '../icon/types';
 import type { SearchFieldStyles } from './styles';
 
 export type SearchFieldStyleVariants = VariantProps<typeof SearchFieldStyles>;
 
 export interface SearchFieldProps
-  extends Omit<AriaSearchFieldProps, 'className'>,
+  extends Omit<AriaSearchFieldProps, 'className' | 'pattern' | 'type'>,
     RefAttributes<HTMLDivElement> {
   classNames?: {
-    clearButton?: string;
-    input?: string;
-    loadingIcon?: string;
-    searchField?: AriaSearchFieldProps['className'];
-    searchIcon?: string;
+    field?: AriaSearchFieldProps['className'];
+    input?: InputProps['className'];
+    clear?: ButtonProps['className'];
+    loading?: IconProps['className'];
+    search?: IconProps['className'];
   };
-  inputProps?: InputProps;
+  inputProps?: Omit<InputProps, 'type'>;
+  variant?: 'filled' | 'outlined';
   /** Displays a loading spinner. */
   isLoading?: boolean;
-  /** Placeholder text for the input field. */
-  placeholder?: string;
-  /** Whether the input has a filled background or outlined. */
-  variant?: 'filled' | 'outlined';
 }

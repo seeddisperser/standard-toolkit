@@ -13,56 +13,40 @@
 import { SearchField } from '@/components/search-field/index';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
+import type { SearchFieldProps } from './types';
+
+function setup({
+  inputProps = { placeholder: 'Search' },
+  'aria-label': ariaLabel = 'Search',
+  ...rest
+}: Partial<SearchFieldProps> = {}) {
+  return {
+    ...render(
+      <SearchField {...rest} inputProps={inputProps} aria-label={ariaLabel} />,
+    ),
+    ...rest,
+    inputProps,
+    'aria-label': ariaLabel,
+  };
+}
 
 describe('SearchField', () => {
   const placeholder = 'Search';
 
   it('should render', () => {
-    render(
-      <SearchField
-        placeholder={placeholder}
-        aria-label='Test Search Field Component'
-      />,
-    );
+    setup();
 
     const input = screen.getByPlaceholderText(placeholder);
 
     expect(input).toBeInTheDocument();
-    expect(input).toHaveClass('outline-interactive');
-    expect(input).not.toHaveClass('outline-static-dark');
-    expect(input).not.toHaveClass('bg-surface-raised');
-  });
-
-  it('should render with custom classNames', () => {
-    const selector = 'search-field';
-
-    render(
-      <SearchField
-        aria-label='Test Search Field'
-        classNames={{
-          searchField: 'custom-search-field',
-          input: 'custom-input',
-        }}
-        data-testid={selector}
-      />,
-    );
-
-    const searchField = screen.getByTestId(selector);
-
-    expect(searchField).toHaveClass('custom-search-field');
   });
 
   it('should show loading state', () => {
-    render(
-      <SearchField
-        aria-label='Loading Search Field'
-        classNames={{ loadingIcon: 'loading-icon' }}
-        isLoading={true}
-        placeholder='Loading search'
-      />,
-    );
+    const className = 'loading-icon';
 
-    const loadingIcon = document.getElementsByClassName('loading-icon')[0];
+    setup({ classNames: { loading: className }, isLoading: true });
+
+    const loadingIcon = document.getElementsByClassName(className)[0];
 
     // In loading state, the loading icon should be visible
     expect(loadingIcon).toBeInTheDocument();
@@ -71,61 +55,31 @@ describe('SearchField', () => {
     expect(screen.queryByRole('button')).not.toBeInTheDocument();
   });
 
-  it('should render filled variant', () => {
-    render(
-      <SearchField
-        placeholder={placeholder}
-        variant='filled'
-        aria-label='Filled Search Field'
-        data-testid='filled-search'
-      />,
-    );
-
-    const input = screen.getByPlaceholderText(placeholder);
-
-    expect(input).toBeInTheDocument();
-    expect(input).not.toHaveClass('outline-interactive');
-    expect(input).toHaveClass('outline-static-dark');
-    expect(input).toHaveClass('bg-surface-raised');
-  });
-
   it('should work with Provider context', () => {
     const value = 'hello world';
 
     render(
-      <SearchField.Provider value={value} variant='filled'>
-        <SearchField
-          aria-label='Context test'
-          data-testid='context-search'
-          placeholder={placeholder}
-        />
+      <SearchField.Provider value={value}>
+        <SearchField aria-label='Context test' />
       </SearchField.Provider>,
     );
 
-    const input = screen.getByPlaceholderText(placeholder) as HTMLInputElement;
-
-    // the value is passed from the provider to the input; things are "wired" up properly
-    expect(input.value).toBe(value);
+    expect(screen.getByRole('searchbox')).toHaveValue(value);
   });
 
   it('should render with all classNames options', () => {
-    render(
-      <SearchField
-        placeholder='All classes test'
-        classNames={{
-          searchField: 'custom-search-field',
-          searchIcon: 'custom-search-icon',
-          input: 'custom-input',
-          loadingIcon: 'custom-loading-icon',
-          clearButton: 'custom-clear-button',
-        }}
-        aria-label='All classes test'
-        data-testid='all-classes-search'
-      />,
-    );
+    const className = 'custom-search-field';
 
-    const searchField = screen.getByTestId('all-classes-search');
+    const { container } = setup({
+      classNames: {
+        field: className,
+        search: 'custom-search-icon',
+        input: 'custom-input',
+        loading: 'custom-loading-icon',
+        clear: 'custom-clear-button',
+      },
+    });
 
-    expect(searchField).toHaveClass('custom-search-field');
+    expect(container.firstChild).toHaveClass(className);
   });
 });

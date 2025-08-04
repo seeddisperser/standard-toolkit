@@ -9,15 +9,11 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-
 'use client';
+
 import 'client-only';
 import type { ProviderProps } from '@/lib/types';
-import {
-  CancelFill,
-  Loop as LoopIcon,
-  Search as SearchIcon,
-} from '@accelint/icons';
+import { CancelFill, Loop, Search } from '@accelint/icons';
 import { createContext } from 'react';
 import {
   SearchField as AriaSearchField,
@@ -28,11 +24,10 @@ import {
   useContextProps,
 } from 'react-aria-components';
 import { Icon } from '../icon';
-import { SearchFieldStyles } from './styles';
+import { SearchFieldStyles, SearchFieldStylesDefaults } from './styles';
 import type { SearchFieldProps } from './types';
 
-const { searchField, searchIcon, input, loadingIcon, clearButton } =
-  SearchFieldStyles();
+const { field, input, search, loading, clear } = SearchFieldStyles();
 
 export const SearchFieldContext =
   createContext<ContextValue<SearchFieldProps, HTMLDivElement>>(null);
@@ -92,39 +87,48 @@ export function SearchField({ ref, ...props }: SearchFieldProps) {
     classNames,
     inputProps,
     isLoading = false,
-    placeholder,
-    variant = 'outlined',
+    variant = SearchFieldStylesDefaults.variant,
     ...rest
   } = props;
 
   return (
-    <AriaSearchField
-      className={composeRenderProps(
-        classNames?.searchField,
-        (resolvedClassName) => searchField({ className: resolvedClassName }),
-      )}
-      {...rest}
-    >
-      <Icon className={searchIcon({ className: classNames?.searchIcon })}>
-        <SearchIcon />
-      </Icon>
-      <Input
-        {...inputProps}
-        className={input({ variant, className: classNames?.input })}
-        placeholder={placeholder}
-      />
-      {isLoading ? (
-        <Icon className={loadingIcon({ className: classNames?.loadingIcon })}>
-          <LoopIcon />
+    <Icon.Provider size='small'>
+      <AriaSearchField
+        {...rest}
+        ref={ref}
+        className={composeRenderProps(classNames?.field, (className) =>
+          field({ className, variant }),
+        )}
+      >
+        <Icon className={search({ className: classNames?.search, variant })}>
+          <Search />
         </Icon>
-      ) : (
-        <Button className={clearButton({ className: classNames?.clearButton })}>
-          <Icon>
-            <CancelFill />
+        <Input
+          {...inputProps}
+          className={composeRenderProps(classNames?.input, (className) =>
+            input({ className, variant }),
+          )}
+          type='search'
+        />
+        {isLoading ? (
+          <Icon
+            className={loading({ className: classNames?.loading, variant })}
+          >
+            <Loop />
           </Icon>
-        </Button>
-      )}
-    </AriaSearchField>
+        ) : (
+          <Button
+            className={composeRenderProps(classNames?.clear, (className) =>
+              clear({ className, variant }),
+            )}
+          >
+            <Icon>
+              <CancelFill />
+            </Icon>
+          </Button>
+        )}
+      </AriaSearchField>
+    </Icon.Provider>
   );
 }
 
