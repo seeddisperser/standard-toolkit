@@ -29,7 +29,7 @@ import { Icon } from '../icon';
 import { Tree } from './index';
 
 const meta: Meta<typeof Tree> = {
-  title: 'Components/TreeView',
+  title: 'Components/Tree',
   component: Tree,
   args: {
     variant: 'cozy',
