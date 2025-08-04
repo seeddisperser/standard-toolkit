@@ -43,22 +43,22 @@ export const TreeStyles = tv({
   variants: {
     variant: {
       cozy: {
-        content: 'min-h-[42px] gap-s text-header-m',
-        display: 'gap-x-s pl-xs',
+        content: 'min-h-[42px] text-header-m',
+        display: 'gap-x-s px-xs',
         label: 'gap-xs',
         spacing: 'min-h-[44px] w-[28px]',
         item: 'min-h-s',
       },
       compact: {
         content: 'min-h-[36px] gap-xs text-header-s',
-        display: 'gap-x-s pl-xxs',
+        display: 'gap-x-s px-xxs',
         label: 'gap-xs',
         spacing: 'min-h-[38px] w-[20px]',
         item: 'min-h-l',
       },
       crammed: {
         content: 'gap-xs text-header-s',
-        display: 'gap-x-xs pl-xxs',
+        display: 'gap-x-xs px-xxs',
         label: 'gap-xs',
         description: 'hidden',
         spacing: 'min-h-[24px] w-[20px]',
