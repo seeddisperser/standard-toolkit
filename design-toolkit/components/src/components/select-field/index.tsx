@@ -104,7 +104,9 @@ export function SelectField({ ref, ...props }: SelectFieldProps) {
               <AriaSelectValue
                 className={value({ className: classNames?.value })}
               />
-              <Icon>{isOpen ? <ChevronUp /> : <ChevronDown />}</Icon>
+              <Icon>
+                <ChevronDown className='transform group-open/select-field:rotate-180' />
+              </Icon>
             </Button>
             {!!descriptionProp && !(isSmall || isInvalid) && (
               <AriaText
