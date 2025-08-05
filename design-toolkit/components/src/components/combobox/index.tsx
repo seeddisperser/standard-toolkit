@@ -21,6 +21,7 @@ import {
   Popover as AriaPopover,
   Text as AriaText,
   Virtualizer as AriaVirtualizer,
+  FieldError,
 } from 'react-aria-components';
 import { Icon } from '../icon';
 import type { InputProps } from '../input/types';
@@ -94,14 +95,17 @@ export function ComboBox<T extends OptionsDataItem>({
             </AriaButton>
           </div>
           {shouldShowDescription && (
-            <AriaText className={descriptionText({className: classNames?.description})} slot='description'>
+            <AriaText
+              className={descriptionText({
+                className: classNames?.description,
+              })}
+              slot='description'
+            >
               {description}
             </AriaText>
           )}
           {shouldShowError && (
-            <AriaText className={error({})} slot='errorMessage'>
-              {errorMessage}
-            </AriaText>
+            <FieldError className={error()}>{errorMessage}</FieldError>
           )}
           <AriaPopover className={popOver({})}>
             <AriaVirtualizer
