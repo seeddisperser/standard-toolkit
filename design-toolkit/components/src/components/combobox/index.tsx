@@ -82,7 +82,7 @@ export function ComboBox<T extends OptionsDataItem>({
               {label}
             </Label>
           )}
-          <div className={input({})}>
+          <div className={input({className: classNames?.input})}>
             <Input
               classNames={classNames?.input}
               placeholder={placeholder}
