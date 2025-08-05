@@ -34,7 +34,7 @@ import { Options } from '../options';
 import { SelectStyles } from './styles';
 import type { SelectProps } from './types';
 
-const { select, label, description, error } = SelectStyles();
+const { description, error, field, label, select, value } = SelectStyles();
 
 export const SelectContext =
   createContext<ContextValue<SelectProps, HTMLDivElement>>(null);
@@ -89,9 +89,14 @@ export function Select(props: SelectProps) {
           )}
           <Button
             variant='outline'
-            size={size === 'small' ? 'small' : 'medium'}
+            size={isSmall ? 'small' : 'medium'}
+            className={composeRenderProps(classNames?.field, (className) =>
+              field({ className }),
+            )}
           >
-            <AriaSelectValue />
+            <AriaSelectValue
+              className={value({ className: classNames?.value })}
+            />
             <span aria-hidden='true'>
               <Icon>{isOpen ? <ChevronUp /> : <ChevronDown />}</Icon>
             </span>

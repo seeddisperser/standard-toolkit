@@ -15,9 +15,19 @@ import { tv } from '../../lib/utils';
 export const SelectStyles = tv({
   slots: {
     select: 'group/select',
+    field: [
+      'justify-between',
+      'group-size-medium/select:py-s group-size-medium/select:min-w-[220px]',
+      'group-size-small/select:py-xxs group-size-small/select:fit-content',
+    ],
     label: '',
     description:
       'fg-default-dark text-body-xs group-disabled/text-field:fg-disabled',
     error: 'fg-serious text-body-xs',
+    value: [
+      'flex items-center',
+      'group-size-small/select:gap-xs',
+      'group-size-medium/select:gap-s',
+    ],
   },
 });

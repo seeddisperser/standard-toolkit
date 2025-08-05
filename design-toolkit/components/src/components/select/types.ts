@@ -16,15 +16,18 @@ import type {
   FieldErrorProps,
 } from 'react-aria-components';
 import type { ListLayoutOptions as AriaListLayoutOptions } from 'react-aria-components';
+import type { ButtonProps } from '../button/types';
 import type { LabelProps } from '../label/types';
 
 export type SelectProps = Omit<AriaSelectProps, 'className'> &
   Pick<AriaVirtualizerProps<AriaListLayoutOptions>, 'layoutOptions'> & {
     classNames?: {
-      select?: string;
-      label?: LabelProps['className'];
       description?: string;
       error?: FieldErrorProps['className'];
+      field?: ButtonProps['className'];
+      label?: LabelProps['className'];
+      select?: string;
+      value?: string;
     };
   } & {
     label?: string;
