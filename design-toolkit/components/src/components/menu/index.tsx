@@ -179,6 +179,9 @@ export function Menu<T extends object>({ ref, ...props }: MenuProps<T>) {
     isNonModal,
     containerPadding,
     variant = MenuStylesDefaults.variant,
+    triggerRef,
+    isOpen,
+    onOpenChange,
     ...rest
   } = props;
 
@@ -188,6 +191,9 @@ export function Menu<T extends object>({ ref, ...props }: MenuProps<T>) {
       placement={placement}
       isNonModal={isNonModal}
       containerPadding={containerPadding}
+      triggerRef={triggerRef}
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
     >
       <MenuContext.Provider value={{ variant }}>
         <AriaMenu

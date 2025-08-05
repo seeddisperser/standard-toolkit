@@ -29,7 +29,13 @@ export type MenuProps<T> = AriaMenuProps<T> &
   RefAttributes<HTMLDivElement> &
   Pick<
     AriaPopoverProps,
-    'placement' | 'offset' | 'containerPadding' | 'isNonModal'
+    | 'placement'
+    | 'offset'
+    | 'containerPadding'
+    | 'isNonModal'
+    | 'triggerRef'
+    | 'isOpen'
+    | 'onOpenChange'
   >;
 
 export type MenuItemProps = Omit<AriaMenuItemProps, 'className'> & {
