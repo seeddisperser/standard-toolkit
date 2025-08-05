@@ -32,6 +32,8 @@ export interface ComboBoxProps<T extends OptionsDataItem>
   classNames?: {
     label?: LabelProps['className'];
     input?: InputProps['classNames'];
+    button?: ButtonProps['className'];
+    combobox?: string;
     description?: string;
   };
   children: ReactNode | ((item: T) => ReactNode);
