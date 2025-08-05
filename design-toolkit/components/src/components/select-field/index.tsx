@@ -14,15 +14,14 @@
 import 'client-only';
 import type { ProviderProps } from '@/lib/types';
 import ChevronDown from '@accelint/icons/chevron-down';
-import ChevronUp from '@accelint/icons/chevron-up';
 import { createContext } from 'react';
 import {
   Select as AriaSelect,
   SelectValue as AriaSelectValue,
-  Text as AriaText,
   type ContextValue,
   FieldError,
   ListLayout,
+  Text,
   Virtualizer,
   composeRenderProps,
   useContextProps,
@@ -109,12 +108,12 @@ export function SelectField({ ref, ...props }: SelectFieldProps) {
               </Icon>
             </Button>
             {!!descriptionProp && !(isSmall || isInvalid) && (
-              <AriaText
+              <Text
                 className={description({ className: classNames?.description })}
                 slot='description'
               >
                 {descriptionProp}
-              </AriaText>
+              </Text>
             )}
             <FieldError
               className={composeRenderProps(classNames?.error, (className) =>
@@ -123,7 +122,7 @@ export function SelectField({ ref, ...props }: SelectFieldProps) {
             >
               {errorMessage}
             </FieldError>
-            <AriaPopover className='w-(--trigger-width)'>
+            <AriaPopover className='min-w-(--trigger-width)'>
               <Virtualizer layout={ListLayout} layoutOptions={layoutOptions}>
                 <Options>{children}</Options>
               </Virtualizer>
