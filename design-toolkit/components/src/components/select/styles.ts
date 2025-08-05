@@ -17,12 +17,12 @@ export const SelectStyles = tv({
     select: 'group/select',
     field: [
       'justify-between',
-      'group-size-medium/select:py-s group-size-medium/select:min-w-[220px]',
-      'group-size-small/select:py-xxs group-size-small/select:fit-content',
+      'group-size-medium/select:min-w-[220px] group-size-medium/select:py-s',
+      'group-size-small/select:fit-content group-size-small/select:py-xxs',
     ],
     label: '',
     description:
-      'fg-default-dark text-body-xs group-disabled/text-field:fg-disabled',
+      'fg-default-dark group-disabled/text-field:fg-disabled text-body-xs',
     error: 'fg-serious text-body-xs',
     value: [
       'flex items-center',

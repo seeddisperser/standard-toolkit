@@ -12,6 +12,7 @@
 
 import Placeholder from '@accelint/icons/placeholder';
 import type { Meta, StoryObj } from '@storybook/react';
+import type { ReactNode } from 'react';
 import { Icon } from '../icon';
 import { Options } from '../options';
 import { Select } from './index';
@@ -47,13 +48,65 @@ export const Default: StoryObj<typeof Select> = {
   render: (args) => {
     return (
       <Select {...args}>
-        <Options.Item textValue='Blue Jay'>
-          <Icon>
-            <Placeholder />
-          </Icon>
-          <Options.Item.Label>Blue Jay</Options.Item.Label>
-        </Options.Item>
+        <Options.Section header='North American Birds'>
+          <Options.Item textValue='Blue Jay'>
+            <Icon>
+              <Placeholder />
+            </Icon>
+            <Options.Item.Label>Blue Jay</Options.Item.Label>
+          </Options.Item>
+          <Options.Item textValue='Gray catbird'>
+            <Icon>
+              <Placeholder />
+            </Icon>
+            <Options.Item.Label>Gray catbird</Options.Item.Label>
+          </Options.Item>
+          <Options.Item textValue='Black-capped chickadee'>
+            <Icon>
+              <Placeholder />
+            </Icon>
+            <Options.Item.Label>Black-capped chickadee</Options.Item.Label>
+          </Options.Item>
+          <Options.Item textValue='Song Sparrow'>
+            <Icon>
+              <Placeholder />
+            </Icon>
+            <Options.Item.Label>Song Sparrow</Options.Item.Label>
+          </Options.Item>
+        </Options.Section>
+        <Options.Section header='African Birds'>
+          <Options.Item textValue='Lilac-breasted roller'>
+            <Icon>
+              <Placeholder />
+            </Icon>
+            <Options.Item.Label>Lilac-breasted roller</Options.Item.Label>
+          </Options.Item>
+          <Options.Item textValue='Hornbill'>
+            <Icon>
+              <Placeholder />
+            </Icon>
+            <Options.Item.Label>Hornbill</Options.Item.Label>
+          </Options.Item>
+        </Options.Section>
       </Select>
     );
   },
+};
+
+const manyItems: { id: number; name: string; prefixIcon: ReactNode }[] = [];
+for (let i = 0; i < 5000; i++) {
+  manyItems.push({ id: i, name: `Item ${i}`, prefixIcon: <Placeholder /> });
+}
+
+export const WithManyItems: StoryObj<typeof Select> = {
+  render: (args) => (
+    <Select {...args}>
+      {manyItems.map((item) => (
+        <Options.Item key={item.id} textValue={item.name}>
+          {item.prefixIcon && <Icon>{item.prefixIcon}</Icon>}
+          <Options.Item.Label>{item.name}</Options.Item.Label>
+        </Options.Item>
+      ))}
+    </Select>
+  ),
 };
