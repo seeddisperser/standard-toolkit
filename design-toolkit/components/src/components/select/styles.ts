@@ -17,8 +17,8 @@ export const SelectStyles = tv({
     select: 'group/select',
     field: [
       'justify-between',
-      'group-size-medium/select:min-w-[220px] group-size-medium/select:py-s',
-      'group-size-small/select:fit-content group-size-small/select:py-xxs',
+      'group-size-medium/select:min-w-[220px] size-medium:py-xs',
+      'group-size-small/select:fit-content size-small:py-xxs',
     ],
     label: '',
     description:
@@ -29,5 +29,12 @@ export const SelectStyles = tv({
       'group-size-small/select:gap-xs',
       'group-size-medium/select:gap-s',
     ],
+  },
+  variants: {
+    isInvalid: {
+      true: {
+        field: 'enabled:outline-serious',
+      },
+    },
   },
 });
