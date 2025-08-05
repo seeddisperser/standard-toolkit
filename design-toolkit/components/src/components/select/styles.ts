@@ -19,6 +19,7 @@ export const SelectFieldStyles = tv({
       'justify-between',
       'size-medium:py-xs group-size-medium/select-field:min-w-[220px]',
       'group-size-small/select-field:fit-content size-small:py-xxs',
+      'group-invalid/select-field:enabled:outline-serious',
     ],
     label: '',
     description:
@@ -29,12 +30,5 @@ export const SelectFieldStyles = tv({
       'group-size-small/select-field:gap-xs',
       'group-size-medium/select-field:gap-s',
     ],
-  },
-  variants: {
-    isInvalid: {
-      true: {
-        trigger: 'enabled:outline-serious',
-      },
-    },
   },
 });

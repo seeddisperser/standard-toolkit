@@ -98,7 +98,7 @@ export function SelectField({ ref, ...props }: SelectFieldProps) {
               variant='outline'
               size={isSmall ? 'small' : 'medium'}
               className={composeRenderProps(classNames?.trigger, (className) =>
-                trigger({ className, isInvalid }),
+                trigger({ className }),
               )}
             >
               <AriaSelectValue
