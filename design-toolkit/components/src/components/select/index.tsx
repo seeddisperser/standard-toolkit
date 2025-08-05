@@ -17,13 +17,13 @@ import ChevronDown from '@accelint/icons/chevron-down';
 import ChevronUp from '@accelint/icons/chevron-up';
 import { createContext } from 'react';
 import {
-  ListLayout as AriaListLayout,
   Select as AriaSelect,
   SelectValue as AriaSelectValue,
   Text as AriaText,
-  Virtualizer as AriaVirtualizer,
   type ContextValue,
   FieldError,
+  ListLayout,
+  Virtualizer,
   composeRenderProps,
   useContextProps,
 } from 'react-aria-components';
@@ -122,12 +122,9 @@ export function SelectField({ ref, ...props }: SelectFieldProps) {
               {errorMessage}
             </FieldError>
             <AriaPopover className='w-(--trigger-width)'>
-              <AriaVirtualizer
-                layout={AriaListLayout}
-                layoutOptions={layoutOptions}
-              >
+              <Virtualizer layout={ListLayout} layoutOptions={layoutOptions}>
                 <Options>{children}</Options>
-              </AriaVirtualizer>
+              </Virtualizer>
             </AriaPopover>
           </>
         ),
