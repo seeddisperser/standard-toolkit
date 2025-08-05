@@ -15,11 +15,11 @@ import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
 import { Icon } from '../icon';
 import { Options } from '../options';
-import { Select } from './index';
+import { SelectField } from './index';
 
-const meta: Meta<typeof Select> = {
+const meta: Meta<typeof SelectField> = {
   title: 'Components/Select',
-  component: Select,
+  component: SelectField,
   args: {
     label: 'Label',
     description: 'Helper text',
@@ -44,10 +44,10 @@ const meta: Meta<typeof Select> = {
 
 export default meta;
 
-export const Default: StoryObj<typeof Select> = {
+export const Default: StoryObj<typeof SelectField> = {
   render: (args) => {
     return (
-      <Select {...args}>
+      <SelectField {...args}>
         <Options.Section header='North American Birds'>
           <Options.Item textValue='Blue Jay'>
             <Icon>
@@ -88,7 +88,7 @@ export const Default: StoryObj<typeof Select> = {
             <Options.Item.Label>Hornbill</Options.Item.Label>
           </Options.Item>
         </Options.Section>
-      </Select>
+      </SelectField>
     );
   },
 };
@@ -98,15 +98,15 @@ for (let i = 0; i < 5000; i++) {
   manyItems.push({ id: i, name: `Item ${i}`, prefixIcon: <Placeholder /> });
 }
 
-export const WithManyItems: StoryObj<typeof Select> = {
+export const WithManyItems: StoryObj<typeof SelectField> = {
   render: (args) => (
-    <Select {...args}>
+    <SelectField {...args}>
       {manyItems.map((item) => (
         <Options.Item key={item.id} textValue={item.name}>
           {item.prefixIcon && <Icon>{item.prefixIcon}</Icon>}
           <Options.Item.Label>{item.name}</Options.Item.Label>
         </Options.Item>
       ))}
-    </Select>
+    </SelectField>
   ),
 };

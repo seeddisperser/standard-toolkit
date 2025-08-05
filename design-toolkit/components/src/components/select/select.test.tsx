@@ -13,8 +13,8 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { Options } from '../options';
-import { Select } from './index';
-import type { SelectProps } from './types';
+import { SelectField } from './index';
+import type { SelectFieldProps } from './types';
 
 function setup({
   children = (
@@ -34,8 +34,8 @@ function setup({
     </>
   ),
   ...rest
-}: Partial<SelectProps> = {}) {
-  render(<Select {...rest}>{children}</Select>);
+}: Partial<SelectFieldProps> = {}) {
+  render(<SelectField {...rest}>{children}</SelectField>);
 
   return {
     ...rest,

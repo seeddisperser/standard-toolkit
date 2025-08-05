@@ -10,6 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
+import type { RefAttributes } from 'react';
 import type {
   SelectProps as AriaSelectProps,
   VirtualizerProps as AriaVirtualizerProps,
@@ -19,14 +20,15 @@ import type { ListLayoutOptions as AriaListLayoutOptions } from 'react-aria-comp
 import type { ButtonProps } from '../button/types';
 import type { LabelProps } from '../label/types';
 
-export type SelectProps = Omit<AriaSelectProps, 'className'> &
-  Pick<AriaVirtualizerProps<AriaListLayoutOptions>, 'layoutOptions'> & {
+export type SelectFieldProps = Omit<AriaSelectProps, 'className'> &
+  Pick<AriaVirtualizerProps<AriaListLayoutOptions>, 'layoutOptions'> &
+  RefAttributes<HTMLDivElement> & {
     classNames?: {
       description?: string;
       error?: FieldErrorProps['className'];
-      field?: ButtonProps['className'];
+      field?: string;
       label?: LabelProps['className'];
-      select?: string;
+      trigger?: ButtonProps['className'];
       value?: string;
     };
   } & {

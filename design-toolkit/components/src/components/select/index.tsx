@@ -12,6 +12,7 @@
 'use client';
 
 import 'client-only';
+import type { ProviderProps } from '@/lib/types';
 import ChevronDown from '@accelint/icons/chevron-down';
 import ChevronUp from '@accelint/icons/chevron-up';
 import { createContext } from 'react';
@@ -24,110 +25,115 @@ import {
   type ContextValue,
   FieldError,
   composeRenderProps,
+  useContextProps,
 } from 'react-aria-components';
 import { Popover as AriaPopover } from 'react-aria-components';
-import type { ProviderProps } from '../../lib/types';
 import { Button } from '../button';
 import { Icon } from '../icon';
 import { Label } from '../label';
 import { Options } from '../options';
-import { SelectStyles } from './styles';
-import type { SelectProps } from './types';
+import { SelectFieldStyles } from './styles';
+import type { SelectFieldProps } from './types';
 
-const { description, error, field, label, select, value } = SelectStyles();
+const { description, error, trigger, label, field, value } =
+  SelectFieldStyles();
 
-export const SelectContext =
-  createContext<ContextValue<SelectProps, HTMLDivElement>>(null);
+export const SelectFieldContext =
+  createContext<ContextValue<SelectFieldProps, HTMLDivElement>>(null);
 
-function SelectProvider({ children, ...props }: ProviderProps<SelectProps>) {
+function SelectProvider({
+  children,
+  ...props
+}: ProviderProps<SelectFieldProps>) {
   return (
-    <SelectContext.Provider value={props}>{children}</SelectContext.Provider>
+    <SelectFieldContext.Provider value={props}>
+      {children}
+    </SelectFieldContext.Provider>
   );
 }
 SelectProvider.displayName = 'Select.Provider';
 
-export function Select(props: SelectProps) {
+export function SelectField({ ref, ...props }: SelectFieldProps) {
+  [props, ref] = useContextProps(props, ref ?? null, SelectFieldContext);
+
   const {
     size,
     children,
     classNames,
     description: descriptionProp,
-    errorMessage,
+    errorMessage: errorMessageProp,
     label: labelProp,
     layoutOptions,
-    isDisabled,
-    isInvalid,
-    isReadOnly,
-    isRequired,
+    isInvalid: isInvalidProp,
     ...rest
   } = props;
+  const errorMessage = errorMessageProp || null; // Protect against empty string
   const isSmall = size === 'small';
-  const showDescription = !!descriptionProp && !(isSmall || isInvalid);
   const showLabel = !isSmall && !!label;
 
   return (
     <AriaSelect
-      className={composeRenderProps(classNames?.select, (className) =>
-        select({ className }),
-      )}
-      isInvalid={isInvalid}
-      isRequired={isRequired}
-      isDisabled={isDisabled}
       {...rest}
+      ref={ref}
+      className={composeRenderProps(classNames?.field, (className) =>
+        field({ className }),
+      )}
+      isInvalid={isInvalidProp || (errorMessage ? true : undefined)}
       data-size={size}
     >
-      {composeRenderProps(children, (children, { isOpen }) => (
-        <>
-          {showLabel && (
-            <Label
-              className={label({ className: classNames?.label })}
-              isRequired={isRequired}
-              isDisabled={isDisabled}
-            >
-              {labelProp}
-            </Label>
-          )}
-          <Button
-            variant='outline'
-            size={isSmall ? 'small' : 'medium'}
-            className={composeRenderProps(classNames?.field, (className) =>
-              field({ className }),
+      {composeRenderProps(
+        children,
+        (children, { isOpen, isRequired, isDisabled, isInvalid }) => (
+          <>
+            {showLabel && (
+              <Label
+                className={label({ className: classNames?.label })}
+                isRequired={isRequired}
+                isDisabled={isDisabled}
+              >
+                {labelProp}
+              </Label>
             )}
-          >
-            <AriaSelectValue
-              className={value({ className: classNames?.value })}
-            />
-            <span aria-hidden='true'>
+            <Button
+              variant='outline'
+              size={isSmall ? 'small' : 'medium'}
+              className={composeRenderProps(classNames?.trigger, (className) =>
+                trigger({ className, isInvalid }),
+              )}
+            >
+              <AriaSelectValue
+                className={value({ className: classNames?.value })}
+              />
               <Icon>{isOpen ? <ChevronUp /> : <ChevronDown />}</Icon>
-            </span>
-          </Button>
-          {showDescription && (
-            <AriaText
-              className={description({ className: classNames?.description })}
-              slot='description'
-            >
-              {descriptionProp}
-            </AriaText>
-          )}
-          <FieldError
-            className={composeRenderProps(classNames?.error, (className) =>
-              error({ className }),
+            </Button>
+            {!!descriptionProp && !(isSmall || isInvalid) && (
+              <AriaText
+                className={description({ className: classNames?.description })}
+                slot='description'
+              >
+                {descriptionProp}
+              </AriaText>
             )}
-          >
-            {errorMessage}
-          </FieldError>
-          <AriaPopover className='w-(--trigger-width)'>
-            <AriaVirtualizer
-              layout={AriaListLayout}
-              layoutOptions={layoutOptions}
+            <FieldError
+              className={composeRenderProps(classNames?.error, (className) =>
+                error({ className }),
+              )}
             >
-              <Options>{children}</Options>
-            </AriaVirtualizer>
-          </AriaPopover>
-        </>
-      ))}
+              {errorMessage}
+            </FieldError>
+            <AriaPopover className='w-(--trigger-width)'>
+              <AriaVirtualizer
+                layout={AriaListLayout}
+                layoutOptions={layoutOptions}
+              >
+                <Options>{children}</Options>
+              </AriaVirtualizer>
+            </AriaPopover>
+          </>
+        ),
+      )}
     </AriaSelect>
   );
 }
-Select.displayName = 'Select';
-Select.Provider = SelectProvider;
+SelectField.displayName = 'Select';
+SelectField.Provider = SelectProvider;

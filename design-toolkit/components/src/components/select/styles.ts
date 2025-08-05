@@ -10,30 +10,30 @@
  * governing permissions and limitations under the License.
  */
 
-import { tv } from '../../lib/utils';
+import { tv } from '@/lib/utils';
 
-export const SelectStyles = tv({
+export const SelectFieldStyles = tv({
   slots: {
-    select: 'group/select',
-    field: [
+    field: 'group/select-field',
+    trigger: [
       'justify-between',
-      'size-medium:py-xs group-size-medium/select:min-w-[220px]',
-      'group-size-small/select:fit-content size-small:py-xxs',
+      'size-medium:py-xs group-size-medium/select-field:min-w-[220px]',
+      'group-size-small/select-field:fit-content size-small:py-xxs',
     ],
     label: '',
     description:
-      'fg-default-dark group-disabled/text-field:fg-disabled text-body-xs',
+      'fg-default-dark group-disabled/select-field:fg-disabled text-body-xs',
     error: 'fg-serious text-body-xs',
     value: [
       'flex items-center',
-      'group-size-small/select:gap-xs',
-      'group-size-medium/select:gap-s',
+      'group-size-small/select-field:gap-xs',
+      'group-size-medium/select-field:gap-s',
     ],
   },
   variants: {
     isInvalid: {
       true: {
-        field: 'enabled:outline-serious',
+        trigger: 'enabled:outline-serious',
       },
     },
   },
