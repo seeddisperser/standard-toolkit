@@ -17,7 +17,7 @@ export const SelectStyles = tv({
     select: 'group/select',
     field: [
       'justify-between',
-      'group-size-medium/select:min-w-[220px] size-medium:py-xs',
+      'size-medium:py-xs group-size-medium/select:min-w-[220px]',
       'group-size-small/select:fit-content size-small:py-xxs',
     ],
     label: '',
