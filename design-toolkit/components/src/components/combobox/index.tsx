@@ -88,7 +88,7 @@ export function ComboBox<T extends OptionsDataItem>({
               placeholder={placeholder}
               size={size}
             />
-            <AriaButton className={button({})}>
+            <AriaButton className={button({className: classNames?.button})}>
               <Icon size='small'>
                 <ChevronDown />
               </Icon>
