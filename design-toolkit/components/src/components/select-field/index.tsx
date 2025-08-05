@@ -82,7 +82,7 @@ export function SelectField({ ref, ...props }: SelectFieldProps) {
     >
       {composeRenderProps(
         children,
-        (children, { isOpen, isRequired, isDisabled, isInvalid }) => (
+        (children, { isRequired, isDisabled, isInvalid }) => (
           <>
             {showLabel && (
               <Label
