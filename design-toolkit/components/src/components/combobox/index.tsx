@@ -73,7 +73,7 @@ export function ComboBox<T extends OptionsDataItem>({
       isDisabled={isDisabled}
       isInvalid={isInvalid}
       isReadOnly={isReadOnly}
-      className={comboBox({})}
+      className={comboBox({className: classNames?.combobox})}
     >
       {({ isDisabled, isRequired }) => (
         <>
