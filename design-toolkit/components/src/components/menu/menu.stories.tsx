@@ -14,8 +14,8 @@ import Kebab from '@accelint/icons/kebab';
 import Placeholder from '@accelint/icons/placeholder';
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
-import { Keyboard } from 'react-aria-components';
 import { Button } from '../button';
+import { Hotkey } from '../hotkey';
 import { Icon } from '../icon';
 import { Menu } from './';
 import type { MenuItemProps } from './types';
@@ -48,6 +48,7 @@ type MenuItem = {
   prefixIcon?: ReactNode;
   children?: MenuItem[];
   isDisabled?: boolean;
+  hotkey?: string;
   color?: MenuItemProps['color'];
 };
 
@@ -70,6 +71,7 @@ const menuItems: MenuItem[] = [
         name: 'Gray catbird',
         description: 'Dumetella carolinensis',
         isDisabled: true,
+        hotkey: '⌘V',
       },
       {
         id: 4,
@@ -120,7 +122,7 @@ export const Basic: StoryObj<typeof Menu> = {
             <Placeholder />
           </Icon>
           <Menu.Item.Label>Songbirds</Menu.Item.Label>
-          <Keyboard>⌘A</Keyboard>
+          <Hotkey>⌘A</Hotkey>
         </Menu.Item>
         <Menu.Separator />
         <Menu.Submenu>
@@ -154,7 +156,7 @@ export const Basic: StoryObj<typeof Menu> = {
             </Icon>
             <Menu.Item.Label>Mallard</Menu.Item.Label>
             <Menu.Item.Description>Anas platyrhynchos</Menu.Item.Description>
-            <Keyboard>⌘V</Keyboard>
+            <Hotkey>⌘V</Hotkey>
           </Menu.Item>
           <Menu.Item>
             <Icon>
@@ -171,7 +173,7 @@ export const Basic: StoryObj<typeof Menu> = {
             <Menu.Item.Description>
               Dumetella carolinensis
             </Menu.Item.Description>
-            <Keyboard>⌘X</Keyboard>
+            <Hotkey>⌘X</Hotkey>
           </Menu.Item>
         </Menu.Section>
       </Menu>
@@ -204,6 +206,7 @@ export const Dynamic: StoryObj<typeof Menu> = {
                       {item.description}
                     </Menu.Item.Description>
                   )}
+                  {item.hotkey && <Hotkey>{item.hotkey}</Hotkey>}
                 </Menu.Item>
                 <Menu items={item.children}>{(item) => render(item)}</Menu>
               </Menu.Submenu>
@@ -222,6 +225,7 @@ export const Dynamic: StoryObj<typeof Menu> = {
                   {item.description}
                 </Menu.Item.Description>
               )}
+              {item.hotkey && <Hotkey>{item.hotkey}</Hotkey>}
             </Menu.Item>
           );
         }}

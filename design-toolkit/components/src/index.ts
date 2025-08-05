@@ -164,6 +164,8 @@ export type {
 export { Hero, HeroContext } from './components/hero';
 export { HeroStyles } from './components/hero/styles';
 export type { HeroProps } from './components/hero/types';
+export { Hotkey, HotkeyContext } from './components/hotkey';
+export type { HotkeyProps } from './components/hotkey/types';
 export { Icon, IconContext } from './components/icon';
 export { IconStyles } from './components/icon/styles';
 export type { IconProps } from './components/icon/types';
