@@ -41,7 +41,7 @@ const { description, error, trigger, label, field, value } =
 export const SelectFieldContext =
   createContext<ContextValue<SelectFieldProps, HTMLDivElement>>(null);
 
-function SelectProvider({
+function SelectFieldProvider({
   children,
   ...props
 }: ProviderProps<SelectFieldProps>) {
@@ -51,7 +51,7 @@ function SelectProvider({
     </SelectFieldContext.Provider>
   );
 }
-SelectProvider.displayName = 'Select.Provider';
+SelectFieldProvider.displayName = 'SelectField.Provider';
 
 export function SelectField({ ref, ...props }: SelectFieldProps) {
   [props, ref] = useContextProps(props, ref ?? null, SelectFieldContext);
@@ -132,5 +132,5 @@ export function SelectField({ ref, ...props }: SelectFieldProps) {
     </AriaSelect>
   );
 }
-SelectField.displayName = 'Select';
-SelectField.Provider = SelectProvider;
+SelectField.displayName = 'SelectField';
+SelectField.Provider = SelectFieldProvider;

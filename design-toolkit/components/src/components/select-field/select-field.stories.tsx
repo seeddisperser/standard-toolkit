@@ -18,7 +18,7 @@ import { Options } from '../options';
 import { SelectField } from './index';
 
 const meta: Meta<typeof SelectField> = {
-  title: 'Components/Select',
+  title: 'Components/SelectField',
   component: SelectField,
   args: {
     label: 'Label',
