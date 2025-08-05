@@ -20,6 +20,7 @@ export const SelectFieldStyles = tv({
       'size-medium:py-xs group-size-medium/select-field:min-w-[220px]',
       'group-size-small/select-field:fit-content size-small:py-xxs',
       'group-invalid/select-field:enabled:outline-serious',
+      'group-focus/select-field:enabled:outline-highlight-bold',
     ],
     label: '',
     description:
