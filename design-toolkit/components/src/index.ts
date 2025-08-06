@@ -130,6 +130,37 @@ export type {
 } from './components/details-list/types';
 export { Dialog, DialogTitle } from './components/dialog';
 export type { DialogProps } from './components/dialog';
+export {
+  useDrawerContext,
+  useDrawersContext,
+  useDrawersState,
+} from './components/drawer/context';
+export { Drawer } from './components/drawer';
+export {
+  createDefaultDrawerState,
+  drawerStateReducer,
+} from './components/drawer/state';
+export type { DrawerAction } from './components/drawer/state';
+export { DrawerMenuStyles, DrawerStyles } from './components/drawer/styles';
+export { DrawerDefaults } from './components/drawer/types';
+export type {
+  DrawerContainerProps,
+  DrawerContextValue,
+  DrawerLayoutProps,
+  DrawerLayoutPush,
+  DrawerLayouts,
+  DrawerMenuItemProps,
+  DrawerMenuProps,
+  DrawerPanelProps,
+  DrawerPlacement,
+  DrawerProps,
+  DrawerProviderProps,
+  DrawerSize,
+  DrawerState,
+  DrawerTriggerProps,
+  DrawersContextValue,
+  OnOpenChangeCallback,
+} from './components/drawer/types';
 export { Hero, HeroContext } from './components/hero';
 export { HeroStyles } from './components/hero/styles';
 export type { HeroProps } from './components/hero/types';
@@ -154,6 +185,13 @@ export type {
   SeparatorProps,
   SubmenuTriggerProps,
 } from './components/menu/types';
+export { NavigationStack } from './components/navigation-stack';
+export type {
+  NavigationStackContextValue,
+  NavigationStackNavigateProps,
+  NavigationStackProps,
+  NavigationStackViewProps,
+} from './components/navigation-stack/types';
 export { Options, OptionsContext } from './components/options';
 export { OptionsStyles } from './components/options/styles';
 export type {
@@ -181,12 +219,19 @@ export type {
   QueryBuilderProps,
   QueryBuilderValueEditors,
   RuleGroupType,
-} from './components/query-builder';
+} from './components/query-builder/types';
 export { Radio, RadioContext } from './components/radio';
 export { RadioStyles } from './components/radio/styles';
 export type { RadioGroupProps, RadioProps } from './components/radio/types';
-export { SearchField } from './components/search-field';
-export type { SearchFieldProps } from './components/search-field';
+export { SearchField, SearchFieldContext } from './components/search-field';
+export {
+  SearchFieldStyles,
+  SearchFieldStylesDefaults,
+} from './components/search-field/styles';
+export type {
+  SearchFieldProps,
+  SearchFieldStyleVariants,
+} from './components/search-field/types';
 export { Skeleton } from './components/skeleton';
 export {
   SkeletonStyles,
