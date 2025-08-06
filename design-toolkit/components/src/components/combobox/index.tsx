@@ -189,7 +189,7 @@ export function ComboBox<T extends OptionsDataItem>({
               {errorMessage}
             </AriaText>
           )}
-          <AriaPopover className='w-(--trigger-width)'>
+          <AriaPopover className='min-w-(--trigger-width)'>
             <AriaVirtualizer
               layout={AriaListLayout}
               layoutOptions={layoutOptions}

@@ -232,6 +232,9 @@ export type {
   SearchFieldProps,
   SearchFieldStyleVariants,
 } from './components/search-field/types';
+export { SelectField, SelectFieldContext } from './components/select-field';
+export { SelectFieldStyles } from './components/select-field/styles';
+export type { SelectFieldProps } from './components/select-field/types';
 export { Skeleton } from './components/skeleton';
 export {
   SkeletonStyles,
