@@ -14,13 +14,12 @@
 
 import 'client-only';
 import type { ProviderProps } from '@/lib/types';
-import { createContext, useContext } from 'react';
+import { createContext } from 'react';
 import {
   type ContextValue,
   Keyboard,
   useContextProps,
 } from 'react-aria-components';
-import { AccordionContext } from '../accordion';
 import { Icon } from '../icon';
 import { HotkeyStyles } from './styles';
 import type { HotkeyProps, HotkeySetProps } from './types';

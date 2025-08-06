@@ -39,11 +39,12 @@ export const MenuStyles = tv({
     more: '[grid-area:action]',
     sectionHeader: 'fg-default-dark px-s py-xs text-header-xs',
     separator: 'mx-3 my-1 border border-static-light',
-    keyboard: [
+    hotkey: [
       '[grid-area:action]',
       'group-hover/menu-item:fg-inverse-light group-focus/menu-item:fg-inverse-light',
       'group-disabled/menu-item:fg-disabled',
     ],
+    popover: '',
   },
   variants: {
     variant: {

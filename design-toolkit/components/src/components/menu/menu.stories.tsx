@@ -122,7 +122,7 @@ export const Basic: StoryObj<typeof Menu> = {
             <Placeholder />
           </Icon>
           <Menu.Item.Label>Songbirds</Menu.Item.Label>
-          <Hotkey>⌘A</Hotkey>
+          <Hotkey variant='flat'>⌘A</Hotkey>
         </Menu.Item>
         <Menu.Separator />
         <Menu.Submenu>
@@ -156,7 +156,7 @@ export const Basic: StoryObj<typeof Menu> = {
             </Icon>
             <Menu.Item.Label>Mallard</Menu.Item.Label>
             <Menu.Item.Description>Anas platyrhynchos</Menu.Item.Description>
-            <Hotkey>⌘V</Hotkey>
+            <Hotkey variant='flat'>⌘V</Hotkey>
           </Menu.Item>
           <Menu.Item>
             <Icon>
@@ -173,7 +173,7 @@ export const Basic: StoryObj<typeof Menu> = {
             <Menu.Item.Description>
               Dumetella carolinensis
             </Menu.Item.Description>
-            <Hotkey>⌘X</Hotkey>
+            <Hotkey variant='flat'>⌘X</Hotkey>
           </Menu.Item>
         </Menu.Section>
       </Menu>
@@ -225,7 +225,7 @@ export const Dynamic: StoryObj<typeof Menu> = {
                   {item.description}
                 </Menu.Item.Description>
               )}
-              {item.hotkey && <Hotkey>{item.hotkey}</Hotkey>}
+              {item.hotkey && <Hotkey variant='flat'>{item.hotkey}</Hotkey>}
             </Menu.Item>
           );
         }}

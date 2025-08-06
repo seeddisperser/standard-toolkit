@@ -23,10 +23,10 @@ export const HotkeyStyles = tv({
         key: 'bg-transparent',
       },
       outline: {
-        key: 'bg-surface-default rounded-medium border border-info border-b-[3px]',
+        key: 'rounded-medium border border-info border-b-[3px] bg-surface-default',
       },
       icon: {
-        key: '-mx-xs px-0 bg-transparent',
+        key: '-mx-xs bg-transparent px-0',
       },
     },
   },
