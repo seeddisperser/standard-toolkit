@@ -14,13 +14,18 @@
 
 import 'client-only';
 import type { ProviderProps } from '@/lib/types';
-import { createContext } from 'react';
+import { createContext, useContext } from 'react';
 import {
   type ContextValue,
   Keyboard,
   useContextProps,
 } from 'react-aria-components';
-import type { HotkeyProps } from './types';
+import { AccordionContext } from '../accordion';
+import { Icon } from '../icon';
+import { HotkeyStyles } from './styles';
+import type { HotkeyProps, HotkeySetProps } from './types';
+
+const { key, set } = HotkeyStyles();
 
 export const HotkeyContext =
   createContext<ContextValue<HotkeyProps, HTMLElement>>(null);
@@ -32,10 +37,28 @@ function HotkeyProvider({ children, ...props }: ProviderProps<HotkeyProps>) {
 }
 HotkeyProvider.displayName = 'Hotkey.Provider';
 
-export function Hotkey({ ref, ...props }: HotkeyProps) {
+export function Hotkey({ ref, children, ...props }: HotkeyProps) {
   [props, ref] = useContextProps(props, ref ?? null, HotkeyContext);
+  const { className, variant = 'outline' } = props;
 
-  return <Keyboard ref={ref} {...props} />;
+  return (
+    <Keyboard ref={ref} {...props} className={key({ className, variant })}>
+      {children}
+    </Keyboard>
+  );
 }
 Hotkey.displayName = 'Hotkey';
+
+export function HotkeySet({ children, ...props }: HotkeySetProps) {
+  const { className } = props;
+
+  return (
+    <div className={set({ className })}>
+      <Icon.Provider size='large'>{children}</Icon.Provider>
+    </div>
+  );
+}
+HotkeySet.displayName = 'Hotkey.Set';
+
+Hotkey.Set = HotkeySet;
 Hotkey.Provider = HotkeyProvider;

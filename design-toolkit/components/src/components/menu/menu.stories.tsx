@@ -206,7 +206,7 @@ export const Dynamic: StoryObj<typeof Menu> = {
                       {item.description}
                     </Menu.Item.Description>
                   )}
-                  {item.hotkey && <Hotkey>{item.hotkey}</Hotkey>}
+                  {item.hotkey && <Hotkey variant='flat'>{item.hotkey}</Hotkey>}
                 </Menu.Item>
                 <Menu items={item.children}>{(item) => render(item)}</Menu>
               </Menu.Submenu>

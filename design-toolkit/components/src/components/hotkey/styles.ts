@@ -10,14 +10,24 @@
  * governing permissions and limitations under the License.
  */
 
-import type { HTMLAttributes, ReactNode, RefAttributes } from 'react';
-import type { VariantProps } from 'tailwind-variants';
-import type { HotkeyStyles } from './styles';
+import { tv } from '../../lib/utils';
 
-export type HotkeyProps = HTMLAttributes<HTMLElement> &
-  VariantProps<typeof HotkeyStyles> &
-  RefAttributes<HTMLElement>;
-
-export type HotkeySetProps = HTMLAttributes<HTMLDivElement> & {
-  children?: ReactNode;
-};
+export const HotkeyStyles = tv({
+  slots: {
+    key: ['fg-default-light', 'text-header-s uppercase', 'w-fit min-w-xl p-xs'],
+    set: 'fg-default-dark flex items-center gap-xs text-header-m',
+  },
+  variants: {
+    variant: {
+      flat: {
+        key: 'bg-transparent',
+      },
+      outline: {
+        key: 'bg-surface-default rounded-medium border border-info border-b-[3px]',
+      },
+      icon: {
+        key: '-mx-xs px-0 bg-transparent',
+      },
+    },
+  },
+});
