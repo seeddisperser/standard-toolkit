@@ -16,14 +16,15 @@ import { ChevronDown } from '@accelint/icons';
 import {
   Button as AriaButton,
   ComboBox as AriaComboBox,
-  Input as AriaInput,
   ListLayout as AriaListLayout,
   Popover as AriaPopover,
   Text as AriaText,
   Virtualizer as AriaVirtualizer,
   FieldError,
+  composeRenderProps,
 } from 'react-aria-components';
 import { Icon } from '../icon';
+import { Input } from '../input';
 import type { InputProps } from '../input/types';
 import { Label } from '../label';
 import { Options } from '../options';
@@ -41,12 +42,25 @@ const {
   button,
 } = ComboBoxStyles();
 
-const Input = ({ classNames, size = 'medium', ...props }: InputProps) => {
+const InputWrapper = ({
+  classNames,
+  size = 'medium',
+  ...props
+}: InputProps) => {
   return (
-    <AriaInput {...props} className={textFieldBase({})} data-size={size} />
+    <Input
+      {...props}
+      classNames={{
+        ...classNames,
+        input: composeRenderProps(classNames?.input, (className) =>
+          textFieldBase({ className }),
+        ),
+      }}
+      data-size={size}
+    />
   );
 };
-Input.displayName = 'ComboBox.Input';
+InputWrapper.displayName = 'ComboBox.Input';
 
 export function ComboBox<T extends OptionsDataItem>({
   children,
@@ -83,7 +97,7 @@ export function ComboBox<T extends OptionsDataItem>({
             </Label>
           )}
           <div className={input({ className: classNames?.input?.toString() })}>
-            <Input
+            <InputWrapper
               classNames={classNames?.input}
               placeholder={placeholder}
               size={size}
