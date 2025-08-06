@@ -73,7 +73,7 @@ export function ComboBox<T extends OptionsDataItem>({
       isDisabled={isDisabled}
       isInvalid={isInvalid}
       isReadOnly={isReadOnly}
-      className={comboBox({className: classNames?.combobox})}
+      className={comboBox({ className: classNames?.combobox })}
     >
       {({ isDisabled, isRequired }) => (
         <>
@@ -82,13 +82,13 @@ export function ComboBox<T extends OptionsDataItem>({
               {label}
             </Label>
           )}
-          <div className={input({className: classNames?.input})}>
+          <div className={input({ className: classNames?.input })}>
             <Input
               classNames={classNames?.input}
               placeholder={placeholder}
               size={size}
             />
-            <AriaButton className={button({className: classNames?.button})}>
+            <AriaButton className={button({ className: classNames?.button })}>
               <Icon size='small'>
                 <ChevronDown />
               </Icon>
@@ -107,7 +107,7 @@ export function ComboBox<T extends OptionsDataItem>({
           {shouldShowError && (
             <FieldError className={error()}>{errorMessage}</FieldError>
           )}
-          <AriaPopover className={popOver({})}>
+          <AriaPopover className='min-w-(--trigger-width)'>
             <AriaVirtualizer
               layout={AriaListLayout}
               layoutOptions={layoutOptions}
