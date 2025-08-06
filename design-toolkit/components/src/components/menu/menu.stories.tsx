@@ -13,7 +13,7 @@
 import Kebab from '@accelint/icons/kebab';
 import Placeholder from '@accelint/icons/placeholder';
 import type { Meta, StoryObj } from '@storybook/react';
-import type { ReactNode } from 'react';
+import { type ReactNode, useRef, useState } from 'react';
 import { Button } from '../button';
 import { Hotkey } from '../hotkey';
 import { Icon } from '../icon';
@@ -232,4 +232,81 @@ export const Dynamic: StoryObj<typeof Menu> = {
       </Menu>
     </Menu.Trigger>
   ),
+};
+
+export const ContextMenu: StoryObj<typeof Menu> = {
+  render: () => {
+    const [menuPosition, setMenuPosition] = useState<{
+      x: number;
+      y: number;
+    } | null>(null);
+    const menuPositionRef = useRef<HTMLDivElement>(null);
+
+    return (
+      <div
+        className='m-xl flex items-center justify-center h-dvh w-dvh bg-surface-raised fg-default-light border border-dotted border-b-default-dark'
+        onContextMenu={(e) => {
+          e.preventDefault();
+          setMenuPosition({ x: e.clientX, y: e.clientY });
+        }}
+      >
+        right-click for context menu
+        <div
+          ref={menuPositionRef}
+          style={{
+            position: 'fixed',
+            top: menuPosition?.y,
+            left: menuPosition?.x,
+          }}
+          data-pressed={!!menuPosition || undefined}
+        >
+          <Menu<MenuItem>
+            popoverProps={{
+              placement: 'bottom left',
+              offset: 0,
+              isOpen: !!menuPosition,
+              triggerRef: menuPositionRef,
+              onOpenChange: (isOpen) => {
+                if (!isOpen) {
+                  setMenuPosition(null);
+                }
+              },
+            }}
+            onClose={() => setMenuPosition(null)}
+            items={menuItems}
+          >
+            {function render(item) {
+              if (item.children) {
+                return (
+                  <Menu.Submenu>
+                    <Menu.Item
+                      key={item.id}
+                      isDisabled={item.isDisabled}
+                      color={item.color}
+                    >
+                      <Menu.Item.Label>{item.name}</Menu.Item.Label>
+                      {item.hotkey && (
+                        <Hotkey variant='flat'>{item.hotkey}</Hotkey>
+                      )}
+                    </Menu.Item>
+                    <Menu items={item.children}>{(item) => render(item)}</Menu>
+                  </Menu.Submenu>
+                );
+              }
+              return (
+                <Menu.Item
+                  key={item.id}
+                  isDisabled={item.isDisabled}
+                  color={item.color}
+                >
+                  <Menu.Item.Label>{item.name}</Menu.Item.Label>
+                  {item.hotkey && <Hotkey variant='flat'>{item.hotkey}</Hotkey>}
+                </Menu.Item>
+              );
+            }}
+          </Menu>
+        </div>
+      </div>
+    );
+  },
 };
