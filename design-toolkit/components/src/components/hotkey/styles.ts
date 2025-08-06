@@ -10,11 +10,15 @@
  * governing permissions and limitations under the License.
  */
 
-import { tv } from '../../lib/utils';
+import { tv } from '@/lib/utils';
+
+export const HotkeyStylesDefaults = {
+  variant: 'outline',
+} as const;
 
 export const HotkeyStyles = tv({
   slots: {
-    key: ['fg-default-light', 'text-header-s uppercase', 'w-fit min-w-xl p-xs'],
+    key: 'fg-default-light w-fit min-w-xl p-xs text-header-s uppercase',
     set: 'fg-default-dark flex items-center gap-xs text-header-m',
   },
   variants: {

@@ -21,7 +21,7 @@ import {
   useContextProps,
 } from 'react-aria-components';
 import { Icon } from '../icon';
-import { HotkeyStyles } from './styles';
+import { HotkeyStyles, HotkeyStylesDefaults } from './styles';
 import type { HotkeyProps, HotkeySetProps } from './types';
 
 const { key, set } = HotkeyStyles();
@@ -38,7 +38,7 @@ HotkeyProvider.displayName = 'Hotkey.Provider';
 
 export function Hotkey({ ref, children, ...props }: HotkeyProps) {
   [props, ref] = useContextProps(props, ref ?? null, HotkeyContext);
-  const { className, variant = 'outline' } = props;
+  const { className, variant = HotkeyStylesDefaults.variant } = props;
 
   return (
     <Keyboard ref={ref} {...props} className={key({ className, variant })}>
