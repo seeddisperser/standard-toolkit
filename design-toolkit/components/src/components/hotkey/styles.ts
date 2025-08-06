@@ -34,4 +34,5 @@ export const HotkeyStyles = tv({
       },
     },
   },
+  defaultVariants: HotkeyStylesDefaults,
 });
