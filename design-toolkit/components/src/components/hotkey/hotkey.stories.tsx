@@ -18,7 +18,13 @@ import { Hotkey } from './index';
 const meta: Meta<typeof Hotkey> = {
   title: 'Components/Hotkey',
   component: Hotkey,
+};
+
+export default meta;
+
+export const Default: StoryObj<typeof Hotkey> = {
   args: {
+    children: 'ctrl',
     variant: 'outline',
   },
   argTypes: {
@@ -27,35 +33,48 @@ const meta: Meta<typeof Hotkey> = {
       options: ['outline', 'flat', 'icon'],
     },
   },
-};
-
-export default meta;
-
-export const Default: StoryObj<typeof Hotkey> = {
-  render: (args) => {
+  render: ({ children, variant }) => {
     return (
       <div className='flex flex-col gap-xl'>
-        <Hotkey {...args}>⌘V</Hotkey>
+        <Hotkey variant={variant}>
+          {variant === 'icon' ? (
+            <Icon>
+              <MouseRightClick />
+            </Icon>
+          ) : (
+            children
+          )}
+        </Hotkey>
+      </div>
+    );
+  },
+};
+
+export const KeysSet: StoryObj<typeof Hotkey> = {
+  render: () => {
+    return (
+      <div className='flex flex-col gap-xl'>
         <Hotkey.Set>
-          <Hotkey {...args}>ctrl</Hotkey> + <Hotkey {...args}>⌘V</Hotkey>
-        </Hotkey.Set>
-        <Hotkey.Set>
-          <Hotkey {...args}>CMD</Hotkey>+
+          <Hotkey>CMD</Hotkey>
+          <span>+</span>
           <Hotkey variant='icon'>
             <Icon>
               <MouseRightClick />
             </Icon>
           </Hotkey>
-          +<Hotkey {...args}>⌘V</Hotkey>
+          <span>+</span>
+          <Hotkey>⌘V</Hotkey>
         </Hotkey.Set>
         <Hotkey.Set>
-          <Hotkey {...args}>CMD</Hotkey>+
+          <Hotkey>CMD</Hotkey>
+          <span>or</span>
           <Hotkey variant='icon'>
             <Icon>
               <MouseRightClick />
             </Icon>
           </Hotkey>
-          +<Hotkey {...args}>⌘V</Hotkey>
+          <span>+</span>
+          <Hotkey>⌘V</Hotkey>
         </Hotkey.Set>
       </div>
     );
