@@ -18,6 +18,7 @@ import type {
   LabelProps,
 } from 'react-aria-components';
 import type { VariantProps } from 'tailwind-variants';
+import type { ButtonProps } from '../button/types';
 import type { InputProps } from '../input/types';
 import type { OptionsDataItem } from '../options/types';
 import type { ComboBoxStyles } from './styles';

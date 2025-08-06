@@ -38,7 +38,7 @@ export const ComboBoxStyles = tv({
       'group-disabled/combo-box:fg-disabled',
     ],
     error: 'fg-serious text-body-xs empty:hidden',
-    popOver: 'w-(--trigger-width)',
+    popOver: 'min-w-(--trigger-width)',
   },
   defaultVariants: ComboBoxStylesDefault,
 });

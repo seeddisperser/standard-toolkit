@@ -82,13 +82,15 @@ export function ComboBox<T extends OptionsDataItem>({
               {label}
             </Label>
           )}
-          <div className={input({ className: classNames?.input })}>
+          <div className={input({ className: classNames?.input?.toString() })}>
             <Input
               classNames={classNames?.input}
               placeholder={placeholder}
               size={size}
             />
-            <AriaButton className={button({ className: classNames?.button })}>
+            <AriaButton
+              className={button({ className: classNames?.button?.toString() })}
+            >
               <Icon size='small'>
                 <ChevronDown />
               </Icon>
@@ -107,7 +109,7 @@ export function ComboBox<T extends OptionsDataItem>({
           {shouldShowError && (
             <FieldError className={error()}>{errorMessage}</FieldError>
           )}
-          <AriaPopover className='min-w-(--trigger-width)'>
+          <AriaPopover className={popOver()}>
             <AriaVirtualizer
               layout={AriaListLayout}
               layoutOptions={layoutOptions}
