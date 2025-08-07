@@ -9,103 +9,199 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-
 'use client';
+
 import 'client-only';
+import { Broadcast, type Payload } from '@accelint/bus';
+import { type UniqueId, isUUID } from '@accelint/core';
 import { PressResponder } from '@react-aria/interactions';
 import {
   createContext,
   useCallback,
   useContext,
-  useMemo,
+  useEffect,
+  useRef,
   useState,
 } from 'react';
 import { Pressable } from 'react-aria-components';
 import type {
+  NavigationStackBackEvent,
+  NavigationStackClearEvent,
   NavigationStackContextValue,
-  NavigationStackNavigateProps,
   NavigationStackProps,
+  NavigationStackPushEvent,
+  NavigationStackResetEvent,
+  NavigationStackTriggerProps,
   NavigationStackViewProps,
 } from './types';
 
+const bus = Broadcast.getInstance();
+
+const NavidationStackEventNamespace = 'NavigationStack';
+export const NavigationStackBackEventType =
+  `${NavidationStackEventNamespace}:back` as const;
+export const NavigationStackClearEventType =
+  `${NavidationStackEventNamespace}:clear` as const;
+export const NavigationStackResetEventType =
+  `${NavidationStackEventNamespace}:reset` as const;
+export const NavigationStackPushEventType =
+  `${NavidationStackEventNamespace}:push` as const;
+
 const NavigationStackContext = createContext<NavigationStackContextValue>({
-  currentViewId: null,
-  pushView: () => undefined,
-  popView: () => undefined,
-  clear: () => undefined,
-  canGoBack: false,
-  viewStack: [],
+  parent: null,
+  stack: [],
+  view: null,
+  register: () => undefined,
+  unregister: () => undefined,
 });
 
 const NavigationStackView = ({ id, children }: NavigationStackViewProps) => {
-  const context = useContext(NavigationStackContext);
-  const isActive = context.currentViewId === id;
+  const { parent, view, register, unregister } = useContext(
+    NavigationStackContext,
+  );
 
-  return isActive ? children : null;
+  if (!parent) {
+    throw new Error(
+      'NavigationStack.View must be implemented within a NavigationStack',
+    );
+  }
+
+  if (!isUUID(id)) {
+    throw new Error(`NavigationStack.View's id must be a UniqueId`);
+  }
+
+  useEffect(() => {
+    register(id);
+
+    () => unregister(id);
+  }, [register, unregister, id]);
+
+  return view === id ? children : null;
 };
 NavigationStackView.displayName = 'NavigationStack.View';
 
-const NavigationStackNavigate = ({
+function NavigationStackTrigger({
   children,
-  for: action,
-  ...props
-}: NavigationStackNavigateProps) => {
-  const context = useContext(NavigationStackContext);
-  const handleOnPress = useCallback(() => {
-    if (action === 'back') {
-      context.popView();
-    } else if (action === 'clear') {
-      context.clear();
-    } else {
-      context.pushView(action);
-    }
-  }, [action, context.popView, context.clear, context.pushView]);
+  for: types,
+}: NavigationStackTriggerProps) {
+  const { parent } = useContext(NavigationStackContext);
+
   return (
-    <PressResponder onPress={handleOnPress}>
-      <Pressable {...props}>{children}</Pressable>
+    <PressResponder
+      onPress={() => {
+        for (const type of Array.isArray(types) ? types : [types]) {
+          if (isUUID(type)) {
+            bus.emit<NavigationStackPushEvent>(NavigationStackPushEventType, {
+              view: type,
+            });
+          } else {
+            const [event, target] = type.split(':') as [
+              'back' | 'clear' | 'reset',
+              UniqueId | undefined,
+            ];
+            const stack = target ?? parent;
+
+            if (stack) {
+              bus.emit<
+                | NavigationStackBackEvent
+                | NavigationStackClearEvent
+                | NavigationStackResetEvent
+              >(`${NavidationStackEventNamespace}:${event}`, {
+                stack,
+              });
+            }
+          }
+        }
+      }}
+    >
+      <Pressable>{children}</Pressable>
     </PressResponder>
   );
-};
-NavigationStackNavigate.displayName = 'NavigationStack.Navigate';
+}
+NavigationStackTrigger.displayName = 'NavigationStack.Trigger';
 
-export const NavigationStack = ({
+export function NavigationStack({
+  id,
   children,
-  defaultViewId,
-}: NavigationStackProps) => {
-  const [viewStack, setViewStack] = useState<string[]>(
-    defaultViewId ? [defaultViewId] : [],
-  );
-  const currentViewId = viewStack[viewStack.length - 1] || null;
-  const canGoBack = viewStack.length > 1;
+  defaultView,
+}: NavigationStackProps) {
+  if (!isUUID(id)) {
+    throw new Error(`NavigationStack's id must be a UniqueId`);
+  }
 
-  const pushView = useCallback((viewId: string) => {
-    setViewStack((prev) => [...prev, viewId]);
-  }, []);
-  const popView = useCallback(() => {
-    setViewStack((prev) => prev.slice(0, -1));
-  }, []);
-  const clear = useCallback(() => {
-    setViewStack(defaultViewId ? [defaultViewId] : []);
-  }, [defaultViewId]);
-
-  const contextValue = useMemo(
-    () => ({
-      currentViewId,
-      pushView,
-      popView,
-      clear,
-      canGoBack,
-      viewStack,
-    }),
-    [currentViewId, canGoBack, viewStack, pushView, popView, clear],
+  const views = useRef(new Set<UniqueId>());
+  const [stack, setStack] = useState<UniqueId[]>(
+    defaultView ? [defaultView] : [],
   );
+  const view = stack.at(-1) ?? null;
+
+  const handleBack = useCallback(
+    (data: Payload<NavigationStackBackEvent>) => {
+      if (id === data?.payload?.stack) {
+        setStack((prev) => {
+          if (prev.length <= 1) {
+            return defaultView ? [defaultView] : [];
+          }
+
+          return prev.slice(0, -1);
+        });
+      }
+    },
+    [id, defaultView],
+  );
+
+  const handleClear = useCallback(
+    (data: Payload<NavigationStackClearEvent>) => {
+      if (id === data?.payload?.stack) {
+        setStack(() => []);
+      }
+    },
+    [id],
+  );
+
+  const handleReset = useCallback(
+    (data: Payload<NavigationStackResetEvent>) => {
+      if (id === data?.payload?.stack) {
+        setStack(() => (defaultView ? [defaultView] : []));
+      }
+    },
+    [id, defaultView],
+  );
+
+  const handlePush = useCallback((data: Payload<NavigationStackPushEvent>) => {
+    if (views.current.has(data?.payload?.view)) {
+      setStack((prev) => [...prev, data?.payload?.view]);
+    }
+  }, []);
+
+  useEffect(() => {
+    bus.on(NavigationStackBackEventType, handleBack);
+    bus.on(NavigationStackClearEventType, handleClear);
+    bus.on(NavigationStackResetEventType, handleReset);
+    bus.on(NavigationStackPushEventType, handlePush);
+
+    return () => {
+      bus.off(NavigationStackBackEventType, handleBack);
+      bus.off(NavigationStackClearEventType, handleClear);
+      bus.off(NavigationStackResetEventType, handleReset);
+      bus.off(NavigationStackPushEventType, handlePush);
+    };
+  }, [handleBack, handleClear, handleReset, handlePush]);
 
   return (
-    <NavigationStackContext.Provider value={contextValue}>
+    <NavigationStackContext.Provider
+      value={{
+        parent: id,
+        stack,
+        view,
+        register: (view: UniqueId) => views.current.add(view),
+        unregister: (view: UniqueId) => views.current.delete(view),
+      }}
+    >
       {children}
     </NavigationStackContext.Provider>
   );
-};
+}
 NavigationStack.displayName = 'NavigationStack';
 NavigationStack.View = NavigationStackView;
-NavigationStack.Navigate = NavigationStackNavigate;
+NavigationStack.Trigger = NavigationStackTrigger;

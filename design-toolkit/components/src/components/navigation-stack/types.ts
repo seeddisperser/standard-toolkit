@@ -10,41 +10,79 @@
  * governing permissions and limitations under the License.
  */
 
+import type { UniqueId } from '@accelint/core';
 import type { FocusableElement } from '@react-types/shared';
 import type {
   DOMAttributes,
-  Key,
+  PropsWithChildren,
   ReactElement,
-  ReactNode,
   RefAttributes,
 } from 'react';
-import type { LiteralUnion } from 'type-fest';
 
-export type NavigationStackProps = RefAttributes<HTMLDivElement> & {
-  children?: ReactNode;
-  defaultViewId?: string;
-  className?: string;
+export type NavigationStackProps = RefAttributes<HTMLDivElement> &
+  PropsWithChildren<{
+    id: UniqueId;
+    defaultView?: UniqueId;
+  }>;
+
+export type NavigationStackViewProps = RefAttributes<HTMLDivElement> &
+  PropsWithChildren<{
+    id: UniqueId;
+  }>;
+
+export type NavigationStackBackEvent = {
+  stack: UniqueId;
 };
 
-export type NavigationStackViewProps = RefAttributes<HTMLDivElement> & {
-  id: string;
-  children: ReactNode;
+export type NavigationStackClearEvent = {
+  stack: UniqueId;
 };
 
-export type NavigationStackNavigateProps = {
-  children: ReactElement<DOMAttributes<FocusableElement>, string>;
+export type NavigationStackResetEvent = {
+  stack: UniqueId;
+};
+
+export type NavigationStackPushEvent = {
+  view: UniqueId;
+};
+
+type SimpleEvents = 'back' | 'clear' | 'reset' | UniqueId;
+
+type TargetedEvents =
+  | `back:${UniqueId}`
+  | `clear:${UniqueId}`
+  | `reset:${UniqueId}`;
+
+type ChainedEvents = (SimpleEvents | TargetedEvents)[];
+
+export type NavigationStackTriggerProps = {
   /**
-   * The string is to be used as a childId. When for is a childId
-   * navigate will push the childId onto the stack.
-   * */
-  for: LiteralUnion<'back' | 'clear', string>;
+   * __SimpleEvents__ allow the easiest implementation of events, but come with some restrictions:
+   * - The literal commands `back | clear | reset` will only work inside of the context of a NavigationStack
+   * - When passing a view's UniqueId the behavior is always to push that id onto it's parent's stack
+   *
+   * __TargetedEvents__ allow for external control of a NavigationStack, the UniqueId of a Stack is passed to know which stack to affect
+   *
+   * __ChainedEvents__ allow a list of events from a single control to enable multiple behaviors
+   *
+   * @example
+   * // Clear a stack and then push a view on:
+   * ['clear', myViewId]
+   *
+   * // Reset multiple stacks:
+   * [`reset:${stackOneId}`, `reset:${stackTwoId}`]
+   *
+   * // Hydrate a stack with multiple views:
+   * [viewOneId, viewTwoId, viewThreeId]
+   */
+  for: SimpleEvents | TargetedEvents | ChainedEvents;
+  children: ReactElement<DOMAttributes<FocusableElement>, string>;
 };
 
 export type NavigationStackContextValue = {
-  currentViewId: Key | null;
-  pushView: (viewId: string) => void;
-  popView: () => void;
-  clear: () => void;
-  canGoBack: boolean;
-  viewStack: string[];
+  parent: UniqueId | null;
+  stack: string[];
+  view: UniqueId | null;
+  register: (view: UniqueId) => void;
+  unregister: (view: UniqueId) => void;
 };

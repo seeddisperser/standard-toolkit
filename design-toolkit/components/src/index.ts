@@ -185,11 +185,21 @@ export type {
   SeparatorProps,
   SubmenuTriggerProps,
 } from './components/menu/types';
-export { NavigationStack } from './components/navigation-stack';
+export {
+  NavigationStack,
+  NavigationStackBackEventType,
+  NavigationStackClearEventType,
+  NavigationStackPushEventType,
+  NavigationStackResetEventType,
+} from './components/navigation-stack';
 export type {
+  NavigationStackBackEvent,
+  NavigationStackClearEvent,
   NavigationStackContextValue,
-  NavigationStackNavigateProps,
   NavigationStackProps,
+  NavigationStackPushEvent,
+  NavigationStackResetEvent,
+  NavigationStackTriggerProps,
   NavigationStackViewProps,
 } from './components/navigation-stack/types';
 export { Options, OptionsContext } from './components/options';
