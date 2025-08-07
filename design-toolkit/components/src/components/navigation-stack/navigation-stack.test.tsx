@@ -13,6 +13,7 @@
 import { uuid } from '@accelint/core';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import type { ReactNode } from 'react';
 import { describe, expect, it } from 'vitest';
 import { Button } from '../button';
 import { NavigationStack } from './';
@@ -25,37 +26,46 @@ const ids = {
   c: uuid(),
 };
 
-function setup({
-  id = ids.stack,
-  children = (
-    <>
-      <NavigationStack.View id={ids.a}>A</NavigationStack.View>
-      <NavigationStack.View id={ids.b}>B</NavigationStack.View>
-      <NavigationStack.View id={ids.c}>C</NavigationStack.View>
-      <NavigationStack.Trigger for={ids.a}>
-        <Button>Goto A</Button>
-      </NavigationStack.Trigger>
-      <NavigationStack.Trigger for={ids.b}>
-        <Button>Goto B</Button>
-      </NavigationStack.Trigger>
-      <NavigationStack.Trigger for={ids.c}>
-        <Button>Goto C</Button>
-      </NavigationStack.Trigger>
-      <NavigationStack.Trigger for='back'>
-        <Button>Back</Button>
-      </NavigationStack.Trigger>
-      <NavigationStack.Trigger for='clear'>
-        <Button>Clear</Button>
-      </NavigationStack.Trigger>
-    </>
-  ),
-  ...rest
-}: Partial<NavigationStackProps> = {}) {
+function setup(
+  {
+    id = ids.stack,
+    children = (
+      <>
+        <NavigationStack.View id={ids.a}>A</NavigationStack.View>
+        <NavigationStack.View id={ids.b}>B</NavigationStack.View>
+        <NavigationStack.View id={ids.c}>C</NavigationStack.View>
+        <NavigationStack.Trigger for={ids.a}>
+          <Button>Goto A</Button>
+        </NavigationStack.Trigger>
+        <NavigationStack.Trigger for={ids.b}>
+          <Button>Goto B</Button>
+        </NavigationStack.Trigger>
+        <NavigationStack.Trigger for={ids.c}>
+          <Button>Goto C</Button>
+        </NavigationStack.Trigger>
+        <NavigationStack.Trigger for='back'>
+          <Button>Back</Button>
+        </NavigationStack.Trigger>
+        <NavigationStack.Trigger for='clear'>
+          <Button>Clear</Button>
+        </NavigationStack.Trigger>
+        <NavigationStack.Trigger for='reset'>
+          <Button>Reset</Button>
+        </NavigationStack.Trigger>
+      </>
+    ),
+    ...rest
+  }: Partial<NavigationStackProps> = {},
+  outside?: ReactNode,
+) {
   return {
     ...render(
-      <NavigationStack {...rest} id={id}>
-        {children}
-      </NavigationStack>,
+      <>
+        <NavigationStack {...rest} id={id}>
+          {children}
+        </NavigationStack>
+        {outside}
+      </>,
     ),
     ...rest,
     id,
@@ -92,12 +102,40 @@ describe('NavigationStack', () => {
   });
 
   it('should navigate back to previous view', async () => {
+    setup();
+
+    await userEvent.click(screen.getByText('Goto A'));
+
+    expect(screen.getByText('A')).toBeInTheDocument();
+
+    await userEvent.click(screen.getByText('Goto B'));
+
+    expect(screen.queryByText('A')).not.toBeInTheDocument();
+    expect(screen.getByText('B')).toBeInTheDocument();
+
+    await userEvent.click(screen.getByText('Back'));
+
+    expect(screen.queryByText('B')).not.toBeInTheDocument();
+    expect(screen.getByText('A')).toBeInTheDocument();
+
+    await userEvent.click(screen.getByText('Back'));
+
+    expect(screen.queryByText('B')).not.toBeInTheDocument();
+    expect(screen.queryByText('A')).not.toBeInTheDocument();
+  });
+
+  it('should navigate back to the default view', async () => {
     setup({ defaultView: ids.a });
 
     await userEvent.click(screen.getByText('Goto B'));
 
     expect(screen.queryByText('A')).not.toBeInTheDocument();
     expect(screen.getByText('B')).toBeInTheDocument();
+
+    await userEvent.click(screen.getByText('Back'));
+
+    expect(screen.queryByText('B')).not.toBeInTheDocument();
+    expect(screen.getByText('A')).toBeInTheDocument();
 
     await userEvent.click(screen.getByText('Back'));
 
@@ -125,5 +163,67 @@ describe('NavigationStack', () => {
     expect(screen.queryByText('A')).not.toBeInTheDocument();
     expect(screen.queryByText('B')).not.toBeInTheDocument();
     expect(screen.queryByText('C')).not.toBeInTheDocument();
+  });
+
+  it('should reset the stack', async () => {
+    setup();
+
+    await userEvent.click(screen.getByText('Goto A'));
+
+    expect(screen.getByText('A')).toBeInTheDocument();
+
+    await userEvent.click(screen.getByText('Reset'));
+
+    expect(screen.queryByText('A')).not.toBeInTheDocument();
+    expect(screen.queryByText('B')).not.toBeInTheDocument();
+    expect(screen.queryByText('C')).not.toBeInTheDocument();
+  });
+
+  it('should reset the stack to the default view', async () => {
+    setup({ defaultView: ids.a });
+
+    await userEvent.click(screen.getByText('Goto C'));
+
+    expect(screen.queryByText('A')).not.toBeInTheDocument();
+    expect(screen.getByText('C')).toBeInTheDocument();
+
+    await userEvent.click(screen.getByText('Reset'));
+
+    expect(screen.getByText('A')).toBeInTheDocument();
+    expect(screen.queryByText('B')).not.toBeInTheDocument();
+    expect(screen.queryByText('C')).not.toBeInTheDocument();
+  });
+
+  it('should be triggerable from outside of the stack', async () => {
+    const labels = {
+      goToC: 'Goto C from Outside',
+      clear: 'Clear from Outside',
+    };
+
+    setup(
+      {},
+      <>
+        <NavigationStack.Trigger for={ids.c}>
+          <Button>{labels.goToC}</Button>
+        </NavigationStack.Trigger>
+        <NavigationStack.Trigger for={`clear:${ids.stack}`}>
+          <Button>{labels.clear}</Button>
+        </NavigationStack.Trigger>
+      </>,
+    );
+
+    await userEvent.click(screen.getByText(labels.goToC));
+
+    expect(screen.getByText('C')).toBeInTheDocument();
+
+    await userEvent.click(screen.getByText(labels.clear));
+
+    expect(screen.queryByText('C')).not.toBeInTheDocument();
+  });
+});
+
+describe('NavigationStack.View', () => {
+  it('should throw if not inside NavigationStack', () => {
+    expect(() => render(<NavigationStack.View id={ids.a} />)).toThrow();
   });
 });
