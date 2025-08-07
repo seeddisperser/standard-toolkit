@@ -10,12 +10,12 @@
  * governing permissions and limitations under the License.
  */
 
+import { uuid } from '@accelint/core';
 import { ChevronLeft } from '@accelint/icons';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '../button';
 import { Icon } from '../icon';
 import { NavigationStack } from './index';
-import type { NavigationStackProps } from './types';
 
 const meta: Meta<typeof NavigationStack> = {
   title: 'Components/NavigationStack',
@@ -24,10 +24,10 @@ const meta: Meta<typeof NavigationStack> = {
     docs: {
       description: {
         component: `
-          A NavigationStack is a component that allows you to manage a stack of views. It is commonly
-          used in drawers and modals to navigate between different views. The NavigationStack component
-          provides a way to push and pop views from the stack and it also provides a way to clear all
-          views back to the original view.
+          The NavigationStack component allows you to manage a stack of views. Think of it as similar to the
+          functionality of tabs, but the triggers can be anywhere, even programmatic. The NavigationStack
+          component provides a way to push and pop views from the stack as well as clear all or reset back
+          to the original view.
         `,
       },
     },
@@ -35,39 +35,65 @@ const meta: Meta<typeof NavigationStack> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof NavigationStack>;
 
-export const Default: Story = {
-  render: (args: NavigationStackProps) => (
-    <div className='h-[300px] w-[200px] text-default-light'>
-      <NavigationStack defaultViewId='parent' {...args}>
-        <NavigationStack.View id='parent-id'>
-          <div className='flex flex-col gap-m'>
-            <div className='text-header-l'>Parent View</div>
-            <NavigationStack.Navigate for='child-id'>
-              <Button>Go To Child</Button>
-            </NavigationStack.Navigate>
-          </div>
+const ids = {
+  stack: uuid(),
+  a: uuid(),
+  b: uuid(),
+  c: uuid(),
+};
+
+export const Default: StoryObj<typeof NavigationStack> = {
+  render: () => (
+    <>
+      <NavigationStack id={ids.stack} defaultView={ids.a}>
+        <NavigationStack.View id={ids.a}>
+          <NavigationStack.Trigger for={ids.b}>
+            <Button size='small' variant='flat'>
+              Push View B
+            </Button>
+          </NavigationStack.Trigger>
+          <h1 className='fg-default-light h-oversized text-center'>View A</h1>
         </NavigationStack.View>
-        <NavigationStack.View id='child-id'>
-          <div className='flex items-center justify-between'>
-            <NavigationStack.Navigate for='back'>
-              <div className='flex cursor-pointer items-center'>
-                <Button variant='icon'>
-                  <Icon>
-                    <ChevronLeft />
-                  </Icon>
-                </Button>
-                <span className='text-body-xs'> Parent View </span>
-              </div>
-            </NavigationStack.Navigate>
-            <div className='text-header-s uppercase'>Child View</div>
+        <NavigationStack.View id={ids.b}>
+          <div className='flex'>
+            <NavigationStack.Trigger for='back'>
+              <Button variant='icon'>
+                <Icon>
+                  <ChevronLeft />
+                </Icon>
+              </Button>
+            </NavigationStack.Trigger>
+            <NavigationStack.Trigger for={ids.c}>
+              <Button size='small' variant='flat'>
+                Push View C
+              </Button>
+            </NavigationStack.Trigger>
           </div>
-          <div className='mt-m text-body-s'>
-            <p>this is the child view</p>
-          </div>
+          <h1 className='fg-default-light h-oversized text-center'>View B</h1>
+        </NavigationStack.View>
+        <NavigationStack.View id={ids.c}>
+          <NavigationStack.Trigger for='back'>
+            <Button variant='icon'>
+              <Icon>
+                <ChevronLeft />
+              </Icon>
+            </Button>
+          </NavigationStack.Trigger>
+          <h1 className='fg-default-light h-oversized text-center'>View C</h1>
         </NavigationStack.View>
       </NavigationStack>
-    </div>
+      <div className='flex gap-s'>
+        <NavigationStack.Trigger for={[`clear:${ids.stack}`, ids.a]}>
+          <Button variant='flat'>Goto View A</Button>
+        </NavigationStack.Trigger>
+        <NavigationStack.Trigger for={[`clear:${ids.stack}`, ids.b]}>
+          <Button variant='flat'>Goto View B</Button>
+        </NavigationStack.Trigger>
+        <NavigationStack.Trigger for={[`clear:${ids.stack}`, ids.c]}>
+          <Button variant='flat'>Goto View C</Button>
+        </NavigationStack.Trigger>
+      </div>
+    </>
   ),
 };
