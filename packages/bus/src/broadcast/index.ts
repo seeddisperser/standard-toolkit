@@ -14,7 +14,7 @@ import { DEFAULT_CONFIG } from './constants';
 import type { BroadcastConfig, Listener, Payload } from './types';
 
 /** Broadcast even class. Allows for emitting events across contexts. */
-export class Broadcast {
+export class Broadcast<P extends Payload = Payload> {
   #channelName: string;
   #channel: BroadcastChannel | null = null;
   #listeners: Record<string, Listener[]> = {};
@@ -59,7 +59,7 @@ export class Broadcast {
    * @template T - The type of the Payload data.
    * @param event - Incoming message event.
    */
-  #onMessage<T>(event: MessageEvent<Payload<T>>) {
+  #onMessage(event: MessageEvent<P>) {
     this.#handleListeners(event.data);
   }
 
@@ -80,7 +80,7 @@ export class Broadcast {
    * @template T - The type of the Payload data.
    * @param payload - The event payload containing type, payload, targets, and topic.
    */
-  #handleListeners<T>({ type, payload }: Payload<T>) {
+  #handleListeners({ type, payload }: P) {
     const handler = this.#listeners[type];
 
     if (!handler) {
@@ -120,7 +120,7 @@ export class Broadcast {
    * @template T - The type of the Payload data.
    * @param type - The event type.
    */
-  #addListener<T>(type: string, args: Listener<T>) {
+  #addListener(type: string, args: Listener<Payload['payload']>) {
     if (!this.#listeners[type]) {
       this.#listeners[type] = [];
     }
@@ -142,10 +142,19 @@ export class Broadcast {
    *   }
    * });
    */
-  on<T>(type: string, callback: (data: Payload<T>) => void) {
+  on<T extends P['type']>(
+    type: T,
+    callback: (
+      data: string extends P['type'] ? P : Extract<P, { type: T & string }>,
+    ) => void,
+  ) {
     const id = this.#listenerCounter++;
 
-    this.#addListener(type, { callback, id, once: false });
+    this.#addListener(type, { callback, id, once: false } as {
+      callback: (data: Payload) => void;
+      id: number;
+      once: boolean;
+    });
 
     return () => this.#removeListener(type, id);
   }
@@ -157,10 +166,19 @@ export class Broadcast {
    * @param type - The event type.
    * @param callback - The callback function.
    */
-  once<T>(type: string, callback: (data: Payload<T>) => void) {
+  once<T extends P['type']>(
+    type: T,
+    callback: (
+      data: string extends P['type'] ? P : Extract<P, { type: T & string }>,
+    ) => void,
+  ) {
     const id = this.#listenerCounter++;
 
-    this.#addListener(type, { callback, id, once: true });
+    this.#addListener(type, { callback, id, once: true } as {
+      callback: (data: Payload) => void;
+      id: number;
+      once: boolean;
+    });
     return () => this.#removeListener(type, id);
   }
 
@@ -170,7 +188,14 @@ export class Broadcast {
    * @template T - The type of the Payload data.
    * @param type - The event type.
    */
-  off<T>(type: string, callback: (data: Payload<T>) => void) {
+  off<T extends P['type']>(
+    type: T,
+    callback: (
+      data: string extends P['type']
+        ? P['payload']
+        : Extract<P, { type: T & string }>['payload'],
+    ) => void,
+  ) {
     if (this.#listeners[type]) {
       this.#listeners[type] = this.#listeners[type].filter(
         (listener) => listener.callback !== callback,
@@ -196,19 +221,28 @@ export class Broadcast {
    *   },
    * );
    */
-  emit<T>(type: string, payload: T) {
+  emit<T extends P['type']>(
+    type: T,
+    payload: string extends P['type']
+      ? P['payload']
+      : Extract<P, { type: T & string }>['payload'],
+  ) {
     if (!this.#channel) {
       console.warn('Cannot emit: BroadcastChannel is not initialized.');
       return;
     }
 
-    const message = { type, payload };
+    const message = { type, payload } as Payload;
 
-    this.#channel.postMessage(message);
+    this.#channel.postMessage(message as P);
+
+    if (!this.#channel.onmessage) {
+      console.warn('No listeners registered for this event type:', type);
+      return;
+    }
 
     // NOTE: this allows the context that emitted the event to also listen for it
-    // @ts-expect-error
-    this.#channel.onmessage({ data: message });
+    this.#channel.onmessage({ data: message } as MessageEvent<P>);
   }
 
   /**
@@ -216,7 +250,7 @@ export class Broadcast {
    *
    * @param type - The event to delete.
    */
-  deleteEvent(type: string) {
+  deleteEvent(type: P['type']) {
     delete this.#listeners[type];
   }
 
@@ -238,7 +272,7 @@ export class Broadcast {
   /**
    * Get a list of all available events.
    */
-  getEvents(): string[] {
+  getEvents(): P['type'][] {
     return Object.keys(this.#listeners);
   }
 }
