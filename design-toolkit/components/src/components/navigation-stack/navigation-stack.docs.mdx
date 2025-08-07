@@ -59,7 +59,7 @@ The most important prop for the NavigationStack.Trigger is `for`. This dictates 
 - ``` `back:${UniqueId}` ``` (`id` should belong to a NavigationStack): Can be anywhere in the application and will cause stack to follow `'back'` behavior.
 - ``` `clear:${UniqueId}` ``` (`id` should belong to a NavigationStack): Can be anywhere in the application and will cause stack to follow `'clear'` behavior.
 - ``` `reset:${UniqueId}` ``` (`id` should belong to a NavigationStack): Can be anywhere in the application and will cause stack to follow `'reset'` behavior.
-- `[any combination of the above]`: Each value will rules as stated above. Each event will be fired in sequence in the order provided.
+- `[any combination of the above]` (array of values): Each value with applicable rules as stated above. Each event will be fired in sequence in the order provided.
 
 ## Implementation Notes
 To guarantee uniqueness of ids across an application, the NavigationStack implements Tagged UUID strings. This is also validated and will throw an error if a non-UUID is passed in.
