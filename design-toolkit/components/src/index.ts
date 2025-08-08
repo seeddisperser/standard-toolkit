@@ -107,12 +107,12 @@ export type {
 export { ColorPicker } from './components/color-picker';
 export { ColorPickerStyles } from './components/color-picker/styles';
 export type { ColorPickerProps } from './components/color-picker/types';
-export { ComboBox } from './components/combobox';
 export {
-  ComboBoxStyles,
-  ComboBoxStylesDefault,
-} from './components/combobox/styles';
-export type { ComboBoxProps } from './components/combobox/types';
+  ComboBoxField,
+  ComboBoxFieldContext,
+} from './components/combobox-field';
+export { ComboBoxStyles } from './components/combobox-field/styles';
+export type { ComboBoxFieldProps } from './components/combobox-field/types';
 export { DateField } from './components/date-field';
 export {
   DateFieldStyles,
