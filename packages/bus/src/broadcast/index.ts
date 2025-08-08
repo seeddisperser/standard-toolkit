@@ -13,14 +13,15 @@
 import { DEFAULT_CONFIG } from './constants';
 import type { BroadcastConfig, Listener, Payload } from './types';
 
-/** Broadcast even class. Allows for emitting events across contexts. */
+/** Broadcast event class allows for emitting and listening for events */
 export class Broadcast<P extends Payload = Payload> {
   protected channelName: string;
   protected channel: BroadcastChannel | null = null;
   protected listeners: Record<string, Listener<P>[]> = {};
   protected listenerCounter = 0;
 
-  private static instance: Broadcast<Payload> | null = null;
+  // biome-ignore lint/suspicious/noExplicitAny: Can't use generics in static properties
+  private static instance: Broadcast<any> | null = null;
 
   /** Broadcast class constructor. */
   constructor(config?: BroadcastConfig) {
@@ -34,12 +35,10 @@ export class Broadcast<P extends Payload = Payload> {
    *
    * @param config - Optional custom configuration.
    */
-  static getInstance(config?: BroadcastConfig) {
-    Broadcast.instance ??= new Broadcast<Payload>(config);
+  static getInstance<T extends Payload = Payload>(config?: BroadcastConfig) {
+    Broadcast.instance ??= new Broadcast<T>(config);
 
-    const instance = Broadcast.instance;
-
-    return instance as Broadcast<P>;
+    return Broadcast.instance as Broadcast<T>;
   }
 
   /**
@@ -133,12 +132,14 @@ export class Broadcast<P extends Payload = Payload> {
   on<T extends P['type']>(
     type: T,
     callback: (
-      data: string extends P['type'] ? P : Extract<P, { type: T & string }>,
+      data: {
+        [K in P['type']]: Extract<P, { type: K }>;
+      }[T],
     ) => void,
   ) {
     const id = this.listenerCounter++;
 
-    this.addListener(type, { callback, id, once: false });
+    this.addListener(type, { callback, id, once: false } as Listener<P>);
 
     return () => this.removeListener(type, id);
   }
@@ -153,12 +154,14 @@ export class Broadcast<P extends Payload = Payload> {
   once<T extends P['type']>(
     type: T,
     callback: (
-      data: string extends P['type'] ? P : Extract<P, { type: T & string }>,
+      data: {
+        [K in P['type']]: Extract<P, { type: K }>;
+      }[T],
     ) => void,
   ) {
     const id = this.listenerCounter++;
 
-    this.addListener(type, { callback, id, once: true });
+    this.addListener(type, { callback, id, once: true } as Listener<P>);
 
     return () => this.removeListener(type, id);
   }
@@ -169,7 +172,7 @@ export class Broadcast<P extends Payload = Payload> {
    * @template T - The Payload type, inferred from the event.
    * @param type - The event type.
    */
-  off<T extends P['type']>(type: T, callback: (data: any) => void) {
+  off<T extends P['type']>(type: T, callback: Listener<P>['callback']) {
     if (this.listeners[type]) {
       this.listeners[type] = this.listeners[type].filter(
         (listener) => listener.callback !== callback,
@@ -186,8 +189,8 @@ export class Broadcast<P extends Payload = Payload> {
    *
    * @example
    * bus.emit(
-   *   EVENTS.LAYER_CLICK,
    *   {
+   *     type: EVENTS.LAYER_CLICK
    *     worldSpace: pickInfo.coordinate,
    *     screenSpace: pickInfo.pixel,
    *     index: pickInfo.index,
@@ -195,28 +198,21 @@ export class Broadcast<P extends Payload = Payload> {
    *   },
    * );
    */
-  emit<T extends P['type']>(
-    type: T,
-    payload: string extends P['type']
-      ? P['payload']
-      : Extract<P, { type: T & string }>['payload'],
-  ) {
+  emit(data: P) {
     if (!this.channel) {
       console.warn('Cannot emit: BroadcastChannel is not initialized.');
       return;
     }
 
-    const message = { type, payload };
-
-    this.channel.postMessage(message as P);
+    this.channel.postMessage(data);
 
     if (!this.channel.onmessage) {
-      console.warn('No listeners registered for this event type:', type);
+      console.warn('No listeners registered for this event type:', data.type);
       return;
     }
 
     // NOTE: this allows the context that emitted the event to also listen for it
-    this.channel.onmessage({ data: message } as MessageEvent<P>);
+    this.channel.onmessage({ data } as MessageEvent<P>);
   }
 
   /**
@@ -251,3 +247,25 @@ export class Broadcast<P extends Payload = Payload> {
     return Object.keys(this.listeners);
   }
 }
+
+// type TestEvent = {
+//   type: 'test-event';
+//   payload: { message: string };
+// };
+
+// type AnotherTestEvent = {
+//   type: 'another-test-event';
+//   payload: { data: number; description: string };
+// };
+
+// type BusEvents = TestEvent | AnotherTestEvent;
+
+// const bus = Broadcast.getInstance<BusEvents>();
+
+// bus.on('test-event', (e) => {
+//   console.log('Received test-event:', e.payload.message);
+// });
+
+// bus.on('another-test-event', (e) => {
+//   console.log('Received another-test-event:', e.payload.data);
+// });
