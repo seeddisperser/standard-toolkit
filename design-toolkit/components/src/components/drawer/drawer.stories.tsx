@@ -9,7 +9,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { Cancel, ChevronLeft, Placeholder } from '@accelint/icons';
+import { Cancel, Placeholder } from '@accelint/icons';
 import type { Meta, StoryObj } from '@storybook/react';
 import { useCallback, useState } from 'react';
 import { Button } from '../button';
