@@ -32,6 +32,7 @@ export class Broadcast<P extends Payload = Payload> {
 
   /**
    * Get the singleton instance of Broadcaster.
+   * @template T - The type of the Payload.
    *
    * @param config - Optional custom configuration.
    */
@@ -57,7 +58,6 @@ export class Broadcast<P extends Payload = Payload> {
    * Process incoming messages.
    *
    * @private
-   * @template T - The type of the Payload data.
    * @param event - Incoming message event.
    */
   #onMessage(event: MessageEvent<P>) {
@@ -78,7 +78,6 @@ export class Broadcast<P extends Payload = Payload> {
    * Iterate through listeners for the given topic and invoke callbacks if criteria match.
    *
    * @private
-   * @template T - The type of the Payload data.
    * @param payload - The event payload containing type, payload, targets, and topic.
    */
   #handleListeners({ type, payload }: P) {
@@ -118,7 +117,6 @@ export class Broadcast<P extends Payload = Payload> {
    * Check for the existence of a event type and create it if missing.
    *
    * @private
-   * @template T - The type of the Payload data.
    * @param type - The event type.
    */
   #addListener(type: string, args: Listener<Payload['payload']>) {
@@ -132,7 +130,7 @@ export class Broadcast<P extends Payload = Payload> {
   /**
    * Register a callback to be executed when a message of the specified event type is received.
    *
-   * @template T - The type of the Payload data.
+   * @template T - The Payload type, inferred from the event.
    * @param type - The event type.
    * @param callback - The callback function.
    *
@@ -163,7 +161,7 @@ export class Broadcast<P extends Payload = Payload> {
   /**
    * Register a callback to be executed only once for a specified event type.
    *
-   * @template T - The type of the Payload data.
+   * @template T - The Payload type, inferred from the event.
    * @param type - The event type.
    * @param callback - The callback function.
    */
@@ -186,7 +184,7 @@ export class Broadcast<P extends Payload = Payload> {
   /**
    * Unregister all callbacks for the specified event type.
    *
-   * @template T - The type of the Payload data.
+   * @template T - The Payload type, inferred from the event.
    * @param type - The event type.
    */
   off<T extends P['type']>(
@@ -207,7 +205,7 @@ export class Broadcast<P extends Payload = Payload> {
   /**
    * Emit an event to all listening contexts.
    *
-   * @template T - The type of the Payload data.
+   * @template T - The Payload type, inferred from the event.
    * @param type - The event type.
    * @param payload - The event payload.
    *
