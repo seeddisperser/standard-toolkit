@@ -7,7 +7,11 @@ import * as NavigationStackStories from './navigation-stack.stories';
 # NavigationStack
 
 The NavigationStack component allows you to manage a stack of views. Think of it as similar to the functionality of tabs, but the triggers can be anywhere, even programmatic. The NavigationStack component provides a way to push and pop views from the stack as well as clear all or reset back to the original view.
+It is composed of the following components:
 
+- **NavigationStack** - parent that encapsulates all the views and triggers
+- **NavigationStack.View** - content view container
+- **NavigationStack.Trigger** - fires a stack or view action
 The NavigationStack has no inherent sense of style or layout. It simply displays the current view, if there is one. There's a limit of a single active view per stack, but stacks can also be nested to create more complex combinations of views.
 
 ## Example usage
