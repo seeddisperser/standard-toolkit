@@ -38,14 +38,12 @@ import type {
 const bus = Broadcast.getInstance();
 
 const NavidationStackEventNamespace = 'NavigationStack';
-export const NavigationStackBackEventType =
-  `${NavidationStackEventNamespace}:back` as const;
-export const NavigationStackClearEventType =
-  `${NavidationStackEventNamespace}:clear` as const;
-export const NavigationStackResetEventType =
-  `${NavidationStackEventNamespace}:reset` as const;
-export const NavigationStackPushEventType =
-  `${NavidationStackEventNamespace}:push` as const;
+export const NavigationStackEventTypes = {
+  back: `${NavidationStackEventNamespace}:back`,
+  clear: `${NavidationStackEventNamespace}:clear`,
+  reset: `${NavidationStackEventNamespace}:reset`,
+  push: `${NavidationStackEventNamespace}:push`,
+} as const;
 
 const NavigationStackContext = createContext<NavigationStackContextValue>({
   parent: null,
@@ -91,7 +89,7 @@ function NavigationStackTrigger({
       onPress={() => {
         for (const type of Array.isArray(types) ? types : [types]) {
           if (isUUID(type)) {
-            bus.emit<NavigationStackPushEvent>(NavigationStackPushEventType, {
+            bus.emit<NavigationStackPushEvent>(NavigationStackEventTypes.push, {
               view: type,
             });
           } else {
@@ -175,16 +173,16 @@ export function NavigationStack({
   }, []);
 
   useEffect(() => {
-    bus.on(NavigationStackBackEventType, handleBack);
-    bus.on(NavigationStackClearEventType, handleClear);
-    bus.on(NavigationStackResetEventType, handleReset);
-    bus.on(NavigationStackPushEventType, handlePush);
+    bus.on(NavigationStackEventTypes.back, handleBack);
+    bus.on(NavigationStackEventTypes.clear, handleClear);
+    bus.on(NavigationStackEventTypes.reset, handleReset);
+    bus.on(NavigationStackEventTypes.push, handlePush);
 
     return () => {
-      bus.off(NavigationStackBackEventType, handleBack);
-      bus.off(NavigationStackClearEventType, handleClear);
-      bus.off(NavigationStackResetEventType, handleReset);
-      bus.off(NavigationStackPushEventType, handlePush);
+      bus.off(NavigationStackEventTypes.back, handleBack);
+      bus.off(NavigationStackEventTypes.clear, handleClear);
+      bus.off(NavigationStackEventTypes.reset, handleReset);
+      bus.off(NavigationStackEventTypes.push, handlePush);
     };
   }, [handleBack, handleClear, handleReset, handlePush]);
 

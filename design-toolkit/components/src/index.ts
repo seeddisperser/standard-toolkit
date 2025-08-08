@@ -190,10 +190,7 @@ export type {
 } from './components/menu/types';
 export {
   NavigationStack,
-  NavigationStackBackEventType,
-  NavigationStackClearEventType,
-  NavigationStackPushEventType,
-  NavigationStackResetEventType,
+  NavigationStackEventTypes,
 } from './components/navigation-stack';
 export type {
   NavigationStackBackEvent,
