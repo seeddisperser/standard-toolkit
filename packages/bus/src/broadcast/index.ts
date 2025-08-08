@@ -20,7 +20,8 @@ export class Broadcast<P extends Payload = Payload> {
   #listeners: Record<string, Listener[]> = {};
   #listenerCounter = 0;
 
-  private static instance: Broadcast | null = null;
+  // biome-ignore lint/suspicious/noExplicitAny: Typescript doesn't allow type parameters from the class on static properties
+  private static instance: Broadcast<any> | null = null;
 
   /** Broadcast class constructor. */
   constructor(config?: BroadcastConfig) {
@@ -34,12 +35,12 @@ export class Broadcast<P extends Payload = Payload> {
    *
    * @param config - Optional custom configuration.
    */
-  static getInstance(config?: BroadcastConfig) {
+  static getInstance<T extends Payload = Payload>(config?: BroadcastConfig) {
     if (!Broadcast.instance) {
-      Broadcast.instance = new Broadcast(config);
+      Broadcast.instance = new Broadcast<T>(config);
     }
 
-    return Broadcast.instance;
+    return Broadcast.instance as Broadcast<T>;
   }
 
   /**
