@@ -202,7 +202,7 @@ export class Broadcast<P extends Payload = Payload> {
     type: T,
     payload: {
       [K in P['type']]: Extract<P, { type: K }>;
-    }[T],
+    }[T]['payload'],
   ) {
     if (!this.channel) {
       console.warn('Cannot emit: BroadcastChannel is not initialized.');
