@@ -11,13 +11,8 @@
  */
 
 import type { UniqueId } from '@accelint/core';
-import type { FocusableElement } from '@react-types/shared';
-import type {
-  DOMAttributes,
-  PropsWithChildren,
-  ReactElement,
-  RefAttributes,
-} from 'react';
+import type { ComponentProps, PropsWithChildren, RefAttributes } from 'react';
+import type { Pressable } from 'react-aria-components';
 
 export type NavigationStackProps = RefAttributes<HTMLDivElement> &
   PropsWithChildren<{
@@ -56,6 +51,7 @@ type TargetedEvents =
 type ChainedEvents = (SimpleEvents | TargetedEvents)[];
 
 export type NavigationStackTriggerProps = {
+  children: ComponentProps<typeof Pressable>['children'];
   /**
    * __SimpleEvents__ allow the easiest implementation of events, but come with some restrictions:
    * - The literal commands `back | clear | reset` will only work inside of the context of a NavigationStack
@@ -76,7 +72,6 @@ export type NavigationStackTriggerProps = {
    * [viewOneId, viewTwoId, viewThreeId]
    */
   for: SimpleEvents | TargetedEvents | ChainedEvents;
-  children: ReactElement<DOMAttributes<FocusableElement>, string>;
 };
 
 export type NavigationStackContextValue = {

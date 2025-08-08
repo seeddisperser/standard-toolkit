@@ -36,15 +36,7 @@ import type {
 } from './types';
 
 const bus = Broadcast.getInstance();
-
 const NavidationStackEventNamespace = 'NavigationStack';
-export const NavigationStackEventTypes = {
-  back: `${NavidationStackEventNamespace}:back`,
-  clear: `${NavidationStackEventNamespace}:clear`,
-  reset: `${NavidationStackEventNamespace}:reset`,
-  push: `${NavidationStackEventNamespace}:push`,
-} as const;
-
 const NavigationStackContext = createContext<NavigationStackContextValue>({
   parent: null,
   stack: [],
@@ -53,7 +45,54 @@ const NavigationStackContext = createContext<NavigationStackContextValue>({
   unregister: () => undefined,
 });
 
-const NavigationStackView = ({ id, children }: NavigationStackViewProps) => {
+export const NavigationStackEventTypes = {
+  back: `${NavidationStackEventNamespace}:back`,
+  clear: `${NavidationStackEventNamespace}:clear`,
+  reset: `${NavidationStackEventNamespace}:reset`,
+  push: `${NavidationStackEventNamespace}:push`,
+} as const;
+
+function NavigationStackTrigger({
+  children,
+  for: types,
+}: NavigationStackTriggerProps) {
+  const { parent } = useContext(NavigationStackContext);
+
+  function handlePress() {
+    for (const type of Array.isArray(types) ? types : [types]) {
+      if (isUUID(type)) {
+        bus.emit<NavigationStackPushEvent>(NavigationStackEventTypes.push, {
+          view: type,
+        });
+      } else {
+        const [event, target] = type.split(':') as [
+          'back' | 'clear' | 'reset',
+          UniqueId | undefined,
+        ];
+        const stack = target ?? parent;
+
+        if (stack) {
+          bus.emit<
+            | NavigationStackBackEvent
+            | NavigationStackClearEvent
+            | NavigationStackResetEvent
+          >(`${NavidationStackEventNamespace}:${event}`, {
+            stack,
+          });
+        }
+      }
+    }
+  }
+
+  return (
+    <PressResponder onPress={handlePress}>
+      <Pressable>{children}</Pressable>
+    </PressResponder>
+  );
+}
+NavigationStackTrigger.displayName = 'NavigationStack.Trigger';
+
+function NavigationStackView({ id, children }: NavigationStackViewProps) {
   const { parent, view, register, unregister } = useContext(
     NavigationStackContext,
   );
@@ -75,48 +114,8 @@ const NavigationStackView = ({ id, children }: NavigationStackViewProps) => {
   }, [register, unregister, id]);
 
   return view === id ? children : null;
-};
-NavigationStackView.displayName = 'NavigationStack.View';
-
-function NavigationStackTrigger({
-  children,
-  for: types,
-}: NavigationStackTriggerProps) {
-  const { parent } = useContext(NavigationStackContext);
-
-  return (
-    <PressResponder
-      onPress={() => {
-        for (const type of Array.isArray(types) ? types : [types]) {
-          if (isUUID(type)) {
-            bus.emit<NavigationStackPushEvent>(NavigationStackEventTypes.push, {
-              view: type,
-            });
-          } else {
-            const [event, target] = type.split(':') as [
-              'back' | 'clear' | 'reset',
-              UniqueId | undefined,
-            ];
-            const stack = target ?? parent;
-
-            if (stack) {
-              bus.emit<
-                | NavigationStackBackEvent
-                | NavigationStackClearEvent
-                | NavigationStackResetEvent
-              >(`${NavidationStackEventNamespace}:${event}`, {
-                stack,
-              });
-            }
-          }
-        }
-      }}
-    >
-      <Pressable>{children}</Pressable>
-    </PressResponder>
-  );
 }
-NavigationStackTrigger.displayName = 'NavigationStack.Trigger';
+NavigationStackView.displayName = 'NavigationStack.View';
 
 export function NavigationStack({
   id,
