@@ -10,6 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
+import type { RefAttributes } from 'react';
 import type {
   ComboBoxProps,
   FieldErrorProps,
@@ -27,7 +28,8 @@ export type ComboBoxFieldProps<T extends OptionsDataItem> = Omit<
   'children' | 'className'
 > &
   Pick<VirtualizerProps<ListLayoutOptions>, 'layoutOptions'> &
-  Pick<OptionsProps<T>, 'children'> & {
+  Pick<OptionsProps<T>, 'children'> &
+  RefAttributes<HTMLDivElement> & {
     classNames?: {
       field?: ComboBoxProps<T>['className'];
       label?: LabelProps['className'];
@@ -39,7 +41,7 @@ export type ComboBoxFieldProps<T extends OptionsDataItem> = Omit<
       popover?: PopoverProps['className'];
     };
     label?: string;
-    inputProps?: Omit<InputProps, 'classNames'>;
+    inputProps?: Omit<InputProps, 'className'>;
     description?: string;
     errorMessage?: string;
     size?: 'small' | 'medium';

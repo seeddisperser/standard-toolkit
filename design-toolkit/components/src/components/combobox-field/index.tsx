@@ -26,6 +26,7 @@ import {
   Text,
   Virtualizer,
   composeRenderProps,
+  useContextProps,
 } from 'react-aria-components';
 import { Icon } from '../icon';
 import { Label } from '../label';
@@ -38,6 +39,7 @@ const { field, label, control, input, trigger, description, error, popover } =
   ComboBoxStyles();
 
 export const ComboBoxFieldContext =
+  // biome-ignore lint/suspicious/noExplicitAny: Setting a type would restrict it beyond what the component allows to extend to
   createContext<ContextValue<ComboBoxFieldProps<any>, HTMLDivElement>>(null);
 
 function ComboBoxFieldProvider<T extends OptionsDataItem>({
@@ -53,23 +55,31 @@ function ComboBoxFieldProvider<T extends OptionsDataItem>({
 ComboBoxFieldProvider.displayName = 'ComboBoxField.Provider';
 
 export function ComboBoxField<T extends OptionsDataItem>({
-  children,
-  classNames,
-  description: descriptionProp,
-  errorMessage: errorMessageProp,
-  label: labelProp,
-  layoutOptions,
-  menuTrigger = 'focus',
-  size = 'medium',
-  isInvalid: isInvalidProp,
-  ...rest
+  ref,
+  ...props
 }: ComboBoxFieldProps<T>) {
+  [props, ref] = useContextProps(props, ref ?? null, ComboBoxFieldContext);
+
+  const {
+    children,
+    classNames,
+    description: descriptionProp,
+    errorMessage: errorMessageProp,
+    inputProps,
+    label: labelProp,
+    layoutOptions,
+    menuTrigger = 'focus',
+    size = 'medium',
+    isInvalid: isInvalidProp,
+    ...rest
+  } = props;
   const errorMessage = errorMessageProp || null; // Protect against empty string
   const isSmall = size === 'small';
 
   return (
     <ComboBox<T>
       {...rest}
+      ref={ref}
       className={composeRenderProps(classNames?.field, (className) =>
         field({ className }),
       )}
@@ -92,6 +102,7 @@ export function ComboBoxField<T extends OptionsDataItem>({
           )}
           <div className={control({ className: classNames?.control })}>
             <Input
+              {...inputProps}
               className={composeRenderProps(classNames?.input, (className) =>
                 input({ className }),
               )}
