@@ -16,8 +16,8 @@ import type { ProviderProps } from '@/lib/types';
 import { ChevronDown } from '@accelint/icons';
 import { createContext } from 'react';
 import {
-  ComboBox as AriaComboBox,
   Button,
+  ComboBox,
   type ContextValue,
   FieldError,
   Input,
@@ -68,7 +68,7 @@ export function ComboBoxField<T extends OptionsDataItem>({
   const isSmall = size === 'small';
 
   return (
-    <AriaComboBox<T>
+    <ComboBox<T>
       {...rest}
       className={composeRenderProps(classNames?.field, (className) =>
         field({ className }),
@@ -134,7 +134,7 @@ export function ComboBoxField<T extends OptionsDataItem>({
           </Popover>
         </>
       )}
-    </AriaComboBox>
+    </ComboBox>
   );
 }
 ComboBoxField.displayName = 'ComboBox';

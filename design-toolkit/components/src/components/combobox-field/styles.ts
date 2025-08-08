@@ -14,30 +14,30 @@ import { tv } from 'tailwind-variants';
 
 export const ComboBoxStyles = tv({
   slots: {
-    field: 'group/combo-box-field flex flex-col gap-xs',
+    field: 'group/combobox-field flex flex-col gap-xs',
     label: '',
     control: [
       'flex items-center rounded-medium px-s py-xs outline',
-      'group-enabled/combo-box-field:fg-default-light group-enabled:combo-box-field:outline-interactive',
-      'group-enabled/combo-box-field:placeholder:fg-default-dark',
-      'group-enabled/combo-box-field:focus-within:outline-highlight',
-      'group-enabled/combo-box-field:hover:outline-interactive-hover',
-      'group-enabled/combo-box-field:group-invalid/combo-box-field:outline-serious',
-      'group-disabled/combo-box-field:fg-disabled group-disabled/combo-box-field:outline-interactive-disabled',
+      'group-enabled/combobox-field:fg-default-light group-enabled:combobox-field:outline-interactive',
+      'group-enabled/combobox-field:placeholder:fg-default-dark',
+      'group-enabled/combobox-field:focus-within:outline-highlight',
+      'group-enabled/combobox-field:hover:outline-interactive-hover',
+      'group-enabled/combobox-field:group-invalid/combobox-field:outline-serious',
+      'group-disabled/combobox-field:fg-disabled group-disabled/combobox-field:outline-interactive-disabled',
     ],
     input: [
       'font-display outline-none',
-      'group-size-medium/combo-box-field:text-body-s',
-      'group-size-small/combo-box-field:text-body-xs',
+      'group-size-medium/combobox-field:text-body-s',
+      'group-size-small/combobox-field:text-body-xs',
     ],
     trigger: [
       'fg-default-light',
-      'group-open/combo-box-field:rotate-180 group-open/combo-box-field:transform',
-      'group-disabled/combo-box-field:fg-disabled',
+      'group-open/combobox-field:rotate-180 group-open/combobox-field:transform',
+      'group-disabled/combobox-field:fg-disabled',
     ],
     description: [
       'fg-default-dark text-body-xs',
-      'group-disabled/combo-box-field:fg-disabled',
+      'group-disabled/combobox-field:fg-disabled',
     ],
     error: 'fg-serious text-body-xs',
     popover: '-ml-s min-w-[calc(var(--trigger-width)+(var(--spacing-s)*2))]',

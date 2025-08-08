@@ -44,7 +44,7 @@ function setup({
   };
 }
 
-describe('Combobox', () => {
+describe('ComboBoxField', () => {
   it('should render', () => {
     setup();
 
