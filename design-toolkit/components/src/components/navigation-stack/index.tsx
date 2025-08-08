@@ -36,7 +36,7 @@ import type {
 } from './types';
 
 const bus = Broadcast.getInstance();
-const NavidationStackEventNamespace = 'NavigationStack';
+const NavigationStackEventNamespace = 'NavigationStack';
 const NavigationStackContext = createContext<NavigationStackContextValue>({
   parent: null,
   stack: [],
@@ -46,10 +46,10 @@ const NavigationStackContext = createContext<NavigationStackContextValue>({
 });
 
 export const NavigationStackEventTypes = {
-  back: `${NavidationStackEventNamespace}:back`,
-  clear: `${NavidationStackEventNamespace}:clear`,
-  reset: `${NavidationStackEventNamespace}:reset`,
-  push: `${NavidationStackEventNamespace}:push`,
+  back: `${NavigationStackEventNamespace}:back`,
+  clear: `${NavigationStackEventNamespace}:clear`,
+  reset: `${NavigationStackEventNamespace}:reset`,
+  push: `${NavigationStackEventNamespace}:push`,
 } as const;
 
 function NavigationStackTrigger({
@@ -76,7 +76,7 @@ function NavigationStackTrigger({
             | NavigationStackBackEvent
             | NavigationStackClearEvent
             | NavigationStackResetEvent
-          >(`${NavidationStackEventNamespace}:${event}`, {
+          >(`${NavigationStackEventNamespace}:${event}`, {
             stack,
           });
         }
