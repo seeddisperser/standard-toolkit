@@ -25,19 +25,19 @@ import {
 } from 'react';
 import { Pressable } from 'react-aria-components';
 import type {
-  NavigationStackBackEvent,
-  NavigationStackClearEvent,
-  NavigationStackContextValue,
-  NavigationStackProps,
-  NavigationStackPushEvent,
-  NavigationStackResetEvent,
-  NavigationStackTriggerProps,
-  NavigationStackViewProps,
+  ViewStackBackEvent,
+  ViewStackClearEvent,
+  ViewStackContextValue,
+  ViewStackProps,
+  ViewStackPushEvent,
+  ViewStackResetEvent,
+  ViewStackTriggerProps,
+  ViewStackViewProps,
 } from './types';
 
 const bus = Broadcast.getInstance();
-const NavigationStackEventNamespace = 'NavigationStack';
-const NavigationStackContext = createContext<NavigationStackContextValue>({
+const ViewStackEventNamespace = 'ViewStack';
+const ViewStackContext = createContext<ViewStackContextValue>({
   parent: null,
   stack: [],
   view: null,
@@ -45,23 +45,20 @@ const NavigationStackContext = createContext<NavigationStackContextValue>({
   unregister: () => undefined,
 });
 
-export const NavigationStackEventTypes = {
-  back: `${NavigationStackEventNamespace}:back`,
-  clear: `${NavigationStackEventNamespace}:clear`,
-  reset: `${NavigationStackEventNamespace}:reset`,
-  push: `${NavigationStackEventNamespace}:push`,
+export const ViewStackEventTypes = {
+  back: `${ViewStackEventNamespace}:back`,
+  clear: `${ViewStackEventNamespace}:clear`,
+  reset: `${ViewStackEventNamespace}:reset`,
+  push: `${ViewStackEventNamespace}:push`,
 } as const;
 
-function NavigationStackTrigger({
-  children,
-  for: types,
-}: NavigationStackTriggerProps) {
-  const { parent } = useContext(NavigationStackContext);
+function ViewStackTrigger({ children, for: types }: ViewStackTriggerProps) {
+  const { parent } = useContext(ViewStackContext);
 
   function handlePress() {
     for (const type of Array.isArray(types) ? types : [types]) {
       if (isUUID(type)) {
-        bus.emit<NavigationStackPushEvent>(NavigationStackEventTypes.push, {
+        bus.emit<ViewStackPushEvent>(ViewStackEventTypes.push, {
           view: type,
         });
       } else {
@@ -73,10 +70,8 @@ function NavigationStackTrigger({
 
         if (stack) {
           bus.emit<
-            | NavigationStackBackEvent
-            | NavigationStackClearEvent
-            | NavigationStackResetEvent
-          >(`${NavigationStackEventNamespace}:${event}`, {
+            ViewStackBackEvent | ViewStackClearEvent | ViewStackResetEvent
+          >(`${ViewStackEventNamespace}:${event}`, {
             stack,
           });
         }
@@ -90,21 +85,17 @@ function NavigationStackTrigger({
     </PressResponder>
   );
 }
-NavigationStackTrigger.displayName = 'NavigationStack.Trigger';
+ViewStackTrigger.displayName = 'ViewStack.Trigger';
 
-function NavigationStackView({ id, children }: NavigationStackViewProps) {
-  const { parent, view, register, unregister } = useContext(
-    NavigationStackContext,
-  );
+function ViewStackView({ id, children }: ViewStackViewProps) {
+  const { parent, view, register, unregister } = useContext(ViewStackContext);
 
   if (!parent) {
-    throw new Error(
-      'NavigationStack.View must be implemented within a NavigationStack',
-    );
+    throw new Error('ViewStack.View must be implemented within a ViewStack');
   }
 
   if (!isUUID(id)) {
-    throw new Error(`NavigationStack.View's id must be a UniqueId`);
+    throw new Error(`ViewStack.View's id must be a UniqueId`);
   }
 
   useEffect(() => {
@@ -115,15 +106,11 @@ function NavigationStackView({ id, children }: NavigationStackViewProps) {
 
   return view === id ? children : null;
 }
-NavigationStackView.displayName = 'NavigationStack.View';
+ViewStackView.displayName = 'ViewStack.View';
 
-export function NavigationStack({
-  id,
-  children,
-  defaultView,
-}: NavigationStackProps) {
+export function ViewStack({ id, children, defaultView }: ViewStackProps) {
   if (!isUUID(id)) {
-    throw new Error(`NavigationStack's id must be a UniqueId`);
+    throw new Error(`ViewStack's id must be a UniqueId`);
   }
 
   const views = useRef(new Set<UniqueId>());
@@ -133,7 +120,7 @@ export function NavigationStack({
   const view = stack.at(-1) ?? null;
 
   const handleBack = useCallback(
-    (data: Payload<NavigationStackBackEvent>) => {
+    (data: Payload<ViewStackBackEvent>) => {
       if (id === data?.payload?.stack) {
         setStack((prev) => {
           if (prev.length <= 1) {
@@ -148,7 +135,7 @@ export function NavigationStack({
   );
 
   const handleClear = useCallback(
-    (data: Payload<NavigationStackClearEvent>) => {
+    (data: Payload<ViewStackClearEvent>) => {
       if (id === data?.payload?.stack) {
         setStack(() => []);
       }
@@ -157,7 +144,7 @@ export function NavigationStack({
   );
 
   const handleReset = useCallback(
-    (data: Payload<NavigationStackResetEvent>) => {
+    (data: Payload<ViewStackResetEvent>) => {
       if (id === data?.payload?.stack) {
         setStack(() => (defaultView ? [defaultView] : []));
       }
@@ -165,28 +152,28 @@ export function NavigationStack({
     [id, defaultView],
   );
 
-  const handlePush = useCallback((data: Payload<NavigationStackPushEvent>) => {
+  const handlePush = useCallback((data: Payload<ViewStackPushEvent>) => {
     if (views.current.has(data?.payload?.view)) {
       setStack((prev) => [...prev, data?.payload?.view]);
     }
   }, []);
 
   useEffect(() => {
-    bus.on(NavigationStackEventTypes.back, handleBack);
-    bus.on(NavigationStackEventTypes.clear, handleClear);
-    bus.on(NavigationStackEventTypes.reset, handleReset);
-    bus.on(NavigationStackEventTypes.push, handlePush);
+    bus.on(ViewStackEventTypes.back, handleBack);
+    bus.on(ViewStackEventTypes.clear, handleClear);
+    bus.on(ViewStackEventTypes.reset, handleReset);
+    bus.on(ViewStackEventTypes.push, handlePush);
 
     return () => {
-      bus.off(NavigationStackEventTypes.back, handleBack);
-      bus.off(NavigationStackEventTypes.clear, handleClear);
-      bus.off(NavigationStackEventTypes.reset, handleReset);
-      bus.off(NavigationStackEventTypes.push, handlePush);
+      bus.off(ViewStackEventTypes.back, handleBack);
+      bus.off(ViewStackEventTypes.clear, handleClear);
+      bus.off(ViewStackEventTypes.reset, handleReset);
+      bus.off(ViewStackEventTypes.push, handlePush);
     };
   }, [handleBack, handleClear, handleReset, handlePush]);
 
   return (
-    <NavigationStackContext.Provider
+    <ViewStackContext.Provider
       value={{
         parent: id,
         stack,
@@ -196,9 +183,9 @@ export function NavigationStack({
       }}
     >
       {children}
-    </NavigationStackContext.Provider>
+    </ViewStackContext.Provider>
   );
 }
-NavigationStack.displayName = 'NavigationStack';
-NavigationStack.View = NavigationStackView;
-NavigationStack.Trigger = NavigationStackTrigger;
+ViewStack.displayName = 'ViewStack';
+ViewStack.View = ViewStackView;
+ViewStack.Trigger = ViewStackTrigger;

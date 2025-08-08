@@ -16,8 +16,8 @@ import userEvent from '@testing-library/user-event';
 import type { ReactNode } from 'react';
 import { describe, expect, it } from 'vitest';
 import { Button } from '../button';
-import { NavigationStack } from './';
-import type { NavigationStackProps } from './types';
+import { ViewStack } from './';
+import type { ViewStackProps } from './types';
 
 const ids = {
   stack: uuid(),
@@ -31,39 +31,39 @@ function setup(
     id = ids.stack,
     children = (
       <>
-        <NavigationStack.View id={ids.a}>A</NavigationStack.View>
-        <NavigationStack.View id={ids.b}>B</NavigationStack.View>
-        <NavigationStack.View id={ids.c}>C</NavigationStack.View>
-        <NavigationStack.Trigger for={ids.a}>
+        <ViewStack.View id={ids.a}>A</ViewStack.View>
+        <ViewStack.View id={ids.b}>B</ViewStack.View>
+        <ViewStack.View id={ids.c}>C</ViewStack.View>
+        <ViewStack.Trigger for={ids.a}>
           <Button>Goto A</Button>
-        </NavigationStack.Trigger>
-        <NavigationStack.Trigger for={ids.b}>
+        </ViewStack.Trigger>
+        <ViewStack.Trigger for={ids.b}>
           <Button>Goto B</Button>
-        </NavigationStack.Trigger>
-        <NavigationStack.Trigger for={ids.c}>
+        </ViewStack.Trigger>
+        <ViewStack.Trigger for={ids.c}>
           <Button>Goto C</Button>
-        </NavigationStack.Trigger>
-        <NavigationStack.Trigger for='back'>
+        </ViewStack.Trigger>
+        <ViewStack.Trigger for='back'>
           <Button>Back</Button>
-        </NavigationStack.Trigger>
-        <NavigationStack.Trigger for='clear'>
+        </ViewStack.Trigger>
+        <ViewStack.Trigger for='clear'>
           <Button>Clear</Button>
-        </NavigationStack.Trigger>
-        <NavigationStack.Trigger for='reset'>
+        </ViewStack.Trigger>
+        <ViewStack.Trigger for='reset'>
           <Button>Reset</Button>
-        </NavigationStack.Trigger>
+        </ViewStack.Trigger>
       </>
     ),
     ...rest
-  }: Partial<NavigationStackProps> = {},
+  }: Partial<ViewStackProps> = {},
   outside?: ReactNode,
 ) {
   return {
     ...render(
       <>
-        <NavigationStack {...rest} id={id}>
+        <ViewStack {...rest} id={id}>
           {children}
-        </NavigationStack>
+        </ViewStack>
         {outside}
       </>,
     ),
@@ -73,7 +73,7 @@ function setup(
   };
 }
 
-describe('NavigationStack', () => {
+describe('ViewStack', () => {
   it('should render nothing', () => {
     setup();
 
@@ -203,12 +203,12 @@ describe('NavigationStack', () => {
     setup(
       {},
       <>
-        <NavigationStack.Trigger for={ids.c}>
+        <ViewStack.Trigger for={ids.c}>
           <Button>{labels.goToC}</Button>
-        </NavigationStack.Trigger>
-        <NavigationStack.Trigger for={`clear:${ids.stack}`}>
+        </ViewStack.Trigger>
+        <ViewStack.Trigger for={`clear:${ids.stack}`}>
           <Button>{labels.clear}</Button>
-        </NavigationStack.Trigger>
+        </ViewStack.Trigger>
       </>,
     );
 
@@ -222,8 +222,8 @@ describe('NavigationStack', () => {
   });
 });
 
-describe('NavigationStack.View', () => {
-  it('should throw if not inside NavigationStack', () => {
-    expect(() => render(<NavigationStack.View id={ids.a} />)).toThrow();
+describe('ViewStack.View', () => {
+  it('should throw if not inside ViewStack', () => {
+    expect(() => render(<ViewStack.View id={ids.a} />)).toThrow();
   });
 });

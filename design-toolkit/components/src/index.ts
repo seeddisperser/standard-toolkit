@@ -188,20 +188,6 @@ export type {
   SeparatorProps,
   SubmenuTriggerProps,
 } from './components/menu/types';
-export {
-  NavigationStack,
-  NavigationStackEventTypes,
-} from './components/navigation-stack';
-export type {
-  NavigationStackBackEvent,
-  NavigationStackClearEvent,
-  NavigationStackContextValue,
-  NavigationStackProps,
-  NavigationStackPushEvent,
-  NavigationStackResetEvent,
-  NavigationStackTriggerProps,
-  NavigationStackViewProps,
-} from './components/navigation-stack/types';
 export { Options, OptionsContext } from './components/options';
 export { OptionsStyles } from './components/options/styles';
 export type {
@@ -282,6 +268,17 @@ export type {
   TooltipProps,
   TooltipTriggerProps,
 } from './components/tooltip/types';
+export { ViewStack, ViewStackEventTypes } from './components/view-stack';
+export type {
+  ViewStackBackEvent,
+  ViewStackClearEvent,
+  ViewStackContextValue,
+  ViewStackProps,
+  ViewStackPushEvent,
+  ViewStackResetEvent,
+  ViewStackTriggerProps,
+  ViewStackViewProps,
+} from './components/view-stack/types';
 export { containsExactChildren, expectsIconWrapper } from './lib/react';
 export type {
   ChildrenRenderProps,

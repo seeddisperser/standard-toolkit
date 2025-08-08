@@ -12,4 +12,4 @@
 "@accelint/docs": patch
 ---
 
-Refactored NavigationStack to be event driven, allowing for triggers anywhere in the app
+Refactored ViewStack to be event driven, allowing for triggers anywhere in the app

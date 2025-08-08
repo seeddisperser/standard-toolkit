@@ -15,17 +15,17 @@ import { ChevronLeft } from '@accelint/icons';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from '../button';
 import { Icon } from '../icon';
-import { NavigationStack } from './index';
+import { ViewStack } from './index';
 
-const meta: Meta<typeof NavigationStack> = {
-  title: 'Components/NavigationStack',
-  component: NavigationStack,
+const meta: Meta<typeof ViewStack> = {
+  title: 'Components/ViewStack',
+  component: ViewStack,
   parameters: {
     docs: {
       description: {
         component: `
-          The NavigationStack component allows you to manage a stack of views. Think of it as similar to the
-          functionality of tabs, but the triggers can be anywhere, even programmatic. The NavigationStack
+          The ViewStack component allows you to manage a stack of views. Think of it as similar to the
+          functionality of tabs, but the triggers can be anywhere, even programmatic. The ViewStack
           component provides a way to push and pop views from the stack as well as clear all or reset back
           to the original view.
         `,
@@ -43,56 +43,56 @@ const ids = {
   c: uuid(),
 };
 
-export const Default: StoryObj<typeof NavigationStack> = {
+export const Default: StoryObj<typeof ViewStack> = {
   render: () => (
     <>
-      <NavigationStack id={ids.stack} defaultView={ids.a}>
-        <NavigationStack.View id={ids.a}>
-          <NavigationStack.Trigger for={ids.b}>
+      <ViewStack id={ids.stack} defaultView={ids.a}>
+        <ViewStack.View id={ids.a}>
+          <ViewStack.Trigger for={ids.b}>
             <Button size='small' variant='flat'>
               Push View B
             </Button>
-          </NavigationStack.Trigger>
+          </ViewStack.Trigger>
           <h1 className='fg-default-light h-oversized text-center'>View A</h1>
-        </NavigationStack.View>
-        <NavigationStack.View id={ids.b}>
+        </ViewStack.View>
+        <ViewStack.View id={ids.b}>
           <div className='flex'>
-            <NavigationStack.Trigger for='back'>
+            <ViewStack.Trigger for='back'>
               <Button variant='icon'>
                 <Icon>
                   <ChevronLeft />
                 </Icon>
               </Button>
-            </NavigationStack.Trigger>
-            <NavigationStack.Trigger for={ids.c}>
+            </ViewStack.Trigger>
+            <ViewStack.Trigger for={ids.c}>
               <Button size='small' variant='flat'>
                 Push View C
               </Button>
-            </NavigationStack.Trigger>
+            </ViewStack.Trigger>
           </div>
           <h1 className='fg-default-light h-oversized text-center'>View B</h1>
-        </NavigationStack.View>
-        <NavigationStack.View id={ids.c}>
-          <NavigationStack.Trigger for='back'>
+        </ViewStack.View>
+        <ViewStack.View id={ids.c}>
+          <ViewStack.Trigger for='back'>
             <Button variant='icon'>
               <Icon>
                 <ChevronLeft />
               </Icon>
             </Button>
-          </NavigationStack.Trigger>
+          </ViewStack.Trigger>
           <h1 className='fg-default-light h-oversized text-center'>View C</h1>
-        </NavigationStack.View>
-      </NavigationStack>
+        </ViewStack.View>
+      </ViewStack>
       <div className='flex gap-s'>
-        <NavigationStack.Trigger for={[`clear:${ids.stack}`, ids.a]}>
+        <ViewStack.Trigger for={[`clear:${ids.stack}`, ids.a]}>
           <Button variant='flat'>Goto View A</Button>
-        </NavigationStack.Trigger>
-        <NavigationStack.Trigger for={[`clear:${ids.stack}`, ids.b]}>
+        </ViewStack.Trigger>
+        <ViewStack.Trigger for={[`clear:${ids.stack}`, ids.b]}>
           <Button variant='flat'>Goto View B</Button>
-        </NavigationStack.Trigger>
-        <NavigationStack.Trigger for={[`clear:${ids.stack}`, ids.c]}>
+        </ViewStack.Trigger>
+        <ViewStack.Trigger for={[`clear:${ids.stack}`, ids.c]}>
           <Button variant='flat'>Goto View C</Button>
-        </NavigationStack.Trigger>
+        </ViewStack.Trigger>
       </div>
     </>
   ),

@@ -14,30 +14,30 @@ import type { UniqueId } from '@accelint/core';
 import type { ComponentProps, PropsWithChildren, RefAttributes } from 'react';
 import type { Pressable } from 'react-aria-components';
 
-export type NavigationStackProps = RefAttributes<HTMLDivElement> &
+export type ViewStackProps = RefAttributes<HTMLDivElement> &
   PropsWithChildren<{
     id: UniqueId;
     defaultView?: UniqueId;
   }>;
 
-export type NavigationStackViewProps = RefAttributes<HTMLDivElement> &
+export type ViewStackViewProps = RefAttributes<HTMLDivElement> &
   PropsWithChildren<{
     id: UniqueId;
   }>;
 
-export type NavigationStackBackEvent = {
+export type ViewStackBackEvent = {
   stack: UniqueId;
 };
 
-export type NavigationStackClearEvent = {
+export type ViewStackClearEvent = {
   stack: UniqueId;
 };
 
-export type NavigationStackResetEvent = {
+export type ViewStackResetEvent = {
   stack: UniqueId;
 };
 
-export type NavigationStackPushEvent = {
+export type ViewStackPushEvent = {
   view: UniqueId;
 };
 
@@ -50,14 +50,14 @@ type TargetedEvents =
 
 type ChainedEvents = (SimpleEvents | TargetedEvents)[];
 
-export type NavigationStackTriggerProps = {
+export type ViewStackTriggerProps = {
   children: ComponentProps<typeof Pressable>['children'];
   /**
    * __SimpleEvents__ allow the easiest implementation of events, but come with some restrictions:
-   * - The literal commands `back | clear | reset` will only work inside of the context of a NavigationStack
+   * - The literal commands `back | clear | reset` will only work inside of the context of a ViewStack
    * - When passing a view's UniqueId the behavior is always to push that id onto it's parent's stack
    *
-   * __TargetedEvents__ allow for external control of a NavigationStack, the UniqueId of a Stack is passed to know which stack to affect
+   * __TargetedEvents__ allow for external control of a ViewStack, the UniqueId of a Stack is passed to know which stack to affect
    *
    * __ChainedEvents__ allow a list of events from a single control to enable multiple behaviors
    *
@@ -74,7 +74,7 @@ export type NavigationStackTriggerProps = {
   for: SimpleEvents | TargetedEvents | ChainedEvents;
 };
 
-export type NavigationStackContextValue = {
+export type ViewStackContextValue = {
   parent: UniqueId | null;
   stack: string[];
   view: UniqueId | null;
