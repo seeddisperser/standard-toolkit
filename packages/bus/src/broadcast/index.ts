@@ -189,8 +189,8 @@ export class Broadcast<P extends Payload = Payload> {
    *
    * @example
    * bus.emit(
+   *   EVENTS.LAYER_CLICK,
    *   {
-   *     type: EVENTS.LAYER_CLICK
    *     worldSpace: pickInfo.coordinate,
    *     screenSpace: pickInfo.pixel,
    *     index: pickInfo.index,
@@ -198,21 +198,28 @@ export class Broadcast<P extends Payload = Payload> {
    *   },
    * );
    */
-  emit(data: P) {
+  emit<T extends P['type']>(
+    type: T,
+    payload: {
+      [K in P['type']]: Extract<P, { type: K }>;
+    }[T],
+  ) {
     if (!this.channel) {
       console.warn('Cannot emit: BroadcastChannel is not initialized.');
       return;
     }
 
-    this.channel.postMessage(data);
+    const message = { type, payload } as Payload as P;
+
+    this.channel.postMessage(message);
 
     if (!this.channel.onmessage) {
-      console.warn('No listeners registered for this event type:', data.type);
+      console.warn('No listeners registered for this event type:', type);
       return;
     }
 
     // NOTE: this allows the context that emitted the event to also listen for it
-    this.channel.onmessage({ data } as MessageEvent<P>);
+    this.channel.onmessage({ data: message } as MessageEvent<P>);
   }
 
   /**
@@ -247,25 +254,3 @@ export class Broadcast<P extends Payload = Payload> {
     return Object.keys(this.listeners);
   }
 }
-
-// type TestEvent = {
-//   type: 'test-event';
-//   payload: { message: string };
-// };
-
-// type AnotherTestEvent = {
-//   type: 'another-test-event';
-//   payload: { data: number; description: string };
-// };
-
-// type BusEvents = TestEvent | AnotherTestEvent;
-
-// const bus = Broadcast.getInstance<BusEvents>();
-
-// bus.on('test-event', (e) => {
-//   console.log('Received test-event:', e.payload.message);
-// });
-
-// bus.on('another-test-event', (e) => {
-//   console.log('Received another-test-event:', e.payload.data);
-// });
