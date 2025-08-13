@@ -14,7 +14,6 @@ import { tv } from '@/lib/utils';
 
 export const MenuStylesDefaults = {
   variant: 'cozy',
-  color: 'info',
 } as const;
 
 export const MenuStyles = tv({
@@ -23,25 +22,22 @@ export const MenuStyles = tv({
     item: [
       'group/menu-item flex items-center gap-x-s px-s text-body-s outline outline-transparent',
       'grid grid-cols-[auto_auto_1fr_auto] [grid-template-areas:"icon_label_space_action"_"icon_description_space_action"]',
+      'enabled:focus-visible:outline-interactive-hover',
 
       // Info
       'color-info:enabled:fg-default-light',
-      'color-info:enabled:focus-visible:bg-highlight-bold',
-      'color-info:enabled:hover:bg-highlight-bold',
-      'color-info:enabled:open:bg-highlight-bold',
-      'color-info:enabled:selected:bg-highlight-bold',
+      'color-info:enabled:focus-visible:fg-inverse-light color-info:enabled:focus-visible:bg-highlight-bold',
+      'color-info:enabled:hover:fg-inverse-light color-info:enabled:hover:bg-highlight-bold',
+      'color-info:enabled:open:fg-inverse-light color-info:enabled:open:bg-highlight-bold',
+      'color-info:enabled:selected:fg-inverse-light color-info:enabled:selected:bg-highlight-bold',
 
       // Serious
       'color-serious:enabled:fg-serious',
-      'color-serious:enabled:focus-visible:bg-serious-bold',
-      'color-serious:enabled:hover:bg-serious-bold',
-      'color-serious:enabled:open:bg-serious-bold',
-      'color-serious:enabled:selected:bg-serious-bold',
+      'color-serious:enabled:focus-visible:fg-inverse-light color-serious:enabled:focus-visible:bg-serious-bold',
+      'color-serious:enabled:hover:fg-inverse-light color-serious:enabled:hover:bg-serious-bold',
+      'color-serious:enabled:open:fg-inverse-light color-serious:enabled:open:bg-serious-bold',
+      'color-serious:enabled:selected:fg-inverse-light color-serious:enabled:selected:bg-serious-bold',
 
-      'enabled:focus-visible:fg-inverse-light enabled:focus-visible:outline-interactive-hover',
-      'enabled:hover:fg-inverse-light',
-      'enabled:open:fg-inverse-light',
-      'enabled:selected:fg-inverse-light',
       'disabled:fg-disabled disabled:bg-transparent',
     ],
     icon: '[grid-area:icon]',

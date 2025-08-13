@@ -20,7 +20,6 @@ import {
   Menu as AriaMenu,
   MenuItem as AriaMenuItem,
   MenuSection as AriaMenuSection,
-  Separator as AriaSeparator,
   Collection,
   type ContextValue,
   DEFAULT_SLOT,
@@ -29,20 +28,17 @@ import {
   MenuTrigger,
   Popover,
   Provider,
+  Separator,
+  type SeparatorProps,
   SubmenuTrigger,
   Text,
+  type TextProps,
   composeRenderProps,
   useContextProps,
 } from 'react-aria-components';
 import { Icon, IconContext } from '../icon';
 import { MenuStyles, MenuStylesDefaults } from './styles';
-import type {
-  MenuItemProps,
-  MenuProps,
-  MenuSectionProps,
-  MenuTextProps,
-  SeparatorProps,
-} from './types';
+import type { MenuItemProps, MenuProps, MenuSectionProps } from './types';
 
 const {
   menu,
@@ -85,11 +81,11 @@ function MenuSection<T extends object>({
 MenuSection.displayName = 'Menu.Section';
 
 function MenuSeparator({ className, ...rest }: SeparatorProps) {
-  return <AriaSeparator {...rest} className={separator({ className })} />;
+  return <Separator {...rest} className={separator({ className })} />;
 }
 MenuSeparator.displayName = 'Menu.Separator';
 
-function MenuLabel({ children, className, ...rest }: MenuTextProps) {
+function MenuLabel({ children, className, ...rest }: TextProps) {
   return (
     <Text {...rest} slot='label' className={label({ className })}>
       {children}
@@ -98,7 +94,7 @@ function MenuLabel({ children, className, ...rest }: MenuTextProps) {
 }
 MenuLabel.displayName = 'Menu.Item.Label';
 
-function MenuDescription({ children, className, ...rest }: MenuTextProps) {
+function MenuDescription({ children, className, ...rest }: TextProps) {
   return (
     <Text {...rest} slot='description' className={description({ className })}>
       {children}
@@ -108,9 +104,9 @@ function MenuDescription({ children, className, ...rest }: MenuTextProps) {
 MenuDescription.displayName = 'Menu.Item.Description';
 
 function MenuItem({
-  classNames,
-  color = MenuStylesDefaults.color,
   children,
+  classNames,
+  color = 'info',
   ...rest
 }: MenuItemProps) {
   const context = useContext(MenuContext);
@@ -235,9 +231,9 @@ export function Menu<T extends object>({ ref, ...props }: MenuProps<T>) {
   const {
     children,
     classNames,
+    popoverProps,
     selectionMode = 'single',
     variant = MenuStylesDefaults.variant,
-    popoverProps,
     ...rest
   } = props;
 
