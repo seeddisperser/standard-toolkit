@@ -22,22 +22,21 @@ import type {
   TextProps as AriaTextProps,
   PopoverProps,
 } from 'react-aria-components';
+import type { VariantProps } from 'tailwind-variants';
 import type { IconProps } from '../icon/types';
-import type { MenuStyleVariants } from './styles';
+import type { MenuStyles } from './styles';
 
 export type MenuProps<T> = Omit<AriaMenuProps<T>, 'className'> &
-  Pick<MenuStyleVariants, 'variant'> &
+  VariantProps<typeof MenuStyles> &
   RefAttributes<HTMLDivElement> & {
     classNames?: {
       menu?: AriaMenuProps<T>['className'];
       popover?: PopoverProps['className'];
     };
-  } & {
-    popoverProps?: Omit<AriaPopoverProps, 'children' | 'className' | 'style'>;
+    popoverProps?: Omit<AriaPopoverProps, 'children' | 'className'>;
   };
 
 export type MenuItemProps = Omit<AriaMenuItemProps, 'className'> & {
-  color?: 'info' | 'serious';
   classNames?: {
     item?: AriaMenuItemProps['className'];
     text?: AriaTextProps['className'];
@@ -45,6 +44,7 @@ export type MenuItemProps = Omit<AriaMenuItemProps, 'className'> & {
     icon?: IconProps['className'];
     hotkey?: string;
   };
+  color?: 'info' | 'serious';
 };
 
 export type MenuTriggerProps = AriaMenuTriggerProps;
@@ -52,11 +52,11 @@ export type MenuTriggerProps = AriaMenuTriggerProps;
 export type SubmenuTriggerProps = AriaSubmenuTriggerProps;
 
 export type MenuSectionProps<T> = Omit<AriaMenuSectionProps<T>, 'className'> & {
-  header?: string;
   classNames?: {
-    section?: string;
-    sectionHeader?: string;
+    section?: AriaMenuSectionProps<T>['className'];
+    header?: string;
   };
+  title?: string;
 };
 
 export type SeparatorProps = AriaSeparatorProps;

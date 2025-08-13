@@ -17,20 +17,20 @@ import { isSlottedContextValue } from '@/lib/utils';
 import ChevronRight from '@accelint/icons/chevron-right';
 import { createContext, useContext } from 'react';
 import {
-  Header as AriaHeader,
   Menu as AriaMenu,
-  Collection as AriaMenuCollection,
   MenuItem as AriaMenuItem,
   MenuSection as AriaMenuSection,
-  MenuTrigger as AriaMenuTrigger,
   Separator as AriaSeparator,
-  SubmenuTrigger as AriaSubmenuTrigger,
-  Text as AriaText,
+  Collection,
   type ContextValue,
   DEFAULT_SLOT,
+  Header,
   KeyboardContext,
+  MenuTrigger,
   Popover,
   Provider,
+  SubmenuTrigger,
+  Text,
   composeRenderProps,
   useContextProps,
 } from 'react-aria-components';
@@ -51,7 +51,8 @@ const {
   label,
   description,
   more,
-  sectionHeader,
+  section,
+  header,
   separator,
   hotkey,
   popover,
@@ -60,17 +61,24 @@ const {
 export const MenuContext =
   createContext<ContextValue<MenuProps<unknown>, HTMLDivElement>>(null);
 
-function MenuSection<T extends object>(props: MenuSectionProps<T>) {
-  const { header, children, classNames, items, ...rest } = props;
-
+function MenuSection<T extends object>({
+  children,
+  classNames,
+  items,
+  title,
+  ...rest
+}: MenuSectionProps<T>) {
   return (
-    <AriaMenuSection className={classNames?.section} {...rest}>
-      <AriaHeader
-        className={sectionHeader({ className: classNames?.sectionHeader })}
-      >
-        {header}
-      </AriaHeader>
-      <AriaMenuCollection items={items}>{children}</AriaMenuCollection>
+    <AriaMenuSection
+      {...rest}
+      className={section({ className: classNames?.section })}
+    >
+      {title && (
+        <Header className={header({ className: classNames?.header })}>
+          {title}
+        </Header>
+      )}
+      <Collection items={items}>{children}</Collection>
     </AriaMenuSection>
   );
 }
@@ -81,51 +89,42 @@ function MenuSeparator({ className, ...rest }: SeparatorProps) {
 }
 MenuSeparator.displayName = 'Menu.Separator';
 
-function MenuLabel(props: MenuTextProps) {
-  const { children, className, ...rest } = props;
-
+function MenuLabel({ children, className, ...rest }: MenuTextProps) {
   return (
-    <AriaText {...rest} slot='label' className={label({ className })}>
+    <Text {...rest} slot='label' className={label({ className })}>
       {children}
-    </AriaText>
+    </Text>
   );
 }
 MenuLabel.displayName = 'Menu.Item.Label';
 
-function MenuDescription(props: MenuTextProps) {
-  const { children, className, ...rest } = props;
-
+function MenuDescription({ children, className, ...rest }: MenuTextProps) {
   return (
-    <AriaText
-      {...rest}
-      slot='description'
-      className={description({ className })}
-    >
+    <Text {...rest} slot='description' className={description({ className })}>
       {children}
-    </AriaText>
+    </Text>
   );
 }
 MenuDescription.displayName = 'Menu.Item.Description';
 
-function MenuItem(props: MenuItemProps) {
+function MenuItem({
+  classNames,
+  color = MenuStylesDefaults.color,
+  children,
+  ...rest
+}: MenuItemProps) {
   const context = useContext(MenuContext);
   const variant =
     (isSlottedContextValue(context) ? undefined : context?.variant) ??
     MenuStylesDefaults.variant;
 
-  const {
-    classNames,
-    color = MenuStylesDefaults.color,
-    children,
-    ...rest
-  } = props;
-
   return (
     <AriaMenuItem
       {...rest}
       className={composeRenderProps(classNames?.item, (className) =>
-        item({ className, variant, color }),
+        item({ className, variant }),
       )}
+      data-color={color}
     >
       {composeRenderProps(children, (children, { hasSubmenu }) => (
         <Provider
@@ -148,9 +147,9 @@ function MenuItem(props: MenuItemProps) {
           ]}
         >
           {typeof children === 'string' ? (
-            <AriaText className={classNames?.text} slot='label'>
+            <Text slot='label' className={classNames?.text}>
               {children}
-            </AriaText>
+            </Text>
           ) : (
             children
           )}
@@ -251,12 +250,12 @@ export function Menu<T extends object>({ ref, ...props }: MenuProps<T>) {
     >
       <MenuContext.Provider value={{ variant }}>
         <AriaMenu
+          {...rest}
           ref={ref}
           className={composeRenderProps(classNames?.menu, (className) =>
             menu({ className, variant }),
           )}
           selectionMode={selectionMode}
-          {...rest}
         >
           {children}
         </AriaMenu>
@@ -265,8 +264,8 @@ export function Menu<T extends object>({ ref, ...props }: MenuProps<T>) {
   );
 }
 Menu.displayName = 'Menu';
-Menu.Trigger = AriaMenuTrigger;
-Menu.Submenu = AriaSubmenuTrigger;
+Menu.Trigger = MenuTrigger;
+Menu.Submenu = SubmenuTrigger;
 Menu.Item = MenuItem;
 Menu.Separator = MenuSeparator;
 Menu.Section = MenuSection;
