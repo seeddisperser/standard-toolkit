@@ -176,8 +176,8 @@ export function LinkButton({ ref, ...props }: LinkButtonProps) {
             variant,
           }),
         )}
-        data-size={size}
         data-color={color}
+        data-size={size}
       >
         {children}
       </Link>

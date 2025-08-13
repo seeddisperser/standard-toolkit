@@ -56,7 +56,7 @@ const BaseButtonStyles = tv({
         'enabled:color-info:fg-inverse-light',
         'enabled:color-info:bg-interactive-default',
         'enabled:hover:color-info:bg-interactive-hover-light',
-        'enabled:focus:color-info:bg-interactive-hover-light',
+        'enabled:focus-visible:color-info:bg-interactive-hover-light',
       ],
     },
     {
@@ -64,7 +64,7 @@ const BaseButtonStyles = tv({
       className: [
         'enabled:color-info:fg-default-light enabled:color-info:outline-interactive',
         'enabled:hover:color-info:outline-interactive-hover',
-        'enabled:focus:color-info:outline-interactive-hover',
+        'enabled:focus-visible:color-info:outline-interactive-hover',
       ],
     },
     {
@@ -72,7 +72,7 @@ const BaseButtonStyles = tv({
       className: [
         'enabled:color-info:fg-default-light',
         'enabled:hover:color-info:bg-interactive-hover-dark',
-        'enabled:focus:color-info:bg-interactive-hover-dark',
+        'enabled:focus-visible:color-info:bg-interactive-hover-dark',
       ],
     },
     {
@@ -80,7 +80,7 @@ const BaseButtonStyles = tv({
       className: [
         'enabled:color-info:fg-interactive enabled:color-info:bg-surface-default enabled:color-info:outline-interactive',
         'enabled:hover:color-info:fg-interactive-hover enabled:hover:color-info:outline-interactive-hover',
-        'enabled:focus:color-info:fg-interactive-hover enabled:focus:color-info:outline-interactive-hover',
+        'enabled:focus-visible:color-info:fg-interactive-hover enabled:focus-visible:color-info:outline-interactive-hover',
       ],
     },
 
@@ -91,7 +91,7 @@ const BaseButtonStyles = tv({
         'enabled:color-serious:fg-inverse-light',
         'enabled:color-serious:bg-serious',
         'enabled:hover:color-serious:bg-serious-hover',
-        'enabled:focus:color-serious:bg-serious-hover',
+        'enabled:focus-visible:color-serious:bg-serious-hover',
       ],
     },
     {
@@ -99,7 +99,7 @@ const BaseButtonStyles = tv({
       className: [
         'enabled:color-serious:fg-default-light enabled:color-serious:outline-serious',
         'enabled:hover:color-serious:outline-interactive-hover',
-        'enabled:focus:color-serious:outline-interactive-hover',
+        'enabled:focus-visible:color-serious:outline-interactive-hover',
       ],
     },
     {
@@ -107,7 +107,7 @@ const BaseButtonStyles = tv({
       className: [
         'enabled:color-serious:fg-default-light',
         'enabled:hover:color-serious:bg-serious-hover',
-        'enabled:focus:color-serious:bg-serious-hover',
+        'enabled:focus-visible:color-serious:bg-serious-hover',
       ],
     },
     {
@@ -115,7 +115,7 @@ const BaseButtonStyles = tv({
       className: [
         'enabled:color-serious:fg-serious enabled:color-serious:bg-serious-subtle enabled:color-serious:outline-serious',
         'enabled:hover:color-serious:fg-interactive-hover enabled:hover:color-serious:outline-interactive-hover',
-        'enabled:focus:color-serious:fg-interactive-hover enabled:focus:color-serious:outline-interactive-hover',
+        'enabled:focus-visible:color-serious:fg-interactive-hover enabled:focus-visible:color-serious:outline-interactive-hover',
       ],
     },
 
@@ -126,7 +126,7 @@ const BaseButtonStyles = tv({
         'enabled:color-critical:fg-default-light',
         'enabled:color-critical:bg-critical',
         'enabled:hover:color-critical:bg-critical-hover',
-        'enabled:focus:color-critical:bg-critical-hover',
+        'enabled:focus-visible:color-critical:bg-critical-hover',
       ],
     },
     {
@@ -134,7 +134,7 @@ const BaseButtonStyles = tv({
       className: [
         'enabled:color-critical:fg-default-light enabled:color-critical:outline-critical',
         'enabled:hover:color-critical:outline-interactive-hover',
-        'enabled:focus:color-critical:outline-interactive-hover',
+        'enabled:focus-visible:color-critical:outline-interactive-hover',
       ],
     },
     {
@@ -142,7 +142,7 @@ const BaseButtonStyles = tv({
       className: [
         'enabled:color-critical:fg-default-light',
         'enabled:hover:color-critical:bg-critical-hover',
-        'enabled:focus:color-critical:bg-critical-hover',
+        'enabled:focus-visible:color-critical:bg-critical-hover',
       ],
     },
     {
@@ -150,7 +150,7 @@ const BaseButtonStyles = tv({
       className: [
         'enabled:color-critical:fg-critical enabled:color-critical:bg-critical-subtle enabled:color-critical:outline-critical',
         'enabled:hover:color-critical:fg-interactive-hover enabled:hover:color-critical:outline-interactive-hover',
-        'enabled:focus:color-critical:fg-interactive-hover enabled:focus:color-critical:outline-interactive-hover',
+        'enabled:focus-visible:color-critical:fg-interactive-hover enabled:focus-visible:color-critical:outline-interactive-hover',
       ],
     },
   ],
@@ -174,7 +174,7 @@ export const ToggleButtonStyles = tv({
         'enabled:color-info:fg-inverse-light',
         'enabled:selected:color-info:bg-info-subtle',
         'enabled:selected:hover:color-info:bg-interactive-hover-light',
-        'enabled:selected:focus:color-info:bg-interactive-hover-light',
+        'enabled:selected:focus-visible:color-info:bg-interactive-hover-light',
       ],
     },
     {
@@ -182,7 +182,7 @@ export const ToggleButtonStyles = tv({
       className: [
         'enabled:selected:color-info:outline-highlight',
         'enabled:selected:hover:color-info:outline-interactive-hover',
-        'enabled:selected:focus:color-info:outline-interactive-hover',
+        'enabled:selected:focus-visible:color-info:outline-interactive-hover',
       ],
     },
     {
@@ -191,7 +191,7 @@ export const ToggleButtonStyles = tv({
         'enabled:color-serious:fg-inverse-light',
         'enabled:selected:color-serious:bg-serious-subtle',
         'enabled:selected:hover:color-serious:bg-serious-hover',
-        'enabled:selected:focus:color-serious:bg-serious-hover',
+        'enabled:selected:focus-visible:color-serious:bg-serious-hover',
       ],
     },
     {
@@ -199,7 +199,7 @@ export const ToggleButtonStyles = tv({
       className: [
         'enabled:selected:color-serious:outline-highlight',
         'enabled:selected:hover:color-serious:outline-interactive-hover',
-        'enabled:selected:focus:color-serious:outline-interactive-hover',
+        'enabled:selected:focus-visible:color-serious:outline-interactive-hover',
       ],
     },
     {
@@ -208,7 +208,7 @@ export const ToggleButtonStyles = tv({
         'enabled:color-critical:fg-default-light',
         'enabled:selected:color-critical:bg-critical-subtle',
         'enabled:selected:hover:color-critical:bg-critical-hover',
-        'enabled:selected:focus:color-critical:bg-critical-hover',
+        'enabled:selected:focus-visible:color-critical:bg-critical-hover',
       ],
     },
     {
@@ -216,7 +216,7 @@ export const ToggleButtonStyles = tv({
       className: [
         'enabled:selected:color-critical:outline-highlight',
         'enabled:selected:hover:color-critical:outline-interactive-hover',
-        'enabled:selected:focus:color-critical:outline-interactive-hover',
+        'enabled:selected:focus-visible:color-critical:outline-interactive-hover',
       ],
     },
     // Must be last to override color values
@@ -224,7 +224,7 @@ export const ToggleButtonStyles = tv({
       className: [
         'enabled:selected:fg-highlight',
         'enabled:selected:hover:fg-highlight',
-        'enabled:selected:focus:fg-highlight',
+        'enabled:selected:focus-visible-visible:fg-highlight',
       ],
     },
   ],
