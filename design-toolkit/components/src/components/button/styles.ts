@@ -57,7 +57,7 @@ const BaseButtonStyles = tv({
         'enabled:fg-inverse-light',
         'enabled:bg-interactive-default',
         'enabled:hover:bg-interactive-hover-light',
-        'enabled:focus:bg-interactive-hover-light',
+        'enabled:focus-visible:bg-interactive-hover-light',
       ],
     },
     {
@@ -66,7 +66,7 @@ const BaseButtonStyles = tv({
       className: [
         'enabled:fg-default-light enabled:outline-interactive',
         'enabled:hover:outline-interactive-hover',
-        'enabled:focus:outline-interactive-hover',
+        'enabled:focus-visible:outline-interactive-hover',
       ],
     },
     {
@@ -75,7 +75,7 @@ const BaseButtonStyles = tv({
       className: [
         'enabled:fg-default-light',
         'enabled:hover:bg-interactive-hover-dark',
-        'enabled:focus:bg-interactive-hover-dark',
+        'enabled:focus-visible:bg-interactive-hover-dark',
       ],
     },
     {
@@ -84,7 +84,7 @@ const BaseButtonStyles = tv({
       className: [
         'enabled:fg-interactive enabled:bg-surface-default enabled:outline-interactive',
         'enabled:hover:fg-interactive-hover enabled:hover:outline-interactive-hover',
-        'enabled:focus:fg-interactive-hover enabled:focus:outline-interactive-hover',
+        'enabled:focus-visible:fg-interactive-hover enabled:focus-visible:outline-interactive-hover',
       ],
     },
 
@@ -96,7 +96,7 @@ const BaseButtonStyles = tv({
         'enabled:fg-inverse-light',
         'enabled:bg-serious',
         'enabled:hover:bg-serious-hover',
-        'enabled:focus:bg-serious-hover',
+        'enabled:focus-visible:bg-serious-hover',
       ],
     },
     {
@@ -105,7 +105,7 @@ const BaseButtonStyles = tv({
       className: [
         'enabled:fg-default-light enabled:outline-serious',
         'enabled:hover:outline-interactive-hover',
-        'enabled:focus:outline-interactive-hover',
+        'enabled:focus-visible:outline-interactive-hover',
       ],
     },
     {
@@ -114,7 +114,7 @@ const BaseButtonStyles = tv({
       className: [
         'enabled:fg-default-light',
         'enabled:hover:bg-serious-hover',
-        'enabled:focus:bg-serious-hover',
+        'enabled:focus-visible:bg-serious-hover',
       ],
     },
     {
@@ -123,7 +123,7 @@ const BaseButtonStyles = tv({
       className: [
         'enabled:fg-serious enabled:bg-serious-subtle enabled:outline-serious',
         'enabled:hover:fg-interactive-hover enabled:hover:outline-interactive-hover',
-        'enabled:focus:fg-interactive-hover enabled:focus:outline-interactive-hover',
+        'enabled:focus-visible:fg-interactive-hover enabled:focus-visible:outline-interactive-hover',
       ],
     },
 
@@ -135,7 +135,7 @@ const BaseButtonStyles = tv({
         'enabled:fg-default-light',
         'enabled:bg-critical',
         'enabled:hover:bg-critical-hover',
-        'enabled:focus:bg-critical-hover',
+        'enabled:focus-visible:bg-critical-hover',
       ],
     },
     {
@@ -144,7 +144,7 @@ const BaseButtonStyles = tv({
       className: [
         'enabled:fg-default-light enabled:outline-critical',
         'enabled:hover:outline-interactive-hover',
-        'enabled:focus:outline-interactive-hover',
+        'enabled:focus-visible:outline-interactive-hover',
       ],
     },
     {
@@ -153,7 +153,7 @@ const BaseButtonStyles = tv({
       className: [
         'enabled:fg-default-light',
         'enabled:hover:bg-critical-hover',
-        'enabled:focus:bg-critical-hover',
+        'enabled:focus-visible:bg-critical-hover',
       ],
     },
     {
@@ -162,7 +162,7 @@ const BaseButtonStyles = tv({
       className: [
         'enabled:fg-critical enabled:bg-critical-subtle enabled:outline-critical',
         'enabled:hover:fg-interactive-hover enabled:hover:outline-interactive-hover',
-        'enabled:focus:fg-interactive-hover enabled:focus:outline-interactive-hover',
+        'enabled:focus-visible:fg-interactive-hover enabled:focus-visible:outline-interactive-hover',
       ],
     },
   ],
@@ -187,7 +187,7 @@ export const ToggleButtonStyles = tv({
         'enabled:fg-inverse-light',
         'enabled:selected:bg-info-subtle',
         'enabled:selected:hover:bg-interactive-hover-light',
-        'enabled:selected:focus:bg-interactive-hover-light',
+        'enabled:selected:focus-visible:bg-interactive-hover-light',
       ],
     },
     {
@@ -196,7 +196,7 @@ export const ToggleButtonStyles = tv({
       className: [
         'enabled:selected:outline-highlight',
         'enabled:selected:hover:outline-interactive-hover',
-        'enabled:selected:focus:outline-interactive-hover',
+        'enabled:selected:focus-visible:outline-interactive-hover',
       ],
     },
     {
@@ -206,7 +206,7 @@ export const ToggleButtonStyles = tv({
         'enabled:fg-inverse-light',
         'enabled:selected:bg-serious-subtle',
         'enabled:selected:hover:bg-serious-hover',
-        'enabled:selected:focus:bg-serious-hover',
+        'enabled:selected:focus-visible:bg-serious-hover',
       ],
     },
     {
@@ -215,7 +215,7 @@ export const ToggleButtonStyles = tv({
       className: [
         'enabled:selected:outline-highlight',
         'enabled:selected:hover:outline-interactive-hover',
-        'enabled:selected:focus:outline-interactive-hover',
+        'enabled:selected:focus-visible:outline-interactive-hover',
       ],
     },
     {
@@ -225,7 +225,7 @@ export const ToggleButtonStyles = tv({
         'enabled:fg-default-light',
         'enabled:selected:bg-critical-subtle',
         'enabled:selected:hover:bg-critical-hover',
-        'enabled:selected:focus:bg-critical-hover',
+        'enabled:selected:focus-visible:bg-critical-hover',
       ],
     },
     {
@@ -234,7 +234,7 @@ export const ToggleButtonStyles = tv({
       className: [
         'enabled:selected:outline-highlight',
         'enabled:selected:hover:outline-interactive-hover',
-        'enabled:selected:focus:outline-interactive-hover',
+        'enabled:selected:focus-visible:outline-interactive-hover',
       ],
     },
     // Must be last to override color values
@@ -242,7 +242,7 @@ export const ToggleButtonStyles = tv({
       className: [
         'enabled:selected:fg-highlight',
         'enabled:selected:hover:fg-highlight',
-        'enabled:selected:focus:fg-highlight',
+        'enabled:selected:focus-visible:fg-highlight',
       ],
     },
   ],
