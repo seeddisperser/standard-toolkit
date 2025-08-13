@@ -82,18 +82,13 @@ export function Switch({ ref, ...props }: SwitchProps) {
       {...rest}
       ref={ref}
       className={composeRenderProps(classNames?.switch, (className) =>
-        switchClassNames({ className }),
+        switchClassNames({ className, labelPosition }),
       )}
     >
       {composeRenderProps(children, (children) => (
         <>
-          {children && labelPosition === 'start' && (
-            <span className={label({ className: classNames?.label })}>
-              {children}
-            </span>
-          )}
           <span className={control({ className: classNames?.control })} />
-          {children && labelPosition === 'end' && (
+          {children && (
             <span className={label({ className: classNames?.label })}>
               {children}
             </span>
