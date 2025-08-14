@@ -20,6 +20,7 @@ export type ViewStackProps = RefAttributes<HTMLDivElement> &
   PropsWithChildren<{
     id: UniqueId;
     defaultView?: UniqueId;
+    onChange?: (view: UniqueId | null) => void;
   }>;
 
 export type ViewStackViewProps = RefAttributes<HTMLDivElement> &
