@@ -2,4 +2,4 @@
 "@accelint/design-toolkit": minor
 ---
 
-Adds <select> component
+refactor button colors

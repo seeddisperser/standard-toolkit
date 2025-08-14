@@ -38,6 +38,24 @@ const clearInputEvent = {
 export const InputContext =
   createContext<ContextValue<InputProps, HTMLInputElement>>(null);
 
+/**
+ * Input - A flexible text input component with enhanced features
+ *
+ * Provides a customizable text input with automatic sizing, clear functionality,
+ * and integrated validation states. Supports various styling options and integrates
+ * seamlessly with form field components for comprehensive form experiences.
+ *
+ * @example
+ * // Basic input
+ * <Input placeholder="Enter text..." />
+ *
+ * @example
+ * // Input with clear button
+ * <Input
+ *   defaultValue="Clearable text"
+ *   classNames={{ clear: "hover:bg-gray-100" }}
+ * />
+ */
 export function Input({ ref, ...props }: InputProps) {
   /**
    * It is necessary to pull in the AriaInputContext to capture defaultValue,
@@ -87,9 +105,9 @@ export function Input({ ref, ...props }: InputProps) {
         autoSize,
         type,
         isClearable,
-        isEmpty,
       })}
       data-disabled={disabled || null}
+      data-empty={isEmpty || null}
       data-invalid={isInvalid || null}
       data-length={length}
       data-placeholder={(!!placeholder && isEmpty) || null}
@@ -103,14 +121,13 @@ export function Input({ ref, ...props }: InputProps) {
           autoSize,
           type,
           isClearable,
-          isEmpty,
         })}
       >
         <AriaInput
           {...rest}
           ref={ref}
           className={composeRenderProps(classNames?.input, (className) =>
-            input({ className, autoSize, type, isClearable, isEmpty }),
+            input({ className, autoSize, type, isClearable }),
           )}
           disabled={disabled}
           placeholder={placeholder}
@@ -135,7 +152,7 @@ export function Input({ ref, ...props }: InputProps) {
       {isClearable && (
         <Button
           className={composeRenderProps(classNames?.clear, (className) =>
-            clear({ className, autoSize, type, isClearable, isEmpty }),
+            clear({ className, autoSize, type, isClearable }),
           )}
           excludeFromTabOrder
           size='small'
