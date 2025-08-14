@@ -12,7 +12,7 @@
 'use client';
 
 import 'client-only';
-import { Broadcast, type Payload } from '@accelint/bus';
+import { Broadcast } from '@accelint/bus';
 import { type UniqueId, isUUID } from '@accelint/core';
 import { PressResponder } from '@react-aria/interactions';
 import {
@@ -24,10 +24,12 @@ import {
   useState,
 } from 'react';
 import { Pressable } from 'react-aria-components';
+import { ViewStackEventNamespace, ViewStackEventTypes } from './events';
 import type {
   ViewStackBackEvent,
   ViewStackClearEvent,
   ViewStackContextValue,
+  ViewStackEvent,
   ViewStackProps,
   ViewStackPushEvent,
   ViewStackResetEvent,
@@ -35,8 +37,8 @@ import type {
   ViewStackViewProps,
 } from './types';
 
-const bus = Broadcast.getInstance();
-const ViewStackEventNamespace = 'ViewStack';
+const bus = Broadcast.getInstance<ViewStackEvent>();
+
 const ViewStackContext = createContext<ViewStackContextValue>({
   parent: null,
   stack: [],
@@ -45,20 +47,13 @@ const ViewStackContext = createContext<ViewStackContextValue>({
   unregister: () => undefined,
 });
 
-export const ViewStackEventTypes = {
-  back: `${ViewStackEventNamespace}:back`,
-  clear: `${ViewStackEventNamespace}:clear`,
-  reset: `${ViewStackEventNamespace}:reset`,
-  push: `${ViewStackEventNamespace}:push`,
-} as const;
-
 function ViewStackTrigger({ children, for: types }: ViewStackTriggerProps) {
   const { parent } = useContext(ViewStackContext);
 
   function handlePress() {
     for (const type of Array.isArray(types) ? types : [types]) {
       if (isUUID(type)) {
-        bus.emit<ViewStackPushEvent>(ViewStackEventTypes.push, {
+        bus.emit(ViewStackEventTypes.push, {
           view: type,
         });
       } else {
@@ -69,9 +64,7 @@ function ViewStackTrigger({ children, for: types }: ViewStackTriggerProps) {
         const stack = target ?? parent;
 
         if (stack) {
-          bus.emit<
-            ViewStackBackEvent | ViewStackClearEvent | ViewStackResetEvent
-          >(`${ViewStackEventNamespace}:${event}`, {
+          bus.emit(`${ViewStackEventNamespace}:${event}`, {
             stack,
           });
         }
@@ -120,7 +113,7 @@ export function ViewStack({ id, children, defaultView }: ViewStackProps) {
   const view = stack.at(-1) ?? null;
 
   const handleBack = useCallback(
-    (data: Payload<ViewStackBackEvent>) => {
+    (data: ViewStackBackEvent) => {
       if (id === data?.payload?.stack) {
         setStack((prev) => {
           if (prev.length <= 1) {
@@ -135,7 +128,7 @@ export function ViewStack({ id, children, defaultView }: ViewStackProps) {
   );
 
   const handleClear = useCallback(
-    (data: Payload<ViewStackClearEvent>) => {
+    (data: ViewStackClearEvent) => {
       if (id === data?.payload?.stack) {
         setStack(() => []);
       }
@@ -144,7 +137,7 @@ export function ViewStack({ id, children, defaultView }: ViewStackProps) {
   );
 
   const handleReset = useCallback(
-    (data: Payload<ViewStackResetEvent>) => {
+    (data: ViewStackResetEvent) => {
       if (id === data?.payload?.stack) {
         setStack(() => (defaultView ? [defaultView] : []));
       }
@@ -152,7 +145,7 @@ export function ViewStack({ id, children, defaultView }: ViewStackProps) {
     [id, defaultView],
   );
 
-  const handlePush = useCallback((data: Payload<ViewStackPushEvent>) => {
+  const handlePush = useCallback((data: ViewStackPushEvent) => {
     if (views.current.has(data?.payload?.view)) {
       setStack((prev) => [...prev, data?.payload?.view]);
     }
