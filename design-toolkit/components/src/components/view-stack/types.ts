@@ -10,6 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
+import type { Payload } from '@accelint/bus';
 import type { UniqueId } from '@accelint/core';
 import type { ComponentProps, PropsWithChildren, RefAttributes } from 'react';
 import type { Pressable } from 'react-aria-components';
@@ -26,33 +27,25 @@ export type ViewStackViewProps = RefAttributes<HTMLDivElement> &
     id: UniqueId;
   }>;
 
-export type ViewStackBackEvent = {
-  type: typeof ViewStackEventTypes.back;
-  payload: {
-    stack: UniqueId;
-  };
-};
+export type ViewStackBackEvent = Payload<
+  typeof ViewStackEventTypes.back,
+  { stack: UniqueId }
+>;
 
-export type ViewStackClearEvent = {
-  type: typeof ViewStackEventTypes.clear;
-  payload: {
-    stack: UniqueId;
-  };
-};
+export type ViewStackClearEvent = Payload<
+  typeof ViewStackEventTypes.clear,
+  { stack: UniqueId }
+>;
 
-export type ViewStackResetEvent = {
-  type: typeof ViewStackEventTypes.reset;
-  payload: {
-    stack: UniqueId;
-  };
-};
+export type ViewStackResetEvent = Payload<
+  typeof ViewStackEventTypes.reset,
+  { stack: UniqueId }
+>;
 
-export type ViewStackPushEvent = {
-  type: typeof ViewStackEventTypes.push;
-  payload: {
-    view: UniqueId;
-  };
-};
+export type ViewStackPushEvent = Payload<
+  typeof ViewStackEventTypes.push,
+  { view: UniqueId }
+>;
 
 export type ViewStackEvent =
   | ViewStackBackEvent
