@@ -172,7 +172,14 @@ export class Broadcast<P extends Payload = Payload> {
    * @template T - The Payload type, inferred from the event.
    * @param type - The event type.
    */
-  off<T extends P['type']>(type: T, callback: Listener<P>['callback']) {
+  off<T extends P['type']>(
+    type: T,
+    callback: (
+      data: {
+        [K in P['type']]: Extract<P, { type: K }>;
+      }[T],
+    ) => void,
+  ) {
     if (this.listeners[type]) {
       this.listeners[type] = this.listeners[type].filter(
         (listener) => listener.callback !== callback,

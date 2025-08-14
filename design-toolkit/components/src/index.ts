@@ -265,11 +265,16 @@ export type {
   TooltipProps,
   TooltipTriggerProps,
 } from './components/tooltip/types';
-export { ViewStack, ViewStackEventTypes } from './components/view-stack';
+export {
+  ViewStackEventNamespace,
+  ViewStackEventTypes,
+} from './components/view-stack/events';
+export { ViewStack } from './components/view-stack';
 export type {
   ViewStackBackEvent,
   ViewStackClearEvent,
   ViewStackContextValue,
+  ViewStackEvent,
   ViewStackProps,
   ViewStackPushEvent,
   ViewStackResetEvent,

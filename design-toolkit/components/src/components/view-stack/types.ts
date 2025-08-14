@@ -13,6 +13,7 @@
 import type { UniqueId } from '@accelint/core';
 import type { ComponentProps, PropsWithChildren, RefAttributes } from 'react';
 import type { Pressable } from 'react-aria-components';
+import type { ViewStackEventTypes } from './events';
 
 export type ViewStackProps = RefAttributes<HTMLDivElement> &
   PropsWithChildren<{
@@ -26,20 +27,38 @@ export type ViewStackViewProps = RefAttributes<HTMLDivElement> &
   }>;
 
 export type ViewStackBackEvent = {
-  stack: UniqueId;
+  type: typeof ViewStackEventTypes.back;
+  payload: {
+    stack: UniqueId;
+  };
 };
 
 export type ViewStackClearEvent = {
-  stack: UniqueId;
+  type: typeof ViewStackEventTypes.clear;
+  payload: {
+    stack: UniqueId;
+  };
 };
 
 export type ViewStackResetEvent = {
-  stack: UniqueId;
+  type: typeof ViewStackEventTypes.reset;
+  payload: {
+    stack: UniqueId;
+  };
 };
 
 export type ViewStackPushEvent = {
-  view: UniqueId;
+  type: typeof ViewStackEventTypes.push;
+  payload: {
+    view: UniqueId;
+  };
 };
+
+export type ViewStackEvent =
+  | ViewStackBackEvent
+  | ViewStackClearEvent
+  | ViewStackResetEvent
+  | ViewStackPushEvent;
 
 type SimpleEvents = 'back' | 'clear' | 'reset' | UniqueId;
 
