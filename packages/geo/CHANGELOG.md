@@ -1,5 +1,28 @@
 # @accelint/geo
 
+## 0.2.7
+
+### Patch Changes
+
+- @accelint/predicates@0.3.4
+
+## 0.2.6
+
+### Patch Changes
+
+- 83104ea: Refactored ViewStack to be event driven, allowing for triggers anywhere in the app
+- Updated dependencies [83104ea]
+  - @accelint/predicates@0.3.3
+  - @accelint/math@0.1.5
+
+## 0.2.5
+
+### Patch Changes
+
+- Updated dependencies [ca3922a]
+  - @accelint/math@0.1.4
+  - @accelint/predicates@0.3.2
+
 ## 0.2.4
 
 ### Patch Changes

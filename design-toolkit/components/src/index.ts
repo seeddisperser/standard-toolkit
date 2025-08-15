@@ -33,8 +33,6 @@ export type { AvatarProps } from './components/avatar/types';
 export { Badge, BadgeContext } from './components/badge';
 export { BadgeStyles, BadgeStylesDefaults } from './components/badge/styles';
 export type { BadgeProps } from './components/badge/types';
-export { Box } from './components/box';
-export type { BoxProps } from './components/box';
 export {
   Button,
   ButtonContext,
@@ -107,8 +105,12 @@ export type {
 export { ColorPicker } from './components/color-picker';
 export { ColorPickerStyles } from './components/color-picker/styles';
 export type { ColorPickerProps } from './components/color-picker/types';
-export { ComboBox } from './components/combobox';
-export type { ComboBoxProps } from './components/combobox';
+export {
+  ComboBoxField,
+  ComboBoxFieldContext,
+} from './components/combobox-field';
+export { ComboBoxStyles } from './components/combobox-field/styles';
+export type { ComboBoxFieldProps } from './components/combobox-field/types';
 export { DateField } from './components/date-field';
 export {
   DateFieldStyles,
@@ -128,11 +130,42 @@ export type {
   DetailsListProps,
   DetailsListValueProps,
 } from './components/details-list/types';
-export { Dialog, DialogTitle } from './components/dialog';
+export { Dialog } from './components/dialog';
 export type { DialogProps } from './components/dialog';
+export {
+  DrawerEventNamespace,
+  DrawerEventTypes,
+} from './components/drawer/events';
+export {
+  Drawer,
+  DrawerContext,
+  DrawerEventHandlers,
+} from './components/drawer';
+export {
+  DrawerMenuStyles,
+  DrawerMenuStylesDefaults,
+  DrawerStyles,
+  DrawerTitleStyles,
+  DrawerTitleStylesDefaults,
+} from './components/drawer/styles';
+export type {
+  DrawerContextValue,
+  DrawerEvent,
+  DrawerLayoutProps,
+  DrawerMenuItemProps,
+  DrawerMenuProps,
+  DrawerOpenEvent,
+  DrawerProps,
+  DrawerTitleProps,
+  DrawerToggleEvent,
+  DrawerTriggerProps,
+} from './components/drawer/types';
 export { Hero, HeroContext } from './components/hero';
 export { HeroStyles } from './components/hero/styles';
 export type { HeroProps } from './components/hero/types';
+export { Hotkey, HotkeyContext } from './components/hotkey';
+export { HotkeyStyles, HotkeyStylesDefaults } from './components/hotkey/styles';
+export type { HotkeyProps, HotkeySetProps } from './components/hotkey/types';
 export { Icon, IconContext } from './components/icon';
 export { IconStyles } from './components/icon/styles';
 export type { IconProps } from './components/icon/types';
@@ -148,15 +181,10 @@ export type { LinesStylesVariants } from './components/lines/styles';
 export type { LinesProps } from './components/lines/types';
 export { Menu, MenuContext } from './components/menu';
 export { MenuStyles, MenuStylesDefaults } from './components/menu/styles';
-export type { MenuStyleVariants } from './components/menu/styles';
 export type {
   MenuItemProps,
   MenuProps,
   MenuSectionProps,
-  MenuTextProps,
-  MenuTriggerProps,
-  SeparatorProps,
-  SubmenuTriggerProps,
 } from './components/menu/types';
 export { Options, OptionsContext } from './components/options';
 export { OptionsStyles } from './components/options/styles';
@@ -167,7 +195,7 @@ export type {
   OptionsProps,
   OptionsSectionProps,
 } from './components/options/types';
-export { Popover, PopoverTrigger } from './components/popover';
+export { Popover } from './components/popover';
 export { PopoverStyles } from './components/popover/styles';
 export type {
   PopoverBodyProps,
@@ -189,8 +217,18 @@ export type {
 export { Radio, RadioContext } from './components/radio';
 export { RadioStyles } from './components/radio/styles';
 export type { RadioGroupProps, RadioProps } from './components/radio/types';
-export { SearchField } from './components/search-field';
-export type { SearchFieldProps } from './components/search-field';
+export { SearchField, SearchFieldContext } from './components/search-field';
+export {
+  SearchFieldStyles,
+  SearchFieldStylesDefaults,
+} from './components/search-field/styles';
+export type {
+  SearchFieldProps,
+  SearchFieldStyleVariants,
+} from './components/search-field/types';
+export { SelectField, SelectFieldContext } from './components/select-field';
+export { SelectFieldStyles } from './components/select-field/styles';
+export type { SelectFieldProps } from './components/select-field/types';
 export { Skeleton } from './components/skeleton';
 export {
   SkeletonStyles,
@@ -241,6 +279,26 @@ export type {
   TreeProps,
   TreeSelectionType,
 } from './components/tree/types';
+export {
+  ViewStackEventNamespace,
+  ViewStackEventTypes,
+} from './components/view-stack/events';
+export {
+  ViewStack,
+  ViewStackContext,
+  ViewStackEventHandlers,
+} from './components/view-stack';
+export type {
+  ViewStackBackEvent,
+  ViewStackClearEvent,
+  ViewStackContextValue,
+  ViewStackEvent,
+  ViewStackProps,
+  ViewStackPushEvent,
+  ViewStackResetEvent,
+  ViewStackTriggerProps,
+  ViewStackViewProps,
+} from './components/view-stack/types';
 export type {
   Position,
   TreeActions,
@@ -255,6 +313,8 @@ export { useTreeActions } from './hooks/use-tree-actions';
 export { useTreeState } from './hooks/use-tree-state';
 export { containsExactChildren, expectsIconWrapper } from './lib/react';
 export type {
+  AriaAttributes,
+  AriaAttributesWithRef,
   ChildrenRenderProps,
   ClassNameRenderProps,
   ProviderProps,

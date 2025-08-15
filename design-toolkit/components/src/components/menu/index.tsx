@@ -17,32 +17,28 @@ import { isSlottedContextValue } from '@/lib/utils';
 import ChevronRight from '@accelint/icons/chevron-right';
 import { createContext, useContext } from 'react';
 import {
-  Header as AriaHeader,
   Menu as AriaMenu,
-  Collection as AriaMenuCollection,
   MenuItem as AriaMenuItem,
   MenuSection as AriaMenuSection,
-  MenuTrigger as AriaMenuTrigger,
-  Separator as AriaSeparator,
-  SubmenuTrigger as AriaSubmenuTrigger,
-  Text as AriaText,
+  Collection,
   type ContextValue,
   DEFAULT_SLOT,
+  Header,
   KeyboardContext,
+  MenuTrigger,
   Popover,
   Provider,
+  Separator,
+  type SeparatorProps,
+  SubmenuTrigger,
+  Text,
+  type TextProps,
   composeRenderProps,
   useContextProps,
 } from 'react-aria-components';
 import { Icon, IconContext } from '../icon';
 import { MenuStyles, MenuStylesDefaults } from './styles';
-import type {
-  MenuItemProps,
-  MenuProps,
-  MenuSectionProps,
-  MenuTextProps,
-  SeparatorProps,
-} from './types';
+import type { MenuItemProps, MenuProps, MenuSectionProps } from './types';
 
 const {
   menu,
@@ -51,87 +47,87 @@ const {
   label,
   description,
   more,
-  sectionHeader,
+  section,
+  header,
   separator,
-  keyboard,
+  hotkey,
+  popover,
 } = MenuStyles();
 
 export const MenuContext =
   createContext<ContextValue<MenuProps<unknown>, HTMLDivElement>>(null);
 
-function MenuSection<T extends object>(props: MenuSectionProps<T>) {
-  const { header, children, classNames, items, ...rest } = props;
-
+function MenuSection<T extends object>({
+  children,
+  classNames,
+  items,
+  title,
+  ...rest
+}: MenuSectionProps<T>) {
   return (
-    <AriaMenuSection className={classNames?.section} {...rest}>
-      <AriaHeader
-        className={sectionHeader({ className: classNames?.sectionHeader })}
-      >
-        {header}
-      </AriaHeader>
-      <AriaMenuCollection items={items}>{children}</AriaMenuCollection>
+    <AriaMenuSection
+      {...rest}
+      className={section({ className: classNames?.section })}
+    >
+      {title && (
+        <Header className={header({ className: classNames?.header })}>
+          {title}
+        </Header>
+      )}
+      <Collection items={items}>{children}</Collection>
     </AriaMenuSection>
   );
 }
 MenuSection.displayName = 'Menu.Section';
 
 function MenuSeparator({ className, ...rest }: SeparatorProps) {
-  return <AriaSeparator {...rest} className={separator({ className })} />;
+  return <Separator {...rest} className={separator({ className })} />;
 }
 MenuSeparator.displayName = 'Menu.Separator';
 
-function MenuLabel(props: MenuTextProps) {
-  const { children, className, ...rest } = props;
-
+function MenuLabel({ children, className, ...rest }: TextProps) {
   return (
-    <AriaText {...rest} slot='label' className={label({ className })}>
+    <Text {...rest} slot='label' className={label({ className })}>
       {children}
-    </AriaText>
+    </Text>
   );
 }
 MenuLabel.displayName = 'Menu.Item.Label';
 
-function MenuDescription(props: MenuTextProps) {
-  const { children, className, ...rest } = props;
-
+function MenuDescription({ children, className, ...rest }: TextProps) {
   return (
-    <AriaText
-      {...rest}
-      slot='description'
-      className={description({ className })}
-    >
+    <Text {...rest} slot='description' className={description({ className })}>
       {children}
-    </AriaText>
+    </Text>
   );
 }
 MenuDescription.displayName = 'Menu.Item.Description';
 
-function MenuItem(props: MenuItemProps) {
+function MenuItem({
+  children,
+  classNames,
+  color = 'info',
+  ...rest
+}: MenuItemProps) {
   const context = useContext(MenuContext);
   const variant =
     (isSlottedContextValue(context) ? undefined : context?.variant) ??
     MenuStylesDefaults.variant;
 
-  const {
-    classNames,
-    color = MenuStylesDefaults.color,
-    children,
-    ...rest
-  } = props;
-
   return (
     <AriaMenuItem
       {...rest}
       className={composeRenderProps(classNames?.item, (className) =>
-        item({ className, variant, color }),
+        item({ className, variant }),
       )}
+      data-color={color}
     >
       {composeRenderProps(children, (children, { hasSubmenu }) => (
         <Provider
           values={[
             [
               KeyboardContext,
-              { className: keyboard({ className: classNames?.keyboard }) },
+              { className: hotkey({ className: classNames?.hotkey }) },
             ],
             [
               IconContext,
@@ -147,9 +143,9 @@ function MenuItem(props: MenuItemProps) {
           ]}
         >
           {typeof children === 'string' ? (
-            <AriaText className={classNames?.text} slot='label'>
+            <Text slot='label' className={classNames?.text}>
               {children}
-            </AriaText>
+            </Text>
           ) : (
             children
           )}
@@ -167,36 +163,95 @@ MenuItem.displayName = 'Menu.Item';
 MenuItem.Label = MenuLabel;
 MenuItem.Description = MenuDescription;
 
+/**
+ * Menu - A dropdown menu component with keyboard navigation and selection
+ *
+ * Provides accessible dropdown menu functionality with support for single and
+ * multiple selection modes. Includes sections, separators, and submenu support
+ * with comprehensive keyboard navigation and ARIA compliance.
+ *
+ * @example
+ * // Basic menu with trigger
+ * <Menu.Trigger>
+ *   <Button>Open Menu</Button>
+ *   <Menu>
+ *     <Menu.Item>Edit</Menu.Item>
+ *     <Menu.Item>Copy</Menu.Item>
+ *     <Menu.Item>Delete</Menu.Item>
+ *   </Menu>
+ * </Menu.Trigger>
+ *
+ * @example
+ * // Menu with sections and separators
+ * <Menu.Trigger>
+ *   <Button>Open</Button>
+ *   <Menu>
+ *     <Menu.Section>
+ *       <Menu.Item>New File</Menu.Item>
+ *       <Menu.Item>Open File</Menu.Item>
+ *     </Menu.Section>
+ *
+ *     <Menu.Separator />
+ *
+ *     <Menu.Item>Settings</Menu.Item>
+ *   </Menu>
+ * </Menu.Trigger>
+ *
+ * @example
+ * // Menu with selection
+ * <Menu.Trigger>
+ *   <Button>Group</Button>
+ *   <Menu selectionMode='multiple'>
+ *     <Menu.Item>Option 1</Menu.Item>
+ *     <Menu.Item>Option 2</Menu.Item>
+ *   </Menu>
+ * </Menu.Trigger>
+ *
+ * @example
+ * // Menu with submenu
+ * <Menu.Trigger>
+ *   <Button>Actions</Button>
+ *   <Menu>
+ *     <Menu.Item>New File</Menu.Item>
+ *     <Menu.Submenu>
+ *       <Menu.Item>Export</Menu.Item>
+ *       <Menu>
+ *         <Menu.Item>Export as PDF</Menu.Item>
+ *         <Menu.Item>Export as CSV</Menu.Item>
+ *         <Menu.Item>Export as JSON</Menu.Item>
+ *       </Menu>
+ *     </Menu.Submenu>
+ *     <Menu.Item>Delete</Menu.Item>
+ *   </Menu>
+ * </Menu.Trigger>
+ */
 export function Menu<T extends object>({ ref, ...props }: MenuProps<T>) {
   [props, ref] = useContextProps(props, ref ?? null, MenuContext);
 
   const {
     children,
-    className,
+    classNames,
+    popoverProps,
     selectionMode = 'single',
-    offset = -4,
-    placement,
-    isNonModal,
-    containerPadding,
     variant = MenuStylesDefaults.variant,
     ...rest
   } = props;
 
   return (
     <Popover
-      offset={offset}
-      placement={placement}
-      isNonModal={isNonModal}
-      containerPadding={containerPadding}
+      {...popoverProps}
+      className={composeRenderProps(classNames?.popover, (className) =>
+        popover({ className }),
+      )}
     >
       <MenuContext.Provider value={{ variant }}>
         <AriaMenu
+          {...rest}
           ref={ref}
-          className={composeRenderProps(className, (className) =>
+          className={composeRenderProps(classNames?.menu, (className) =>
             menu({ className, variant }),
           )}
           selectionMode={selectionMode}
-          {...rest}
         >
           {children}
         </AriaMenu>
@@ -205,8 +260,8 @@ export function Menu<T extends object>({ ref, ...props }: MenuProps<T>) {
   );
 }
 Menu.displayName = 'Menu';
-Menu.Trigger = AriaMenuTrigger;
-Menu.Submenu = AriaSubmenuTrigger;
+Menu.Trigger = MenuTrigger;
+Menu.Submenu = SubmenuTrigger;
 Menu.Item = MenuItem;
 Menu.Separator = MenuSeparator;
 Menu.Section = MenuSection;

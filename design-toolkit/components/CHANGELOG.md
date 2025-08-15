@@ -1,5 +1,72 @@
 # @accelint/design-toolkit
 
+## 3.0.0
+
+### Major Changes
+
+- 57d61c4: Added docblocks; removed Box component
+
+### Minor Changes
+
+- e06fb14: Consolidate button styles to reduce complexity
+- 0d92211: refactor button colors
+- d3dcc87: Refactored Drawer to be event driven
+
+### Patch Changes
+
+- 13c065b: Made Menu Section title conditionally rendered
+- a7da3db: added labelPosition prop to Switch component
+- cd684ca: Fixed Combobox styles
+- 0701f3b: Fixed default Input size
+- f6d0be1: Switch to using focus visible for most focus states
+- ed09b0d: Added back in missing default for color of buttons
+- Updated dependencies [cdd91b3]
+- Updated dependencies [0457dc6]
+  - @accelint/core@0.4.0
+  - @accelint/bus@1.0.0
+
+## 2.6.0
+
+### Minor Changes
+
+- a97d386: Update Menu component to accept custom triggers
+  Add Hotkey component
+- 9ec4cbe: Adds <select> component
+
+### Patch Changes
+
+- 83104ea: Refactored ViewStack to be event driven, allowing for triggers anywhere in the app
+- Updated dependencies [83104ea]
+- Updated dependencies [83104ea]
+  - @accelint/core@0.3.0
+  - @accelint/icons@2.0.3
+  - @accelint/bus@0.1.2
+
+## 2.5.0
+
+### Minor Changes
+
+- 5404e48: Refactor SearchField to follow styling standards
+- 61a55ef: Add drawer
+
+### Patch Changes
+
+- 11a813f: Fix css grid formatting for menu
+- 7481c80: Update Options to follow DesignTK styling standards
+- a201c50: Updated types and fixtures in query builder to fix build
+- de8c60a: remove duplicative type prop from TextField
+- 484c14f: Added default text color for filled buttons
+- a16fbf3: - Created DetailsList component
+  - Created Hero component
+  - Created Skeleton component
+  - Simplified types
+  - Implemented missing tests
+  - Updated component structure validation functions to exit early in production
+  - Expanded component structure validation functions to handle RACs, functions and Fragments
+- c95e5b4: allow children
+- Updated dependencies [ca3922a]
+  - @accelint/icons@2.0.2
+
 ## 2.4.3
 
 ### Patch Changes
