@@ -1,3 +1,4 @@
+// __private-exports
 /*
  * Copyright 2025 Hypergiant Galactic Systems Inc. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
@@ -10,26 +11,52 @@
  * governing permissions and limitations under the License.
  */
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Broadcast } from '../broadcast';
+import type { ExtractEvent, Payload } from '../broadcast/types';
 import { useEffectEvent } from './ponyfill';
 
-const bus = Broadcast.getInstance();
+/**
+ * A convenience wrapper for useEmit & useOn, to pass down types instead of having
+ * to reimplement generics each time
+ */
+export function useBus<P extends Payload = Payload>() {
+  return {
+    useEmit: useEmit<P>,
+    useOn: useOn<P>,
+  };
+}
 
-export function useEvent(event: any, callback: () => void) {
-  const onCallback = useEffectEvent(callback);
+/**
+ * React hook to enable render-safe emitting of event with payload that is type safe
+ * @template P union of event types
+ * @template T type of event
+ * @param type of type T, one of the event types
+ * @returns callback that will accept the cooresponding payload to the previously entered event type
+ */
+export function useEmit<
+  P extends Payload = Payload,
+  T extends P['type'] = P['type'],
+>(type: T) {
+  const bus = useRef(Broadcast.getInstance<P>());
 
-  useEffect(() => {
-    const off = bus.on(event, onCallback);
-    return () => off();
+  return useEffectEvent((payload: ExtractEvent<P, T>['payload']) => {
+    bus.current.emit(type, payload);
   });
 }
 
-// Alias
-export const useOn = useEvent;
+/**
+ * React hook to attach event bus listener with type safe callback
+ * @param type event type
+ * @param callback handler that matches event type and receives cooresponding payload
+ */
+export function useOn<
+  P extends Payload = Payload,
+  T extends P['type'] = P['type'],
+>(type: T, callback: (data: ExtractEvent<P, T>) => void) {
+  const bus = useRef(Broadcast.getInstance<P>());
+  const onCallback = useEffectEvent(callback);
 
-export function useEmit(event: string) {
-  return useEffectEvent((payload: any) => {
-    bus.emit(event, payload);
-  });
+  // biome-ignore lint/correctness/useExhaustiveDependencies: onCallback is stable
+  useEffect(() => bus.current.on(type, onCallback), [type]);
 }

@@ -1,3 +1,4 @@
+// __private-exports
 /*
  * Copyright 2025 Hypergiant Galactic Systems Inc. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
@@ -12,9 +13,15 @@
 
 /**
  * Vendored from https://github.com/sanity-io/use-effect-event/blob/main/src/useEffectEvent.ts
+ * Documented https://react.dev/learn/separating-events-from-effects#declaring-an-effect-event
  */
 
-import React, { createContext, useInsertionEffect, useRef } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useInsertionEffect,
+  useRef,
+} from 'react';
 
 const context = createContext(true);
 
@@ -38,6 +45,12 @@ const isInvalidExecutionContextForEventFunction =
       }
     : () => false;
 
+/**
+ * This is a ponyfill of the upcoming `useEffectEvent` hook that'll arrive in React 19.
+ * https://19.react.dev/learn/separating-events-from-effects#declaring-an-effect-event
+ * To learn more about the ponyfill itself, see: https://blog.bitsrc.io/a-look-inside-the-useevent-polyfill-from-the-new-react-docs-d1c4739e8072
+ */
+// biome-ignore lint/suspicious/noExplicitAny: Support any type of callback with any parameters
 export function useEffectEvent<const T extends (...args: any[]) => void>(
   fn: T,
 ): T {
@@ -51,7 +64,7 @@ export function useEffectEvent<const T extends (...args: any[]) => void>(
     ref.current = fn;
   }, [fn]);
 
-  return ((...args: any) => {
+  return useCallback((...args: Parameters<T>) => {
     // Performs a similar check to what React does for `useEffectEvent`:
     // 1. https://github.com/facebook/react/blob/b7e2de632b2a160bc09edda1fbb9b8f85a6914e8/packages/react-reconciler/src/ReactFiberHooks.js#L2729-L2733
     // 2. https://github.com/facebook/react/blob/b7e2de632b2a160bc09edda1fbb9b8f85a6914e8/packages/react-reconciler/src/ReactFiberHooks.js#L2746C9-L2750
@@ -59,7 +72,6 @@ export function useEffectEvent<const T extends (...args: any[]) => void>(
       forbiddenInRender();
     }
 
-    const latestFn = ref.current;
-    return latestFn(...args);
-  }) as T;
+    ref.current(...args);
+  }, []) as T;
 }
