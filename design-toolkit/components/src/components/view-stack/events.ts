@@ -10,17 +10,11 @@
  * governing permissions and limitations under the License.
  */
 
-import type { Meta, StoryObj } from '@storybook/react';
-import { Box } from './index';
+export const ViewStackEventNamespace = 'ViewStack';
 
-const meta: Meta<typeof Box> = {
-  title: 'Layout [IN PROGRESS]/Box',
-  component: Box,
-};
-
-export default meta;
-type Story = StoryObj<typeof Box>;
-
-export const Default: Story = {
-  render: (args) => <Box {...args}>This is a simple box.</Box>,
-};
+export const ViewStackEventTypes = {
+  back: `${ViewStackEventNamespace}:back`,
+  clear: `${ViewStackEventNamespace}:clear`,
+  reset: `${ViewStackEventNamespace}:reset`,
+  push: `${ViewStackEventNamespace}:push`,
+} as const;

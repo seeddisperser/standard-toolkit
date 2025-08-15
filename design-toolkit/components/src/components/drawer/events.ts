@@ -10,24 +10,10 @@
  * governing permissions and limitations under the License.
  */
 
-import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
-import { Badge } from './index';
-import type { BadgeProps } from './types';
+export const DrawerEventNamespace = 'Drawer';
 
-function setup({ children = 'Foo', ...rest }: Partial<BadgeProps> = {}) {
-  render(<Badge {...rest}>{children}</Badge>);
-
-  return {
-    ...rest,
-    children,
-  };
-}
-
-describe('Badge', () => {
-  it('should render', () => {
-    const { children } = setup();
-
-    expect(screen.getByText(`${children}`)).toBeInTheDocument();
-  });
-});
+export const DrawerEventTypes = {
+  close: `${DrawerEventNamespace}:close`,
+  open: `${DrawerEventNamespace}:open`,
+  toggle: `${DrawerEventNamespace}:toggle`,
+} as const;

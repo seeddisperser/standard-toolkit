@@ -33,8 +33,6 @@ export type { AvatarProps } from './components/avatar/types';
 export { Badge, BadgeContext } from './components/badge';
 export { BadgeStyles, BadgeStylesDefaults } from './components/badge/styles';
 export type { BadgeProps } from './components/badge/types';
-export { Box } from './components/box';
-export type { BoxProps } from './components/box';
 export {
   Button,
   ButtonContext,
@@ -132,43 +130,40 @@ export type {
   DetailsListProps,
   DetailsListValueProps,
 } from './components/details-list/types';
-export { Dialog, DialogTitle } from './components/dialog';
+export { Dialog } from './components/dialog';
 export type { DialogProps } from './components/dialog';
 export {
-  useDrawerContext,
-  useDrawersContext,
-  useDrawersState,
-} from './components/drawer/context';
-export { Drawer } from './components/drawer';
+  Drawer,
+  DrawerContext,
+  DrawerEventHandlers,
+} from './components/drawer';
 export {
-  createDefaultDrawerState,
-  drawerStateReducer,
-} from './components/drawer/state';
-export type { DrawerAction } from './components/drawer/state';
-export { DrawerMenuStyles, DrawerStyles } from './components/drawer/styles';
-export { DrawerDefaults } from './components/drawer/types';
+  DrawerMenuStyles,
+  DrawerMenuStylesDefaults,
+  DrawerStyles,
+  DrawerTitleStyles,
+  DrawerTitleStylesDefaults,
+} from './components/drawer/styles';
+export {
+  DrawerEventNamespace,
+  DrawerEventTypes,
+} from './components/drawer/events';
 export type {
-  DrawerContainerProps,
   DrawerContextValue,
+  DrawerEvent,
   DrawerLayoutProps,
-  DrawerLayoutPush,
-  DrawerLayouts,
   DrawerMenuItemProps,
   DrawerMenuProps,
-  DrawerPanelProps,
-  DrawerPlacement,
+  DrawerOpenEvent,
   DrawerProps,
-  DrawerProviderProps,
-  DrawerSize,
-  DrawerState,
+  DrawerTitleProps,
+  DrawerToggleEvent,
   DrawerTriggerProps,
-  DrawersContextValue,
-  OnOpenChangeCallback,
 } from './components/drawer/types';
 export { Hero, HeroContext } from './components/hero';
 export { HeroStyles } from './components/hero/styles';
 export type { HeroProps } from './components/hero/types';
-export { Hotkey, HotkeyContext, HotkeySet } from './components/hotkey';
+export { Hotkey, HotkeyContext } from './components/hotkey';
 export { HotkeyStyles, HotkeyStylesDefaults } from './components/hotkey/styles';
 export type { HotkeyProps, HotkeySetProps } from './components/hotkey/types';
 export { Icon, IconContext } from './components/icon';
@@ -182,15 +177,10 @@ export { LabelStyles } from './components/label/styles';
 export type { LabelProps } from './components/label/types';
 export { Menu, MenuContext } from './components/menu';
 export { MenuStyles, MenuStylesDefaults } from './components/menu/styles';
-export type { MenuStyleVariants } from './components/menu/styles';
 export type {
   MenuItemProps,
   MenuProps,
   MenuSectionProps,
-  MenuTextProps,
-  MenuTriggerProps,
-  SeparatorProps,
-  SubmenuTriggerProps,
 } from './components/menu/types';
 export { Options, OptionsContext } from './components/options';
 export { OptionsStyles } from './components/options/styles';
@@ -201,7 +191,7 @@ export type {
   OptionsProps,
   OptionsSectionProps,
 } from './components/options/types';
-export { Popover, PopoverTrigger } from './components/popover';
+export { Popover } from './components/popover';
 export { PopoverStyles } from './components/popover/styles';
 export type {
   PopoverBodyProps,
@@ -272,11 +262,20 @@ export type {
   TooltipProps,
   TooltipTriggerProps,
 } from './components/tooltip/types';
-export { ViewStack, ViewStackEventTypes } from './components/view-stack';
+export {
+  ViewStackEventNamespace,
+  ViewStackEventTypes,
+} from './components/view-stack/events';
+export {
+  ViewStack,
+  ViewStackContext,
+  ViewStackEventHandlers,
+} from './components/view-stack';
 export type {
   ViewStackBackEvent,
   ViewStackClearEvent,
   ViewStackContextValue,
+  ViewStackEvent,
   ViewStackProps,
   ViewStackPushEvent,
   ViewStackResetEvent,
@@ -285,6 +284,8 @@ export type {
 } from './components/view-stack/types';
 export { containsExactChildren, expectsIconWrapper } from './lib/react';
 export type {
+  AriaAttributes,
+  AriaAttributesWithRef,
   ChildrenRenderProps,
   ClassNameRenderProps,
   ProviderProps,
