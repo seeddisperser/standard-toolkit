@@ -7,7 +7,7 @@ settings:
 overrides:
   '@react-stately/datepicker': 3.13.0
   '@internationalized/date': 3.8.0
-  '@docusaurus/plugin-debug@3.7.0>react-json-view-lite': ^2.0.0
+  undici: 7.12.0
 
 importers:
 
@@ -119,8 +119,8 @@ importers:
         specifier: 3.8.1
         version: 3.8.1(@swc/core@1.7.36(@swc/helpers@0.5.17))(acorn@8.15.0)(esbuild@0.25.9)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@easyops-cn/docusaurus-search-local':
-        specifier: 0.47.0
-        version: 0.47.0(@docusaurus/theme-common@3.8.1(@docusaurus/plugin-content-docs@3.8.1(@mdx-js/react@3.0.0(@types/react@19.1.10)(react@19.1.1))(@swc/core@1.7.36(@swc/helpers@0.5.17))(acorn@8.15.0)(esbuild@0.25.9)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.2))(@swc/core@1.7.36(@swc/helpers@0.5.17))(acorn@8.15.0)(esbuild@0.25.9)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(@mdx-js/react@3.0.0(@types/react@19.1.10)(react@19.1.1))(@swc/core@1.7.36(@swc/helpers@0.5.17))(acorn@8.15.0)(esbuild@0.25.9)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.2)
+        specifier: 0.52.1
+        version: 0.52.1(@docusaurus/theme-common@3.8.1(@docusaurus/plugin-content-docs@3.8.1(@mdx-js/react@3.0.0(@types/react@19.1.10)(react@19.1.1))(@swc/core@1.7.36(@swc/helpers@0.5.17))(acorn@8.15.0)(esbuild@0.25.9)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.2))(@swc/core@1.7.36(@swc/helpers@0.5.17))(acorn@8.15.0)(esbuild@0.25.9)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(@mdx-js/react@3.0.0(@types/react@19.1.10)(react@19.1.1))(@swc/core@1.7.36(@swc/helpers@0.5.17))(acorn@8.15.0)(esbuild@0.25.9)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.2)
       '@mdx-js/react':
         specifier: 3.0.0
         version: 3.0.0(@types/react@19.1.10)(react@19.1.1)
@@ -2280,8 +2280,8 @@ packages:
   '@easyops-cn/autocomplete.js@0.38.1':
     resolution: {integrity: sha512-drg76jS6syilOUmVNkyo1c7ZEBPcPuK+aJA7AksM5ZIIbV57DMHCywiCr+uHyv8BE5jUTU98j/H7gVrkHrWW3Q==}
 
-  '@easyops-cn/docusaurus-search-local@0.47.0':
-    resolution: {integrity: sha512-nzOeVWR2T34Czdjby85VHP0a2AmfE/El56MoXDs3UDOOTCtba+2FVxYDcNMohoGFvfesX6fGsZ3vZuYT4aSqXw==}
+  '@easyops-cn/docusaurus-search-local@0.52.1':
+    resolution: {integrity: sha512-pwfANjTLOQyAPc2Iz93WbG4OQM5C4COCWARbLAs79FIpIS38gHq3PrbDIX8f7oDhGQp1u6f8fr3K3u3+yZXZTA==}
     engines: {node: '>=12'}
     peerDependencies:
       '@docusaurus/theme-common': ^2 || ^3
@@ -7475,8 +7475,8 @@ packages:
   js_cols@1.0.1:
     resolution: {integrity: sha512-VJuDOf7txQznLQSlJ7p90Cawz5A1+T4MsOYF01V1WqK7TJOnHvvC8Oz8qtc7KDfDyfP05jP5ua7VOpUm/S6s+g==}
 
-  jsdoc-type-pratt-parser@4.2.0:
-    resolution: {integrity: sha512-jo5QmpHW/a17Wvn72m2Ka6eB8VemtF/Hl7VNlE/jhEyjRWvLBwLcplwwbc9qtkD/bIYwPqe3s4pQBQOQbW+hyw==}
+  jsdoc-type-pratt-parser@4.5.0:
+    resolution: {integrity: sha512-mJAy6quBxSEuLjOUUfI67UdKBirxIVREdj0t7zZnwbC8bZSklerD2U5Tamei6r7ULB/RbONNjojpKggg23LUqA==}
     engines: {node: '>=12.0.0'}
 
   jsdom@25.0.1:
@@ -10310,8 +10310,8 @@ packages:
   undici-types@7.10.0:
     resolution: {integrity: sha512-t5Fy/nfn+14LuOc2KNYg75vZqClpAiqscVvMygNnlsHBFpSXdJaYtXMcdNLpl/Qvc3P2cB3s6lOV51nqsFq4ag==}
 
-  undici@7.13.0:
-    resolution: {integrity: sha512-l+zSMssRqrzDcb3fjMkjjLGmuiiK2pMIcV++mJaAc9vhjSGpvM7h43QgP+OAMb1GImHmbPyG2tBXeuyG5iY4gA==}
+  undici@7.12.0:
+    resolution: {integrity: sha512-GrKEsc3ughskmGA9jevVlIOPMiiAHJ4OFUtaAH+NhfTUSiZ1wMPIQqQvAJUrJspFXJt3EBWgpAeoHEDVT1IBug==}
     engines: {node: '>=20.18.1'}
 
   unicode-canonical-property-names-ecmascript@2.0.1:
@@ -13114,7 +13114,7 @@ snapshots:
       cssesc: 3.0.0
       immediate: 3.3.0
 
-  '@easyops-cn/docusaurus-search-local@0.47.0(@docusaurus/theme-common@3.8.1(@docusaurus/plugin-content-docs@3.8.1(@mdx-js/react@3.0.0(@types/react@19.1.10)(react@19.1.1))(@swc/core@1.7.36(@swc/helpers@0.5.17))(acorn@8.15.0)(esbuild@0.25.9)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.2))(@swc/core@1.7.36(@swc/helpers@0.5.17))(acorn@8.15.0)(esbuild@0.25.9)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(@mdx-js/react@3.0.0(@types/react@19.1.10)(react@19.1.1))(@swc/core@1.7.36(@swc/helpers@0.5.17))(acorn@8.15.0)(esbuild@0.25.9)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.2)':
+  '@easyops-cn/docusaurus-search-local@0.52.1(@docusaurus/theme-common@3.8.1(@docusaurus/plugin-content-docs@3.8.1(@mdx-js/react@3.0.0(@types/react@19.1.10)(react@19.1.1))(@swc/core@1.7.36(@swc/helpers@0.5.17))(acorn@8.15.0)(esbuild@0.25.9)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.2))(@swc/core@1.7.36(@swc/helpers@0.5.17))(acorn@8.15.0)(esbuild@0.25.9)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))(@mdx-js/react@3.0.0(@types/react@19.1.10)(react@19.1.1))(@swc/core@1.7.36(@swc/helpers@0.5.17))(acorn@8.15.0)(esbuild@0.25.9)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.2)':
     dependencies:
       '@docusaurus/plugin-content-docs': 3.8.1(@mdx-js/react@3.0.0(@types/react@19.1.10)(react@19.1.1))(@swc/core@1.7.36(@swc/helpers@0.5.17))(acorn@8.15.0)(debug@4.4.1)(esbuild@0.25.9)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.2)
       '@docusaurus/theme-common': 3.8.1(@docusaurus/plugin-content-docs@3.8.1(@mdx-js/react@3.0.0(@types/react@19.1.10)(react@19.1.1))(@swc/core@1.7.36(@swc/helpers@0.5.17))(acorn@8.15.0)(esbuild@0.25.9)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(typescript@5.9.2))(@swc/core@1.7.36(@swc/helpers@0.5.17))(acorn@8.15.0)(esbuild@0.25.9)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -15573,7 +15573,7 @@ snapshots:
       browser-assert: 1.2.1
       esbuild: 0.25.9
       esbuild-register: 3.6.0(esbuild@0.25.9)
-      jsdoc-type-pratt-parser: 4.2.0
+      jsdoc-type-pratt-parser: 4.5.0
       process: 0.11.10
       recast: 0.23.11
       semver: 7.7.2
@@ -17190,7 +17190,7 @@ snapshots:
       parse5: 7.3.0
       parse5-htmlparser2-tree-adapter: 7.1.0
       parse5-parser-stream: 7.1.2
-      undici: 7.13.0
+      undici: 7.12.0
       whatwg-mimetype: 4.0.0
 
   chokidar@3.6.0:
@@ -19112,7 +19112,7 @@ snapshots:
 
   js_cols@1.0.1: {}
 
-  jsdoc-type-pratt-parser@4.2.0: {}
+  jsdoc-type-pratt-parser@4.5.0: {}
 
   jsdom@25.0.1:
     dependencies:
@@ -22596,7 +22596,7 @@ snapshots:
 
   undici-types@7.10.0: {}
 
-  undici@7.13.0: {}
+  undici@7.12.0: {}
 
   unicode-canonical-property-names-ecmascript@2.0.1: {}
 
