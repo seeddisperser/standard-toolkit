@@ -14,6 +14,7 @@ import { tv } from 'tailwind-variants';
 
 export const DateFieldStylesDefault = {
   size: 'medium',
+  shortMonth: true,
 } as const;
 
 export const DateFieldStyles = tv({
@@ -37,8 +38,20 @@ export const DateFieldStyles = tv({
       'group-disabled/date-field:fg-disabled',
     ],
     error: 'fg-serious text-body-xs empty:hidden',
-    dateSegment:
+    dateSegment: [
       'focus-visible:bg-highlight focus-visible:text-inverse-light focus-visible:outline-none',
+      'type-month:inline-block type-month:text-right',
+    ],
+  },
+  variants: {
+    shortMonth: {
+      true: {
+        dateSegment: 'type-month:w-[4ch]',
+      },
+      false: {
+        dateSegment: 'type-month:w-[3ch]',
+      },
+    },
   },
   defaultVariants: DateFieldStylesDefault,
 });
