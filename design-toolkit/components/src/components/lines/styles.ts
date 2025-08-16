@@ -14,12 +14,8 @@ import { tv } from '@/lib/utils';
 import type { VariantProps } from 'tailwind-variants';
 
 export const LinesStyles = tv({
+  base: 'size-large:h-xxl size-medium:min-h-xl size-small:min-h-l',
   variants: {
-    size: {
-      small: 'min-h-l w-m ',
-      medium: 'min-h-xl w-l',
-      large: 'h-xxl w-xl',
-    },
     variant: {
       branch: [
         'bg-position-[center,center_right] [background-repeat:repeat-y,no-repeat] [background-size:1px_4px,50%_1px]',

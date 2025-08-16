@@ -85,7 +85,7 @@ const TreeLines = memo(function TreeLines({
   return Array.from({ length: level }).map((_, i) => {
     const type = i === level - 1 ? 'branch' : 'vert';
     const line = isLastOfSet && i > 0 ? 'last' : type;
-    const size = variant === 'cozy' ? 'large' : 'medium';
+    const size = variant === 'crammed' ? 'medium' : 'large';
 
     return (
       <Lines

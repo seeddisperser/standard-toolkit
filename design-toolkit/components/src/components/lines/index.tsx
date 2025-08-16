@@ -15,11 +15,14 @@ import type { LinesProps } from './types';
 
 export function Lines({
   className,
-  size,
+  size = 'medium',
   variant,
   showLines = true,
 }: LinesProps) {
   return (
-    <div className={LinesStyles({ className, size, variant, showLines })} />
+    <div
+      className={LinesStyles({ className, variant, showLines })}
+      data-size={size}
+    />
   );
 }

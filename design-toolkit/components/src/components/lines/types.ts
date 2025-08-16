@@ -15,5 +15,6 @@ import type { LinesStylesVariants } from './styles';
 
 export type LinesProps = Omit<HTMLProps<HTMLDivElement>, 'size'> &
   LinesStylesVariants & {
+    size?: 'large' | 'medium' | 'small';
     showLines?: boolean;
   };
