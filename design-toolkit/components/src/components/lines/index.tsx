@@ -13,8 +13,12 @@
 import { LinesStyles } from './styles';
 import type { LinesProps } from './types';
 
-export function Lines(props: LinesProps) {
-  const { className, size, variant, showLines = true } = props;
+export function Lines({
+  className,
+  size,
+  variant,
+  showLines = true,
+}: LinesProps) {
   return (
     <div className={LinesStyles({ className, size, variant, showLines })} />
   );
