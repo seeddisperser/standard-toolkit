@@ -11,10 +11,10 @@
  */
 
 import type { LinesStyles } from '@/components/lines/styles';
-import type { HTMLProps } from 'react';
+import type { ComponentProps } from 'react';
 import type { VariantProps } from 'tailwind-variants';
 
-export type LinesProps = Omit<HTMLProps<HTMLDivElement>, 'size'> &
+export type LinesProps = Omit<ComponentProps<'div'>, 'size'> &
   LinesStylesVariants & {
     size?: 'large' | 'medium' | 'small';
     showLines?: boolean;

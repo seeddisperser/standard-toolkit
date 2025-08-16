@@ -177,8 +177,7 @@ export { LabelStyles } from './components/label/styles';
 export type { LabelProps } from './components/label/types';
 export { Lines } from './components/lines';
 export { LinesStyles } from './components/lines/styles';
-export type { LinesStylesVariants } from './components/lines/styles';
-export type { LinesProps } from './components/lines/types';
+export type { LinesProps, LinesStylesVariants } from './components/lines/types';
 export { Menu, MenuContext } from './components/menu';
 export { MenuStyles, MenuStylesDefaults } from './components/menu/styles';
 export type {
