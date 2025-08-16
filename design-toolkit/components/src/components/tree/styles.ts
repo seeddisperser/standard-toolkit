@@ -22,7 +22,7 @@ export const TreeStyles = tv({
   slots: {
     tree: 'overflow-auto outline-hidden',
     item: [
-      'rounded-medium hover:bg-interactive-hover-dark',
+      'group/tree-item rounded-medium hover:bg-interactive-hover-dark',
       'data-[drop-target=true]:border data-[drop-target=true]:border-highlight-hover data-[drop-target=true]:bg-highlight/20',
     ],
     content: [
@@ -34,7 +34,7 @@ export const TreeStyles = tv({
     icon: '[grid-area:icon]',
     label: 'not-has-[+[data-slot=description]]:row-span-full [grid-area:label]',
     description: 'fg-default-dark text-body-s [grid-area:description]',
-    actions: 'flex·items-center [grid-area:action]',
+    actions: 'flex shrink-0 items-center [grid-area:action]',
     spacing: '',
     visibility: '',
     expansion: '',
@@ -63,7 +63,6 @@ export const TreeStyles = tv({
         display: 'gap-x-xs px-xxs',
         label: 'gap-xs',
         actions: 'gap-x-xxs',
-        description: 'hidden',
         spacing: 'min-h-[24px] w-[20px]',
         item: 'min-h-s',
       },

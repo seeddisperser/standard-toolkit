@@ -333,14 +333,14 @@ function ItemDescription({ children, className }: ItemTextProps) {
     (isSlottedContextValue(context) ? undefined : context?.variant) ??
     TreeStylesDefaults.variant;
 
-  return (
+  return variant !== 'crammed' ? (
     <AriaText
       data-slot='description'
       className={description({ className, variant })}
     >
       {children}
     </AriaText>
-  );
+  ) : null;
 }
 ItemDescription.displayName = 'Tree.Item.Description';
 
