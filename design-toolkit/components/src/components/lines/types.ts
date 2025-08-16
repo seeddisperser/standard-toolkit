@@ -17,7 +17,6 @@ import type { VariantProps } from 'tailwind-variants';
 export type LinesProps = Omit<ComponentProps<'div'>, 'size'> &
   LinesStylesVariants & {
     size?: 'large' | 'medium' | 'small';
-    showLines?: boolean;
   };
 
 export type LinesStylesVariants = VariantProps<typeof LinesStyles>;
