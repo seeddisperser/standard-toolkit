@@ -11,7 +11,6 @@
  */
 
 import { tv } from '@/lib/utils';
-import type { VariantProps } from 'tailwind-variants';
 
 export const LinesStyles = tv({
   base: 'size-large:h-xxl size-medium:min-h-xl size-small:min-h-l',
@@ -35,5 +34,3 @@ export const LinesStyles = tv({
     },
   },
 });
-
-export type LinesStylesVariants = VariantProps<typeof LinesStyles>;
