@@ -19,7 +19,7 @@ export const SliderStyles = tv({
       'orientation-vertical:h-full orientation-vertical:w-fit',
       'orientation-horizontal:h-xl orientation-horizontal:w-full',
       'orientation-horizontal:layout-stack:grid-cols-[auto_1fr_auto] orientation-horizontal:layout-stack:grid-rows-[auto_auto_auto]',
-      'orientation-horizontal:layout-inline:grid-cols-[auto_auto_1fr_auto_auto] orientation-horizontal:layout-inline:grid-rows-1 orientation-horizontal:layout-inline:items-center',
+      'orientation-horizontal:layout-inline:flex orientation-horizontal:layout-inline:items-center',
       'orientation-vertical:layout-stack:grid-cols-[auto_auto_auto] orientation-vertical:layout-stack:grid-rows-[auto_auto_1fr_auto]',
       'orientation-vertical:layout-inline:grid-cols-[auto_1fr_auto] orientation-vertical:layout-inline:grid-rows-[auto_auto_1fr_auto]',
     ],
