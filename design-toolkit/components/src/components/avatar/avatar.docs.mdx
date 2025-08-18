@@ -7,9 +7,10 @@ import * as AvatarStories from './avatar.stories';
 # Avatar
 The Avatar component displays a user's profile picture, initials, or a fallback icon. Avatars are commonly used in user interfaces to represent users, display profile pictures, show online status, and provide visual identification in lists, headers, and user management systems.
 
-## Basic Usage
+## Example Usage
+
+### Basic
 ```tsx
-// Basic avatar with image
 <Avatar
   imageProps={{
     alt: "User profile",
@@ -19,7 +20,7 @@ The Avatar component displays a user's profile picture, initials, or a fallback 
 ```
 <Canvas of={AvatarStories.Default} />
 
-## With Badge
+### With Badge
 ```tsx
 // Avatar with badge content
 <Avatar
@@ -33,7 +34,7 @@ The Avatar component displays a user's profile picture, initials, or a fallback 
 ```
 <Canvas of={AvatarStories.WithBadge} />
 
-## With Fallback
+### With Fallback
 ```tsx
 // Avatar with icon fallback
 <Avatar
@@ -75,12 +76,9 @@ All components and subcomponents accept either a `className` or a `classNames` p
 
 The component accepts all standard HTML span attributes and forwards them to the underlying element.
 
-## Subcomponents
-
 ### Avatar.Provider
 Context provider component that allows setting default props for multiple Avatar components. Useful for maintaining consistent sizing across a group of avatars.
 
-#### Example usage
 ```tsx
 // Using context provider for default props
 <Avatar.Provider size="small">

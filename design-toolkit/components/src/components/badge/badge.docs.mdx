@@ -8,44 +8,33 @@ import * as BadgeStories from './badge.stories';
 The Badge component displays small status indicators, notifications, or labels that can be positioned relative to other elements. It's built with Tailwind CSS and provides excellent visual feedback for different states and priorities. Badges are commonly used to show notification counts, status indicators, priority levels, and small pieces of information that need to stand out from the surrounding content.
 
 ## Example usage
+
+### Basic
 ```tsx
-// Basic badge with default variant
 <Badge>New</Badge>
+```
+<Canvas of={BadgeStories.Default} />
 
-// Badge with different variants
-<Badge variant="critical">Error</Badge>
-<Badge variant="serious">Warning</Badge>
-<Badge variant="advisory">Info</Badge>
-<Badge variant="normal">Success</Badge>
+### Offset Coordinates
+When composing with other components (like [Avatar](?path=/story/components-avatar--with-badge))
 
-// Badge with custom text
-<Badge variant="critical">99+</Badge>
-
-// Badge with custom placement and offset
-<Badge placement="top right" offset={8}>
-  <span>3</span>
-</Badge>
-
-// Badge with custom offset coordinates
+```tsx
 <Badge placement="bottom left" offset={{ x: 10, y: 5 }}>
   New
 </Badge>
+```
 
-// Badge without text (dot indicator)
+### Without Text
+```tsx
 <Badge variant="critical" />
+```
 
-// Using context provider for default props
+### Badge.Provider
+```tsx
 <Badge.Provider variant="info">
   <Badge>Status 1</Badge>
   <Badge>Status 2</Badge>
 </Badge.Provider>
-
-// Badge positioned on an avatar
-<Avatar>
-  <Badge placement="top right" offset={4} variant="critical">
-    5
-  </Badge>
-</Avatar>
 ```
 
 ## Variants
@@ -57,8 +46,6 @@ The Badge component displays small status indicators, notifications, or labels t
 * **Critical** - red styling for critical errors or alerts
 
 Each variant uses appropriate color combinations with subtle backgrounds and bold outlines for optimal contrast and readability.
-
-<Canvas of={BadgeStories.Default} />
 
 ## Props
 
@@ -87,18 +74,4 @@ The underlying elements are:
 - `span` for the badge container with appropriate ARIA attributes
 - Text content or empty state for dot indicators
 
-The component automatically handles accessibility features including:
-- Proper contrast ratios for all variant combinations
-- Semantic color usage for different priority levels
-- Responsive sizing and positioning
-- Flexible content support (text or empty)
-
-The component includes sophisticated positioning logic that supports:
-- Absolute positioning relative to parent elements
-- Configurable offset distances in both x and y directions
-- Automatic translation adjustments for proper centering
-- CSS custom property integration for dynamic offset values
-
-The badge automatically adapts its size based on content - empty badges render as small dots, while badges with text expand to accommodate the content with appropriate padding. All variants use semantic color combinations that maintain accessibility standards while providing clear visual hierarchy for different types of information.
-
-The component integrates seamlessly with other components like Avatar, providing notification indicators and status displays with consistent styling and positioning behavior.
+The badge automatically adapts its size based on content - empty badges render as small dots, while badges with text expand to accommodate the content with appropriate padding. All variants use semantic color combinations that maintain accessibility standards while providing clear visual hierarchy for different types of information. The component integrates seamlessly with other components like Avatar, providing notification indicators and status displays with consistent styling and positioning behavior.
