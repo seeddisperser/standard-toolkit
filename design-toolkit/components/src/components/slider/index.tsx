@@ -9,37 +9,33 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-
 'use client';
+
 import 'client-only';
-import { useContext } from 'react';
 import {
   Slider as AriaSlider,
   SliderTrack as AriaSliderTrack,
   Input,
   Label,
-  LabelContext,
-  NumberField,
-  SliderStateContext,
   SliderThumb,
   Text,
-  useSlottedContext,
+  composeRenderProps,
 } from 'react-aria-components';
 import { Tooltip } from '../tooltip';
 import { SliderStyles } from './styles';
 import type { SliderProps } from './types';
 
 const {
-  input,
-  inputContainer,
-  label: sliderLabel,
-  minValue: minStyles,
-  maxValue: maxStyles,
   slider,
+  label,
+  inputs,
+  input,
   thumb,
   track,
   trackBackground,
   trackValue,
+  minValue,
+  maxValue,
 } = SliderStyles();
 
 /**
@@ -54,131 +50,119 @@ const {
  * <Slider label="Volume" defaultValue={50} />
  */
 export const Slider = ({
-  children,
   classNames,
-  showInput = false,
-  showLabel = true,
+  label: labelProp,
   layout = 'stack',
-  value,
-  defaultValue,
-  label,
-  minValue = 0,
-  maxValue = 100,
+  maxValue: maxValueProp = 100,
+  minValue: minValueProp = 0,
   orientation = 'horizontal',
+  showInput,
+  showLabel = true,
   ...rest
 }: SliderProps) => {
   return (
     <AriaSlider
       {...rest}
-      aria-label={showLabel ? undefined : label}
-      className={slider({ className: classNames?.slider })}
-      defaultValue={defaultValue}
-      data-layout={layout}
-      minValue={minValue}
-      maxValue={maxValue}
+      className={composeRenderProps(classNames?.slider, (className) =>
+        slider({ className }),
+      )}
+      maxValue={maxValueProp}
+      minValue={minValueProp}
       orientation={orientation}
+      aria-label={showLabel ? undefined : labelProp}
+      data-layout={layout}
     >
-      {showLabel && (
-        <Label className={sliderLabel({ className: classNames?.label })}>
-          {label}
-        </Label>
-      )}
-      {showInput && (
-        <div
-          className={inputContainer({ className: classNames?.inputContainer })}
-        >
-          <SliderInput className={classNames?.input} />
-        </div>
-      )}
-      <AriaSliderTrack className={track({ className: classNames?.track })}>
-        {({ state }) => {
-          const minValue = state.getThumbPercent(0);
-          const maxValue = state.getThumbPercent(1) || minValue;
-          const sizeInPercent = `${(state.values.length === 2 ? maxValue - minValue : minValue) * 100}%`;
-          const startPercent =
-            state.values.length === 2 ? `${Math.floor(minValue * 100)}%` : '0';
-          return (
-            <>
-              <div
-                className={trackBackground({
-                  className: classNames?.trackBackground,
-                })}
-              />
-              {state.values.map((_, index) => {
-                return (
-                  <>
-                    <div
-                      key={`slider-${index === 0 ? 'min' : 'max'}`}
-                      className={trackValue({
-                        className: classNames?.trackValue,
-                      })}
-                      style={
-                        orientation === 'horizontal'
-                          ? {
-                              left: startPercent,
-                              width: sizeInPercent,
-                            }
-                          : {
-                              bottom: startPercent,
-                              height: sizeInPercent,
-                            }
-                      }
-                    />
-
-                    <SliderThumb
-                      key={`slider-thumb-${index === 0 ? 'min' : 'max'}`}
-                      index={index}
-                      className={thumb({ className: classNames?.thumb })}
-                    >
-                      {!showInput && (
-                        <Tooltip>
-                          <Tooltip.Trigger>
-                            <div className='size-full outline-none' />
-                          </Tooltip.Trigger>
-                          <Tooltip.Body placement='top'>
-                            {state.getThumbValue(index)}
-                          </Tooltip.Body>
-                        </Tooltip>
-                      )}
-                    </SliderThumb>
-                  </>
-                );
+      {({ state }) => (
+        <>
+          {showLabel && (
+            <Label className={label({ className: classNames?.label })}>
+              {labelProp}
+            </Label>
+          )}
+          {showInput && (
+            <div
+              className={inputs({
+                className: classNames?.inputs,
               })}
-            </>
-          );
-        }}
-      </AriaSliderTrack>
-      <Text
-        slot='min'
-        className={minStyles({ className: classNames?.minValue })}
-      >
-        {minValue}
-      </Text>
-      <Text
-        slot='max'
-        className={maxStyles({ className: classNames?.maxValue })}
-      >
-        {maxValue}
-      </Text>
+            >
+              {state.values.map((value, index) => (
+                <Input
+                  key={`number-field-${index === 0 ? 'min' : 'max'}`}
+                  className={composeRenderProps(
+                    classNames?.input,
+                    (className) => input({ className }),
+                  )}
+                  value={value}
+                  onChange={(event) =>
+                    state.setThumbValue(
+                      index,
+                      Number.parseFloat(event.target.value),
+                    )
+                  }
+                />
+              ))}
+            </div>
+          )}
+          <AriaSliderTrack
+            className={composeRenderProps(classNames?.track, (className) =>
+              track({ className }),
+            )}
+          >
+            <div
+              className={trackBackground({
+                className: classNames?.trackBackground,
+              })}
+            />
+            {state.values.map((_, index) => (
+              <>
+                <div
+                  key={`slider-${index === 0 ? 'min' : 'max'}`}
+                  className={trackValue({
+                    className: classNames?.trackValue,
+                  })}
+                  data-start={
+                    state.values.length === 1 ? 0 : state.getThumbPercent(0)
+                  }
+                  data-end={state.getThumbPercent(
+                    state.values.length === 1 ? 0 : 1,
+                  )}
+                />
+                <SliderThumb
+                  key={`slider-thumb-${index === 0 ? 'min' : 'max'}`}
+                  index={index}
+                  className={composeRenderProps(
+                    classNames?.thumb,
+                    (className) => thumb({ className }),
+                  )}
+                >
+                  {!showInput && (
+                    <Tooltip>
+                      <Tooltip.Trigger>
+                        <div className='size-full outline-none' />
+                      </Tooltip.Trigger>
+                      <Tooltip.Body placement='top'>
+                        {state.getThumbValue(index)}
+                      </Tooltip.Body>
+                    </Tooltip>
+                  )}
+                </SliderThumb>
+              </>
+            ))}
+          </AriaSliderTrack>
+          <Text
+            slot='min'
+            className={minValue({ className: classNames?.minValue })}
+          >
+            {minValueProp}
+          </Text>
+          <Text
+            slot='max'
+            className={maxValue({ className: classNames?.maxValue })}
+          >
+            {maxValueProp}
+          </Text>
+        </>
+      )}
     </AriaSlider>
   );
 };
-
-function SliderInput({ className }: { className?: string }) {
-  const state = useContext(SliderStateContext);
-  const labelProps = useSlottedContext(LabelContext);
-  return (
-    <>
-      {state?.values.map((value: number, index: number) => (
-        <NumberField
-          key={`number-field-${index === 0 ? 'min' : 'max'}`}
-          aria-labelledby={labelProps?.id}
-          value={value}
-          onChange={(v) => state.setThumbValue(0, v)}
-        >
-          <Input className={input({ className })} />
-        </NumberField>
-      ))}
-    </>
-  );
-}

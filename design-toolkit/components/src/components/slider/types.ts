@@ -11,24 +11,27 @@
  */
 import type {
   SliderProps as AriaSliderProps,
+  InputProps,
   LabelProps,
+  SliderThumbProps,
+  SliderTrackProps,
 } from 'react-aria-components';
 
-export interface SliderProps extends AriaSliderProps {
+export type SliderProps = Omit<AriaSliderProps, 'children' | 'className'> & {
   classNames?: {
-    input?: string;
-    inputContainer?: string;
+    slider?: AriaSliderProps['className'];
     label?: LabelProps['className'];
-    minValue?: string;
-    maxValue?: string;
-    slider?: string;
-    thumb?: string;
-    track?: string;
+    inputs?: string;
+    input?: InputProps['className'];
+    track?: SliderTrackProps['className'];
     trackBackground?: string;
     trackValue?: string;
+    thumb?: SliderThumbProps['className'];
+    minValue?: string;
+    maxValue?: string;
   };
+  label: string;
+  layout?: 'stack' | 'inline';
   showInput?: boolean;
   showLabel?: boolean;
-  layout?: 'stack' | 'inline';
-  label: string;
-}
+};
