@@ -12,6 +12,7 @@
 'use client';
 
 import 'client-only';
+import { Fragment } from 'react';
 import {
   Slider as AriaSlider,
   SliderTrack as AriaSliderTrack,
@@ -114,9 +115,8 @@ export const Slider = ({
               })}
             />
             {state.values.map((_, index) => (
-              <>
+              <Fragment key={`slider-${index === 0 ? 'min' : 'max'}`}>
                 <div
-                  key={`slider-${index === 0 ? 'min' : 'max'}`}
                   className={trackValue({
                     className: classNames?.trackValue,
                   })}
@@ -128,7 +128,6 @@ export const Slider = ({
                   )}
                 />
                 <SliderThumb
-                  key={`slider-thumb-${index === 0 ? 'min' : 'max'}`}
                   index={index}
                   className={composeRenderProps(
                     classNames?.thumb,
@@ -146,7 +145,7 @@ export const Slider = ({
                     </Tooltip>
                   )}
                 </SliderThumb>
-              </>
+              </Fragment>
             ))}
           </AriaSliderTrack>
           <Text
