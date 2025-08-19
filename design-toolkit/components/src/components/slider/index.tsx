@@ -18,6 +18,7 @@ import {
   SliderTrack as AriaSliderTrack,
   Input,
   Label,
+  SliderOutput,
   SliderThumb,
   Text,
   composeRenderProps,
@@ -127,24 +128,22 @@ export const Slider = ({
                     state.values.length === 1 ? 0 : 1,
                   )}
                 />
-                <SliderThumb
-                  index={index}
-                  className={composeRenderProps(
-                    classNames?.thumb,
-                    (className) => thumb({ className }),
-                  )}
-                >
-                  {!showInput && (
-                    <Tooltip>
-                      <Tooltip.Trigger>
-                        <div className='size-full outline-none' />
-                      </Tooltip.Trigger>
-                      <Tooltip.Body placement='top'>
-                        {state.getThumbValue(index)}
-                      </Tooltip.Body>
-                    </Tooltip>
-                  )}
-                </SliderThumb>
+                <Tooltip>
+                  <Tooltip.Trigger>
+                    <SliderThumb
+                      index={index}
+                      className={composeRenderProps(
+                        classNames?.thumb,
+                        (className) => thumb({ className }),
+                      )}
+                    >
+                      <div className='size-full outline-none' />
+                    </SliderThumb>
+                  </Tooltip.Trigger>
+                  <Tooltip.Body placement='top'>
+                    {state.getThumbValue(index)}
+                  </Tooltip.Body>
+                </Tooltip>
               </Fragment>
             ))}
           </AriaSliderTrack>
