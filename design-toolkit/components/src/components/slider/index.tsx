@@ -18,7 +18,6 @@ import {
   SliderTrack as AriaSliderTrack,
   Input,
   Label,
-  SliderOutput,
   SliderThumb,
   Text,
   composeRenderProps,
