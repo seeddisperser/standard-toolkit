@@ -127,7 +127,9 @@ export const Slider = ({
                     state.values.length === 1 ? 0 : 1,
                   )}
                 />
-                <Tooltip>
+                <Tooltip
+                  isDisabled={!showInput || state.isThumbDragging(index)}
+                >
                   <Tooltip.Trigger>
                     <SliderThumb
                       index={index}
@@ -135,9 +137,7 @@ export const Slider = ({
                         classNames?.thumb,
                         (className) => thumb({ className }),
                       )}
-                    >
-                      <div className='size-full outline-none' />
-                    </SliderThumb>
+                    />
                   </Tooltip.Trigger>
                   <Tooltip.Body placement='top'>
                     {state.getThumbValue(index)}
