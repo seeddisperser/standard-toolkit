@@ -18,7 +18,7 @@ const meta: Meta<typeof Slider> = {
   component: Slider,
   args: {
     defaultValue: 30,
-    layout: 'stack',
+    layout: 'grid',
     label: 'Opacity',
     maxValue: 100,
     minValue: 0,
@@ -29,7 +29,7 @@ const meta: Meta<typeof Slider> = {
   argTypes: {
     layout: {
       control: 'select',
-      options: ['stack', 'inline'],
+      options: ['grid', 'stack'],
     },
     orientation: {
       control: 'select',

@@ -53,7 +53,7 @@ const {
 export const Slider = ({
   classNames,
   label: labelProp,
-  layout = 'stack',
+  layout = 'grid',
   maxValue: maxValueProp = 100,
   minValue: minValueProp = 0,
   orientation = 'horizontal',
