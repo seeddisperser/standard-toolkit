@@ -7,6 +7,10 @@ import * as ClassificationBadgeStories from './classification-badge.stories';
 # ClassificationBadge
 The ClassificationBadge component displays security classification levels for documents, data, and information systems. It's built with Tailwind CSS and provides standardized visual indicators for different classification levels. Classification badges are commonly used in government systems, secure environments, and anywhere you need to clearly indicate the security level or classification of information.
 
+It is composed of the following components:
+- **ClassificationBadge** - Main classification component for displaying security levels
+- **ClassificationBadge.Provider** - Context provider for setting default props across multiple classification badges
+
 ## Example usage
 ```tsx
 // Basic classification badge with default variant
@@ -50,39 +54,31 @@ The ClassificationBadge component displays security classification levels for do
 
 ## Variants
 
-* **Missing** - red styling for missing classification information (default)
-* **Unclassified** - gray styling for unclassified information
-* **CUI** - Controlled Unclassified Information
-* **Confidential** - confidential level information
-* **Secret** - secret level information
-* **Top-Secret** - top secret level information
-* **TS-SCI** - Top Secret/Sensitive Compartmented Information
+* **missing** - Red styling for missing classification information (default)
+* **unclassified** - Gray styling for unclassified information
+* **cui** - Controlled Unclassified Information
+* **confidential** - Confidential level information
+* **secret** - Secret level information
+* **top-secret** - Top secret level information
+* **ts-sci** - Top Secret/Sensitive Compartmented Information
 
 Each variant uses appropriate color combinations and automatically displays default text when no children are provided.
 
 ## Sizes
 
-* **Medium** - standard size with larger text (default)
-* **Small** - compact size with smaller text for space-constrained layouts
+* **medium** - Standard size with larger text (default)
+* **small** - Compact size with smaller text for space-constrained layouts
 
 <Canvas of={ClassificationBadgeStories.Default} />
 
 ## Props
 
-* **`variant`** - Classification level: `'missing'` (default), `'unclassified'`, `'cui'`, `'confidential'`, `'secret'`, `'top-secret'`, or `'ts-sci'`
-* **`size`** - Size variant: `'medium'` (default) or `'small'`
+* **`variant`** - Classification level: `'missing'` (default) | `'unclassified'` | `'cui'` | `'confidential'` | `'secret'` | `'top-secret'` |  `'ts-sci'`
+* **`size`** - Size variant: `'medium'` (default) | `'small'`
 * **`children`** - Custom text content (optional - variant provides default text if empty)
 * **`className`** - Additional CSS classes for custom styling
 
 The component accepts all standard HTML span attributes and forwards them to the underlying element.
-
-## Subcomponents
-
-### ClassificationBadge.Provider
-Context provider component that allows setting default props for multiple ClassificationBadge components. Useful for maintaining consistent styling across a group of classification badges.
-
-### ClassificationBadge
-The main classification badge component that renders the security level indicator with appropriate styling and default text.
 
 ## Implementation Notes
 The `ClassificationBadge` component is built with Tailwind CSS and Tailwind Variants (tv) for flexible styling and variant management.

@@ -8,6 +8,11 @@ import * as ComboBoxStories from './combobox-field.stories';
 
 A comprehensive combobox component that provides an accessible input field with dropdown options. Built on top of React Aria Components, the ComboBoxField offers a complete solution for searchable select interfaces with full accessibility compliance, virtualization support, and flexible content organization.
 
+Iti is composed of the following components:
+
+- **ComboBoxField** - Main combobox component with searchable dropdown functionality
+- **[Options](?path=/docs/components-options--playground)** Main container for all option items
+
 ## Example usage
 ```tsx
 // Basic combobox with dynamic items
@@ -37,25 +42,14 @@ A comprehensive combobox component that provides an accessible input field with 
 </ComboBoxField>
 ```
 
-## Variants
+## Sizes
 
-* **Small** - Compact combobox with reduced padding and no visible label, suitable for dense interfaces
-* **Medium** - Standard combobox with comfortable spacing and visible label (default)
+* **small** - Compact combobox with reduced padding and no visible label, suitable for dense interfaces
+* **medium** - Standard combobox with comfortable spacing and visible label (default)
 
-**Medium** is the default size and should be used for most use cases, while **Small** is better suited for space-constrained interfaces or when the combobox is part of a more complex form layout.
+**medium** is the default size and should be used for most use cases, while **small** is better suited for space-constrained interfaces or when the combobox is part of a more complex form layout.
 
 <Canvas of={ComboBoxStories.Default} />
-
-## Subcomponents
-
-The ComboBoxField component works with the Options component system to provide flexible content organization:
-
-- **`Options`** - Main container for all option items
-- **`Options.Item`** - Individual option item with support for icons, labels, and descriptions
-- **`Options.Item.Label`** - Primary text content for the option
-- **`Options.Item.Description`** - Secondary text content for additional information
-- **`Options.Item.Content`** - Container for label and description content
-- **`Options.Section`** - Grouping container with optional header text for organizing options
 
 ## Props
 

@@ -7,6 +7,11 @@ import * as RadioStories from './radio.stories';
 # Radio
 The Radio component provides a set of radio buttons that allow users to select one option from a group of mutually exclusive choices. Radio buttons are commonly used in forms, settings panels, and anywhere a single selection is required from multiple options.
 
+It is composed of the following components:
+
+- **Radio** - Individual radio button component that represents a single selectable option
+- **Radio.Group** - Container component that manages radio button group state and layout
+
 ## Example usage
 ```tsx
 <Radio.Group label="Select an option">
@@ -16,10 +21,10 @@ The Radio component provides a set of radio buttons that allow users to select o
 </Radio.Group>
 ```
 
-## Variants
+## Orientations
 
-* **Vertical** - radio buttons are stacked vertically (default)
-* **Horizontal** - radio buttons are arranged horizontally in a row
+* **vertical** - radio buttons are stacked vertically (default)
+* **horizontal** - radio buttons are arranged horizontally in a row
 
 The orientation can be controlled via the `orientation` prop on the `Radio.Group` component.
 
@@ -45,14 +50,6 @@ The orientation can be controlled via the `orientation` prop on the `Radio.Group
   * `radio` - Applied to the radio container
   * `control` - Applied to the radio button control
   * `label` - Applied to the radio option label
-
-## Subcomponents
-
-### Radio.Group
-The container component that manages the radio button group state and layout. Must wrap individual `Radio` components.
-
-### Radio
-Individual radio button component that represents a single selectable option within the group.
 
 ## Implementation Notes
 The `Radio` component wraps the `Radio` and `RadioGroup` components from `react-aria-components`. [Docs](https://react-spectrum.adobe.com/react-spectrum/RadioGroup.html)

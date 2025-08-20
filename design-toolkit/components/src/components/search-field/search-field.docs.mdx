@@ -7,6 +7,11 @@ import * as SearchFieldStories from './search-field.stories';
 # SearchField
 The SearchField component provides a customizable search input with integrated search icon, loading state, and clear functionality. It's built on React Aria Components and provides excellent accessibility out of the box. Search fields are commonly used in navigation bars, data tables, and anywhere users need to filter or search through content.
 
+It is composed of the following components:
+
+- **SearchField** - Main search input with integrated icons and functionality
+- **SearchField.Provider** - Context provider for setting default props across multiple search fields
+
 ## Example usage
 ```tsx
 // Basic search field
@@ -28,8 +33,8 @@ The SearchField component provides a customizable search input with integrated s
 
 ## Variants
 
-* **Outlined** - renders with a border outline (default)
-* **Filled** - renders with a filled background and darker outline
+* **outlined** - Renders with a border outline (default)
+* **filled** - Renders with a filled background and darker outline
 
 The variant can be controlled via the `variant` prop or set globally using the `SearchField.Provider` component.
 
@@ -53,14 +58,6 @@ The variant can be controlled via the `variant` prop or set globally using the `
   * `search` - Applied to the search icon
   * `loading` - Applied to the loading spinner
   * `clear` - Applied to the clear button
-
-## Subcomponents
-
-### SearchField.Provider
-Context provider component that allows setting default props for multiple SearchField components. Useful for maintaining consistent styling across a group of search fields.
-
-### SearchField
-The main search field component that renders the input with integrated icons and functionality.
 
 ## Implementation Notes
 The `SearchField` component wraps the `SearchField` component from `react-aria-components`. [Docs](https://react-spectrum.adobe.com/react-spectrum/SearchField.html)

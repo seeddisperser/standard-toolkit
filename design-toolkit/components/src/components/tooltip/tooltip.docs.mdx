@@ -7,6 +7,12 @@ import * as TooltipStories from './tooltip.stories';
 # Tooltip
 The Tooltip component provides a floating label that explains an element when users hover over or focus on it. It's built on React Aria Components and provides excellent accessibility out of the box. Tooltips are commonly used to provide additional context, explanations, or help text for UI elements without cluttering the interface.
 
+It is composed of the following components:
+
+- **Tooltip** - Main wrapper component that manages tooltip trigger and display logic
+- **Tooltip.Trigger** - The element that users interact with to show the tooltip
+- **Tooltip.Body** - The floating container that displays the tooltip content
+
 ## Example usage
 ```tsx
 // Basic tooltip
@@ -49,8 +55,8 @@ The Tooltip component provides a floating label that explains an element when us
 ## Variants
 
 The Tooltip component has a single visual variant that automatically adapts based on its placement and content:
-* **Default** - displays with a subtle background, shadow, and rounded corners
-* **Placement-based** - automatically positions itself relative to the trigger element:
+* **default** - displays with a subtle background, shadow, and rounded corners
+* **placement-based** - automatically positions itself relative to the trigger element:
   * `bottom` - appears below the trigger (default)
   * `top` - appears above the trigger
   * `left` - appears to the left of the trigger
@@ -75,14 +81,6 @@ The Tooltip component has a single visual variant that automatically adapts base
 * **`placement`** - Tooltip position: `'top'`, `'bottom'`, `'left'`, `'right'` (default: `'bottom'`)
 * **`offset`** - Distance between tooltip and trigger in pixels (default: `5`)
 * **`className`** - Additional CSS classes for custom styling
-
-## Subcomponents
-
-### Tooltip.Trigger
-The element that users interact with to show the tooltip. Can be any focusable element like a button, icon, or text span.
-
-### Tooltip.Body
-The floating container that displays the tooltip content. Automatically positions itself relative to the trigger element.
 
 ## Implementation Notes
 The `Tooltip` component wraps the `Tooltip` and `TooltipTrigger` components from `react-aria-components`. [Docs](https://react-spectrum.adobe.com/react-spectrum/Tooltip.html)

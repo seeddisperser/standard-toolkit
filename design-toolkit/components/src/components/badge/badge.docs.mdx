@@ -39,36 +39,31 @@ When composing with other components (like [Avatar](?path=/story/components-avat
 
 ## Variants
 
-* **Info** - blue styling for informational content (default)
-* **Advisory** - yellow styling for advisory/warning content
-* **Normal** - green styling for normal/success content
-* **Serious** - orange styling for serious issues
-* **Critical** - red styling for critical errors or alerts
+* **info** - Blue styling for informational content (default)
+* **advisory** - Yellow styling for advisory/warning content
+* **normal** - Green styling for normal/success content
+* **serious** - Orange styling for serious issues
+* **critical** - Red styling for critical errors or alerts
 
 Each variant uses appropriate color combinations with subtle backgrounds and bold outlines for optimal contrast and readability.
 
 ## Props
+The Badge component accepts all standard HTML span attributes
 
-* **`variant`** - Visual style variant: `'info'` (default), `'advisory'`, `'normal'`, `'serious'`, or `'critical'`
+### Core Props
+* **`variant`** - Visual style variant: `'info'` (default) | `'advisory'` | `'normal'` | `'serious'` | `'critical'`
 * **`children`** - Text content to display in the badge (optional - can be empty for dot indicators)
-* **`placement`** - Position relative to parent element: `'top'`, `'bottom'`, `'left'`, `'right'`, `'top left'`, `'top right'`, `'bottom left'`, `'bottom right'`
+* **`placement`** - Position relative to parent element: `'top'` | `'bottom'` | `'left'` | `'right'` | `'top left'` | `'top right'` | `'bottom left'` | `'bottom right'`
 * **`offset`** - Distance from parent element:
   * `number` - Uniform offset in pixels
   * `{ x?: number, y?: number }` - Specific x and y offsets in pixels
 * **`className`** - Additional CSS classes for custom styling
 
-The component accepts all standard HTML span attributes and forwards them to the underlying element.
-
-## Subcomponents
-
-### Badge.Provider
-Context provider component that allows setting default props for multiple Badge components. Useful for maintaining consistent styling across a group of badges.
-
-### Badge
-The main badge component that renders the status indicator with optional text content and positioning.
 
 ## Implementation Notes
 The `Badge` component is built with Tailwind CSS and uses CSS custom properties for dynamic positioning and offset calculations.
+
+The component accepts all standard HTML span attributes and forwards them to the underlying element.
 
 The underlying elements are:
 - `span` for the badge container with appropriate ARIA attributes

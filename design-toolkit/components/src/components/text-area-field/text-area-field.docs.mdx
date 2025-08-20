@@ -50,8 +50,8 @@ The TextArea Field component provides a multi-line text input with integrated la
 
 ## Variants
 
-* **Medium** - standard size with full label and description support (default)
-* **Small** - compact size with minimal label display and reduced text size
+* **medium** - Standard size with full label and description support (default)
+* **small** - Compact size with minimal label display and reduced text size
 
 The size can be controlled via the `size` prop or set globally using the `TextAreaField.Provider` component.
 
@@ -80,14 +80,6 @@ The size can be controlled via the `size` prop or set globally using the `TextAr
   * `input` - Applied to the textarea element
   * `description` - Applied to the description text
   * `error` - Applied to the error message
-
-## Subcomponents
-
-### TextAreaField.Provider
-Context provider component that allows setting default props for multiple TextAreaField components. Useful for maintaining consistent styling across a group of text area fields.
-
-### TextAreaField
-The main text area field component that renders the input with integrated label, description, and error handling.
 
 ## Implementation Notes
 The `TextAreaField` component wraps the `TextField` and `TextArea` components from `react-aria-components`. [Docs](https://react-spectrum.adobe.com/react-spectrum/TextField.html)

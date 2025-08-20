@@ -7,6 +7,10 @@ import * as InputStories from './input.stories';
 # Input
 A flexible and accessible form input component that provides enhanced functionality beyond standard HTML inputs. Features include auto-sizing, clear button support, validation states, and comprehensive styling variants. Built on top of React Aria Components for full accessibility compliance.
 
+It is composed of the following components:
+
+- **Input** - Enhanced text input with auto-sizing and clear functionality
+
 ## Example usage
 ```tsx
 // Basic input with placeholder
@@ -35,12 +39,12 @@ A flexible and accessible form input component that provides enhanced functional
 />
 ```
 
-## Variants
+## Sizes
 
-* **Small** - Compact input with smaller text and padding, suitable for dense layouts
-* **Medium** - Standard input size with balanced proportions (default)
+* **small** - Compact input with smaller text and padding, suitable for dense layouts
+* **medium** - Standard input size with balanced proportions (default)
 
-**Medium** is the default size and should be used for most use cases, while **Small** is better suited for space-constrained interfaces or secondary form elements.
+**medium** is the default size and should be used for most use cases, while **small** is better suited for space-constrained interfaces or secondary form elements.
 
 <Canvas of={InputStories.Default} />
 

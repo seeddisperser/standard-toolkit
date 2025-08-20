@@ -7,6 +7,12 @@ import * as SelectFieldStories from './select-field.stories';
 # SelectField
 The SelectField component provides a customizable dropdown select input with support for grouped options, icons, and virtualized rendering for large datasets. It's built on React Aria Components and provides excellent accessibility out of the box. Select fields are commonly used in forms, settings panels, and anywhere users need to choose from a predefined list of options.
 
+It is composed of the following components:
+
+- **SelectField** - Main select dropdown with form field features
+- **SelectField.Provider** - Context provider for setting default props across multiple select fields
+- **[Options](?path=/docs/components-options--playground)** Main container for all option items
+
 ## Example usage
 ```tsx
 // Basic select field
@@ -39,8 +45,8 @@ The SelectField component provides a customizable dropdown select input with sup
 
 ## Variants
 
-* **Medium** - standard size with full label and description support (default)
-* **Small** - compact size with minimal label display and reduced padding
+* **medium** - Standard size with full label and description support (default)
+* **small** - Compact size with minimal label display and reduced padding
 
 The size can be controlled via the `size` prop or set globally using the `SelectField.Provider` component.
 
@@ -66,20 +72,6 @@ The size can be controlled via the `size` prop or set globally using the `Select
   * `value` - Applied to the selected value display
   * `description` - Applied to the description text
   * `error` - Applied to the error message
-
-## Subcomponents
-
-### SelectField.Provider
-Context provider component that allows setting default props for multiple SelectField components. Useful for maintaining consistent styling across a group of select fields.
-
-### SelectField
-The main select field component that renders the dropdown trigger and popover with options.
-
-### Options
-Container component for organizing select options:
-* **`Options.Item`** - Individual selectable option
-* **`Options.Section`** - Group of related options with a header
-* **`Options.Item.Label`** - Text label for an option
 
 ## Implementation Notes
 The `SelectField` component wraps the `Select` component from `react-aria-components`. [Docs](https://react-spectrum.adobe.com/react-spectrum/Select.html)

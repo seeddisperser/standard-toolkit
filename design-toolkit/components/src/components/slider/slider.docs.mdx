@@ -7,6 +7,11 @@ import * as SliderStories from './slider.stories';
 # Slider and Range Slider
 The Slider component provides a customizable input control for selecting a single value or range of values within a specified range. It's built on React Aria Components and provides excellent accessibility out of the box. Sliders are commonly used in settings panels, image editors, audio/video controls, and anywhere users need to adjust numeric values with visual feedback.
 
+It is composed of the following components:
+
+- **Slider** - Main slider component for single value with flexible layout options
+- **RangeSlider** - Slider wrapper for selecting range of values
+
 ## Example usage
 ```tsx
 // Basic single value slider
@@ -47,17 +52,13 @@ The Slider component provides a customizable input control for selecting a singl
 
 ## Variants
 
-### Layout Variants
-* **Stacked** - label, input (optional), slider, and min/max values are arranged vertically
-* **Inline** - all elements are arranged horizontally in a single row
+### Layouts
+* **stacked** - Label, input (optional), slider, and min/max values are arranged vertically
+* **inline** - All elements are arranged horizontally in a single row
 
-### Orientation Variants
-* **Horizontal** - slider moves left to right (default)
-* **Vertical** - slider moves bottom to top
-
-### Slider Types
-* **Single Slider** - selects one value within a range
-* **Range Slider** - selects two values (min/max) within a range
+### Orientations
+* **horizontal** - Slider moves left to right (default)
+* **vertical** - Slider moves bottom to top
 
 <Canvas of={SliderStories.Default} />
 
@@ -65,8 +66,8 @@ The Slider component provides a customizable input control for selecting a singl
 
 ### Common Props
 * **`label`** - Text label displayed above or beside the slider
-* **`layout`** - Layout arrangement: `'stacked'` or `'inline'`
-* **`orientation`** - Slider direction: `'horizontal'` (default) or `'vertical'`
+* **`layout`** - Layout arrangement: `'stacked'` | `'inline'`
+* **`orientation`** - Slider direction: `'horizontal'` (default) | `'vertical'`
 * **`minValue`** - Minimum allowed value (default: 0)
 * **`maxValue`** - Maximum allowed value (default: 100)
 * **`showLabel`** - Whether to display the label (default: true)
@@ -82,14 +83,6 @@ The Slider component provides a customizable input control for selecting a singl
 * **`value`** - Controlled range value as `[min, max]`
 * **`defaultValue`** - Initial range value as `[min, max]`
 * **`onChange`** - Callback when range values change
-
-## Subcomponents
-
-### Slider
-The main slider component for single value selection. Supports both horizontal and vertical orientations with flexible layout options.
-
-### RangeSlider
-A specialized slider component for selecting a range of values. Built on top of the base Slider component with range-specific behavior.
 
 ## Implementation Notes
 The `Slider` component wraps the `Slider` component from `react-aria-components`. [Docs](https://react-spectrum.adobe.com/react-spectrum/Slider.html)

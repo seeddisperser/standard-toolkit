@@ -7,6 +7,11 @@ import * as TextFieldStories from './text-field.stories';
 # TextField
 The TextField component provides a single-line text input with integrated label, description, and error handling. It's built on React Aria Components and provides excellent accessibility out of the box. Text fields are commonly used in forms for short text input such as names, emails, usernames, and any single-line content that requires user input.
 
+It is composed of the following components:
+
+- **TextField** - Complete form field with label, input, and validation
+- **TextField.Provider** - Context provider for setting default text field props
+
 ## Example usage
 ```tsx
 // Basic text field
@@ -58,10 +63,10 @@ The TextField component provides a single-line text input with integrated label,
 />
 ```
 
-## Variants
+## Sizes
 
-* **Medium** - standard size with full label and description support (default)
-* **Small** - compact size with minimal label display and reduced text size
+* **medium** - Standard size with full label and description support (default)
+* **small** - Compact size with minimal label display and reduced text size
 
 The size can be controlled via the `size` prop or set globally using the `TextField.Provider` component.
 
@@ -72,7 +77,7 @@ The size can be controlled via the `size` prop or set globally using the `TextFi
 * **`label`** - Text label displayed above the text field
 * **`description`** - Helper text displayed below the text field
 * **`errorMessage`** - Error text displayed when validation fails
-* **`size`** - Size variant: `'medium'` (default) or `'small'`
+* **`size`** - Size variant: `'medium'` (default) | `'small'`
 * **`isDisabled`** - Disables the text field
 * **`isRequired`** - Marks the text field as required
 * **`isInvalid`** - Marks the text field as invalid
@@ -92,14 +97,6 @@ The size can be controlled via the `size` prop or set globally using the `TextFi
   * `description` - Applied to the description text
   * `error` - Applied to the error message
 
-## Subcomponents
-
-### TextField.Provider
-Context provider component that allows setting default props for multiple TextField components. Useful for maintaining consistent styling across a group of text fields.
-
-### TextField
-The main text field component that renders the input with integrated label, description, and error handling.
-
 ## Implementation Notes
 The `TextField` component wraps the `TextField` component from `react-aria-components` and integrates with the `Input` component. [Docs](https://react-spectrum.adobe.com/react-spectrum/TextField.html)
 
@@ -113,7 +110,7 @@ The underlying elements are:
 The component automatically handles accessibility features including:
 - ARIA attributes for screen readers
 - Keyboard navigation and focus management
-- Form integration
+- Form integration and validation
 - Error state announcements
 - Required field indicators
 - Proper labeling and descriptions

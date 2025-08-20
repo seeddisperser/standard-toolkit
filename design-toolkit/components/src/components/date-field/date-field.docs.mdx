@@ -7,6 +7,10 @@ import * as DateFieldStories from './date-field.stories';
 # DateField
 A form input component for entering and editing date and time values. The DateField component provides a user-friendly interface for date selection with support for various granularities (day, hour, minute, second) and customizable formatting options.
 
+It is composed of the following components:
+
+- **DateField** - Main date  input component with segmented editing and calendar icon
+
 ## Example usage
 ```tsx
 <DateField
@@ -17,12 +21,12 @@ A form input component for entering and editing date and time values. The DateFi
 />
 ```
 
-## Variants
+## Sizes
 
-* **Small** - compact size with smaller text and no calendar icon, ideal for dense layouts
-* **Medium** - standard size with calendar icon and larger text, suitable for most use cases
+* **small** - Compact size with smaller text and no calendar icon, ideal for dense layouts
+* **medium** - Standard size with calendar icon and larger text, suitable for most use cases
 
-**Medium** is the default size and should be used in most cases, unless space constraints require the smaller variant.
+**medium** is the default size and should be used in most cases, unless space constraints require the smaller variant.
 
 <Canvas of={DateFieldStories.Default} />
 

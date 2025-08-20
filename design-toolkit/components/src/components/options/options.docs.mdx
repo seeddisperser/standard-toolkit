@@ -7,6 +7,15 @@ import * as OptionsStories from './options.stories';
 # Options
 A flexible and accessible list component that provides structured options with support for sections, icons, descriptions, and various interaction states. Built on top of React Aria Components, the Options component offers a comprehensive solution for displaying selectable items in dropdowns, menus, and other list interfaces with full accessibility compliance.
 
+It is composed of the following components:
+
+- **Options** - Main options list container with size variants and item management
+- **Options.Item** - Individual option item with support for icons, labels, and descriptions
+- **Options.Item.Label** - Primary text content component for option items
+- **Options.Item.Description** - Secondary text content for additional information
+- **Options.Item.Content** - Container for label and description content
+- **Options.Section** - Grouping container with optinal header
+
 ## Example usage
 ```tsx
 // Basic options list
@@ -43,24 +52,14 @@ A flexible and accessible list component that provides structured options with s
 </Options>
 ```
 
-## Variants
+## Sizes
 
-* **Small** - Compact options with reduced padding, suitable for dense interfaces
-* **Large** - Standard options with comfortable spacing and larger text (default)
+* **small** - Compact options with reduced padding, suitable for dense interfaces
+* **large** - Standard options with comfortable spacing and larger text (default)
 
-**Large** is the default size and should be used for most use cases, while **Small** is better suited for space-constrained interfaces or when displaying many options.
+**large** is the default size and should be used for most use cases, while **Small** is better suited for space-constrained interfaces or when displaying many options.
 
 <Canvas of={OptionsStories.Default} />
-
-## Subcomponents
-
-The Options component provides several subcomponents that work together to create a complete options interface:
-
-- **`Options.Item`** - Individual option item with support for icons, labels, and descriptions
-- **`Options.Item.Label`** - Primary text content for the option
-- **`Options.Item.Description`** - Secondary text content for additional information
-- **`Options.Item.Content`** - Container for label and description content
-- **`Options.Section`** - Grouping container with optional header text
 
 ## Props
 

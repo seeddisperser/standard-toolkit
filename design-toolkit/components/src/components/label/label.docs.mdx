@@ -7,6 +7,11 @@ import * as LabelStories from './label.stories';
 # Label
 A semantic and accessible label component that provides proper form labeling with automatic optional/required indicators. Built on top of React Aria Components, the Label component ensures proper accessibility and semantic structure for form elements while providing visual feedback about field requirements.
 
+It is composed of the following components:
+
+- **Label** - Main label component with automatic optional/required text handling
+- **Label.Provider** - Context provider for setting consistent styling across multiple labels
+
 ## Example usage
 ```tsx
 // Basic label
@@ -30,23 +35,17 @@ A semantic and accessible label component that provides proper form labeling wit
 </Label.Provider>
 ```
 
-## Variants
+## States
 
 The Label component automatically adapts its appearance based on its state:
 
-* **Default** - Standard label styling with proper contrast
-* **Required** - Automatically adds "(optional)" text for non-required fields
-* **Disabled** - Reduced opacity and disabled styling when `isDisabled={true}`
+* **default** - Standard label styling with proper contrast
+* **required** - Automatically adds "(optional)" text for non-required fields
+* **disabled** - Reduced opacity and disabled styling when `isDisabled={true}`
 
 The component automatically handles the visual distinction between required and optional fields, making it clear to users what information is necessary.
 
 <Canvas of={LabelStories.Default} />
-
-## Subcomponents
-
-The Label component provides a provider subcomponent for consistent styling across multiple labels:
-
-- **`Label.Provider`** - Context provider that sets consistent styling for all child Label components
 
 ## Props
 
