@@ -31,7 +31,7 @@ export type SliderProps = Omit<AriaSliderProps, 'children' | 'className'> & {
     maxValue?: string;
   };
   label: string;
-  layout?: 'stack' | 'inline';
+  layout?: 'grid' | 'stack';
   showInput?: boolean;
   showLabel?: boolean;
 };
