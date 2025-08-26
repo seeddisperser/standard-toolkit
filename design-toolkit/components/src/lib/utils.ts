@@ -262,6 +262,11 @@ const _tv = createTV({
   },
 });
 
+type TailwindVariantFunction = (
+  // biome-ignore lint/suspicious/noExplicitAny: hard to match TV types.
+  ...props: any[]
+) => string;
+
 // biome-ignore lint/suspicious/noExplicitAny: hard to match TV types.
 export const tv = (options: any, config?: TVConfig) => {
   const result = _tv(options, config);
@@ -272,19 +277,8 @@ export const tv = (options: any, config?: TVConfig) => {
 
     return typeof resultReturn === 'string'
       ? mergeVariants(resultReturn)
-      : Object.entries<
-          (
-            // biome-ignore lint/suspicious/noExplicitAny: hard to match TV types.
-            ...props: any[]
-          ) => string
-        >(resultReturn).reduce<
-          Record<
-            string,
-            (
-              // biome-ignore lint/suspicious/noExplicitAny: hard to match TV types.
-              ...props: any[]
-            ) => string
-          >
+      : Object.entries<TailwindVariantFunction>(resultReturn).reduce<
+          Record<string, TailwindVariantFunction>
         >((acc, [slot, callback]) => {
           acc[slot] = (...a) => mergeVariants(callback(...a));
 
