@@ -55,10 +55,10 @@ export const Default: Story = {
                     Lorum Ipsum text for the dialog shall go here.
                   </Dialog.Content>
                   <Dialog.Footer>
-                    <Dialog.Button onPress={close} variant='flat'>
+                    <Button onPress={close} variant='flat'>
                       Action 2
-                    </Dialog.Button>
-                    <Dialog.Button onPress={close}>Action 1</Dialog.Button>
+                    </Button>
+                    <Button onPress={close}>Action 1</Button>
                   </Dialog.Footer>
                 </>
               );
@@ -87,10 +87,10 @@ export const LocalPortal: Story = {
                       Lorum Ipsum text for the dialog shall go here.
                     </Dialog.Content>
                     <Dialog.Footer>
-                      <Dialog.Button onPress={close} variant='flat'>
+                      <Button onPress={close} variant='flat'>
                         Action 2
-                      </Dialog.Button>
-                      <Dialog.Button onPress={close}>Action 1</Dialog.Button>
+                      </Button>
+                      <Button onPress={close}>Action 1</Button>
                     </Dialog.Footer>
                   </>
                 );
@@ -127,10 +127,10 @@ export const Controlled: Story = {
                     Lorum Ipsum text for the dialog shall go here.
                   </Dialog.Content>
                   <Dialog.Footer>
-                    <Dialog.Button onPress={close} variant='flat'>
+                    <Button onPress={close} variant='flat'>
                       Action 2
-                    </Dialog.Button>
-                    <Dialog.Button onPress={close}>Action 1</Dialog.Button>
+                    </Button>
+                    <Button onPress={close}>Action 1</Button>
                   </Dialog.Footer>
                 </>
               );

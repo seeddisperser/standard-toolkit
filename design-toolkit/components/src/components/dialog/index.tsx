@@ -23,13 +23,11 @@ import {
 import {
   Dialog as AriaDialog,
   DialogTrigger as AriaDialogTrigger,
-  Heading as RACHeading,
-  Modal as RACModal,
-  ModalOverlay as RACModalOverlay,
-  composeRenderProps,
+  Heading,
+  Modal,
+  ModalOverlay,
 } from 'react-aria-components';
-import { Button } from '../button';
-import type { ButtonProps } from '../button/types';
+import { ButtonContext } from '../button';
 import { DialogStyles } from './styles';
 import type {
   DialogContextValue,
@@ -37,18 +35,13 @@ import type {
   DialogTriggerProps,
 } from './types';
 
-const { overlay, modal, dialog, title, content, footer, button } =
-  DialogStyles();
+const { overlay, modal, dialog, title, content, footer } = DialogStyles();
 
-const DialogContext = createContext<DialogContextValue | null>(null);
-
-const useDialogContext = () => {
-  const ctx = useContext(DialogContext);
-  if (!ctx) {
-    throw new Error('Dialog components must be used within <Dialog>');
-  }
-  return ctx;
-};
+const DialogContext = createContext<DialogContextValue>({
+  size: 'small',
+  isDismissable: false,
+  isKeyboardDismissDisabled: false,
+});
 
 /**
  * Dialog - A modal dialog component for important content and interactions
@@ -81,6 +74,7 @@ const DialogTrigger = ({
   size = 'small',
   parentRef,
   isKeyboardDismissDisabled,
+  isDismissable,
 }: DialogTriggerProps) => {
   return (
     <AriaDialogTrigger>
@@ -89,6 +83,7 @@ const DialogTrigger = ({
           size,
           parentRef,
           isKeyboardDismissDisabled,
+          isDismissable,
           isOpen,
           onOpenChange,
         }}
@@ -101,8 +96,14 @@ const DialogTrigger = ({
 DialogTrigger.displayName = 'Dialog.Trigger';
 
 export const Dialog = ({ children, ref, classNames, ...rest }: DialogProps) => {
-  const { size, parentRef, isKeyboardDismissDisabled, isOpen, onOpenChange } =
-    useDialogContext();
+  const {
+    size,
+    parentRef,
+    isDismissable,
+    isKeyboardDismissDisabled,
+    isOpen,
+    onOpenChange,
+  } = useContext(DialogContext);
   const isSSR = useIsSSR();
   const [portal, setPortal] = useState(isSSR ? null : document.body);
 
@@ -124,21 +125,22 @@ export const Dialog = ({ children, ref, classNames, ...rest }: DialogProps) => {
   }, [isSSR, parentRef]);
 
   return portal ? (
-    <RACModalOverlay
+    <ModalOverlay
+      {...rest}
       className={overlay()}
       data-size={size}
       isKeyboardDismissDisabled={isKeyboardDismissDisabled}
+      isDismissable={isDismissable}
       isOpen={isOpen}
       onOpenChange={onOpenChange}
       UNSTABLE_portalContainer={portal}
-      {...rest}
     >
-      <RACModal ref={ref} className={modal({ className: classNames?.modal })}>
+      <Modal ref={ref} className={modal({ className: classNames?.modal })}>
         <AriaDialog className={dialog({ className: classNames?.dialog })}>
           {children}
         </AriaDialog>
-      </RACModal>
-    </RACModalOverlay>
+      </Modal>
+    </ModalOverlay>
   ) : null;
 };
 Dialog.displayName = 'Dialog';
@@ -156,39 +158,33 @@ const DialogTitle = ({
   className,
 }: PropsWithChildren<{ className?: string }>) => {
   return (
-    <RACHeading slot='title' className={title({ className })}>
+    <Heading slot='title' className={title({ className })}>
       {children}
-    </RACHeading>
+    </Heading>
   );
 };
 DialogTitle.displayName = 'Dialog.Title';
-
-const DialogButton = ({ children, className, ...props }: ButtonProps) => {
-  const { size } = useDialogContext();
-  return (
-    <Button
-      size={size}
-      {...props}
-      className={composeRenderProps(className, (className) =>
-        button({ className }),
-      )}
-    >
-      {children}
-    </Button>
-  );
-};
-DialogButton.displayName = 'Dialog.Button';
 
 const DialogFooter = ({
   children,
   className,
 }: PropsWithChildren<{ className?: string }>) => {
-  return <div className={footer({ className })}>{children}</div>;
+  const { size } = useContext(DialogContext);
+  return (
+    <footer className={footer({ className })}>
+      <ButtonContext.Provider
+        value={{
+          size,
+        }}
+      >
+        {children}
+      </ButtonContext.Provider>
+    </footer>
+  );
 };
 
 DialogFooter.displayName = 'Dialog.Footer';
 
-Dialog.Button = DialogButton;
 Dialog.Content = DialogContent;
 Dialog.Footer = DialogFooter;
 Dialog.Title = DialogTitle;

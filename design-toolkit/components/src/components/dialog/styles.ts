@@ -46,8 +46,5 @@ export const DialogStyles = tv({
       'group-size-small/dialog:mt-l',
       'group-size-large/dialog:mt-xl',
     ],
-    //overriding the style to deal with rac's pressed state inherited
-    //from the trigger state
-    button: 'pressed:bg-initial',
   },
 });

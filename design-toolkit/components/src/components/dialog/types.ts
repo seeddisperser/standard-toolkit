@@ -10,35 +10,33 @@
  * governing permissions and limitations under the License.
  */
 
-import type { ReactNode, Ref, RefObject } from 'react';
+import type { RefAttributes, RefObject } from 'react';
 import type {
+  DialogProps as AriaDialogProps,
   DialogTriggerProps as AriaDialogTriggerProps,
-  DialogRenderProps,
   ModalOverlayProps,
 } from 'react-aria-components';
-
-export type DialogSize = 'small' | 'large';
 
 export interface DialogTriggerProps extends AriaDialogTriggerProps {
   isDismissable?: boolean;
   isKeyboardDismissDisabled?: boolean;
   parentRef?: RefObject<HTMLElement | null>;
-  size?: DialogSize;
+  size?: 'small' | 'large';
 }
 
-export type DialogProps = Omit<ModalOverlayProps, 'children'> & {
-  children: ReactNode | ReactNode[] | ((opts: DialogRenderProps) => ReactNode);
-  classNames?: {
-    modal?: string;
-    dialog?: string;
+export type DialogProps = Omit<ModalOverlayProps, 'children'> &
+  Pick<AriaDialogProps, 'children'> &
+  RefAttributes<HTMLDivElement> & {
+    classNames?: {
+      modal?: string;
+      dialog?: string;
+    };
+    isOpen?: boolean;
+    onOpenChange?: (isOpen: boolean) => void;
   };
-  isOpen?: boolean;
-  onOpenChange?: (isOpen: boolean) => void;
-  ref?: Ref<HTMLDivElement>;
-};
 
 export type DialogContextValue = Pick<
   DialogTriggerProps,
   'size' | 'parentRef' | 'isKeyboardDismissDisabled' | 'isOpen'
 > &
-  Pick<DialogProps, 'onOpenChange'>;
+  Pick<DialogProps, 'onOpenChange' | 'isDismissable'>;
