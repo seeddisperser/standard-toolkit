@@ -15,6 +15,7 @@ import type { ForwardedRef } from 'react';
 import type { ContextValue } from 'react-aria-components';
 import { extendTailwindMerge, validators } from 'tailwind-merge';
 import { createTV } from 'tailwind-variants';
+import type { TVConfig } from 'tailwind-variants/dist/config.js';
 
 type AdditionalClassGroupIds = 'icon' | 'icon-size' | 'fg';
 
@@ -121,7 +122,46 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const tv = createTV({
+const PREFIX_REGEX = /((?:[^:]*:)+)([^:]+)/;
+
+function pushToKey(map: Record<string, string[]>, key: string, value: string) {
+  if (!(key in map)) {
+    map[key] = [];
+  }
+  map[key]?.push(value);
+}
+
+export function mergeVariants(className: string) {
+  if (!className) {
+    return '';
+  }
+
+  // First build up a map of all prefixes.
+  const prefixMap: Record<string, string[]> = {};
+
+  for (const cls of className.split(' ')) {
+    const [, prefix, className] = PREFIX_REGEX.exec(cls) ?? ['', 'BASE', cls];
+    pushToKey(prefixMap, prefix, className);
+  }
+
+  const finalClassNames = [];
+
+  for (const key of Object.keys(prefixMap)) {
+    prefixMap[key] = twMerge(prefixMap[key]).split(' ');
+  }
+
+  for (const prefix of Object.keys(prefixMap)) {
+    if (prefix === 'BASE') {
+      finalClassNames.push(prefixMap[prefix]);
+    } else {
+      finalClassNames.push(prefixMap[prefix]?.map((s) => `${prefix}${s}`));
+    }
+  }
+
+  return finalClassNames.flat().join(' ');
+}
+
+const _tv = createTV({
   twMergeConfig: {
     extend: {
       classGroups: {
@@ -221,6 +261,39 @@ export const tv = createTV({
     },
   },
 });
+
+// biome-ignore lint/suspicious/noExplicitAny: hard to match TV types.
+export const tv = (options: any, config?: TVConfig) => {
+  const result = _tv(options, config);
+
+  // biome-ignore lint/suspicious/noExplicitAny: hard to match TV types.
+  const wrapper = (...internalProps: any[]) => {
+    const resultReturn = result(...internalProps);
+
+    return typeof resultReturn === 'string'
+      ? mergeVariants(resultReturn)
+      : Object.entries<
+          (
+            // biome-ignore lint/suspicious/noExplicitAny: hard to match TV types.
+            ...props: any[]
+          ) => string
+        >(resultReturn).reduce<
+          Record<
+            string,
+            (
+              // biome-ignore lint/suspicious/noExplicitAny: hard to match TV types.
+              ...props: any[]
+            ) => string
+          >
+        >((acc, [slot, callback]) => {
+          acc[slot] = (...a) => mergeVariants(callback(...a));
+
+          return acc;
+        }, {});
+  };
+
+  return Object.assign(wrapper, result);
+};
 
 // Types copied from RAC due to not being exported
 type WithRef<T, E> = T & {
