@@ -9,12 +9,14 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-
 'use client';
-import { useIsSSR } from '@react-aria/ssr';
+
 import 'client-only';
+import { isSlottedContextValue } from '@/lib/utils';
+import { UNSAFE_PortalProvider } from '@react-aria/overlays';
+import { useIsSSR } from '@react-aria/ssr';
 import {
-  type PropsWithChildren,
+  type ComponentProps,
   createContext,
   useContext,
   useEffect,
@@ -22,26 +24,60 @@ import {
 } from 'react';
 import {
   Dialog as AriaDialog,
-  DialogTrigger as AriaDialogTrigger,
+  type ContextValue,
+  DialogTrigger,
   Heading,
+  type HeadingProps,
   Modal,
   ModalOverlay,
+  OverlayTriggerStateContext,
+  composeRenderProps,
+  useContextProps,
 } from 'react-aria-components';
 import { ButtonContext } from '../button';
 import { DialogStyles } from './styles';
-import type {
-  DialogContextValue,
-  DialogProps,
-  DialogTriggerProps,
-} from './types';
+import type { DialogProps } from './types';
 
 const { overlay, modal, dialog, title, content, footer } = DialogStyles();
 
-const DialogContext = createContext<DialogContextValue>({
-  size: 'small',
-  isDismissable: false,
-  isKeyboardDismissDisabled: false,
-});
+export const DialogContext =
+  createContext<ContextValue<DialogProps, HTMLDivElement>>(null);
+
+function DialogTitle({ children, className }: HeadingProps) {
+  return (
+    <Heading slot='title' className={title({ className })}>
+      {children}
+    </Heading>
+  );
+}
+DialogTitle.displayName = 'Dialog.Title';
+
+function DialogContent({ children, className }: ComponentProps<'div'>) {
+  return <div className={content({ className })}>{children}</div>;
+}
+DialogContent.displayName = 'Dialog.Content';
+
+function DialogFooter({ children, className }: ComponentProps<'footer'>) {
+  const context = useContext(DialogContext);
+  const size =
+    (isSlottedContextValue(context) ? null : context?.size) ?? 'small';
+  const state = useContext(OverlayTriggerStateContext);
+
+  return (
+    <footer className={footer({ className })}>
+      <ButtonContext.Provider
+        value={{
+          size,
+          onPress: state?.close ?? (() => undefined),
+        }}
+      >
+        {children}
+      </ButtonContext.Provider>
+    </footer>
+  );
+}
+
+DialogFooter.displayName = 'Dialog.Footer';
 
 /**
  * Dialog - A modal dialog component for important content and interactions
@@ -67,53 +103,21 @@ const DialogContext = createContext<DialogContextValue>({
  *   </Dialog>
  * </Dialog.Trigger>
  */
-const DialogTrigger = ({
-  children,
-  isOpen,
-  onOpenChange,
-  size = 'small',
-  parentRef,
-  isKeyboardDismissDisabled,
-  isDismissable,
-}: DialogTriggerProps) => {
-  return (
-    <AriaDialogTrigger>
-      <DialogContext.Provider
-        value={{
-          size,
-          parentRef,
-          isKeyboardDismissDisabled,
-          isDismissable,
-          isOpen,
-          onOpenChange,
-        }}
-      >
-        {children}
-      </DialogContext.Provider>
-    </AriaDialogTrigger>
-  );
-};
-DialogTrigger.displayName = 'Dialog.Trigger';
+export function Dialog({ ref, ...props }: DialogProps) {
+  [props, ref] = useContextProps(props, ref ?? null, DialogContext);
 
-export const Dialog = ({ children, ref, classNames, ...rest }: DialogProps) => {
-  const {
-    size,
-    parentRef,
-    isDismissable,
-    isKeyboardDismissDisabled,
-    isOpen,
-    onOpenChange,
-  } = useContext(DialogContext);
   const isSSR = useIsSSR();
   const [portal, setPortal] = useState(isSSR ? null : document.body);
+  const { children, classNames, parentRef, size = 'small', ...rest } = props;
 
   useEffect(() => {
     const node = parentRef?.current;
-    /* Ensure proper ssr hydration TODO */
+    // TODO: Ensure proper ssr hydration
     const port = isSSR ? null : document.createElement('div');
 
     if (node && port) {
       node.appendChild(port);
+
       setPortal(port);
     }
 
@@ -124,68 +128,31 @@ export const Dialog = ({ children, ref, classNames, ...rest }: DialogProps) => {
     };
   }, [isSSR, parentRef]);
 
-  return portal ? (
-    <ModalOverlay
-      {...rest}
-      className={overlay()}
-      data-size={size}
-      isKeyboardDismissDisabled={isKeyboardDismissDisabled}
-      isDismissable={isDismissable}
-      isOpen={isOpen}
-      onOpenChange={onOpenChange}
-      UNSTABLE_portalContainer={portal}
-    >
-      <Modal ref={ref} className={modal({ className: classNames?.modal })}>
-        <AriaDialog className={dialog({ className: classNames?.dialog })}>
-          {children}
-        </AriaDialog>
-      </Modal>
-    </ModalOverlay>
-  ) : null;
-};
-Dialog.displayName = 'Dialog';
-
-const DialogContent = ({
-  children,
-  className,
-}: PropsWithChildren<{ className?: string }>) => {
-  return <div className={content({ className })}>{children}</div>;
-};
-DialogContent.displayName = 'Dialog.Content';
-
-const DialogTitle = ({
-  children,
-  className,
-}: PropsWithChildren<{ className?: string }>) => {
   return (
-    <Heading slot='title' className={title({ className })}>
-      {children}
-    </Heading>
-  );
-};
-DialogTitle.displayName = 'Dialog.Title';
-
-const DialogFooter = ({
-  children,
-  className,
-}: PropsWithChildren<{ className?: string }>) => {
-  const { size } = useContext(DialogContext);
-  return (
-    <footer className={footer({ className })}>
-      <ButtonContext.Provider
-        value={{
-          size,
-        }}
+    <UNSAFE_PortalProvider getContainer={() => portal}>
+      <ModalOverlay
+        {...rest}
+        ref={ref}
+        className={composeRenderProps(classNames?.overlay, (className) =>
+          overlay({ className }),
+        )}
+        data-size={size}
       >
-        {children}
-      </ButtonContext.Provider>
-    </footer>
+        <Modal
+          className={composeRenderProps(classNames?.modal, (className) =>
+            modal({ className }),
+          )}
+        >
+          <AriaDialog className={dialog({ className: classNames?.dialog })}>
+            {children}
+          </AriaDialog>
+        </Modal>
+      </ModalOverlay>
+    </UNSAFE_PortalProvider>
   );
-};
-
-DialogFooter.displayName = 'Dialog.Footer';
-
+}
+Dialog.displayName = 'Dialog';
+Dialog.Trigger = DialogTrigger;
+Dialog.Title = DialogTitle;
 Dialog.Content = DialogContent;
 Dialog.Footer = DialogFooter;
-Dialog.Title = DialogTitle;
-Dialog.Trigger = DialogTrigger;

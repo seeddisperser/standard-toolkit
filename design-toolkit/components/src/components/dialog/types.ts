@@ -13,30 +13,17 @@
 import type { RefAttributes, RefObject } from 'react';
 import type {
   DialogProps as AriaDialogProps,
-  DialogTriggerProps as AriaDialogTriggerProps,
   ModalOverlayProps,
 } from 'react-aria-components';
 
-export interface DialogTriggerProps extends AriaDialogTriggerProps {
-  isDismissable?: boolean;
-  isKeyboardDismissDisabled?: boolean;
-  parentRef?: RefObject<HTMLElement | null>;
-  size?: 'small' | 'large';
-}
-
-export type DialogProps = Omit<ModalOverlayProps, 'children'> &
+export type DialogProps = Omit<ModalOverlayProps, 'children' | 'className'> &
   Pick<AriaDialogProps, 'children'> &
   RefAttributes<HTMLDivElement> & {
     classNames?: {
-      modal?: string;
-      dialog?: string;
+      overlay?: ModalOverlayProps['className'];
+      modal?: ModalOverlayProps['className'];
+      dialog?: AriaDialogProps['className'];
     };
-    isOpen?: boolean;
-    onOpenChange?: (isOpen: boolean) => void;
+    parentRef?: RefObject<HTMLElement | null>;
+    size?: 'small' | 'large';
   };
-
-export type DialogContextValue = Pick<
-  DialogTriggerProps,
-  'size' | 'parentRef' | 'isKeyboardDismissDisabled' | 'isOpen'
-> &
-  Pick<DialogProps, 'onOpenChange' | 'isDismissable'>;
