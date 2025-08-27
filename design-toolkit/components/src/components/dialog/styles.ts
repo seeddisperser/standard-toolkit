@@ -22,13 +22,10 @@ export const DialogStyles = tv({
       'shadow-elevation-overlay',
     ],
     dialog: [
-      '[--dialog-size-small:280px]',
-      '[--dialog-size-medium:320px]',
-      '[--dialog-size-large:720px]',
       'focus-visible:outline-none',
       'flex flex-col align-end font-light text-body-m text-default-dark',
-      'group-size-small/dialog:min-w-[var(--dialog-size-small)] group-size-small/dialog:max-w-[var(--dialog-size-small)] group-size-small/dialog:rounded-medium group-size-small/dialog:p-l',
-      'group-size-large/dialog:min-w-[var(--dialog-size-medium)] group-size-small/dialog:max-w-[var(--dialog-size-large)] group-size-large/dialog:rounded-medium group-size-large/dialog:p-xl',
+      'group-size-small/dialog:w-[280px] group-size-small/dialog:rounded-medium group-size-small/dialog:p-l',
+      'group-size-large/dialog:min-w-[320px] group-size-small/dialog:max-w-[720px] group-size-large/dialog:rounded-medium group-size-large/dialog:p-xl',
     ],
     title: [
       'text-default-light',
