@@ -129,26 +129,28 @@ export function Dialog({ ref, ...props }: DialogProps) {
   }, [isSSR, parentRef]);
 
   return (
-    <UNSAFE_PortalProvider getContainer={() => portal}>
-      <ModalOverlay
-        {...rest}
-        ref={ref}
-        className={composeRenderProps(classNames?.overlay, (className) =>
-          overlay({ className }),
-        )}
-        data-size={size}
-      >
-        <Modal
-          className={composeRenderProps(classNames?.modal, (className) =>
-            modal({ className }),
+    <DialogContext.Provider value={props}>
+      <UNSAFE_PortalProvider getContainer={() => portal}>
+        <ModalOverlay
+          {...rest}
+          ref={ref}
+          className={composeRenderProps(classNames?.overlay, (className) =>
+            overlay({ className }),
           )}
+          data-size={size}
         >
-          <AriaDialog className={dialog({ className: classNames?.dialog })}>
-            {children}
-          </AriaDialog>
-        </Modal>
-      </ModalOverlay>
-    </UNSAFE_PortalProvider>
+          <Modal
+            className={composeRenderProps(classNames?.modal, (className) =>
+              modal({ className }),
+            )}
+          >
+            <AriaDialog className={dialog({ className: classNames?.dialog })}>
+              {children}
+            </AriaDialog>
+          </Modal>
+        </ModalOverlay>
+      </UNSAFE_PortalProvider>
+    </DialogContext.Provider>
   );
 }
 Dialog.displayName = 'Dialog';
