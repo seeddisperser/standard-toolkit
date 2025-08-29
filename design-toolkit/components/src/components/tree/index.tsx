@@ -11,7 +11,6 @@
  */
 
 import { Cache } from '@/hooks/use-tree/actions/cache';
-import { isSlottedContextValue } from '@/lib/utils';
 import { ChevronDown, ChevronUp, DragVert, Hide, Show } from '@accelint/icons';
 import type { Key, Selection } from '@react-types/shared';
 import {
@@ -20,16 +19,15 @@ import {
   memo,
   useContext,
   useMemo,
-  useRef,
   useState,
 } from 'react';
 import {
-  Text as AriaText,
   Tree as AriaTree,
   TreeItem as AriaTreeItem,
   TreeItemContent as AriaTreeItemContent,
   DropIndicator,
   type DropTarget,
+  Text,
   type TextProps,
   composeRenderProps,
   useDragAndDrop,
@@ -416,24 +414,20 @@ function ItemContent({ children }: TreeItemContentProps) {
 ItemContent.displayName = 'Tree.Item.Content';
 
 function ItemLabel({ children, className }: TextProps) {
-  return <AriaText className={label({ className })}>{children}</AriaText>;
+  return <Text className={label({ className })}>{children}</Text>;
 }
 ItemLabel.displayName = 'Tree.Item.Label';
 
 function ItemDescription({ children, className }: TextProps) {
-  const context = useContext(TreeContext);
-
-  const variant =
-    (isSlottedContextValue(context) ? undefined : context?.variant) ??
-    TreeStylesDefaults.variant;
+  const { variant } = useContext(TreeContext);
 
   return variant !== 'crammed' ? (
-    <AriaText
+    <Text
       data-slot='description'
       className={description({ className, variant })}
     >
       {children}
-    </AriaText>
+    </Text>
   ) : null;
 }
 ItemDescription.displayName = 'Tree.Item.Description';
