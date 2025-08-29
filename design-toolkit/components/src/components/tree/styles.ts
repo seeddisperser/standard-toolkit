@@ -20,7 +20,7 @@ export const TreeStyles = tv({
   slots: {
     tree: 'overflow-auto outline-hidden',
     item: [
-      'not-visible:fg-default-dark not-viewable:fg-default-dark fg-default-light',
+      'not-visible:fg-default-dark not-viewable:fg-default-dark fg-default-light px-s',
       'group/tree-item rounded-medium hover:bg-interactive-hover-dark',
       'drop-target:border drop-target:border-highlight-hover drop-target:bg-highlight/20',
       'disabled:cursor-not-allowed disabled:border-none disabled:hover:bg-transparent disabled:data-[drop-target=true]:bg-transparent',
@@ -59,7 +59,7 @@ export const TreeStyles = tv({
         display: 'gap-x-s px-xs',
         label: 'gap-xs',
         actions: 'gap-x-xs',
-        spacing: 'min-h-[44px] w-[28px]',
+        spacing: 'min-h-[46px] w-[28px]',
         item: 'min-h-s',
       },
       compact: {
