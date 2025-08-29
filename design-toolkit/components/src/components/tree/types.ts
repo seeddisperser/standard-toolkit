@@ -11,7 +11,7 @@
  */
 
 import type { DragAndDropConfig, TreeNode } from '@/hooks/use-tree/types';
-import type { Key, Selection } from '@react-types/shared';
+import type { Key } from '@react-types/shared';
 import type {
   TreeItemContentRenderProps as AriaTreeItemContentRenderProps,
   TreeItemProps as AriaTreeItemProps,

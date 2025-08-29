@@ -87,6 +87,7 @@ const TreeLines = memo(function TreeLines({
 
     return (
       <Lines
+        // biome-ignore lint/suspicious/noArrayIndexKey: index should be the key, only count matters
         key={i}
         variant={line}
         size={size}
