@@ -92,7 +92,6 @@ export function RuleGroupHeaderComponent(
         key={TestID.combinators}
         testID={TestID.combinators}
         options={ruleGroup.schema.combinators}
-        ruleGroup={ruleGroup.ruleGroup}
         value={ruleGroup.combinator}
         title={ruleGroup.translations.combinators.title}
         className={ruleGroup.classNames.combinators}

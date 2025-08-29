@@ -315,8 +315,16 @@ export { containsExactChildren, expectsIconWrapper } from './lib/react';
 export type {
   AriaAttributes,
   AriaAttributesWithRef,
+  ChildrenRenderProps,
+  ClassNameRenderProps,
   ProviderProps,
+  RenderProps,
+  RenderPropsChildren,
+  RenderPropsClassName,
+  RenderPropsStyle,
   SlottedValue,
+  StylePropRenderProps,
+  StyleRenderProps,
 } from './lib/types';
 export {
   cn,
