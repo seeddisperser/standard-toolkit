@@ -1,0 +1,24 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as TreeStories from './tree.stories';
+
+<Meta of={TreeStories} />
+
+# Tree
+
+Tree view allows users to navigate lists of data with nested levels that can be expanded or collapsed.
+
+It is composed of the following components:
+
+- **Tree** - parent that drives global tree behavior like selection or drag and drop
+- **Tree.Item** - defines an individual tree node item
+- **Tree.Content** - composes the actual display of the tree node content. `Tree.Item` will always have `Tree.Content` composed inside it.
+- **Tree.Label** - places and styles the tree node label
+- **Tree.Description** - places and styles the tree description
+- **Tree.PrefixIcon** - places and styles the icon that optionally shows before a tree node
+- **Tree.Actions** - container for unique application icons for a tree item
+
+## Dynamic versus Static Tree content
+The `Tree` can be rendered with either static data, meaning that all of the tree items are known and will not be changing when you render the `Tree`, or with dynamic data that is from a database or other source.
+
+<Canvas of={TreeStories.StaticCollection} />
