@@ -17,11 +17,11 @@ export function Lines({
   className,
   size = 'medium',
   variant,
-  showLines = true,
+  isVisible = true,
 }: LinesProps) {
   return (
     <div
-      className={LinesStyles({ className, variant, showLines })}
+      className={LinesStyles({ className, variant, isVisible })}
       data-size={size}
     />
   );

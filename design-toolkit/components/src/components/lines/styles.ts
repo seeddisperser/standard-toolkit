@@ -29,7 +29,7 @@ export const LinesStyles = tv({
         'bg-[repeating-linear-gradient(to_bottom,var(--colors-neutral-04)_0%,var(--colors-neutral-04)_1px,transparent_1px,transparent_4px),repeating-linear-gradient(to_right,var(--colors-neutral-04)_0%,var(--colors-neutral-04)_1px,transparent_1px,transparent_4px)]',
       ],
     },
-    showLines: {
+    isVisible: {
       false: 'bg-none',
     },
   },

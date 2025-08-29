@@ -91,7 +91,7 @@ const TreeLines = memo(function TreeLines({
         key={i}
         variant={line}
         size={size}
-        showLines={showRuleLines}
+        isVisible={showRuleLines}
         className={spacing({ variant })}
       />
     );
