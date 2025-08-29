@@ -55,7 +55,7 @@ export const TreeStyles = tv({
   variants: {
     variant: {
       cozy: {
-        content: 'min-h-[42px] text-header-m',
+        content: 'min-h-[48px] text-header-m',
         display: 'gap-x-s px-xs',
         label: 'gap-xs',
         actions: 'gap-x-xs',
@@ -75,7 +75,7 @@ export const TreeStyles = tv({
         display: 'gap-x-xs px-xxs',
         label: 'gap-xs',
         actions: 'gap-x-xxs',
-        spacing: 'min-h-[24px] w-[20px]',
+        spacing: 'min-h-xl w-[20px]',
         item: 'min-h-s',
       },
     },
