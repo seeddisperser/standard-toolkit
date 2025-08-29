@@ -186,7 +186,7 @@ export function Tree<T>({
         if (isExpanded) {
           acc.expandedKeys?.add(key);
         }
-        if (isSelected && selectedKeys) {
+        if (isSelected) {
           acc.selectedKeys?.add(key);
         }
         if (isVisible) {
