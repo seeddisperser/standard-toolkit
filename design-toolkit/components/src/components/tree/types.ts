@@ -74,5 +74,5 @@ export type TreeContextValue = Required<
 export type TreeItemContextValue = {
   isVisible?: boolean;
   isViewable?: boolean;
-  setIsStaticViewable: (isViewable: boolean) => void;
+  ancestors: Key[];
 };

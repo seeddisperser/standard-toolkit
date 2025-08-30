@@ -19,7 +19,6 @@ import {
   memo,
   useContext,
   useMemo,
-  useState,
 } from 'react';
 import {
   Tree as AriaTree,
@@ -254,15 +253,16 @@ Tree.displayName = 'Tree';
 export const TreeItemContext = createContext<TreeItemContextValue>({
   isVisible: true,
   isViewable: true,
-  setIsStaticViewable: () => undefined,
+  ancestors: [],
 });
 
 export function TreeItem({ className, id, ...rest }: TreeItemProps) {
-  const [isStaticViewable, setStaticViewable] = useState(true);
   const { visibilityComputedKeys, visibleKeys, isStatic } =
     useContext(TreeContext);
+  const { ancestors } = useContext(TreeItemContext);
   const isViewable =
-    visibilityComputedKeys?.has(id) || (isStatic && isStaticViewable);
+    visibilityComputedKeys?.has(id) ||
+    (isStatic && ancestors.every((key) => visibleKeys?.has(key)));
   const isVisible = visibleKeys?.has(id);
 
   return (
@@ -270,8 +270,7 @@ export function TreeItem({ className, id, ...rest }: TreeItemProps) {
       value={{
         isVisible,
         isViewable,
-        setIsStaticViewable: (isViewable: boolean) =>
-          setStaticViewable(isViewable),
+        ancestors: [...ancestors, id],
       }}
     >
       <AriaTreeItem
@@ -291,8 +290,7 @@ TreeItem.displayName = 'Tree.Item';
 function ItemContent({ children }: TreeItemContentProps) {
   const { showVisibility, variant, visibleKeys, onVisibilityChange } =
     useContext(TreeContext);
-  const { isVisible, isViewable, setIsStaticViewable } =
-    useContext(TreeItemContext);
+  const { isVisible, isViewable } = useContext(TreeItemContext);
   const size = variant === 'cozy' ? 'medium' : 'small';
 
   return (
@@ -310,24 +308,6 @@ function ItemContent({ children }: TreeItemContentProps) {
           isExpanded,
           isSelected,
         } = renderProps;
-
-        const isViewableComputed = () => {
-          const ancestors = [];
-          const item = state.collection.getItem(id);
-          if (!item?.parentKey) {
-            return !!item?.props['data-visible'];
-          }
-
-          let parent = state.collection.getItem(item.parentKey);
-          while (parent) {
-            ancestors.push(parent);
-            const key = parent?.parentKey;
-            parent = key ? state.collection.getItem(key) : null;
-          }
-          return ancestors.every((n) => n.props['data-visible']);
-        };
-
-        setIsStaticViewable?.(isViewableComputed());
 
         const isLastOfSet = !(
           state.collection.getItem(id)?.nextKey || hasChildItems
