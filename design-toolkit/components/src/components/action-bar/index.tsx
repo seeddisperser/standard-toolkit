@@ -16,13 +16,11 @@ import { ButtonContext } from '../button';
 import { ActionBarStyles } from './styles';
 import type { ActionBarProps } from './types';
 
-export function ActionBar({ className, children, ...rest }: ActionBarProps) {
+export function ActionBar({ className, ...rest }: ActionBarProps) {
   return (
-    <nav {...rest} className={ActionBarStyles({ className })}>
-      <ButtonContext.Provider value={{ variant: 'icon' }}>
-        {children}
-      </ButtonContext.Provider>
-    </nav>
+    <ButtonContext.Provider value={{ variant: 'icon' }}>
+      <nav {...rest} className={ActionBarStyles({ className })} />
+    </ButtonContext.Provider>
   );
 }
 ActionBar.displayName = 'ActionBar';

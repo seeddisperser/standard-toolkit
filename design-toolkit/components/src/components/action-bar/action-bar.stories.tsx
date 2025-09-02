@@ -28,8 +28,8 @@ export default meta;
 export const Default: StoryObj<typeof ActionBar> = {
   render: () => {
     return (
-      <div className='flex h-screen items-center justify-center bg-surface-overlay'>
-        <ActionBar>
+      <div className='relative h-[400px] bg-surface-overlay'>
+        <ActionBar className='absolute top-s left-s'>
           <Button>
             <Icon>
               <Placeholder />

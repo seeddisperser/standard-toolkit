@@ -13,5 +13,5 @@
 import { tv } from 'tailwind-variants';
 
 export const ActionBarStyles = tv({
-  base: 'flex max-w-fit gap-s rounded-medium bg-surface-default p-s shadow-elevation-overlay',
+  base: 'flex w-fit gap-s rounded-medium bg-surface-default px-m py-s shadow-elevation-overlay',
 });
