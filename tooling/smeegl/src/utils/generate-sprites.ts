@@ -11,23 +11,35 @@
  */
 
 import { exec } from 'node:child_process';
+import fs from 'node:fs';
+import path from 'node:path';
 import util from 'node:util';
 import { Result } from 'true-myth';
-import type { GatherResult, GenerateResult } from './types.js';
+import type { CopySpritesResult, GenerateSpritesResult } from './types.js';
 
 const execProm = util.promisify(exec);
 
 export async function generateSprites(
-  gatherResult: GatherResult,
+  prevResult: CopySpritesResult,
   cmd: string,
   output: string,
-): Promise<GenerateResult> {
-  if (gatherResult.isErr) {
-    return Result.err(gatherResult.error);
+): Promise<GenerateSpritesResult> {
+  if (prevResult.isErr) {
+    return Result.err(prevResult.error);
   }
 
   try {
-    const { tmp } = gatherResult.unwrapOr({ tmp: '' });
+    const { tmp, sprites } = prevResult.unwrapOr({ tmp: '', sprites: [] });
+
+    // output is the folder plus base filename. Grab the parent folder.
+    const arr = output.split(path.sep);
+    arr.pop();
+    const outFolder = arr.join(path.sep);
+
+    // Ensure output directory exists
+    if (outFolder && !fs.existsSync(outFolder)) {
+      fs.mkdirSync(outFolder, { recursive: true });
+    }
 
     await execProm(
       `${cmd} --minify-index-file --retina --recursive --unique ${tmp} ${output}`,
@@ -36,9 +48,9 @@ export async function generateSprites(
     const json = `${output}.json`;
     const png = `${output}.png`;
 
-    return Result.ok({ tmp, json, png });
+    return Result.ok({ tmp, json, png, sprites });
   } catch (err) {
-    const { tmp } = gatherResult.unwrapOr({ tmp: '' });
+    const { tmp } = prevResult.unwrapOr({ tmp: '' });
 
     return Result.err({ msg: (err as Error).message.trim(), tmp });
   }

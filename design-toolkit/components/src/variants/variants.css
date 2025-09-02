@@ -30,6 +30,7 @@
 @custom-variant type-day (&:where([data-type="day"]));
 @custom-variant layout-grid (&:where([data-layout="grid"]));
 @custom-variant layout-stack (&:where([data-layout="stack"]));
+@custom-variant layout-inline (&:where([data-layout="inline"]));
 @custom-variant orientation-horizontal (&:where([data-orientation="horizontal"]));
 @custom-variant orientation-vertical (&:where([data-orientation="vertical"]));
 @custom-variant selection-single (&:where([data-selection-mode="single"]));
@@ -75,3 +76,5 @@
 @custom-variant drop-target (&:where([data-drop-target]));
 @custom-variant resizing (&:where([data-resizing]));
 @custom-variant disabled (&:where([disabled], [data-disabled], :disabled));
+@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *));
+@custom-variant light (&:where(.light, .light *, [data-theme="light"], [data-theme="light"] *));

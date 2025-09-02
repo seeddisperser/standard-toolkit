@@ -1,6 +1,6 @@
 {
   "name": "@accelint/docs",
-  "version": "0.1.18",
+  "version": "0.1.19",
   "private": true,
   "scripts": {
     "build": "pnpm run build:typedoc && pnpm run build:docusaurus",
@@ -21,6 +21,7 @@
     "@accelint/formatters": "workspace:*",
     "@accelint/geo": "workspace:*",
     "@accelint/math": "workspace:*",
+    "@accelint/ntds": "workspace:*",
     "@accelint/predicates": "workspace:*",
     "@accelint/temporal": "workspace:*",
     "@accelint/typescript-config": "workspace:*",

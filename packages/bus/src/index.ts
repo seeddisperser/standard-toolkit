@@ -15,4 +15,9 @@
  */
 
 export { Broadcast } from './broadcast';
-export type { BroadcastConfig, Listener, Payload } from './broadcast/types';
+export type {
+  BroadcastConfig,
+  ExtractEvent,
+  Listener,
+  Payload,
+} from './broadcast/types';
