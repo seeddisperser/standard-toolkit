@@ -21,22 +21,21 @@ export const TabStyles = tv({
     list: ['flex orientation-horizontal:flex-row flex-col'],
     tabs: 'group flex w-content flex-row orientation-horizontal:flex-col',
     tab: [
-      'fg-default-dark cursor-pointer p-s outline-none',
+      'fg-primary-muted cursor-pointer p-s shadow-none',
       'rounded-medium group-orientation-horizontal:rounded-small group-orientation-horizontal:rounded-b-none',
-      'group-orientation-horizontal:border-static-light group-orientation-horizontal:border-b',
-      'group-orientation-vertical:border group-orientation-vertical:border-transparent',
+      'group-orientation-horizontal:shadow-[0_1px] group-orientation-horizontal:shadow-[color:var(--outline-static)]',
 
-      'selected:fg-highlight selected:bg-highlight-subtle selected:group-orientation-horizontal:border-highlight',
-      'hover:fg-default-light hover:group-orientation-horizontal:border-interactive-hover',
-      'focus:fg-default-light focus:group-orientation-horizontal:border-interactive-hover',
-      'disabled:fg-disabled disabled:cursor-not-allowed disabled:group-orientation-horizontal:border-interactive-disabled',
+      'selected:fg-accent-primary-bold selected:bg-accent-primary-muted selected:group-orientation-horizontal:shadow-[color:var(--outline-accent-primary-bold)]',
+      'hover:fg-primary-bold hover:group-orientation-horizontal:shadow-[color:var(--outline-accent-primary-bold)]',
+      'focus:fg-primary-bold focus:group-orientation-horizontal:shadow-[color:var(--outline-accent-primary-bold)]',
+      'disabled:fg-disabled disabled:cursor-not-allowed disabled:group-orientation-horizontal:shadow-[color:var(--outline-interactive-disabled)]',
 
-      'selected:hover:fg-highlight selected:hover:group-orientation-horizontal:border-highlight',
-      'selected:focus:fg-highlight selected:focus:group-orientation-horizontal:border-interactive-hover selected:focus:group-orientation-vertical:border-interactive-hover',
-      'disabled:selected:fg-disabled disabled:bg-interactive-disabled disabled:selected:group-orientation-horizontal:border-interactive-disabled',
+      'selected:hover:fg-accent-primary-bold selected:hover:group-orientation-horizontal:shadow-[color:var(--outline-accent-primary-bold)]',
+      'selected:focus:fg-accent-primary-bold selected:focus:group-orientation-horizontal:shadow-[color:var(--outline-accent-primary-bold)] selected:focus:group-orientation-vertical:shadow-[color:var(--outline-accent-primary-bold)]',
+      'disabled:selected:fg-disabled disabled:bg-interactive-disabled disabled:selected:group-orientation-horizontal:shadow-[color:var(--outline-interactive-disabled)]',
     ],
     panel:
-      'fg-default-light p-s group-orientation-vertical:pt-0 group-orientation-horizontal:pl-0',
+      'fg-primary-bold p-s group-orientation-vertical:pt-0 group-orientation-horizontal:pl-0',
   },
   variants: {
     variant: {
