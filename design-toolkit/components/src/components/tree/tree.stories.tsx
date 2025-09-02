@@ -193,7 +193,7 @@ function Node({ node }: { node: TreeNode<ItemValues> }) {
                   </Icon>
                 )}
                 {values?.hasWarning && (
-                  <Icon className='fg-serious'>
+                  <Icon className='fg-serious-bold'>
                     <Warning />
                   </Icon>
                 )}

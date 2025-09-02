@@ -20,9 +20,9 @@ export const TreeStyles = tv({
   slots: {
     tree: 'overflow-auto outline-hidden',
     item: [
-      'not-visible:fg-default-dark not-viewable:fg-default-dark fg-default-light px-s',
-      'group/tree-item rounded-medium hover:bg-interactive-hover-dark',
-      'drop-target:border drop-target:border-highlight-hover drop-target:bg-highlight/20',
+      'not-visible:fg-primary-muted not-viewable:fg-primary-muted fg-primary-bold px-s',
+      'group/tree-item rounded-medium hover:bg-interactive-muted-hover',
+      'drop-target:border drop-target:bg-accent-primary-muted/20 drop-target:outline-accent-primary-bold',
       'disabled:cursor-not-allowed disabled:border-none disabled:hover:bg-transparent disabled:data-[drop-target=true]:bg-transparent',
     ],
     content: [
@@ -33,23 +33,23 @@ export const TreeStyles = tv({
       'grid flex-1 grid-cols-[auto_auto_1fr_auto] items-center [grid-template-areas:"icon_label_space_action"_"icon_description_space_action"]',
     icon: '[grid-area:icon]',
     label: 'not-has-[+[data-slot=description]]:row-span-full [grid-area:label]',
-    description: 'fg-default-dark text-body-s [grid-area:description]',
+    description: 'fg-primary-muted text-body-s [grid-area:description]',
     actions: 'flex shrink-0 items-center [grid-area:action]',
     spacing: '',
     visibility: [
-      'group-not-visible/tree-item:enabled:color-info:fg-default-dark',
-      'group-not-viewable/tree-item:enabled:color-info:fg-default-dark fg-default-light',
-      'fg-default-light',
+      'group-not-visible/tree-item:enabled:color-info:fg-primary-muted',
+      'group-not-viewable/tree-item:enabled:color-info:fg-primary-muted fg-primary-bold',
+      'fg-primary-bold',
     ],
     expansion: [
-      'group-not-visible/tree-item:enabled:color-info:fg-default-dark',
-      'group-not-viewable/tree-item:enabled:color-info:fg-default-dark fg-default-light',
-      'fg-default-light',
+      'group-not-visible/tree-item:enabled:color-info:fg-primary-muted',
+      'group-not-viewable/tree-item:enabled:color-info:fg-primary-muted fg-primary-bold',
+      'fg-primary-bold',
     ],
     drag: [
-      'group-not-visible/tree-item:enabled:color-info:fg-default-dark',
-      'group-not-viewable/tree-item:enabled:color-info:fg-default-dark fg-default-light',
-      'fg-default-light',
+      'group-not-visible/tree-item:enabled:color-info:fg-primary-muted',
+      'group-not-viewable/tree-item:enabled:color-info:fg-primary-muted fg-primary-bold',
+      'fg-primary-bold',
     ],
   },
   variants: {

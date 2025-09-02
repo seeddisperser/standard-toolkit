@@ -18,15 +18,15 @@ export const LinesStyles = tv({
     variant: {
       branch: [
         'bg-position-[center,center_right] [background-repeat:repeat-y,no-repeat] [background-size:1px_4px,50%_1px]',
-        'bg-[repeating-linear-gradient(to_bottom,var(--colors-neutral-04)_0%,var(--colors-neutral-04)_1px,transparent_1px,transparent_4px),repeating-linear-gradient(to_right,var(--colors-neutral-04)_0%,var(--colors-neutral-04)_1px,transparent_1px,transparent_4px)]',
+        'bg-[repeating-linear-gradient(to_bottom,var(--outline-static)_0%,var(--outline-static)_1px,transparent_1px,transparent_4px),repeating-linear-gradient(to_right,var(--outline-static)_0%,var(--outline-static)_1px,transparent_1px,transparent_4px)]',
       ],
       vert: [
         'bg-center bg-size-[1px_4px] bg-repeat-y',
-        'bg-[repeating-linear-gradient(to_bottom,var(--colors-neutral-04)_0%,var(--colors-neutral-04)_1px,transparent_1px,transparent_4px)]',
+        'bg-[repeating-linear-gradient(to_bottom,var(--outline-static)_0%,var(--outline-static)_1px,transparent_1px,transparent_4px)]',
       ],
       last: [
         'bg-position-[center_top,center_right] [background-repeat:no-repeat] [background-size:1px_50%,50%_1px]',
-        'bg-[repeating-linear-gradient(to_bottom,var(--colors-neutral-04)_0%,var(--colors-neutral-04)_1px,transparent_1px,transparent_4px),repeating-linear-gradient(to_right,var(--colors-neutral-04)_0%,var(--colors-neutral-04)_1px,transparent_1px,transparent_4px)]',
+        'bg-[repeating-linear-gradient(to_bottom,var(--outline-static)_0%,var(--outline-static)_1px,transparent_1px,transparent_4px),repeating-linear-gradient(to_right,var(--outline-static)_0%,var(--outline-static)_1px,transparent_1px,transparent_4px)]',
       ],
     },
     isVisible: {
