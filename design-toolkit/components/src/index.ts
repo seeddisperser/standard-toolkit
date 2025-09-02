@@ -138,6 +138,10 @@ export {
   DrawerEventTypes,
 } from './components/drawer/events';
 export {
+  DrawerEventNamespace,
+  DrawerEventTypes,
+} from './components/drawer/events';
+export {
   Drawer,
   DrawerContext,
   DrawerEventHandlers,
