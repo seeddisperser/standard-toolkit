@@ -38,35 +38,27 @@ The Tabs component follows a specific structure:
 
 ### Tabs
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `defaultSelectedKey` | `string` | - | The initial selected tab key |
-| `selectedKey` | `string` | - | The controlled selected tab key |
-| `onSelectionChange` | `(key: string) => void` | - | Handler called when selection changes |
-| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | The orientation of the tabs |
-| `children` | `ReactNode` | - | Must include Tabs.List and Tabs.Panel components |
+* **`defaultSelectedKey`** - The initial selected tab key
+* **`selectedKey`** - The controlled selected tab key
+* **`onSelectionChange`** - Handler called when selection changes
+* **`orientation`** - The orientation of the tabs
+* **`children`** - Must include Tabs.List and Tabs.Panel components
 
 ### Tabs.List
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `variant` | `'default' \| 'icons'` | `'default'` | Visual style variant |
-| `children` | `ReactNode` | - | Must include at least one Tabs.List.Tab component |
+* **`variant`** - Visual style variant
+* **`children`** - Must include at least one Tabs.List.Tab component
 
 ### Tabs.List.Tab
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `id` | `string` | - | Unique identifier that matches a panel |
-| `children` | `ReactNode` | - | Content of the tab |
-| `disabled` | `boolean` | `false` | Whether the tab is disabled |
+* **`id`** - Unique identifier that matches a panel
+* **`children`** - Content of the tab
+* **`disabled`** - Whether the tab is disabled
 
 ### Tabs.Panel
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `id` | `string` | - | Unique identifier that matches a tab |
-| `children` | `ReactNode` | - | Content to show when the corresponding tab is selected |
+* **`id`** - Unique identifier that matches a tab
+* **`children`** - Content to show when the corresponding tab is selected
 
 ## Accessibility
 

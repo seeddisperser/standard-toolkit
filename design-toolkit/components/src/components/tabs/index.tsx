@@ -41,7 +41,7 @@ function TabsProvider({ children, ...props }: ProviderProps<TabsProps>) {
 }
 TabsProvider.displayName = 'Tabs.Provider';
 
-function Tab({ children, className, ...rest }: TabProps) {
+export function Tab({ children, className, ...rest }: TabProps) {
   return (
     <AriaTab
       {...rest}
