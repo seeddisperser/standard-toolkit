@@ -105,9 +105,9 @@ TabPanel.displayName = 'Tabs.Panel';
  * // Basic horizontal tabs
  * <Tabs>
  *   <Tabs.List>
- *     <Tabs.Tab id="overview">Overview</Tabs.Tab>
- *     <Tabs.Tab id="details">Details</Tabs.Tab>
- *     <Tabs.Tab id="settings">Settings</Tabs.Tab>
+ *     <Tabs.List.Tab id="overview">Overview</Tabs.List.Tab>
+ *     <Tabs.List.Tab id="details">Details</Tabs.List.Tab>
+ *     <Tabs.List.Tab id="settings">Settings</Tabs.List.Tab>
  *   </Tabs.List>
  *   <Tabs.Panel id="overview">Overview content</Tabs.Panel>
  *   <Tabs.Panel id="details">Details content</Tabs.Panel>
@@ -118,8 +118,8 @@ TabPanel.displayName = 'Tabs.Panel';
  * // Vertical tabs
  * <Tabs orientation="vertical">
  *   <Tabs.List>
- *     <Tabs.Tab id="profile">Profile</Tabs.Tab>
- *     <Tabs.Tab id="account">Account</Tabs.Tab>
+ *     <Tabs.List.Tab id="profile">Profile</Tabs.List.Tab>
+ *     <Tabs.List.Tab id="account">Account</Tabs.List.Tab>
  *   </Tabs.List>
  *   <Tabs.Panel id="profile">Profile settings</Tabs.Panel>
  *   <Tabs.Panel id="account">Account settings</Tabs.Panel>
@@ -129,12 +129,12 @@ TabPanel.displayName = 'Tabs.Panel';
  * // Icon tabs
  * <Tabs>
  *   <Tabs.List variant="icons">
- *     <Tabs.Tab id="home">
+ *     <Tabs.List.Tab id="home">
  *       <Icon><Home /></Icon>
- *     </Tabs.Tab>
- *     <Tabs.Tab id="search">
+ *     </Tabs.List.Tab>
+ *     <Tabs.List.Tab id="search">
  *       <Icon><Search /></Icon>
- *     </Tabs.Tab>
+ *     </Tabs.List.Tab>
  *   </Tabs.List>
  *   <Tabs.Panel id="home">Home content</Tabs.Panel>
  *   <Tabs.Panel id="search">Search content</Tabs.Panel>
