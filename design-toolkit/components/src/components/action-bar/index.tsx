@@ -12,15 +12,21 @@
 'use client';
 
 import 'client-only';
-import { ButtonContext } from '../button';
+import { Provider } from 'react-aria-components';
+import { ButtonContext, ToggleButtonContext } from '../button';
 import { ActionBarStyles } from './styles';
 import type { ActionBarProps } from './types';
 
 export function ActionBar({ className, ...rest }: ActionBarProps) {
   return (
-    <ButtonContext.Provider value={{ variant: 'icon' }}>
+    <Provider
+      values={[
+        [ButtonContext, { variant: 'icon' }],
+        [ToggleButtonContext, { variant: 'icon' }],
+      ]}
+    >
       <nav {...rest} className={ActionBarStyles({ className })} />
-    </ButtonContext.Provider>
+    </Provider>
   );
 }
 ActionBar.displayName = 'ActionBar';
