@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import type { TabListProps as AriaTabListProps } from 'react-aria-components';
-import type { TabStyleVariants } from './styles';
+import type { RefAttributes } from 'react';
+import type { TabsProps as AriaTabsProps } from 'react-aria-components';
 
-export type TabListProps = AriaTabListProps<object> & TabStyleVariants;
+export type TabsProps = AriaTabsProps & RefAttributes<HTMLDivElement>;

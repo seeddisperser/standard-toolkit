@@ -10,44 +10,43 @@
  * governing permissions and limitations under the License.
  */
 
-import { type VariantProps, tv } from 'tailwind-variants';
-
-export const TabListStylesDefaults = {
-  variant: 'default',
-} as const;
+import { tv } from 'tailwind-variants';
 
 export const TabStyles = tv({
   slots: {
-    list: ['flex orientation-horizontal:flex-row flex-col'],
-    tabs: 'group flex w-content flex-row orientation-horizontal:flex-col',
-    tab: [
-      'fg-primary-muted cursor-pointer p-s shadow-none',
-      'rounded-medium group-orientation-horizontal:rounded-small group-orientation-horizontal:rounded-b-none',
-      'group-orientation-horizontal:shadow-[0_1px] group-orientation-horizontal:shadow-[color:var(--outline-static)]',
-
-      'selected:fg-accent-primary-bold selected:bg-accent-primary-muted selected:group-orientation-horizontal:shadow-[color:var(--outline-accent-primary-bold)]',
-      'hover:fg-primary-bold hover:group-orientation-horizontal:shadow-[color:var(--outline-accent-primary-bold)]',
-      'focus:fg-primary-bold focus:group-orientation-horizontal:shadow-[color:var(--outline-accent-primary-bold)]',
-      'disabled:fg-disabled disabled:cursor-not-allowed disabled:group-orientation-horizontal:shadow-[color:var(--outline-interactive-disabled)]',
-
-      'selected:hover:fg-accent-primary-bold selected:hover:group-orientation-horizontal:shadow-[color:var(--outline-accent-primary-bold)]',
-      'selected:focus:fg-accent-primary-bold selected:focus:group-orientation-horizontal:shadow-[color:var(--outline-accent-primary-bold)] selected:focus:group-orientation-vertical:shadow-[color:var(--outline-accent-primary-bold)]',
-      'disabled:selected:fg-disabled disabled:bg-interactive-disabled disabled:selected:group-orientation-horizontal:shadow-[color:var(--outline-interactive-disabled)]',
+    tabs: [
+      'group/tabs flex w-content',
+      'orientation-horizontal:flex-col',
+      'orientation-vertical:flex-row',
     ],
-    panel:
-      'fg-primary-bold p-s group-orientation-vertical:pt-0 group-orientation-horizontal:pl-0',
-  },
-  variants: {
-    variant: {
-      icons: {
-        list: '[&>*]:p-xs orientation-horizontal:[&>*]:pr-s orientation-horizontal:[&>*]:pl-s [&>*]:leading-[0]',
-      },
-      default: {
-        list: '[&>*]:p-s [&>*]:text-header-m',
-      },
-    },
-  },
-  defaultVariants: TabListStylesDefaults,
-});
+    list: [
+      'flex',
+      'orientation-horizontal:flex-row',
+      'orientation-vertical:flex-col',
+    ],
+    tab: [
+      'fg-primary-muted relative cursor-pointer rounded-small p-s',
+      'group-orientation-horizontal/tabs:rounded-b-none',
+      'group-orientation-horizontal/tabs:after:absolute group-orientation-horizontal/tabs:after:bottom-0 group-orientation-horizontal/tabs:after:left-0 group-orientation-horizontal/tabs:after:block group-orientation-horizontal/tabs:after:h-[1px] group-orientation-horizontal/tabs:after:w-full group-orientation-horizontal/tabs:after:bg-[color:var(--outline-static)]',
 
-export type TabStyleVariants = VariantProps<typeof TabStyles>;
+      'enabled:hover:fg-primary-bold',
+      'enabled:hover:group-orientation-horizontal/tabs:after:bg-[color:var(--outline-accent-primary-bold)]',
+
+      'enabled:focus:fg-primary-bold',
+      'enabled:focus:group-orientation-horizontal/tabs:after:bg-[color:var(--outline-accent-primary-bold)]',
+
+      'enabled:selected:fg-accent-primary-bold selected:bg-accent-primary-muted',
+      'enabled:selected:group-orientation-horizontal/tabs:after:bg-[color:var(--outline-accent-primary-bold)]',
+
+      'enabled:selected:hover:fg-accent-primary-bold',
+      'enabled:selected:hover:group-orientation-horizontal/tabs:after:bg-[color:var(--outline-accent-primary-bold)]',
+
+      'enabled:selected:focus:fg-accent-primary-bold',
+      'enabled:selected:focus:group-orientation-horizontal/tabs:after:bg-[color:var(--outline-accent-primary-bold)]',
+
+      'disabled:fg-disabled disabled:cursor-not-allowed disabled:bg-interactive-disabled',
+      'disabled:group-orientation-horizontal/tabs:after:bg-[color:var(--outline-interactive-disabled)]',
+    ],
+    panel: 'fg-primary-bold p-s',
+  },
+});

@@ -11,22 +11,88 @@
  */
 
 'use client';
-import { containsExactChildren } from '@/lib/react';
+
 import 'client-only';
+import { containsExactChildren } from '@/lib/react';
+import type { ProviderProps } from '@/lib/types';
+import { createContext } from 'react';
 import {
   Tab as AriaTab,
   TabList as AriaTabList,
   TabPanel as AriaTabPanel,
   Tabs as AriaTabs,
+  type ContextValue,
+  type TabListProps,
   type TabPanelProps,
   type TabProps,
-  type TabsProps,
   composeRenderProps,
+  useContextProps,
 } from 'react-aria-components';
-import { TabListStylesDefaults, TabStyles } from './styles';
-import type { TabListProps } from './types';
+import { TabStyles } from './styles';
+import type { TabsProps } from './types';
 
-const { list, tab, tabs, panel } = TabStyles();
+const { tabs, list, tab, panel } = TabStyles();
+
+export const TabsContext =
+  createContext<ContextValue<TabsProps, HTMLDivElement>>(null);
+
+function TabsProvider({ children, ...props }: ProviderProps<TabsProps>) {
+  return <TabsContext.Provider value={props}>{children}</TabsContext.Provider>;
+}
+TabsProvider.displayName = 'Tabs.Provider';
+
+function Tab({ children, className, ...rest }: TabProps) {
+  return (
+    <AriaTab
+      {...rest}
+      className={composeRenderProps(className, (className) =>
+        tab({ className }),
+      )}
+    >
+      {children}
+    </AriaTab>
+  );
+}
+Tab.displayName = 'Tabs.List.Tab';
+
+function TabList<T extends object>({
+  children,
+  className,
+  ...rest
+}: TabListProps<T>) {
+  containsExactChildren({
+    children,
+    componentName: TabList.displayName,
+    restrictions: [[Tab, { min: 1 }]],
+  });
+
+  return (
+    <AriaTabList<T>
+      {...rest}
+      className={composeRenderProps(className, (className) =>
+        list({ className }),
+      )}
+    >
+      {children}
+    </AriaTabList>
+  );
+}
+TabList.displayName = 'Tabs.List';
+TabList.Tab = Tab;
+
+function TabPanel({ children, className, ...rest }: TabPanelProps) {
+  return (
+    <AriaTabPanel
+      {...rest}
+      className={composeRenderProps(className, (className) =>
+        panel({ className }),
+      )}
+    >
+      {children}
+    </AriaTabPanel>
+  );
+}
+TabPanel.displayName = 'Tabs.Panel';
 
 /**
  * Tabs - A tab navigation component for organizing content into sections
@@ -74,24 +140,24 @@ const { list, tab, tabs, panel } = TabStyles();
  *   <Tabs.Panel id="search">Search content</Tabs.Panel>
  * </Tabs>
  */
-export const Tabs = ({
-  children,
-  className,
-  orientation = 'horizontal',
-  isDisabled = false,
-  ...rest
-}: TabsProps) => {
+export function Tabs({ ref, ...props }: TabsProps) {
+  [props, ref] = useContextProps(props, ref ?? null, TabsContext);
+
+  const { children, className, ...rest } = props;
+
   containsExactChildren({
     children,
     componentName: Tabs.displayName,
-    restrictions: [[TabList, { min: 1, max: 1 }]],
+    restrictions: [
+      [TabList, { min: 1, max: 1 }],
+      [TabPanel, { min: 1 }],
+    ],
   });
 
   return (
     <AriaTabs
       {...rest}
-      orientation={orientation}
-      isDisabled={isDisabled}
+      ref={ref}
       className={composeRenderProps(className, (className) =>
         tabs({ className }),
       )}
@@ -99,74 +165,8 @@ export const Tabs = ({
       {children}
     </AriaTabs>
   );
-};
-
+}
 Tabs.displayName = 'Tabs';
-
-const TabList = ({
-  children,
-  className,
-  variant = TabListStylesDefaults.variant,
-  ...rest
-}: TabListProps) => {
-  containsExactChildren({
-    children,
-    componentName: TabList.displayName,
-    restrictions: [[Tab, { min: 1 }]],
-  });
-
-  return (
-    <AriaTabList
-      {...rest}
-      className={composeRenderProps(className, (className) =>
-        list({ variant, className }),
-      )}
-    >
-      {children}
-    </AriaTabList>
-  );
-};
-
-TabList.displayName = 'Tabs.List';
+Tabs.Provider = TabsProvider;
 Tabs.List = TabList;
-
-const Tab = ({
-  id,
-  children,
-  className,
-  isDisabled = false,
-  ...rest
-}: TabProps) => {
-  return (
-    <AriaTab
-      {...rest}
-      id={id}
-      className={composeRenderProps(className, (className) =>
-        tab({ className }),
-      )}
-      isDisabled={isDisabled}
-    >
-      {children}
-    </AriaTab>
-  );
-};
-
-Tab.displayName = 'Tabs.Tab';
-Tabs.Tab = Tab;
-
-const TabPanel = ({ id, children, className, ...rest }: TabPanelProps) => {
-  return (
-    <AriaTabPanel
-      {...rest}
-      id={id}
-      className={composeRenderProps(className, (className) =>
-        panel({ className }),
-      )}
-    >
-      {children}
-    </AriaTabPanel>
-  );
-};
-
-TabPanel.displayName = 'Tabs.Panel';
 Tabs.Panel = TabPanel;
