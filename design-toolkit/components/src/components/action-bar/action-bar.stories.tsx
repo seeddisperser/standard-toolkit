@@ -11,7 +11,7 @@ import { Placeholder } from '@accelint/icons';
  * governing permissions and limitations under the License.
  */
 import type { Meta, StoryObj } from '@storybook/react';
-import { Button } from '../button';
+import { Button, ToggleButton } from '../button';
 import { Icon } from '../icon';
 import { ActionBar } from './index';
 
@@ -45,6 +45,32 @@ export const Default: StoryObj<typeof ActionBar> = {
               <Placeholder />
             </Icon>
           </Button>
+        </ActionBar>
+      </div>
+    );
+  },
+};
+
+export const Toggle: StoryObj<typeof ActionBar> = {
+  render: () => {
+    return (
+      <div className='relative h-[400px] bg-surface-overlay'>
+        <ActionBar className='absolute top-s left-s'>
+          <ToggleButton>
+            <Icon>
+              <Placeholder />
+            </Icon>
+          </ToggleButton>
+          <ToggleButton>
+            <Icon>
+              <Placeholder />
+            </Icon>
+          </ToggleButton>
+          <ToggleButton>
+            <Icon>
+              <Placeholder />
+            </Icon>
+          </ToggleButton>
         </ActionBar>
       </div>
     );
