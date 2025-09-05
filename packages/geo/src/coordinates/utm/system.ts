@@ -17,7 +17,6 @@ import { type Compass, type Format, SYMBOL_PATTERNS } from '../latlon/internal';
 import { parseUTM } from './parser';
 import type { CoordinateSystem } from '../latlon/internal/coordinate-system';
 
-// biome-ignore lint/style/useNamingConvention: acronym
 export const systemUTM: CoordinateSystem = {
   name: 'Military Grid Reference System',
 

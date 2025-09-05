@@ -181,7 +181,7 @@ export function expectsIconWrapper({
     children as ReactNode | ReactNode[],
   );
 
-  childrenComponents.map((child) => {
+  childrenComponents.forEach((child) => {
     if (isValidElement(child)) {
       // icons should never be a direct child of the parent
       // @ts-expect-error Accessing undocumented / untyped properties of React components

@@ -62,7 +62,7 @@ function getProjectRoot(pathSegs) {
     : getProjectRoot(pathSegs.slice(0, -1));
 }
 
-async function getWorkspaceGlob(root) {
+function getWorkspaceGlob(root) {
   const packageFile = require(`${root}/package.json`);
   const workspaces = packageFile.workspaces.map((w) => w.replace('/*', ''));
 
@@ -72,7 +72,6 @@ async function getWorkspaceGlob(root) {
 }
 
 /** Generates an AST from the given file */
-// biome-ignore lint/style/useNamingConvention: it's okay
 async function getAST(filePath) {
   const contents = await fs.readFile(filePath, 'utf-8');
 
@@ -309,7 +308,7 @@ function getNewExportList(root, tree) {
 }
 
 /** Write the index files for all of the workspaces */
-async function writeAllIndexes(indexes, ext, client) {
+function writeAllIndexes(indexes, ext, client) {
   return Promise.all(
     indexes.map(([file, content]) => {
       const newFile = file.replace(EXT_REGEX, ext);

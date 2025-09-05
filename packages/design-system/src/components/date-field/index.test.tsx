@@ -74,7 +74,7 @@ describe('DateField', () => {
 
     expect(screen.getByText('Date')).toBeInTheDocument();
 
-    [2020, 3, 24, 14, 56].map((segment) => {
+    [2020, 3, 24, 14, 56].forEach((segment) => {
       expect(
         screen.getByRole('spinbutton', {
           value: { now: segment },

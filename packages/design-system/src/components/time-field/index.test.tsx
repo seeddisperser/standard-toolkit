@@ -45,7 +45,7 @@ describe('TimeField', () => {
 
     expect(screen.getByText('Time')).toBeInTheDocument();
 
-    [11, 45, 0].map((segment) => {
+    [11, 45, 0].forEach((segment) => {
       expect(
         screen.getByRole('spinbutton', {
           value: { now: segment },
