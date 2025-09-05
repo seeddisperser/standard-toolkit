@@ -15,6 +15,7 @@ import {
   type ForwardedRef,
   forwardRef,
   type HTMLAttributes,
+  type RefObject,
   useCallback,
   useMemo,
 } from 'react';
@@ -399,7 +400,7 @@ export const MenuItem = forwardRef(function MenuItem<T extends object>(
     <RACMenuItem<T>
       {...rest}
       id={id ?? textValue}
-      ref={ref}
+      ref={ref as RefObject<T>}
       className={classNames?.item?.container}
       style={style}
       textValue={textValue}
