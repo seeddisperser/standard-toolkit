@@ -15,17 +15,13 @@ import { tv } from 'tailwind-variants';
 export const SidenavStyles = tv({
   slots: {
     sidenav: [
-      'group/sidenav relative p-m',
-      'flex flex-col bg-surface-default',
-      'fg-a11y-on-accent gap-xs',
-      'h-screen',
+      'group/sidenav',
+      'z-5 flex h-screen flex-col gap-xs p-m',
+      'fg-a11y-on-accent bg-surface-default',
+      'group-[&:not([data-push])]/layout:open:absolute',
     ],
-    header: [
-      'flex justify-center',
-      'placement-bottom:flex-1 placement-bottom:items-end',
-      'placement-top:group-closed/sidenav:mb-m',
-    ],
-    headerButton: ['p-0 size-medium:p-0 enabled:hover:color-info:bg-inherit'],
+    header: 'flex justify-center group-closed/sidenav:mb-m',
+    headerButton: 'p-0 size-medium:p-0 enabled:hover:color-info:bg-inherit',
     logoContainer: [
       'flex items-center text-left',
       'size-small:h-[35px] size-small:w-[35px] [&:not(.group/logo)]:hidden',
@@ -33,25 +29,18 @@ export const SidenavStyles = tv({
     ],
     expanded: 'group-closed/sidenav:hidden',
     divider: 'my-s border-[var(--outline-static)] group-open/sidenav:hidden',
-    title: ['mt-m mb-xs text-body-xs uppercase group-closed/sidenav:hidden'],
+    title: 'mt-m mb-xs text-body-xs uppercase group-closed/sidenav:hidden',
   },
 });
 
 export const SidenavItemStyles = tv({
   slots: {
-    item: ['flex w-full items-center px-s py-xs group-open/sidenav:gap-s'],
-    text: ['flex-1 text-left text-body-s group-closed/sidenav:hidden'],
-  },
-  variants: {
-    external: {
-      true: {},
-      false: {
-        item: [
-          'enabled:color-info:hover:bg-interactive-bold-hover',
-          'enabled:color-info:pressed:bg-interactive-bold-hover',
-          'enabled:color-info:selected:bg-accent-primary-bold',
-        ],
-      },
-    },
+    item: [
+      'flex w-full items-center px-s py-xs group-open/sidenav:gap-s',
+      'enabled:color-info:hover:bg-interactive-bold-hover',
+      'enabled:color-info:pressed:bg-interactive-bold-hover',
+      'enabled:color-info:selected:bg-accent-primary-bold',
+    ],
+    text: 'flex-1 text-left text-body-s group-closed/sidenav:hidden',
   },
 });

@@ -17,6 +17,7 @@ import type { ToggleButtonProps } from '../button/types';
 import type { SidenavEventTypes } from './events';
 
 export type SidenavProps = PropsWithChildren<{
+  className?: string;
   hidden?: boolean;
 }>;
 
@@ -29,8 +30,7 @@ export type SidenavTriggerProps = {
 export type SidenavEvent = Payload<typeof SidenavEventTypes.toggle>;
 
 export type SidenavItemProps = PropsWithChildren<
-  Pick<ToggleButtonProps, 'isDisabled' | 'isSelected'> & {
-    external?: boolean;
+  Omit<ToggleButtonProps, 'children'> & {
     classNames?: {
       button?: string;
       icon?: string;
@@ -45,5 +45,8 @@ export type SidenavHeaderProps = PropsWithChildren<{
     container?: string;
     icon?: string;
   };
-  placement?: 'top' | 'bottom';
 }>;
+
+export type SidenavContextValue = {
+  open: boolean;
+};

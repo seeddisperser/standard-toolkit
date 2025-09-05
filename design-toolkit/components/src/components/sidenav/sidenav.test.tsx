@@ -25,34 +25,23 @@ function setup(
   {
     children = (
       <>
-        <Sidenav>
-          <Sidenav.Header>
-            <Icon size='large'>
-              <Placeholder />
-            </Icon>
-            <div>
-              <Heading>Application Header</Heading>
-              <Heading>subheader</Heading>
-            </div>
-          </Sidenav.Header>
+        <Sidenav.Header>
+          <Icon size='large' data-testid='logo'>
+            <Placeholder />
+          </Icon>
+          <div>
+            <Heading>Application Header</Heading>
+            <Heading>subheader</Heading>
+          </div>
+        </Sidenav.Header>
 
-          <Heading>Title</Heading>
-          <Sidenav.Item>
-            <Icon>
-              <Placeholder />
-            </Icon>
-            <Text>Nav item</Text>
-          </Sidenav.Item>
-          <Sidenav.Header placement='bottom'>
-            <Icon>
-              <Placeholder />
-            </Icon>
-            <div>
-              <Heading>FirstName LastName</Heading>
-              <Heading>Secondary Text</Heading>
-            </div>
-          </Sidenav.Header>
-        </Sidenav>
+        <Heading>Title</Heading>
+        <Sidenav.Item>
+          <Icon>
+            <Placeholder />
+          </Icon>
+          <Text>Nav item</Text>
+        </Sidenav.Item>
       </>
     ),
     ...rest
@@ -66,7 +55,9 @@ function setup(
   return {
     ...render(
       <>
-        <Sidenav {...rest}>{children}</Sidenav>
+        <Sidenav {...rest} data-testid='nav'>
+          {children}
+        </Sidenav>
         {outside}
       </>,
     ),
@@ -79,40 +70,49 @@ describe('Sidenav', () => {
   it('should not render expanded content', () => {
     setup();
 
-    expect(screen.queryByText('Application Header')).not.toBeInTheDocument();
-    expect(screen.queryByText('subheader')).not.toBeInTheDocument();
-    expect(screen.queryByText('Nav Item')).not.toBeInTheDocument();
-    expect(screen.queryByText('FirstName LastName')).not.toBeInTheDocument();
-    expect(screen.queryByText('Secondary Text')).not.toBeInTheDocument();
+    expect(screen.queryByText('Application Header')).toHaveClass(/hidden/);
+    expect(screen.queryByText('subheader')).toHaveClass(/hidden/);
+    expect(screen.queryByText('Title')).toHaveClass(/hidden/);
+    expect(screen.queryByText('Nav item')).toHaveClass(/hidden/);
   });
 
-  it('should be externally openable', async () => {
+  it('should open externally', async () => {
     setup();
 
     await userEvent.click(screen.getByText('Open'));
 
-    expect(screen.queryByText('Application Header')).toBeInTheDocument();
-    expect(screen.queryByText('subheader')).toBeInTheDocument();
-    expect(screen.queryByText('Nav Item')).toBeInTheDocument();
-    expect(screen.queryByText('FirstName LastName')).toBeInTheDocument();
-    expect(screen.queryByText('Secondary Text')).toBeInTheDocument();
+    expect(screen.getByTestId('nav')).toHaveAttribute('data-open', 'true');
   });
 
-  it('should close', async () => {
-    await userEvent.click(screen.getByText('Open'));
-
-    expect(screen.queryByText('Application Header')).toBeInTheDocument();
-    expect(screen.queryByText('subheader')).toBeInTheDocument();
-    expect(screen.queryByText('Nav Item')).toBeInTheDocument();
-    expect(screen.queryByText('FirstName LastName')).toBeInTheDocument();
-    expect(screen.queryByText('Secondary Text')).toBeInTheDocument();
+  it('should close externally', async () => {
+    setup();
 
     await userEvent.click(screen.getByText('Open'));
 
-    expect(screen.queryByText('Application Header')).not.toBeInTheDocument();
-    expect(screen.queryByText('subheader')).not.toBeInTheDocument();
-    expect(screen.queryByText('Nav Item')).not.toBeInTheDocument();
-    expect(screen.queryByText('FirstName LastName')).not.toBeInTheDocument();
-    expect(screen.queryByText('Secondary Text')).not.toBeInTheDocument();
+    expect(screen.getByTestId('nav')).toHaveAttribute('data-open', 'true');
+
+    await userEvent.click(screen.getByText('Open'));
+
+    expect(screen.getByTestId('nav')).not.toHaveAttribute('data-open');
+  });
+
+  it('should open internally', async () => {
+    setup();
+
+    await userEvent.click(screen.getByTestId('logo'));
+
+    expect(screen.getByTestId('nav')).toHaveAttribute('data-open', 'true');
+  });
+
+  it('should close internally', async () => {
+    setup();
+
+    await userEvent.click(screen.getByTestId('logo'));
+
+    expect(screen.getByTestId('nav')).toHaveAttribute('data-open', 'true');
+
+    await userEvent.click(screen.getByTestId('logo'));
+
+    expect(screen.getByTestId('nav')).not.toHaveAttribute('data-open');
   });
 });

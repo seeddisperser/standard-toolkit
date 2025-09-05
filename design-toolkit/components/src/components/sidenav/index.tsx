@@ -12,14 +12,16 @@
 'use client';
 
 import 'client-only';
+import { containsExactChildren } from '@/lib/react';
 import { Broadcast } from '@accelint/bus';
-import { ArrowNortheast, ChevronLeft } from '@accelint/icons';
-import { useEffect, useState } from 'react';
+import { ChevronLeft } from '@accelint/icons';
+import { createContext, useEffect, useState } from 'react';
 import {
   Header,
   HeadingContext,
   Pressable,
   Provider,
+  Text,
   TextContext,
 } from 'react-aria-components';
 import { Button, ToggleButton } from '../button';
@@ -27,6 +29,7 @@ import { Icon, IconContext } from '../icon';
 import { SidenavEventTypes } from './events';
 import { SidenavItemStyles, SidenavStyles } from './styles';
 import type {
+  SidenavContextValue,
   SidenavDividerProps,
   SidenavEvent,
   SidenavHeaderProps,
@@ -49,7 +52,14 @@ const {
 
 const { item, text } = SidenavItemStyles();
 
-export function Sidenav({ hidden = false, children }: SidenavProps) {
+const SidenavContext = createContext<SidenavContextValue | null>(null);
+
+export function Sidenav({
+  hidden = false,
+  children,
+  className,
+  ...rest
+}: SidenavProps) {
   const [open, setOpen] = useState(false);
 
   useEffect(
@@ -58,23 +68,20 @@ export function Sidenav({ hidden = false, children }: SidenavProps) {
   );
 
   return hidden && !open ? null : (
-    <nav data-open={open || null} className={sidenav()}>
-      <HeadingContext value={{ className: title() }}>{children}</HeadingContext>
+    <nav {...rest} data-open={open || null} className={sidenav({ className })}>
+      <HeadingContext value={{ className: title() }}>
+        <SidenavContext.Provider value={{ open }}>
+          {children}
+        </SidenavContext.Provider>
+      </HeadingContext>
     </nav>
   );
 }
 Sidenav.displayName = 'Sidenav';
 
-function SidenavHeader({
-  children,
-  classNames,
-  placement = 'top',
-}: SidenavHeaderProps) {
+function SidenavHeader({ children, classNames, ...rest }: SidenavHeaderProps) {
   return (
-    <Header
-      className={header({ className: classNames?.header })}
-      data-placement={placement}
-    >
+    <Header {...rest} className={header({ className: classNames?.header })}>
       <Button
         className={headerButton({ className: classNames?.button })}
         variant='icon'
@@ -84,11 +91,9 @@ function SidenavHeader({
           <HeadingContext value={{ className: expanded() }}>
             {children}
           </HeadingContext>
-          {placement === 'top' && (
-            <Icon className={expanded({ className: classNames?.icon })}>
-              <ChevronLeft />
-            </Icon>
-          )}
+          <Icon className={expanded({ className: classNames?.icon })}>
+            <ChevronLeft />
+          </Icon>
         </div>
       </Button>
     </Header>
@@ -96,27 +101,29 @@ function SidenavHeader({
 }
 SidenavHeader.displayName = 'Sidenav.Header';
 
-function SidenavTrigger({ children }: SidenavTriggerProps) {
+function SidenavTrigger({ children, ...rest }: SidenavTriggerProps) {
   return (
-    <Pressable onPress={() => bus.emit(SidenavEventTypes.toggle, {})}>
+    <Pressable {...rest} onPress={() => bus.emit(SidenavEventTypes.toggle, {})}>
       {children}
     </Pressable>
   );
 }
 SidenavTrigger.displayName = 'Sidenav.Trigger';
 
-function SidenavItem({
-  children,
-  classNames,
-  external = false,
-  ...rest
-}: SidenavItemProps) {
-  const Component = external ? Button : ToggleButton;
+function SidenavItem({ children, classNames, ...rest }: SidenavItemProps) {
+  containsExactChildren({
+    children,
+    componentName: SidenavItem.displayName,
+    restrictions: [
+      [Icon, { min: 1, max: 1 }],
+      [Text, { min: 1, max: 1 }],
+    ],
+  });
   return (
-    <Component
+    <ToggleButton
       {...rest}
       variant='icon'
-      className={item({ external, className: classNames?.button })}
+      className={item({ className: classNames?.button })}
     >
       <Provider
         values={[
@@ -125,19 +132,14 @@ function SidenavItem({
         ]}
       >
         {children}
-        {external && (
-          <Icon className={expanded({ className: classNames?.icon })}>
-            <ArrowNortheast />
-          </Icon>
-        )}
       </Provider>
-    </Component>
+    </ToggleButton>
   );
 }
 SidenavItem.displayName = 'Sidenav.Item';
 
-function SidenavDivider({ className }: SidenavDividerProps) {
-  return <hr className={divider({ className })} />;
+function SidenavDivider({ className, ...rest }: SidenavDividerProps) {
+  return <hr {...rest} className={divider({ className })} />;
 }
 SidenavDivider.displayName = 'Sidenav.Divider';
 

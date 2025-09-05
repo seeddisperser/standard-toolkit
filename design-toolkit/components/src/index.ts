@@ -236,6 +236,7 @@ export {
 export { Sidenav } from './components/sidenav';
 export { SidenavItemStyles, SidenavStyles } from './components/sidenav/styles';
 export type {
+  SidenavContextValue,
   SidenavDividerProps,
   SidenavEvent,
   SidenavHeaderProps,

@@ -11,38 +11,50 @@
  */
 import { ExpandLeftPanel, Placeholder } from '@accelint/icons';
 import type { Meta, StoryObj } from '@storybook/react';
+import type { ComponentProps } from 'react';
 import { Heading, Text } from 'react-aria-components';
 import { Button } from '../button';
 import { Drawer } from '../drawer';
 import { Icon } from '../icon';
 import { Sidenav } from './index';
-import type { SidenavProps } from './types';
 
-const meta: Meta<SidenavProps> = {
+type SidenavWithLayoutArgs = ComponentProps<typeof Sidenav> & {
+  pushLayout?: boolean;
+};
+
+const meta: Meta<SidenavWithLayoutArgs> = {
   title: 'Components/Sidenav',
-  component: Drawer,
+  component: Sidenav,
   parameters: {
     layout: 'fullscreen',
+  },
+  args: {
+    hidden: false,
+    pushLayout: false,
   },
 };
 
 export default meta;
 
-export const Default: StoryObj<typeof Drawer> = {
-  render: () => {
+export const Default: StoryObj<SidenavWithLayoutArgs> = {
+  render: ({ hidden, pushLayout }) => {
+    const push = pushLayout ? 'left' : undefined;
+    const className = hidden ? undefined : '[--drawer-main-col-start:2]';
     return (
       <div className='h-screen bg-surface-raised text-default-light'>
-        <Drawer.Layout push='left'>
+        <Drawer.Layout className={className} push={push}>
           <Drawer.Layout.Main>
-            <Sidenav.Trigger>
-              <Button variant='icon' size='large'>
-                <Icon>
-                  <ExpandLeftPanel />
-                </Icon>
-              </Button>
-            </Sidenav.Trigger>
+            <nav className='flex items-center bg-surface-default p-m'>
+              <Sidenav.Trigger>
+                <Button variant='icon' size='large'>
+                  <Icon>
+                    <ExpandLeftPanel />
+                  </Icon>
+                </Button>
+              </Sidenav.Trigger>
+            </nav>
           </Drawer.Layout.Main>
-          <Sidenav>
+          <Sidenav hidden={hidden}>
             <Sidenav.Header>
               <Icon size='large'>
                 <Placeholder />
@@ -72,38 +84,6 @@ export const Default: StoryObj<typeof Drawer> = {
               </Icon>
               <Text>Nav item</Text>
             </Sidenav.Item>
-
-            <Sidenav.Divider />
-            <Heading>Title</Heading>
-            <Sidenav.Item external>
-              <Icon>
-                <Placeholder />
-              </Icon>
-              <Text>Nav item</Text>
-            </Sidenav.Item>
-            <Sidenav.Item external isDisabled>
-              <Icon>
-                <Placeholder />
-              </Icon>
-              <Text>Nav item</Text>
-            </Sidenav.Item>
-            <Sidenav.Item external>
-              <Icon>
-                <Placeholder />
-              </Icon>
-              <Text>Nav item</Text>
-            </Sidenav.Item>
-            <Sidenav.Header placement='bottom'>
-              <Icon size='large'>
-                <Placeholder />
-              </Icon>
-              <div>
-                <Heading className='text-header-m'>FirstName LastName</Heading>
-                <Heading className='fg-primary-muted text-header-s'>
-                  Secondary Text
-                </Heading>
-              </div>
-            </Sidenav.Header>
           </Sidenav>
         </Drawer.Layout>
       </div>
