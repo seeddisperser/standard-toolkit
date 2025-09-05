@@ -72,13 +72,33 @@ export const Default: StoryObj<SidenavWithLayoutArgs> = {
               </Icon>
               <Text>Nav item</Text>
             </Sidenav.Item>
-            <Sidenav.Item isSelected>
+            <Sidenav.Item>
               <Icon>
                 <Placeholder />
               </Icon>
               <Text>Nav item</Text>
             </Sidenav.Item>
+            <Sidenav.Item>
+              <Icon>
+                <Placeholder />
+              </Icon>
+              <Text>Nav item</Text>
+            </Sidenav.Item>
+            <Sidenav.Divider />
+            <Heading>Title</Heading>
             <Sidenav.Item isDisabled>
+              <Icon>
+                <Placeholder />
+              </Icon>
+              <Text>Nav item</Text>
+            </Sidenav.Item>
+            <Sidenav.Item>
+              <Icon>
+                <Placeholder />
+              </Icon>
+              <Text>Nav item</Text>
+            </Sidenav.Item>
+            <Sidenav.Item isSelected>
               <Icon>
                 <Placeholder />
               </Icon>
