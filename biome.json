@@ -18,7 +18,8 @@
       "!**/build",
       "!**/coverage",
       "!**/.next",
-      "!**/storybook-static"
+      "!**/storybook-static",
+      "!**/.docusaurus"
     ]
   },
   "overrides": [

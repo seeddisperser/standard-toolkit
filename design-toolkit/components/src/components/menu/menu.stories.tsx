@@ -244,6 +244,7 @@ export const ContextMenu: StoryObj<typeof Menu> = {
 
     return (
       <div
+        role='menu'
         className='fg-primary-bold m-xl flex h-dvh w-dvh items-center justify-center bg-surface-raised'
         onContextMenu={(e) => {
           e.preventDefault();

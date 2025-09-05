@@ -434,6 +434,7 @@ export const DrawerDialog = forwardRef(function DrawerDialog(
         style={style}
         aria-label={ariaLabel}
         aria-labelledby={ariaLabelledBy}
+        role='dialog'
       >
         <div className={classNames?.dialog?.dialog}>{children}</div>
       </div>

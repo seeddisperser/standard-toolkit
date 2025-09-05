@@ -17,7 +17,12 @@
         "noUndeclaredVariables": "error",
         "useExhaustiveDependencies": "warn",
         "noUnusedImports": "error",
-        "noUnusedVariables": "error",
+        "noUnusedVariables": {
+          "level": "error",
+          "options": {
+            "ignoreRestSiblings": true
+          }
+        },
         "useHookAtTopLevel": "error"
       },
       "performance": {
