@@ -37,11 +37,13 @@ export const SidenavItemStyles = tv({
   slots: {
     item: [
       'flex w-full items-center px-s py-xs group-open/sidenav:gap-s',
-      'enabled:color-info:hover:bg-interactive-bold-hover',
-      'enabled:color-info:pressed:bg-interactive-bold-hover',
-      'enabled:color-info:focus:bg-interactive-bold-hover',
-      'enabled:color-info:focus-visible:bg-interactive-bold-hover',
+      'enabled:color-info:hover:bg-accent-primary-hover',
+      'disabled:color-info:hover:bg-interactive-disabled',
+      'enabled:color-info:pressed:bg-accent-primary-pressed',
+      'selected:color-info:pressed:bg-accent-primary-pressed',
       'enabled:color-info:selected:bg-accent-primary-bold',
+      'selected:color-info:pressed:bg-accent-primary-pressed',
+      'enabled:color-info:focus-visible:bg-accent-primary-hover',
     ],
     text: 'flex-1 text-left text-body-s group-closed/sidenav:hidden',
   },
