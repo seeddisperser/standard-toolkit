@@ -241,7 +241,7 @@ export type { SliderProps } from './components/slider/types';
 export { Switch, SwitchContext } from './components/switch';
 export { SwitchStyles } from './components/switch/styles';
 export type { SwitchProps } from './components/switch/types';
-export { Tab, Tabs, TabsContext } from './components/tabs';
+export { Tabs, TabsContext } from './components/tabs';
 export { TabStyles } from './components/tabs/styles';
 export type { TabsProps } from './components/tabs/types';
 export {

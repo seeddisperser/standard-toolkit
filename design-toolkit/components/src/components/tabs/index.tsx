@@ -41,7 +41,7 @@ function TabsProvider({ children, ...props }: ProviderProps<TabsProps>) {
 }
 TabsProvider.displayName = 'Tabs.Provider';
 
-export function Tab({ children, className, ...rest }: TabProps) {
+function Tab({ children, className, ...rest }: TabProps) {
   return (
     <AriaTab
       {...rest}
@@ -78,7 +78,6 @@ function TabList<T extends object>({
   );
 }
 TabList.displayName = 'Tabs.List';
-TabList.Tab = Tab;
 
 function TabPanel({ children, className, ...rest }: TabPanelProps) {
   return (
@@ -168,5 +167,7 @@ export function Tabs({ ref, ...props }: TabsProps) {
 }
 Tabs.displayName = 'Tabs';
 Tabs.Provider = TabsProvider;
-Tabs.List = TabList;
+// biome-ignore lint/style/useNamingConvention: Component name
+Tabs.List = TabList as typeof TabList & { Tab: typeof Tab };
+Tabs.List.Tab = Tab;
 Tabs.Panel = TabPanel;
