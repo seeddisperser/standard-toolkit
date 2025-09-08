@@ -40,7 +40,7 @@
     "license": "pnpm zx ../../scripts/license.mjs --files src",
     "dev": "pnpm tsc --watch",
     "index": "pnpm zx ../../scripts/indexer.mjs packages/ntds",
-    "format": "pnpm biome format . --write",
+    "format": "pnpm biome check --linter-enabled=false . --write",
     "lint": "pnpm biome lint"
   },
   "devDependencies": {
