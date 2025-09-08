@@ -68,6 +68,7 @@
 @custom-variant hover (&:where([data-hovered], :hover));
 @custom-variant focus (&:where([data-focused], :focus));
 @custom-variant focus-visible (&:where([data-focus-visible], :focus-visible));
+@custom-variant visited (&:where([data-visited], :visited));
 @custom-variant pressed (&:where([data-pressed], :active));
 @custom-variant selected (&:where([data-selected], :checked));
 @custom-variant selection-start (&:where([data-selection-start]));

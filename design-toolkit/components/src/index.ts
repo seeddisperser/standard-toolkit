@@ -16,6 +16,9 @@
 
 // biome-ignore-all assist/source/organizeImports: This comment is used to prevent the biome tool from altering the import statements in this file.
 
+export { Link } from './components/Link';
+export { LinkStyles } from './components/Link/styles';
+export type { LinkProps } from './components/Link/types';
 export { Accordion, AccordionContext } from './components/accordion';
 export {
   AccordionStyles,
