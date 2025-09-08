@@ -54,7 +54,7 @@
     --bg-surface-muted: var(--primitive-alpha-white-100, rgba(255, 255, 255, 0.08));
     --bg-interactive-bold: var(--primitive-neutral-100, #eff1f2);
     --bg-interactive-bold-hover: var(--primitive-neutral-200, #d5d7d9);
-    --bg-interactive-bold-pressed: var(--primitive-neutral-400, #888a8f);
+    --bg-interactive-bold-pressed: var(--primitive-neutral-300, #C3C5C7);
     --bg-interactive-muted: var(--primitive-neutral-700, #38393a);
     --bg-interactive-muted-hover: var(--primitive-neutral-600, #414245);
     --bg-interactive-muted-pressed: var(--primitive-neutral-950, #000000);
@@ -122,6 +122,7 @@
     --outline-advisory-bold: var(--primitive-utility-advisory-400, #62a6ff);
     --outline-advisory-hover: var(--primitive-utility-advisory-200, #a9ceff);
     --outline-advisory-pressed: var(--primitive-utility-advisory-600, #3c67a0);
+    --outline-mono-bold-pressed: var(--primitive-neutral-300, #C3C5C7);
     --outline-normal-bold: var(--primitive-utility-normal-400, #2bbf35);
     --outline-normal-hover: var(--primitive-utility-normal-200, #86e98c);
     --outline-normal-pressed: var(--primitive-utility-normal-600, #1c7e23);

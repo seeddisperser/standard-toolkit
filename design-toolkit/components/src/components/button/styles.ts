@@ -13,7 +13,7 @@
 import { tv } from '@/lib/utils';
 
 export const ButtonStylesDefaults = {
-  color: 'info',
+  color: 'mono-muted',
   variant: 'filled',
 } as const;
 
@@ -31,31 +31,66 @@ const BaseButtonStyles = tv({
       filled: [
         'disabled:fg-disabled disabled:bg-interactive-disabled',
 
-        // Info
-        'enabled:color-info:fg-inverse-bold',
-        'enabled:color-info:bg-interactive-bold',
-        'enabled:hover:color-info:bg-interactive-bold-hover',
-        'enabled:focus-visible:color-info:bg-interactive-bold-hover',
+        // Mono Muted
+        'enabled:color-mono-muted:fg-primary-bold',
+        'enabled:color-mono-muted:bg-interactive-muted',
+        'enabled:hover:color-mono-muted:bg-interactive-muted-hover',
+        'enabled:focus-visible:color-mono-muted:bg-interactive-muted-hover',
+        'enabled:pressed:color-mono-muted:bg-interactive-muted-pressed',
+        'enabled:pressed:color-mono-muted:fg-primary-muted',
+
+        // Mono Bold
+        'enabled:color-mono-bold:fg-inverse-bold',
+        'enabled:color-mono-bold:bg-interactive-bold',
+        'enabled:hover:color-mono-bold:bg-interactive-bold-hover',
+        'enabled:focus-visible:color-mono-bold:bg-interactive-bold-hover',
+        'enabled:pressed:color-mono-bold:bg-interactive-bold-pressed',
+        'enabled:pressed:color-mono-bold:fg-inverse-muted',
+
+        // Accent
+        'enabled:color-accent:fg-a11y-on-accent',
+        'enabled:color-accent:bg-accent-primary-bold',
+        'enabled:hover:color-accent:bg-accent-hover',
+        'enabled:focus-visible:color-accent:bg-accent-hover',
+        'enabled:pressed:color-accent:fg-accent-primary-bold',
+        'enabled:pressed:color-accent:bg-accent-primary-pressed',
 
         // Serious
         'enabled:color-serious:fg-a11y-on-utility',
         'enabled:color-serious:bg-serious-bold',
         'enabled:hover:color-serious:bg-serious-hover',
         'enabled:focus-visible:color-serious:bg-serious-hover',
+        'enabled:pressed:color-serious:fg-serious-bold',
+        'enabled:pressed:color-serious:bg-serious-pressed',
 
         // Critical
         'enabled:color-critical:fg-a11y-on-utility',
         'enabled:color-critical:bg-critical-bold',
         'enabled:hover:color-critical:bg-critical-hover',
         'enabled:focus-visible:color-critical:bg-critical-hover',
+        'enabled:pressed:color-critical:fg-critical-bold',
+        'enabled:pressed:color-critical:bg-critical-pressed',
       ],
       outline: [
         'disabled:fg-disabled disabled:outline-interactive-disabled',
 
-        // Info
-        'enabled:color-info:fg-primary-bold enabled:color-info:outline-interactive',
-        'enabled:hover:color-info:outline-interactive-hover',
-        'enabled:focus-visible:color-info:outline-interactive-hover',
+        // Mono Muted
+        'enabled:color-mono-muted:fg-primary-bold enabled:color-mono-muted:outline-interactive',
+        'enabled:hover:color-mono-muted:outline-interactive-hover',
+        'enabled:hover:color-mono-muted:outline-interactive-hover',
+        'enabled:focus-visible:color-mono-muted:outline-interactive-hover',
+        'enabled:pressed:color-mono-muted:outline-interactive-pressed',
+        'enabled:pressed:color-mono-muted:outline-interactive-hover',
+
+        // Mono Bold
+        'enabled:color-mono-bold:fg-primary-bold enabled:color-mono-bold:outline-interactive',
+        'enabled:hover:color-mono-bold:outline-interactive-hover',
+        'enabled:focus-visible:color-mono-bold:outline-interactive-hover',
+
+        // Accent
+        'enabled:color-accent:fg-primary-bold enabled:color-accent:outline-interactive',
+        'enabled:hover:color-accent:outline-interactive-hover',
+        'enabled:focus-visible:color-accent:outline-interactive-hover',
 
         // Serious
         'enabled:color-serious:fg-primary-bold enabled:color-serious:outline-serious-bold',
@@ -76,6 +111,16 @@ const BaseButtonStyles = tv({
         'rounded-full',
         'size-large:p-xs size-medium:p-xs size-small:p-xxs size-xsmall:p-xxs',
         'disabled:fg-disabled disabled:bg-interactive-disabled disabled:outline-interactive-disabled',
+
+        // Mono Muted
+        'enabled:color-info:fg-info-bold enabled:color-info:bg-surface-default enabled:color-info:outline-interactive',
+        'enabled:hover:color-info:fg-info-hover enabled:hover:color-info:outline-interactive-hover',
+        'enabled:focus-visible:color-info:fg-info-hover enabled:focus-visible:color-info:outline-interactive-hover',
+
+        // Mono Bold
+        'enabled:color-info:fg-info-bold enabled:color-info:bg-surface-default enabled:color-info:outline-interactive',
+        'enabled:hover:color-info:fg-info-hover enabled:hover:color-info:outline-interactive-hover',
+        'enabled:focus-visible:color-info:fg-info-hover enabled:focus-visible:color-info:outline-interactive-hover',
 
         // Info
         'enabled:color-info:fg-info-bold enabled:color-info:bg-surface-default enabled:color-info:outline-interactive',
