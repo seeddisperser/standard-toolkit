@@ -55,7 +55,7 @@
     --bg-interactive-bold: var(--primitive-neutral-100, #eff1f2);
     --bg-interactive-bold-hover: var(--primitive-neutral-200, #d5d7d9);
     --bg-interactive-bold-pressed: var(--primitive-neutral-400, #888a8f);
-    --bg-interactive-muted: var(--primitive-neutral-700, #2f2f31);
+    --bg-interactive-muted: var(--primitive-neutral-700, #38393a);
     --bg-interactive-muted-hover: var(--primitive-neutral-600, #414245);
     --bg-interactive-muted-pressed: var(--primitive-neutral-950, #000000);
     --bg-interactive-disabled: var(--primitive-neutral-700, #2f2f31);
