@@ -11,7 +11,6 @@
     "audit:docblocks": "pnpm zx scripts/audit-docblocks.mjs",
     "bench": "turbo bench",
     "build": "turbo build",
-    "build:design-preview": "pnpm --filter=@accelint/design-system exec ladle build && pnpm --filter=@accelint/design-toolkit build-storybook -o ../../packages/design-system/build/design-toolkit",
     "changeset": "pnpm exec changeset",
     "changeset:release": "pnpm run build && pnpm exec changeset publish",
     "changeset:version": "pnpm exec changeset version",

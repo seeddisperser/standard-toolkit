@@ -45,7 +45,6 @@
   },
   "devDependencies": {
     "@accelint/biome-config": "workspace:*",
-    "@accelint/design-system": "workspace:*",
     "@accelint/design-toolkit": "workspace:*",
     "@accelint/smeegl": "workspace:*",
     "@accelint/typescript-config": "workspace:*",
