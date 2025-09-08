@@ -18,6 +18,7 @@ const fileTemplate = `
  */
 
 import type { SVGProps } from 'react';
+
 interface Props {
   title?: string;
   titleId?: string;

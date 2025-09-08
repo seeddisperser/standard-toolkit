@@ -321,7 +321,7 @@ function writeAllIndexes(indexes, ext, client) {
 
       fs.writeFile(newFile, body, 'utf-8');
 
-      return $`pnpm biome format ${newFile} --write`;
+      return $`pnpm biome check ${newFile} --linter-enabled=false --write`;
     }),
   );
 }
