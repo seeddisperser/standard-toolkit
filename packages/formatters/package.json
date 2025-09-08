@@ -31,7 +31,7 @@
   },
   "scripts": {
     "bench": "pnpm vitest bench --run --dir src",
-    "build": "pnpm tsup",
+    "build": "tsup",
     "dev": "pnpm tsc --watch",
     "index": "pnpm zx ../../scripts/indexer.mjs packages/formatters",
     "lint": "pnpm biome lint"

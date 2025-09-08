@@ -30,7 +30,7 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "pnpm tsup",
+    "build": "tsup",
     "dev": "pnpm tsc --watch",
     "index": "pnpm zx ../../scripts/indexer.mjs packages/core",
     "lint": "pnpm biome lint",

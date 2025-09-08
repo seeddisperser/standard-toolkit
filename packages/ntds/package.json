@@ -32,7 +32,7 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "pnpm run build:icons:color && pnpm run build:icons:masked && pnpm run format && pnpm run license && pnpm tsup && pnpm copy",
+    "build": "pnpm run build:icons:color && pnpm run build:icons:masked && pnpm run format && pnpm run license && tsup && pnpm copy",
     "build:icons:color": "smeegl --in ./icons/core --out ./src/core --target REACT",
     "build:icons:masked": "smeegl --in ./icons/masked --out ./src/spritesheets/masked --crc DEC --target SPRITESHEET",
     "copy": "pnpm copy:spritesheets",
