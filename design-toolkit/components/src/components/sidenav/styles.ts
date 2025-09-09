@@ -16,9 +16,10 @@ export const SidenavStyles = tv({
   slots: {
     sidenav: [
       'group/sidenav',
-      'z-5 flex h-full flex-col gap-xs p-m',
+      'z-5 flex h-full flex-col gap-xs p-m row-span-full',
       'fg-a11y-on-accent bg-surface-default',
-      'group-[&:not([data-push])]/layout:open:absolute',
+      'open:absolute',
+      'group-data-[push=left]/layout:open:relative',
     ],
     header: 'flex justify-center group-closed/sidenav:mb-m',
     headerButton: 'p-0 size-medium:p-0 enabled:hover:color-info:bg-inherit',

@@ -29,7 +29,7 @@ const meta: Meta<SidenavWithLayoutArgs> = {
     layout: 'fullscreen',
   },
   args: {
-    hidden: false,
+    isHiddenWhenClosed: false,
     pushLayout: false,
   },
 };
@@ -37,14 +37,14 @@ const meta: Meta<SidenavWithLayoutArgs> = {
 export default meta;
 
 export const Default: StoryObj<SidenavWithLayoutArgs> = {
-  render: ({ hidden, pushLayout }) => {
+  render: ({ isHiddenWhenClosed, pushLayout }) => {
     const push = pushLayout ? 'left' : undefined;
-    const className = hidden
+    const className = isHiddenWhenClosed
       ? undefined
-      : '[--drawer-main-col-start:2] sudo:[--route-layout-grid-rows:1fr]';
+      : '[--drawer-main-col-start:2]';
     return (
       <div className='h-screen bg-surface-raised text-default-light'>
-        <Drawer.Layout className={className} push={push}>
+        <Drawer.Layout push={push} className={className}>
           <Drawer.Layout.Main>
             <nav className='flex items-center bg-surface-default p-m'>
               <Sidenav.Trigger>
@@ -56,7 +56,7 @@ export const Default: StoryObj<SidenavWithLayoutArgs> = {
               </Sidenav.Trigger>
             </nav>
           </Drawer.Layout.Main>
-          <Sidenav hidden={hidden}>
+          <Sidenav isHiddenWhenClosed={isHiddenWhenClosed}>
             <Sidenav.Header>
               <Icon size='large'>
                 <Placeholder />
