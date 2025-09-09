@@ -42,7 +42,7 @@ export const Default: StoryObj<SidenavWithLayoutArgs> = {
     return (
       <div className='h-screen bg-surface-raised text-default-light'>
         <Drawer.Layout push={push}>
-          <Drawer.Layout.Main className='col-start-2'>
+          <Drawer.Layout.Main>
             <nav className='flex items-center bg-surface-default p-m'>
               <Sidenav.Trigger>
                 <Button variant='icon' size='large'>

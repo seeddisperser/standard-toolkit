@@ -16,6 +16,7 @@ export const SidenavStyles = tv({
   slots: {
     sidenav: [
       'group/sidenav',
+      'sidenav', //used by Drawer.Layout to set main col start
       'z-5 row-span-full flex h-full flex-col gap-xs p-m',
       'fg-a11y-on-accent bg-surface-default',
       'open:absolute',
