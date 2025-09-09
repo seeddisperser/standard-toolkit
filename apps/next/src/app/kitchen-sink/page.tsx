@@ -189,6 +189,9 @@ export default function KitchenSink() {
                   Tab 3
                 </Tabs.List.Tab>
               </Tabs.List>
+              <Tabs.Panel id='uno'>Content 1</Tabs.Panel>
+              <Tabs.Panel id='dos'>Content 2</Tabs.Panel>
+              <Tabs.Panel id='tres'>Content 3</Tabs.Panel>
             </Tabs>
             {divider}
             <Tabs orientation='vertical'>
@@ -199,6 +202,9 @@ export default function KitchenSink() {
                   Tab 3
                 </Tabs.List.Tab>
               </Tabs.List>
+              <Tabs.Panel id='uno'>Content 1</Tabs.Panel>
+              <Tabs.Panel id='dos'>Content 2</Tabs.Panel>
+              <Tabs.Panel id='tres'>Content 3</Tabs.Panel>
             </Tabs>
           </div>
           <div>
