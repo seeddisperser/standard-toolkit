@@ -39,13 +39,10 @@ export default meta;
 export const Default: StoryObj<SidenavWithLayoutArgs> = {
   render: ({ isHiddenWhenClosed, pushLayout }) => {
     const push = pushLayout ? 'left' : undefined;
-    const className = isHiddenWhenClosed
-      ? undefined
-      : '[--drawer-main-col-start:2]';
     return (
       <div className='h-screen bg-surface-raised text-default-light'>
-        <Drawer.Layout push={push} className={className}>
-          <Drawer.Layout.Main>
+        <Drawer.Layout push={push}>
+          <Drawer.Layout.Main className='col-start-2'>
             <nav className='flex items-center bg-surface-default p-m'>
               <Sidenav.Trigger>
                 <Button variant='icon' size='large'>

@@ -30,7 +30,7 @@ It is composed of the following components:
 ```tsx
 <div className="h-screen bg-surface-raised">
   <Drawer.Layout push="left">
-    <Drawer.Layout.Main>
+    <Drawer.Layout.Main className="col-start-2">
       <Sidenav.Trigger>
         <Button variant="icon" size="large">
           <Icon>
@@ -101,7 +101,6 @@ It is composed of the following components:
 The Sidenav uses the following style variants and states:
 
 ### Layout States
-- `group-[&:not([data-push])]/layout:open:absolute` - Controls overlay behavior
 - `group-closed/sidenav` - Applied when sidenav is closed
 - `group-open/sidenav` - Applied when sidenav is open
 
