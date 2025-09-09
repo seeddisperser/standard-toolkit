@@ -13,19 +13,18 @@
 
 import 'client-only';
 import { containsExactChildren } from '@/lib/react';
-import { Broadcast } from '@accelint/bus';
+import { useEmit, useOn } from '@accelint/bus/react';
 import { ChevronLeft } from '@accelint/icons';
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useState } from 'react';
 import {
   Header,
   HeadingContext,
   Pressable,
-  Provider,
   Text,
   TextContext,
 } from 'react-aria-components';
 import { Button, ToggleButton } from '../button';
-import { Icon, IconContext } from '../icon';
+import { Icon } from '../icon';
 import { SidenavEventTypes } from './events';
 import { SidenavItemStyles, SidenavStyles } from './styles';
 import type {
@@ -37,8 +36,6 @@ import type {
   SidenavProps,
   SidenavTriggerProps,
 } from './types';
-
-const bus = Broadcast.getInstance<SidenavEvent>();
 
 const {
   sidenav,
@@ -55,19 +52,16 @@ const { item, text } = SidenavItemStyles();
 const SidenavContext = createContext<SidenavContextValue | null>(null);
 
 export function Sidenav({
-  hidden = false,
+  isHiddenWhenClosed = false,
   children,
   className,
   ...rest
 }: SidenavProps) {
   const [open, setOpen] = useState(false);
 
-  useEffect(
-    () => bus.on(SidenavEventTypes.toggle, () => setOpen(!open)),
-    [open],
-  );
+  useOn<SidenavEvent>(SidenavEventTypes.toggle, () => setOpen(!open));
 
-  return hidden && !open ? null : (
+  return isHiddenWhenClosed && !open ? null : (
     <nav {...rest} data-open={open || null} className={sidenav({ className })}>
       <HeadingContext value={{ className: title() }}>
         <SidenavContext.Provider value={{ open }}>
@@ -80,17 +74,18 @@ export function Sidenav({
 Sidenav.displayName = 'Sidenav';
 
 function SidenavHeader({ children, classNames, ...rest }: SidenavHeaderProps) {
+  const emit = useEmit<SidenavEvent>(SidenavEventTypes.toggle);
   return (
     <Header {...rest} className={header({ className: classNames?.header })}>
       <Button
         className={headerButton({ className: classNames?.button })}
         variant='icon'
-        onPress={() => bus.emit(SidenavEventTypes.toggle, '')}
+        onPress={() => emit('')}
       >
         <div className={logoContainer({ className: classNames?.container })}>
-          <HeadingContext value={{ className: expanded() }}>
+          <HeadingContext.Provider value={{ className: expanded() }}>
             {children}
-          </HeadingContext>
+          </HeadingContext.Provider>
           <Icon className={expanded({ className: classNames?.icon })}>
             <ChevronLeft />
           </Icon>
@@ -102,8 +97,9 @@ function SidenavHeader({ children, classNames, ...rest }: SidenavHeaderProps) {
 SidenavHeader.displayName = 'Sidenav.Header';
 
 function SidenavTrigger({ children, ...rest }: SidenavTriggerProps) {
+  const emit = useEmit<SidenavEvent>(SidenavEventTypes.toggle);
   return (
-    <Pressable {...rest} onPress={() => bus.emit(SidenavEventTypes.toggle, {})}>
+    <Pressable {...rest} onPress={() => emit('')}>
       {children}
     </Pressable>
   );
@@ -120,20 +116,15 @@ function SidenavItem({ children, classNames, ...rest }: SidenavItemProps) {
     ],
   });
   return (
-    <ToggleButton
-      {...rest}
-      variant='icon'
-      className={item({ className: classNames?.button })}
-    >
-      <Provider
-        values={[
-          [IconContext, {}],
-          [TextContext, { className: text() }],
-        ]}
+    <TextContext.Provider value={{ className: text() }}>
+      <ToggleButton
+        {...rest}
+        variant='icon'
+        className={item({ className: classNames?.button })}
       >
         {children}
-      </Provider>
-    </ToggleButton>
+      </ToggleButton>
+    </TextContext.Provider>
   );
 }
 SidenavItem.displayName = 'Sidenav.Item';

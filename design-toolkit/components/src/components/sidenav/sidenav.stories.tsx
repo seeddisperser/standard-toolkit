@@ -39,7 +39,9 @@ export default meta;
 export const Default: StoryObj<SidenavWithLayoutArgs> = {
   render: ({ hidden, pushLayout }) => {
     const push = pushLayout ? 'left' : undefined;
-    const className = hidden ? undefined : '[--drawer-main-col-start:2]';
+    const className = hidden
+      ? undefined
+      : '[--drawer-main-col-start:2] sudo:[--route-layout-grid-rows:1fr]';
     return (
       <div className='h-screen bg-surface-raised text-default-light'>
         <Drawer.Layout className={className} push={push}>

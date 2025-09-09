@@ -14,4 +14,6 @@ export const SidenavEventNamespace = 'Sidenav';
 
 export const SidenavEventTypes = {
   toggle: `${SidenavEventNamespace}:toggle`,
+  open: `${SidenavEventNamespace}:open`,
+  close: `${SidenavEventNamespace}:close`,
 } as const;

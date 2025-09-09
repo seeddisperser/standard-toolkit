@@ -11,32 +11,27 @@
  */
 
 import type { Payload } from '@accelint/bus';
-import type { FocusableElement } from '@react-types/shared';
-import type { DOMAttributes, PropsWithChildren, ReactElement } from 'react';
+import type { ComponentProps, PropsWithChildren } from 'react';
+import type { Pressable } from 'react-aria-components';
 import type { ToggleButtonProps } from '../button/types';
 import type { SidenavEventTypes } from './events';
 
-export type SidenavProps = PropsWithChildren<{
-  className?: string;
-  hidden?: boolean;
-}>;
-
-export type SidenavDividerProps = { className?: string };
-
-export type SidenavTriggerProps = {
-  children: ReactElement<DOMAttributes<FocusableElement>, string>;
+export type SidenavProps = ComponentProps<'nav'> & {
+  isHiddenWhenClosed?: boolean;
 };
+
+export type SidenavDividerProps = ComponentProps<'hr'>;
+
+export type SidenavTriggerProps = ComponentProps<typeof Pressable>;
 
 export type SidenavEvent = Payload<typeof SidenavEventTypes.toggle>;
 
-export type SidenavItemProps = PropsWithChildren<
-  Omit<ToggleButtonProps, 'children'> & {
-    classNames?: {
-      button?: string;
-      icon?: string;
-    };
-  }
->;
+export type SidenavItemProps = ToggleButtonProps & {
+  classNames?: {
+    button?: string;
+    icon?: string;
+  };
+};
 
 export type SidenavHeaderProps = PropsWithChildren<{
   classNames?: {

@@ -16,7 +16,7 @@ export const SidenavStyles = tv({
   slots: {
     sidenav: [
       'group/sidenav',
-      'z-5 flex h-screen flex-col gap-xs p-m',
+      'z-5 flex h-full flex-col gap-xs p-m',
       'fg-a11y-on-accent bg-surface-default',
       'group-[&:not([data-push])]/layout:open:absolute',
     ],
@@ -28,7 +28,7 @@ export const SidenavStyles = tv({
       'size-large:h-[49px] size-large:w-[200px] group-open/sidenav:gap-m',
     ],
     expanded: 'group-closed/sidenav:hidden',
-    divider: 'my-s border-[var(--outline-static)] group-open/sidenav:hidden',
+    divider: 'my-s bg-[var(--outline-static)] group-open/sidenav:hidden',
     title: 'mt-m mb-xs text-body-xs uppercase group-closed/sidenav:hidden',
   },
 });
