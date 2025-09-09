@@ -111,7 +111,7 @@
     --outline-static: var(--primitive-neutral-600, #414245);
     --outline-interactive: var(--primitive-neutral-600, #414245);
     --outline-interactive-hover: var(--primitive-neutral-400, #888a8f);
-    --outline-interactive-pressed: var(--primitive-neutral-700, #2f2f31);
+    --outline-interactive-pressed: var(--primitive-neutral-700, #38393A);
     --outline-interactive-disabled: var(--primitive-neutral-700, #2f2f31);
     --outline-accent-primary-bold: var(--primitive-accent-primary-300, #39b7fa);
     --outline-accent-primary-hover: var(--primitive-accent-primary-200, #6ed1ff);
@@ -122,6 +122,7 @@
     --outline-advisory-bold: var(--primitive-utility-advisory-400, #62a6ff);
     --outline-advisory-hover: var(--primitive-utility-advisory-200, #a9ceff);
     --outline-advisory-pressed: var(--primitive-utility-advisory-600, #3c67a0);
+    --outline-mono-bold: var(--primitive-neutral-50, #FFFFFF);
     --outline-mono-bold-pressed: var(--primitive-neutral-300, #C3C5C7);
     --outline-normal-bold: var(--primitive-utility-normal-400, #2bbf35);
     --outline-normal-hover: var(--primitive-utility-normal-200, #86e98c);
