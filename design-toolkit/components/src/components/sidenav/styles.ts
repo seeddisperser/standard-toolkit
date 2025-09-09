@@ -16,7 +16,7 @@ export const SidenavStyles = tv({
   slots: {
     sidenav: [
       'group/sidenav',
-      'z-5 flex h-full flex-col gap-xs p-m row-span-full',
+      'z-5 row-span-full flex h-full flex-col gap-xs p-m',
       'fg-a11y-on-accent bg-surface-default',
       'open:absolute',
       'group-data-[push=left]/layout:open:relative',
@@ -37,14 +37,21 @@ export const SidenavStyles = tv({
 export const SidenavItemStyles = tv({
   slots: {
     item: [
-      'flex w-full items-center px-s py-xs group-open/sidenav:gap-s',
-      'enabled:color-info:hover:bg-accent-primary-hover',
-      'disabled:color-info:hover:bg-interactive-disabled',
-      'enabled:color-info:pressed:bg-accent-primary-pressed',
-      'selected:color-info:pressed:bg-accent-primary-pressed',
-      'enabled:color-info:selected:bg-accent-primary-bold',
-      'selected:color-info:pressed:bg-accent-primary-pressed',
-      'enabled:color-info:focus-visible:bg-accent-primary-hover',
+      'flex w-full items-center rounded-medium p-xs text-body-m group-open/sidenav:gap-s',
+      'group-open/sidenav:px-s',
+      'focus-visible:outline-none',
+      'enabled:cursor-pointer',
+      'enabled:hover:bg-interactive-muted-hover',
+      'enabled:focus-visible:bg-interactive-muted-hover',
+      'enabled:pressed:bg-accent-primary-pressed',
+      'enabled:selected:hover:bg-accent-primary-hover',
+      'enabled:selected:bg-accent-primary-bold',
+      'enabled:selected:focus-visible:bg-accent-primary-hover',
+      'disabled:hover:bg-interactive-disabled',
+      'disabled:fg-disabled',
+      'disabled:cursor-not-allowed',
+      'selected:pressed:bg-accent-primary-pressed',
+      'selected:pressed:bg-accent-primary-pressed',
     ],
     text: 'flex-1 text-left text-body-s group-closed/sidenav:hidden',
   },

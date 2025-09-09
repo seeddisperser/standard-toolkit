@@ -20,11 +20,13 @@ import {
   Header,
   HeadingContext,
   Pressable,
+  Provider,
   Text,
   TextContext,
+  ToggleButton,
 } from 'react-aria-components';
-import { Button, ToggleButton } from '../button';
-import { Icon } from '../icon';
+import { Button } from '../button';
+import { Icon, IconContext } from '../icon';
 import { SidenavEventTypes } from './events';
 import { SidenavItemStyles, SidenavStyles } from './styles';
 import type {
@@ -116,15 +118,19 @@ function SidenavItem({ children, classNames, ...rest }: SidenavItemProps) {
     ],
   });
   return (
-    <TextContext.Provider value={{ className: text() }}>
+    <Provider
+      values={[
+        [IconContext, { size: 'medium' }],
+        [TextContext, { className: text() }],
+      ]}
+    >
       <ToggleButton
         {...rest}
-        variant='icon'
         className={item({ className: classNames?.button })}
       >
         {children}
       </ToggleButton>
-    </TextContext.Provider>
+    </Provider>
   );
 }
 SidenavItem.displayName = 'Sidenav.Item';

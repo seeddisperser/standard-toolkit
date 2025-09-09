@@ -12,8 +12,7 @@
 
 import type { Payload } from '@accelint/bus';
 import type { ComponentProps, PropsWithChildren } from 'react';
-import type { Pressable } from 'react-aria-components';
-import type { ToggleButtonProps } from '../button/types';
+import type { Pressable, ToggleButtonProps } from 'react-aria-components';
 import type { SidenavEventTypes } from './events';
 
 export type SidenavProps = ComponentProps<'nav'> & {
