@@ -12,28 +12,8 @@
 
 'use client';
 
-import {
-  bodies,
-  ThemeProvider as DSThemeProvider,
-  families,
-} from '@accelint/design-system';
 import { ThemeProvider as DTKThemeProvider } from '@accelint/design-toolkit';
-import { clsx } from 'clsx';
-import { Defaults } from './defaults';
-import { theme, vars } from './theme.css';
 import type { PropsWithChildren } from 'react';
-
-export function DSTheme({ children }: PropsWithChildren) {
-  return (
-    <DSThemeProvider
-      className={clsx(families.sans, bodies.md)}
-      theme={theme}
-      vars={vars}
-    >
-      <Defaults>{children}</Defaults>
-    </DSThemeProvider>
-  );
-}
 
 export function DTKTheme({ children }: PropsWithChildren) {
   return (
