@@ -13,12 +13,12 @@
 import { Placeholder } from '@accelint/icons';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import type { ReactNode } from 'react';
 import { Heading, Text } from 'react-aria-components';
 import { describe, expect, it } from 'vitest';
 import { Button } from '../button';
 import { Icon } from '../icon';
 import { Sidenav } from './';
+import type { ReactNode } from 'react';
 import type { SidenavProps } from './types';
 
 function setup(
