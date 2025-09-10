@@ -1,4 +1,3 @@
-import { Placeholder } from '@accelint/icons';
 /*
  * Copyright 2025 Hypergiant Galactic Systems Inc. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
@@ -12,21 +11,10 @@ import { Placeholder } from '@accelint/icons';
  */
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import { Icon } from '../icon';
 import { Link } from '.';
 import type { LinkProps } from './types';
 
-function setup({
-  children = (
-    <>
-      <Icon data-testid='icon'>
-        <Placeholder />
-      </Icon>
-      Text
-    </>
-  ),
-  ...rest
-}: Partial<LinkProps> = {}) {
+function setup({ children = <>Text</>, ...rest }: Partial<LinkProps> = {}) {
   render(<Link {...rest}>{children}</Link>);
 
   return {
@@ -39,7 +27,6 @@ describe('Link', () => {
   it('should render', () => {
     setup();
 
-    expect(screen.getByTestId('icon')).toBeInTheDocument();
     expect(screen.getByText('Text')).toBeInTheDocument();
   });
 });

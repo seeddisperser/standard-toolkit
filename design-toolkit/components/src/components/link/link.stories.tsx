@@ -14,21 +14,22 @@ import { Placeholder } from '@accelint/icons';
 import { Icon } from '../icon';
 import { Link } from './index';
 import type { Meta, StoryObj } from '@storybook/react';
+import type { ReactNode } from 'react';
 
 const meta: Meta<typeof Link> = {
   title: 'Components/Link',
   component: Link,
   args: {
+    allowsVisited: false,
     children: 'Text',
     isDisabled: false,
     isVisited: false,
-    allowsVisited: false,
   },
   argTypes: {
-    isDisabled: {
+    allowsVisited: {
       control: 'boolean',
     },
-    allowsVisited: {
+    isDisabled: {
       control: 'boolean',
     },
   },
@@ -37,20 +38,7 @@ const meta: Meta<typeof Link> = {
 export default meta;
 
 export const Default: StoryObj<typeof Link> = {
-  render: (args) => <Link {...args} />,
-};
-
-export const WithIcon: StoryObj<typeof Link> = {
-  render: ({ children, ...args }) => (
-    <Link {...args}>
-      <>
-        <Icon>
-          <Placeholder />
-        </Icon>
-        {children}
-      </>
-    </Link>
-  ),
+  render: Link,
 };
 
 export const CustomVisitedStyles: StoryObj<typeof Link> = {
@@ -62,32 +50,28 @@ export const CustomVisitedStyles: StoryObj<typeof Link> = {
       {...args}
       className='enabled:visited:fg-accent-primary-pressed enabled:visited:underline'
     >
-      <Link>{children}</Link>
+      <Link isVisited>{children}</Link>
     </Link.Provider>
   ),
 };
 
-export const Injected: StoryObj<typeof Link> = {
+export const Multiple: StoryObj<typeof Link> = {
   render: ({ children, ...args }) => (
     <>
       <p className='fg-primary-bold'>
         Some example text with a
         <Link {...args}>
-          <>
-            <Icon>
-              <Placeholder />
-            </Icon>
-            {children}
-          </>
+          <Icon size='small'>
+            <Placeholder />
+          </Icon>
+          {children as ReactNode}
         </Link>
         injected into it. There can be multiple
         <Link {...args}>
-          <>
-            <Icon>
-              <Placeholder />
-            </Icon>
-            {children}
-          </>
+          <Icon size='small'>
+            <Placeholder />
+          </Icon>
+          {children as ReactNode}
         </Link>
         here.
       </p>

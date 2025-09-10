@@ -28,19 +28,6 @@ It is composed of the following components:
 
 <Canvas of={LinkStories.Default} />
 
-### Link with Icon
-```tsx
-<Link href="/profile">
-  <Icon>
-    <User />
-  </Icon>
-  My Profile
-</Link>
-
-```
-
-<Canvas of={LinkStories.WithIcon} />
-
 ### Custom Visited State
 ```tsx
 <Link allowsVisited href="/styled-visited">
@@ -48,8 +35,8 @@ It is composed of the following components:
 </Link>
 
 // Custom visited styling
-<Link.Provider className="enabled:visited:fg-accent-primary-pressed enabled:visited:underline">
-  <Link allowsVisited href="/styled-visited">
+<Link.Provider allowsVisited className="enabled:visited:fg-accent-primary-pressed enabled:visited:underline">
+  <Link href="/styled-visited">
     Custom visited styles
   </Link>
 </Link.Provider>
@@ -68,7 +55,7 @@ Links can be seamlessly integrated into text content:
 </p>
 ```
 
-<Canvas of={LinkStories.Injected} />
+<Canvas of={LinkStories.Multiple} />
 
 ## Props
 

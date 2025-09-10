@@ -10,9 +10,11 @@
  * governing permissions and limitations under the License.
  */
 
+import type { RefAttributes } from 'react';
 import type { LinkProps as AriaLinkProps } from 'react-aria-components';
 
-export type LinkProps = AriaLinkProps & {
-  allowsVisited?: boolean;
-  isVisited?: boolean;
-};
+export type LinkProps = AriaLinkProps &
+  RefAttributes<HTMLAnchorElement> & {
+    allowsVisited?: boolean;
+    isVisited?: boolean;
+  };

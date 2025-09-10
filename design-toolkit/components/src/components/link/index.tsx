@@ -12,62 +12,41 @@
 'use client';
 
 import 'client-only';
-import { useCallback, useState } from 'react';
 import {
   Link as AriaLink,
   composeRenderProps,
   LinkContext,
-  type PressEvent,
   useContextProps,
 } from 'react-aria-components';
-import { Icon } from '../icon';
 import { LinkStyles } from './styles';
 import type { ProviderProps } from '@/lib/types';
 import type { LinkProps } from './types';
-
-export function Link(props: LinkProps) {
-  const [
-    {
-      allowsVisited = false,
-      isVisited = false,
-      children,
-      onPress,
-      className,
-      ...rest
-    },
-  ] = useContextProps(props, null, LinkContext);
-  const [visited, setVisited] = useState(isVisited);
-
-  const handleOnPress = useCallback(
-    (e: PressEvent) => {
-      if (allowsVisited) {
-        setVisited(true);
-      }
-      onPress?.(e);
-    },
-    [allowsVisited, onPress],
-  );
-
-  return (
-    <AriaLink
-      {...rest}
-      onPress={handleOnPress}
-      data-visited={visited || null}
-      className={composeRenderProps(className, (className) =>
-        LinkStyles({ className }),
-      )}
-    >
-      {composeRenderProps(children, (children) => (
-        <Icon.Provider size='xsmall'>{children}</Icon.Provider>
-      ))}
-    </AriaLink>
-  );
-}
-Link.displayName = 'Link';
 
 function LinkProvider({ children, ...props }: ProviderProps<LinkProps>) {
   return <LinkContext.Provider value={props}>{children}</LinkContext.Provider>;
 }
 LinkProvider.displayName = 'Link.Provider';
 
+export function Link({ ref, ...props }: LinkProps) {
+  [props, ref] = useContextProps(props, ref ?? null, LinkContext);
+
+  const {
+    allowsVisited = false,
+    className,
+    isVisited = false,
+    ...rest
+  } = props;
+
+  return (
+    <AriaLink
+      {...rest}
+      ref={ref}
+      className={composeRenderProps(className, (className) =>
+        LinkStyles({ className }),
+      )}
+      data-visited={(allowsVisited && isVisited) || null}
+    />
+  );
+}
+Link.displayName = 'Link';
 Link.Provider = LinkProvider;
