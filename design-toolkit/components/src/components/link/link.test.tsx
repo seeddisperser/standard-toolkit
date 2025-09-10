@@ -13,7 +13,7 @@ import { Placeholder } from '@accelint/icons';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import { Icon } from '../icon';
-import { Link } from './';
+import { Link } from '.';
 import type { LinkProps } from './types';
 
 function setup({
