@@ -11,8 +11,8 @@
  */
 'use client';
 
-import 'client-only';
 import type { ProviderProps } from '@/lib/types';
+import 'client-only';
 import { createContext } from 'react';
 import {
   Button as AriaButton,
@@ -159,7 +159,7 @@ export function LinkButton({ ref, ...props }: LinkButtonProps) {
   const {
     children,
     className,
-    color = 'info',
+    color = 'mono-muted',
     size = 'medium',
     variant,
     ...rest
