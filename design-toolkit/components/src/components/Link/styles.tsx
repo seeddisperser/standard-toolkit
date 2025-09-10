@@ -14,11 +14,11 @@ import { tv } from 'tailwind-variants';
 
 export const LinkStyles = tv({
   base: [
-    'inline-flex gap-xs px-xs items-center leading-none',
+    'inline-flex items-center gap-xs px-xs leading-none',
     'enabled:fg-accent-primary-bold',
-    'enabled:hover:bg-interactive-bold-hover enabled:hover:fg-accent-primary-hover',
-    'enabled:focus-visible:bg-interactive-bold-hover enabled:focus-visible:fg-accent-primary-hover',
-    'enabled:pressed:bg-interactive-bold-pressed enabled:pressed:fg-accent-primary-pressed',
+    'enabled:hover:fg-accent-primary-hover enabled:hover:bg-interactive-bold-hover',
+    'enabled:focus-visible:fg-accent-primary-hover enabled:focus-visible:bg-interactive-bold-hover',
+    'enabled:pressed:fg-accent-primary-pressed enabled:pressed:bg-interactive-bold-pressed',
     'enabled:cursor-pointer',
     'disabled:fg-disabled',
     'disabled:cursor-not-allowed',
