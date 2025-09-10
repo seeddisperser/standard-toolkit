@@ -181,6 +181,9 @@ export type { LabelProps } from './components/label/types';
 export { Lines } from './components/lines';
 export { LinesStyles } from './components/lines/styles';
 export type { LinesProps, LinesStylesVariants } from './components/lines/types';
+export { Link } from './components/link';
+export { LinkStyles } from './components/link/styles';
+export type { LinkProps } from './components/link/types';
 export { Menu, MenuContext } from './components/menu';
 export { MenuStyles, MenuStylesDefaults } from './components/menu/styles';
 export type {
