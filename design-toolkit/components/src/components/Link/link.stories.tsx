@@ -11,9 +11,9 @@
  */
 
 import { Placeholder } from '@accelint/icons';
-import type { Meta, StoryObj } from '@storybook/react';
 import { Icon } from '../icon/';
 import { Link } from './index';
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof Link> = {
   title: 'Components/Link',

@@ -12,17 +12,17 @@
 'use client';
 
 import 'client-only';
-import type { ProviderProps } from '@/lib/types';
 import { useCallback, useState } from 'react';
 import {
   Link as AriaLink,
+  composeRenderProps,
   LinkContext,
   type PressEvent,
-  composeRenderProps,
   useContextProps,
 } from 'react-aria-components';
 import { Icon } from '../icon';
 import { LinkStyles } from './styles';
+import type { ProviderProps } from '@/lib/types';
 import type { LinkProps } from './types';
 
 export function Link(props: LinkProps) {
