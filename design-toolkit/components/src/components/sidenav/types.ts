@@ -9,21 +9,16 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-
-import type { Payload } from '@accelint/bus';
-import type { ComponentProps, PropsWithChildren } from 'react';
+import type { ComponentPropsWithRef, PropsWithChildren } from 'react';
 import type { Pressable, ToggleButtonProps } from 'react-aria-components';
-import type { SidenavEventTypes } from './events';
 
-export type SidenavProps = ComponentProps<'nav'> & {
+export type SidenavProps = ComponentPropsWithRef<'nav'> & {
   isHiddenWhenClosed?: boolean;
 };
 
-export type SidenavDividerProps = ComponentProps<'hr'>;
+export type SidenavDividerProps = ComponentPropsWithRef<'hr'>;
 
-export type SidenavTriggerProps = ComponentProps<typeof Pressable>;
-
-export type SidenavEvent = Payload<typeof SidenavEventTypes.toggle>;
+export type SidenavTriggerProps = ComponentPropsWithRef<typeof Pressable>;
 
 export type SidenavItemProps = ToggleButtonProps & {
   classNames?: {

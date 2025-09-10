@@ -15,44 +15,33 @@ import { tv } from 'tailwind-variants';
 export const SidenavStyles = tv({
   slots: {
     sidenav: [
-      'group/sidenav',
-      'z-5 row-span-full flex h-full flex-col gap-xs p-m',
-      'fg-a11y-on-accent bg-surface-default',
-      'open:absolute',
-      'group-data-[push=left]/layout:open:relative',
+      'group/sidenav fg-a11y-on-accent absolute left-0 row-span-full flex h-full flex-col gap-xs bg-surface-default p-m',
+      'closed:items-center',
+      'group-data-[push~=left]/layout:relative',
     ],
-    header: 'flex justify-center group-closed/sidenav:mb-m',
-    headerButton: 'p-0 size-medium:p-0 enabled:hover:color-info:bg-inherit',
-    logoContainer: [
-      'flex items-center text-left',
-      'size-small:h-[35px] size-small:w-[35px] [&:not(.group/logo)]:hidden',
-      'size-large:h-[49px] size-large:w-[200px] group-open/sidenav:gap-m',
-    ],
-    expanded: 'group-closed/sidenav:hidden',
-    divider: 'my-s bg-[var(--outline-static)] group-open/sidenav:hidden',
-    title: 'mt-m mb-xs text-body-xs uppercase group-closed/sidenav:hidden',
-  },
-});
-
-export const SidenavItemStyles = tv({
-  slots: {
-    item: [
-      'flex w-full items-center rounded-medium p-xs text-body-m group-open/sidenav:gap-s',
-      'group-open/sidenav:px-s',
-      'focus-visible:outline-none',
-      'enabled:cursor-pointer',
+    header: 'mb-m flex justify-center',
+    toggle: [
+      'flex cursor-pointer items-center gap-s rounded-medium p-xs',
       'enabled:hover:bg-interactive-muted-hover',
-      'enabled:focus-visible:bg-interactive-muted-hover',
+      'enabled:focus-visible:bg-interactive-muted-hover enabled:focus-visible:outline-none',
       'enabled:pressed:bg-accent-primary-pressed',
-      'enabled:selected:hover:bg-accent-primary-hover',
-      'enabled:selected:bg-accent-primary-bold',
-      'enabled:selected:focus-visible:bg-accent-primary-hover',
-      'disabled:hover:bg-interactive-disabled',
-      'disabled:fg-disabled',
-      'disabled:cursor-not-allowed',
-      'selected:pressed:bg-accent-primary-pressed',
-      'selected:pressed:bg-accent-primary-pressed',
     ],
-    text: 'flex-1 text-left text-body-s group-closed/sidenav:hidden',
+    divider:
+      'my-s h-[1px] w-full shrink-0 grow-0 border-0 bg-[var(--outline-static)]',
+    heading: 'text-body-xs uppercase',
+    item: [
+      'flex cursor-pointer items-center gap-s rounded-medium p-xs text-body-m',
+      'group-open/sidenav:px-s',
+      'enabled:hover:bg-interactive-muted-hover',
+      'enabled:focus-visible:bg-interactive-muted-hover enabled:focus-visible:outline-none',
+      'enabled:pressed:bg-accent-primary-pressed',
+      'enabled:selected:bg-accent-primary-bold',
+      'enabled:selected:hover:bg-accent-primary-hover',
+      'enabled:selected:focus-visible:bg-accent-primary-hover',
+      'enabled:selected:pressed:bg-accent-primary-pressed',
+      'disabled:fg-disabled disabled:cursor-not-allowed',
+    ],
+    text: 'grow-1 text-left text-body-s',
+    transient: 'group-closed/sidenav:hidden',
   },
 });

@@ -12,11 +12,11 @@
 'use client';
 
 import 'client-only';
-import { containsExactChildren } from '@/lib/react';
 import { useEmit, useOn } from '@accelint/bus/react';
 import { ChevronLeft } from '@accelint/icons';
 import { createContext, useState } from 'react';
 import {
+  Button,
   Header,
   HeadingContext,
   Pressable,
@@ -25,73 +25,67 @@ import {
   TextContext,
   ToggleButton,
 } from 'react-aria-components';
-import { Button } from '../button';
+import { containsExactChildren } from '@/lib/react';
 import { Icon, IconContext } from '../icon';
 import { SidenavEventTypes } from './events';
-import { SidenavItemStyles, SidenavStyles } from './styles';
+import { SidenavStyles } from './styles';
 import type {
   SidenavContextValue,
   SidenavDividerProps,
-  SidenavEvent,
   SidenavHeaderProps,
   SidenavItemProps,
   SidenavProps,
   SidenavTriggerProps,
 } from './types';
 
-const {
-  sidenav,
-  header,
-  logoContainer,
-  expanded,
-  title,
-  divider,
-  headerButton,
-} = SidenavStyles();
-
-const { item, text } = SidenavItemStyles();
+const { sidenav, header, toggle, heading, divider, item, text, transient } =
+  SidenavStyles();
 
 const SidenavContext = createContext<SidenavContextValue | null>(null);
 
 export function Sidenav({
-  isHiddenWhenClosed = false,
-  children,
   className,
+  isHiddenWhenClosed,
   ...rest
 }: SidenavProps) {
   const [open, setOpen] = useState(false);
 
-  useOn<SidenavEvent>(SidenavEventTypes.toggle, () => setOpen(!open));
+  useOn(SidenavEventTypes.toggle, () => setOpen((prev) => !prev));
 
-  return isHiddenWhenClosed && !open ? null : (
-    <nav {...rest} data-open={open || null} className={sidenav({ className })}>
-      <HeadingContext value={{ className: title() }}>
-        <SidenavContext.Provider value={{ open }}>
-          {children}
-        </SidenavContext.Provider>
-      </HeadingContext>
-    </nav>
+  if (isHiddenWhenClosed && !open) {
+    return null;
+  }
+
+  return (
+    <Provider
+      values={[
+        [HeadingContext, { className: heading({ className: transient() }) }],
+        [SidenavContext, { open }],
+      ]}
+    >
+      <nav
+        {...rest}
+        className={sidenav({ className })}
+        data-open={open || null}
+      />
+    </Provider>
   );
 }
 Sidenav.displayName = 'Sidenav';
 
 function SidenavHeader({ children, classNames, ...rest }: SidenavHeaderProps) {
-  const emit = useEmit<SidenavEvent>(SidenavEventTypes.toggle);
+  const emit = useEmit(SidenavEventTypes.toggle);
+
   return (
     <Header {...rest} className={header({ className: classNames?.header })}>
       <Button
-        className={headerButton({ className: classNames?.button })}
-        variant='icon'
-        onPress={() => emit('')}
+        className={toggle({ className: classNames?.button })}
+        onPress={() => emit(undefined)}
       >
-        <div className={logoContainer({ className: classNames?.container })}>
-          <HeadingContext.Provider value={{ className: expanded() }}>
-            {children}
-          </HeadingContext.Provider>
-          <Icon className={expanded({ className: classNames?.icon })}>
-            <ChevronLeft />
-          </Icon>
-        </div>
+        <Icon.Provider size='large'>{children}</Icon.Provider>
+        <Icon className={transient()}>
+          <ChevronLeft />
+        </Icon>
       </Button>
     </Header>
   );
@@ -99,9 +93,10 @@ function SidenavHeader({ children, classNames, ...rest }: SidenavHeaderProps) {
 SidenavHeader.displayName = 'Sidenav.Header';
 
 function SidenavTrigger({ children, ...rest }: SidenavTriggerProps) {
-  const emit = useEmit<SidenavEvent>(SidenavEventTypes.toggle);
+  const emit = useEmit(SidenavEventTypes.toggle);
+
   return (
-    <Pressable {...rest} onPress={() => emit('')}>
+    <Pressable {...rest} onPress={() => emit(undefined)}>
       {children}
     </Pressable>
   );
@@ -117,11 +112,12 @@ function SidenavItem({ children, classNames, ...rest }: SidenavItemProps) {
       [Text, { min: 1, max: 1 }],
     ],
   });
+
   return (
     <Provider
       values={[
         [IconContext, { size: 'medium' }],
-        [TextContext, { className: text() }],
+        [TextContext, { className: text({ className: transient() }) }],
       ]}
     >
       <ToggleButton

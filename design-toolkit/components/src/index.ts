@@ -236,11 +236,10 @@ export {
   SidenavEventTypes,
 } from './components/sidenav/events';
 export { Sidenav } from './components/sidenav';
-export { SidenavItemStyles, SidenavStyles } from './components/sidenav/styles';
+export { SidenavStyles } from './components/sidenav/styles';
 export type {
   SidenavContextValue,
   SidenavDividerProps,
-  SidenavEvent,
   SidenavHeaderProps,
   SidenavItemProps,
   SidenavProps,

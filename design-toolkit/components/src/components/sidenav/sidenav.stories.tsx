@@ -10,13 +10,13 @@
  * governing permissions and limitations under the License.
  */
 import { ExpandLeftPanel, Placeholder } from '@accelint/icons';
-import type { Meta, StoryObj } from '@storybook/react';
-import type { ComponentProps } from 'react';
 import { Heading, Text } from 'react-aria-components';
 import { Button } from '../button';
 import { Drawer } from '../drawer';
 import { Icon } from '../icon';
 import { Sidenav } from './index';
+import type { Meta, StoryObj } from '@storybook/react';
+import type { ComponentProps } from 'react';
 
 type SidenavWithLayoutArgs = ComponentProps<typeof Sidenav> & {
   pushLayout?: boolean;
@@ -29,83 +29,76 @@ const meta: Meta<SidenavWithLayoutArgs> = {
     layout: 'fullscreen',
   },
   args: {
+    pushLayout: true,
     isHiddenWhenClosed: false,
-    pushLayout: false,
   },
 };
 
 export default meta;
 
 export const Default: StoryObj<SidenavWithLayoutArgs> = {
-  render: ({ isHiddenWhenClosed, pushLayout }) => {
-    const push = pushLayout ? 'left' : undefined;
-    return (
-      <div className='h-screen bg-surface-raised text-default-light'>
-        <Drawer.Layout push={push}>
-          <Drawer.Layout.Main>
-            <nav className='flex items-center bg-surface-default p-m'>
-              <Sidenav.Trigger>
-                <Button variant='icon' size='large'>
-                  <Icon>
-                    <ExpandLeftPanel />
-                  </Icon>
-                </Button>
-              </Sidenav.Trigger>
-            </nav>
-          </Drawer.Layout.Main>
-          <Sidenav isHiddenWhenClosed={isHiddenWhenClosed}>
-            <Sidenav.Header>
-              <Icon size='large'>
-                <Placeholder />
-              </Icon>
-              <div>
-                <Heading className='text-header-m'>Application Header</Heading>
-                <Heading className='text-header-s'>subheader</Heading>
-              </div>
-            </Sidenav.Header>
-
-            <Heading>Title</Heading>
-            <Sidenav.Item>
-              <Icon>
-                <Placeholder />
-              </Icon>
-              <Text>Nav item</Text>
-            </Sidenav.Item>
-            <Sidenav.Item>
-              <Icon>
-                <Placeholder />
-              </Icon>
-              <Text>Nav item</Text>
-            </Sidenav.Item>
-            <Sidenav.Item>
-              <Icon>
-                <Placeholder />
-              </Icon>
-              <Text>Nav item</Text>
-            </Sidenav.Item>
-            <Sidenav.Divider />
-            <Heading>Title</Heading>
-            <Sidenav.Item isDisabled>
-              <Icon>
-                <Placeholder />
-              </Icon>
-              <Text>Nav item</Text>
-            </Sidenav.Item>
-            <Sidenav.Item>
-              <Icon>
-                <Placeholder />
-              </Icon>
-              <Text>Nav item</Text>
-            </Sidenav.Item>
-            <Sidenav.Item isSelected>
-              <Icon>
-                <Placeholder />
-              </Icon>
-              <Text>Nav item</Text>
-            </Sidenav.Item>
-          </Sidenav>
-        </Drawer.Layout>
-      </div>
-    );
-  },
+  render: ({ isHiddenWhenClosed, pushLayout }) => (
+    <div className='h-screen bg-surface-raised text-default-light'>
+      <Drawer.Layout push={pushLayout ? 'left' : undefined}>
+        <Drawer.Layout.Main>
+          <nav className='flex items-center bg-surface-default p-m'>
+            <Sidenav.Trigger>
+              <Button variant='icon' size='large'>
+                <Icon>
+                  <ExpandLeftPanel />
+                </Icon>
+              </Button>
+            </Sidenav.Trigger>
+          </nav>
+        </Drawer.Layout.Main>
+        <Sidenav isHiddenWhenClosed={isHiddenWhenClosed}>
+          <Sidenav.Header>
+            <Icon>
+              <Placeholder />
+            </Icon>
+            <Heading>Application Header</Heading>
+          </Sidenav.Header>
+          <Heading>Title</Heading>
+          <Sidenav.Item>
+            <Icon>
+              <Placeholder />
+            </Icon>
+            <Text>Nav item</Text>
+          </Sidenav.Item>
+          <Sidenav.Item>
+            <Icon>
+              <Placeholder />
+            </Icon>
+            <Text>Nav item</Text>
+          </Sidenav.Item>
+          <Sidenav.Item>
+            <Icon>
+              <Placeholder />
+            </Icon>
+            <Text>Nav item</Text>
+          </Sidenav.Item>
+          <Sidenav.Divider />
+          <Heading>Title</Heading>
+          <Sidenav.Item isDisabled>
+            <Icon>
+              <Placeholder />
+            </Icon>
+            <Text>Nav item</Text>
+          </Sidenav.Item>
+          <Sidenav.Item>
+            <Icon>
+              <Placeholder />
+            </Icon>
+            <Text>Nav item</Text>
+          </Sidenav.Item>
+          <Sidenav.Item isSelected>
+            <Icon>
+              <Placeholder />
+            </Icon>
+            <Text>Nav item</Text>
+          </Sidenav.Item>
+        </Sidenav>
+      </Drawer.Layout>
+    </div>
+  ),
 };
