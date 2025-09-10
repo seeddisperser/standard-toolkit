@@ -231,6 +231,20 @@ export type {
 export { SelectField, SelectFieldContext } from './components/select-field';
 export { SelectFieldStyles } from './components/select-field/styles';
 export type { SelectFieldProps } from './components/select-field/types';
+export {
+  SidenavEventNamespace,
+  SidenavEventTypes,
+} from './components/sidenav/events';
+export { Sidenav } from './components/sidenav';
+export { SidenavStyles } from './components/sidenav/styles';
+export type {
+  SidenavContextValue,
+  SidenavDividerProps,
+  SidenavHeaderProps,
+  SidenavItemProps,
+  SidenavProps,
+  SidenavTriggerProps,
+} from './components/sidenav/types';
 export { Skeleton } from './components/skeleton';
 export {
   SkeletonStyles,
