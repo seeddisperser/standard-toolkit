@@ -41,6 +41,7 @@ export const DrawerStyles = tv({
       'grid grid-cols-[var(--route-layout-grid-cols)] grid-rows-[var(--route-layout-grid-rows)]',
       'transition-[grid-template-columns,grid-template-rows]',
       'h-full max-h-full w-full',
+      // biome-ignore lint/style/noUnusedTemplateLiteral: This is necessary to properly evaulate \/
       `has-[.group\\/sidenav]:[--drawer-main-col-start:2]`,
     ],
     main: 'relative z-1 col-[var(--drawer-main-cols)] row-[var(--drawer-main-rows)]',
