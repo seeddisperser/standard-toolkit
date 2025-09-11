@@ -9,4 +9,24 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+import { render, screen } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+import { Link } from '.';
+import type { LinkProps } from './types';
 
+function setup({ children = <>Text</>, ...rest }: Partial<LinkProps> = {}) {
+  render(<Link {...rest}>{children}</Link>);
+
+  return {
+    ...rest,
+    children,
+  };
+}
+
+describe('Link', () => {
+  it('should render', () => {
+    setup();
+
+    expect(screen.getByText('Text')).toBeInTheDocument();
+  });
+});

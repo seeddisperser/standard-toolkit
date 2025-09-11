@@ -10,3 +10,15 @@
  * governing permissions and limitations under the License.
  */
 
+import { tv } from 'tailwind-variants';
+
+export const LinkStyles = tv({
+  base: [
+    'inline-flex cursor-pointer items-center gap-[0.5ch] px-[0.5ch] align-bottom',
+    'enabled:fg-accent-primary-bold',
+    'enabled:hover:fg-accent-primary-hover enabled:hover:bg-interactive-bold-hover',
+    'enabled:focus-visible:fg-accent-primary-hover enabled:focus-visible:bg-interactive-bold-hover',
+    'enabled:pressed:fg-accent-primary-pressed enabled:pressed:bg-interactive-bold-pressed',
+    'disabled:fg-disabled disabled:cursor-not-allowed',
+  ],
+});
