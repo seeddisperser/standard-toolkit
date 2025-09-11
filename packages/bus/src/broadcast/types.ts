@@ -24,10 +24,16 @@ export type Listener<P extends Payload = Payload> = {
 };
 
 /** Listener callback payload type. */
-export type Payload<T extends string = string, P = unknown> = {
-  type: T;
-  payload?: P;
-};
+// biome-ignore lint/suspicious/noExplicitAny: intentional
+export type Payload<T extends string = string, P = unknown> = P extends any
+  ? {
+      type: T;
+      payload: P;
+    }
+  : {
+      type: T;
+      payload?: never;
+    };
 
 export type ExtractEvent<
   P extends Payload = Payload,
