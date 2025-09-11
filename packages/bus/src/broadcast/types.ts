@@ -26,7 +26,7 @@ export type Listener<P extends Payload = Payload> = {
 /** Listener callback payload type. */
 export type Payload<T extends string = string, P = unknown> = {
   type: T;
-  payload: P;
+  payload?: P;
 };
 
 export type ExtractEvent<

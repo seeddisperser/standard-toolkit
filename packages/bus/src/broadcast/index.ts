@@ -193,7 +193,10 @@ export class Broadcast<P extends Payload = Payload> {
    *   },
    * );
    */
-  emit<T extends P['type']>(type: T, payload: ExtractEvent<P, T>['payload']) {
+  emit<T extends P['type']>(
+    type: T,
+    payload?: ExtractEvent<P, T> extends { payload: infer Data } ? Data : never,
+  ) {
     if (!this.channel) {
       console.warn('Cannot emit: BroadcastChannel is not initialized.');
       return;
