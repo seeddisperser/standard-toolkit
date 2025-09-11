@@ -45,8 +45,8 @@ const BaseButtonStyles = tv({
 
         // Accent
         'enabled:color-accent:fg-a11y-on-accent enabled:color-accent:bg-accent-primary-bold',
-        'enabled:hover:color-accent:bg-accent-hover',
-        'enabled:focus-visible:color-accent:bg-accent-hover',
+        'enabled:hover:color-accent:bg-accent-primary-hover',
+        'enabled:focus-visible:color-accent:bg-accent-primary-hover',
         'enabled:pressed:color-accent:fg-accent-primary-bold enabled:pressed:color-accent:bg-accent-primary-pressed',
 
         // Serious
@@ -132,6 +132,35 @@ const BaseButtonStyles = tv({
         'disabled:fg-disabled disabled:bg-transparent',
         'disabled:hover:bg-interactive-disabled',
         'disabled:focus-within:bg-interactive-disabled',
+
+        // Mono Muted
+        'enabled:color-mono-muted:fg-primary-muted',
+        'enabled:hover:color-mono-muted:bg-interactive-muted-hover',
+        'enabled:focus-visible:color-mono-muted:bg-interactive-muted-hover',
+        'enabled:pressed:color-mono-muted:fg-pressed enabled:pressed:color-mono-muted:bg-interactive-muted-pressed',
+        // Mono Bold
+        'enabled:color-mono-bold:fg-primary-bold',
+        'enabled:hover:color-mono-bold:bg-interactive-muted-hover',
+        'enabled:focus-within:color-mono-bold:bg-interactive-muted-hover',
+        'enabled:pressed:color-mono-bold:fg-pressed enabled:pressed:color-mono-bold:bg-interactive-muted-pressed',
+
+        // Accent
+        'enabled:color-accent:fg-accent-primary-bold',
+        'enabled:hover:color-accent:fg-accent-primary-hover enabled:hover:color-accent:bg-interactive-muted-hover',
+        'enabled:focus-within:color-accent:fg-accent-primary-hover enabled:focus-within:color-accent:bg-interactive-muted-hover',
+        'enabled:pressed:color-accent:fg-accent-primary-pressed enabled:pressed:color-accent:bg-interactive-muted-pressed',
+
+        // Serious
+        'enabled:color-serious:fg-serious-bold',
+        'enabled:hover:color-serious:fg-serious-hover enabled:hover:color-serious:bg-interactive-muted-hover',
+        'enabled:focus-within:color-serious:fg-serious-hover enabled:focus-within:color-serious:bg-interactive-muted-hover',
+        'enabled:pressed:color-serious:fg-serious-pressed enabled:pressed:color-serious:bg-interactive-muted-pressed',
+
+        // Critical
+        'enabled:color-critical:fg-critical-bold',
+        'enabled:hover:color-critical:fg-critical-hover enabled:hover:color-critical:bg-interactive-muted-hover',
+        'enabled:focus-within:color-critical:fg-critical-hover enabled:focus-within:color-critical:bg-interactive-muted-hover',
+        'enabled:pressed:color-critical:fg-critical-pressed enabled:pressed:color-critical:bg-interactive-muted-pressed',
       ],
       floating: [
         'rounded-full',
@@ -166,59 +195,7 @@ const BaseButtonStyles = tv({
     },
   },
   compoundVariants: [
-    // Mono Muted
-    {
-      variant: ['flat', 'icon'],
-      className: [
-        'enabled:color-mono-muted:fg-primary-muted',
-        'enabled:hover:color-mono-muted:bg-interactive-muted-hover',
-        'enabled:focus-visible:color-mono-muted:bg-interactive-muted-hover',
-        'enabled:pressed:color-mono-muted:fg-pressed enabled:pressed:color-mono-muted:bg-interactive-muted-pressed',
-      ],
-    },
-    // Mono Bold
-    {
-      variant: ['flat', 'icon'],
-      className: [
-        'enabled:color-mono-bold:fg-primary-bold',
-        'enabled:hover:color-mono-bold:bg-interactive-muted-hover',
-        'enabled:focus-within:color-mono-bold:bg-interactive-muted-hover',
-        'enabled:pressed:color-mono-bold:fg-pressed enabled:pressed:color-mono-bold:bg-interactive-muted-pressed',
-      ],
-    },
-
-    // Accent
-    {
-      variant: ['flat', 'icon'],
-      className: [
-        'enabled:color-accent:fg-accent-primary-bold',
-        'enabled:hover:color-accent:fg-accent-primary-hover enabled:hover:color-accent:bg-interactive-muted-hover',
-        'enabled:focus-within:color-accent:fg-accent-primary-hover enabled:focus-within:color-accent:bg-interactive-muted-hover',
-        'enabled:pressed:color-accent:fg-accent-primary-pressed enabled:pressed:color-accent:bg-interactive-muted-pressed',
-      ],
-    },
-
-    // Serious
-    {
-      variant: ['flat', 'icon'],
-      className: [
-        'enabled:color-serious:fg-serious-bold',
-        'enabled:hover:color-serious:fg-serious-hover enabled:hover:color-serious:bg-interactive-muted-hover',
-        'enabled:focus-within:color-serious:fg-serious-hover enabled:focus-within:color-serious:bg-interactive-muted-hover',
-        'enabled:pressed:color-serious:fg-serious-pressed enabled:pressed:color-serious:bg-interactive-muted-pressed',
-      ],
-    },
-
-    // Critical
-    {
-      variant: ['flat', 'icon'],
-      className: [
-        'enabled:color-critical:fg-critical-bold',
-        'enabled:hover:color-critical:fg-critical-hover enabled:hover:color-critical:bg-interactive-muted-hover',
-        'enabled:focus-within:color-critical:fg-critical-hover enabled:focus-within:color-critical:bg-interactive-muted-hover',
-        'enabled:pressed:color-critical:fg-critical-pressed enabled:pressed:color-critical:bg-interactive-muted-pressed',
-      ],
-    },
+    // TODO: What compound variants do we need with updated styles?
   ],
   defaultVariants: ButtonStylesDefaults,
 });
@@ -234,10 +211,11 @@ export const LinkButtonStyles = tv({
 export const ToggleButtonStyles = tv({
   extend: BaseButtonStyles,
   base: [
-    // TODO: Full accent style here as base?
-    'enabled:selected:fg-accent-primary-bold',
-    'enabled:selected:hover:fg-accent-primary-bold',
-    'enabled:selected:focus-visible:fg-accent-primary-bold',
+    // TODO: Do we want accent as the default styling?
+    'enabled:color-accent:fg-accent-primary-bold enabled:color-accent:bg-transparent',
+    'enabled:hover:color-accent:fg-accent-primary-hover enabled:hover:color-accent:bg-accent-primary-muted',
+    'enabled:focus-within:color-accent:fg-accent-primary-hover enabled:focus-within:color-accent:bg-accent-primary-muted',
+    'enabled:pressed:color-accent:fg-accent-primary-bold enabled:pressed:color-accent:bg-accent-primary-pressed',
   ],
   variants: {
     variant: {
@@ -268,7 +246,7 @@ export const ToggleButtonStyles = tv({
 
         // Accent
         'enabled:color-accent:fg-accent-primary-bold enabled:color-accent:bg-transparent',
-        'enabled:hover:color-accent:fg-accent-primary-hover enabled:hover:color-accent:bg-accent-primary-muted', // ? bg?
+        'enabled:hover:color-accent:fg-accent-primary-hover enabled:hover:color-accent:bg-accent-primary-muted',
         'enabled:focus-within:color-accent:fg-accent-primary-hover enabled:focus-within:color-accent:bg-accent-primary-muted',
         'enabled:pressed:color-accent:fg-accent-primary-bold enabled:pressed:color-accent:bg-accent-primary-pressed',
 
@@ -301,6 +279,67 @@ export const ToggleButtonStyles = tv({
         'enabled:selected:hover:color-critical:fg-a11y-on-accent enabled:selected:hover:color-critical:bg-critical-hover enabled:selected:hover:color-critical:outline-2',
         'enabled:selected:focus-within:color-critical:fg-a11y-on-accent enabled:selected:focus-within:color-critical:bg-critical-hover enabled:selected:focus-within:color-critical:outline-2',
         'enabled:selected:pressed:color-critical:fg-critical-bold enabled:selected:pressed:color-critical:bg-critical-pressed enabled:selected:pressed:color-critical:outline-2 enabled:selected:pressed:color-critical:outline-critical-pressed',
+      ],
+      outline: [
+        // Mono Muted
+        'enabled:color-mono-muted:fg-primary-bold enabled:color-mono-muted:bg-transparent enabled:color-mono-muted:outline enabled:color-mono-muted:outline-interactive',
+        'enabled:hover:color-mono-muted:bg-interactive-muted-hover enabled:hover:color-mono-muted:outline-2 enabled:hover:color-mono-muted:outline-interactive-hover',
+        'enabled:focus-visible:color-mono-muted:bg-interactive-muted-hover enabled:focus-within:color-mono-muted:outline-2 enabled:focus-within:color-mono-muted:outline-interactive-hover',
+        'enabled:pressed:color-mono-muted:fg-pressed enabled:pressed:color-mono-muted:bg-interactive-muted-pressed enabled:pressed:color-mono-muted:outline-2 enabled:pressed:color-mono-muted:outline-interactive-pressed',
+
+        // Mono Muted - Selected
+        'enabled:selected:color-mono-muted:fg-primary-muted enabled:selected:color-mono-muted:bg-interactive-muted enabled:selected:color-mono-muted:outline enabled:selected:color-mono-muted:outline-interactive-hover',
+        'enabled:selected:hover:color-mono-muted:fg-hover enabled:selected:hover:color-mono-muted:bg-interactive-muted-hover enabled:selected:hover:color-mono-muted:outline-2',
+        'enabled:selected:focus-visible:color-mono-muted:bg-interactive-muted-hover enabled:selected:focus-within:color-mono-muted:outline-2',
+        'enabled:selected:pressed:color-mono-muted:fg-pressed enabled:selected:pressed:color-mono-muted:bg-interactive-muted-pressed enabled:selected:pressed:color-mono-muted:outline-2',
+
+        // Mono Bold TODO: Why not working.
+        'enabled:color-mono-bold:fg-primary-bold enabled:color-mono-bold:outline enabled:color-mono-bold:outline-mono-bold',
+        'enabled:hover:color-mono-bold:bg-interactive-muted-hover enabled:hover:color-mono-bold:outline-2 enabled:hover:color-mono-bold:outline-mono-bold-hover',
+        'enabled:focus-within:color-mono-bold:bg-interactive-muted-hover enabled:focus-within:color-mono-bold:outline-2 enabled:focus-within:color-mono-bold:outline-mono-bold-hover',
+        'enabled:pressed:color-mono-bold:fg-pressed enabled:pressed:color-mono-bold:bg-interactive-muted-pressed',
+
+        // Mono Bold - Selected TODO: Hover/Focus-within.
+        'enabled:selected:color-mono-bold:fg-primary-bold enabled:selected:color-mono-bold:outline enabled:selected:color-mono-bold:outline-mono-bold',
+        'enabled:selected:hover:color-mono-bold:fg-hover enabled:selected:hover:color-mono-bold:bg-interactive-muted-hover enabled:selected:hover:color-mono-bold:outline-2',
+        'enabled:selected:hover:color-mono-bold:outline-2 enabled:selected:focus-within:color-mono-bold:bg-interactive-muted-hover enabled:selected:focus-within:color-mono-bold:outline-2',
+        'enabled:selected:pressed:color-mono-bold:fg-pressed enabled:selected:pressed:color-mono-bold:bg-interactive-muted-pressed enabled:selected:pressed:color-mono-bold:outline-2 enabled:selected:pressed:color-mono-bold:outline-interactive-pressed',
+
+        // Accent
+        'enabled:color-accent:fg-accent-primary-bold enabled:color-accent:bg-transparent enabled:color-accent:outline enabled:color-accent:outline-accent-primary-bold ',
+        'enabled:hover:color-accent:fg-accent-primary-hover enabled:hover:color-accent:bg-accent-primary-muted enabled:hover:color-accent:outline-2 enabled:hover:color-accent:outline-accent-primary-hover',
+        'enabled:focus-within:color-accent:fg-accent-primary-hover enabled:focus-within:color-accent:bg-accent-primary-muted enabled:focus-within:color-accent:outline-2 enabled:focus-within:color-accent:outline-accent-primary-hover',
+        'enabled:pressed:color-accent:fg-pressed enabled:pressed:color-accent:bg-interactive-muted-pressed enabled:pressed:color-accent:outline-2 enabled:pressed:color-accent:outline-accent-primary-pressed',
+
+        // Accent - Selected
+        'enabled:selected:color-accent:fg-accent-primary-bold enabled:selected:color-accent:bg-accent-primary-muted enabled:color-accent:outline enabled:selected:color-accent:outline-accent-primary-bold',
+        'enabled:selected:hover:color-accent:fg-a11y-on-accent enabled:selected:hover:color-accent:bg-accent-primary-hover enabled:selected:hover:color-accent:outline-2 enabled:selected:hover:color-accent:outline-accent-primary-hover',
+        'enabled:selected:focus-within:color-accent:fg-a11y-on-accent enabled:selected:focus-within:color-accent:bg-accent-primary-hover enabled:selected:focus-within:color-accent:outline-2 enabled:selected:focus-within:color-accent:outline-accent-primary-hover',
+        'enabled:selected:pressed:color-accent:fg-accent-primary-bold enabled:selected:pressed:color-accent:bg-accent-primary-pressed enabled:selected:pressed:color-accent:outline-2 enabled:selected:pressed:color-accent:outline-accent-primary-pressed',
+
+        // Serious
+        'enabled:color-serious:fg-primary-bold enabled:color-serious:bg-transparent enabled:color-serious:outline enabled:color-serious:outline-serious-bold',
+        'enabled:hover:color-serious:fg-primary-bold enabled:hover:color-serious:bg-serious-bold enabled:hover:color-serious:outline-2 enabled:hover:color-serious:outline-serious-hover',
+        'enabled:focus-within:color-serious:fg-primary-bold enabled:focus-within:color-serious:bg-serious-muted enabled:focus-within:color-serious:outline-2 enabled:focus-within:color-serious:outline-serious-hover',
+        'enabled:pressed:color-serious:fg-serious-bold enabled:pressed:color-serious:bg-serious-pressed enabled:pressed:color-serious:outline-2 enabled:pressed:color-serious:outline-serious-pressed',
+
+        // Serious - Selected
+        'enabled:selected:color-serious:fg-serious-bold enabled:selected:color-serious:bg-serious-muted enabled:selected:color-serious:outline-serious-muted',
+        'enabled:selected:hover:color-serious:fg-primary-bold enabled:selected:hover:color-serious:bg-serious-hover enabled:selected:hover:color-serious:outline-serious-hover',
+        'enabled:selected:focus-within:color-serious:fg-primary-bold enabled:selected:focus-within:color-serious:bg-serious-hover enabled:selected:focus-within:color-serious:outline-serious-hover',
+        'enabled:selected:pressed:color-serious:fg-serious-pressed enabled:selected:pressed:color-serious:bg-serious-pressed enabled:selected:pressed:color-serious:outline-2 enabled:selected:pressed:color-serious:outline-serious-pressed',
+
+        // Critical
+        'enabled:color-critical:fg-primary-bold enabled:color-critical:bg-transparent enabled:color-critical:outline enabled:color-critical:outline-critical-bold',
+        'enabled:hover:color-critical:fg-primary-bold enabled:hover:color-critical:bg-critical-bold enabled:hover:color-critical:outline-2 enabled:hover:color-critical:outline-critical-hover',
+        'enabled:focus-within:color-critical:fg-primary-bold enabled:focus-within:color-critical:bg-critical-muted enabled:focus-within:color-critical:outline-2 enabled:focus-within:color-critical:outline-critical-hover',
+        'enabled:pressed:color-critical:fg-critical-bold enabled:pressed:color-critical:bg-critical-pressed enabled:pressed:color-critical:outline-2 enabled:pressed:color-critical:outline-critical-pressed',
+
+        // Critical - Selected
+        'enabled:selected:color-critical:fg-critical-bold enabled:selected:color-critical:bg-critical-muted enabled:selected:color-critical:outline-critical-muted',
+        'enabled:selected:hover:color-critical:fg-primary-bold enabled:selected:hover:color-critical:bg-critical-hover enabled:selected:hover:color-critical:outline-critical-hover',
+        'enabled:selected:focus-within:color-critical:fg-primary-bold enabled:selected:focus-within:color-critical:bg-critical-hover enabled:selected:focus-within:color-critical:outline-critical-hover',
+        'enabled:selected:pressed:color-critical:fg-critical-pressed enabled:selected:pressed:color-critical:bg-critical-pressed enabled:selected:pressed:color-critical:outline-2 enabled:selected:pressed:color-critical:outline-serious-pressed',
       ],
       // TODO: Determine styling for this piece.
       floating: [
