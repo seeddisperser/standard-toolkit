@@ -40,9 +40,15 @@ export function useEmit<
 >(type: T) {
   const bus = useRef(Broadcast.getInstance<P>());
 
-  return useEffectEvent((payload: ExtractEvent<P, T>['payload']) => {
-    bus.current.emit(type, payload);
-  });
+  return useEffectEvent(
+    (
+      payload?: ExtractEvent<P, T> extends { payload: infer Data }
+        ? Data
+        : never,
+    ) => {
+      bus.current.emit(type, payload);
+    },
+  );
 }
 
 /**
