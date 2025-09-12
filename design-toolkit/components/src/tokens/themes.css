@@ -123,7 +123,8 @@
     --outline-advisory-bold: var(--primitive-utility-advisory-400, #62a6ff);
     --outline-advisory-hover: var(--primitive-utility-advisory-200, #a9ceff);
     --outline-advisory-pressed: var(--primitive-utility-advisory-600, #3c67a0);
-    --outline-mono-bold: var(--primitive-neutral-50, #FFFFFF);
+    --outline-mono-bold: var(--primitive-neutral-50, #ffffff);
+    --outline-mono-bold: var(--primitive-neutral-100, #EFF1F2);
     --outline-mono-bold-pressed: var(--primitive-neutral-300, #C3C5C7);
     --outline-normal-bold: var(--primitive-utility-normal-400, #2bbf35);
     --outline-normal-hover: var(--primitive-utility-normal-200, #86e98c);
@@ -214,6 +215,8 @@
     --outline-advisory-bold: var(--primitive-utility-advisory-400, #62a6ff);
     --outline-advisory-hover: var(--primitive-utility-advisory-600, #3c67a0);
     --outline-advisory-pressed: var(--primitive-utility-advisory-500, #4e88da);
+    /* TODO: Need lightmode mono-bold colors. */
+    --outline-mono-bold: var(--primitive-neutral-50, #ffffff); /* What is token. */
     --outline-normal-bold: var(--primitive-utility-normal-400, #2bbf35);
     --outline-normal-hover: var(--primitive-utility-normal-600, #1c7e23);
     --outline-normal-pressed: var(--primitive-utility-normal-500, #26a12e);
@@ -632,6 +635,11 @@
 --icon-color: var(--fg-primary-bold);
 }
 
+@utility fg-hover {
+  color: var(--fg-hover);
+  --icon-color: var(--fg-hover);
+}
+
 @utility fg-primary-muted {
  color: var(--fg-primary-muted);
 --icon-color: var(--fg-primary-muted);
@@ -818,6 +826,14 @@
 
 @utility outline-normal-pressed {
  outline-color: var(--outline-normal-pressed);
+}
+
+@utility outline-mono-bold {
+  outline-color: var(--outline-mono-bold);
+}
+
+@utility outline-mono-bold-hover {
+  outline-color: var(--outline-mono-bold);
 }
 
 @utility outline-serious-bold {

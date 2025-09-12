@@ -71,7 +71,7 @@ const BaseButtonStyles = tv({
         'enabled:pressed:color-mono-muted:fg-pressed enabled:pressed:color-mono-muted:bg-interactive-muted-pressed enabled:pressed:color-mono-muted:outline-interactive-pressed',
 
         // Mono Bold
-        'enabled:color-mono-bold:fg-primary-bold enabled:color-mono-bold:outline-mono-bold',
+        'enabled:color-mono-bold:fg-primary-bold enabled:color-mono-bold:outline enabled:color-mono-bold:outline-mono-bold',
         'enabled:hover:color-mono-bold:bg-interactive-muted-hover enabled:hover:color-mono-bold:outline-interactive-hover',
         'enabled:focus-visible:color-mono-bold:bg-interactive-muted-hover enabled:focus-visible:color-mono-bold:outline-interactive-hover',
         'enabled:pressed:color-mono-bold:fg-pressed enabled:pressed:color-mono-bold:bg-interactive-muted-pressed enabled:pressed:color-mono-bold:outline-mono-bold-pressed',
@@ -293,16 +293,16 @@ export const ToggleButtonStyles = tv({
         'enabled:selected:focus-visible:color-mono-muted:bg-interactive-muted-hover enabled:selected:focus-within:color-mono-muted:outline-2',
         'enabled:selected:pressed:color-mono-muted:fg-pressed enabled:selected:pressed:color-mono-muted:bg-interactive-muted-pressed enabled:selected:pressed:color-mono-muted:outline-2',
 
-        // Mono Bold TODO: Why not working.
-        'enabled:color-mono-bold:fg-primary-bold enabled:color-mono-bold:outline enabled:color-mono-bold:outline-mono-bold',
+        // Mono Bold
+        'enabled:color-mono-bold:fg-primary-bold enabled:color-mono-bold:bg-transparent enabled:color-mono-bold:outline enabled:color-mono-bold:outline-mono-bold', // ?
         'enabled:hover:color-mono-bold:bg-interactive-muted-hover enabled:hover:color-mono-bold:outline-2 enabled:hover:color-mono-bold:outline-mono-bold-hover',
         'enabled:focus-within:color-mono-bold:bg-interactive-muted-hover enabled:focus-within:color-mono-bold:outline-2 enabled:focus-within:color-mono-bold:outline-mono-bold-hover',
         'enabled:pressed:color-mono-bold:fg-pressed enabled:pressed:color-mono-bold:bg-interactive-muted-pressed',
 
-        // Mono Bold - Selected TODO: Hover/Focus-within.
+        // Mono Bold - Selected
         'enabled:selected:color-mono-bold:fg-primary-bold enabled:selected:color-mono-bold:outline enabled:selected:color-mono-bold:outline-mono-bold',
-        'enabled:selected:hover:color-mono-bold:fg-hover enabled:selected:hover:color-mono-bold:bg-interactive-muted-hover enabled:selected:hover:color-mono-bold:outline-2',
-        'enabled:selected:hover:color-mono-bold:outline-2 enabled:selected:focus-within:color-mono-bold:bg-interactive-muted-hover enabled:selected:focus-within:color-mono-bold:outline-2',
+        'enabled:selected:hover:color-mono-bold:fg-inverse-bold enabled:selected:hover:color-mono-bold:bg-interactive-bold-hover enabled:selected:hover:color-mono-bold:outline-2 enabled:selected:hover:color-mono-bold:outline-mono-bold-hover',
+        'enabled:selected:focuse-within:color-mono-bold:fg-inverse-bold enabled:selected:focuse-within:color-mono-bold:bg-interactive-bold-hover enabled:selected:focuse-within:color-mono-bold:outline-2 enabled:selected:focus-within:color-mono-bold:bg-interactive-muted-hover enabled:selected:focus-within:color-mono-bold:outline-2',
         'enabled:selected:pressed:color-mono-bold:fg-pressed enabled:selected:pressed:color-mono-bold:bg-interactive-muted-pressed enabled:selected:pressed:color-mono-bold:outline-2 enabled:selected:pressed:color-mono-bold:outline-interactive-pressed',
 
         // Accent
@@ -341,7 +341,6 @@ export const ToggleButtonStyles = tv({
         'enabled:selected:focus-within:color-critical:fg-primary-bold enabled:selected:focus-within:color-critical:bg-critical-hover enabled:selected:focus-within:color-critical:outline-critical-hover',
         'enabled:selected:pressed:color-critical:fg-critical-pressed enabled:selected:pressed:color-critical:bg-critical-pressed enabled:selected:pressed:color-critical:outline-2 enabled:selected:pressed:color-critical:outline-serious-pressed',
       ],
-      // TODO: Determine styling for this piece.
       floating: [
         // Info
         'enabled:selected:color-info:outline-accent-primary-bold',
