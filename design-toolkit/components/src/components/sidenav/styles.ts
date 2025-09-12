@@ -19,18 +19,26 @@ export const SidenavStyles = tv({
       'closed:items-center',
       'group-data-[push~=left]/layout:relative',
     ],
+    content: 'flex h-full max-h-full flex-col gap-xs overflow-y-auto',
     header: 'mb-m flex justify-center',
+    avatar: [
+      'grid grid-cols-[auto_1fr] grid-rows-2 items-center gap-x-m [grid-template-areas:"icon_heading"_"icon_text"] group-closed/sidenav:flex',
+    ],
+    avatarIcon: '[grid-area:icon]',
+    avatarHeading: 'fg-primary-bold text-body-m [grid-area:heading]',
+    avatarText:
+      'fg-primary-muted grow-1 text-left text-body-s [grid-area:text]',
     toggle: [
-      'flex cursor-pointer items-center gap-s rounded-medium p-xs',
+      'flex cursor-pointer items-center gap-s rounded-medium p-xs group-open/sidenav:px-s',
       'enabled:hover:bg-interactive-muted-hover',
       'enabled:focus-visible:bg-interactive-muted-hover enabled:focus-visible:outline-none',
-      'enabled:pressed:bg-accent-primary-pressed',
+      'enabled:pressed:bg-interactive-muted-pressed',
     ],
     divider:
       'my-s h-[1px] w-full shrink-0 grow-0 border-0 bg-[var(--outline-static)]',
     heading: 'text-body-xs uppercase',
     item: [
-      'flex cursor-pointer items-center gap-s rounded-medium p-xs text-body-m',
+      'flex w-full cursor-pointer items-center gap-s rounded-medium p-xs text-body-m',
       'group-open/sidenav:px-s',
       'enabled:hover:bg-interactive-muted-hover',
       'enabled:focus-visible:bg-interactive-muted-hover enabled:focus-visible:outline-none',
