@@ -241,8 +241,11 @@ export {
 export { Sidenav } from './components/sidenav';
 export { SidenavStyles } from './components/sidenav/styles';
 export type {
+  SidenavAvatarProps,
+  SidenavContentProps,
   SidenavContextValue,
   SidenavDividerProps,
+  SidenavFooterProps,
   SidenavHeaderProps,
   SidenavItemProps,
   SidenavProps,
@@ -329,7 +332,11 @@ export type {
   UseTreeState,
   UseTreeStateOptions,
 } from './hooks/use-tree/types';
-export { containsExactChildren, expectsIconWrapper } from './lib/react';
+export {
+  containsAnyOfExactChildren,
+  containsExactChildren,
+  expectsIconWrapper,
+} from './lib/react';
 export type {
   AriaAttributes,
   AriaAttributesWithRef,
