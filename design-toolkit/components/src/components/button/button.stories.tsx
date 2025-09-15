@@ -10,48 +10,48 @@
  * governing permissions and limitations under the License.
  */
 
-import { Placeholder } from "@accelint/icons";
-import type { Meta, StoryObj } from "@storybook/react";
-import { composeRenderProps } from "react-aria-components";
-import { Icon } from "../icon";
-import { Button, LinkButton, ToggleButton } from "./";
-import { ButtonStylesDefaults } from "./styles";
+import { Placeholder } from '@accelint/icons';
+import type { Meta, StoryObj } from '@storybook/react';
+import { composeRenderProps } from 'react-aria-components';
+import { Icon } from '../icon';
+import { Button, LinkButton, ToggleButton } from './';
+import { ButtonStylesDefaults } from './styles';
 
 const meta: Meta<typeof Button> = {
-  title: "Components/Button",
+  title: 'Components/Button',
   component: Button,
   args: {
-    children: "Button",
+    children: 'Button',
     color: ButtonStylesDefaults.color,
-    size: "medium",
+    size: 'medium',
     variant: ButtonStylesDefaults.variant,
     isDisabled: false,
   },
   argTypes: {
     color: {
-      control: "select",
-      options: ["mono-muted", "mono-bold", "accent", "serious", "critical"],
+      control: 'select',
+      options: ['mono-muted', 'mono-bold', 'accent', 'serious', 'critical'],
     },
     size: {
-      control: "select",
-      options: ["large", "medium", "small", "xsmall"],
+      control: 'select',
+      options: ['large', 'medium', 'small', 'xsmall'],
     },
     variant: {
-      control: "select",
-      options: ["filled", "outline", "flat", "icon", "floating"],
+      control: 'select',
+      options: ['filled', 'outline', 'flat', 'icon', 'floating'],
     },
   },
   parameters: {
     controls: {
       exclude: [
-        "form",
-        "formAction",
-        "formEncType",
-        "formMethod",
-        "formNoValidate",
-        "formTarget",
-        "name",
-        "value",
+        'form',
+        'formAction',
+        'formEncType',
+        'formMethod',
+        'formNoValidate',
+        'formTarget',
+        'name',
+        'value',
       ],
     },
   },
