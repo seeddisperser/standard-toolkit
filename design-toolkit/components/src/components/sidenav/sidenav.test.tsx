@@ -10,6 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
+import { uuid } from '@accelint/core';
 import { Placeholder } from '@accelint/icons';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -20,6 +21,8 @@ import { Icon } from '../icon';
 import { Sidenav } from './';
 import type { ReactNode } from 'react';
 import type { SidenavProps } from './types';
+
+const id = uuid();
 
 function setup(
   {
@@ -42,6 +45,28 @@ function setup(
             </Icon>
             <Text>Nav item</Text>
           </Sidenav.Item>
+          <Sidenav.Divider />
+          <Heading>External</Heading>
+          <Sidenav.Link href='#' textValue='Link item'>
+            <Icon>
+              <Placeholder />
+            </Icon>
+            <Text>Link item</Text>
+          </Sidenav.Link>
+          <Sidenav.Divider />
+          <Heading>Menu</Heading>
+          <Sidenav.Menu
+            icon={
+              <Icon>
+                <Placeholder />
+              </Icon>
+            }
+            title='Settings'
+          >
+            <Sidenav.Menu.Item>
+              <Text>Menu Item</Text>
+            </Sidenav.Menu.Item>
+          </Sidenav.Menu>
         </Sidenav.Content>
         <Sidenav.Footer>
           <Sidenav.Avatar>
@@ -57,7 +82,7 @@ function setup(
     ...rest
   }: Partial<SidenavProps> = {},
   outside: ReactNode = (
-    <Sidenav.Trigger>
+    <Sidenav.Trigger for={id}>
       <Button>Open</Button>
     </Sidenav.Trigger>
   ),
@@ -65,7 +90,7 @@ function setup(
   return {
     ...render(
       <>
-        <Sidenav {...rest} data-testid='nav'>
+        <Sidenav {...rest} id={id} data-testid='nav'>
           {children}
         </Sidenav>
         {outside}
@@ -84,6 +109,13 @@ describe('Sidenav', () => {
     expect(screen.queryByText('subheader')).toHaveClass(/hidden/);
     expect(screen.queryByText('Title')).toHaveClass(/hidden/);
     expect(screen.queryByText('Nav item')).toHaveClass(/hidden/);
+    expect(screen.queryByText('External')).toHaveClass(/hidden/);
+    expect(screen.queryByText('Link item')).toHaveClass(/hidden/);
+    expect(screen.queryByText('Menu')).toHaveClass(/hidden/);
+    screen.queryAllByText('Settings').forEach((el) => {
+      expect(el).toHaveClass(/hidden/);
+    });
+    expect(screen.queryByText('Menu Item')).toBeInTheDocument();
     expect(screen.queryByText('FullName')).toHaveClass(/hidden/);
     expect(screen.queryByText('test@example.com')).toHaveClass(/hidden/);
   });

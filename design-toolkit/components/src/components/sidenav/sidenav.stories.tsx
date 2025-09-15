@@ -58,6 +58,8 @@ const sections = {
   ],
 };
 
+const id = uuid();
+
 export const Default: StoryObj<SidenavWithLayoutArgs> = {
   render: ({ isHiddenWhenClosed, pushLayout }) => {
     const [activeItem, setActiveItem] = useState(
@@ -68,7 +70,7 @@ export const Default: StoryObj<SidenavWithLayoutArgs> = {
         <Drawer.Layout push={pushLayout ? 'left' : undefined}>
           <Drawer.Layout.Main>
             <nav className='flex items-center bg-surface-default p-m'>
-              <Sidenav.Trigger>
+              <Sidenav.Trigger for={id}>
                 <Button variant='icon' size='large'>
                   <Icon>
                     <ExpandLeftPanel />
@@ -77,7 +79,7 @@ export const Default: StoryObj<SidenavWithLayoutArgs> = {
               </Sidenav.Trigger>
             </nav>
           </Drawer.Layout.Main>
-          <Sidenav isHiddenWhenClosed={isHiddenWhenClosed}>
+          <Sidenav id={id} isHiddenWhenClosed={isHiddenWhenClosed}>
             <Sidenav.Header>
               <Sidenav.Avatar>
                 <Icon>
@@ -126,6 +128,27 @@ export const Default: StoryObj<SidenavWithLayoutArgs> = {
                 </Icon>
                 <Text>Nav Link</Text>
               </Sidenav.Link>
+
+              <Sidenav.Divider />
+              <Heading>Menu</Heading>
+              <Sidenav.Menu
+                icon={
+                  <Icon>
+                    <Placeholder />
+                  </Icon>
+                }
+                title='Nav Item'
+              >
+                <Sidenav.Menu.Item>
+                  <Text>Sub item</Text>
+                </Sidenav.Menu.Item>
+                <Sidenav.Menu.Item>
+                  <Text>Sub item</Text>
+                </Sidenav.Menu.Item>
+                <Sidenav.Menu.Item isDisabled>
+                  <Text>Sub item</Text>
+                </Sidenav.Menu.Item>
+              </Sidenav.Menu>
             </Sidenav.Content>
             <Sidenav.Footer>
               <Sidenav.Item textValue='Application Footer'>
