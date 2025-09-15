@@ -251,7 +251,7 @@ export const ToggleButtonStyles = tv({
         'enabled:pressed:color-accent:fg-accent-primary-bold enabled:pressed:color-accent:bg-accent-primary-pressed',
 
         // Accent - Selected
-        'enabled:selected:color-accent:fg-accent-primary-bold enabled:selected:color-accent:bg-accent-primary-bold enabled:color-accent:outline enabled:selected:color-accent:outline-accent-primary-bold ',
+        'enabled:selected:color-accent:fg-accent-primary-bold enabled:selected:color-accent:bg-accent-primary-bold enabled:color-accent:outline enabled:selected:color-accent:outline-accent-primary-bold',
         'enabled:selected:hover:color-accent:fg-a11y-on-accent enabled:selected:hover:color-accent:bg-accent-primary-hover enabled:selected:hover:color-accent:outline-2',
         'enabled:selected:focus-within:color-accent:fg-a11y-on-accent enabled:selected:focus-within:color-accent:bg-accent-primary-hover enabled:selected:focus-within:color-accent:outline-2',
         'enabled:selected:pressed:color-accent:fg-accent-primary-bold enabled:selected:pressed:color-accent:bg-accent-primary-pressed enabled:selected:pressed:color-accent:outline-2',
@@ -306,7 +306,7 @@ export const ToggleButtonStyles = tv({
         'enabled:selected:pressed:color-mono-bold:fg-pressed enabled:selected:pressed:color-mono-bold:bg-interactive-muted-pressed enabled:selected:pressed:color-mono-bold:outline-2 enabled:selected:pressed:color-mono-bold:outline-interactive-pressed',
 
         // Accent
-        'enabled:color-accent:fg-accent-primary-bold enabled:color-accent:bg-transparent enabled:color-accent:outline enabled:color-accent:outline-accent-primary-bold ',
+        'enabled:color-accent:fg-accent-primary-bold enabled:color-accent:bg-transparent enabled:color-accent:outline enabled:color-accent:outline-accent-primary-bold',
         'enabled:hover:color-accent:fg-accent-primary-hover enabled:hover:color-accent:bg-accent-primary-muted enabled:hover:color-accent:outline-2 enabled:hover:color-accent:outline-accent-primary-hover',
         'enabled:focus-within:color-accent:fg-accent-primary-hover enabled:focus-within:color-accent:bg-accent-primary-muted enabled:focus-within:color-accent:outline-2 enabled:focus-within:color-accent:outline-accent-primary-hover',
         'enabled:pressed:color-accent:fg-pressed enabled:pressed:color-accent:bg-interactive-muted-pressed enabled:pressed:color-accent:outline-2 enabled:pressed:color-accent:outline-accent-primary-pressed',
