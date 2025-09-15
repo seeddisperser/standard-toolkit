@@ -11,32 +11,14 @@
  */
 
 import type { ComponentPropsWithRef, PropsWithChildren } from 'react';
-import type { Pressable, ToggleButtonProps } from 'react-aria-components';
-import type { LinkButtonProps } from '../button/types';
+import type {
+  LinkProps,
+  Pressable,
+  ToggleButtonProps,
+} from 'react-aria-components';
 
 export type SidenavProps = ComponentPropsWithRef<'nav'> & {
   isHiddenWhenClosed?: boolean;
-};
-
-export type SidenavDividerProps = ComponentPropsWithRef<'hr'>;
-export type SidenavFooterProps = ComponentPropsWithRef<'footer'>;
-export type SidenavAvatarProps = ComponentPropsWithRef<'div'>;
-export type SidenavContentProps = ComponentPropsWithRef<'div'>;
-
-export type SidenavTriggerProps = ComponentPropsWithRef<typeof Pressable>;
-
-export type SidenavItemProps = ToggleButtonProps & {
-  classNames?: {
-    button?: string;
-    icon?: string;
-  };
-};
-
-export type SidenavLinkProps = LinkButtonProps & {
-  classNames?: {
-    button?: string;
-    icon?: string;
-  };
 };
 
 export type SidenavHeaderProps = PropsWithChildren<{
@@ -47,6 +29,32 @@ export type SidenavHeaderProps = PropsWithChildren<{
     icon?: string;
   };
 }>;
+
+export type SidenavContentProps = ComponentPropsWithRef<'div'>;
+
+export type SidenavItemProps = ToggleButtonProps & {
+  classNames?: {
+    button?: string;
+    icon?: string;
+  };
+  textValue: string;
+};
+
+export type SidenavLinkProps = LinkProps & {
+  classNames?: {
+    button?: string;
+    icon?: string;
+  };
+  textValue: string;
+};
+
+export type SidenavAvatarProps = ComponentPropsWithRef<'div'>;
+
+export type SidenavDividerProps = ComponentPropsWithRef<'hr'>;
+
+export type SidenavFooterProps = ComponentPropsWithRef<'footer'>;
+
+export type SidenavTriggerProps = ComponentPropsWithRef<typeof Pressable>;
 
 export type SidenavContextValue = {
   open: boolean;

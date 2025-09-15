@@ -94,8 +94,9 @@ export const Default: StoryObj<SidenavWithLayoutArgs> = {
                   {items.map((item) => (
                     <Sidenav.Item
                       key={item.id}
-                      isSelected={activeItem === item.id}
+                      textValue={item.text}
                       isDisabled={item.disabled}
+                      isSelected={activeItem === item.id}
                       onPress={() =>
                         setActiveItem(activeItem === item.id ? null : item.id)
                       }
@@ -113,27 +114,26 @@ export const Default: StoryObj<SidenavWithLayoutArgs> = {
               ))}
               <Sidenav.Divider />
               <Heading>External</Heading>
-              <Sidenav.Link href='#'>
+              <Sidenav.Link href='#' textValue='Nav Link'>
                 <Icon>
                   <Placeholder />
                 </Icon>
                 <Text>Nav Link</Text>
               </Sidenav.Link>
-              <Sidenav.Link isDisabled href='#'>
+              <Sidenav.Link isDisabled href='#' textValue='Nav Link'>
                 <Icon>
                   <Placeholder />
                 </Icon>
                 <Text>Nav Link</Text>
               </Sidenav.Link>
             </Sidenav.Content>
-
             <Sidenav.Footer>
-              <Sidenav.Item>
+              <Sidenav.Item textValue='Application Footer'>
                 <Sidenav.Avatar>
                   <Icon>
                     <Placeholder />
                   </Icon>
-                  <Heading>Application Header</Heading>
+                  <Heading>Application Footer</Heading>
                   <Text>Secondary Text</Text>
                 </Sidenav.Avatar>
               </Sidenav.Item>
