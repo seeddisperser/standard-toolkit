@@ -13,13 +13,15 @@
 
 import 'client-only';
 import { useEmit, useOn } from '@accelint/bus/react';
-import { ChevronLeft } from '@accelint/icons';
-import { createContext, useState } from 'react';
+import { ArrowNortheast, ChevronLeft } from '@accelint/icons';
+import { createContext, useContext, useRef, useState } from 'react';
 import {
   Button,
+  composeRenderProps,
   Header,
   Heading,
   HeadingContext,
+  Link,
   Pressable,
   Provider,
   Text,
@@ -28,6 +30,7 @@ import {
 } from 'react-aria-components';
 import { containsAnyOfExactChildren, containsExactChildren } from '@/lib/react';
 import { Icon, IconContext } from '../icon';
+import { Tooltip } from '../tooltip';
 import { SidenavEventTypes } from './events';
 import { SidenavStyles } from './styles';
 import type {
@@ -38,6 +41,7 @@ import type {
   SidenavFooterProps,
   SidenavHeaderProps,
   SidenavItemProps,
+  SidenavLinkProps,
   SidenavProps,
   SidenavTriggerProps,
 } from './types';
@@ -56,9 +60,11 @@ const {
   avatarHeading,
   avatarIcon,
   avatarText,
+  link,
+  tooltip,
 } = SidenavStyles();
 
-const SidenavContext = createContext<SidenavContextValue | null>(null);
+const SidenavContext = createContext<SidenavContextValue>({ open: false });
 
 export function Sidenav({
   className,
@@ -146,7 +152,12 @@ function SidenavTrigger({ children, ...rest }: SidenavTriggerProps) {
 }
 SidenavTrigger.displayName = 'Sidenav.Trigger';
 
-function SidenavItem({ children, classNames, ...rest }: SidenavItemProps) {
+function SidenavItem({
+  children,
+  classNames,
+  textValue,
+  ...rest
+}: SidenavItemProps) {
   containsAnyOfExactChildren({
     children,
     componentName: SidenavItem.displayName,
@@ -159,6 +170,11 @@ function SidenavItem({ children, classNames, ...rest }: SidenavItemProps) {
     ],
   });
 
+  const { open } = useContext(SidenavContext);
+
+  // Implement ref to place tooltip inside Button DOM to enable contextual styling
+  const ref = useRef(null);
+
   return (
     <Provider
       values={[
@@ -166,16 +182,80 @@ function SidenavItem({ children, classNames, ...rest }: SidenavItemProps) {
         [TextContext, { className: text({ className: transient() }) }],
       ]}
     >
-      <ToggleButton
-        {...rest}
-        className={item({ className: classNames?.button })}
-      >
-        {children}
-      </ToggleButton>
+      <Tooltip isDisabled={open}>
+        <Tooltip.Trigger>
+          <ToggleButton
+            {...rest}
+            ref={ref}
+            className={item({ className: classNames?.button })}
+          >
+            {children}
+          </ToggleButton>
+        </Tooltip.Trigger>
+        <Tooltip.Body parentRef={ref} placement='right' className={tooltip()}>
+          {textValue}
+        </Tooltip.Body>
+      </Tooltip>
     </Provider>
   );
 }
 SidenavItem.displayName = 'Sidenav.Item';
+
+function SidenavLink({
+  children,
+  classNames,
+  textValue,
+  ...rest
+}: SidenavLinkProps) {
+  containsExactChildren({
+    children,
+    componentName: SidenavLink.displayName,
+    restrictions: [
+      [Icon, { min: 1, max: 1 }],
+      [Text, { min: 1, max: 1 }],
+    ],
+  });
+
+  const { open } = useContext(SidenavContext);
+
+  // Implement ref to place tooltip inside Link DOM to enable contextual styling
+  const ref = useRef(null);
+
+  return (
+    <Provider
+      values={[
+        [IconContext, { size: 'medium', slot: 'icon' }],
+        [TextContext, { className: text({ className: transient() }) }],
+      ]}
+    >
+      <Tooltip isDisabled={open}>
+        <Tooltip.Trigger>
+          <Link
+            {...rest}
+            ref={ref}
+            className={link({ className: classNames?.button })}
+          >
+            {composeRenderProps(children, (children) => (
+              <>
+                {children}
+                <Icon size='medium' className={transient()}>
+                  <ArrowNortheast />
+                </Icon>
+              </>
+            ))}
+          </Link>
+        </Tooltip.Trigger>
+        <Tooltip.Body parentRef={ref} placement='right' className={tooltip()}>
+          {textValue}
+          <Icon size='medium'>
+            <ArrowNortheast />
+          </Icon>
+        </Tooltip.Body>
+      </Tooltip>
+    </Provider>
+  );
+}
+SidenavLink.displayName = 'Sidenav.Link';
 
 function SidenavDivider({ className, ...rest }: SidenavDividerProps) {
   return <hr {...rest} className={divider({ className })} />;
@@ -192,6 +272,7 @@ function SidenavAvatar({ children, className, ...rest }: SidenavAvatarProps) {
       [Text, { min: 1, max: 1 }],
     ],
   });
+
   return (
     <Provider
       values={[
@@ -214,6 +295,7 @@ SidenavAvatar.displayName = 'Sidenav.Avatar';
 Sidenav.Trigger = SidenavTrigger;
 Sidenav.Header = SidenavHeader;
 Sidenav.Item = SidenavItem;
+Sidenav.Link = SidenavLink;
 Sidenav.Divider = SidenavDivider;
 Sidenav.Avatar = SidenavAvatar;
 Sidenav.Footer = SidenavFooter;
