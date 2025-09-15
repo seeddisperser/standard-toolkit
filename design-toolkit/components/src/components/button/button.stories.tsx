@@ -61,13 +61,13 @@ export default meta;
 
 export const Default: StoryObj<typeof Button> = {
   args: {
-    color: "mono-bold",
+    color: 'mono-bold',
   },
 
   render: ({ children, ...props }) => (
     <Button {...props}>
       {composeRenderProps(children, (children) =>
-        props.variant === "icon" || props.variant === "floating" ? (
+        props.variant === 'icon' || props.variant === 'floating' ? (
           <Icon>
             <Placeholder />
           </Icon>
@@ -81,9 +81,9 @@ export const Default: StoryObj<typeof Button> = {
 
 export const Link: StoryObj<typeof LinkButton> = {
   render: ({ children, ...props }) => (
-    <LinkButton {...props} href="/">
+    <LinkButton {...props} href='/'>
       {composeRenderProps(children, (children) =>
-        props.variant === "icon" || props.variant === "floating" ? (
+        props.variant === 'icon' || props.variant === 'floating' ? (
           <Icon>
             <Placeholder />
           </Icon>
@@ -99,7 +99,7 @@ export const Toggle: StoryObj<typeof ToggleButton> = {
   render: ({ children, ...props }) => (
     <ToggleButton {...props}>
       {composeRenderProps(children, (children) =>
-        props.variant === "icon" || props.variant === "floating" ? (
+        props.variant === 'icon' || props.variant === 'floating' ? (
           <Icon>
             <Placeholder />
           </Icon>
