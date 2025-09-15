@@ -12,7 +12,7 @@ The Button component provides interactive elements for user actions, navigation,
 ### Basic
 ```tsx
 <Button>Click me</Button>
-<Button variant="flat" color="info">Flat Button</Button>
+<Button variant="flat" color="mono-muted">Flat Button</Button>
 <Button variant="icon">
   <Icon><Settings /></Icon>
 </Button>
@@ -33,7 +33,7 @@ Used for navigating
 
 ### Toggle Button
 ```tsx
-<ToggleButton color="info" variant="icon">
+<ToggleButton color="mono-muted" variant="icon">
     <Icon>
       <Placeholder />
     </Icon>
@@ -50,7 +50,9 @@ Used for navigating
 
 ## Colors
 
-* **info** - Blue styling for primary actions (default)
+* **mono-muted** - Monochromatic styling (default)
+* **mono-bold** - Monochromatic styling with bolder accents
+* **accent** - Blue styling for primary actions
 * **serious** - Orange styling for warning or caution actions
 * **critical** - Red styling for destructive or dangerous actions
 
@@ -69,7 +71,7 @@ The Button and LinkButton support all the `Button` [props and events from `react
 The ToggleButton supports all the `ToggleButton` [props and events from `react-aria-components`](https://react-spectrum.adobe.com/react-aria/ToggleButton.html#props).
 
 * **`variant`** - Visual style: `'filled'` (default) | `'outline'` | `'flat'` | `'icon'` | `'floating'`
-* **`color`** - Color scheme: `'info'` (default) | `'serious'` | `'critical'`
+* **`color`** - Color scheme: `'mono-muted'` (default) | `'mono-bold`' | `'accent'` | `'serious'` | `'critical'`
 * **`size`** - Size variant: `'large'` | `'medium'` (default) | `'small'` |  `'xsmall'`
 
 All button types accept standard HTML button/anchor attributes and forward them to the underlying elements.
