@@ -33,6 +33,7 @@ import {
   ToggleButton,
 } from 'react-aria-components';
 import { containsAnyOfExactChildren, containsExactChildren } from '@/lib/react';
+import { Avatar, AvatarContext } from '../avatar';
 import { Icon, IconContext } from '../icon';
 import { Tooltip } from '../tooltip';
 import { SidenavEventTypes } from './events';
@@ -333,13 +334,20 @@ function SidenavDivider({ className, ...rest }: SidenavDividerProps) {
 SidenavDivider.displayName = 'Sidenav.Divider';
 
 function SidenavAvatar({ children, className, ...rest }: SidenavAvatarProps) {
-  containsExactChildren({
+  containsAnyOfExactChildren({
     children,
     componentName: SidenavAvatar.displayName,
     restrictions: [
-      [Icon, { min: 1, max: 1 }],
-      [Heading, { min: 1, max: 1 }],
-      [Text, { min: 1, max: 1 }],
+      [
+        [Avatar, { min: 1, max: 1 }],
+        [Heading, { min: 1, max: 1 }],
+        [Text, { min: 1, max: 1 }],
+      ],
+      [
+        [Icon, { min: 1, max: 1 }],
+        [Heading, { min: 1, max: 1 }],
+        [Text, { min: 1, max: 1 }],
+      ],
     ],
   });
 
@@ -352,6 +360,7 @@ function SidenavAvatar({ children, className, ...rest }: SidenavAvatarProps) {
           { className: avatarHeading({ className: transient() }) },
         ],
         [TextContext, { className: avatarText({ className: transient() }) }],
+        [AvatarContext, { classNames: { avatar: '[grid-area:content]' } }],
       ]}
     >
       <div {...rest} className={avatar({ className })}>

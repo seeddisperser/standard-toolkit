@@ -22,9 +22,9 @@ export const SidenavStyles = tv({
     content: 'flex h-full max-h-full w-full flex-col gap-xs',
     header: 'mb-m flex justify-center',
     avatar: [
-      'grid w-full grid-cols-[auto_1fr] grid-rows-2 items-center gap-x-m [grid-template-areas:"icon_heading"_"icon_text"] group-closed/sidenav:flex',
+      'grid w-full grid-cols-[auto_1fr] grid-rows-2 items-center gap-x-m [grid-template-areas:"content_heading"_"content_text"] group-closed/sidenav:flex',
     ],
-    avatarIcon: '[grid-area:icon]',
+    avatarIcon: '[grid-area:content]',
     avatarHeading: 'fg-primary-bold text-left text-body-m [grid-area:heading]',
     avatarText:
       'fg-primary-muted grow-1 text-left text-body-s [grid-area:text]',

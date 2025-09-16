@@ -14,6 +14,7 @@ import { uuid } from '@accelint/core';
 import { ExpandLeftPanel, Placeholder } from '@accelint/icons';
 import React, { type ComponentProps, useState } from 'react';
 import { Heading, Text } from 'react-aria-components';
+import { Avatar } from '../avatar';
 import { Button } from '../button';
 import { Drawer } from '../drawer';
 import { Icon } from '../icon';
@@ -73,7 +74,7 @@ export const Default: StoryObj<SidenavWithLayoutArgs> = {
               <Sidenav.Trigger for={id}>
                 <Button variant='icon' size='large'>
                   <Icon>
-                    <ExpandLeftPanel />
+                    <ExpandLeftPanel className='' />
                   </Icon>
                 </Button>
               </Sidenav.Trigger>
@@ -153,9 +154,12 @@ export const Default: StoryObj<SidenavWithLayoutArgs> = {
             <Sidenav.Footer>
               <Sidenav.Item textValue='Application Footer'>
                 <Sidenav.Avatar>
-                  <Icon>
-                    <Placeholder />
-                  </Icon>
+                  <Avatar
+                    imageProps={{
+                      alt: 'Dog',
+                      src: 'https://placedog.net/100x100?id=144',
+                    }}
+                  />
                   <Heading>Application Footer</Heading>
                   <Text>Secondary Text</Text>
                 </Sidenav.Avatar>
