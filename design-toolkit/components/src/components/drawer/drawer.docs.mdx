@@ -16,7 +16,7 @@ It is composed of the following components:
 - **Drawer.Menu.Item** – Individual menu item, can trigger open/toggle for a drawer as well as show a specific view
 - **Drawer.Panel** – Main panel container for drawer content
 - **Drawer.View** – Content region for a specific view, mapped to a unique id
-- **Drawer.Header** – Header region, typically for titles or actions
+- **Drawer.Header** – Header region, typically for titles or actions. Supports a `title` prop for automatic header layout with back/close buttons
 - **Drawer.Header.Title** – Heading element, supports semantic levels and styling
 - **Drawer.Content** – Main content area within a view
 - **Drawer.Footer** – Footer region for actions or supplementary info
@@ -26,6 +26,43 @@ The Drawer enforces a predictable child structure: only one Drawer.Panel is allo
 
 ## Example Usage
 
+### Using the Simplified Title Prop
+```
+const ids = {
+  drawer: uuid(),
+  a: uuid(),
+  b: uuid(),
+};
+
+<Drawer id={ids.drawer} defaultView={ids.a}>
+  <Drawer.Menu>
+    <Drawer.Menu.Item for={ids.a}>View A</Drawer.Menu.Item>
+    <Drawer.Menu.Item for={ids.b}>View B</Drawer.Menu.Item>
+  </Drawer.Menu>
+  <Drawer.Panel>
+    <Drawer.View id={ids.a}>
+      <Drawer.Header title="Title A" />
+      <Drawer.Content>
+        Content for View A
+      </Drawer.Content>
+      <Drawer.Footer>
+        Footer Actions
+      </Drawer.Footer>
+    </Drawer.View>
+    <Drawer.View id={ids.b}>
+      <Drawer.Header title="Title B" />
+      <Drawer.Content>
+        Content for View B
+      </Drawer.Content>
+      <Drawer.Footer>
+        Footer Actions
+      </Drawer.Footer>
+    </Drawer.View>
+  </Drawer.Panel>
+</Drawer>
+```
+
+### Using Custom Header Layout
 ```
 const ids = {
   drawer: uuid(),
@@ -42,6 +79,7 @@ const ids = {
     <Drawer.View id={ids.a}>
       <Drawer.Header>
         <Drawer.Header.Title level={2}>Title A</Drawer.Header.Title>
+        {/* Custom actions can go here */}
       </Drawer.Header>
       <Drawer.Content>
         Content for View A
@@ -66,6 +104,34 @@ const ids = {
 ```
 
 <Canvas of={DrawerStories.StaticHeaderFooter} />
+
+## Drawer.Header
+
+The Drawer.Header component provides two ways to create headers:
+
+### Simplified Header with Title Prop
+
+For common use cases, you can use the `title` prop to automatically create a header with:
+- A back button (when navigating to nested views)
+- The title text
+- A close button
+
+```
+<Drawer.Header title="My Title" />
+```
+
+This automatically handles the layout and provides appropriate semantic heading levels based on the view stack depth.
+
+### Custom Header Layout
+
+For more control over the header content, you can use a compositional approach:
+
+```
+<Drawer.Header>
+  <Drawer.Header.Title level={2}>My Title</Drawer.Header.Title>
+  <Drawer.Close />
+</Drawer.Header>
+```
 
 ## Drawer.View
 

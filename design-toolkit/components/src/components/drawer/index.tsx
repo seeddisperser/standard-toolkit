@@ -14,6 +14,7 @@
 import 'client-only';
 import { Broadcast } from '@accelint/bus';
 import { isUUID, type UniqueId } from '@accelint/core';
+import { Cancel, ChevronLeft } from '@accelint/icons';
 import { Pressable } from '@react-aria/interactions';
 import {
   type ComponentPropsWithRef,
@@ -21,12 +22,13 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react';
 import { composeRenderProps, Header, Heading } from 'react-aria-components';
 import { containsExactChildren } from '@/lib/react';
-import { ToggleButton } from '../button';
+import { Button, ToggleButton } from '../button';
 import { Icon } from '../icon';
 import {
   ViewStack,
@@ -91,6 +93,20 @@ function DrawerTrigger({ children, for: events }: DrawerTriggerProps) {
 }
 DrawerTrigger.displayName = 'Drawer.Trigger';
 
+function DrawerClose() {
+  return (
+    <Drawer.Trigger for='close'>
+      <Button variant='icon'>
+        <Icon>
+          <Cancel />
+        </Icon>
+      </Button>
+    </Drawer.Trigger>
+  );
+}
+
+DrawerClose.displayName = 'Drawer.Close';
+
 function DrawerLayoutMain({
   className,
   ...rest
@@ -142,7 +158,11 @@ function DrawerMenuItem({
         )}
         role='tab'
         variant='icon'
-        isSelected={id === view || !!views?.some((view) => id === view)}
+        isSelected={
+          id === view ||
+          !!views?.some((view) => id === view) ||
+          (stack.length > 1 && stack.includes(id))
+        }
       >
         {composeRenderProps(children, (children) => (
           <Icon>{children}</Icon>
@@ -227,8 +247,42 @@ function DrawerHeaderTitle({ className, level, ...rest }: DrawerTitleProps) {
 }
 DrawerHeaderTitle.displayName = 'Drawer.Title';
 
-function DrawerHeader({ className, ...rest }: ComponentPropsWithRef<'header'>) {
-  return <Header {...rest} className={header({ className })} />;
+function DrawerHeader({
+  className,
+  title,
+  children,
+  ...rest
+}: ComponentPropsWithRef<'header'>) {
+  const { stack } = useContext(ViewStackContext);
+  const level = stack.length > 1 ? 6 : 1;
+
+  const renderChildren = useMemo(
+    () =>
+      title ? (
+        <>
+          {stack.length > 1 && (
+            <Drawer.Trigger for='back'>
+              <Button variant='icon'>
+                <Icon>
+                  <ChevronLeft />
+                </Icon>
+              </Button>
+            </Drawer.Trigger>
+          )}
+          <Drawer.Header.Title level={level}>{title}</Drawer.Header.Title>
+          <Drawer.Close />
+        </>
+      ) : (
+        children
+      ),
+    [children, level, stack.length, title],
+  );
+
+  return (
+    <Header {...rest} className={header({ className })}>
+      {renderChildren}
+    </Header>
+  );
 }
 DrawerHeader.displayName = 'Drawer.Header';
 DrawerHeader.Title = DrawerHeaderTitle;
@@ -339,3 +393,4 @@ Drawer.Header = DrawerHeader;
 Drawer.Content = DrawerContent;
 Drawer.Footer = DrawerFooter;
 Drawer.Trigger = DrawerTrigger;
+Drawer.Close = DrawerClose;

@@ -80,7 +80,9 @@ export const DrawerStyles = tv({
     content: [
       'fg-primary-bold flex max-h-full flex-1 flex-col overflow-y-auto',
     ],
-    header: ['mb-s flex flex-row items-center justify-between pt-px pr-px'],
+    header: [
+      'mb-s flex flex-row items-center justify-between gap-s pt-px pr-px',
+    ],
     footer: 'fg-primary-bold mt-s flex flex-row items-center justify-end',
   },
 });

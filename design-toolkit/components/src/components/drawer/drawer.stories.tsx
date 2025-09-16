@@ -10,7 +10,6 @@
  * governing permissions and limitations under the License.
  */
 import { uuid } from '@accelint/core';
-import { Cancel } from '@accelint/icons';
 import { Button } from '../button';
 import { Drawer } from './index';
 import type { Meta, StoryObj } from '@storybook/react';
@@ -80,9 +79,7 @@ export const StaticHeaderFooter: StoryObj<DrawerWithAdditionalArgs> = {
             <Drawer.Panel>
               <Drawer.Header>
                 <Drawer.Header.Title>Title</Drawer.Header.Title>
-                <Drawer.Trigger for='close'>
-                  <Button>Close</Button>
-                </Drawer.Trigger>
+                <Drawer.Close />
               </Drawer.Header>
               <Drawer.Content>
                 <Drawer.View id={ids.a}>View A</Drawer.View>
@@ -167,12 +164,44 @@ export const OpenCloseTrigger: StoryObj<DrawerWithAdditionalArgs> = {
               <Drawer.View id={ids.a}>
                 <Drawer.Header>
                   <Drawer.Header.Title>Title A</Drawer.Header.Title>
-                  <Drawer.Trigger for='close'>
-                    <Cancel className='size-m' />
-                  </Drawer.Trigger>
+                  <Drawer.Close />
                 </Drawer.Header>
                 <Drawer.Content>Content A</Drawer.Content>
                 <Drawer.Footer>Footer A</Drawer.Footer>
+              </Drawer.View>
+            </Drawer.Panel>
+          </Drawer>
+        </Drawer.Layout>
+      </div>
+    );
+  },
+};
+
+export const SimpleStack: StoryObj<DrawerWithAdditionalArgs> = {
+  render: ({ placement, size, position }) => {
+    return (
+      <div className='fg-primary-bold h-screen bg-surface-muted'>
+        <Drawer.Layout>
+          <Drawer id={ids.drawer} placement={placement} size={size}>
+            <Drawer.Menu position={position}>
+              <Drawer.Menu.Item toggle for={ids.a}>
+                A
+              </Drawer.Menu.Item>
+            </Drawer.Menu>
+            <Drawer.Panel>
+              <Drawer.View id={ids.a}>
+                <Drawer.Header title='Title A' />
+                <Drawer.Content>Content A</Drawer.Content>
+                <Drawer.Footer>
+                  <Drawer.Trigger for={ids.b}>
+                    <Button variant='outline'>Show B</Button>
+                  </Drawer.Trigger>
+                </Drawer.Footer>
+              </Drawer.View>
+              <Drawer.View id={ids.b}>
+                <Drawer.Header title='Title B' />
+                <Drawer.Content>Content B</Drawer.Content>
+                <Drawer.Footer>Footer B</Drawer.Footer>
               </Drawer.View>
             </Drawer.Panel>
           </Drawer>
