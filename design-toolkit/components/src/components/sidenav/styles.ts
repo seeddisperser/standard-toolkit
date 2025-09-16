@@ -66,7 +66,6 @@ export const SidenavStyles = tv({
     menu: 'group/menu relative text-body-s',
     menuButton: [
       'flex w-full cursor-pointer items-center justify-center gap-s rounded-medium p-xs',
-      'group-open/sidenav:px-s',
       'enabled:hover:bg-interactive-muted-hover',
       'enabled:focus-visible:bg-interactive-muted-hover enabled:focus-visible:outline-none',
     ],
@@ -77,7 +76,7 @@ export const SidenavStyles = tv({
     ],
     menuItem: [
       'flex w-full cursor-pointer items-center justify-center gap-s rounded-medium p-s text-left text-body-s',
-      'group-expanded/menu:block group-open/sidenav:group-expanded/menu:pl-[36px]',
+      'group-expanded/menu:block group-open/sidenav:group-expanded/menu:pl-[32px]',
       'enabled:hover:bg-interactive-muted-hover',
       'enabled:focus-visible:bg-interactive-muted-hover enabled:focus-visible:outline-none',
       'enabled:pressed:bg-accent-primary-pressed',
