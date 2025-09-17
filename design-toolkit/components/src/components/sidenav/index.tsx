@@ -173,13 +173,17 @@ function SidenavHeader({ children, classNames, ...rest }: SidenavHeaderProps) {
   const emit = useEmit<SidenavToggleEvent>(SidenavEventTypes.toggle);
   const { id } = useContext(SidenavContext);
 
+  if (!id) {
+    throw new Error('Sidenav.Header must be a child of Sidenav');
+  }
+
   return (
     <Header {...rest} className={header({ className: classNames?.header })}>
       <Button
         className={composeRenderProps(classNames?.button, (className) =>
           toggle({ className }),
         )}
-        onPress={() => emit({ id: id as UniqueId })}
+        onPress={() => emit({ id })}
       >
         {children}
         <Icon className={transient()}>
