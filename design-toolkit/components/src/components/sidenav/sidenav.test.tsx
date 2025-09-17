@@ -66,6 +66,9 @@ function setup(
             <Sidenav.Menu.Item>
               <Text>Menu Item</Text>
             </Sidenav.Menu.Item>
+            <Sidenav.Menu.Item>
+              <Text>Menu Item 2</Text>
+            </Sidenav.Menu.Item>
           </Sidenav.Menu>
         </Sidenav.Content>
         <Sidenav.Footer>
