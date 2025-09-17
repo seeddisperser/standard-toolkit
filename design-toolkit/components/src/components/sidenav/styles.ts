@@ -73,7 +73,7 @@ export const SidenavStyles = tv({
     ],
     menuHeading: 'flex-1 text-left',
     menuPanel: [
-      'fg-primary-muted rounded-medium bg-surface-raised outline outline-static',
+      'fg-primary-bold rounded-medium bg-surface-raised outline outline-static',
     ],
     menuItem: [
       'flex w-full cursor-pointer items-center gap-s rounded-medium p-s text-left text-body-s',
@@ -88,7 +88,7 @@ export const SidenavStyles = tv({
       'disabled:fg-disabled disabled:cursor-not-allowed',
     ],
     panelHeading:
-      'min-w-[172px] rounded-t-medium bg-surface-overlay px-m py-s group-open/sidenav:hidden',
-    panelContent: 'flex flex-col gap-xs py-xs group-closed/sidenav:px-xs',
+      'min-w-[172px] rounded-t-medium bg-surface-overlay px-m py-s text-body-s',
+    panelContent: 'flex flex-col gap-xs bg-surface-default px-xs py-xs',
   },
 });
