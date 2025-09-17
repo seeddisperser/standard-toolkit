@@ -76,23 +76,16 @@ It is composed of the following components:
 * **`defaultValue`** - Initial range value as `[min, max]`
 * **`onChange`** - Callback when range values change
 * **`classNames`** - Additional CSS classes for custom styling
-
-### ClassNames Type
-```tsx
-  classNames?: {
-    slider?: AriaSliderProps['className'];
-    label?: LabelProps['className'];
-    inputs?: string;
-    input?: InputProps['className'];
-    track?: SliderTrackProps['className'];
-    trackBackground?: string;
-    trackValue?: string;
-    thumb?: SliderThumbProps['className'];
-    minValue?: string;
-    maxValue?: string;
-  };
-```
-
+ * - `slider` - Applied to the main slider container
+ * - `track` - Applied to the slider track
+ * - `trackValue` - Applied to the slider track value
+ * - `trackBackground` - Applied to the slider track background
+ * - `thumb` - Applied to the slider thumb
+ * - `inputs` - Applied to the input fields wrapper div
+ * - `input` - Applied to the input field
+ * - `label` - Applied to the label
+ * - `minValue` - Applied to the minimum value
+ * - `maxValue` - Applied to the maximum value
 
 ## Implementation Notes
 The `Slider` component wraps the `Slider` component from `react-aria-components`.
