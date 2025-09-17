@@ -382,6 +382,11 @@ function SidenavAvatar({ children, className, ...rest }: SidenavAvatarProps) {
 SidenavAvatar.displayName = 'Sidenav.Avatar';
 
 function SidenavMenu({ icon, title, classNames, children }: SidenavMenuProps) {
+  containsExactChildren({
+    children,
+    componentName: SidenavMenu.displayName,
+    restrictions: [[SidenavMenuItem, { min: 2 }]],
+  });
   const [isHoverOpen, setIsHoverOpen] = useState<boolean>(false);
   const { open } = useContext(SidenavContext);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -423,7 +428,7 @@ function SidenavMenu({ icon, title, classNames, children }: SidenavMenuProps) {
         {icon}
         <Heading slot='menu'>{title}</Heading>
         <Icon className={transient({ className: classNames?.icon })}>
-          <ChevronDown className='transform group-expanded/accordion:rotate-180' />
+          <ChevronDown className='transform group-expanded/menu:rotate-180' />
         </Icon>
       </Button>
 
