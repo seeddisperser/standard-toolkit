@@ -73,11 +73,10 @@ export const SidenavStyles = tv({
     ],
     menuHeading: 'flex-1 text-left',
     menuPanel: [
-      'top-0 left-full rounded-medium',
-      'group-closed/sidenav:group-expanded/menu:border group-closed/sidenav:absolute group-closed/sidenav:ml-xs group-closed/sidenav:bg-surface-default',
+      'fg-primary-muted rounded-medium bg-surface-raised outline outline-static',
     ],
     menuItem: [
-      'flex w-full cursor-pointer items-center justify-center gap-s rounded-medium p-s text-left text-body-s',
+      'flex w-full cursor-pointer items-center gap-s rounded-medium p-s text-left text-body-s',
       'group-expanded/menu:block group-open/sidenav:group-expanded/menu:pl-[32px]',
       'enabled:hover:bg-interactive-muted-hover',
       'enabled:focus-visible:bg-interactive-muted-hover enabled:focus-visible:outline-none',

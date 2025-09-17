@@ -18,6 +18,7 @@ import type {
   DisclosurePanelProps,
   DisclosureProps,
   LinkProps,
+  PopoverProps,
   Pressable,
   ToggleButtonProps,
 } from 'react-aria-components';
@@ -97,8 +98,8 @@ export type SidenavTriggerProps = ComponentPropsWithRef<typeof Pressable> & {
 };
 
 export type SidenavContextValue = {
-  id?: UniqueId;
-  open: boolean;
+  id: UniqueId;
+  isOpen: boolean;
 };
 
 export type SidenavMenuProps = SidenavItemProps & {
@@ -109,7 +110,8 @@ export type SidenavMenuProps = SidenavItemProps & {
     menu?: DisclosureProps['className'];
     button?: ButtonProps['className'];
     icon?: string;
-    panel?: DisclosurePanelProps['className'];
+    disclosurePanel?: DisclosurePanelProps['className'];
+    popoverPanel?: PopoverProps['className'];
     panelContent?: string;
   };
 };
