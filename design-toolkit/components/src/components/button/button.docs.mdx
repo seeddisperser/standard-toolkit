@@ -12,7 +12,10 @@ The Button component provides interactive elements for user actions, navigation,
 ### Basic
 ```tsx
 <Button>Click me</Button>
-<Button variant="flat" color="mono-muted">Flat Button</Button>
+<Button variant="flat">Flat Button</Button>
+<Button variant="outline" color="mono-bold">
+  Button with Color Variant
+</Button>
 <Button variant="icon">
   <Icon><Settings /></Icon>
 </Button>
@@ -33,7 +36,15 @@ Used for navigating
 
 ### Toggle Button
 ```tsx
-<ToggleButton color="mono-muted" variant="icon">
+<ToggleButton variant="outline">
+    Toggle Button
+</ToggleButton>
+
+<ToggleButton variant="flat" color="accent">
+    Toggle Button with Color Variant
+</ToggleButton>
+
+<ToggleButton variant="icon">
     <Icon>
       <Placeholder />
     </Icon>
@@ -42,17 +53,15 @@ Used for navigating
 
 ## Variants
 
-* **filled** - Solid background with high contrast text (default)
 * **outline** - Transparent background with border and text
 * **flat** - Transparent background with text only
 * **icon** - Square button optimized for icon-only content
-* **floating** - Circular button with shadow, perfect for floating action buttons
 
 ## Colors
 
 * **mono-muted** - Monochromatic styling (default)
 * **mono-bold** - Monochromatic styling with bolder accents
-* **accent** - Blue styling for primary actions
+* **accent** - Primary accent color for primary actions
 * **serious** - Orange styling for warning or caution actions
 * **critical** - Red styling for destructive or dangerous actions
 

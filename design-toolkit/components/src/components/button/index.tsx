@@ -17,10 +17,10 @@ import { createContext } from 'react';
 import {
   Button as AriaButton,
   ToggleButton as AriaToggleButton,
+  type ContextValue,
   composeRenderProps,
   Link,
   useContextProps,
-  type ContextValue,
 } from 'react-aria-components';
 import { Icon } from '../icon';
 import { ButtonStyles, LinkButtonStyles, ToggleButtonStyles } from './styles';
@@ -76,7 +76,7 @@ export function Button({ ref, ...props }: ButtonProps) {
   const {
     children,
     className,
-    color = 'info',
+    color = 'mono-muted',
     size = 'medium',
     variant,
     ...rest
@@ -244,7 +244,7 @@ export function ToggleButton({ ref, ...props }: ToggleButtonProps) {
   const {
     children,
     className,
-    color = 'info',
+    color = 'mono-muted',
     size = 'medium',
     variant,
     ...rest
