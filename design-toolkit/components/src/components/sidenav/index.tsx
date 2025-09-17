@@ -397,7 +397,7 @@ function SidenavMenu({
       <DisclosurePanel
         className={composeRenderProps(
           classNames?.disclosurePanel,
-          (className) => menuPanel({ className }),
+          (className) => className ?? '',
         )}
       >
         <Heading slot='panel'>{title}</Heading>
