@@ -102,7 +102,7 @@ export type SidenavContextValue = {
   isOpen: boolean;
 };
 
-export type SidenavMenuProps = SidenavItemProps & {
+export type SidenavMenuProps = {
   title: string;
   icon: React.ReactNode;
   children: React.ReactNode;

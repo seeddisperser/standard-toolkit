@@ -359,7 +359,13 @@ function SidenavAvatar({ children, className, ...rest }: SidenavAvatarProps) {
 }
 SidenavAvatar.displayName = 'Sidenav.Avatar';
 
-function SidenavMenu({ icon, title, classNames, children }: SidenavMenuProps) {
+function SidenavMenu({
+  icon,
+  title,
+  classNames,
+  children,
+  ...rest
+}: SidenavMenuProps) {
   containsExactChildren({
     children,
     componentName: SidenavMenu.displayName,
@@ -376,6 +382,7 @@ function SidenavMenu({ icon, title, classNames, children }: SidenavMenuProps) {
       )}
     >
       <Button
+        {...rest}
         slot='trigger'
         className={composeRenderProps(classNames?.button, (className) =>
           menuButton({ className }),
@@ -404,6 +411,7 @@ function SidenavMenu({ icon, title, classNames, children }: SidenavMenuProps) {
       <Tooltip isDisabled={isOpen}>
         <Tooltip.Trigger>
           <Button
+            {...rest}
             ref={ref}
             className={composeRenderProps(classNames?.button, (className) =>
               menuButton({ className }),

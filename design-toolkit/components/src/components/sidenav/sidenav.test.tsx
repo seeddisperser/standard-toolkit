@@ -56,6 +56,7 @@ function setup(
           <Sidenav.Divider />
           <Heading>Menu</Heading>
           <Sidenav.Menu
+            data-testid='menu'
             icon={
               <Icon>
                 <Placeholder />
@@ -105,7 +106,7 @@ function setup(
 }
 
 describe('Sidenav', () => {
-  it('should not render expanded content', () => {
+  it('should not render expanded content', async () => {
     setup();
 
     expect(screen.queryByText('Application Header')).toHaveClass(/hidden/);
@@ -114,13 +115,17 @@ describe('Sidenav', () => {
     expect(screen.queryByText('Nav item')).toHaveClass(/hidden/);
     expect(screen.queryByText('External')).toHaveClass(/hidden/);
     expect(screen.queryByText('Link item')).toHaveClass(/hidden/);
-    expect(screen.queryByText('Menu')).toHaveClass(/hidden/);
-    screen.queryAllByText('Settings').forEach((el) => {
-      expect(el).toHaveClass(/hidden/);
-    });
-    expect(screen.queryByText('Menu Item')).toBeInTheDocument();
+    expect(screen.queryByTestId('menu')).toBeInTheDocument();
     expect(screen.queryByText('FullName')).toHaveClass(/hidden/);
     expect(screen.queryByText('test@example.com')).toHaveClass(/hidden/);
+
+    expect(screen.queryByText('Settings')).not.toBeInTheDocument();
+    expect(screen.queryByText('Menu Item')).not.toBeInTheDocument();
+    expect(screen.queryByText('Menu Item 2')).not.toBeInTheDocument();
+    await userEvent.click(screen.getByTestId('menu'));
+    expect(screen.queryByText('Settings')).toBeInTheDocument();
+    expect(screen.queryByText('Menu Item')).toBeInTheDocument();
+    expect(screen.queryByText('Menu Item 2')).toBeInTheDocument();
   });
 
   it('should open externally', async () => {
