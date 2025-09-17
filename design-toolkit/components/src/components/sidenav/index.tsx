@@ -15,7 +15,13 @@ import 'client-only';
 import { useEmit, useOn } from '@accelint/bus/react';
 import { isUUID, type UniqueId } from '@accelint/core';
 import { ArrowNortheast, ChevronDown, ChevronLeft } from '@accelint/icons';
-import { createContext, useContext, useRef, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useRef,
+  useState,
+} from 'react';
 import {
   Button,
   composeRenderProps,
@@ -372,8 +378,31 @@ function SidenavAvatar({ children, className, ...rest }: SidenavAvatarProps) {
 SidenavAvatar.displayName = 'Sidenav.Avatar';
 
 function SidenavMenu({ icon, title, classNames, children }: SidenavMenuProps) {
+  const [isHoverOpen, setIsHoverOpen] = useState<boolean>(false);
+  const { open } = useContext(SidenavContext);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleMouseEnter = useCallback(() => {
+    if (!open) {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+      setIsHoverOpen(true);
+    }
+  }, [open]);
+
+  const handleMouseLeave = useCallback(() => {
+    if (!open) {
+      timeoutRef.current = setTimeout(() => {
+        setIsHoverOpen(false);
+      }, 200);
+    }
+  }, [open]);
+
   return (
     <Disclosure
+      isExpanded={isHoverOpen}
       className={composeRenderProps(classNames?.menu, (className) =>
         menu({ className }),
       )}
@@ -383,6 +412,9 @@ function SidenavMenu({ icon, title, classNames, children }: SidenavMenuProps) {
         className={composeRenderProps(classNames?.button, (className) =>
           menuButton({ className }),
         )}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onPress={() => setIsHoverOpen((prev) => !prev)}
       >
         {icon}
         <Heading slot='menu'>{title}</Heading>
@@ -395,6 +427,8 @@ function SidenavMenu({ icon, title, classNames, children }: SidenavMenuProps) {
         className={composeRenderProps(classNames?.panel, (className) =>
           menuPanel({ className }),
         )}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
         <Heading slot='panel'>{title}</Heading>
         <div className={panelContent({ className: classNames?.panelContent })}>

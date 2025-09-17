@@ -19,7 +19,8 @@ export const SidenavStyles = tv({
       'closed:items-center',
       'group-data-[push~=left]/layout:relative',
     ],
-    content: 'flex h-full max-h-full w-full flex-col gap-xs',
+    content:
+      'flex h-full max-h-full w-fit group-open/sidenav:w-full flex-col gap-xs group-closed/sidenav:items-center',
     header: 'mb-m flex justify-center',
     avatar: [
       'grid w-full grid-cols-[auto_1fr] grid-rows-2 items-center gap-x-m [grid-template-areas:"content_heading"_"content_text"] group-closed/sidenav:flex',
@@ -39,7 +40,7 @@ export const SidenavStyles = tv({
     heading: 'text-body-xs uppercase',
     item: [
       'group/item flex w-full cursor-pointer items-center justify-center gap-s rounded-medium p-xs text-body-m',
-      'group-open/sidenav:px-s',
+      'group-open/sidenav:px-s group-closed/sidenav:max-w-fit',
       'enabled:hover:bg-interactive-muted-hover',
       'enabled:focus-visible:bg-interactive-muted-hover enabled:focus-visible:outline-none',
       'enabled:pressed:bg-accent-primary-pressed',
@@ -53,7 +54,7 @@ export const SidenavStyles = tv({
     transient: 'group-closed/sidenav:hidden',
     link: [
       'group/link flex w-full cursor-pointer items-center justify-center gap-s rounded-medium p-xs text-body-m',
-      'group-open/sidenav:w-full',
+      'group-open/sidenav:w-full group-closed/sidenav:max-w-fit',
       'enabled:hover:bg-interactive-muted-hover',
       'enabled:focus-visible:bg-interactive-muted-hover enabled:focus-visible:outline-none',
       'enabled:pressed:bg-accent-primary-pressed',
@@ -66,6 +67,7 @@ export const SidenavStyles = tv({
     menu: 'group/menu relative text-body-s',
     menuButton: [
       'flex w-full cursor-pointer items-center justify-center gap-s rounded-medium p-xs',
+      'group-closed/sidenav:max-w-fit',
       'enabled:hover:bg-interactive-muted-hover',
       'enabled:focus-visible:bg-interactive-muted-hover enabled:focus-visible:outline-none',
     ],
