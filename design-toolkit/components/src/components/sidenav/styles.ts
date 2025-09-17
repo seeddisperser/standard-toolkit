@@ -20,7 +20,7 @@ export const SidenavStyles = tv({
       'group-data-[push~=left]/layout:relative',
     ],
     content:
-      'flex h-full max-h-full w-fit group-open/sidenav:w-full flex-col gap-xs group-closed/sidenav:items-center',
+      'flex h-full max-h-full w-fit flex-col gap-xs group-open/sidenav:w-full group-closed/sidenav:items-center',
     header: 'mb-m flex justify-center',
     avatar: [
       'grid w-full grid-cols-[auto_1fr] grid-rows-2 items-center gap-x-m [grid-template-areas:"content_heading"_"content_text"] group-closed/sidenav:flex',
