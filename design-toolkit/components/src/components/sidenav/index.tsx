@@ -370,7 +370,7 @@ function SidenavAvatar({ children, className, ...rest }: SidenavAvatarProps) {
           { className: avatarHeading({ className: transient() }) },
         ],
         [TextContext, { className: avatarText({ className: transient() }) }],
-        [AvatarContext, { classNames: { avatar: '[grid-area:content]' } }],
+        [AvatarContext, { classNames: { avatar: avatarIcon() } }],
       ]}
     >
       <div {...rest} className={avatar({ className })}>
