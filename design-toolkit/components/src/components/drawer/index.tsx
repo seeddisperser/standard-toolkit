@@ -129,7 +129,7 @@ const tooltipPlacementMap = {
 function DrawerMenuItem({
   for: id,
   children,
-  className,
+  classNames,
   toggle,
   views,
   textValue,
@@ -152,7 +152,7 @@ function DrawerMenuItem({
           <ToggleButton
             {...rest}
             ref={tooltipRef}
-            className={composeRenderProps(className, (className) =>
+            className={composeRenderProps(classNames?.item, (className) =>
               item({ className }),
             )}
             role='tab'
@@ -169,6 +169,7 @@ function DrawerMenuItem({
         triggerRef={tooltipRef}
         placement={tooltipPlacementMap[placement]}
         offset={6}
+        className={classNames?.tooltip}
       >
         {textValue}
       </Tooltip.Body>

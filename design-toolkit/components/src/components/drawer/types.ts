@@ -148,7 +148,10 @@ export type DrawerMenuProps = ComponentPropsWithRef<'nav'> & {
  * Drawer.Menu.Item implements Drawer.Trigger with the default behavior of
  * the trigger's `open` event type, which resets the stack before pushing the new view
  */
-export type DrawerMenuItemProps = Omit<ToggleButtonProps, 'id'> & {
+export type DrawerMenuItemProps = Omit<
+  ToggleButtonProps,
+  'id' | 'className'
+> & {
   /**
    * The unique identifier of the view that this menu item controls.
    *
@@ -177,6 +180,14 @@ export type DrawerMenuItemProps = Omit<ToggleButtonProps, 'id'> & {
    * When set this will be the text for the tooltip
    */
   textValue?: string;
+
+  /**
+   * Class names to be applied to the item and tooltip
+   */
+  classNames?: {
+    item?: string;
+    tooltip?: string;
+  };
 };
 
 export type DrawerTitleProps = Omit<HeadingProps, 'level'> &
