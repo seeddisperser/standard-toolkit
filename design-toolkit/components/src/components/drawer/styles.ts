@@ -136,10 +136,10 @@ export const DrawerMenuStyles = tv({
     ],
     item: [
       'flex flex-col items-center justify-center',
-      'sudo:fg-primary-muted !p-xs cursor-pointer outline-none',
+      'enabled:color-info:fg-primary-muted cursor-pointer outline-none',
       'rounded-medium',
       //hover
-      'sudo:hover:fg-primary-bold hover:!bg-transparent',
+      'enabled:color-info:hover:fg-primary-bold enabled:hover:color-info:bg-transparent',
       //selected
       'selected:fg-accent-primary-bold selected:bg-accent-primary-muted',
       //focused
