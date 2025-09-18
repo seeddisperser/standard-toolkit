@@ -38,6 +38,9 @@ export type { AvatarProps } from './components/avatar/types';
 export { Badge, BadgeContext } from './components/badge';
 export { BadgeStyles, BadgeStylesDefaults } from './components/badge/styles';
 export type { BadgeProps } from './components/badge/types';
+export { Breadcrumb } from './components/breadcrumb';
+export { BreadcrumbStyles } from './components/breadcrumb/styles';
+export type { BreadcrumbItemProps } from './components/breadcrumb/types';
 export {
   Button,
   ButtonContext,
