@@ -146,7 +146,7 @@ function DrawerMenuItem({
   }
 
   return (
-    <Tooltip isDisabled={!textValue}>
+    <Tooltip>
       <Tooltip.Trigger>
         <DrawerTrigger for={`${action}:${id}`}>
           <ToggleButton

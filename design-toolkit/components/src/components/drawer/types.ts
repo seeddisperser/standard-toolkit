@@ -179,7 +179,7 @@ export type DrawerMenuItemProps = Omit<
   /**
    * When set this will be the text for the tooltip
    */
-  textValue?: string;
+  textValue: string;
 
   /**
    * Class names to be applied to the item and tooltip
