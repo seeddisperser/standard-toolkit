@@ -69,7 +69,7 @@ export const SidenavStyles = tv({
       'flex w-full cursor-pointer items-center justify-center gap-s rounded-medium p-xs',
       'group-closed/sidenav:max-w-fit',
       'enabled:hover:bg-interactive-muted-hover',
-      'enabled:focus-visible:bg-interactive-muted-hover enabled:focus-visible:outline-none',
+      'enabled:pressed:bg-interactive-muted-hover enabled:focus-visible:bg-interactive-muted-hover enabled:focus-visible:outline-none',
     ],
     menuHeading: 'flex-1 text-left',
     menuPanel: [

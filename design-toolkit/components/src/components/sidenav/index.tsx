@@ -400,7 +400,6 @@ function SidenavMenu({
           (className) => className ?? '',
         )}
       >
-        <Heading slot='panel'>{title}</Heading>
         <div className={panelContent({ className: classNames?.panelContent })}>
           {children}
         </div>
