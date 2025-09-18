@@ -22,7 +22,6 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -107,6 +106,20 @@ function DrawerClose() {
 
 DrawerClose.displayName = 'Drawer.Close';
 
+function DrawerBack() {
+  return (
+    <Drawer.Trigger for='back'>
+      <Button variant='icon'>
+        <Icon>
+          <ChevronLeft />
+        </Icon>
+      </Button>
+    </Drawer.Trigger>
+  );
+}
+
+DrawerBack.displayName = 'Drawer.Back';
+
 function DrawerLayoutMain({
   className,
   ...rest
@@ -158,11 +171,7 @@ function DrawerMenuItem({
         )}
         role='tab'
         variant='icon'
-        isSelected={
-          id === view ||
-          !!views?.some((view) => id === view) ||
-          (stack.length > 1 && stack.includes(id))
-        }
+        isSelected={id === view || (stack.length > 1 && stack.includes(id))}
       >
         {composeRenderProps(children, (children) => (
           <Icon>{children}</Icon>
@@ -254,36 +263,25 @@ function DrawerHeader({
   ...rest
 }: ComponentPropsWithRef<'header'>) {
   const { stack } = useContext(ViewStackContext);
-  const level = stack.length > 1 ? 6 : 1;
+  const level = stack.length > 1 ? 4 : 1;
 
-  const renderChildren = useMemo(
-    () =>
-      title ? (
+  return (
+    <Header {...rest} className={header({ className })}>
+      {title ? (
         <>
-          {stack.length > 1 && (
-            <Drawer.Trigger for='back'>
-              <Button variant='icon'>
-                <Icon>
-                  <ChevronLeft />
-                </Icon>
-              </Button>
-            </Drawer.Trigger>
-          )}
-          <Drawer.Header.Title level={level}>{title}</Drawer.Header.Title>
+          {stack.length > 1 && <Drawer.Back />}
+          <Drawer.Header.Title level={level} className='w-fit'>
+            {title}
+          </Drawer.Header.Title>
           <Drawer.Close />
         </>
       ) : (
         children
-      ),
-    [children, level, stack.length, title],
-  );
-
-  return (
-    <Header {...rest} className={header({ className })}>
-      {renderChildren}
+      )}
     </Header>
   );
 }
+
 DrawerHeader.displayName = 'Drawer.Header';
 DrawerHeader.Title = DrawerHeaderTitle;
 
@@ -394,3 +392,4 @@ Drawer.Content = DrawerContent;
 Drawer.Footer = DrawerFooter;
 Drawer.Trigger = DrawerTrigger;
 Drawer.Close = DrawerClose;
+Drawer.Back = DrawerBack;
