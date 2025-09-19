@@ -162,12 +162,6 @@ export type DrawerMenuItemProps = Omit<
    * If the menu item is intended to control multiple views, use the `views` prop for additional associations; do not include the `for` id in the `views` array.
    */
   for: UniqueId;
-  /**
-   * An optional array of additional view identifiers. If provided, the menu item will display as active when any of these views are active.
-   *
-   * You do not need to include the `id` already passed in the `for` prop.
-   */
-  views?: UniqueId[];
 
   /**
    * If set to `true`, the menu item will toggle the visibility of the associated view each time it is activated.

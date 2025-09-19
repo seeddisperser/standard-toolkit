@@ -161,7 +161,6 @@ function DrawerMenuItem({
   children,
   classNames,
   toggle,
-  views,
   textValue,
   ...rest
 }: DrawerMenuItemProps) {
