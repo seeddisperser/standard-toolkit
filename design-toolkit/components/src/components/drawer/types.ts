@@ -148,7 +148,10 @@ export type DrawerMenuProps = ComponentPropsWithRef<'nav'> & {
  * Drawer.Menu.Item implements Drawer.Trigger with the default behavior of
  * the trigger's `open` event type, which resets the stack before pushing the new view
  */
-export type DrawerMenuItemProps = Omit<ToggleButtonProps, 'id'> & {
+export type DrawerMenuItemProps = Omit<
+  ToggleButtonProps,
+  'id' | 'isSelected'
+> & {
   /**
    * The unique identifier of the view that this menu item controls.
    *
