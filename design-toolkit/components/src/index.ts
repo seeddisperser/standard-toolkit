@@ -38,6 +38,9 @@ export type { AvatarProps } from './components/avatar/types';
 export { Badge, BadgeContext } from './components/badge';
 export { BadgeStyles, BadgeStylesDefaults } from './components/badge/styles';
 export type { BadgeProps } from './components/badge/types';
+export { Breadcrumbs } from './components/breadcrumbs';
+export { BreadcrumbsStyles } from './components/breadcrumbs/styles';
+export type { BreadcrumbItemProps } from './components/breadcrumbs/types';
 export {
   Button,
   ButtonContext,
@@ -242,14 +245,20 @@ export { Sidenav } from './components/sidenav';
 export { SidenavStyles } from './components/sidenav/styles';
 export type {
   SidenavAvatarProps,
+  SidenavCloseEvent,
   SidenavContentProps,
   SidenavContextValue,
   SidenavDividerProps,
+  SidenavEvent,
   SidenavFooterProps,
   SidenavHeaderProps,
   SidenavItemProps,
   SidenavLinkProps,
+  SidenavMenuItemProps,
+  SidenavMenuProps,
+  SidenavOpenEvent,
   SidenavProps,
+  SidenavToggleEvent,
   SidenavTriggerProps,
 } from './components/sidenav/types';
 export { Skeleton } from './components/skeleton';
