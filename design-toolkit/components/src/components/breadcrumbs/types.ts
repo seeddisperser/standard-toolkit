@@ -19,7 +19,7 @@ export type BreadcrumbItemProps = Omit<
   (
     | {
         classNames?: {
-          item?: string;
+          item?: BreadcrumbProps['className'];
           link?: string;
           separator?: string;
         };
@@ -28,7 +28,7 @@ export type BreadcrumbItemProps = Omit<
       }
     | {
         classNames?: {
-          item?: string;
+          item?: BreadcrumbProps['className'];
           separator?: string;
         };
         linkProps?: never;
