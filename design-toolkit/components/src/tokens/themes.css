@@ -54,15 +54,15 @@
     --bg-surface-muted: var(--primitive-alpha-white-100, rgba(255, 255, 255, 0.08));
     --bg-interactive-bold: var(--primitive-neutral-100, #eff1f2);
     --bg-interactive-bold-hover: var(--primitive-neutral-200, #d5d7d9);
-    --bg-interactive-bold-pressed: var(--primitive-neutral-300, #C3C5C7);
-    --bg-interactive-muted: var(--primitive-neutral-700, #38393a);
+    --bg-interactive-bold-pressed: var(--primitive-neutral-400, #888a8f);
+    --bg-interactive-muted: var(--primitive-neutral-700, #2f2f31);
     --bg-interactive-muted-hover: var(--primitive-neutral-600, #414245);
     --bg-interactive-muted-pressed: var(--primitive-neutral-950, #000000);
     --bg-interactive-disabled: var(--primitive-neutral-700, #2f2f31);
     --bg-accent-primary-bold: var(--primitive-accent-primary-700, #004f7e);
     --bg-accent-primary-hover: var(--primitive-accent-primary-600, #0068a1);
     --bg-accent-primary-pressed: var(--primitive-accent-primary-800, #00213e);
-    --bg-accent-primary-muted: var(--primitive-accent-primary-800, #002C52);
+    --bg-accent-primary-muted: var(--primitive-accent-primary-800, #00213e);
     --bg-info-bold: var(--primitive-utility-info-500, #565759);
     --bg-info-hover: var(--primitive-utility-info-400, #888a8f);
     --bg-info-pressed: var(--primitive-utility-info-600, #414245);
@@ -76,7 +76,7 @@
     --bg-normal-pressed: var(--primitive-utility-normal-700, #145718);
     --bg-normal-muted: var(--primitive-utility-normal-900, #08210a);
     --bg-serious-bold: var(--primitive-utility-serious-600, #bb7a00);
-    --bg-serious-hover: var(--primitive-utility-serious-500, #E69600);
+    --bg-serious-hover: var(--primitive-utility-serious-500, #e89906);
     --bg-serious-pressed: var(--primitive-utility-serious-800, #634101);
     --bg-serious-muted: var(--primitive-utility-serious-900, #291b00);
     --bg-critical-bold: var(--primitive-utility-critical-700, #790501);
@@ -88,10 +88,9 @@
     --fg-inverse-bold: var(--primitive-neutral-800, #212223);
     --fg-inverse-muted: var(--primitive-neutral-400, #888a8f);
     --fg-disabled: var(--primitive-neutral-500, #565759);
-    --fg-accent-primary-bold: var(--primitive-accent-primary-400, #39B7FA);
+    --fg-accent-primary-bold: var(--primitive-accent-primary-300, #39b7fa);
     --fg-accent-primary-hover: var(--primitive-accent-primary-200, #6ed1ff);
     --fg-accent-primary-pressed: var(--primitive-accent-primary-600, #0068a1);
-    --fg-hover: var(--primitive-neutral-50, #ffffff);
     --fg-info-bold: var(--primitive-utility-info-400, #888a8f);
     --fg-info-hover: var(--primitive-utility-info-200, #d5d7d9);
     --fg-info-pressed: var(--primitive-utility-info-600, #414245);
@@ -101,7 +100,7 @@
     --fg-normal-bold: var(--primitive-utility-normal-400, #2bbf35);
     --fg-normal-hover: var(--primitive-utility-normal-200, #86e98c);
     --fg-normal-pressed: var(--primitive-utility-normal-600, #1c7e23);
-    --fg-serious-bold: var(--primitive-utility-serious-500, #E69600);
+    --fg-serious-bold: var(--primitive-utility-serious-500, #e89906);
     --fg-serious-hover: var(--primitive-utility-serious-300, #ffc14c);
     --fg-serious-pressed: var(--primitive-utility-serious-600, #bb7a00);
     --fg-critical-bold: var(--primitive-utility-critical-400, #ff2e27);
@@ -112,7 +111,7 @@
     --outline-static: var(--primitive-neutral-600, #414245);
     --outline-interactive: var(--primitive-neutral-600, #414245);
     --outline-interactive-hover: var(--primitive-neutral-400, #888a8f);
-    --outline-interactive-pressed: var(--primitive-neutral-700, #38393A);
+    --outline-interactive-pressed: var(--primitive-neutral-700, #2f2f31);
     --outline-interactive-disabled: var(--primitive-neutral-700, #2f2f31);
     --outline-accent-primary-bold: var(--primitive-accent-primary-300, #39b7fa);
     --outline-accent-primary-hover: var(--primitive-accent-primary-200, #6ed1ff);
@@ -123,9 +122,6 @@
     --outline-advisory-bold: var(--primitive-utility-advisory-400, #62a6ff);
     --outline-advisory-hover: var(--primitive-utility-advisory-200, #a9ceff);
     --outline-advisory-pressed: var(--primitive-utility-advisory-600, #3c67a0);
-    --outline-mono-bold: var(--primitive-neutral-50, #ffffff);
-    --outline-mono-bold: var(--primitive-neutral-100, #EFF1F2);
-    --outline-mono-bold-pressed: var(--primitive-neutral-300, #C3C5C7);
     --outline-normal-bold: var(--primitive-utility-normal-400, #2bbf35);
     --outline-normal-hover: var(--primitive-utility-normal-200, #86e98c);
     --outline-normal-pressed: var(--primitive-utility-normal-600, #1c7e23);
@@ -135,6 +131,8 @@
     --outline-critical-bold: var(--primitive-utility-critical-400, #ff2e27);
     --outline-critical-hover: var(--primitive-utility-critical-300, #ff6d68);
     --outline-critical-pressed: var(--primitive-utility-critical-600, #a10701);
+    --outline-mono-bold: var(--primitive-neutral-100, #eff1f2);
+    --outline-mono-pressed: var(--primitive-neutral-300, #c3c5c7);
     --shadow-elevation-raised: var(--shadow-elevation-raised-bold, 0 1px 4px 0 rgba(0 0 0 / 0.80));
     --shadow-elevation-overlay: var(--shadow-elevation-overlay-bold, 0 8px 24px 0 rgba(0 0 0 / 0.80));
     }
@@ -215,8 +213,6 @@
     --outline-advisory-bold: var(--primitive-utility-advisory-400, #62a6ff);
     --outline-advisory-hover: var(--primitive-utility-advisory-600, #3c67a0);
     --outline-advisory-pressed: var(--primitive-utility-advisory-500, #4e88da);
-    /* TODO: Need lightmode mono-bold colors. */
-    --outline-mono-bold: var(--primitive-neutral-50, #ffffff); /* What is token. */
     --outline-normal-bold: var(--primitive-utility-normal-400, #2bbf35);
     --outline-normal-hover: var(--primitive-utility-normal-600, #1c7e23);
     --outline-normal-pressed: var(--primitive-utility-normal-500, #26a12e);
@@ -226,6 +222,7 @@
     --outline-critical-bold: var(--primitive-utility-critical-400, #ff2e27);
     --outline-critical-hover: var(--primitive-utility-critical-600, #a10701);
     --outline-critical-pressed: var(--primitive-utility-critical-500, #d40b04);
+    --outline-mono-pressed: var(--primitive-neutral-300, #c3c5c7);
     --shadow-elevation-raised: var(--shadow-elevation-raised-muted, 0 1px 4px 0 rgba(0 0 0 / 0.16));
     --shadow-elevation-overlay: var(--shadow-elevation-overlay-muted, 0 8px 24px 0 rgba(0 0 0 / 0.16));
     }
@@ -635,11 +632,6 @@
 --icon-color: var(--fg-primary-bold);
 }
 
-@utility fg-hover {
-  color: var(--fg-hover);
-  --icon-color: var(--fg-hover);
-}
-
 @utility fg-primary-muted {
  color: var(--fg-primary-muted);
 --icon-color: var(--fg-primary-muted);
@@ -828,14 +820,6 @@
  outline-color: var(--outline-normal-pressed);
 }
 
-@utility outline-mono-bold {
-  outline-color: var(--outline-mono-bold);
-}
-
-@utility outline-mono-bold-hover {
-  outline-color: var(--outline-mono-bold);
-}
-
 @utility outline-serious-bold {
  outline-color: var(--outline-serious-bold);
 }
@@ -858,6 +842,14 @@
 
 @utility outline-critical-pressed {
  outline-color: var(--outline-critical-pressed);
+}
+
+@utility outline-mono-bold {
+ outline-color: var(--outline-mono-bold);
+}
+
+@utility outline-mono-pressed {
+ outline-color: var(--outline-mono-pressed);
 }
 
 @utility shadow-elevation-raised {
