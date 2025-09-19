@@ -107,7 +107,8 @@ function DrawerClose() {
 DrawerClose.displayName = 'Drawer.Close';
 
 function DrawerBack() {
-  return (
+  const { stack } = useContext(ViewStackContext);
+  return stack.length > 1 ? (
     <Drawer.Trigger for='back'>
       <Button variant='icon'>
         <Icon>
@@ -115,7 +116,7 @@ function DrawerBack() {
         </Icon>
       </Button>
     </Drawer.Trigger>
-  );
+  ) : null;
 }
 
 DrawerBack.displayName = 'Drawer.Back';
@@ -269,7 +270,7 @@ function DrawerHeader({
     <Header {...rest} className={header({ className })}>
       {title ? (
         <>
-          {stack.length > 1 && <Drawer.Back />}
+          <Drawer.Back />
           <Drawer.Header.Title level={level} className='w-fit'>
             {title}
           </Drawer.Header.Title>
