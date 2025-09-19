@@ -59,7 +59,7 @@ function BreadcrumbItem({
         item({ className }),
       )}
     >
-      {composeRenderProps(linkProps ? null : children, (children) => (
+      {composeRenderProps(linkProps ? null : children, (itemChildren) => (
         <>
           {linkProps ? (
             <Link
@@ -71,7 +71,7 @@ function BreadcrumbItem({
               {children}
             </Link>
           ) : (
-            children
+            itemChildren
           )}
           <Icon
             aria-hidden='true'
