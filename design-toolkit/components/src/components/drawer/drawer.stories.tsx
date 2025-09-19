@@ -67,13 +67,13 @@ export const StaticHeaderFooter: StoryObj<DrawerWithAdditionalArgs> = {
         <Drawer.Layout>
           <Drawer id={ids.drawer} placement={placement} size={size}>
             <Drawer.Menu position={position}>
-              <Drawer.Menu.Item toggle={toggle} for={ids.a}>
+              <Drawer.Menu.Item toggle={toggle} for={ids.a} textValue='Menu A'>
                 A
               </Drawer.Menu.Item>
-              <Drawer.Menu.Item toggle={toggle} for={ids.b}>
+              <Drawer.Menu.Item toggle={toggle} for={ids.b} textValue='Menu B'>
                 B
               </Drawer.Menu.Item>
-              <Drawer.Menu.Item toggle={toggle} for={ids.c}>
+              <Drawer.Menu.Item toggle={toggle} for={ids.c} textValue='Menu C'>
                 C
               </Drawer.Menu.Item>
             </Drawer.Menu>
@@ -105,13 +105,13 @@ export const DynamicHeaderFooter: StoryObj<DrawerWithAdditionalArgs> = {
         <Drawer.Layout>
           <Drawer id={ids.drawer} placement={placement} size={size}>
             <Drawer.Menu position={position}>
-              <Drawer.Menu.Item toggle for={ids.a}>
+              <Drawer.Menu.Item toggle for={ids.a} textValue='Menu A'>
                 A
               </Drawer.Menu.Item>
-              <Drawer.Menu.Item toggle for={ids.b}>
+              <Drawer.Menu.Item toggle for={ids.b} textValue='Menu B'>
                 B
               </Drawer.Menu.Item>
-              <Drawer.Menu.Item toggle for={ids.c}>
+              <Drawer.Menu.Item toggle for={ids.c} textValue='Menu C'>
                 C
               </Drawer.Menu.Item>
             </Drawer.Menu>
@@ -159,7 +159,7 @@ export const OpenCloseTrigger: StoryObj<DrawerWithAdditionalArgs> = {
           </Drawer.Layout.Main>
           <Drawer id={ids.drawer} placement={placement} size={size}>
             <Drawer.Menu position={position}>
-              <Drawer.Menu.Item toggle for={ids.a}>
+              <Drawer.Menu.Item toggle for={ids.a} textValue='Menu A'>
                 A
               </Drawer.Menu.Item>
             </Drawer.Menu>
