@@ -215,7 +215,7 @@ ToggleButtonProvider.displayName = 'ToggleButton.Provider';
  *
  * @example
  * // Controlled toggle button with different variants
- * <ToggleButton variant="filled" isSelected={isEnabled} onChange={setIsEnabled}>
+ * <ToggleButton variant="flat" isSelected={isEnabled} onChange={setIsEnabled}>
  *   Enable Notifications
  * </ToggleButton>
  *
