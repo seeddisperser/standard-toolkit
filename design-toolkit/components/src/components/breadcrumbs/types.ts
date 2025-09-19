@@ -10,22 +10,28 @@
  * governing permissions and limitations under the License.
  */
 
-import { Breadcrumb } from './';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { BreadcrumbProps, LinkProps } from 'react-aria-components';
 
-const meta: Meta<typeof Breadcrumb> = {
-  title: 'Components/Breadcrumb',
-  component: Breadcrumb,
-};
-
-export default meta;
-
-export const Default: StoryObj<typeof Breadcrumb> = {
-  render: () => (
-    <Breadcrumb>
-      <Breadcrumb.Item href='/'>Root</Breadcrumb.Item>
-      <Breadcrumb.Item href='/home'>Child</Breadcrumb.Item>
-      <Breadcrumb.Item>Child</Breadcrumb.Item>
-    </Breadcrumb>
-  ),
-};
+export type BreadcrumbItemProps = Omit<
+  BreadcrumbProps,
+  'children' | 'className'
+> &
+  (
+    | {
+        classNames?: {
+          item?: string;
+          link?: string;
+          separator?: string;
+        };
+        linkProps: Omit<LinkProps, 'className'>;
+        children?: LinkProps['children'];
+      }
+    | {
+        classNames?: {
+          item?: string;
+          separator?: string;
+        };
+        linkProps?: never;
+        children?: BreadcrumbProps['children'];
+      }
+  );

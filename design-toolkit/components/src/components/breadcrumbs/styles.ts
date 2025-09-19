@@ -9,26 +9,14 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
-import { Breadcrumb } from './';
 
-function setup() {
-  render(
-    <Breadcrumb>
-      <Breadcrumb.Item>Root</Breadcrumb.Item>
-      <Breadcrumb.Item>Previous</Breadcrumb.Item>
-      <Breadcrumb.Item>Current</Breadcrumb.Item>
-    </Breadcrumb>,
-  );
-}
+import { tv } from '@/lib/utils';
 
-describe('Breadcrumb', () => {
-  it('should render', () => {
-    setup();
-
-    expect(screen.getByText('Root')).toBeInTheDocument();
-    expect(screen.getByText('Previous')).toBeInTheDocument();
-    expect(screen.getByText('Current')).toBeInTheDocument();
-  });
+export const BreadcrumbsStyles = tv({
+  slots: {
+    list: 'fg-primary-muted flex items-center gap-s',
+    item: 'group/breadcrumb flex items-center gap-s',
+    link: 'current:fg-accent-primary-bold hover:fg-primary-bold',
+    separator: 'group-current/breadcrumb:hidden',
+  },
 });

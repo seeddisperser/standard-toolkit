@@ -11,65 +11,79 @@
  */
 'use client';
 
-import { ChevronRight } from '@accelint/icons';
-import { containsExactChildren } from '@/lib/react';
 import 'client-only';
+import { ChevronRight } from '@accelint/icons';
 import {
-  Breadcrumb as AriaBreadcrumb,
+  Breadcrumbs as AriaBreadcrumbs,
+  Breadcrumb,
   type BreadcrumbProps,
-  Breadcrumbs,
   type BreadcrumbsProps,
   composeRenderProps,
   Link,
 } from 'react-aria-components';
+import { containsExactChildren } from '@/lib/react';
 import { Icon } from '../icon';
-import { BreadcrumbStyles } from './styles';
+import { BreadcrumbsStyles } from './styles';
 import type { BreadcrumbItemProps } from './types';
 
-const { list, item, link, separator } = BreadcrumbStyles();
+const { list, item, link, separator } = BreadcrumbsStyles();
 
-export function Breadcrumb({
+export function Breadcrumbs({
   children,
   className,
 }: BreadcrumbsProps<BreadcrumbProps>) {
   containsExactChildren({
     children,
-    componentName: Breadcrumb.displayName,
+    componentName: Breadcrumbs.displayName,
     restrictions: [[BreadcrumbItem, { min: 1 }]],
   });
 
-  return <Breadcrumbs className={list({ className })}>{children}</Breadcrumbs>;
+  return (
+    <AriaBreadcrumbs className={list({ className })}>
+      {children}
+    </AriaBreadcrumbs>
+  );
 }
-Breadcrumb.displayName = 'Breadcrumb';
+Breadcrumbs.displayName = 'Breadcrumbs';
 
 function BreadcrumbItem({
   children,
   classNames,
+  linkProps,
   ...rest
 }: BreadcrumbItemProps) {
   return (
-    <AriaBreadcrumb
+    <Breadcrumb
+      {...rest}
       className={composeRenderProps(classNames?.item, (className) =>
         item({ className }),
       )}
     >
-      <Link
-        {...rest}
-        className={composeRenderProps(classNames?.link, (className) =>
-          link({ className }),
-        )}
-      >
-        {children}
-      </Link>
-      <Icon
-        aria-hidden='true'
-        className={separator({ className: classNames?.separator })}
-      >
-        <ChevronRight />
-      </Icon>
-    </AriaBreadcrumb>
+      {composeRenderProps(linkProps ? null : children, (children) => (
+        <>
+          {linkProps ? (
+            <Link
+              {...linkProps}
+              className={composeRenderProps(classNames?.link, (className) =>
+                link({ className }),
+              )}
+            >
+              {children}
+            </Link>
+          ) : (
+            children
+          )}
+          <Icon
+            aria-hidden='true'
+            className={separator({ className: classNames?.separator })}
+          >
+            <ChevronRight />
+          </Icon>
+        </>
+      ))}
+    </Breadcrumb>
   );
 }
-BreadcrumbItem.displayName = 'Breadcrumb.Item';
+BreadcrumbItem.displayName = 'Breadcrumbs.Item';
 
-Breadcrumb.Item = BreadcrumbItem;
+Breadcrumbs.Item = BreadcrumbItem;

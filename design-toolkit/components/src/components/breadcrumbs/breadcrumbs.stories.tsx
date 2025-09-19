@@ -10,13 +10,22 @@
  * governing permissions and limitations under the License.
  */
 
-import { tv } from '@/lib/utils';
+import { Breadcrumbs } from './';
+import type { Meta, StoryObj } from '@storybook/react';
 
-export const BreadcrumbStyles = tv({
-  slots: {
-    list: 'fg-primary-muted flex items-center gap-s',
-    item: 'group/breadcrumb flex items-center gap-s',
-    link: 'current:fg-accent-primary-bold hover:fg-primary-bold',
-    separator: 'group-current/breadcrumb:hidden',
-  },
-});
+const meta: Meta<typeof Breadcrumbs> = {
+  title: 'Components/Breadcrumbs',
+  component: Breadcrumbs,
+};
+
+export default meta;
+
+export const Default: StoryObj<typeof Breadcrumbs> = {
+  render: () => (
+    <Breadcrumbs>
+      <Breadcrumbs.Item linkProps={{ href: '/ ' }}>Root</Breadcrumbs.Item>
+      <Breadcrumbs.Item linkProps={{ href: '/home' }}>Child</Breadcrumbs.Item>
+      <Breadcrumbs.Item>Child</Breadcrumbs.Item>
+    </Breadcrumbs>
+  ),
+};

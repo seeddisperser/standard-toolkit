@@ -1,38 +1,38 @@
 import { Canvas, Meta } from "@storybook/blocks";
 
-import * as BreadcrumbStories from "./breadcrumb.stories";
+import * as BreadcrumbsStories from "./breadcrumbs.stories";
 
-<Meta of={BreadcrumbStories} />
+<Meta of={BreadcrumbsStories} />
 
-# Breadcrumb
+# Breadcrumbs
 An accessible breadcrumb navigation component built on React Aria Components. It displays the user's current location within the application hierarchy and provides links back to parent pages. The final breadcrumb represents the current page.
 
 It is composed of the following components:
 
-- **Breadcrumb** - Container that renders the list of breadcrumb items
-- **Breadcrumb.Item** - Individual breadcrumb item; renders a link when `href` is provided, or the current page when omitted
+- **Breadcrumbs** - Container that renders the list of breadcrumb items
+- **Breadcrumbs.Item** - Individual breadcrumb item; renders a link when `href` is provided, or the current page when omitted
 
 ## Example usage
 
 ### Basic
 ```
-<Breadcrumb>
-  <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
-  <Breadcrumb.Item href="/projects">Projects</Breadcrumb.Item>
-  <Breadcrumb.Item>Project Phoenix</Breadcrumb.Item>
-</Breadcrumb>
+<Breadcrumbs>
+  <Breadcrumbs.Item href="/">Home</Breadcrumbs.Item>
+  <Breadcrumbs.Item href="/projects">Projects</Breadcrumbs.Item>
+  <Breadcrumbs.Item>Project Phoenix</Breadcrumbs.Item>
+</Breadcrumbs>
 ```
 
-<Canvas of={BreadcrumbStories.Default} />
+<Canvas of={BreadcrumbsStories.Default} />
 
 ## Props
 
-### Breadcrumb Props
+### Breadcrumbs Props
 - Inherits all `Breadcrumbs` [props from `react-aria-components`](https://react-spectrum.adobe.com/react-aria/Breadcrumbs.html#props)
-- **`children`** - One or more `Breadcrumb.Item` elements (minimum of 1)
+- **`children`** - One or more `Breadcrumbs.Item` elements (minimum of 1)
 - **`className`** - Additional classes to be applied to the breadcrumb list
 
-### Breadcrumb.Item Props
+### Breadcrumbs.Item Props
 - Inherits all `Link` [props from `react-aria-components`](https://react-spectrum.adobe.com/react-aria/Breadcrumbs.html#link)
 - **`classNames`** - Customize internal slots
   - `item` - Wrapper for each breadcrumb item
@@ -42,5 +42,3 @@ It is composed of the following components:
 ## Implementation Notes
 
 The separator is rendered as an `Icon` with a `ChevronRight`. The final breadcrumb (current page) automatically hides it's separator.
-
-

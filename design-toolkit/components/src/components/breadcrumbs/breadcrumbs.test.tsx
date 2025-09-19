@@ -9,13 +9,26 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+import { render, screen } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+import { Breadcrumbs } from './';
 
-import type { LinkProps } from 'react-aria-components';
+function setup() {
+  render(
+    <Breadcrumbs>
+      <Breadcrumbs.Item>Root</Breadcrumbs.Item>
+      <Breadcrumbs.Item>Previous</Breadcrumbs.Item>
+      <Breadcrumbs.Item>Current</Breadcrumbs.Item>
+    </Breadcrumbs>,
+  );
+}
 
-export type BreadcrumbItemProps = LinkProps & {
-  classNames?: {
-    item?: string;
-    link?: string;
-    separator?: string;
-  };
-};
+describe('Breadcrumbs', () => {
+  it('should render', () => {
+    setup();
+
+    expect(screen.getByText('Root')).toBeInTheDocument();
+    expect(screen.getByText('Previous')).toBeInTheDocument();
+    expect(screen.getByText('Current')).toBeInTheDocument();
+  });
+});
