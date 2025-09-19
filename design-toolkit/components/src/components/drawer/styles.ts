@@ -136,10 +136,10 @@ export const DrawerMenuStyles = tv({
     ],
     item: [
       'flex flex-col items-center justify-center',
-      'sudo:fg-primary-muted !p-xs cursor-pointer outline-none',
+      'enabled:color-info:fg-primary-muted cursor-pointer outline-none',
       'rounded-medium',
       //hover
-      'sudo:hover:fg-primary-bold hover:!bg-transparent',
+      'enabled:color-info:hover:fg-primary-bold enabled:hover:color-info:bg-transparent',
       //selected
       'selected:fg-accent-primary-bold selected:bg-accent-primary-muted',
       //focused
@@ -152,26 +152,26 @@ export const DrawerMenuStyles = tv({
     position: {
       start: {
         menu: [
-          'group-placement-left/drawer:-translate-y-1/2 group-placement-left/drawer:top-1/8',
-          'group-placement-right/drawer:-translate-y-1/2 group-placement-right/drawer:top-1/8',
-          'group-placement-top/drawer:left-1/8 group-placement-top/drawer:translate-x-1/4',
-          'group-placement-bottom/drawer:left-1/8 group-placement-bottom/drawer:translate-x-1/4',
+          'group-placement-left/drawer:top-0 group-placement-left/drawer:translate-y-1/4',
+          'group-placement-right/drawer:top-0 group-placement-right/drawer:translate-y-1/4',
+          'group-placement-top/drawer:left-0 group-placement-top/drawer:translate-x-3/4',
+          'group-placement-bottom/drawer:left-0 group-placement-bottom/drawer:translate-x-3/4',
         ],
       },
       center: {
         menu: [
           'group-placement-left/drawer:-translate-y-1/2 group-placement-left/drawer:top-1/2',
           'group-placement-right/drawer:-translate-y-1/2 group-placement-right/drawer:top-1/2',
-          'group-placement-top/drawer:-translate-x-1/8 group-placement-top/drawer:left-1/2',
-          'group-placement-bottom/drawer:-translate-x-1/8 group-placement-bottom/drawer:left-1/2',
+          'group-placement-top/drawer:left-1/2 group-placement-top/drawer:translate-x-1',
+          'group-placement-bottom/drawer:left-1/2 group-placement-bottom/drawer:translate-x-1',
         ],
       },
       end: {
         menu: [
-          'group-placement-left/drawer:-translate-y-7/2 group-placement-left/drawer:top-7/8',
-          'group-placement-right/drawer:-translate-y-7/8 group-placement-right/drawer:top-7/8',
-          'group-placement-top/drawer:-translate-x-1/2 group-placement-top/drawer:left-7/8',
-          'group-placement-bottom/drawer:-translate-x-1/2 group-placement-bottom/drawer:left-7/8',
+          'group-placement-left/drawer:-translate-y-1/4 group-placement-left/drawer:bottom-0',
+          'group-placement-right/drawer:-translate-y-1/4 group-placement-right/drawer:bottom-0',
+          'group-placement-top/drawer:-translate-x-3/4 group-placement-top/drawer:left-full',
+          'group-placement-bottom/drawer:-translate-x-3/4 group-placement-bottom/drawer:left-full',
         ],
       },
     },
