@@ -29,6 +29,7 @@ import { composeRenderProps, Header, Heading } from 'react-aria-components';
 import { containsExactChildren } from '@/lib/react';
 import { Button, ToggleButton } from '../button';
 import { Icon } from '../icon';
+import { Tooltip } from '../tooltip';
 import {
   ViewStack,
   ViewStackContext,
@@ -59,6 +60,7 @@ const bus = Broadcast.getInstance<DrawerEvent>();
 export const DrawerContext = createContext<DrawerContextValue>({
   register: () => undefined,
   unregister: () => undefined,
+  placement: 'left',
 });
 
 export const DrawerEventHandlers = {
@@ -147,38 +149,61 @@ function DrawerLayout({
 DrawerLayout.displayName = 'Drawer.Layout';
 DrawerLayout.Main = DrawerLayoutMain;
 
+const tooltipPlacementMap = {
+  left: 'right',
+  right: 'left',
+  top: 'bottom',
+  bottom: 'top',
+} as const;
+
 function DrawerMenuItem({
   for: id,
   children,
-  className,
+  classNames,
   toggle,
   views,
+  textValue,
   ...rest
 }: DrawerMenuItemProps) {
   const { parent, stack } = useContext(ViewStackContext);
+  const { placement } = useContext(DrawerContext);
   const view = stack.at(-1);
   const action = toggle ? 'toggle' : 'open';
+  const tooltipRef = useRef(null);
 
   if (!parent) {
     return null;
   }
 
   return (
-    <DrawerTrigger for={`${action}:${id}`}>
-      <ToggleButton
-        {...rest}
-        className={composeRenderProps(className, (className) =>
-          item({ className }),
-        )}
-        role='tab'
-        variant='icon'
-        isSelected={id === view || (stack.length > 1 && stack.includes(id))}
+    <Tooltip>
+      <Tooltip.Trigger>
+        <DrawerTrigger for={`${action}:${id}`}>
+          <ToggleButton
+            {...rest}
+            ref={tooltipRef}
+            className={composeRenderProps(classNames?.item, (className) =>
+              item({ className }),
+            )}
+            role='tab'
+            variant='icon'
+            isSelected={id === view || (stack.length > 1 && stack.includes(id))}
+          >
+            {composeRenderProps(children, (children) => (
+              <Icon>{children}</Icon>
+            ))}
+          </ToggleButton>
+        </DrawerTrigger>
+      </Tooltip.Trigger>
+      <Tooltip.Body
+        triggerRef={tooltipRef}
+        placement={tooltipPlacementMap[placement]}
+        offset={6}
+        className={classNames?.tooltip}
       >
-        {composeRenderProps(children, (children) => (
-          <Icon>{children}</Icon>
-        ))}
-      </ToggleButton>
-    </DrawerTrigger>
+        {textValue}
+      </Tooltip.Body>
+    </Tooltip>
   );
 }
 DrawerMenuItem.displayName = 'Drawer.Menu.Item';
@@ -359,6 +384,7 @@ export function Drawer({
       value={{
         register: (view: UniqueId) => views.current.add(view),
         unregister: (view: UniqueId) => views.current.delete(view),
+        placement,
       }}
     >
       <ViewStack

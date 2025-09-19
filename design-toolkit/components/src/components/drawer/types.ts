@@ -150,7 +150,7 @@ export type DrawerMenuProps = ComponentPropsWithRef<'nav'> & {
  */
 export type DrawerMenuItemProps = Omit<
   ToggleButtonProps,
-  'id' | 'isSelected'
+  'id' | 'isSelected' | 'className'
 > & {
   /**
    * The unique identifier of the view that this menu item controls.
@@ -175,6 +175,19 @@ export type DrawerMenuItemProps = Omit<
    * By default, the menu item only opens the view. Use this prop to enable toggling between open and closed states.
    */
   toggle?: boolean;
+
+  /**
+   * When set this will be the text for the tooltip
+   */
+  textValue: string;
+
+  /**
+   * Class names to be applied to the item and tooltip
+   */
+  classNames?: {
+    item?: string;
+    tooltip?: string;
+  };
 };
 
 export type DrawerTitleProps = Omit<HeadingProps, 'level'> &
@@ -241,4 +254,5 @@ export type DrawerTriggerProps = {
 export type DrawerContextValue = {
   register: (view: UniqueId) => void;
   unregister: (view: UniqueId) => void;
+  placement: XAxisUnion | YAxisUnion;
 };
