@@ -38,6 +38,7 @@ export type Payload<
     };
 
 export type ExtractEvent<
+  // biome-ignore lint/suspicious/noExplicitAny: proper use of `any`
   P extends { type: string; payload?: unknown } = Payload<string, any>,
   T extends P['type'] = P['type'],
 > = {
