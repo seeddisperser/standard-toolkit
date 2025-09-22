@@ -96,6 +96,8 @@ export type SemanticColorTokens = {
     };
   };
   fg: {
+    hover: RGBA;
+    pressed: RGBA;
     primary: {
       bold: RGBA;
       muted: RGBA;

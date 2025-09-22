@@ -73,6 +73,8 @@ export const designTokens = {
       },
     },
     fg: {
+      hover: [255, 255, 255, 1],
+      pressed: [136, 138, 143, 1],
       primary: {
         bold: [255, 255, 255, 1],
         muted: [195, 197, 199, 1],
@@ -84,7 +86,7 @@ export const designTokens = {
       disabled: [86, 87, 89, 1],
       accent: {
         primary: {
-          bold: [0, 156, 222, 1],
+          bold: [57, 183, 250, 1],
           hover: [110, 209, 255, 1],
           pressed: [0, 104, 161, 1],
         },
@@ -233,6 +235,8 @@ export const designTokens = {
       },
     },
     fg: {
+      hover: [33, 34, 35, 1],
+      pressed: [86, 87, 89, 1],
       primary: {
         bold: [33, 34, 35, 1],
         muted: [86, 87, 89, 1],

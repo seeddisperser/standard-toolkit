@@ -60,6 +60,8 @@
       }
     },
     "fg": {
+      "hover": "--primitive-neutral-50",
+      "pressed": "--primitive-neutral-400",
       "primary": {
         "bold": "--primitive-neutral-50",
         "muted": "--primitive-neutral-300"
@@ -220,6 +222,8 @@
       }
     },
     "fg": {
+      "hover": "--primitive-neutral-800",
+      "pressed": "--primitive-neutral-500",
       "primary": {
         "bold": "--primitive-neutral-800",
         "muted": "--primitive-neutral-500"

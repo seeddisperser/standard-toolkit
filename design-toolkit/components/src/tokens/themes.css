@@ -83,6 +83,8 @@
     --bg-critical-hover: var(--primitive-utility-critical-600, #a10701);
     --bg-critical-pressed: var(--primitive-utility-critical-800, #540300);
     --bg-critical-muted: var(--primitive-utility-critical-900, #290200);
+    --fg-hover: var(--primitive-neutral-50, #ffffff);
+    --fg-pressed: var(--primitive-neutral-400, #888a8f);
     --fg-primary-bold: var(--primitive-neutral-50, #ffffff);
     --fg-primary-muted: var(--primitive-neutral-300, #c3c5c7);
     --fg-inverse-bold: var(--primitive-neutral-800, #212223);
@@ -175,6 +177,8 @@
     --bg-critical-hover: var(--primitive-utility-critical-600, #a10701);
     --bg-critical-pressed: var(--primitive-utility-critical-800, #540300);
     --bg-critical-muted: var(--primitive-utility-critical-100, #ffc4c2);
+    --fg-hover: var(--primitive-neutral-800, #212223);
+    --fg-pressed: var(--primitive-neutral-500, #565759);
     --fg-primary-bold: var(--primitive-neutral-800, #212223);
     --fg-primary-muted: var(--primitive-neutral-500, #565759);
     --fg-inverse-bold: var(--primitive-neutral-50, #ffffff);
@@ -628,6 +632,16 @@
 
 @utility bg-critical-muted {
  background-color: var(--bg-critical-muted);
+}
+
+@utility fg-hover {
+ color: var(--fg-hover);
+--icon-color: var(--fg-hover);
+}
+
+@utility fg-pressed {
+ color: var(--fg-pressed);
+--icon-color: var(--fg-pressed);
 }
 
 @utility fg-primary-bold {

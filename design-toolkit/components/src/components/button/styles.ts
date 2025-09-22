@@ -68,7 +68,7 @@ const BaseButtonStyles = tv({
         'enabled:color-mono-muted:fg-primary-bold enabled:color-mono-muted:outline-interactive',
         'enabled:hover:color-mono-muted:bg-interactive-muted-hover enabled:hover:color-mono-muted:outline-interactive-hover',
         'enabled:focus-visible:color-mono-muted:bg-interactive-muted-hover enabled:focus-within:color-mono-muted:outline-interactive-hover',
-        'enabled:pressed:color-mono-muted:fg-inverse-muted enabled:pressed:color-mono-muted:bg-interactive-muted-pressed enabled:pressed:color-mono-muted:outline-interactive-pressed',
+        'enabled:pressed:color-mono-muted:fg-pressed enabled:pressed:color-mono-muted:bg-interactive-muted-pressed enabled:pressed:color-mono-muted:outline-interactive-pressed',
 
         // Mono Bold
         'enabled:color-mono-bold:fg-primary-bold enabled:color-mono-bold:outline enabled:color-mono-bold:outline-mono-bold',
