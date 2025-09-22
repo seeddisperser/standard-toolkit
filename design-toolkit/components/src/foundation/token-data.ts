@@ -63,6 +63,8 @@ export const tokens = {
       'fg-inverse-bold',
       'fg-inverse-muted',
       'fg-disabled',
+      'fg-pressed',
+      'fg-hover',
     ],
     utility: [
       'fg-accent-primary-bold',
@@ -96,6 +98,9 @@ export const tokens = {
       'outline-accent-primary-bold',
       'outline-accent-primary-hover',
       'outline-accent-primary-pressed',
+      'outline-mono-bold',
+      'outline-mono-hover',
+      'outline-mono-pressed',
     ],
     utility: [
       'outline-info-bold',
