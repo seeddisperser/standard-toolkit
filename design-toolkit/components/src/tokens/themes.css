@@ -131,7 +131,8 @@
     --outline-critical-bold: var(--primitive-utility-critical-400, #ff2e27);
     --outline-critical-hover: var(--primitive-utility-critical-300, #ff6d68);
     --outline-critical-pressed: var(--primitive-utility-critical-600, #a10701);
-    --outline-mono-bold: var(--primitive-neutral-100, #eff1f2);
+    --outline-mono-bold: var(--primitive-neutral-50, #ffffff);
+    --outline-mono-hover: var(--primitive-neutral-100, #eff1f2);
     --outline-mono-pressed: var(--primitive-neutral-300, #c3c5c7);
     --shadow-elevation-raised: var(--shadow-elevation-raised-bold, 0 1px 4px 0 rgba(0 0 0 / 0.80));
     --shadow-elevation-overlay: var(--shadow-elevation-overlay-bold, 0 8px 24px 0 rgba(0 0 0 / 0.80));
@@ -222,7 +223,9 @@
     --outline-critical-bold: var(--primitive-utility-critical-400, #ff2e27);
     --outline-critical-hover: var(--primitive-utility-critical-600, #a10701);
     --outline-critical-pressed: var(--primitive-utility-critical-500, #d40b04);
-    --outline-mono-pressed: var(--primitive-neutral-300, #c3c5c7);
+    --outline-mono-bold: var(--primitive-neutral-900, #151517);
+    --outline-mono-hover: var(--primitive-neutral-700, #2f2f31);
+    --outline-mono-pressed: var(--primitive-neutral-600, #414245);
     --shadow-elevation-raised: var(--shadow-elevation-raised-muted, 0 1px 4px 0 rgba(0 0 0 / 0.16));
     --shadow-elevation-overlay: var(--shadow-elevation-overlay-muted, 0 8px 24px 0 rgba(0 0 0 / 0.16));
     }
@@ -846,6 +849,10 @@
 
 @utility outline-mono-bold {
  outline-color: var(--outline-mono-bold);
+}
+
+@utility outline-mono-hover {
+ outline-color: var(--outline-mono-hover);
 }
 
 @utility outline-mono-pressed {

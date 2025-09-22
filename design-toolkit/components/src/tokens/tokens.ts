@@ -159,6 +159,11 @@ export const designTokens = {
         hover: [255, 109, 104, 1],
         pressed: [161, 7, 1, 1],
       },
+      mono: {
+        bold: [255, 255, 255, 1],
+        hover: [239, 241, 242, 1],
+        pressed: [195, 197, 199, 1],
+      },
     },
     shadow: {
       elevation: {
@@ -313,6 +318,11 @@ export const designTokens = {
         bold: [255, 46, 39, 1],
         hover: [161, 7, 1, 1],
         pressed: [212, 11, 4, 1],
+      },
+      mono: {
+        bold: [21, 21, 23, 1],
+        hover: [47, 47, 49, 1],
+        pressed: [65, 66, 69, 1],
       },
     },
     shadow: {

@@ -182,6 +182,11 @@ export type SemanticColorTokens = {
       hover: RGBA;
       pressed: RGBA;
     };
+    mono: {
+      bold: RGBA;
+      hover: RGBA;
+      pressed: RGBA;
+    };
   };
   shadow: {
     elevation: {
