@@ -345,7 +345,7 @@ export const ToggleButtonStyles = tv({
         'enabled:selected:color-critical:fg-critical-bold enabled:selected:color-critical:bg-critical-muted enabled:selected:color-critical:outline-critical-muted',
         'enabled:selected:hover:color-critical:fg-primary-bold enabled:selected:hover:color-critical:bg-critical-hover enabled:selected:hover:color-critical:outline-critical-hover',
         'enabled:selected:focus-visible:color-critical:fg-primary-bold enabled:selected:focus-visible:color-critical:bg-critical-hover enabled:selected:focus-visible:color-critical:outline-critical-hover',
-        'enabled:selected:pressed:color-critical:fg-critical-pressed enabled:selected:pressed:color-critical:bg-critical-pressed enabled:selected:pressed:color-critical:outline-2 enabled:selected:pressed:color-critical:outline-serious-pressed',
+        'enabled:selected:pressed:color-critical:fg-critical-pressed enabled:selected:pressed:color-critical:bg-critical-pressed enabled:selected:pressed:color-critical:outline-2 enabled:selected:pressed:color-critical:outline-critical-pressed',
       ],
       icon: [
         'size-small:rounded-small size-xsmall:rounded-small size-large:p-xs size-medium:p-xs size-small:p-xxs size-xsmall:p-xxs',
