@@ -20,10 +20,10 @@ const BaseButtonStyles = tv({
   base: [
     'group/button flex w-content cursor-pointer items-center justify-center rounded-medium outline outline-transparent',
     'disabled:cursor-not-allowed',
-    'size-large:gap-xs size-large:px-l size-large:py-s size-large:text-button-l',
-    'size-medium:gap-xs size-medium:px-m size-medium:py-s size-medium:text-button-m',
-    'size-small:gap-xxs size-small:px-s size-small:py-xs size-small:text-button-s',
-    'size-xsmall:gap-xxs size-xsmall:px-s size-xsmall:py-xs size-xsmall:text-button-xs',
+    'size-large:min-w-[96px] size-large:gap-xs size-large:px-l size-large:py-s size-large:text-button-l',
+    'size-medium:min-w-[68px] size-medium:gap-xs size-medium:px-m size-medium:py-s size-medium:text-button-m',
+    'size-small:min-w-[54px] size-small:gap-xxs size-small:px-s size-small:py-xs size-small:text-button-s',
+    'size-xsmall:min-w-[41px] size-xsmall:gap-xxs size-xsmall:px-s size-xsmall:py-xs size-xsmall:text-button-xs',
     'transition-colors duration-[80ms]',
   ],
   variants: {
@@ -129,6 +129,10 @@ const BaseButtonStyles = tv({
       ],
       icon: [
         'size-small:rounded-small size-xsmall:rounded-small size-large:p-xs size-medium:p-xs size-small:p-xxs size-xsmall:p-xxs',
+        'size-large:max-h-xxl size-large:min-h-xxl size-large:min-w-xxl size-large:max-w-xxl',
+        'size-medium:max-h-[28px] size-medium:min-h-[28px] size-medium:min-w-[28px] size-medium:max-w-[28px]',
+        'size-small:max-h-xl size-small:min-h-xl size-small:min-w-xl size-small:max-w-xl',
+        'size-large:max-h-[20px] size-large:min-h-[20px] size-large:min-w-[20px] size-large:max-w-[20px]',
         'disabled:fg-disabled disabled:bg-transparent',
         'disabled:hover:bg-interactive-disabled',
         'disabled:focus-visible:bg-interactive-disabled',
@@ -345,6 +349,10 @@ export const ToggleButtonStyles = tv({
       ],
       icon: [
         'size-small:rounded-small size-xsmall:rounded-small size-large:p-xs size-medium:p-xs size-small:p-xxs size-xsmall:p-xxs',
+        'size-large:max-h-xxl size-large:min-h-xxl size-large:min-w-xxl size-large:max-w-xxl',
+        'size-medium:max-h-[28px] size-medium:min-h-[28px] size-medium:min-w-[28px] size-medium:max-w-[28px]',
+        'size-small:max-h-xl size-small:min-h-xl size-small:min-w-xl size-small:max-w-xl',
+        'size-large:max-h-[20px] size-large:min-h-[20px] size-large:min-w-[20px] size-large:max-w-[20px]',
 
         // Disabled
         'disabled:fg-disabled disabled:bg-transparent',
