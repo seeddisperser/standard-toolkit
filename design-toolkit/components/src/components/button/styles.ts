@@ -254,7 +254,7 @@ export const ToggleButtonStyles = tv({
         'enabled:pressed:color-accent:fg-accent-primary-bold enabled:pressed:color-accent:bg-accent-primary-pressed',
 
         // Accent - Selected
-        'enabled:selected:color-accent:fg-accent-primary-bold enabled:selected:color-accent:bg-accent-primary-bold enabled:color-accent:outline enabled:selected:color-accent:outline-accent-primary-bold',
+        'enabled:selected:color-accent:fg-a11y-on-accent enabled:selected:color-accent:bg-accent-primary-bold enabled:color-accent:outline enabled:selected:color-accent:outline-accent-primary-bold',
         'enabled:selected:hover:color-accent:fg-a11y-on-accent enabled:selected:hover:color-accent:bg-accent-primary-hover enabled:selected:hover:color-accent:outline-2 enabled:selected:hover:color-accent:outline-accent-primary-hover',
         'enabled:selected:focus-visible:color-accent:fg-a11y-on-accent enabled:selected:focus-visible:color-accent:bg-accent-primary-hover enabled:selected:focus-visible:color-accent:outline-2 enabled:selected:focus-visible:color-accent:outline-accent-primary-hover',
         'enabled:selected:pressed:color-accent:fg-accent-primary-bold enabled:selected:pressed:color-accent:bg-accent-primary-pressed enabled:selected:pressed:color-accent:outline-2 enabled:selected:pressed:color-accent:outline-accent-primary-pressed',
@@ -266,7 +266,7 @@ export const ToggleButtonStyles = tv({
         'enabled:pressed:color-serious:fg-serious-bold enabled:pressed:color-serious:bg-serious-pressed',
 
         // Serious - Selected
-        'enabled:selected:color-serious:fg-serious-bold enabled:selected:color-serious:bg-serious-muted enabled:selected:color-serious:outline enabled:selected:color-serious:outline-serious-bold',
+        'enabled:selected:color-serious:fg-primary-bold enabled:selected:color-serious:bg-serious-muted enabled:selected:color-serious:outline enabled:selected:color-serious:outline-serious-bold',
         'enabled:selected:hover:color-serious:fg-primary-bold enabled:selected:hover:color-serious:bg-serious-hover enabled:selected:hover:color-serious:outline-2 enabled:selected:hover:color-serious:outline-serious-hover',
         'enabled:selected:focus-visible:color-serious:fg-primary-bold enabled:selected:focus-visible:color-serious:bg-serious-hover enabled:selected:focus-visible:color-serious:outline-2 enabled:selected:focus-visible:color-serious:outline-serious-hover',
         'enabled:selected:pressed:color-serious:fg-serious-pressed enabled:selected:pressed:color-serious:bg-serious-pressed enabled:selected:pressed:color-serious:outline-2 enabled:selected:pressed:color-serious:outline-serious-pressed',
