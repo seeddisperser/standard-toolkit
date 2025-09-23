@@ -233,7 +233,7 @@ export const ToggleButtonStyles = tv({
         'enabled:selected:color-mono-muted:fg-primary-muted enabled:selected:color-mono-muted:bg-interactive-muted enabled:selected:color-mono-muted:outline enabled:selected:color-mono-muted:outline-interactive-hover',
         'enabled:selected:hover:color-mono-muted:bg-interactive-muted-hover enabled:selected:hover:color-mono-muted:outline-2',
         'enabled:selected:focus-visible:color-mono-muted:bg-interactive-muted-hover enabled:selected:focus-visible:color-mono-muted:outline-2',
-        'enabled:selected:pressed:color-mono-muted:fg-inverse-muted enabled:selected:pressed:color-mono-muted:bg-interactive-muted-pressed enabled:selected:pressed:color-mono-muted:outline-2',
+        'enabled:selected:pressed:color-mono-muted:fg-inverse-muted enabled:selected:pressed:color-mono-muted:bg-interactive-muted-pressed enabled:selected:pressed:color-mono-muted:outline-2 enabled:selected:pressed:color-mono-muted:outline-interactive-pressed',
 
         // Mono Bold
         'enabled:color-mono-bold:fg-primary-bold',
@@ -245,7 +245,7 @@ export const ToggleButtonStyles = tv({
         'enabled:selected:color-mono-bold:fg-primary-bold enabled:selected:color-mono-bold:outline enabled:selected:color-mono-bold:outline-mono-bold',
         'enabled:selected:hover:color-mono-bold:fg-hover enabled:selected:hover:color-mono-bold:bg-interactive-muted-hover enabled:selected:hover:color-mono-bold:outline-2 enabled:selected:hover:color-mono-bold:outline-mono-hover',
         'enabled:selected:focus-visible:color-mono-bold:bg-interactive-muted-hover enabled:selected:focus-visible:color-mono-bold:outline-2 enabled:selected:focus-visible:color-mono-bold:outline-mono-hover',
-        'enabled:selected:pressed:color-mono-bold:fg-inverse-muted enabled:selected:pressed:color-mono-bold:bg-interactive-muted-pressed',
+        'enabled:selected:pressed:color-mono-bold:fg-inverse-muted enabled:selected:pressed:color-mono-bold:bg-interactive-muted-pressed enabled:selected:pressed:color-mono-bold:outline-2 enabled:selected:pressed:color-mono-bold:outline-interactive-pressed',
 
         // Accent
         'enabled:color-accent:fg-primary-bold enabled:color-accent:bg-transparent',
@@ -255,9 +255,9 @@ export const ToggleButtonStyles = tv({
 
         // Accent - Selected
         'enabled:selected:color-accent:fg-accent-primary-bold enabled:selected:color-accent:bg-accent-primary-bold enabled:color-accent:outline enabled:selected:color-accent:outline-accent-primary-bold',
-        'enabled:selected:hover:color-accent:fg-a11y-on-accent enabled:selected:hover:color-accent:bg-accent-primary-hover enabled:selected:hover:color-accent:outline-2',
-        'enabled:selected:focus-visible:color-accent:fg-a11y-on-accent enabled:selected:focus-visible:color-accent:bg-accent-primary-hover enabled:selected:focus-visible:color-accent:outline-2',
-        'enabled:selected:pressed:color-accent:fg-accent-primary-bold enabled:selected:pressed:color-accent:bg-accent-primary-pressed enabled:selected:pressed:color-accent:outline-2',
+        'enabled:selected:hover:color-accent:fg-a11y-on-accent enabled:selected:hover:color-accent:bg-accent-primary-hover enabled:selected:hover:color-accent:outline-2 enabled:selected:hover:color-accent:outline-accent-primary-hover',
+        'enabled:selected:focus-visible:color-accent:fg-a11y-on-accent enabled:selected:focus-visible:color-accent:bg-accent-primary-hover enabled:selected:focus-visible:color-accent:outline-2 enabled:selected:focus-visible:color-accent:outline-accent-primary-hover',
+        'enabled:selected:pressed:color-accent:fg-accent-primary-bold enabled:selected:pressed:color-accent:bg-accent-primary-pressed enabled:selected:pressed:color-accent:outline-2 enabled:selected:pressed:color-accent:outline-accent-primary-pressed',
 
         // Serious
         'enabled:color-serious:fg-serious-bold enabled:color-serious:bg-transparent',
@@ -266,10 +266,10 @@ export const ToggleButtonStyles = tv({
         'enabled:pressed:color-serious:fg-serious-bold enabled:pressed:color-serious:bg-serious-pressed',
 
         // Serious - Selected
-        'enabled:selected:color-serious:fg-serious-bold enabled:selected:color-serious:bg-serious-muted enabled:selected:color-serious:outline-serious-bold',
-        'enabled:selected:hover:color-serious:fg-primary-bold enabled:selected:hover:color-serious:bg-serious-hover enabled:selected:hover:color-serious:outline-serious-hover',
-        'enabled:selected:focus-visible:color-serious:fg-primary-bold enabled:selected:focus-visible:color-serious:bg-serious-hover enabled:selected:focus-visible:color-serious:outline-serious-hover',
-        'enabled:selected:pressed:color-serious:fg-serious-pressed enabled:selected:pressed:color-serious:bg-serious-pressed',
+        'enabled:selected:color-serious:fg-serious-bold enabled:selected:color-serious:bg-serious-muted enabled:selected:color-serious:outline enabled:selected:color-serious:outline-serious-bold',
+        'enabled:selected:hover:color-serious:fg-primary-bold enabled:selected:hover:color-serious:bg-serious-hover enabled:selected:hover:color-serious:outline-2 enabled:selected:hover:color-serious:outline-serious-hover',
+        'enabled:selected:focus-visible:color-serious:fg-primary-bold enabled:selected:focus-visible:color-serious:bg-serious-hover enabled:selected:focus-visible:color-serious:outline-2 enabled:selected:focus-visible:color-serious:outline-serious-hover',
+        'enabled:selected:pressed:color-serious:fg-serious-pressed enabled:selected:pressed:color-serious:bg-serious-pressed enabled:selected:pressed:color-serious:outline-2 enabled:selected:pressed:color-serious:outline-serious-pressed',
 
         // Critical
         'enabled:color-critical:fg-critical-bold enabled:color-critical:bg-transparent',
@@ -297,10 +297,10 @@ export const ToggleButtonStyles = tv({
         'enabled:selected:color-mono-muted:fg-primary-muted enabled:selected:color-mono-muted:bg-interactive-muted enabled:selected:color-mono-muted:outline enabled:selected:color-mono-muted:outline-interactive-hover',
         'enabled:selected:hover:color-mono-muted:fg-hover enabled:selected:hover:color-mono-muted:bg-interactive-muted-hover enabled:selected:hover:color-mono-muted:outline-2',
         'enabled:selected:focus-visible:color-mono-muted:bg-interactive-muted-hover enabled:selected:focus-visible:color-mono-muted:outline-2',
-        'enabled:selected:pressed:color-mono-muted:fg-inverse-muted enabled:selected:pressed:color-mono-muted:bg-interactive-muted-pressed enabled:selected:pressed:color-mono-muted:outline-2',
+        'enabled:selected:pressed:color-mono-muted:fg-inverse-muted enabled:selected:pressed:color-mono-muted:bg-interactive-muted-pressed enabled:selected:pressed:color-mono-muted:outline-2 enabled:selected:pressed:color-mono-muted:outline-interactive-pressed',
 
         // Mono Bold
-        'enabled:color-mono-bold:fg-primary-bold enabled:color-mono-bold:bg-transparent enabled:color-mono-bold:outline enabled:color-mono-bold:outline-mono-bold', // ?
+        'enabled:color-mono-bold:fg-primary-bold enabled:color-mono-bold:bg-transparent enabled:color-mono-bold:outline enabled:color-mono-bold:outline-mono-bold',
         'enabled:hover:color-mono-bold:bg-interactive-muted-hover enabled:hover:color-mono-bold:outline-2 enabled:hover:color-mono-bold:outline-mono-bold-hover',
         'enabled:focus-visible:color-mono-bold:bg-interactive-muted-hover enabled:focus-visible:color-mono-bold:outline-2 enabled:focus-visible:color-mono-bold:outline-mono-bold-hover',
         'enabled:pressed:color-mono-bold:fg-inverse-muted enabled:pressed:color-mono-bold:bg-interactive-muted-pressed',
@@ -309,7 +309,7 @@ export const ToggleButtonStyles = tv({
         'enabled:selected:color-mono-bold:fg-primary-bold enabled:selected:color-mono-bold:bg-interactive-muted-hover enabled:selected:color-mono-bold:outline enabled:selected:color-mono-bold:outline-mono-bold',
         'enabled:selected:hover:color-mono-bold:fg-inverse-bold enabled:selected:hover:color-mono-bold:bg-interactive-bold-hover enabled:selected:hover:color-mono-bold:outline-2 enabled:selected:hover:color-mono-bold:outline-mono-bold-hover',
         'enabled:selected:focuse-within:color-mono-bold:fg-inverse-bold enabled:selected:focus-visible:color-mono-bold:bg-interactive-muted-hover enabled:selected:focus-visible:color-mono-bold:outline-2 enabled:selected:focuse-within:color-mono-bold:bg-interactive-bold-hover enabled:selected:focuse-within:color-mono-bold:outline-2',
-        'enabled:selected:pressed:color-mono-bold:fg-inverse-muted enabled:selected:pressed:color-mono-bold:bg-interactive-muted-pressed enabled:selected:pressed:color-mono-bold:outline-2 enabled:selected:pressed:color-mono-bold:outline-interactive-pressed',
+        'enabled:selected:pressed:color-mono-bold:fg-inverse-muted enabled:selected:pressed:color-mono-bold:bg-interactive-muted-pressed enabled:selected:pressed:color-mono-bold:outline-2 enabled:selected:pressed:color-mono-bold:outline-mono-pressed',
 
         // Accent
         'enabled:color-accent:fg-primary-bold enabled:color-accent:bg-transparent enabled:color-accent:outline enabled:color-accent:outline-mono-bold',

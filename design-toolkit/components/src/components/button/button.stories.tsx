@@ -59,6 +59,7 @@ export default meta;
 export const Default: StoryObj<typeof Button> = {
   args: {
     color: 'mono-muted',
+    variant: 'flat',
   },
 
   render: ({ children, ...props }) => (
@@ -77,6 +78,10 @@ export const Default: StoryObj<typeof Button> = {
 };
 
 export const Link: StoryObj<typeof LinkButton> = {
+  args: {
+    color: 'mono-muted',
+    variant: 'flat',
+  },
   render: ({ children, ...props }) => (
     <LinkButton {...props} href='/'>
       {composeRenderProps(children, (children) =>
