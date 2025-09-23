@@ -21,9 +21,9 @@ const BaseButtonStyles = tv({
     'group/button flex w-content cursor-pointer items-center justify-center rounded-medium outline outline-transparent',
     'disabled:cursor-not-allowed',
     'size-large:min-w-[96px] size-large:gap-xs size-large:px-l size-large:py-s size-large:text-button-l',
-    'size-medium:min-w-[68px] size-medium:gap-xs size-medium:px-m size-medium:py-s size-medium:text-button-m',
+    'size-medium:min-w-[68px] size-medium:gap-xs size-medium:px-m size-medium:py-xs size-medium:text-button-m',
     'size-small:min-w-[54px] size-small:gap-xxs size-small:px-s size-small:py-xs size-small:text-button-s',
-    'size-xsmall:min-w-[41px] size-xsmall:gap-xxs size-xsmall:px-s size-xsmall:py-xs size-xsmall:text-button-xs',
+    'size-xsmall:min-w-[41px] size-xsmall:gap-xxs size-xsmall:p-xs size-xsmall:text-button-xs',
     'transition-colors duration-[80ms]',
   ],
   variants: {
