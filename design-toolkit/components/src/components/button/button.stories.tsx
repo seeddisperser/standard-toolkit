@@ -14,7 +14,6 @@ import { Placeholder } from '@accelint/icons';
 import { composeRenderProps } from 'react-aria-components';
 import { Icon } from '../icon';
 import { Button, LinkButton, ToggleButton } from './';
-import { ButtonStylesDefaults } from './styles';
 import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof Button> = {
@@ -22,9 +21,7 @@ const meta: Meta<typeof Button> = {
   component: Button,
   args: {
     children: 'Button',
-    color: ButtonStylesDefaults.color,
     size: 'medium',
-    variant: ButtonStylesDefaults.variant,
     isDisabled: false,
   },
   argTypes: {
@@ -96,10 +93,20 @@ export const Link: StoryObj<typeof LinkButton> = {
 };
 
 export const Toggle: StoryObj<typeof ToggleButton> = {
+  args: {
+    color: 'mono-muted',
+    variant: 'flat',
+  },
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: ['outline', 'flat', 'icon'],
+    },
+  },
   render: ({ children, ...props }) => (
     <ToggleButton {...props}>
       {composeRenderProps(children, (children) =>
-        props.variant === 'icon' || props.variant === 'floating' ? (
+        props.variant === 'icon' ? (
           <Icon>
             <Placeholder />
           </Icon>
