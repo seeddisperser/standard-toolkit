@@ -135,7 +135,7 @@ export const DequeueSingle: StoryObj<NoticeListWithColorArgs> = {
       });
     });
     return (
-      <div className='h-full w-full border' ref={noticeContainer}>
+      <div className='h-full w-full' ref={noticeContainer}>
         <Notice.List parentRef={noticeContainer} placement={placement} />
         <Button
           variant='outline'
@@ -194,15 +194,17 @@ export const DequeueList: StoryObj<NoticeListWithColorArgs> = {
       });
     });
     return (
-      <div className='h-full w-full border' ref={noticeContainer}>
+      <div className='h-full w-full' ref={noticeContainer}>
         <Notice.List
           id={infoList}
+          hideClearAll
           parentRef={noticeContainer}
           placement='top'
           defaultColor='info'
         />
         <Notice.List
           id={seriousList}
+          hideClearAll
           parentRef={noticeContainer}
           placement='bottom'
           defaultColor='serious'
@@ -264,15 +266,17 @@ export const DequeueColor: StoryObj<NoticeListWithColorArgs> = {
       });
     });
     return (
-      <div className='h-full w-full border' ref={noticeContainer}>
+      <div className='h-full w-full' ref={noticeContainer}>
         <Notice.List
           id={infoList}
+          hideClearAll
           parentRef={noticeContainer}
           placement='top'
           defaultColor='info'
         />
         <Notice.List
           id={seriousList}
+          hideClearAll
           parentRef={noticeContainer}
           placement='bottom'
           defaultColor='serious'

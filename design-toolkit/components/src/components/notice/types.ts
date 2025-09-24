@@ -51,6 +51,7 @@ export type NoticeListProps = {
   limit?: number;
   defaultColor?: NoticeColor;
   defaultTimeout?: number;
+  hideClearAll?: boolean;
 };
 
 export type NoticeProps = NoticeContent;

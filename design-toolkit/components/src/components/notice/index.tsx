@@ -91,13 +91,14 @@ function NoticeList({
   placement,
   defaultColor,
   defaultTimeout,
+  hideClearAll,
   limit = 3,
 }: NoticeListProps) {
   const queue = useMemo(
     () => new ToastQueue<NoticeContent>({ maxVisibleToasts: limit }),
     [limit],
   );
-  const [showClearAll, setShowClearAll] = useState(false);
+  const [hasNotices, setHasNotices] = useState(false);
 
   useOn(NoticeEventTypes.queue, (data: NoticeQueueEvent) => {
     if ((id && data.payload.target === id) || !id) {
@@ -136,7 +137,7 @@ function NoticeList({
   });
 
   queue.subscribe(() => {
-    setShowClearAll(queue.visibleToasts.length > 0);
+    setHasNotices(queue.visibleToasts.length > 0);
   });
 
   return (
@@ -146,7 +147,7 @@ function NoticeList({
         data-placement={placement}
         queue={queue}
       >
-        {showClearAll && (
+        {!hideClearAll && hasNotices && (
           <Button variant='outline' onPress={() => queue.clear()}>
             Clear All
           </Button>
