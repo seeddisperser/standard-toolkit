@@ -2,4 +2,4 @@
 "@accelint/bus": patch
 ---
 
-added react hooks
+-  **Fixed** Updated documentation to correctly reference React hooks from the `@accelint/bus/react` module.
