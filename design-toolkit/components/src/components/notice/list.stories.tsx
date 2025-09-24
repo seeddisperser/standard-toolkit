@@ -11,17 +11,9 @@
  */
 
 import { useEmit } from '@accelint/bus/react';
-import { uuid } from '@accelint/core';
-import {
-  type ComponentProps,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { type UniqueId, uuid } from '@accelint/core';
+import { type ComponentProps, useEffect, useRef, useState } from 'react';
 import { Button } from '../button';
-import { Options } from '../options';
-import { SelectField } from '../select-field';
 import { Notice } from './';
 import { NoticeEventTypes } from './events';
 import type { Meta, StoryObj } from '@storybook/react';
@@ -94,13 +86,13 @@ export const Default: StoryObj<NoticeListWithColorArgs> = {
   },
 };
 
-const ids = {
-  a: uuid(),
-  b: uuid(),
-  c: uuid(),
-};
-
-function generateNotices({ color, target }) {
+function generateNotices({
+  color,
+  target,
+}: {
+  color?: NoticeColor;
+  target?: UniqueId;
+}) {
   return Array.from({ length: 5 }, () => {
     const id = uuid();
     return {
@@ -120,13 +112,15 @@ export const DequeueSingle: StoryObj<NoticeListWithColorArgs> = {
     const queue = useEmit<NoticeQueueEvent>(NoticeEventTypes.queue);
     const dequeue = useEmit<NoticeDequeueEvent>(NoticeEventTypes.dequeue);
     const [notices, setNotices] = useState(generateNotices({ color }));
-    const handleDequeue = (id: string) => {
+    const handleDequeue = (id: UniqueId) => {
       dequeue({ id });
       setNotices(notices.filter((notice) => notice.id !== id));
     };
     useEffect(() => {
-      notices.toReversed().forEach((notice) => queue(notice));
-    }, []);
+      notices.toReversed().forEach((notice) => {
+        queue(notice);
+      });
+    });
     return (
       <div className='h-full w-full' ref={noticeContainer}>
         <Notice.List
@@ -152,17 +146,19 @@ export const DequeueSingle: StoryObj<NoticeListWithColorArgs> = {
 };
 
 export const DequeueList: StoryObj<NoticeListWithColorArgs> = {
-  render: ({ color }) => {
+  render: () => {
     const noticeContainer = useRef(null);
     const infoList = uuid();
     const seriousList = uuid();
     const queue = useEmit<NoticeQueueEvent>(NoticeEventTypes.queue);
     const dequeue = useEmit<NoticeDequeueEvent>(NoticeEventTypes.dequeue);
     useEffect(() => {
-      generateNotices({ target: infoList }).forEach((notice) => queue(notice));
-      generateNotices({ target: seriousList }).forEach((notice) =>
-        queue(notice),
-      );
+      generateNotices({ target: infoList }).forEach((notice) => {
+        queue(notice);
+      });
+      generateNotices({ target: seriousList }).forEach((notice) => {
+        queue(notice);
+      });
     });
     return (
       <div className='h-full w-full' ref={noticeContainer}>
@@ -210,17 +206,19 @@ export const DequeueList: StoryObj<NoticeListWithColorArgs> = {
 };
 
 export const DequeueColor: StoryObj<NoticeListWithColorArgs> = {
-  render: ({ color }) => {
+  render: () => {
     const noticeContainer = useRef(null);
     const infoList = uuid();
     const seriousList = uuid();
     const queue = useEmit<NoticeQueueEvent>(NoticeEventTypes.queue);
     const dequeue = useEmit<NoticeDequeueEvent>(NoticeEventTypes.dequeue);
     useEffect(() => {
-      generateNotices({ target: infoList }).forEach((notice) => queue(notice));
-      generateNotices({ target: seriousList }).forEach((notice) =>
-        queue(notice),
-      );
+      generateNotices({ target: infoList }).forEach((notice) => {
+        queue(notice);
+      });
+      generateNotices({ target: seriousList }).forEach((notice) => {
+        queue(notice);
+      });
     });
     return (
       <div className='h-full w-full' ref={noticeContainer}>

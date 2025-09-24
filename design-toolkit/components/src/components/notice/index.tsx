@@ -115,7 +115,8 @@ function NoticeList({
     if (id && data.payload.target === id) {
       queue.clear();
       return;
-    } else if (id && data.payload.target) {
+    }
+    if (id && data.payload.target) {
       return;
     }
 
@@ -139,9 +140,8 @@ function NoticeList({
   useEffect(() => {
     queue.subscribe(() => {
       setHasNotices(queue.visibleToasts.length > 0);
-      console.log(queue);
     });
-  }, []);
+  });
 
   return (
     <PortalProvider parentRef={parentRef}>

@@ -24,6 +24,7 @@ export type NoticeColor =
   | 'serious';
 
 export type NoticeContent = {
+  id?: UniqueId;
   message: string;
   color: NoticeColor;
   primary?: ButtonProps;
