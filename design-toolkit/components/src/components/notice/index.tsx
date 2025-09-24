@@ -36,7 +36,9 @@ import { Button } from '../button';
 import { Icon } from '../icon';
 import { NoticeEventTypes } from './events';
 import { NoticeStyles } from './styles';
+import type { ButtonProps } from '../button/types';
 import type {
+  NoticeColor,
   NoticeContent,
   NoticeDequeueEvent,
   NoticeIconProps,
@@ -46,11 +48,11 @@ import type {
   NoticeQueueEvent,
 } from './types';
 
-const { base, content, list, actions, region } = NoticeStyles();
+const { notice, content, list, actions, region } = NoticeStyles();
 
-function NoticeIcon({ variant = 'info' }: NoticeIconProps) {
+function NoticeIcon({ variant = 'info', size }: NoticeIconProps) {
   return (
-    <Icon size='large'>
+    <Icon size={size === 'small' ? 'medium' : 'large'}>
       {variant === 'info' && <Information />}
       {variant === 'advisory' && <Information />}
       {variant === 'normal' && <Success />}
@@ -60,6 +62,14 @@ function NoticeIcon({ variant = 'info' }: NoticeIconProps) {
   );
 }
 
+const ButtonColorMap: Record<NoticeColor, ButtonProps['color']> = {
+  normal: 'info',
+  advisory: 'info',
+  info: 'info',
+  serious: 'serious',
+  critical: 'critical',
+};
+
 export function Notice({
   id,
   color,
@@ -67,6 +77,7 @@ export function Notice({
   primary,
   secondary,
   showClose,
+  size = 'medium',
 }: NoticeProps) {
   const emitPrimaryPress = useEmit<NoticePressEvent>(
     NoticeEventTypes.primaryOnPress,
@@ -76,9 +87,9 @@ export function Notice({
   );
   const emitClosePress = useEmit<NoticePressEvent>(NoticeEventTypes.close);
   return (
-    <div className={base()} data-color={color}>
+    <div className={notice()} data-color={color} data-size={size}>
       <ToastContent className={content()}>
-        <NoticeIcon variant={color} />
+        <NoticeIcon variant={color} size={size} />
         <Text slot='description'>{message}</Text>
       </ToastContent>
       <div className={actions()}>
@@ -86,11 +97,18 @@ export function Notice({
           <Button
             {...secondary}
             variant='outline'
+            color={ButtonColorMap[color]}
+            size={size}
             onPress={() => emitSecondaryPress({ id })}
           />
         )}
         {primary && (
-          <Button {...primary} onPress={() => emitPrimaryPress({ id })} />
+          <Button
+            {...primary}
+            color={ButtonColorMap[color]}
+            size={size}
+            onPress={() => emitPrimaryPress({ id })}
+          />
         )}
         {showClose && (
           <Button

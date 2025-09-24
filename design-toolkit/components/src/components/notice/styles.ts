@@ -14,16 +14,19 @@ import { tv } from '@/lib/utils';
 
 export const NoticeStyles = tv({
   slots: {
-    base: [
-      //min 120, max 300
-      'fg-primary-bold flex min-h-[64px] w-full min-w-[200px] max-w-[640px] gap-l rounded-medium p-l text-body-s shadow-elevation-overlay outline',
+    notice: [
+      'group/notice fg-primary-bold flex w-full rounded-medium text-body-s shadow-elevation-overlay outline',
+      'size-small-min-h-[54px] size-small:min-w-[120px] size-small:max-w-[320px] size-small:flex-col size-small:gap-m size-small:p-m',
+      'size-medium:min-h-[64px] size-medium:min-w-[200px] size-medium:max-w-[640px] size-medium:gap-l size-medium:p-l',
       'color-info:bg-info-muted color-info:outline-info-bold',
       'color-advisory:bg-advisory-muted color-advisory:outline-accent-primary-bold',
       'color-normal:bg-normal-muted color-normal:outline-normal-bold',
       'color-serious:bg-serious-muted color-serious:outline-serious-bold',
       'color-critical:bg-critical-muted color-critical:outline-critical-bold',
     ],
-    content: ['flex flex-1 items-center gap-l'],
+    content: [
+      'flex flex-1 items-center group-size-medium/notice:gap-l group-size-small/notice:gap-m',
+    ],
     region: [
       'absolute flex w-full flex-col gap-y-s',
       'data-[placement=top]:-translate-x-1/2 placement-top:top-0 data-[placement=top]:left-1/2',
@@ -32,6 +35,6 @@ export const NoticeStyles = tv({
       'placement-left:left-0 data-[placement=left]:top-1/2',
     ],
     list: ['flex w-full flex-col gap-y-s'],
-    actions: 'flex gap-s',
+    actions: 'flex items-center gap-s group-size-small/notice:justify-end',
   },
 });

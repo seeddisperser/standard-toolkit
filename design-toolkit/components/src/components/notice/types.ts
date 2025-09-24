@@ -36,6 +36,7 @@ export type NoticeContent = {
 
 export type NoticeIconProps = {
   variant: 'info' | 'advisory' | 'normal' | 'critical' | 'serious';
+  size: 'small' | 'medium';
 };
 
 export type NoticeListProps = {
@@ -58,6 +59,7 @@ export type NoticeListProps = {
 
 export type NoticeProps = NoticeContent & {
   showClose?: boolean;
+  size: 'small' | 'medium';
 };
 
 export type NoticeQueueEvent = Payload<
