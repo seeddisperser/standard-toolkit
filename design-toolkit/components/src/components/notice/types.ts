@@ -26,12 +26,14 @@ export type NoticeColor =
 type ActionButtonProps = Pick<ButtonProps, 'variant'>;
 
 export type NoticeContent = {
-  id?: UniqueId;
+  id: UniqueId;
   message: string;
   color: NoticeColor;
   primary?: ActionButtonProps;
   secondary?: ActionButtonProps;
   timeout?: number;
+  target?: UniqueId;
+  metadata?: Record<string, unknown>;
 };
 
 export type NoticeIconProps = {
@@ -55,23 +57,20 @@ export type NoticeListProps = {
   defaultColor?: NoticeColor;
   defaultTimeout?: number;
   hideClearAll?: boolean;
+  size?: 'small' | 'medium';
 };
 
-export type NoticeProps = Omit<NoticeContent, 'id'> & {
+export type NoticeProps = NoticeContent & {
   id: UniqueId;
   showClose?: boolean;
   shouldCloseOnAction?: boolean;
-  size: 'small' | 'medium';
+  size?: 'small' | 'medium';
 };
 
 export type NoticeQueueEvent = Payload<
   typeof NoticeEventTypes.queue,
-  {
-    id: UniqueId;
-    target?: UniqueId;
-    notice: NoticeContent;
-    metadata?: Record<string, unknown>;
-    timeout?: number;
+  Omit<NoticeContent, 'id'> & {
+    id?: UniqueId;
   }
 >;
 

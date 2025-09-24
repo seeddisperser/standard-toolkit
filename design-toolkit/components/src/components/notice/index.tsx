@@ -162,6 +162,7 @@ function NoticeList({
   defaultColor,
   defaultTimeout,
   hideClearAll,
+  size = 'medium',
   limit = 3,
 }: NoticeListProps) {
   const queue = useMemo(
@@ -173,10 +174,10 @@ function NoticeList({
   useOn(NoticeEventTypes.queue, (data: NoticeQueueEvent) => {
     if ((id && data.payload.target === id) || !id) {
       queue.add({
-        ...data.payload.notice,
+        ...data.payload,
         id: data.payload.id || uuid(),
-        color: defaultColor || data.payload.notice.color,
-        timeout: defaultTimeout || data.payload.notice.timeout,
+        color: defaultColor || data.payload.color,
+        timeout: defaultTimeout || data.payload.timeout,
       });
     }
   });
@@ -228,7 +229,7 @@ function NoticeList({
         <ToastList className={list()}>
           {({ toast }: { toast: QueuedToast<NoticeContent> }) => (
             <Toast toast={toast}>
-              <Notice {...toast.content} />
+              <Notice {...toast.content} size={size} />
             </Toast>
           )}
         </ToastList>

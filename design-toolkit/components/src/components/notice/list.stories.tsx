@@ -19,6 +19,7 @@ import { NoticeEventTypes } from './events';
 import type { Meta, StoryObj } from '@storybook/react';
 import type {
   NoticeColor,
+  NoticeContent,
   NoticeDequeueEvent,
   NoticeQueueEvent,
 } from './types';
@@ -57,9 +58,6 @@ const meta: Meta<NoticeListWithColorArgs> = {
 
 export default meta;
 
-const message =
-  'This is a flexible snackbar that can be either a single or double line that will wrap accordingly when it gets too long for a single line.';
-
 export const Default: StoryObj<NoticeListWithColorArgs> = {
   render: ({ color, placement }) => {
     const noticeContainer = useRef(null);
@@ -71,11 +69,9 @@ export const Default: StoryObj<NoticeListWithColorArgs> = {
           variant='outline'
           onPress={() =>
             emit({
-              id: uuid(),
-              notice: {
-                message,
-                color,
-              },
+              message:
+                'This is a flexible snackbar that can be either a single or double line that will wrap accordingly when it gets too long for a single line.',
+              color,
             })
           }
         >
@@ -86,23 +82,15 @@ export const Default: StoryObj<NoticeListWithColorArgs> = {
   },
 };
 
-function generateNotices({
-  color,
-  target,
-}: {
-  color?: NoticeColor;
-  target?: UniqueId;
-}) {
+function generateNotices({ color, target }: Partial<NoticeContent>) {
   return Array.from({ length: 5 }, () => {
     const id = uuid();
     return {
       id,
       target,
-      notice: {
-        message: id,
-        color,
-      },
-    };
+      message: id,
+      color,
+    } as NoticeContent;
   });
 }
 
@@ -136,7 +124,7 @@ export const DequeueSingle: StoryObj<NoticeListWithColorArgs> = {
               variant='outline'
               onPress={() => handleDequeue(notice.id)}
             >
-              Dequeue: {notice.notice.message}
+              Dequeue: {notice.message}
             </Button>
           ))}
         </div>
