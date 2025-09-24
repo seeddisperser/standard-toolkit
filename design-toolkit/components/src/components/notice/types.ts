@@ -60,7 +60,10 @@ export type NoticeListProps = {
   size?: 'small' | 'medium';
 };
 
-export type NoticeProps = NoticeContent & {
+export type NoticeProps = Omit<
+  NoticeContent,
+  'timeout' | 'target' | 'metadata'
+> & {
   id: UniqueId;
   showClose?: boolean;
   shouldCloseOnAction?: boolean;

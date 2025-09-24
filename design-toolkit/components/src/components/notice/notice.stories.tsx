@@ -24,6 +24,8 @@ const meta: Meta<typeof Notice> = {
     color: 'info',
     message:
       'This is a flexible snackbar that can be either a single or double line that wil wrap accordingly when it gets too long for a single line.',
+    size: 'medium',
+    showClose: true,
   },
   argTypes: {
     color: {
@@ -60,9 +62,10 @@ export const ButtonEvents: StoryObj<typeof Notice> = {
 
     return (
       <div className='flex flex-col gap-s'>
-        <Notice {...args} id={closeId} showClose />
+        <Notice {...args} id={closeId} />
         <Notice
           {...args}
+          showClose={false}
           id={actionId}
           primary={{ children: 'Primary' }}
           secondary={{ children: 'Secondary' }}
