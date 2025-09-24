@@ -57,8 +57,10 @@ export type NoticeListProps = {
   hideClearAll?: boolean;
 };
 
-export type NoticeProps = NoticeContent & {
+export type NoticeProps = Omit<NoticeContent, 'id'> & {
+  id: UniqueId;
   showClose?: boolean;
+  shouldCloseOnAction?: boolean;
   size: 'small' | 'medium';
 };
 

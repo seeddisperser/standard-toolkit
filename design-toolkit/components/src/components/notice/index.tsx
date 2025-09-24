@@ -14,6 +14,7 @@
 
 import 'client-only';
 import { useEmit, useOn } from '@accelint/bus/react';
+import { uuid } from '@accelint/core';
 import {
   Cancel,
   Information,
@@ -77,6 +78,7 @@ export function Notice({
   primary,
   secondary,
   showClose,
+  shouldCloseOnAction,
   size = 'medium',
 }: NoticeProps) {
   const emitPrimaryPress = useEmit<NoticePressEvent>(
@@ -86,6 +88,7 @@ export function Notice({
     NoticeEventTypes.secondaryOnPress,
   );
   const emitClosePress = useEmit<NoticePressEvent>(NoticeEventTypes.close);
+  const dequeue = useEmit<NoticeDequeueEvent>(NoticeEventTypes.dequeue);
   return (
     <div className={notice()} data-color={color} data-size={size}>
       <ToastContent className={content()}>
@@ -99,7 +102,12 @@ export function Notice({
             variant='outline'
             color={ButtonColorMap[color]}
             size={size}
-            onPress={() => emitSecondaryPress({ id })}
+            onPress={() => {
+              emitSecondaryPress({ id });
+              if (shouldCloseOnAction) {
+                dequeue({ id });
+              }
+            }}
           />
         )}
         {primary && (
@@ -107,7 +115,12 @@ export function Notice({
             {...primary}
             color={ButtonColorMap[color]}
             size={size}
-            onPress={() => emitPrimaryPress({ id })}
+            onPress={() => {
+              emitPrimaryPress({ id });
+              if (shouldCloseOnAction) {
+                dequeue({ id });
+              }
+            }}
           />
         )}
         {showClose && (
@@ -159,7 +172,7 @@ function NoticeList({
     if ((id && data.payload.target === id) || !id) {
       queue.add({
         ...data.payload.notice,
-        id: data.payload.id,
+        id: data.payload.id || uuid(),
         color: defaultColor || data.payload.notice.color,
         timeout: defaultTimeout || data.payload.notice.timeout,
       });
