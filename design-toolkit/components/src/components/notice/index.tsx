@@ -129,7 +129,7 @@ function NoticeList({
     if (dequeue.length && dequeue.length === queue.queue.length) {
       queue.clear();
     } else {
-      for (let toast of dequeue) {
+      for (const toast of dequeue) {
         queue.close(toast.key);
       }
     }
@@ -146,20 +146,18 @@ function NoticeList({
         data-placement={placement}
         queue={queue}
       >
-        <>
-          {showClearAll && (
-            <Button variant='outline' onPress={() => queue.clear()}>
-              Clear All
-            </Button>
+        {showClearAll && (
+          <Button variant='outline' onPress={() => queue.clear()}>
+            Clear All
+          </Button>
+        )}
+        <ToastList className={list()}>
+          {({ toast }: { toast: QueuedToast<NoticeContent> }) => (
+            <Toast toast={toast}>
+              <Notice {...toast.content} />
+            </Toast>
           )}
-          <ToastList className={list()}>
-            {({ toast }: { toast: QueuedToast<NoticeContent> }) => (
-              <Toast toast={toast}>
-                <Notice {...toast.content} />
-              </Toast>
-            )}
-          </ToastList>
-        </>
+        </ToastList>
       </ToastRegion>
     </PortalProvider>
   );
