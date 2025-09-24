@@ -15,7 +15,7 @@ import { tv } from '@/lib/utils';
 export const NoticeStyles = tv({
   slots: {
     notice: [
-      'group/notice fg-primary-bold flex w-full rounded-medium text-body-s shadow-elevation-overlay outline',
+      'group/notice fg-primary-bold flex rounded-medium text-body-s shadow-elevation-overlay outline',
       'size-small-min-h-[54px] size-small:min-w-[120px] size-small:max-w-[320px] size-small:flex-col size-small:gap-m size-small:p-m',
       'size-medium:min-h-[64px] size-medium:min-w-[200px] size-medium:max-w-[640px] size-medium:gap-l size-medium:p-l',
       'color-info:bg-info-muted color-info:outline-info-bold',
@@ -28,13 +28,13 @@ export const NoticeStyles = tv({
       'flex flex-1 items-center group-size-medium/notice:gap-l group-size-small/notice:gap-m',
     ],
     region: [
-      'absolute flex w-full flex-col gap-y-s',
+      'absolute flex flex-col gap-y-s',
       'data-[placement=top]:-translate-x-1/2 placement-top:top-0 data-[placement=top]:left-1/2',
       'data-[placement=bottom]:-translate-x-1/2 placement-bottom:bottom-0 data-[placement=bottom]:left-1/2',
       'placement-right:right-0 data-[placement=right]:top-1/2',
       'placement-left:left-0 data-[placement=left]:top-1/2',
     ],
-    list: ['flex w-full flex-col gap-y-s'],
+    list: ['flex flex-col gap-y-s'],
     actions: 'flex items-center gap-s group-size-small/notice:justify-end',
   },
 });

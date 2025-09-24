@@ -34,6 +34,7 @@ const meta: Meta<NoticeListWithColorArgs> = {
   args: {
     color: 'info',
     placement: 'top',
+    size: 'medium',
   },
   argTypes: {
     color: {
@@ -59,12 +60,16 @@ const meta: Meta<NoticeListWithColorArgs> = {
 export default meta;
 
 export const Default: StoryObj<NoticeListWithColorArgs> = {
-  render: ({ color, placement }) => {
+  render: ({ color, placement, size }) => {
     const noticeContainer = useRef(null);
     const emit = useEmit<NoticeQueueEvent>(NoticeEventTypes.queue);
     return (
       <div className='h-full w-full border' ref={noticeContainer}>
-        <Notice.List parentRef={noticeContainer} placement={placement} />
+        <Notice.List
+          parentRef={noticeContainer}
+          placement={placement}
+          size={size}
+        />
         <Button
           onPress={() =>
             emit({
