@@ -23,7 +23,7 @@ export function PortalProvider({
   parentRef,
   children,
 }: PropsWithChildren<{
-  parentRef: RefObject<HTMLElement | null>;
+  parentRef?: RefObject<HTMLElement | null>;
 }>) {
   const isSSR = useIsSSR();
   const [portal, setPortal] = useState(isSSR ? null : document.body);

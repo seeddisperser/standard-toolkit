@@ -10,26 +10,20 @@
  * governing permissions and limitations under the License.
  */
 
+import { useOn } from '@accelint/bus/react';
+import { uuid } from '@accelint/core';
 import { Notice } from './';
+import { NoticeEventTypes } from './events';
 import type { Meta, StoryObj } from '@storybook/react';
-import type { ComponentProps } from 'react';
+import type { NoticePressEvent } from './types';
 
-type NoticeWithArgs = ComponentProps<typeof Notice> & {
-  showPrimary: boolean;
-  showSecondary: boolean;
-  showClose: boolean;
-};
-
-const meta: Meta<NoticeWithArgs> = {
+const meta: Meta<typeof Notice> = {
   title: 'Components/Notice',
   component: Notice,
   args: {
     color: 'info',
     message:
       'This is a flexible snackbar that can be either a single or double line that wil wrap accordingly when it gets too long for a single line.',
-    showPrimary: false,
-    showSecondary: false,
-    showClose: false,
   },
   argTypes: {
     color: {
@@ -41,27 +35,39 @@ const meta: Meta<NoticeWithArgs> = {
 
 export default meta;
 
-const primary = {
-  children: 'Ok',
+export const Default: StoryObj<typeof Notice> = {
+  render: ({ ...rest }) => {
+    return <Notice {...rest} />;
+  },
 };
 
-const secondary = {
-  children: 'Ok',
-};
+export const ButtonEvents: StoryObj<typeof Notice> = {
+  render: (args) => {
+    const closeId = uuid();
+    const actionId = uuid();
 
-const onClose = () => {
-  return;
-};
+    useOn(NoticeEventTypes.close, (data: NoticePressEvent) => {
+      alert(`${data.payload.id} closed`);
+    });
 
-export const Default: StoryObj<NoticeWithArgs> = {
-  render: ({ showPrimary, showSecondary, showClose, ...rest }) => {
+    useOn(NoticeEventTypes.primaryOnPress, (data: NoticePressEvent) => {
+      alert(`${data.payload.id} primary pressed`);
+    });
+
+    useOn(NoticeEventTypes.secondaryOnPress, (data: NoticePressEvent) => {
+      alert(`${data.payload.id} secondary pressed`);
+    });
+
     return (
-      <Notice
-        {...rest}
-        primary={showPrimary && primary}
-        secondary={showSecondary && secondary}
-        onClose={showClose && onClose}
-      />
+      <div className='flex flex-col gap-s'>
+        <Notice {...args} id={closeId} showClose />
+        <Notice
+          {...args}
+          id={actionId}
+          primary={{ children: 'Primary' }}
+          secondary={{ children: 'Secondary' }}
+        />
+      </div>
     );
   },
 };

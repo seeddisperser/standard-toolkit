@@ -13,7 +13,7 @@
 'use client';
 
 import 'client-only';
-import { useOn } from '@accelint/bus/react';
+import { useEmit, useOn } from '@accelint/bus/react';
 import {
   Cancel,
   Information,
@@ -41,6 +41,7 @@ import type {
   NoticeDequeueEvent,
   NoticeIconProps,
   NoticeListProps,
+  NoticePressEvent,
   NoticeProps,
   NoticeQueueEvent,
 } from './types';
@@ -60,12 +61,20 @@ function NoticeIcon({ variant = 'info' }: NoticeIconProps) {
 }
 
 export function Notice({
+  id,
   color,
   message,
   primary,
   secondary,
-  onClose,
+  showClose,
 }: NoticeProps) {
+  const emitPrimaryPress = useEmit<NoticePressEvent>(
+    NoticeEventTypes.primaryOnPress,
+  );
+  const emitSecondaryPress = useEmit<NoticePressEvent>(
+    NoticeEventTypes.secondaryOnPress,
+  );
+  const emitClosePress = useEmit<NoticePressEvent>(NoticeEventTypes.close);
   return (
     <div className={base()} data-color={color}>
       <ToastContent className={content()}>
@@ -73,16 +82,44 @@ export function Notice({
         <Text slot='description'>{message}</Text>
       </ToastContent>
       <div className={actions()}>
-        {secondary && <Button {...secondary} variant='outline' />}
-        {primary && <Button {...primary} />}
-        <Button variant='icon' slot='close' onPress={() => onClose?.()}>
-          <Icon>
-            <Cancel />
-          </Icon>
-        </Button>
+        {secondary && (
+          <Button
+            {...secondary}
+            variant='outline'
+            onPress={() => emitSecondaryPress({ id })}
+          />
+        )}
+        {primary && (
+          <Button {...primary} onPress={() => emitPrimaryPress({ id })} />
+        )}
+        {showClose && (
+          <Button
+            variant='icon'
+            slot='close'
+            onPress={() => emitClosePress({ id })}
+          >
+            <Icon>
+              <Cancel />
+            </Icon>
+          </Button>
+        )}
       </div>
     </div>
   );
+}
+
+function matchesMetadata(
+  payload: Record<string, unknown>,
+  metadata: Record<string, unknown>,
+) {
+  //TODO:: better equality checks for arrays and objects??
+  for (const [key, value] of Object.entries(payload)) {
+    if (key in metadata && metadata[key] !== value) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 function NoticeList({
@@ -121,11 +158,11 @@ function NoticeList({
     }
 
     const dequeue = queue.queue.filter(
-      (toast) =>
+      (toast: QueuedToast<NoticeContent>) =>
         (data.payload.id && toast.content.id === data.payload.id) ||
         (data.payload.color && toast.content.color === data.payload.color) ||
         (data.payload.metadata &&
-          toast.content.metadata === data.payload.metadata), //TODO: object equality check
+          matchesMetadata(data.payload.metadata, toast.content.metadata)),
     );
 
     if (dequeue.length && dequeue.length === queue.queue.length) {

@@ -210,6 +210,7 @@ export type {
   NoticeDequeueEvent,
   NoticeIconProps,
   NoticeListProps,
+  NoticePressEvent,
   NoticeProps,
   NoticeQueueEvent,
 } from './components/notice/types';

@@ -23,13 +23,14 @@ export type NoticeColor =
   | 'critical'
   | 'serious';
 
+type ActionButtonProps = Pick<ButtonProps, 'variant'>;
+
 export type NoticeContent = {
   id?: UniqueId;
   message: string;
   color: NoticeColor;
-  primary?: ButtonProps;
-  secondary?: ButtonProps;
-  onClose?: () => void;
+  primary?: ActionButtonProps;
+  secondary?: ActionButtonProps;
   timeout?: number;
 };
 
@@ -39,7 +40,7 @@ export type NoticeIconProps = {
 
 export type NoticeListProps = {
   id?: UniqueId;
-  parentRef: RefObject<HTMLElement | null>;
+  parentRef?: RefObject<HTMLElement | null>;
   placement:
     | 'top left'
     | 'top'
@@ -55,7 +56,9 @@ export type NoticeListProps = {
   hideClearAll?: boolean;
 };
 
-export type NoticeProps = NoticeContent;
+export type NoticeProps = NoticeContent & {
+  showClose?: boolean;
+};
 
 export type NoticeQueueEvent = Payload<
   typeof NoticeEventTypes.queue,
@@ -67,11 +70,22 @@ export type NoticeQueueEvent = Payload<
     timeout?: number;
   }
 >;
+
+type DequeueId = { id: UniqueId };
+type DequeueList = { target: UniqueId };
+type DequeueColor = { color: NoticeColor };
+type DequeueMetadata = { metadata: Record<string, unknown> };
+
+type DequeuePayload = DequeueId | DequeueList | DequeueColor | DequeueMetadata;
+
 export type NoticeDequeueEvent = Payload<
   typeof NoticeEventTypes.dequeue,
-  | ({
-      target?: UniqueId;
-    } & { id: UniqueId })
-  | { color: NoticeColor }
-  | { metadata: Record<string, unknown> }
+  DequeuePayload
+>;
+
+export type NoticePressEvent = Payload<
+  | typeof NoticeEventTypes.primaryOnPress
+  | typeof NoticeEventTypes.secondaryOnPress
+  | typeof NoticeEventTypes.close,
+  { id: UniqueId }
 >;
