@@ -37,7 +37,7 @@ export type NoticeContent = {
 };
 
 export type NoticeIconProps = {
-  variant: 'info' | 'advisory' | 'normal' | 'critical' | 'serious';
+  variant?: 'info' | 'advisory' | 'normal' | 'critical' | 'serious';
   size: 'small' | 'medium';
 };
 

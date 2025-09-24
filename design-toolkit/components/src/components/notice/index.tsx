@@ -73,7 +73,7 @@ const ButtonColorMap: Record<NoticeColor, ButtonProps['color']> = {
 
 export function Notice({
   id,
-  color,
+  color = 'info',
   message,
   primary,
   secondary,
