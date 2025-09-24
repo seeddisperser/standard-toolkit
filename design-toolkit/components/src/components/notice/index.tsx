@@ -64,9 +64,9 @@ function NoticeIcon({ variant = 'info', size }: NoticeIconProps) {
 }
 
 const ButtonColorMap: Record<NoticeColor, ButtonProps['color']> = {
-  normal: 'info',
-  advisory: 'info',
-  info: 'info',
+  normal: 'mono-bold',
+  advisory: 'mono-bold',
+  info: 'mono-bold',
   serious: 'serious',
   critical: 'critical',
 };
@@ -113,6 +113,7 @@ export function Notice({
         {primary && (
           <Button
             {...primary}
+            variant='filled'
             color={ButtonColorMap[color]}
             size={size}
             onPress={() => {
@@ -126,6 +127,7 @@ export function Notice({
         {showClose && (
           <Button
             variant='icon'
+            color={ButtonColorMap[color]}
             slot='close'
             onPress={() => emitClosePress({ id })}
           >
