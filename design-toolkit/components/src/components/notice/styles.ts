@@ -15,7 +15,7 @@ import { tv } from '@/lib/utils';
 export const NoticeStyles = tv({
   slots: {
     base: [
-      'fg-primary-bold flex min-h-[64px] w-full min-w-[200px] max-w-[640px] gap-l rounded-medium p-l text-body-s outline',
+      'fg-primary-bold flex min-h-[64px] w-full min-w-[200px] max-w-[640px] gap-l rounded-medium p-l text-body-s shadow-elevation-overlay outline',
       'color-info:bg-info-muted color-info:outline-info-bold',
       'color-advisory:bg-advisory-muted color-advisory:outline-accent-primary-bold',
       'color-normal:bg-normal-muted color-normal:outline-normal-bold',
