@@ -74,10 +74,10 @@ export type NoticeQueueEvent = Payload<
   }
 >;
 
-type DequeueId = { id: UniqueId };
-type DequeueList = { target: UniqueId };
-type DequeueColor = { color: NoticeColor };
-type DequeueMetadata = { metadata: Record<string, unknown> };
+export type DequeueId = { id: UniqueId };
+export type DequeueList = { target: UniqueId };
+export type DequeueColor = { color: NoticeColor };
+export type DequeueMetadata = { metadata: Record<string, unknown> };
 
 type DequeuePayload = DequeueId | DequeueList | DequeueColor | DequeueMetadata;
 

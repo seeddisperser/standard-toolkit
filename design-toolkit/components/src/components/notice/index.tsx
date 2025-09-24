@@ -39,6 +39,10 @@ import { NoticeEventTypes } from './events';
 import { NoticeStyles } from './styles';
 import type { ButtonProps } from '../button/types';
 import type {
+  DequeueColor,
+  DequeueId,
+  DequeueList,
+  DequeueMetadata,
   NoticeColor,
   NoticeContent,
   NoticeDequeueEvent,
@@ -143,8 +147,12 @@ export function Notice({
 
 function matchesMetadata(
   payload: Record<string, unknown>,
-  metadata: Record<string, unknown>,
+  metadata?: Record<string, unknown>,
 ) {
+  if (!metadata) {
+    return false;
+  }
+
   //TODO:: better equality checks for arrays and objects??
   for (const [key, value] of Object.entries(payload)) {
     if (key in metadata && metadata[key] !== value) {
@@ -187,22 +195,29 @@ function NoticeList({
   });
 
   useOn(NoticeEventTypes.dequeue, (data: NoticeDequeueEvent) => {
-    if (id && data.payload.target === id) {
+    if (id && (data.payload as DequeueList).target === id) {
       queue.clear();
       return;
     }
-    if (id && data.payload.target) {
+    if (id && (data.payload as DequeueList).target) {
       return;
     }
 
+    // @ts-expect-error : queue.queue exists, but is not currently documented
     const dequeue = queue.queue.filter(
       (toast: QueuedToast<NoticeContent>) =>
-        (data.payload.id && toast.content.id === data.payload.id) ||
-        (data.payload.color && toast.content.color === data.payload.color) ||
-        (data.payload.metadata &&
-          matchesMetadata(data.payload.metadata, toast.content.metadata)),
+        ((data.payload as DequeueId).id &&
+          toast.content.id === (data.payload as DequeueId).id) ||
+        ((data.payload as DequeueColor).color &&
+          toast.content.color === (data.payload as DequeueColor).color) ||
+        ((data.payload as DequeueMetadata).metadata &&
+          matchesMetadata(
+            (data.payload as DequeueMetadata).metadata,
+            toast.content.metadata,
+          )),
     );
 
+    // @ts-expect-error : queue.queue exists, but is not currently documented
     if (dequeue.length && dequeue.length === queue.queue.length) {
       queue.clear();
     } else {
