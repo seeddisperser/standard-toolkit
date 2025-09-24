@@ -66,7 +66,6 @@ export const Default: StoryObj<NoticeListWithColorArgs> = {
       <div className='h-full w-full border' ref={noticeContainer}>
         <Notice.List parentRef={noticeContainer} placement={placement} />
         <Button
-          variant='outline'
           onPress={() =>
             emit({
               message:
@@ -75,7 +74,7 @@ export const Default: StoryObj<NoticeListWithColorArgs> = {
             })
           }
         >
-          +
+          Create Notice
         </Button>
       </div>
     );
