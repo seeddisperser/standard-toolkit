@@ -28,7 +28,7 @@ type ActionButtonProps = Pick<ButtonProps, 'variant'>;
 export type NoticeContent = {
   id: UniqueId;
   message: string;
-  color: NoticeColor;
+  color?: NoticeColor;
   primary?: ActionButtonProps;
   secondary?: ActionButtonProps;
   timeout?: number;

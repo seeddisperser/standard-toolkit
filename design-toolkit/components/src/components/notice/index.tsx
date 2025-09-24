@@ -173,12 +173,16 @@ function NoticeList({
 
   useOn(NoticeEventTypes.queue, (data: NoticeQueueEvent) => {
     if ((id && data.payload.target === id) || !id) {
-      queue.add({
-        ...data.payload,
-        id: data.payload.id || uuid(),
-        color: defaultColor || data.payload.color,
-        timeout: defaultTimeout || data.payload.timeout,
-      });
+      queue.add(
+        {
+          ...data.payload,
+          id: data.payload.id || uuid(),
+          color: defaultColor || data.payload.color,
+        },
+        {
+          timeout: defaultTimeout || data.payload.timeout,
+        },
+      );
     }
   });
 

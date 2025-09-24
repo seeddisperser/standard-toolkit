@@ -12,32 +12,29 @@
 
 import { useEmit } from '@accelint/bus/react';
 import { type UniqueId, uuid } from '@accelint/core';
-import { type ComponentProps, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button } from '../button';
 import { Notice } from './';
 import { NoticeEventTypes } from './events';
 import type { Meta, StoryObj } from '@storybook/react';
 import type {
-  NoticeColor,
   NoticeContent,
   NoticeDequeueEvent,
   NoticeQueueEvent,
 } from './types';
 
-type NoticeListWithColorArgs = ComponentProps<typeof Notice.List> & {
-  color: NoticeColor;
-};
-
-const meta: Meta<NoticeListWithColorArgs> = {
+const meta: Meta<typeof Notice.List> = {
   title: 'Components/Notice.List',
-  component: Notice,
+  component: Notice.List,
   args: {
-    color: 'info',
+    defaultColor: 'info',
     placement: 'top',
     size: 'medium',
+    hideClearAll: true,
+    limit: 3,
   },
   argTypes: {
-    color: {
+    defaultColor: {
       control: 'select',
       options: ['info', 'advisory', 'normal', 'serious', 'critical'],
     },
@@ -59,23 +56,18 @@ const meta: Meta<NoticeListWithColorArgs> = {
 
 export default meta;
 
-export const Default: StoryObj<NoticeListWithColorArgs> = {
-  render: ({ color, placement, size }) => {
+export const Default: StoryObj<typeof Notice.List> = {
+  render: (args) => {
     const noticeContainer = useRef(null);
     const emit = useEmit<NoticeQueueEvent>(NoticeEventTypes.queue);
     return (
       <div className='h-full w-full border' ref={noticeContainer}>
-        <Notice.List
-          parentRef={noticeContainer}
-          placement={placement}
-          size={size}
-        />
+        <Notice.List {...args} parentRef={noticeContainer} />
         <Button
           onPress={() =>
             emit({
               message:
                 'This is a flexible snackbar that can be either a single or double line that will wrap accordingly when it gets too long for a single line.',
-              color,
             })
           }
         >
@@ -98,12 +90,12 @@ function generateNotices({ color, target }: Partial<NoticeContent>) {
   });
 }
 
-export const DequeueSingle: StoryObj<NoticeListWithColorArgs> = {
-  render: ({ color, placement }) => {
+export const DequeueSingle: StoryObj<typeof Notice.List> = {
+  render: () => {
     const noticeContainer = useRef(null);
     const queue = useEmit<NoticeQueueEvent>(NoticeEventTypes.queue);
     const dequeue = useEmit<NoticeDequeueEvent>(NoticeEventTypes.dequeue);
-    const [notices, setNotices] = useState(generateNotices({ color }));
+    const [notices, setNotices] = useState(generateNotices({ color: 'info' }));
     const handleDequeue = (id: UniqueId) => {
       dequeue({ id });
       setNotices(notices.filter((notice) => notice.id !== id));
@@ -116,9 +108,9 @@ export const DequeueSingle: StoryObj<NoticeListWithColorArgs> = {
     return (
       <div className='h-full w-full' ref={noticeContainer}>
         <Notice.List
-          hideClearAll
           parentRef={noticeContainer}
-          placement={placement}
+          placement='bottom left'
+          hideClearAll
         />
         <div className='fg-primary-bold flex flex-col gap-s'>
           {notices.map((notice) => (
@@ -137,7 +129,7 @@ export const DequeueSingle: StoryObj<NoticeListWithColorArgs> = {
   },
 };
 
-export const DequeueList: StoryObj<NoticeListWithColorArgs> = {
+export const DequeueList: StoryObj<typeof Notice.List> = {
   render: () => {
     const noticeContainer = useRef(null);
     const infoList = uuid();
@@ -197,7 +189,7 @@ export const DequeueList: StoryObj<NoticeListWithColorArgs> = {
   },
 };
 
-export const DequeueColor: StoryObj<NoticeListWithColorArgs> = {
+export const DequeueColor: StoryObj<typeof Notice.List> = {
   render: () => {
     const noticeContainer = useRef(null);
     const infoList = uuid();
