@@ -202,12 +202,11 @@ export {
   NoticeEventNamespace,
   NoticeEventTypes,
 } from './components/notice/events';
-export { Notice, NoticeContext } from './components/notice';
+export { Notice } from './components/notice';
 export { NoticeStyles } from './components/notice/styles';
 export type {
   NoticeColor,
   NoticeContent,
-  NoticeContextValue,
   NoticeDequeueEvent,
   NoticeIconProps,
   NoticeListProps,

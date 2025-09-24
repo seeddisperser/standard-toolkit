@@ -13,13 +13,8 @@
 import type { Payload } from '@accelint/bus';
 import type { UniqueId } from '@accelint/core';
 import type { RefObject } from 'react';
-import type { ToastRegionProps } from 'react-aria-components';
 import type { ButtonProps } from '../button/types';
 import type { NoticeEventTypes } from './events';
-
-export type NoticeContextValue = {
-  queue: ToastRegionProps<NoticeContent>['queue'];
-};
 
 export type NoticeColor =
   | 'info'

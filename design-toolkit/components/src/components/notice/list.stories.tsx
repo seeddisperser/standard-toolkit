@@ -12,12 +12,16 @@
 
 import { useEmit } from '@accelint/bus/react';
 import { uuid } from '@accelint/core';
-import type { Meta, StoryObj } from '@storybook/react';
-import { type ComponentProps, useRef } from 'react';
+import { type ComponentProps, useEffect, useRef } from 'react';
 import { Button } from '../button';
 import { Notice } from './';
 import { NoticeEventTypes } from './events';
-import type { NoticeColor, NoticeQueueEvent } from './types';
+import type { Meta, StoryObj } from '@storybook/react';
+import type {
+  NoticeColor,
+  NoticeDequeueEvent,
+  NoticeQueueEvent,
+} from './types';
 
 type NoticeListWithColorArgs = ComponentProps<typeof Notice.List> & {
   color: NoticeColor;
@@ -53,6 +57,9 @@ const meta: Meta<NoticeListWithColorArgs> = {
 
 export default meta;
 
+const message =
+  'This is a flexible snackbar that can be either a single or double line that will wrap accordingly when it gets too long for a single line.';
+
 export const Default: StoryObj<NoticeListWithColorArgs> = {
   render: ({ color, placement }) => {
     const noticeContainer = useRef(null);
@@ -66,14 +73,219 @@ export const Default: StoryObj<NoticeListWithColorArgs> = {
             emit({
               id: uuid(),
               notice: {
-                message:
-                  'This is a flexible snackbar that can be either a single or double line that wil wrap accordingly when it gets too long for a single line.',
+                message,
                 color,
               },
             })
           }
         >
           +
+        </Button>
+      </div>
+    );
+  },
+};
+
+const ids = {
+  a: uuid(),
+  b: uuid(),
+  c: uuid(),
+};
+
+export const DequeueSingle: StoryObj<NoticeListWithColorArgs> = {
+  render: ({ color, placement }) => {
+    const noticeContainer = useRef(null);
+    const queue = useEmit<NoticeQueueEvent>(NoticeEventTypes.queue);
+    const dequeue = useEmit<NoticeDequeueEvent>(NoticeEventTypes.dequeue);
+    useEffect(() => {
+      queue({
+        id: ids.a,
+        notice: {
+          message,
+          color,
+        },
+      });
+      queue({
+        id: ids.b,
+        notice: {
+          message,
+          color,
+        },
+      });
+      queue({
+        id: ids.c,
+        notice: {
+          message,
+          color,
+        },
+      });
+      queue({
+        id: uuid(),
+        notice: {
+          message,
+          color,
+        },
+      });
+      queue({
+        id: uuid(),
+        notice: {
+          message,
+          color,
+        },
+      });
+    });
+    return (
+      <div className='h-full w-full border' ref={noticeContainer}>
+        <Notice.List parentRef={noticeContainer} placement={placement} />
+        <Button
+          variant='outline'
+          onPress={() =>
+            dequeue({
+              id: ids.b,
+            })
+          }
+        >
+          dequeue
+        </Button>
+      </div>
+    );
+  },
+};
+
+export const DequeueList: StoryObj<NoticeListWithColorArgs> = {
+  render: ({ color }) => {
+    const noticeContainer = useRef(null);
+    const infoList = uuid();
+    const seriousList = uuid();
+    const queue = useEmit<NoticeQueueEvent>(NoticeEventTypes.queue);
+    const dequeue = useEmit<NoticeDequeueEvent>(NoticeEventTypes.dequeue);
+    useEffect(() => {
+      queue({
+        id: uuid(),
+        target: infoList,
+        notice: {
+          message,
+          color,
+        },
+      });
+      queue({
+        id: uuid(),
+        target: infoList,
+        notice: {
+          message,
+          color,
+        },
+      });
+      queue({
+        id: uuid(),
+        target: seriousList,
+        notice: {
+          message,
+          color,
+        },
+      });
+      queue({
+        id: uuid(),
+        target: seriousList,
+        notice: {
+          message,
+          color,
+        },
+      });
+    });
+    return (
+      <div className='h-full w-full border' ref={noticeContainer}>
+        <Notice.List
+          id={infoList}
+          parentRef={noticeContainer}
+          placement='top'
+          defaultColor='info'
+        />
+        <Notice.List
+          id={seriousList}
+          parentRef={noticeContainer}
+          placement='bottom'
+          defaultColor='serious'
+        />
+        <Button
+          variant='outline'
+          onPress={() =>
+            dequeue({
+              target: infoList,
+            })
+          }
+        >
+          dequeue
+        </Button>
+      </div>
+    );
+  },
+};
+
+export const DequeueColor: StoryObj<NoticeListWithColorArgs> = {
+  render: ({ color }) => {
+    const noticeContainer = useRef(null);
+    const infoList = uuid();
+    const seriousList = uuid();
+    const queue = useEmit<NoticeQueueEvent>(NoticeEventTypes.queue);
+    const dequeue = useEmit<NoticeDequeueEvent>(NoticeEventTypes.dequeue);
+    useEffect(() => {
+      queue({
+        id: uuid(),
+        target: infoList,
+        notice: {
+          message,
+          color,
+        },
+      });
+      queue({
+        id: uuid(),
+        target: infoList,
+        notice: {
+          message,
+          color,
+        },
+      });
+      queue({
+        id: uuid(),
+        target: seriousList,
+        notice: {
+          message,
+          color,
+        },
+      });
+      queue({
+        id: uuid(),
+        target: seriousList,
+        notice: {
+          message,
+          color,
+        },
+      });
+    });
+    return (
+      <div className='h-full w-full border' ref={noticeContainer}>
+        <Notice.List
+          id={infoList}
+          parentRef={noticeContainer}
+          placement='top'
+          defaultColor='info'
+        />
+        <Notice.List
+          id={seriousList}
+          parentRef={noticeContainer}
+          placement='bottom'
+          defaultColor='serious'
+        />
+        <Button
+          variant='outline'
+          onPress={() =>
+            dequeue({
+              color: 'info',
+            })
+          }
+        >
+          dequeue
         </Button>
       </div>
     );

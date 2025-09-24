@@ -10,9 +10,9 @@
  * governing permissions and limitations under the License.
  */
 
+import { Notice } from './';
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ComponentProps } from 'react';
-import { Notice } from './';
 
 type NoticeWithArgs = ComponentProps<typeof Notice> & {
   showPrimary: boolean;
