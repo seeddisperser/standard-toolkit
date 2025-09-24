@@ -12,8 +12,16 @@
 
 import { useEmit } from '@accelint/bus/react';
 import { uuid } from '@accelint/core';
-import { type ComponentProps, useEffect, useRef } from 'react';
+import {
+  type ComponentProps,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Button } from '../button';
+import { Options } from '../options';
+import { SelectField } from '../select-field';
 import { Notice } from './';
 import { NoticeEventTypes } from './events';
 import type { Meta, StoryObj } from '@storybook/react';
@@ -92,61 +100,52 @@ const ids = {
   c: uuid(),
 };
 
+function generateNotices({ color, target }) {
+  return Array.from({ length: 5 }, () => {
+    const id = uuid();
+    return {
+      id,
+      target,
+      notice: {
+        message: id,
+        color,
+      },
+    };
+  });
+}
+
 export const DequeueSingle: StoryObj<NoticeListWithColorArgs> = {
   render: ({ color, placement }) => {
     const noticeContainer = useRef(null);
     const queue = useEmit<NoticeQueueEvent>(NoticeEventTypes.queue);
     const dequeue = useEmit<NoticeDequeueEvent>(NoticeEventTypes.dequeue);
+    const [notices, setNotices] = useState(generateNotices({ color }));
+    const handleDequeue = (id: string) => {
+      dequeue({ id });
+      setNotices(notices.filter((notice) => notice.id !== id));
+    };
     useEffect(() => {
-      queue({
-        id: ids.a,
-        notice: {
-          message,
-          color,
-        },
-      });
-      queue({
-        id: ids.b,
-        notice: {
-          message,
-          color,
-        },
-      });
-      queue({
-        id: ids.c,
-        notice: {
-          message,
-          color,
-        },
-      });
-      queue({
-        id: uuid(),
-        notice: {
-          message,
-          color,
-        },
-      });
-      queue({
-        id: uuid(),
-        notice: {
-          message,
-          color,
-        },
-      });
-    });
+      notices.toReversed().forEach((notice) => queue(notice));
+    }, []);
     return (
       <div className='h-full w-full' ref={noticeContainer}>
-        <Notice.List parentRef={noticeContainer} placement={placement} />
-        <Button
-          variant='outline'
-          onPress={() =>
-            dequeue({
-              id: ids.b,
-            })
-          }
-        >
-          dequeue
-        </Button>
+        <Notice.List
+          hideClearAll
+          parentRef={noticeContainer}
+          placement={placement}
+        />
+        <div className='fg-primary-bold flex flex-col gap-s'>
+          {notices.map((notice) => (
+            <Button
+              className='w-full'
+              key={notice.id}
+              variant='outline'
+              onPress={() => handleDequeue(notice.id)}
+            >
+              Dequeue: {notice.notice.message}
+            </Button>
+          ))}
+        </div>
       </div>
     );
   },
@@ -160,38 +159,10 @@ export const DequeueList: StoryObj<NoticeListWithColorArgs> = {
     const queue = useEmit<NoticeQueueEvent>(NoticeEventTypes.queue);
     const dequeue = useEmit<NoticeDequeueEvent>(NoticeEventTypes.dequeue);
     useEffect(() => {
-      queue({
-        id: uuid(),
-        target: infoList,
-        notice: {
-          message,
-          color,
-        },
-      });
-      queue({
-        id: uuid(),
-        target: infoList,
-        notice: {
-          message,
-          color,
-        },
-      });
-      queue({
-        id: uuid(),
-        target: seriousList,
-        notice: {
-          message,
-          color,
-        },
-      });
-      queue({
-        id: uuid(),
-        target: seriousList,
-        notice: {
-          message,
-          color,
-        },
-      });
+      generateNotices({ target: infoList }).forEach((notice) => queue(notice));
+      generateNotices({ target: seriousList }).forEach((notice) =>
+        queue(notice),
+      );
     });
     return (
       <div className='h-full w-full' ref={noticeContainer}>
@@ -209,16 +180,30 @@ export const DequeueList: StoryObj<NoticeListWithColorArgs> = {
           placement='bottom'
           defaultColor='serious'
         />
-        <Button
-          variant='outline'
-          onPress={() =>
-            dequeue({
-              target: infoList,
-            })
-          }
-        >
-          dequeue
-        </Button>
+        <div className='flex flex-col gap-s'>
+          <Button
+            className='w-full'
+            variant='outline'
+            onPress={() =>
+              dequeue({
+                target: infoList,
+              })
+            }
+          >
+            Dequeue: Info List
+          </Button>
+          <Button
+            className='w-full'
+            variant='outline'
+            onPress={() =>
+              dequeue({
+                target: seriousList,
+              })
+            }
+          >
+            Dequeue: Serious List
+          </Button>
+        </div>
       </div>
     );
   },
@@ -232,38 +217,10 @@ export const DequeueColor: StoryObj<NoticeListWithColorArgs> = {
     const queue = useEmit<NoticeQueueEvent>(NoticeEventTypes.queue);
     const dequeue = useEmit<NoticeDequeueEvent>(NoticeEventTypes.dequeue);
     useEffect(() => {
-      queue({
-        id: uuid(),
-        target: infoList,
-        notice: {
-          message,
-          color,
-        },
-      });
-      queue({
-        id: uuid(),
-        target: infoList,
-        notice: {
-          message,
-          color,
-        },
-      });
-      queue({
-        id: uuid(),
-        target: seriousList,
-        notice: {
-          message,
-          color,
-        },
-      });
-      queue({
-        id: uuid(),
-        target: seriousList,
-        notice: {
-          message,
-          color,
-        },
-      });
+      generateNotices({ target: infoList }).forEach((notice) => queue(notice));
+      generateNotices({ target: seriousList }).forEach((notice) =>
+        queue(notice),
+      );
     });
     return (
       <div className='h-full w-full' ref={noticeContainer}>
@@ -281,16 +238,31 @@ export const DequeueColor: StoryObj<NoticeListWithColorArgs> = {
           placement='bottom'
           defaultColor='serious'
         />
-        <Button
-          variant='outline'
-          onPress={() =>
-            dequeue({
-              color: 'info',
-            })
-          }
-        >
-          dequeue
-        </Button>
+
+        <div className='flex flex-col gap-s'>
+          <Button
+            className='w-full'
+            variant='outline'
+            onPress={() =>
+              dequeue({
+                color: 'info',
+              })
+            }
+          >
+            Dequeue: Info
+          </Button>
+          <Button
+            className='w-full'
+            variant='outline'
+            onPress={() =>
+              dequeue({
+                color: 'serious',
+              })
+            }
+          >
+            Dequeue: Serious
+          </Button>
+        </div>
       </div>
     );
   },

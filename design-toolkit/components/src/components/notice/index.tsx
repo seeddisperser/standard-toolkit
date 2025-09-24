@@ -21,7 +21,7 @@ import {
   Success,
   Warning,
 } from '@accelint/icons';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   type QueuedToast,
   Text,
@@ -136,9 +136,12 @@ function NoticeList({
     }
   });
 
-  queue.subscribe(() => {
-    setHasNotices(queue.visibleToasts.length > 0);
-  });
+  useEffect(() => {
+    queue.subscribe(() => {
+      setHasNotices(queue.visibleToasts.length > 0);
+      console.log(queue);
+    });
+  }, []);
 
   return (
     <PortalProvider parentRef={parentRef}>
