@@ -22,9 +22,9 @@ export const designTokens = {
       },
       interactive: {
         bold: {
-          base: [239, 241, 242, 1],
-          hover: [213, 215, 217, 1],
-          pressed: [136, 138, 143, 1],
+          base: [255, 255, 255, 1],
+          hover: [239, 241, 242, 1],
+          pressed: [195, 197, 199, 1],
         },
         muted: {
           base: [47, 47, 49, 1],
@@ -162,9 +162,11 @@ export const designTokens = {
         pressed: [161, 7, 1, 1],
       },
       mono: {
-        bold: [255, 255, 255, 1],
-        hover: [239, 241, 242, 1],
-        pressed: [195, 197, 199, 1],
+        bold: {
+          base: [255, 255, 255, 1],
+          hover: [239, 241, 242, 1],
+          pressed: [195, 197, 199, 1],
+        },
       },
     },
     shadow: {
@@ -324,9 +326,11 @@ export const designTokens = {
         pressed: [212, 11, 4, 1],
       },
       mono: {
-        bold: [21, 21, 23, 1],
-        hover: [47, 47, 49, 1],
-        pressed: [65, 66, 69, 1],
+        bold: {
+          base: [21, 21, 23, 1],
+          hover: [47, 47, 49, 1],
+          pressed: [65, 66, 69, 1],
+        },
       },
     },
     shadow: {

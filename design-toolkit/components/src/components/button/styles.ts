@@ -243,8 +243,8 @@ export const ToggleButtonStyles = tv({
 
         // Mono Bold - Selected
         'enabled:selected:color-mono-bold:fg-primary-bold enabled:selected:color-mono-bold:outline enabled:selected:color-mono-bold:outline-mono-bold',
-        'enabled:selected:hover:color-mono-bold:fg-hover enabled:selected:hover:color-mono-bold:bg-interactive-muted-hover enabled:selected:hover:color-mono-bold:outline-2 enabled:selected:hover:color-mono-bold:outline-mono-hover',
-        'enabled:selected:focus-visible:color-mono-bold:bg-interactive-muted-hover enabled:selected:focus-visible:color-mono-bold:outline-2 enabled:selected:focus-visible:color-mono-bold:outline-mono-hover',
+        'enabled:selected:hover:color-mono-bold:fg-hover enabled:selected:hover:color-mono-bold:bg-interactive-muted-hover enabled:selected:hover:color-mono-bold:outline-2 enabled:selected:hover:color-mono-bold:outline-mono-bold-hover',
+        'enabled:selected:focus-visible:color-mono-bold:bg-interactive-muted-hover enabled:selected:focus-visible:color-mono-bold:outline-2 enabled:selected:focus-visible:color-mono-bold:outline-mono-bold-hover',
         'enabled:selected:pressed:color-mono-bold:fg-inverse-muted enabled:selected:pressed:color-mono-bold:bg-interactive-muted-pressed enabled:selected:pressed:color-mono-bold:outline-2 enabled:selected:pressed:color-mono-bold:outline-interactive-pressed',
 
         // Accent
