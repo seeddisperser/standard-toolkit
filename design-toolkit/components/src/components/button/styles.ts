@@ -134,8 +134,6 @@ const BaseButtonStyles = tv({
         'size-small:max-h-xl size-small:min-h-xl size-small:min-w-xl size-small:max-w-xl',
         'size-xsmall:max-h-[20px] size-xsmall:min-h-[20px] size-xsmall:min-w-[20px] size-xsmall:max-w-[20px]',
         'disabled:fg-disabled disabled:bg-transparent',
-        'disabled:hover:bg-interactive-disabled',
-        'disabled:focus-visible:bg-interactive-disabled',
 
         // Mono Muted
         'enabled:color-mono-muted:fg-primary-muted',
@@ -356,13 +354,9 @@ export const ToggleButtonStyles = tv({
 
         // Disabled
         'disabled:fg-disabled disabled:bg-transparent',
-        'disabled:hover:bg-surface-overlay',
-        'disabled:focus-visible:bg-surface-overlay',
 
         // Disabled - Selected
         'disabled:selected:fg-disabled disabled:selected:bg-interactive-disabled',
-        'disabled:selected:hover:bg-interactive-disabled',
-        'disabled:selected:focus-visible:bg-interactive-disabled',
 
         // Mono Muted
         'enabled:color-mono-muted:fg-primary-muted',
