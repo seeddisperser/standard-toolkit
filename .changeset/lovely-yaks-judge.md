@@ -1,5 +1,5 @@
 ---
-"@accelint/bus": minor
+"@accelint/bus": patch
 ---
 
 added react hooks

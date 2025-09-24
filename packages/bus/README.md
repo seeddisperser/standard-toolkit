@@ -40,7 +40,7 @@ off(); // unsubscribe from event
 ### React
 
 ```tsx
-import { useEmit, useOn } from '@accelint/bus';
+import { useEmit, useOn } from '@accelint/bus/react';
 
 function MyComponent(props) {
   const { foo } = props;
@@ -68,7 +68,7 @@ function MyComponent(props) {
 ```
 
 ```tsx
-import { useBus } from '@accelint/bus';
+import { useBus } from '@accelint/bus/react';
 
 function MyComponent(props) {
   const { foo } = props;
