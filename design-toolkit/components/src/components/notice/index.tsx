@@ -102,10 +102,10 @@ export function Notice({
       <div className={actions()}>
         {secondary && (
           <Button
-            {...secondary}
-            variant='outline'
             color={ButtonColorMap[color]}
             size={size}
+            variant='outline'
+            {...secondary}
             onPress={() => {
               emitSecondaryPress({ id });
               if (shouldCloseOnAction) {
@@ -116,10 +116,10 @@ export function Notice({
         )}
         {primary && (
           <Button
-            {...primary}
-            variant='filled'
             color={ButtonColorMap[color]}
             size={size}
+            variant='filled'
+            {...primary}
             onPress={() => {
               emitPrimaryPress({ id });
               if (shouldCloseOnAction) {
@@ -130,9 +130,9 @@ export function Notice({
         )}
         {showClose && (
           <Button
-            variant='icon'
             color={ButtonColorMap[color]}
             slot='close'
+            variant='icon'
             onPress={() => emitClosePress({ id })}
           >
             <Icon>

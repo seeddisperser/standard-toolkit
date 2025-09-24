@@ -23,7 +23,9 @@ export type NoticeColor =
   | 'critical'
   | 'serious';
 
-type ActionButtonProps = Pick<ButtonProps, 'variant'>;
+type ActionButtonProps = Pick<ButtonProps, 'color' | 'size' | 'variant'> & {
+  children: string;
+};
 
 export type NoticeContent = {
   id: UniqueId;
