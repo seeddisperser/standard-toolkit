@@ -25,6 +25,7 @@ import {
 import { isEqual } from 'lodash';
 import { useEffect, useId, useMemo, useState } from 'react';
 import {
+  composeRenderProps,
   type QueuedToast,
   Text,
   UNSTABLE_Toast as Toast,
@@ -84,6 +85,7 @@ export function Notice({
   secondary,
   showClose,
   shouldCloseOnAction,
+  classNames,
   size = 'medium',
 }: NoticeProps) {
   const emitPrimaryPress = useEmit<NoticePressEvent>(
@@ -95,12 +97,16 @@ export function Notice({
   const emitClosePress = useEmit<NoticePressEvent>(NoticeEventTypes.close);
   const dequeue = useEmit<NoticeDequeueEvent>(NoticeEventTypes.dequeue);
   return (
-    <div className={notice()} data-color={color} data-size={size}>
-      <ToastContent className={content()}>
+    <div
+      className={notice({ className: classNames?.notice })}
+      data-color={color}
+      data-size={size}
+    >
+      <ToastContent className={content({ className: classNames?.content })}>
         <NoticeIcon variant={color} size={size} />
         <Text slot='description'>{message}</Text>
       </ToastContent>
-      <div className={actions()}>
+      <div className={actions({ className: classNames?.actions })}>
         {secondary && (
           <Button
             variant='outline'
@@ -170,6 +176,7 @@ function NoticeList({
   defaultColor,
   defaultTimeout,
   hideClearAll,
+  classNames,
   size = 'medium',
   limit = 3,
 }: NoticeListProps) {
@@ -238,19 +245,36 @@ function NoticeList({
     <PortalProvider parentRef={parentRef}>
       <ToastRegion
         aria-label={`notifications-${id || _id}`}
-        className={region()}
+        className={composeRenderProps(classNames?.region, (className) =>
+          region({ className }),
+        )}
         data-placement={placement}
         queue={queue}
       >
         {!hideClearAll && hasNotices && (
-          <Button variant='outline' onPress={() => queue.clear()}>
+          <Button
+            className={composeRenderProps(
+              classNames?.button,
+              (className) => className ?? '',
+            )}
+            variant='outline'
+            onPress={() => queue.clear()}
+          >
             Clear All
           </Button>
         )}
-        <ToastList className={list()}>
+        <ToastList
+          className={composeRenderProps(classNames?.list, (className) =>
+            list({ className }),
+          )}
+        >
           {({ toast }: { toast: QueuedToast<NoticeContent> }) => (
             <Toast toast={toast}>
-              <Notice {...toast.content} size={size} />
+              <Notice
+                {...toast.content}
+                classNames={classNames?.notice}
+                size={size}
+              />
             </Toast>
           )}
         </ToastList>

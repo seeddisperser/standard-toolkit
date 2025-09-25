@@ -60,6 +60,16 @@ export type NoticeListProps = {
   defaultTimeout?: number;
   hideClearAll?: boolean;
   size?: 'small' | 'medium';
+  classNames?: {
+    region?: string;
+    list?: string;
+    button?: string;
+    notice?: {
+      notice?: string;
+      content?: string;
+      actions?: string;
+    };
+  };
 };
 
 export type NoticeProps = Omit<
@@ -70,6 +80,11 @@ export type NoticeProps = Omit<
   showClose?: boolean;
   shouldCloseOnAction?: boolean;
   size?: 'small' | 'medium';
+  classNames?: {
+    notice?: string;
+    content?: string;
+    actions?: string;
+  };
 };
 
 export type NoticeQueueEvent = Payload<
