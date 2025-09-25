@@ -12,7 +12,7 @@
 
 'use client';
 import 'client-only';
-import { Timer } from '@accelint/icons';
+import { Time } from '@accelint/icons';
 import {
   DateInput as AriaDateInput,
   Text as AriaText,
@@ -27,7 +27,7 @@ import { Label } from '../label';
 import { TimeFieldStyles } from './styles';
 import type { TimeFieldProps } from './types';
 
-const { label, control, input, segment, description, error } =
+const { field, label, control, input, description, error } =
   TimeFieldStyles();
 
 export function TimeField<T extends TimeValue>({
@@ -37,10 +37,11 @@ export function TimeField<T extends TimeValue>({
   inputProps,
   label: labelProp,
   size = 'medium',
-  shouldForceLeadingZeros = true,
   isDisabled,
   isInvalid: isInvalidProp,
   isRequired,
+  hideTimeZone= false,
+  granularity='second',
   ...rest
 }: TimeFieldProps<T>) {
   const errorMessage = errorMessageProp || null; // Protect against empty string
@@ -49,12 +50,16 @@ export function TimeField<T extends TimeValue>({
   return (
     <AriaTimeField<T>
       {...rest}
-      shouldForceLeadingZeros={shouldForceLeadingZeros}
       isDisabled={isDisabled}
       isInvalid={isInvalidProp || (errorMessage ? true : undefined)} // Leave uncontrolled if possible to fallback to validation state
       isRequired={isRequired}
       aria-label={labelProp}
       data-size={size}
+      hideTimeZone={hideTimeZone}
+      granularity={granularity}
+      className={composeRenderProps(classNames?.field, (className) =>
+        field({ className }),
+      )}
     >
       {(
         { isDisabled }, // Rely on internal state, not props, since state could differ from props
@@ -72,7 +77,7 @@ export function TimeField<T extends TimeValue>({
           <div className={control({ className: classNames?.control })}>
             {size === 'medium' && (
               <Icon>
-                <Timer />
+                <Time />
               </Icon>
             )}
             <AriaDateInput
@@ -92,7 +97,7 @@ export function TimeField<T extends TimeValue>({
               }}
             </AriaDateInput>
           </div>
-          {descriptionProp && (!(isSmall || isInvalidProp) || isDisabled) && (
+          {descriptionProp && (!(isSmall || isInvalidProp) && !errorMessage ) && (
             <AriaText
               className={description({
                 className: classNames?.description,

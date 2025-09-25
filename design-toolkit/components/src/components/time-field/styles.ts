@@ -13,7 +13,7 @@
 import { tv } from 'tailwind-variants';
 
 export const TimeFieldSylesDefaults = {
-  isDisabled: true,
+  isDisabled: false,
 } as const;
 
 export const TimeFieldStyles = tv({
@@ -28,7 +28,7 @@ export const TimeFieldStyles = tv({
       'hover:outline-interactive-hover',
       'focus-visible-within:outline-accent-primary-bold',
       'group-invalid/time-field:outline-serious-bold',
-      'group-disabled/time-field:placeholder:fg-disabled group-disabled/date-field:fg-disabled group-disabled/date-field:outline-interactive-disabled',
+      'group-disabled/time-field:placeholder:fg-disabled group-disabled/time-field:fg-disabled group-disabled/time-field:outline-interactive-disabled',
     ],
     input: 'flex gap-xs',
     segment: [
