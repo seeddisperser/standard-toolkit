@@ -46,7 +46,7 @@ export type NoticeIconProps = {
 export type NoticeListProps = {
   id?: UniqueId;
   parentRef?: RefObject<HTMLElement | null>;
-  placement:
+  placement?:
     | 'top left'
     | 'top'
     | 'top right'

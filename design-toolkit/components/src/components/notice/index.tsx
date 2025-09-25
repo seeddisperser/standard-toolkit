@@ -172,7 +172,7 @@ function matchesMetadata(
 function NoticeList({
   id,
   parentRef,
-  placement,
+  placement = 'bottom right',
   defaultColor,
   defaultTimeout,
   hideClearAll,
