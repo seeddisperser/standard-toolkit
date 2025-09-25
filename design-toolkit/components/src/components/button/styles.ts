@@ -78,8 +78,8 @@ const BaseButtonStyles = tv({
 
         // Accent
         'enabled:color-accent:fg-primary-bold enabled:color-accent:bg-transparent enabled:color-accent:outline enabled:color-accent:outline-accent-primary-bold',
-        'enabled:hover:color-accent:bg-accent-primary-hover enabled:hover:color-accent:outline-2 enabled:hover:color-accent:outline-accent-primary-hover',
-        'enabled:focus-visible:color-accent:bg-accent-primary-hover enabled:focus-visible:color-accent:outline-2 enabled:focus-visible:color-accent:outline-accent-primary-hover',
+        'enabled:hover:color-accent:fg-a11y-on-accent enabled:hover:color-accent:bg-accent-primary-hover enabled:hover:color-accent:outline-2 enabled:hover:color-accent:outline-accent-primary-hover',
+        'enabled:focus-visible::color-accent:fg-a11y-on-accent enabled:focus-visible:color-accent:bg-accent-primary-hover enabled:focus-visible:color-accent:outline-2 enabled:focus-visible:color-accent:outline-accent-primary-hover',
         'enabled:pressed:color-accent:fg-accent-primary-bold enabled:pressed:color-accent:bg-accent-primary-pressed enabled:pressed:color-accent:outline-2 enabled:pressed:color-accent:outline-accent-primary-pressed',
 
         // Serious
@@ -129,10 +129,10 @@ const BaseButtonStyles = tv({
       ],
       icon: [
         'size-small:rounded-small size-xsmall:rounded-small size-large:p-xs size-medium:p-xs size-small:p-xxs size-xsmall:p-xxs',
-        'size-large:max-h-xxl size-large:min-h-xxl size-large:min-w-xxl size-large:max-w-xxl',
-        'size-medium:max-h-[28px] size-medium:min-h-[28px] size-medium:min-w-[28px] size-medium:max-w-[28px]',
-        'size-small:max-h-xl size-small:min-h-xl size-small:min-w-xl size-small:max-w-xl',
-        'size-xsmall:max-h-[20px] size-xsmall:min-h-[20px] size-xsmall:min-w-[20px] size-xsmall:max-w-[20px]',
+        'size-large:min-w-xxl size-large:max-w-xxl',
+        'size-medium:min-w-[28px] size-medium:max-w-[28px]',
+        'size-small:min-w-xl size-small:max-w-xl',
+        'size-xsmall:min-w-[20px] size-xsmall:max-w-[20px]',
         'disabled:fg-disabled disabled:bg-transparent',
 
         // Mono Muted
@@ -140,6 +140,7 @@ const BaseButtonStyles = tv({
         'enabled:hover:color-mono-muted:bg-interactive-muted-hover',
         'enabled:focus-visible:color-mono-muted:bg-interactive-muted-hover',
         'enabled:pressed:color-mono-muted:fg-pressed enabled:pressed:color-mono-muted:bg-interactive-muted-pressed',
+
         // Mono Bold
         'enabled:color-mono-bold:fg-primary-bold',
         'enabled:hover:color-mono-bold:bg-interactive-muted-hover',
@@ -167,32 +168,41 @@ const BaseButtonStyles = tv({
       floating: [
         'rounded-full',
         'size-large:p-xs size-medium:p-xs size-small:p-xxs size-xsmall:p-xxs',
+        'size-large:min-w-xxl size-large:max-w-xxl',
+        'size-medium:min-w-[28px] size-medium:max-w-[28px]',
+        'size-small:min-w-xl size-small:max-w-xl',
+        'size-xsmall:min-w-[20px] size-xsmall:max-w-[20px]',
         'disabled:fg-disabled disabled:bg-interactive-disabled disabled:outline-interactive-disabled',
 
         // Mono Muted
-        'enabled:color-info:fg-info-bold enabled:color-info:bg-surface-default enabled:color-info:outline-interactive',
-        'enabled:hover:color-info:fg-info-hover enabled:hover:color-info:outline-interactive-hover',
-        'enabled:focus-visible:color-info:fg-info-hover enabled:focus-visible:color-info:outline-interactive-hover',
+        'enabled:color-mono-muted:fg-primary-muted enabled:color-mono-muted:bg-surface-default enabled:color-mono-muted:outline-interactive',
+        'enabled:hover:color-mono-muted:fg-primary-hover enabled:hover:color-mono-muted:outline-interactive-hover',
+        'enabled:focus-visible:color-mono-muted:fg-primary-hover enabled:focus-visible:color-mono-muted:outline-interactive-hover',
+        'enabled:pressed:color-mono-muted:fg-pressed enabled:pressed:color-mono-muted:bg-interactive-muted-pressed',
 
         // Mono Bold
-        'enabled:color-info:fg-info-bold enabled:color-info:bg-surface-default enabled:color-info:outline-interactive',
-        'enabled:hover:color-info:fg-info-hover enabled:hover:color-info:outline-interactive-hover',
-        'enabled:focus-visible:color-info:fg-info-hover enabled:focus-visible:color-info:outline-interactive-hover',
+        'enabled:color-mono-bold:fg-primary-bold enabled:color-mono-bold:bg-surface-default enabled:color-mono-bold:outline-interactive',
+        'enabled:hover:color-mono-bold:fg-primary-hover enabled:hover:color-mono-bold:outline-interactive-hover',
+        'enabled:focus-visible:color-mono-bold:fg-primary-hover enabled:focus-visible:color-mono-bold:outline-interactive-hover',
+        'enabled:pressed:color-mono-bold:fg-pressed enabled:pressed:color-mono-bold:bg-interactive-muted-pressed',
 
-        // Info
-        'enabled:color-info:fg-info-bold enabled:color-info:bg-surface-default enabled:color-info:outline-interactive',
-        'enabled:hover:color-info:fg-info-hover enabled:hover:color-info:outline-interactive-hover',
-        'enabled:focus-visible:color-info:fg-info-hover enabled:focus-visible:color-info:outline-interactive-hover',
+        // Accent
+        'enabled:color-accent:fg-accent-primary-bold enabled:color-accent:bg-accent-primary-bold enabled:color-accent:outline-accent-primary-bold',
+        'enabled:hover:color-accent:fg-accent-primary-hover enabled:hover:color-accent:outline-accent-primary-hover',
+        'enabled:focus-visible:color-accent:fg-accent-primary-hover enabled:focus-visible:color-accent:outline-accent-primary-hover',
+        'enabled:pressed:color-accent:fg-accent-primary-pressed enabled:pressed:color-accent:bg-interactive-muted-pressed enabled:pressed:color-accent:outline-accent-primary-pressed',
 
         // Serious
         'enabled:color-serious:fg-serious-bold enabled:color-serious:bg-serious-muted enabled:color-serious:outline-serious-bold',
-        'enabled:hover:color-serious:fg-info-hover enabled:hover:color-serious:outline-interactive-hover',
-        'enabled:focus-visible:color-serious:fg-info-hover enabled:focus-visible:color-serious:outline-interactive-hover',
+        'enabled:hover:color-serious:fg-serious-hover enabled:hover:color-serious:outline-interactive-hover',
+        'enabled:focus-visible:color-serious:fg-serious-hover enabled:focus-visible:color-serious:outline-interactive-hover',
+        'enabled:pressed:color-serious:fg-serious-pressed enabled:pressed:color-serious:bg-interactive-muted-pressed enabled:pressed:color-serious:outline-serious-pressed',
 
         // Critical
         'enabled:color-critical:fg-critical-bold enabled:color-critical:bg-critical-muted enabled:color-critical:outline-critical-bold',
-        'enabled:hover:color-critical:fg-info-hover enabled:hover:color-critical:outline-interactive-hover',
-        'enabled:focus-visible:color-critical:fg-info-hover enabled:focus-visible:color-critical:outline-interactive-hover',
+        'enabled:hover:color-critical:fg-critiical-hover enabled:hover:color-critical:outline-critical-hover',
+        'enabled:focus-visible:color-critical:fg-critiical-hover enabled:focus-visible:color-critical:outline-critical-hover',
+        'enabled:pressed:color-critical:fg-critical-pressed enabled:pressed:color-critical:bg-interactive-muted-pressed enabled:pressed:color-critical:outline-critical-pressed',
       ],
     },
   },
@@ -347,10 +357,10 @@ export const ToggleButtonStyles = tv({
       ],
       icon: [
         'size-small:rounded-small size-xsmall:rounded-small size-large:p-xs size-medium:p-xs size-small:p-xxs size-xsmall:p-xxs',
-        'size-large:max-h-xxl size-large:min-h-xxl size-large:min-w-xxl size-large:max-w-xxl',
-        'size-medium:max-h-[28px] size-medium:min-h-[28px] size-medium:min-w-[28px] size-medium:max-w-[28px]',
-        'size-small:max-h-xl size-small:min-h-xl size-small:min-w-xl size-small:max-w-xl',
-        'size-xsmall:max-h-[20px] size-xsmall:min-h-[20px] size-xsmall:min-w-[20px] size-xsmall:max-w-[20px]',
+        'size-large:min-w-xxl size-large:max-w-xxl',
+        'size-medium:min-w-[28px] size-medium:max-w-[28px]',
+        'size-small:min-w-xl size-small:max-w-xl',
+        'size-xsmall:min-w-[20px] size-xsmall:max-w-[20px]',
 
         // Disabled
         'disabled:fg-disabled disabled:bg-transparent',
