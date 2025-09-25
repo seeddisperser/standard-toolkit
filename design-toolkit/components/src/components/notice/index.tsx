@@ -22,7 +22,8 @@ import {
   Success,
   Warning,
 } from '@accelint/icons';
-import { useEffect, useMemo, useState } from 'react';
+import { isEqual } from 'lodash';
+import { useEffect, useId, useMemo, useState } from 'react';
 import {
   type QueuedToast,
   Text,
@@ -153,14 +154,13 @@ function matchesMetadata(
     return false;
   }
 
-  //TODO:: better equality checks for arrays and objects??
   for (const [key, value] of Object.entries(payload)) {
-    if (key in metadata && metadata[key] !== value) {
-      return false;
+    if (key in metadata && isEqual(metadata[key], value)) {
+      return true;
     }
   }
 
-  return true;
+  return false;
 }
 
 function NoticeList({
@@ -173,6 +173,7 @@ function NoticeList({
   size = 'medium',
   limit = 3,
 }: NoticeListProps) {
+  const _id = useId();
   const queue = useMemo(
     () => new ToastQueue<NoticeContent>({ maxVisibleToasts: limit }),
     [limit],
@@ -236,6 +237,7 @@ function NoticeList({
   return (
     <PortalProvider parentRef={parentRef}>
       <ToastRegion
+        aria-label={`notifications-${id || _id}`}
         className={region()}
         data-placement={placement}
         queue={queue}
