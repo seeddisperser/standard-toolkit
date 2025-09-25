@@ -12,20 +12,29 @@
 
 'use client';
 import 'client-only';
+import { Timer } from '@accelint/icons';
 import {
+  DateInput as AriaDateInput,
+  Text as AriaText,
   TimeField as AriaTimeField,
-  type TimeValue,
   composeRenderProps,
+  DateSegment,
+  FieldError,
+  type TimeValue,
 } from 'react-aria-components';
+import { Icon } from '../icon';
+import { Label } from '../label';
+import { TimeFieldStyles } from './styles';
 import type { TimeFieldProps } from './types';
 
-// const { field, label, control, input, segment, description, error } =
-//   DateFieldStyles();
+const { label, control, input, segment, description, error } =
+  TimeFieldStyles();
 
 export function TimeField<T extends TimeValue>({
   classNames,
   description: descriptionProp,
   errorMessage: errorMessageProp,
+  inputProps,
   label: labelProp,
   size = 'medium',
   shouldForceLeadingZeros = true,
@@ -35,6 +44,7 @@ export function TimeField<T extends TimeValue>({
   ...rest
 }: TimeFieldProps<T>) {
   const errorMessage = errorMessageProp || null; // Protect against empty string
+  const isSmall = size === 'small';
 
   return (
     <AriaTimeField<T>
@@ -45,6 +55,62 @@ export function TimeField<T extends TimeValue>({
       isRequired={isRequired}
       aria-label={labelProp}
       data-size={size}
-    ></AriaTimeField>
+    >
+      {(
+        { isDisabled }, // Rely on internal state, not props, since state could differ from props
+      ) => (
+        <>
+          {!isSmall && label && (
+            <Label
+              className={label({ className: classNames?.label })}
+              isDisabled={isDisabled}
+              isRequired={isRequired}
+            >
+              {labelProp}
+            </Label>
+          )}
+          <div className={control({ className: classNames?.control })}>
+            {size === 'medium' && (
+              <Icon>
+                <Timer />
+              </Icon>
+            )}
+            <AriaDateInput
+              {...inputProps}
+              className={composeRenderProps(classNames?.input, (className) =>
+                input({
+                  className,
+                }),
+              )}
+            >
+              {(segmentProp) => {
+                if (segmentProp.type === 'literal') {
+                  return <>{segmentProp.text === ':' ? ':' : null}</>;
+                }
+
+                return <DateSegment segment={segmentProp}></DateSegment>;
+              }}
+            </AriaDateInput>
+          </div>
+          {descriptionProp && (!(isSmall || isInvalidProp) || isDisabled) && (
+            <AriaText
+              className={description({
+                className: classNames?.description,
+              })}
+              slot='description'
+            >
+              {descriptionProp}
+            </AriaText>
+          )}
+          <FieldError
+            className={composeRenderProps(classNames?.error, (className) =>
+              error({ className }),
+            )}
+          >
+            {errorMessage}
+          </FieldError>
+        </>
+      )}
+    </AriaTimeField>
   );
 }

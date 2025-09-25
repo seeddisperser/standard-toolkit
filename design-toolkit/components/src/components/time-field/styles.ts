@@ -17,5 +17,30 @@ export const TimeFieldSylesDefaults = {
 } as const;
 
 export const TimeFieldStyles = tv({
+  slots: {
+    field: 'group/time-field flex flex-col gap-xs',
+    label: '',
+    control: [
+      'flex w-full items-center gap-xs rounded-medium px-s py-xs font-display outline outline-interactive',
+      'group-size-medium/time-field:text-body-s',
+      'group-size-small/time-field:text-body-xs',
+      'fg-primary-bold',
+      'hover:outline-interactive-hover',
+      'focus-visible-within:outline-accent-primary-bold',
+      'group-invalid/time-field:outline-serious-bold',
+      'group-disabled/time-field:placeholder:fg-disabled group-disabled/date-field:fg-disabled group-disabled/date-field:outline-interactive-disabled',
+    ],
+    input: 'flex gap-xs',
+    segment: [
+      'text-right',
+      'placeholder-shown:fg-primary-muted',
+      'focus-visible:fg-a11y-on-accent focus-visible:bg-accent-primary-bold focus-visible:outline-none',
+    ],
+    description: [
+      'fg-primary-muted text-body-xs',
+      'group-disabled/time-field:fg-disabled',
+    ],
+    error: 'fg-serious-bold text-body-xs',
+  },
   defaultVariants: TimeFieldSylesDefaults,
 });

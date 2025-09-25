@@ -12,6 +12,7 @@
 
 import type {
   TimeFieldProps as AriaTimeFieldProps,
+  DateInputProps,
   TimeValue,
 } from 'react-aria-components';
 import type { VariantProps } from 'tailwind-variants';
@@ -27,4 +28,5 @@ export type TimeFieldProps<T extends TimeValue> = Omit<
     description?: string;
     errorMessage?: string;
     size?: 'small' | 'medium';
+    inputProps?: Omit<DateInputProps, 'children' | 'className'>;
   };

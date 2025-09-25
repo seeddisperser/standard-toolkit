@@ -10,15 +10,15 @@
  * governing permissions and limitations under the License.
  */
 
-import type { Meta, StoryObj } from '@storybook/react';
 import { TimeField } from './index';
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta<typeof TimeField> = {
   title: 'Components/TimeField',
   component: TimeField,
   args: {
     label: 'Label',
-    description: 'Format: d MMM yyyy',
+    description: 'Format: hh:mm:ssz',
     errorMessage: '',
     size: 'medium',
     isDisabled: false,
@@ -32,7 +32,6 @@ const meta: Meta<typeof TimeField> = {
     },
     granularity: {
       control: 'select',
-      options: ['day', 'hour', 'minute', 'second'],
     },
   },
 };
@@ -40,13 +39,5 @@ const meta: Meta<typeof TimeField> = {
 export default meta;
 
 export const Default: StoryObj<typeof TimeField> = {
-  render: TimeField,
-};
-
-export const WithoutShortMonth: StoryObj<typeof TimeField> = {
-  args: {
-    ...Default.args,
-    description: 'Format: d MM yyyy',
-  },
   render: TimeField,
 };
