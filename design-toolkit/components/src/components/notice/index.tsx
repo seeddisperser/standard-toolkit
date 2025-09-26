@@ -106,36 +106,6 @@ export function Notice({
       <ToastContent className={content({ className: classNames?.content })}>
         {!hideIcon && <NoticeIcon variant={color} size={size} />}
         <Text slot='description'>{message}</Text>
-      </ToastContent>
-      <div className={actions({ className: classNames?.actions })}>
-        {secondary && (
-          <Button
-            variant='outline'
-            color={ButtonColorMap[color]}
-            {...secondary}
-            size={size}
-            onPress={() => {
-              emitSecondaryPress({ id });
-              if (shouldCloseOnAction) {
-                dequeue({ id });
-              }
-            }}
-          />
-        )}
-        {primary && (
-          <Button
-            variant='filled'
-            color={ButtonColorMap[color]}
-            {...primary}
-            size={size}
-            onPress={() => {
-              emitPrimaryPress({ id });
-              if (shouldCloseOnAction) {
-                dequeue({ id });
-              }
-            }}
-          />
-        )}
         {showClose && (
           <Button
             color={ButtonColorMap[color]}
@@ -148,7 +118,39 @@ export function Notice({
             </Icon>
           </Button>
         )}
-      </div>
+      </ToastContent>
+      {(!!primary || !!secondary) && (
+        <div className={actions({ className: classNames?.actions })}>
+          {secondary && (
+            <Button
+              variant='outline'
+              color={ButtonColorMap[color]}
+              {...secondary}
+              size={size}
+              onPress={() => {
+                emitSecondaryPress({ id });
+                if (shouldCloseOnAction) {
+                  dequeue({ id });
+                }
+              }}
+            />
+          )}
+          {primary && (
+            <Button
+              variant='filled'
+              color={ButtonColorMap[color]}
+              {...primary}
+              size={size}
+              onPress={() => {
+                emitPrimaryPress({ id });
+                if (shouldCloseOnAction) {
+                  dequeue({ id });
+                }
+              }}
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 }
