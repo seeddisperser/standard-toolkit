@@ -16,44 +16,36 @@ import { describe, expect, it } from 'vitest';
 import { Notice } from './';
 import type { NoticeProps } from './types';
 
-function setup(props: NoticeProps) {
-  render(<Notice {...props} />);
+function setup({
+  id = uuid(),
+  message = 'Hello',
+  ...rest
+}: Partial<NoticeProps> = {}) {
+  const { container } = render(<Notice id={id} message={message} {...rest} />);
 
-  return props;
+  return {
+    container,
+    id,
+    message,
+    ...rest,
+  };
 }
 
 describe('Notice', () => {
   it('should render message', () => {
-    const message = 'Hello';
-    const id = uuid();
-
-    setup({
-      id,
-      message,
-    });
+    const { message } = setup();
 
     expect(screen.getByText(message)).toBeInTheDocument();
   });
 
   it('should render close button', () => {
-    const message = 'Hello';
-    const id = uuid();
-
-    setup({
-      id,
-      message,
-    });
+    setup();
 
     expect(screen.queryByRole('button')).not.toBeInTheDocument();
   });
 
   it('should render close button', () => {
-    const message = 'Hello';
-    const id = uuid();
-
     setup({
-      id,
-      message,
       showClose: true,
     });
 
@@ -61,12 +53,7 @@ describe('Notice', () => {
   });
 
   it('should render primary button', () => {
-    const message = 'Hello';
-    const id = uuid();
-
     setup({
-      id,
-      message,
       primary: { children: 'Primary Action' },
     });
 
@@ -76,17 +63,26 @@ describe('Notice', () => {
   });
 
   it('should render secondary button', () => {
-    const message = 'Hello';
-    const id = uuid();
-
     setup({
-      id,
-      message,
       secondary: { children: 'Secondary Action' },
     });
 
     expect(
       screen.getByRole('button', { name: 'Secondary Action' }),
     ).toBeInTheDocument();
+  });
+
+  it('should render icon', () => {
+    const { container } = setup();
+
+    expect(container.querySelector('svg')).toBeInTheDocument();
+  });
+
+  it('should not render icon', () => {
+    const { container } = setup({
+      hideIcon: true,
+    });
+
+    expect(container.querySelector('svg')).not.toBeInTheDocument();
   });
 });

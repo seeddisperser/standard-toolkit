@@ -84,6 +84,7 @@ export function Notice({
   primary,
   secondary,
   showClose,
+  hideIcon,
   shouldCloseOnAction,
   classNames,
   size = 'medium',
@@ -103,7 +104,7 @@ export function Notice({
       data-size={size}
     >
       <ToastContent className={content({ className: classNames?.content })}>
-        <NoticeIcon variant={color} size={size} />
+        {!hideIcon && <NoticeIcon variant={color} size={size} />}
         <Text slot='description'>{message}</Text>
       </ToastContent>
       <div className={actions({ className: classNames?.actions })}>

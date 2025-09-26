@@ -78,6 +78,7 @@ export type NoticeProps = Omit<
 > & {
   id: UniqueId;
   showClose?: boolean;
+  hideIcon?: boolean;
   shouldCloseOnAction?: boolean;
   size?: 'small' | 'medium';
   classNames?: {
