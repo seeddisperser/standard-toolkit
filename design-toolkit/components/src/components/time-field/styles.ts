@@ -30,7 +30,7 @@ export const TimeFieldStyles = tv({
       'group-invalid/time-field:outline-serious-bold',
       'group-disabled/time-field:placeholder:fg-disabled group-disabled/time-field:fg-disabled group-disabled/time-field:outline-interactive-disabled',
     ],
-    input: 'flex gap-xs',
+    input: 'flex',
     segment: [
       'text-right',
       'placeholder-shown:fg-primary-muted',

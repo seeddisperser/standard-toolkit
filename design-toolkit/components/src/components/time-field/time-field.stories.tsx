@@ -10,6 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
+import { parseTime } from '@internationalized/date';
 import { TimeField } from './index';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -24,6 +25,7 @@ const meta: Meta<typeof TimeField> = {
     isDisabled: false,
     isInvalid: false,
     isRequired: true,
+    defaultValue: parseTime('20:03'),
   },
   argTypes: {
     size: {

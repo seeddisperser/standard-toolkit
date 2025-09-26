@@ -27,7 +27,7 @@ import { Label } from '../label';
 import { TimeFieldStyles } from './styles';
 import type { TimeFieldProps } from './types';
 
-const { field, label, control, input, description, error } =
+const { field, label, control, input, description, error, segment } =
   TimeFieldStyles();
 
 export function TimeField<T extends TimeValue>({
@@ -40,8 +40,8 @@ export function TimeField<T extends TimeValue>({
   isDisabled,
   isInvalid: isInvalidProp,
   isRequired,
-  hideTimeZone= false,
-  granularity='second',
+  hideTimeZone = false,
+  granularity = 'second',
   ...rest
 }: TimeFieldProps<T>) {
   const errorMessage = errorMessageProp || null; // Protect against empty string
@@ -57,6 +57,7 @@ export function TimeField<T extends TimeValue>({
       data-size={size}
       hideTimeZone={hideTimeZone}
       granularity={granularity}
+      hourCycle={24}
       className={composeRenderProps(classNames?.field, (className) =>
         field({ className }),
       )}
@@ -89,15 +90,20 @@ export function TimeField<T extends TimeValue>({
               )}
             >
               {(segmentProp) => {
-                if (segmentProp.type === 'literal') {
-                  return <>{segmentProp.text === ':' ? ':' : null}</>;
-                }
-
-                return <DateSegment segment={segmentProp}></DateSegment>;
+                return (
+                  <DateSegment
+                    segment={segmentProp}
+                    className={composeRenderProps(
+                      classNames?.segment,
+                      (className) => segment({ className }),
+                    )}
+                  ></DateSegment>
+                );
               }}
             </AriaDateInput>
+            <span>Z</span>
           </div>
-          {descriptionProp && (!(isSmall || isInvalidProp) && !errorMessage ) && (
+          {descriptionProp && !(isSmall || isInvalidProp) && !errorMessage && (
             <AriaText
               className={description({
                 className: classNames?.description,
