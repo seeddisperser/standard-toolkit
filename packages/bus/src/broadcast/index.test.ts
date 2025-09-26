@@ -31,7 +31,7 @@ describe('broadcast', () => {
     const fn = vi.fn();
 
     bus.on('test', fn);
-    bus.emit('test', 'test');
+    bus.emit('test', 'test', { echo: true });
 
     expect(fn).toHaveBeenCalled();
     expect(fn).toHaveBeenCalledWith({
@@ -80,5 +80,26 @@ describe('broadcast', () => {
 
     expect(fn).not.toHaveBeenCalled();
     expect(bus.getEvents()).toEqual([]);
+  });
+
+  it('should echo to itself', () => {
+    const bus = Broadcast.getInstance();
+    const fn = vi.fn();
+
+    bus.on('test', fn);
+    bus.emit('test', 'echo');
+
+    expect(fn).toHaveBeenCalledTimes(1);
+    expect(fn).toHaveBeenCalledWith({ type: 'test', payload: 'echo' });
+  });
+
+  it('should not echo to itself', () => {
+    const bus = Broadcast.getInstance();
+    const fn = vi.fn();
+
+    bus.on('test', fn);
+    bus.emit('test', 'test', { echo: false });
+
+    expect(fn).not.toHaveBeenCalled();
   });
 });
