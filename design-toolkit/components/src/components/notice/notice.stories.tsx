@@ -23,7 +23,7 @@ const meta: Meta<typeof Notice> = {
   args: {
     color: 'info',
     message:
-      'This is a flexible snackbar that can be either a single or double line that wil wrap accordingly when it gets too long for a single line.',
+      'This is a flexible snackbar that can be either a single or double line that will wrap accordingly when it gets too long for a single line.',
     size: 'medium',
     showClose: true,
   },
