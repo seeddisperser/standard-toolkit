@@ -97,7 +97,7 @@ export function TimeField<T extends TimeValue>({
                       classNames?.segment,
                       (className) => segment({ className }),
                     )}
-                  ></DateSegment>
+                  />
                 );
               }}
             </AriaDateInput>
