@@ -60,6 +60,7 @@ export type {
   ButtonStyleVariants,
   LinkButtonProps,
   ToggleButtonProps,
+  ToggleButtonStyleVariants,
 } from './components/button/types';
 export {
   Checkbox,
@@ -138,6 +139,9 @@ export type {
 export { Dialog, DialogContext } from './components/dialog';
 export { DialogStyles } from './components/dialog/styles';
 export type { DialogProps } from './components/dialog/types';
+export { Divider, DividerContext } from './components/divider';
+export { DividerStyles } from './components/divider/styles';
+export type { DividerProps } from './components/divider/types';
 export {
   DrawerEventNamespace,
   DrawerEventTypes,
@@ -276,6 +280,27 @@ export type { SliderProps } from './components/slider/types';
 export { Switch, SwitchContext } from './components/switch';
 export { SwitchStyles } from './components/switch/styles';
 export type { SwitchProps } from './components/switch/types';
+export { TableContext } from './components/table/context';
+export { Table } from './components/table';
+export {
+  TableBodyStyles,
+  TableCellStyles,
+  TableCellStylesDefaults,
+  TableHeaderCellStyles,
+  TableHeaderCellStylesDefaults,
+  TableHeaderStyles,
+  TableRowStyles,
+  TableStyles,
+} from './components/table/styles';
+export type {
+  TableBodyProps,
+  TableCellProps,
+  TableContextValue,
+  TableHeaderCellProps,
+  TableHeaderProps,
+  TableProps,
+  TableRowProps,
+} from './components/table/types';
 export { Tabs, TabsContext } from './components/tabs';
 export { TabStyles } from './components/tabs/styles';
 export type { TabsProps } from './components/tabs/types';
