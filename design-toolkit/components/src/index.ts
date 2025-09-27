@@ -209,12 +209,12 @@ export type {
   DequeueId,
   DequeueList,
   DequeueMetadata,
+  NoticeActionEvent,
   NoticeColor,
   NoticeContent,
   NoticeDequeueEvent,
   NoticeIconProps,
   NoticeListProps,
-  NoticePressEvent,
   NoticeProps,
   NoticeQueueEvent,
 } from './components/notice/types';
