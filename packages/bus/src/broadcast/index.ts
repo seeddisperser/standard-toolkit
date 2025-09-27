@@ -146,7 +146,7 @@ export class Broadcast<
     this.listeners[type].push(listener);
   }
 
-  setEventEmitOptions(type: P['type'], options?: EmitOptions) {
+  setEventEmitOptions(type: P['type'], options: EmitOptions | null) {
     if (options) {
       this.emitOptions.set(type, options);
     } else {
@@ -154,13 +154,13 @@ export class Broadcast<
     }
   }
 
-  setEventsEmitOptions(events: Map<P['type'], EmitOptions | undefined>) {
+  setEventsEmitOptions(events: Map<P['type'], EmitOptions | null>) {
     for (const [type, options] of events) {
       this.setEventEmitOptions(type, options);
     }
   }
 
-  setGlobalEmitOptions(options?: EmitOptions) {
+  setGlobalEmitOptions(options: EmitOptions | null) {
     this.setEventEmitOptions(this.id, options);
   }
 
