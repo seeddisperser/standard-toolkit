@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import { type UniqueId } from '@accelint/core';
+import type { UniqueId } from '@accelint/core';
 
 /** Broadcast configuration type. */
 export type BroadcastConfig = {
@@ -21,9 +21,9 @@ export type BroadcastConfig = {
 /** Listener object type. */
 export type Listener<P extends { type: string; payload?: unknown } = Payload> =
   {
-    callback: (data: P) => void;
+    id: UniqueId;
     once?: boolean;
-    id: number;
+    callback: (data: P) => void;
   };
 
 /** Listener callback payload type. */
@@ -50,5 +50,5 @@ export type ExtractEvent<
 }[T];
 
 export type EmitOptions = {
-  target: 'self' | 'others' | 'all' | UniqueId;
+  target?: 'all' | 'others' | 'self' | UniqueId;
 };

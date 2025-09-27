@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import { type UniqueId, uuid } from '@accelint/core';
+import { isUUID, type UniqueId, uuid } from '@accelint/core';
 import { DEFAULT_CONFIG } from './constants';
 import type {
   BroadcastConfig,
@@ -28,19 +28,19 @@ export class Broadcast<
     any
   >,
 > {
-  protected channelName: string;
   protected channel: BroadcastChannel | null = null;
-  protected listeners: Record<string, Listener<P>[]> = {};
-  protected listenerCounter = 0;
+  protected channelName: string;
+  protected listeners: Partial<Record<P['type'], Listener<P>[]>> = {};
+  protected emitOptions: Map<P['type'], EmitOptions> = new Map();
+
+  readonly id = uuid();
 
   // biome-ignore lint/suspicious/noExplicitAny: Can't use generics in static properties
   private static instance: Broadcast<any> | null = null;
-  #uuid: UniqueId;
 
   /** Broadcast class constructor. */
   constructor(config?: BroadcastConfig) {
     this.channelName = config?.channelName ?? DEFAULT_CONFIG.channelName;
-    this.#uuid = uuid();
 
     this.init();
   }
@@ -59,10 +59,6 @@ export class Broadcast<
     return Broadcast.instance as Broadcast<T>;
   }
 
-  get uuid(): UniqueId {
-    return this.#uuid;
-  }
-
   /**
    * Initialize the BroadcastChannel and set up event listeners.
    */
@@ -72,17 +68,12 @@ export class Broadcast<
     this.channel.onmessageerror = this.onError.bind(this);
   }
 
-  private matchesContext(contextId?: UniqueId) {
-    return !contextId || contextId === this.#uuid;
-  }
-
   /**
    * Process incoming messages.
    *
    * @param event - Incoming message event.
    */
   protected onMessage(event: MessageEvent<P>) {
-    console.log(event);
     this.handleListeners(event.data);
   }
 
@@ -107,30 +98,27 @@ export class Broadcast<
    * this context (audience filtering may occur elsewhere).
    */
   protected handleListeners(data: P) {
-    console.log(this.listeners);
-    const handler = this.listeners[data.type];
-
-    if (!handler) {
-      return;
-    }
+    const handlers = this.listeners[data.type as P['type']];
 
     /**
-     * Note: We assume here that if a `targetId` is passed it is intended to specify a specific browser context.
-     * Since there is only one bus per browser context we can infer based on the instance member uuid.
-     *
+     * If no handler exists or if event targets a specific instance of Broadcast that isn't this instance, do nothing
      */
-    if (!this.matchesContext(data.target)) {
+    if (!handlers?.length || (data.target && data.target !== this.id)) {
       return;
     }
 
-    for (const item of handler) {
-      const { callback, once } = item;
+    for (const handler of handlers) {
+      const { id, once, callback } = handler;
 
       callback(data);
 
       if (once) {
-        delete this.listeners[data.type];
+        this.removeListener(data.type, id);
       }
+    }
+
+    if (this.listeners[data.type as P['type']]?.length === 0) {
+      this.deleteEvent(data.type);
     }
   }
 
@@ -140,7 +128,7 @@ export class Broadcast<
    * @param topic - The event topic.
    * @param listenerId - id of the listener.
    */
-  protected removeListener(type: P['type'], id: number) {
+  protected removeListener(type: P['type'], id: UniqueId) {
     if (this.listeners[type]) {
       this.listeners[type] = this.listeners[type].filter(
         (handler) => handler.id !== id,
@@ -156,6 +144,24 @@ export class Broadcast<
   protected addListener(type: P['type'], listener: Listener<P>) {
     this.listeners[type] ??= [];
     this.listeners[type].push(listener);
+  }
+
+  setEventEmitOptions(type: P['type'], options?: EmitOptions) {
+    if (options) {
+      this.emitOptions.set(type, options);
+    } else {
+      this.emitOptions.delete(type);
+    }
+  }
+
+  setEventsEmitOptions(events: Map<P['type'], EmitOptions | undefined>) {
+    for (const [type, options] of events) {
+      this.setEventEmitOptions(type, options);
+    }
+  }
+
+  setGlobalEmitOptions(options?: EmitOptions) {
+    this.setEventEmitOptions(this.id, options);
   }
 
   /**
@@ -176,7 +182,7 @@ export class Broadcast<
     type: T,
     callback: (data: ExtractEvent<P, T>) => void,
   ) {
-    const id = this.listenerCounter++;
+    const id = uuid();
 
     this.addListener(type, { callback, id, once: false } as Listener<P>);
 
@@ -194,7 +200,7 @@ export class Broadcast<
     type: T,
     callback: (data: ExtractEvent<P, T>) => void,
   ) {
-    const id = this.listenerCounter++;
+    const id = uuid();
 
     this.addListener(type, { callback, id, once: true } as Listener<P>);
 
@@ -202,7 +208,7 @@ export class Broadcast<
   }
 
   /**
-   * Unregister all callbacks for the specified event type.
+   * Unregister callback for the specified event type.
    *
    * @template T - The Payload type, inferred from the event.
    * @param type - The event type.
@@ -237,7 +243,11 @@ export class Broadcast<
    *   },
    * );
    */
-  emit<T extends P['type']>(type: T): void;
+  emit<T extends P['type']>(
+    type: T,
+    payload?: never,
+    options?: EmitOptions,
+  ): void;
   emit<T extends P['type']>(
     type: T,
     payload: ExtractEvent<P, T> extends { payload: infer Data }
@@ -262,38 +272,35 @@ export class Broadcast<
       return;
     }
 
-    const target = options?.target ?? 'all';
-    const message = { type, payload } as Payload as P;
+    const { target = 'all' } = {
+      ...this.emitOptions.get(this.id),
+      ...this.emitOptions.get(type),
+      ...options,
+    };
+    const message = {
+      type,
+      target: target === 'self' ? this.id : isUUID(target) ? target : undefined,
+      payload,
+    } as Payload as P;
 
-    switch (target) {
-      case 'all':
-        this.channel.postMessage(message);
-        this.channel.onmessage({ data: message } as MessageEvent<P>);
-        break;
-      case 'self':
-        this.channel.onmessage({ data: message } as MessageEvent<P>);
-        break;
-      case 'others':
-        this.channel.postMessage(message);
-        break;
-      default: {
-        const withTarget = { ...message, target };
-        // Note: handles the case where target id matches this browser context.
-        this.matchesContext(target)
-          ? this.channel.onmessage({ data: withTarget } as MessageEvent<P>)
-          : this.channel.postMessage(withTarget);
-        break;
-      }
+    if (message.target !== this.id) {
+      this.channel.postMessage(message);
+    }
+
+    if (target !== 'others') {
+      this.handleListeners(message);
     }
   }
 
   /**
-   * Delete an even and unregister all callbacks associated with it.
+   * Delete an event and unregister all callbacks associated with it.
    *
    * @param type - The event to delete.
    */
   deleteEvent(type: P['type']) {
     delete this.listeners[type];
+
+    this.emitOptions.delete(type);
   }
 
   /**
@@ -307,7 +314,7 @@ export class Broadcast<
     }
 
     this.listeners = {};
-    this.listenerCounter = 0;
+    this.emitOptions = new Map();
 
     Broadcast.instance = null;
   }

@@ -17,10 +17,14 @@ import {
   resetMockBroadcastChannel,
 } from 'vitest-broadcast-channel-mock';
 import { Broadcast } from './index';
+import type { Payload } from './types';
 
 describe('broadcast', () => {
   beforeEach(() => {
     mockBroadcastChannel();
+
+    // Make sure to completely reset instance between tests
+    Broadcast.getInstance().destroy();
   });
 
   afterEach(() => {
@@ -28,11 +32,11 @@ describe('broadcast', () => {
   });
 
   it('on', () => {
-    const bus = Broadcast.getInstance();
+    const bus = Broadcast.getInstance<Payload<'test', string>>();
     const fn = vi.fn();
 
     bus.on('test', fn);
-    bus.emit('test', 'test', { echo: true });
+    bus.emit('test', 'test');
 
     expect(fn).toHaveBeenCalled();
     expect(fn).toHaveBeenCalledWith({
@@ -43,7 +47,7 @@ describe('broadcast', () => {
   });
 
   it('once', () => {
-    const bus = Broadcast.getInstance();
+    const bus = Broadcast.getInstance<Payload<'test', string>>();
     const fn = vi.fn();
 
     bus.once('test', fn);
@@ -59,8 +63,43 @@ describe('broadcast', () => {
     expect(bus.getEvents()).not.toContain('test');
   });
 
+  it('on & once', () => {
+    const bus = Broadcast.getInstance<Payload<'test', string>>();
+    const on = vi.fn();
+    const once = vi.fn();
+
+    bus.on('test', on);
+    bus.once('test', once);
+
+    bus.emit('test', 'A');
+    bus.emit('test', 'B');
+    bus.emit('test', 'C');
+
+    expect(on).toHaveBeenCalledTimes(3);
+    expect(on).toHaveBeenNthCalledWith(1, {
+      payload: 'A',
+      type: 'test',
+    });
+    expect(on).toHaveBeenNthCalledWith(2, {
+      payload: 'B',
+      type: 'test',
+    });
+    expect(on).toHaveBeenNthCalledWith(3, {
+      payload: 'C',
+      type: 'test',
+    });
+
+    expect(once).toHaveBeenCalledOnce();
+    expect(once).toHaveBeenCalledWith({
+      payload: 'A',
+      type: 'test',
+    });
+
+    expect(bus.getEvents()).toContain('test');
+  });
+
   it('off', () => {
-    const bus = Broadcast.getInstance();
+    const bus = Broadcast.getInstance<Payload<'test', string>>();
     const fn = vi.fn();
 
     bus.on('test', fn);
@@ -72,7 +111,7 @@ describe('broadcast', () => {
   });
 
   it('destroy', () => {
-    const bus = Broadcast.getInstance();
+    const bus = Broadcast.getInstance<Payload<'test', string>>();
     const fn = vi.fn();
 
     bus.on('test', fn);
@@ -83,29 +122,8 @@ describe('broadcast', () => {
     expect(bus.getEvents()).toEqual([]);
   });
 
-  it('should deliver to self', () => {
-    const bus = Broadcast.getInstance();
-    const fn = vi.fn();
-
-    bus.on('test', fn);
-    bus.emit('test', 'self', { target: 'self' });
-
-    expect(fn).toHaveBeenCalledTimes(1);
-    expect(fn).toHaveBeenCalledWith({ type: 'test', payload: 'self' });
-  });
-
-  it('should deliver to others', () => {
-    const bus = Broadcast.getInstance();
-    const fn = vi.fn();
-
-    bus.on('test', fn);
-    bus.emit('test', 'echo', { target: 'others' });
-
-    expect(fn).not.toHaveBeenCalled();
-  });
-
   it('should deliver to all', () => {
-    const bus = Broadcast.getInstance();
+    const bus = Broadcast.getInstance<Payload<'test', string>>();
     const fn = vi.fn();
 
     bus.on('test', fn);
@@ -115,8 +133,33 @@ describe('broadcast', () => {
     expect(fn).toHaveBeenCalledWith({ type: 'test', payload: 'all' });
   });
 
+  it('should deliver to self', () => {
+    const bus = Broadcast.getInstance<Payload<'test', string>>();
+    const fn = vi.fn();
+
+    bus.on('test', fn);
+    bus.emit('test', 'self', { target: 'self' });
+
+    expect(fn).toHaveBeenCalledTimes(1);
+    expect(fn).toHaveBeenCalledWith({
+      type: 'test',
+      target: bus.id,
+      payload: 'self',
+    });
+  });
+
+  it('should deliver to others', () => {
+    const bus = Broadcast.getInstance<Payload<'test', string>>();
+    const fn = vi.fn();
+
+    bus.on('test', fn);
+    bus.emit('test', 'echo', { target: 'others' });
+
+    expect(fn).not.toHaveBeenCalled();
+  });
+
   it('should default to all as target audience', () => {
-    const bus = Broadcast.getInstance();
+    const bus = Broadcast.getInstance<Payload<'test', string>>();
     const fn = vi.fn();
 
     bus.on('test', fn);
@@ -127,21 +170,20 @@ describe('broadcast', () => {
   });
 
   it('should deliver to specific target', () => {
-    const bus = Broadcast.getInstance();
+    const bus = Broadcast.getInstance<Payload<'test', string>>();
     const fn = vi.fn();
+    const target = uuid();
 
     bus.on('test', fn);
-    bus.emit('test', 'test', { target: bus.uuid });
+    bus.emit('test', 'test', { target });
 
-    expect(fn).toHaveBeenCalledTimes(1);
-    expect(fn).toHaveBeenCalledWith({
+    expect(fn).not.toHaveBeenCalled();
+
+    // @ts-expect-error Accessing protected property
+    expect(bus.channel.postMessage).toHaveBeenCalledWith({
       type: 'test',
+      target,
       payload: 'test',
-      target: bus.uuid,
     });
-
-    bus.emit('test', 'test', { target: uuid() });
-
-    expect(fn).toHaveBeenCalledTimes(1);
   });
 });
