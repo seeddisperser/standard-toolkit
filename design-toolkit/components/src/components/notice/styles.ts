@@ -35,6 +35,7 @@ export const NoticeStyles = tv({
       'placement-left:left-0 data-[placement=left]:top-1/2',
     ],
     list: ['flex flex-col gap-y-s'],
-    actions: 'flex items-center gap-s group-size-small/notice:justify-end',
+    actions:
+      'flex flex-row-reverse items-center gap-s group-size-small/notice:justify-end',
   },
 });

@@ -13,7 +13,7 @@
 'use client';
 
 import 'client-only';
-import { useEmit, useOn } from '@accelint/bus/react';
+import { useBus } from '@accelint/bus/react';
 import { uuid } from '@accelint/core';
 import {
   Cancel,
@@ -23,7 +23,7 @@ import {
   Warning,
 } from '@accelint/icons';
 import { isEqual } from 'lodash';
-import { useEffect, useId, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   composeRenderProps,
   type QueuedToast,
@@ -45,12 +45,12 @@ import type {
   DequeueId,
   DequeueList,
   DequeueMetadata,
+  NoticeActionEvent,
   NoticeColor,
   NoticeContent,
   NoticeDequeueEvent,
   NoticeIconProps,
   NoticeListProps,
-  NoticePressEvent,
   NoticeProps,
   NoticeQueueEvent,
 } from './types';
@@ -79,39 +79,71 @@ const ButtonColorMap: Record<NoticeColor, ButtonProps['color']> = {
 
 export function Notice({
   id,
+  classNames,
   color = 'info',
   message,
   primary,
   secondary,
-  showClose,
   hideIcon,
+  showClose,
   shouldCloseOnAction,
-  classNames,
   size = 'medium',
+  onAction,
+  onPrimaryAction,
+  onSecondaryAction,
+  onClose,
 }: NoticeProps) {
-  const emitPrimaryPress = useEmit<NoticePressEvent>(
-    NoticeEventTypes.primaryOnPress,
-  );
-  const emitSecondaryPress = useEmit<NoticePressEvent>(
-    NoticeEventTypes.secondaryOnPress,
-  );
-  const emitClosePress = useEmit<NoticePressEvent>(NoticeEventTypes.close);
-  const dequeue = useEmit<NoticeDequeueEvent>(NoticeEventTypes.dequeue);
   return (
-    <div
+    <Toast
       className={notice({ className: classNames?.notice })}
+      toast={{ key: id, content: message, onClose }}
       data-color={color}
       data-size={size}
     >
       <ToastContent className={content({ className: classNames?.content })}>
         {!hideIcon && <NoticeIcon variant={color} size={size} />}
         <Text slot='description'>{message}</Text>
+        {(primary || secondary) && (
+          <div className={actions({ className: classNames?.actions })}>
+            {primary && (
+              <Button
+                variant='filled'
+                color={ButtonColorMap[color]}
+                {...primary}
+                size={size}
+                onPress={() => {
+                  onAction?.();
+                  onPrimaryAction?.();
+
+                  if (shouldCloseOnAction) {
+                    onClose?.();
+                  }
+                }}
+              />
+            )}
+            {secondary && (
+              <Button
+                variant='outline'
+                color={ButtonColorMap[color]}
+                {...secondary}
+                size={size}
+                onPress={() => {
+                  onAction?.();
+                  onSecondaryAction?.();
+
+                  if (shouldCloseOnAction) {
+                    onClose?.();
+                  }
+                }}
+              />
+            )}
+          </div>
+        )}
         {showClose && (
           <Button
             color={ButtonColorMap[color]}
-            slot='close'
             variant='icon'
-            onPress={() => emitClosePress({ id })}
+            onPress={onClose}
           >
             <Icon>
               <Cancel />
@@ -119,39 +151,7 @@ export function Notice({
           </Button>
         )}
       </ToastContent>
-      {(!!primary || !!secondary) && (
-        <div className={actions({ className: classNames?.actions })}>
-          {secondary && (
-            <Button
-              variant='outline'
-              color={ButtonColorMap[color]}
-              {...secondary}
-              size={size}
-              onPress={() => {
-                emitSecondaryPress({ id });
-                if (shouldCloseOnAction) {
-                  dequeue({ id });
-                }
-              }}
-            />
-          )}
-          {primary && (
-            <Button
-              variant='filled'
-              color={ButtonColorMap[color]}
-              {...primary}
-              size={size}
-              onPress={() => {
-                emitPrimaryPress({ id });
-                if (shouldCloseOnAction) {
-                  dequeue({ id });
-                }
-              }}
-            />
-          )}
-        </div>
-      )}
-    </div>
+    </Toast>
   );
 }
 
@@ -163,34 +163,37 @@ function matchesMetadata(
     return false;
   }
 
-  for (const [key, value] of Object.entries(payload)) {
-    if (key in metadata && isEqual(metadata[key], value)) {
-      return true;
-    }
-  }
-
-  return false;
+  return Object.entries(payload).every(
+    ([key, value]) => key in metadata && isEqual(metadata[key], value),
+  );
 }
 
 function NoticeList({
   id,
   parentRef,
-  placement = 'bottom right',
+  classNames,
   defaultColor,
   defaultTimeout,
   hideClearAll,
-  classNames,
-  size = 'medium',
   limit = 3,
+  placement,
+  size = 'medium',
 }: NoticeListProps) {
-  const _id = useId();
   const queue = useMemo(
     () => new ToastQueue<NoticeContent>({ maxVisibleToasts: limit }),
     [limit],
   );
   const [hasNotices, setHasNotices] = useState(false);
 
-  useOn(NoticeEventTypes.queue, (data: NoticeQueueEvent) => {
+  const { useEmit, useOn } = useBus<
+    NoticeQueueEvent | NoticeDequeueEvent | NoticeActionEvent
+  >();
+  const emitAction = useEmit(NoticeEventTypes.action);
+  const emitActionPrimary = useEmit(NoticeEventTypes.actionPrimary);
+  const emitActionSecondary = useEmit(NoticeEventTypes.actionSecondary);
+  const emitClose = useEmit(NoticeEventTypes.close);
+
+  useOn(NoticeEventTypes.queue, (data) => {
     if ((id && data.payload.target === id) || !id) {
       queue.add(
         {
@@ -205,11 +208,12 @@ function NoticeList({
     }
   });
 
-  useOn(NoticeEventTypes.dequeue, (data: NoticeDequeueEvent) => {
+  useOn(NoticeEventTypes.dequeue, (data) => {
     if (id && (data.payload as DequeueList).target === id) {
       queue.clear();
       return;
     }
+
     if (id && (data.payload as DequeueList).target) {
       return;
     }
@@ -247,12 +251,11 @@ function NoticeList({
   return (
     <PortalProvider parentRef={parentRef}>
       <ToastRegion
-        aria-label={`notifications-${id || _id}`}
         className={composeRenderProps(classNames?.region, (className) =>
           region({ className }),
         )}
-        data-placement={placement}
         queue={queue}
+        data-placement={placement}
       >
         {!hideClearAll && hasNotices && (
           <Button
@@ -261,7 +264,7 @@ function NoticeList({
               (className) => className ?? '',
             )}
             variant='outline'
-            onPress={() => queue.clear()}
+            onPress={queue.clear}
           >
             Clear All
           </Button>
@@ -272,13 +275,19 @@ function NoticeList({
           )}
         >
           {({ toast }: { toast: QueuedToast<NoticeContent> }) => (
-            <Toast toast={toast}>
-              <Notice
-                {...toast.content}
-                classNames={classNames?.notice}
-                size={size}
-              />
-            </Toast>
+            <Notice
+              {...toast.content}
+              classNames={classNames?.notice}
+              size={size}
+              onAction={() => emitAction({ id: toast.key })}
+              onPrimaryAction={() => emitActionPrimary({ id: toast.key })}
+              onSecondaryAction={() => emitActionSecondary({ id: toast.key })}
+              onClose={() => {
+                toast.onClose?.();
+                queue.close(toast.key);
+                emitClose({ id: toast.key });
+              }}
+            />
           )}
         </ToastList>
       </ToastRegion>

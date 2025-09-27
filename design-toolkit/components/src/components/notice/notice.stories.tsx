@@ -10,12 +10,8 @@
  * governing permissions and limitations under the License.
  */
 
-import { useOn } from '@accelint/bus/react';
-import { uuid } from '@accelint/core';
 import { Notice } from './';
-import { NoticeEventTypes } from './events';
 import type { Meta, StoryObj } from '@storybook/react';
-import type { NoticePressEvent } from './types';
 
 const meta: Meta<typeof Notice> = {
   title: 'Components/Notice',
@@ -37,40 +33,17 @@ const meta: Meta<typeof Notice> = {
 
 export default meta;
 
-export const Default: StoryObj<typeof Notice> = {
-  render: ({ ...rest }) => {
-    return <Notice {...rest} />;
-  },
-};
+export const Default: StoryObj<typeof Notice> = {};
 
 export const ButtonEvents: StoryObj<typeof Notice> = {
-  render: (args) => {
-    const closeId = uuid();
-    const actionId = uuid();
-
-    useOn(NoticeEventTypes.close, (data: NoticePressEvent) => {
-      alert(`${data.payload.id} closed`);
-    });
-
-    useOn(NoticeEventTypes.primaryOnPress, (data: NoticePressEvent) => {
-      alert(`${data.payload.id} primary pressed`);
-    });
-
-    useOn(NoticeEventTypes.secondaryOnPress, (data: NoticePressEvent) => {
-      alert(`${data.payload.id} secondary pressed`);
-    });
-
-    return (
-      <div className='flex flex-col gap-s'>
-        <Notice {...args} id={closeId} />
-        <Notice
-          {...args}
-          showClose={false}
-          id={actionId}
-          primary={{ children: 'Primary' }}
-          secondary={{ children: 'Secondary' }}
-        />
-      </div>
-    );
-  },
+  render: (args) => (
+    <div className='flex flex-col gap-s'>
+      <Notice {...args} />
+      <Notice
+        {...args}
+        primary={{ children: 'Primary' }}
+        secondary={{ children: 'Secondary' }}
+      />
+    </div>
+  ),
 };

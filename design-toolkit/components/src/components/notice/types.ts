@@ -1,3 +1,4 @@
+// __private-exports NoticeColor, NoticeIconProps
 /*
  * Copyright 2025 Hypergiant Galactic Systems Inc. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
@@ -20,10 +21,10 @@ export type NoticeColor =
   | 'info'
   | 'advisory'
   | 'normal'
-  | 'critical'
-  | 'serious';
+  | 'serious'
+  | 'critical';
 
-type ActionButtonProps = Pick<ButtonProps, 'color' | 'size' | 'variant'> & {
+type ActionButtonProps = Pick<ButtonProps, 'color' | 'variant'> & {
   children: string;
 };
 
@@ -39,7 +40,7 @@ export type NoticeContent = {
 };
 
 export type NoticeIconProps = {
-  variant?: 'info' | 'advisory' | 'normal' | 'critical' | 'serious';
+  variant?: NoticeColor;
   size: 'small' | 'medium';
 };
 
@@ -74,18 +75,22 @@ export type NoticeListProps = {
 
 export type NoticeProps = Omit<
   NoticeContent,
-  'timeout' | 'target' | 'metadata'
+  'metadata' | 'timeout' | 'target'
 > & {
   id: UniqueId;
-  showClose?: boolean;
-  hideIcon?: boolean;
-  shouldCloseOnAction?: boolean;
-  size?: 'small' | 'medium';
   classNames?: {
     notice?: string;
     content?: string;
     actions?: string;
   };
+  hideIcon?: boolean;
+  showClose?: boolean;
+  shouldCloseOnAction?: boolean;
+  size?: 'small' | 'medium';
+  onAction?: () => void;
+  onPrimaryAction?: () => void;
+  onSecondaryAction?: () => void;
+  onClose?: () => void;
 };
 
 export type NoticeQueueEvent = Payload<
@@ -107,9 +112,10 @@ export type NoticeDequeueEvent = Payload<
   DequeuePayload
 >;
 
-export type NoticePressEvent = Payload<
-  | typeof NoticeEventTypes.primaryOnPress
-  | typeof NoticeEventTypes.secondaryOnPress
+export type NoticeActionEvent = Payload<
+  | typeof NoticeEventTypes.action
+  | typeof NoticeEventTypes.actionPrimary
+  | typeof NoticeEventTypes.actionSecondary
   | typeof NoticeEventTypes.close,
   { id: UniqueId }
 >;
