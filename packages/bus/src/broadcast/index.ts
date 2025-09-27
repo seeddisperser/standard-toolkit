@@ -146,6 +146,14 @@ export class Broadcast<
     this.listeners[type].push(listener);
   }
 
+  /**
+   * Set emit options for event by type, options will apply to all emits of this event
+   *
+   * Keep in mind that options are merged: global, event, local (lowest to highest precendence)
+   *
+   * @param type event type
+   * @param options emit options
+   */
   setEventEmitOptions(type: P['type'], options: EmitOptions | null) {
     if (options) {
       this.emitOptions.set(type, options);
@@ -154,12 +162,22 @@ export class Broadcast<
     }
   }
 
+  /**
+   * Set a series of events emit options
+   *
+   * @param events map of event type & options
+   */
   setEventsEmitOptions(events: Map<P['type'], EmitOptions | null>) {
     for (const [type, options] of events) {
       this.setEventEmitOptions(type, options);
     }
   }
 
+  /**
+   * Set global emit options, the lowest precedence options, to be merged with event emit options and local options
+   *
+   * @param options emit options
+   */
   setGlobalEmitOptions(options: EmitOptions | null) {
     this.setEventEmitOptions(this.id, options);
   }

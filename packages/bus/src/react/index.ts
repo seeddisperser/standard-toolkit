@@ -19,6 +19,7 @@ import type { EmitOptions, ExtractEvent, Payload } from '../broadcast/types';
 /**
  * A convenience wrapper for useEmit & useOn, to pass down types instead of having
  * to reimplement generics each time
+ * @param options emit options that will be applied for all emits of all events
  */
 export function useBus<
   // biome-ignore lint/suspicious/noExplicitAny: intentional
@@ -54,7 +55,8 @@ export function useBus<
  * @template P union of event types
  * @template T type of event
  * @param type of type T, one of the event types
- * @returns callback that will accept the cooresponding payload to the previously entered event type
+ * @param options emit options that will be applied for all emits of this event
+ * @returns callback that will accept the cooresponding payload to the previously entered event type, callback will accept options as well that are not applied to all emits of this event type
  */
 export function useEmit<
   // biome-ignore lint/suspicious/noExplicitAny: intentional
