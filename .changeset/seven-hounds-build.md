@@ -2,4 +2,4 @@
 "@accelint/bus": minor
 ---
 
-Add echo option to emit so that one can opt out of self-delivered messages, defaults to true.
+Update event bus to target audiences such as 'all', 'others', 'self'. As well as individual contexts via a uuid.
