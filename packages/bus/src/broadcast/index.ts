@@ -29,7 +29,7 @@ export class Broadcast<
   >,
 > {
   protected channel: BroadcastChannel | null = null;
-  protected channelName: string;
+  protected channelName = DEFAULT_CONFIG.channelName;
   protected listeners: Partial<Record<P['type'], Listener<P>[]>> = {};
   protected emitOptions: Map<P['type'], EmitOptions> = new Map();
 
@@ -40,7 +40,9 @@ export class Broadcast<
 
   /** Broadcast class constructor. */
   constructor(config?: BroadcastConfig) {
-    this.channelName = config?.channelName ?? DEFAULT_CONFIG.channelName;
+    if (config?.channelName) {
+      this.channelName = config.channelName;
+    }
 
     this.init();
   }
@@ -115,10 +117,6 @@ export class Broadcast<
       if (once) {
         this.removeListener(data.type, id);
       }
-    }
-
-    if (this.listeners[data.type as P['type']]?.length === 0) {
-      this.deleteEvent(data.type);
     }
   }
 
@@ -329,18 +327,12 @@ export class Broadcast<
     if (this.channel) {
       this.channel.close();
       this.channel = null;
+      this.channelName = DEFAULT_CONFIG.channelName;
     }
 
     this.listeners = {};
     this.emitOptions = new Map();
 
     Broadcast.instance = null;
-  }
-
-  /**
-   * Get a list of all available events.
-   */
-  getEvents(): P['type'][] {
-    return Object.keys(this.listeners);
   }
 }

@@ -43,7 +43,6 @@ describe('broadcast', () => {
       payload: 'test',
       type: 'test',
     });
-    expect(bus.getEvents()).toContain('test');
   });
 
   it('once', () => {
@@ -60,7 +59,6 @@ describe('broadcast', () => {
       payload: 'test',
       type: 'test',
     });
-    expect(bus.getEvents()).not.toContain('test');
   });
 
   it('on & once', () => {
@@ -94,8 +92,6 @@ describe('broadcast', () => {
       payload: 'A',
       type: 'test',
     });
-
-    expect(bus.getEvents()).toContain('test');
   });
 
   it('off', () => {
@@ -107,7 +103,6 @@ describe('broadcast', () => {
     bus.emit('test', 'test');
 
     expect(fn).not.toHaveBeenCalled();
-    expect(bus.getEvents()).toContain('test');
   });
 
   it('destroy', () => {
@@ -119,7 +114,6 @@ describe('broadcast', () => {
     bus.emit('test', 'test');
 
     expect(fn).not.toHaveBeenCalled();
-    expect(bus.getEvents()).toEqual([]);
   });
 
   it('should deliver to all', () => {
