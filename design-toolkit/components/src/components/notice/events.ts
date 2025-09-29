@@ -15,7 +15,6 @@ export const NoticeEventNamespace = 'Notice';
 export const NoticeEventTypes = {
   queue: `${NoticeEventNamespace}:queue`,
   dequeue: `${NoticeEventNamespace}:dequeue`,
-  action: `${NoticeEventNamespace}:action`,
   actionPrimary: `${NoticeEventNamespace}:action:primary`,
   actionSecondary: `${NoticeEventNamespace}:action:secondary`,
   close: `${NoticeEventNamespace}:close`,

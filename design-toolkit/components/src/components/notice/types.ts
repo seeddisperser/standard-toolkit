@@ -40,7 +40,7 @@ export type NoticeContent = {
 };
 
 export type NoticeIconProps = {
-  variant?: NoticeColor;
+  color?: NoticeColor;
   size: 'small' | 'medium';
 };
 
@@ -81,6 +81,7 @@ export type NoticeProps = Omit<
   classNames?: {
     notice?: string;
     content?: string;
+    message?: string;
     actions?: string;
   };
   hideIcon?: boolean;
@@ -100,20 +101,24 @@ export type NoticeQueueEvent = Payload<
   }
 >;
 
-export type DequeueId = { id: UniqueId };
-export type DequeueList = { target: UniqueId };
-export type DequeueColor = { color: NoticeColor };
-export type DequeueMetadata = { metadata: Record<string, unknown> };
+//export type DequeueId = { id: UniqueId };
+//export type DequeueList = { target: UniqueId };
+//export type DequeueColor = { color: NoticeColor };
+//export type DequeueMetadata = { metadata: Record<string, unknown> };
 
-type DequeuePayload = DequeueId | DequeueList | DequeueColor | DequeueMetadata;
+//type DequeuePayload = DequeueId & DequeueList & DequeueColor & DequeueMetadata;
 
 export type NoticeDequeueEvent = Payload<
   typeof NoticeEventTypes.dequeue,
-  DequeuePayload
+  {
+    id?: UniqueId;
+    target?: UniqueId;
+    color?: NoticeColor;
+    metadata?: Record<string, unknown>;
+  }
 >;
 
 export type NoticeActionEvent = Payload<
-  | typeof NoticeEventTypes.action
   | typeof NoticeEventTypes.actionPrimary
   | typeof NoticeEventTypes.actionSecondary
   | typeof NoticeEventTypes.close,

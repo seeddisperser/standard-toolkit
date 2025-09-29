@@ -205,10 +205,6 @@ export {
 export { Notice } from './components/notice';
 export { NoticeStyles } from './components/notice/styles';
 export type {
-  DequeueColor,
-  DequeueId,
-  DequeueList,
-  DequeueMetadata,
   NoticeActionEvent,
   NoticeColor,
   NoticeContent,

@@ -62,7 +62,11 @@ export const Default: StoryObj<typeof Notice.List> = {
     const emit = useEmit<NoticeQueueEvent>(NoticeEventTypes.queue);
     return (
       <div className='h-full w-full border' ref={noticeContainer}>
-        <Notice.List {...args} parentRef={noticeContainer} />
+        <Notice.List
+          {...args}
+          aria-label='notice-list'
+          parentRef={noticeContainer}
+        />
         <Button
           onPress={() =>
             emit({
@@ -110,6 +114,7 @@ export const DequeueSingle: StoryObj<typeof Notice.List> = {
       <div className='h-full w-full' ref={noticeContainer}>
         <Notice.List
           parentRef={noticeContainer}
+          aria-label='notice-list'
           placement='bottom left'
           hideClearAll
         />
@@ -149,6 +154,7 @@ export const DequeueList: StoryObj<typeof Notice.List> = {
       <div className='h-full w-full' ref={noticeContainer}>
         <Notice.List
           id={infoList}
+          aria-label='info-notices'
           hideClearAll
           parentRef={noticeContainer}
           placement='top'
@@ -156,6 +162,7 @@ export const DequeueList: StoryObj<typeof Notice.List> = {
         />
         <Notice.List
           id={seriousList}
+          aria-label='serious-notices'
           hideClearAll
           parentRef={noticeContainer}
           placement='bottom'
@@ -209,6 +216,7 @@ export const DequeueColor: StoryObj<typeof Notice.List> = {
       <div className='h-full w-full' ref={noticeContainer}>
         <Notice.List
           id={infoList}
+          aria-label='info-notices'
           hideClearAll
           parentRef={noticeContainer}
           placement='top'
@@ -216,6 +224,7 @@ export const DequeueColor: StoryObj<typeof Notice.List> = {
         />
         <Notice.List
           id={seriousList}
+          aria-label='serious-notices'
           hideClearAll
           parentRef={noticeContainer}
           placement='bottom'
@@ -265,26 +274,34 @@ export const DequeueMetadata: StoryObj<typeof Notice.List> = {
     const queue = useEmit<NoticeQueueEvent>(NoticeEventTypes.queue);
     const dequeue = useEmit<NoticeDequeueEvent>(NoticeEventTypes.dequeue);
     useEffect(() => {
-      generateNotices({ target: a, metadata: metadataA }).forEach((notice) => {
-        notice.message = JSON.stringify(notice.metadata);
-        queue(notice);
-      });
-      generateNotices({ target: b, metadata: metadataB }).forEach((notice) => {
-        notice.message = JSON.stringify(notice.metadata);
-        queue(notice);
-      });
+      generateNotices({ target: a, metadata: metadataA }).forEach(
+        (notice, index) => {
+          notice.metadata = index % 2 === 0 ? metadataA : metadataB;
+          notice.message = JSON.stringify(notice.metadata);
+          queue(notice);
+        },
+      );
+      generateNotices({ target: b, metadata: metadataB }).forEach(
+        (notice, index) => {
+          notice.metadata = index % 2 === 0 ? metadataB : metadataA;
+          notice.message = JSON.stringify(notice.metadata);
+          queue(notice);
+        },
+      );
 
       generateNotices({
         target: c,
         metadata: metadataC,
-      }).forEach((notice) => {
+      }).forEach((notice, index) => {
+        notice.metadata = index % 2 === 0 ? metadataC : metadataD;
         notice.message = JSON.stringify(notice.metadata);
         queue(notice);
       });
       generateNotices({
         target: d,
         metadata: metadataD,
-      }).forEach((notice) => {
+      }).forEach((notice, index) => {
+        notice.metadata = index % 2 === 0 ? metadataD : metadataC;
         notice.message = JSON.stringify(notice.metadata);
         queue(notice);
       });
@@ -293,6 +310,7 @@ export const DequeueMetadata: StoryObj<typeof Notice.List> = {
       <div className='h-full w-full' ref={noticeContainer}>
         <Notice.List
           id={a}
+          aria-label='notices-a'
           hideClearAll
           parentRef={noticeContainer}
           placement='top left'
@@ -300,6 +318,7 @@ export const DequeueMetadata: StoryObj<typeof Notice.List> = {
         />
         <Notice.List
           id={b}
+          aria-label='notices-b'
           hideClearAll
           parentRef={noticeContainer}
           placement='top right'
@@ -307,6 +326,7 @@ export const DequeueMetadata: StoryObj<typeof Notice.List> = {
         />
         <Notice.List
           id={c}
+          aria-label='notices-c'
           hideClearAll
           parentRef={noticeContainer}
           placement='bottom left'
@@ -314,6 +334,7 @@ export const DequeueMetadata: StoryObj<typeof Notice.List> = {
         />
         <Notice.List
           id={d}
+          aria-label='notices-d'
           hideClearAll
           parentRef={noticeContainer}
           placement='bottom right'
@@ -364,6 +385,66 @@ export const DequeueMetadata: StoryObj<typeof Notice.List> = {
             }
           >
             Dequeue: {JSON.stringify(metadataD)}
+          </Button>
+        </div>
+      </div>
+    );
+  },
+};
+
+export const DequeueCombination: StoryObj<typeof Notice.List> = {
+  render: () => {
+    const noticeContainer = useRef(null);
+    const a = uuid();
+    const b = uuid();
+    const circleMetadata = { shape: 'circle' };
+    const squareMetadata = { shape: 'square' };
+    const queue = useEmit<NoticeQueueEvent>(NoticeEventTypes.queue);
+    const dequeue = useEmit<NoticeDequeueEvent>(NoticeEventTypes.dequeue);
+    useEffect(() => {
+      generateNotices({ target: a }).forEach((notice, index) => {
+        notice.metadata = index % 2 === 0 ? circleMetadata : squareMetadata;
+        notice.message = `List A: ${JSON.stringify(notice.metadata)}`;
+        notice.color = index % 2 === 0 ? 'info' : 'serious';
+        queue(notice);
+      });
+      generateNotices({ target: b }).forEach((notice, index) => {
+        notice.metadata = index % 2 === 0 ? squareMetadata : circleMetadata;
+        notice.message = `List B: ${JSON.stringify(notice.metadata)}`;
+        notice.color = index % 2 === 0 ? 'info' : 'serious';
+        queue(notice);
+      });
+    });
+    return (
+      <div className='h-full w-full' ref={noticeContainer}>
+        <Notice.List
+          id={a}
+          aria-label='notices-a'
+          hideClearAll
+          parentRef={noticeContainer}
+          placement='top left'
+        />
+        <Notice.List
+          id={b}
+          aria-label='notices-b'
+          hideClearAll
+          parentRef={noticeContainer}
+          placement='top right'
+        />
+
+        <div className='flex flex-col gap-s'>
+          <Button
+            className='w-full'
+            variant='outline'
+            onPress={() =>
+              dequeue({
+                target: a,
+                color: 'serious',
+                metadata: squareMetadata,
+              })
+            }
+          >
+            Dequeue: Serious squares from list a
           </Button>
         </div>
       </div>

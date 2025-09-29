@@ -41,10 +41,6 @@ import { NoticeEventTypes } from './events';
 import { NoticeStyles } from './styles';
 import type { ButtonProps } from '../button/types';
 import type {
-  DequeueColor,
-  DequeueId,
-  DequeueList,
-  DequeueMetadata,
   NoticeActionEvent,
   NoticeColor,
   NoticeContent,
@@ -55,16 +51,24 @@ import type {
   NoticeQueueEvent,
 } from './types';
 
-const { notice, content, list, actions, region } = NoticeStyles();
+const {
+  notice,
+  content,
+  list,
+  actions,
+  region,
+  message: description,
+  closeContainer,
+} = NoticeStyles();
 
-function NoticeIcon({ variant = 'info', size }: NoticeIconProps) {
+function NoticeIcon({ color = 'info', size }: NoticeIconProps) {
   return (
     <Icon size={size === 'small' ? 'medium' : 'large'}>
-      {variant === 'info' && <Information />}
-      {variant === 'advisory' && <Information />}
-      {variant === 'normal' && <Success />}
-      {variant === 'serious' && <Warning />}
-      {variant === 'critical' && <Problem />}
+      {color === 'info' && <Information />}
+      {color === 'advisory' && <Information />}
+      {color === 'normal' && <Success />}
+      {color === 'serious' && <Warning />}
+      {color === 'critical' && <Problem />}
     </Icon>
   );
 }
@@ -88,7 +92,6 @@ export function Notice({
   showClose,
   shouldCloseOnAction,
   size = 'medium',
-  onAction,
   onPrimaryAction,
   onSecondaryAction,
   onClose,
@@ -101,8 +104,13 @@ export function Notice({
       data-size={size}
     >
       <ToastContent className={content({ className: classNames?.content })}>
-        {!hideIcon && <NoticeIcon variant={color} size={size} />}
-        <Text slot='description'>{message}</Text>
+        {!hideIcon && <NoticeIcon color={color} size={size} />}
+        <Text
+          slot='description'
+          className={description({ className: classNames?.message })}
+        >
+          {message}
+        </Text>
         {(primary || secondary) && (
           <div className={actions({ className: classNames?.actions })}>
             {primary && (
@@ -112,7 +120,6 @@ export function Notice({
                 {...primary}
                 size={size}
                 onPress={() => {
-                  onAction?.();
                   onPrimaryAction?.();
 
                   if (shouldCloseOnAction) {
@@ -128,7 +135,6 @@ export function Notice({
                 {...secondary}
                 size={size}
                 onPress={() => {
-                  onAction?.();
                   onSecondaryAction?.();
 
                   if (shouldCloseOnAction) {
@@ -140,15 +146,17 @@ export function Notice({
           </div>
         )}
         {showClose && (
-          <Button
-            color={ButtonColorMap[color]}
-            variant='icon'
-            onPress={onClose}
-          >
-            <Icon>
-              <Cancel />
-            </Icon>
-          </Button>
+          <div className={closeContainer()}>
+            <Button
+              color={ButtonColorMap[color]}
+              variant='icon'
+              onPress={onClose}
+            >
+              <Icon>
+                <Cancel />
+              </Icon>
+            </Button>
+          </div>
         )}
       </ToastContent>
     </Toast>
@@ -178,6 +186,7 @@ function NoticeList({
   limit = 3,
   placement,
   size = 'medium',
+  ...rest
 }: NoticeListProps) {
   const queue = useMemo(
     () => new ToastQueue<NoticeContent>({ maxVisibleToasts: limit }),
@@ -188,7 +197,6 @@ function NoticeList({
   const { useEmit, useOn } = useBus<
     NoticeQueueEvent | NoticeDequeueEvent | NoticeActionEvent
   >();
-  const emitAction = useEmit(NoticeEventTypes.action);
   const emitActionPrimary = useEmit(NoticeEventTypes.actionPrimary);
   const emitActionSecondary = useEmit(NoticeEventTypes.actionSecondary);
   const emitClose = useEmit(NoticeEventTypes.close);
@@ -209,28 +217,14 @@ function NoticeList({
   });
 
   useOn(NoticeEventTypes.dequeue, (data) => {
-    if (id && (data.payload as DequeueList).target === id) {
-      queue.clear();
-      return;
-    }
-
-    if (id && (data.payload as DequeueList).target) {
-      return;
-    }
+    //if (id && data.payload.target) {
+    //  return;
+    //}
 
     // @ts-expect-error : queue.queue exists, but is not currently documented
-    const dequeue = queue.queue.filter(
-      (toast: QueuedToast<NoticeContent>) =>
-        ((data.payload as DequeueId).id &&
-          toast.content.id === (data.payload as DequeueId).id) ||
-        ((data.payload as DequeueColor).color &&
-          toast.content.color === (data.payload as DequeueColor).color) ||
-        ((data.payload as DequeueMetadata).metadata &&
-          matchesMetadata(
-            (data.payload as DequeueMetadata).metadata,
-            toast.content.metadata,
-          )),
-    );
+    const dequeue = queue.queue.filter((toast: QueuedToast<NoticeContent>) => {
+      return matchesMetadata(data.payload, toast.content);
+    });
 
     // @ts-expect-error : queue.queue exists, but is not currently documented
     if (dequeue.length && dequeue.length === queue.queue.length) {
@@ -251,11 +245,12 @@ function NoticeList({
   return (
     <PortalProvider parentRef={parentRef}>
       <ToastRegion
+        {...rest}
         className={composeRenderProps(classNames?.region, (className) =>
           region({ className }),
         )}
-        queue={queue}
         data-placement={placement}
+        queue={queue}
       >
         {!hideClearAll && hasNotices && (
           <Button
@@ -277,9 +272,15 @@ function NoticeList({
           {({ toast }: { toast: QueuedToast<NoticeContent> }) => (
             <Notice
               {...toast.content}
+              showClose={
+                !(
+                  toast.timeout &&
+                  toast.content.primary &&
+                  toast.content.secondary
+                )
+              }
               classNames={classNames?.notice}
               size={size}
-              onAction={() => emitAction({ id: toast.key })}
               onPrimaryAction={() => emitActionPrimary({ id: toast.key })}
               onSecondaryAction={() => emitActionSecondary({ id: toast.key })}
               onClose={() => {
