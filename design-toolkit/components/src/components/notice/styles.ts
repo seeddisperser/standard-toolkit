@@ -29,7 +29,8 @@ export const NoticeStyles = tv({
     ],
     message: 'group-size-small/notice:basis-10/12',
     region: [
-      'absolute flex flex-col gap-y-s',
+      'flex flex-col gap-y-s',
+      'data-placement:absolute',
       'data-[placement=top]:-translate-x-1/2 placement-top:top-0 data-[placement=top]:left-1/2',
       'data-[placement=bottom]:-translate-x-1/2 placement-bottom:bottom-0 data-[placement=bottom]:left-1/2',
       'placement-right:right-0 data-[placement=right]:top-1/2',
