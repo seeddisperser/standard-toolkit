@@ -103,9 +103,17 @@ export class Broadcast<
     const handlers = this.listeners[data.type as P['type']];
 
     /**
-     * If no handler exists or if event targets a specific instance of Broadcast that isn't this instance, do nothing
+     * If no handler exists, do nothing.
      */
-    if (!handlers?.length || (data.target && data.target !== this.id)) {
+    if (!handlers?.length) {
+      console.warn('No listeners registered for this event type:', data.type);
+      return;
+    }
+
+    /**
+     * If event targets a specific instance of Broadcast that isn't this instance, do nothing.
+     */
+    if (data.target && data.target !== this.id) {
       return;
     }
 
@@ -284,7 +292,7 @@ export class Broadcast<
     }
 
     if (!this.channel.onmessage) {
-      console.warn('No listeners registered for this event type:', type);
+      console.warn('No message listener for this channel.');
       return;
     }
 
