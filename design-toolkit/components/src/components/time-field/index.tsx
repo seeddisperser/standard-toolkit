@@ -9,8 +9,8 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-
 'use client';
+
 import 'client-only';
 import { Time } from '@accelint/icons';
 import {
@@ -34,14 +34,15 @@ export function TimeField<T extends TimeValue>({
   classNames,
   description: descriptionProp,
   errorMessage: errorMessageProp,
+  granularity = 'second',
+  hourCycle = 24,
   inputProps,
   label: labelProp,
+  shouldForceLeadingZeros = true,
   size = 'medium',
   isDisabled,
   isInvalid: isInvalidProp,
   isRequired,
-  hideTimeZone = false,
-  granularity = 'second',
   ...rest
 }: TimeFieldProps<T>) {
   const errorMessage = errorMessageProp || null; // Protect against empty string
@@ -50,17 +51,17 @@ export function TimeField<T extends TimeValue>({
   return (
     <AriaTimeField<T>
       {...rest}
+      className={composeRenderProps(classNames?.field, (className) =>
+        field({ className }),
+      )}
+      granularity={granularity}
+      hourCycle={hourCycle}
+      shouldForceLeadingZeros={shouldForceLeadingZeros}
       isDisabled={isDisabled}
       isInvalid={isInvalidProp || (errorMessage ? true : undefined)} // Leave uncontrolled if possible to fallback to validation state
       isRequired={isRequired}
       aria-label={labelProp}
       data-size={size}
-      hideTimeZone={hideTimeZone}
-      granularity={granularity}
-      hourCycle={24}
-      className={composeRenderProps(classNames?.field, (className) =>
-        field({ className }),
-      )}
     >
       {(
         { isDisabled }, // Rely on internal state, not props, since state could differ from props
@@ -89,17 +90,15 @@ export function TimeField<T extends TimeValue>({
                 }),
               )}
             >
-              {(segmentProp) => {
-                return (
-                  <DateSegment
-                    segment={segmentProp}
-                    className={composeRenderProps(
-                      classNames?.segment,
-                      (className) => segment({ className }),
-                    )}
-                  />
-                );
-              }}
+              {(segmentProp) => (
+                <DateSegment
+                  segment={segmentProp}
+                  className={composeRenderProps(
+                    classNames?.segment,
+                    (className) => segment({ className }),
+                  )}
+                />
+              )}
             </AriaDateInput>
             <span>Z</span>
           </div>
