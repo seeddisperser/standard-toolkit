@@ -10,17 +10,12 @@
  * governing permissions and limitations under the License.
  */
 
-/**
- * THIS IS A GENERATED FILE. DO NOT ALTER DIRECTLY.
- */
+import * as matchers from '@testing-library/jest-dom/matchers';
+import { cleanup } from '@testing-library/react';
+import { afterEach, expect } from 'vitest';
 
-// biome-ignore-all assist/source/organizeImports: This comment is used to prevent the biome tool from altering the import statements in this file.
+expect.extend(matchers);
 
-export { Broadcast } from './broadcast';
-export type {
-  BroadcastConfig,
-  EmitOptions,
-  ExtractEvent,
-  Listener,
-  Payload,
-} from './broadcast/types';
+afterEach(() => {
+  cleanup();
+});
