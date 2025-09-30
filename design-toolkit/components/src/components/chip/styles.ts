@@ -64,10 +64,12 @@ export const DeletableChipStyles = tv({
   extend: BaseChipStyles,
   slots: {
     chip: [
-      'gap-xs outline-interactive',
-      'enabled:focus-visible:outline-interactive-hover',
-      'enabled:hover:outline-interactive-hover',
-      'disabled:fg-disabled disabled:cursor-not-allowed disabled:outline-interactive-disabled',
+      'gap-xs outline-interactive cursor-default',
+      'enabled:fg-primary-muted',
+      'enabled:focus-visible:fg-hover',
+      'enabled:hover:fg-hover',
+      'enabled:pressed:fg-pressed',
+      'disabled:fg-disabled disabled:cursor-not-allowed disabled:outline-interactive-disabled disabled:bg-interactive-disabled',
     ],
     remove: ['cursor-pointer', 'disabled:cursor-not-allowed'],
   },
