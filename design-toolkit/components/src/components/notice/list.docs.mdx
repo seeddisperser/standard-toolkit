@@ -15,7 +15,6 @@ import { useEmit } from '@accelint/bus/react';
 import { NoticeEventTypes } from './events';
 
 function App() {
-  const noticeContainer = useRef(null);
   const emit = useEmit<NoticeQueueEvent>(NoticeEventTypes.queue);
 
   const addNotice = () => {
@@ -27,9 +26,8 @@ function App() {
   };
 
   return (
-    <div ref={noticeContainer}>
+    <div>
       <Notice.List
-        parentRef={noticeContainer}
         aria-label='notice-list'
         placement="top right"
         defaultColor="info"
@@ -49,11 +47,10 @@ function App() {
 const infoListId = "info-notices";
 const errorListId = "error-notices";
 
-<div ref={containerRef}>
+<div>
   <Notice.List
     id={infoListId}
     aria-label='info-notices'
-    parentRef={containerRef}
     placement="top right"
     defaultColor="info"
     limit={5}
@@ -61,7 +58,6 @@ const errorListId = "error-notices";
   <Notice.List
     id={errorListId}
     aria-label='error-notices'
-    parentRef={containerRef}
     placement="bottom right"
     defaultColor="critical"
     limit={3}
@@ -101,7 +97,7 @@ The Notice.List component accepts all standard HTML div attributes
 
 ### Core Props
 * **`id`** - Unique identifier for the notice list
-* **`parentRef`** - React ref to the container element where notices should be rendered
+* **`global`** - Render the list at the document root or inline: `boolean`
 * **`placement`** - Position of notices: `'top left'` | `'top'` | `'top right'` | `'right'` | `'bottom right'` | `'bottom'` | `'bottom left'` | `'left'`
 * **`limit`** - Maximum number of visible notices at once (default: 3)
 * **`defaultColor`** - Default color for notices in this list: `'info'` | `'advisory'` | `'normal'` | `'serious'` | `'critical'`
@@ -251,7 +247,6 @@ The notice list includes sophisticated queue management that handles:
 - **Queue overflow management** respecting the configured limit
 - **Multiple targeting strategies** for precise notice removal
 - **Persistent state** across component re-renders
-- **Portal rendering** for proper z-index layering and positioning
 - **Event-driven architecture** enabling decoupled communication
 
 The queue uses a first-in-first-out (FIFO) approach where new notices push out older ones when the limit is reached. The "Clear All" button provides users with quick access to dismiss all current notices, improving the overall user experience by preventing notification overflow.

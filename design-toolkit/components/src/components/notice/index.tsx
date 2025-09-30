@@ -277,12 +277,14 @@ function NoticeList({
             }
             classNames={classNames?.notice}
             size={size}
-            onPrimaryAction={() => emitActionPrimary({ id: toast.key })}
-            onSecondaryAction={() => emitActionSecondary({ id: toast.key })}
+            onPrimaryAction={() => emitActionPrimary({ id: toast.content.id })}
+            onSecondaryAction={() =>
+              emitActionSecondary({ id: toast.content.id })
+            }
             onClose={() => {
               toast.onClose?.();
               queue.close(toast.key);
-              emitClose({ id: toast.key });
+              emitClose({ id: toast.content.id });
             }}
           />
         )}
