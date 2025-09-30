@@ -306,6 +306,9 @@ importers:
       '@react-aria/ssr':
         specifier: ^3.9.10
         version: 3.9.10(react@19.1.1)
+      '@react-aria/toast':
+        specifier: ^3.0.7
+        version: 3.0.7(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@react-aria/utils':
         specifier: ^3.30.0
         version: 3.30.1(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -315,6 +318,9 @@ importers:
       '@react-stately/datepicker':
         specifier: 3.13.0
         version: 3.13.0(react@19.1.1)
+      '@react-stately/toast':
+        specifier: ^3.1.2
+        version: 3.1.2(react@19.1.1)
       '@react-stately/utils':
         specifier: ^3.10.8
         version: 3.10.8(react@19.1.1)
@@ -3273,6 +3279,7 @@ packages:
 
   '@ls-lint/ls-lint@2.3.0-beta.1':
     resolution: {integrity: sha512-NmujBNFslP4GhFsB92zh1evSSBadcg+RMsQ5FM70OrU36C3AbQYaVXDn4reC28GM6DFoOtiETRdKV6ie1TfP7g==}
+    cpu: [x64, arm64, s390x, ppc64le]
     os: [darwin, linux, win32]
     hasBin: true
 

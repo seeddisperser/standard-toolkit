@@ -22,8 +22,10 @@ import {
   Success,
   Warning,
 } from '@accelint/icons';
+import { useToastRegion } from '@react-aria/toast';
+import { useToastQueue } from '@react-stately/toast';
 import { isEqual } from 'lodash';
-import { useEffect, useMemo, useState } from 'react';
+import { createRef, useEffect, useMemo, useState } from 'react';
 import {
   composeRenderProps,
   type QueuedToast,
@@ -33,8 +35,9 @@ import {
   UNSTABLE_ToastList as ToastList,
   UNSTABLE_ToastQueue as ToastQueue,
   UNSTABLE_ToastRegion as ToastRegion,
+  type ToastRenderProps,
+  UNSTABLE_ToastStateContext,
 } from 'react-aria-components';
-import { PortalProvider } from '@/providers/portal';
 import { Button } from '../button';
 import { Icon } from '../icon';
 import { NoticeEventTypes } from './events';
@@ -178,12 +181,12 @@ function matchesMetadata(
 
 function NoticeList({
   id,
-  parentRef,
   classNames,
   defaultColor,
   defaultTimeout,
   hideClearAll,
   limit = 3,
+  global,
   placement,
   size = 'medium',
   ...rest
@@ -192,7 +195,11 @@ function NoticeList({
     () => new ToastQueue<NoticeContent>({ maxVisibleToasts: limit }),
     [limit],
   );
+  const state = useToastQueue(queue);
+
   const [hasNotices, setHasNotices] = useState(false);
+  const ref = createRef<HTMLDivElement>();
+  const { regionProps } = useToastRegion(rest, queue, ref);
 
   const { useEmit, useOn } = useBus<
     NoticeQueueEvent | NoticeDequeueEvent | NoticeActionEvent
@@ -217,10 +224,6 @@ function NoticeList({
   });
 
   useOn(NoticeEventTypes.dequeue, (data) => {
-    //if (id && data.payload.target) {
-    //  return;
-    //}
-
     // @ts-expect-error : queue.queue exists, but is not currently documented
     const dequeue = queue.queue.filter((toast: QueuedToast<NoticeContent>) => {
       return matchesMetadata(data.payload, toast.content);
@@ -242,57 +245,72 @@ function NoticeList({
     });
   });
 
-  return (
-    <PortalProvider parentRef={parentRef}>
-      <ToastRegion
-        {...rest}
-        className={composeRenderProps(classNames?.region, (className) =>
-          region({ className }),
-        )}
-        data-placement={placement}
-        queue={queue}
-      >
-        {!hideClearAll && hasNotices && (
-          <Button
-            className={composeRenderProps(
-              classNames?.button,
-              (className) => className ?? '',
-            )}
-            variant='outline'
-            onPress={queue.clear}
-          >
-            Clear All
-          </Button>
-        )}
-        <ToastList
-          className={composeRenderProps(classNames?.list, (className) =>
-            list({ className }),
+  const children = (
+    <>
+      {!hideClearAll && hasNotices && (
+        <Button
+          className={composeRenderProps(
+            classNames?.button,
+            (className) => className ?? '',
           )}
+          variant='outline'
+          onPress={queue.clear}
         >
-          {({ toast }: { toast: QueuedToast<NoticeContent> }) => (
-            <Notice
-              {...toast.content}
-              showClose={
-                !(
-                  toast.timeout &&
-                  toast.content.primary &&
-                  toast.content.secondary
-                )
-              }
-              classNames={classNames?.notice}
-              size={size}
-              onPrimaryAction={() => emitActionPrimary({ id: toast.key })}
-              onSecondaryAction={() => emitActionSecondary({ id: toast.key })}
-              onClose={() => {
-                toast.onClose?.();
-                queue.close(toast.key);
-                emitClose({ id: toast.key });
-              }}
-            />
-          )}
-        </ToastList>
-      </ToastRegion>
-    </PortalProvider>
+          Clear All
+        </Button>
+      )}
+      <ToastList
+        className={composeRenderProps(classNames?.list, (className) =>
+          list({ className }),
+        )}
+      >
+        {({ toast }: ToastRenderProps<NoticeContent>) => (
+          <Notice
+            {...toast.content}
+            key={toast.key}
+            showClose={
+              !(
+                toast.timeout &&
+                toast.content.primary &&
+                toast.content.secondary
+              )
+            }
+            classNames={classNames?.notice}
+            size={size}
+            onPrimaryAction={() => emitActionPrimary({ id: toast.key })}
+            onSecondaryAction={() => emitActionSecondary({ id: toast.key })}
+            onClose={() => {
+              toast.onClose?.();
+              queue.close(toast.key);
+              emitClose({ id: toast.key });
+            }}
+          />
+        )}
+      </ToastList>
+    </>
+  );
+
+  return global ? (
+    <ToastRegion
+      className={composeRenderProps(classNames?.region, (className) =>
+        region({ className }),
+      )}
+      data-placement={placement}
+      queue={queue}
+    >
+      {children}
+    </ToastRegion>
+  ) : (
+    <div
+      {...regionProps}
+      className={region({ className: classNames?.region })}
+      data-placement={placement}
+      ref={ref}
+    >
+      <UNSTABLE_ToastStateContext.Provider value={state}>
+        {children}
+      </UNSTABLE_ToastStateContext.Provider>
+    </div>
   );
 }
 

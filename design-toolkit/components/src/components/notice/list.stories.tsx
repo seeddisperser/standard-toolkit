@@ -12,7 +12,7 @@
 
 import { useEmit } from '@accelint/bus/react';
 import { type UniqueId, uuid } from '@accelint/core';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '../button';
 import { Notice } from './';
 import { NoticeEventTypes } from './events';
@@ -58,15 +58,10 @@ export default meta;
 
 export const Default: StoryObj<typeof Notice.List> = {
   render: (args) => {
-    const noticeContainer = useRef(null);
     const emit = useEmit<NoticeQueueEvent>(NoticeEventTypes.queue);
     return (
-      <div className='h-full w-full border' ref={noticeContainer}>
-        <Notice.List
-          {...args}
-          aria-label='notice-list'
-          parentRef={noticeContainer}
-        />
+      <div className='h-full w-full border'>
+        <Notice.List {...args} aria-label='notice-list' />
         <Button
           onPress={() =>
             emit({
@@ -97,7 +92,6 @@ function generateNotices({ color, target, metadata }: Partial<NoticeContent>) {
 
 export const DequeueSingle: StoryObj<typeof Notice.List> = {
   render: () => {
-    const noticeContainer = useRef(null);
     const queue = useEmit<NoticeQueueEvent>(NoticeEventTypes.queue);
     const dequeue = useEmit<NoticeDequeueEvent>(NoticeEventTypes.dequeue);
     const [notices, setNotices] = useState(generateNotices({ color: 'info' }));
@@ -111,9 +105,8 @@ export const DequeueSingle: StoryObj<typeof Notice.List> = {
       });
     });
     return (
-      <div className='h-full w-full' ref={noticeContainer}>
+      <div className='h-full w-full'>
         <Notice.List
-          parentRef={noticeContainer}
           aria-label='notice-list'
           placement='bottom left'
           hideClearAll
@@ -137,7 +130,6 @@ export const DequeueSingle: StoryObj<typeof Notice.List> = {
 
 export const DequeueList: StoryObj<typeof Notice.List> = {
   render: () => {
-    const noticeContainer = useRef(null);
     const infoList = uuid();
     const seriousList = uuid();
     const queue = useEmit<NoticeQueueEvent>(NoticeEventTypes.queue);
@@ -151,12 +143,11 @@ export const DequeueList: StoryObj<typeof Notice.List> = {
       });
     });
     return (
-      <div className='h-full w-full' ref={noticeContainer}>
+      <div className='h-full w-full'>
         <Notice.List
           id={infoList}
           aria-label='info-notices'
           hideClearAll
-          parentRef={noticeContainer}
           placement='top'
           defaultColor='info'
         />
@@ -164,7 +155,6 @@ export const DequeueList: StoryObj<typeof Notice.List> = {
           id={seriousList}
           aria-label='serious-notices'
           hideClearAll
-          parentRef={noticeContainer}
           placement='bottom'
           defaultColor='serious'
         />
@@ -199,7 +189,6 @@ export const DequeueList: StoryObj<typeof Notice.List> = {
 
 export const DequeueColor: StoryObj<typeof Notice.List> = {
   render: () => {
-    const noticeContainer = useRef(null);
     const infoList = uuid();
     const seriousList = uuid();
     const queue = useEmit<NoticeQueueEvent>(NoticeEventTypes.queue);
@@ -213,12 +202,11 @@ export const DequeueColor: StoryObj<typeof Notice.List> = {
       });
     });
     return (
-      <div className='h-full w-full' ref={noticeContainer}>
+      <div className='h-full w-full'>
         <Notice.List
           id={infoList}
           aria-label='info-notices'
           hideClearAll
-          parentRef={noticeContainer}
           placement='top'
           defaultColor='info'
         />
@@ -226,7 +214,6 @@ export const DequeueColor: StoryObj<typeof Notice.List> = {
           id={seriousList}
           aria-label='serious-notices'
           hideClearAll
-          parentRef={noticeContainer}
           placement='bottom'
           defaultColor='serious'
         />
@@ -262,7 +249,6 @@ export const DequeueColor: StoryObj<typeof Notice.List> = {
 
 export const DequeueMetadata: StoryObj<typeof Notice.List> = {
   render: () => {
-    const noticeContainer = useRef(null);
     const a = uuid();
     const b = uuid();
     const c = uuid();
@@ -307,12 +293,11 @@ export const DequeueMetadata: StoryObj<typeof Notice.List> = {
       });
     });
     return (
-      <div className='h-full w-full' ref={noticeContainer}>
+      <div className='h-full w-full'>
         <Notice.List
           id={a}
           aria-label='notices-a'
           hideClearAll
-          parentRef={noticeContainer}
           placement='top left'
           defaultColor='info'
         />
@@ -320,7 +305,6 @@ export const DequeueMetadata: StoryObj<typeof Notice.List> = {
           id={b}
           aria-label='notices-b'
           hideClearAll
-          parentRef={noticeContainer}
           placement='top right'
           defaultColor='serious'
         />
@@ -328,7 +312,6 @@ export const DequeueMetadata: StoryObj<typeof Notice.List> = {
           id={c}
           aria-label='notices-c'
           hideClearAll
-          parentRef={noticeContainer}
           placement='bottom left'
           defaultColor='info'
         />
@@ -336,7 +319,6 @@ export const DequeueMetadata: StoryObj<typeof Notice.List> = {
           id={d}
           aria-label='notices-d'
           hideClearAll
-          parentRef={noticeContainer}
           placement='bottom right'
           defaultColor='serious'
         />
@@ -394,7 +376,6 @@ export const DequeueMetadata: StoryObj<typeof Notice.List> = {
 
 export const DequeueCombination: StoryObj<typeof Notice.List> = {
   render: () => {
-    const noticeContainer = useRef(null);
     const a = uuid();
     const b = uuid();
     const circleMetadata = { shape: 'circle' };
@@ -416,19 +397,17 @@ export const DequeueCombination: StoryObj<typeof Notice.List> = {
       });
     });
     return (
-      <div className='h-full w-full' ref={noticeContainer}>
+      <div className='h-full w-full'>
         <Notice.List
           id={a}
           aria-label='notices-a'
           hideClearAll
-          parentRef={noticeContainer}
           placement='top left'
         />
         <Notice.List
           id={b}
           aria-label='notices-b'
           hideClearAll
-          parentRef={noticeContainer}
           placement='top right'
         />
 

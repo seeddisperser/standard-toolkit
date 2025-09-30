@@ -13,7 +13,6 @@
 
 import type { Payload } from '@accelint/bus';
 import type { UniqueId } from '@accelint/core';
-import type { RefObject } from 'react';
 import type { ButtonProps } from '../button/types';
 import type { NoticeEventTypes } from './events';
 
@@ -46,7 +45,6 @@ export type NoticeIconProps = {
 
 export type NoticeListProps = {
   id?: UniqueId;
-  parentRef?: RefObject<HTMLElement | null>;
   placement?:
     | 'top left'
     | 'top'
@@ -61,6 +59,7 @@ export type NoticeListProps = {
   defaultTimeout?: number;
   hideClearAll?: boolean;
   size?: 'small' | 'medium';
+  global?: boolean;
   classNames?: {
     region?: string;
     list?: string;
