@@ -10,17 +10,30 @@
  * governing permissions and limitations under the License.
  */
 
-/**
- * THIS IS A GENERATED FILE. DO NOT ALTER DIRECTLY.
- */
+import {
+  fixAliasPlugin,
+  fixExtensionsPlugin,
+  fixFolderImportsPlugin,
+} from 'esbuild-fix-imports-plugin';
+import { defineConfig } from 'tsup';
 
-// biome-ignore-all assist/source/organizeImports: This comment is used to prevent the biome tool from altering the import statements in this file.
-
-export { Broadcast } from './broadcast';
-export type {
-  BroadcastConfig,
-  EmitOptions,
-  ExtractEvent,
-  Listener,
-  Payload,
-} from './broadcast/types';
+export default defineConfig({
+  esbuildPlugins: [
+    fixAliasPlugin(),
+    fixFolderImportsPlugin(),
+    fixExtensionsPlugin(),
+  ],
+  entry: [
+    'src/**/*.{ts,tsx}',
+    '!src/**/*.{d,stories,test,test-d,bench}.{ts,tsx}',
+    '!**/__fixtures__',
+  ],
+  bundle: false,
+  clean: true,
+  dts: true,
+  format: 'esm',
+  sourcemap: true,
+  splitting: true,
+  treeshake: true,
+  metafile: true,
+});

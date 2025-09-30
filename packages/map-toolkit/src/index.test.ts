@@ -10,17 +10,10 @@
  * governing permissions and limitations under the License.
  */
 
-/**
- * THIS IS A GENERATED FILE. DO NOT ALTER DIRECTLY.
- */
+import { describe, expect, it } from 'vitest';
 
-// biome-ignore-all assist/source/organizeImports: This comment is used to prevent the biome tool from altering the import statements in this file.
-
-export { Broadcast } from './broadcast';
-export type {
-  BroadcastConfig,
-  EmitOptions,
-  ExtractEvent,
-  Listener,
-  Payload,
-} from './broadcast/types';
+describe('hello world test', () => {
+  it('should run test', () => {
+    expect(true).toBe(true);
+  });
+});
