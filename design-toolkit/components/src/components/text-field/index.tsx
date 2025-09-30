@@ -147,7 +147,13 @@ export function TextField({ ref, ...props }: TextFieldProps) {
           )}
           <Input
             {...inputProps}
-            classNames={classNames?.input}
+            classNames={{
+              ...classNames?.input,
+              input: composeRenderProps(
+                classNames?.input?.input,
+                (className) => `${className} enabled:group-pressed/input:outline-interactive-pressed`
+              )
+            }}
             disabled={isDisabled}
             required={isRequired}
             size={size}
