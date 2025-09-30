@@ -27,7 +27,7 @@ export const NoticeStyles = tv({
     content: [
       'flex flex-1 items-center group-size-small/notice:flex-wrap group-size-medium/notice:gap-l group-size-small/notice:gap-m',
     ],
-    message: 'group-size-small/notice:basis-10/12',
+    message: 'flex-1 group-size-small/notice:basis-10/12',
     region: [
       'flex flex-col gap-y-s',
       'data-placement:absolute',
