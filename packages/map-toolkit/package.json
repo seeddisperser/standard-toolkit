@@ -78,13 +78,11 @@
     "milsymbol": "3.0.2",
     "typescript": "^5.8.3"
   },
-  "peerDependencies": {
+  "optionalDependencies": {
     "@deck.gl/core": "9.1.14",
     "@deck.gl/layers": "9.1.14",
     "@deckgl-fiber-renderer/dom": "1.4.0",
-    "maplibre-gl": "^5.7.1"
-  },
-  "optionalDependencies": {
+    "maplibre-gl": "^5.7.1",
     "react": "^19.0.0"
   },
   "$schema": "https://json.schemastore.org/package",
