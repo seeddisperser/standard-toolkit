@@ -35,7 +35,6 @@ import {
   UNSTABLE_ToastList as ToastList,
   UNSTABLE_ToastQueue as ToastQueue,
   UNSTABLE_ToastRegion as ToastRegion,
-  type ToastRenderProps,
   UNSTABLE_ToastStateContext,
 } from 'react-aria-components';
 import { Button } from '../button';
@@ -264,7 +263,7 @@ function NoticeList({
           list({ className }),
         )}
       >
-        {({ toast }: ToastRenderProps<NoticeContent>) => (
+        {({ toast }: { toast: QueuedToast<NoticeContent> }) => (
           <Notice
             {...toast.content}
             key={toast.key}
