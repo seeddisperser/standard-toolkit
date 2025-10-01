@@ -10,25 +10,22 @@
  * governing permissions and limitations under the License.
  */
 
-import { initialize } from 'msw-storybook-addon';
-import type { Preview } from '@storybook/react-vite';
+import { withDeckGL } from './deckgl';
+import type { StoryObj } from '@storybook/react';
 
-/*
- * Initializes MSW
- * See https://github.com/mswjs/msw-storybook-addon#configuring-msw
- * to learn how to customize it
- */
-initialize();
-
-const preview: Preview = {
+const meta = {
+  title: 'DeckGL',
+  decorators: [withDeckGL({})],
   parameters: {
-    controls: {
-      matchers: {
-        color: /(background|color)$/i,
-        date: /Date$/i,
-      },
-    },
+    layout: 'fullscreen',
   },
 };
 
-export default preview;
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const BaseMap: Story = {
+  render: () => {
+    return;
+  },
+};

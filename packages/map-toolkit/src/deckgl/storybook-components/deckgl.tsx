@@ -11,7 +11,7 @@
  */
 import { Deckgl, useDeckgl } from '@deckgl-fiber-renderer/dom';
 import { useMapLibre } from '../hooks/use-maplibre';
-import type { Decorator } from '@storybook/react-vite';
+import type { Decorator } from '@storybook/react';
 import type { IControl } from 'maplibre-gl';
 
 interface MapDecoratorProps {
