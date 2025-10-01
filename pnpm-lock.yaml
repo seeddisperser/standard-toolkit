@@ -720,58 +720,6 @@ importers:
         version: 2.1.3(@types/node@24.3.1)(jsdom@26.1.0)(lightningcss@1.30.1)(msw@2.11.3(@types/node@24.3.1)(typescript@5.9.2))(terser@5.44.0)
 
   packages/map-toolkit:
-    dependencies:
-      '@deck.gl/core':
-        specifier: 9.1.14
-        version: 9.1.14
-      '@deck.gl/extensions':
-        specifier: ^9.1.14
-        version: 9.1.14(@deck.gl/core@9.1.14)(@luma.gl/core@9.1.10)(@luma.gl/engine@9.1.10(@luma.gl/core@9.1.10)(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10)))
-      '@deck.gl/geo-layers':
-        specifier: ^9.1.14
-        version: 9.1.14(@deck.gl/core@9.1.14)(@deck.gl/extensions@9.1.14(@deck.gl/core@9.1.14)(@luma.gl/core@9.1.10)(@luma.gl/engine@9.1.10(@luma.gl/core@9.1.10)(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10))))(@deck.gl/layers@9.1.14(@deck.gl/core@9.1.14)(@loaders.gl/core@4.3.4)(@luma.gl/core@9.1.10)(@luma.gl/engine@9.1.10(@luma.gl/core@9.1.10)(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10))))(@deck.gl/mesh-layers@9.1.14(@deck.gl/core@9.1.14)(@loaders.gl/core@4.3.4)(@luma.gl/core@9.1.10)(@luma.gl/engine@9.1.10(@luma.gl/core@9.1.10)(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10))))(@loaders.gl/core@4.3.4)(@luma.gl/core@9.1.10)(@luma.gl/engine@9.1.10(@luma.gl/core@9.1.10)(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10)))
-      '@deck.gl/layers':
-        specifier: 9.1.14
-        version: 9.1.14(@deck.gl/core@9.1.14)(@loaders.gl/core@4.3.4)(@luma.gl/core@9.1.10)(@luma.gl/engine@9.1.10(@luma.gl/core@9.1.10)(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10)))
-      '@deck.gl/mapbox':
-        specifier: ^9.1.14
-        version: 9.1.14(@deck.gl/core@9.1.14)(@luma.gl/core@9.1.10)
-      '@deck.gl/mesh-layers':
-        specifier: ^9.1.14
-        version: 9.1.14(@deck.gl/core@9.1.14)(@loaders.gl/core@4.3.4)(@luma.gl/core@9.1.10)(@luma.gl/engine@9.1.10(@luma.gl/core@9.1.10)(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10)))
-      '@deck.gl/widgets':
-        specifier: ^9.1.14
-        version: 9.1.14(@deck.gl/core@9.1.14)
-      '@deckgl-fiber-renderer/dom':
-        specifier: 1.4.0
-        version: 1.4.0(ec09797234f88a2a80be51a7a61de230)
-      '@deckgl-fiber-renderer/shared':
-        specifier: ^1.4.0
-        version: 1.4.0(@deck.gl/core@9.1.14)(@deck.gl/mapbox@9.1.14(@deck.gl/core@9.1.14)(@luma.gl/core@9.1.10))(@types/react@19.1.12)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1))
-      '@luma.gl/constants':
-        specifier: ~9.1.9
-        version: 9.1.10
-      '@luma.gl/core':
-        specifier: ~9.1.9
-        version: 9.1.10
-      '@luma.gl/engine':
-        specifier: ~9.1.9
-        version: 9.1.10(@luma.gl/core@9.1.10)(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10))
-      '@luma.gl/shadertools':
-        specifier: ~9.1.9
-        version: 9.1.10(@luma.gl/core@9.1.10)
-      '@luma.gl/webgl':
-        specifier: ~9.1.9
-        version: 9.1.10(@luma.gl/core@9.1.10)
-      maplibre-gl:
-        specifier: ^5.7.1
-        version: 5.8.0
-      milsymbol:
-        specifier: 3.0.2
-        version: 3.0.2
-      typescript:
-        specifier: ^5.8.3
-        version: 5.9.2
     devDependencies:
       '@accelint/biome-config':
         specifier: workspace:*
@@ -840,9 +788,60 @@ importers:
         specifier: 0.1.0
         version: 0.1.0(vitest@2.1.3(@types/node@24.3.1)(jsdom@26.1.0)(lightningcss@1.30.1)(msw@2.11.3(@types/node@24.3.1)(typescript@5.9.2))(terser@5.44.0))
     optionalDependencies:
+      '@deck.gl/core':
+        specifier: 9.1.14
+        version: 9.1.14
+      '@deck.gl/extensions':
+        specifier: ^9.1.14
+        version: 9.1.14(@deck.gl/core@9.1.14)(@luma.gl/core@9.1.10)(@luma.gl/engine@9.1.10(@luma.gl/core@9.1.10)(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10)))
+      '@deck.gl/geo-layers':
+        specifier: ^9.1.14
+        version: 9.1.14(@deck.gl/core@9.1.14)(@deck.gl/extensions@9.1.14(@deck.gl/core@9.1.14)(@luma.gl/core@9.1.10)(@luma.gl/engine@9.1.10(@luma.gl/core@9.1.10)(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10))))(@deck.gl/layers@9.1.14(@deck.gl/core@9.1.14)(@loaders.gl/core@4.3.4)(@luma.gl/core@9.1.10)(@luma.gl/engine@9.1.10(@luma.gl/core@9.1.10)(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10))))(@deck.gl/mesh-layers@9.1.14(@deck.gl/core@9.1.14)(@loaders.gl/core@4.3.4)(@luma.gl/core@9.1.10)(@luma.gl/engine@9.1.10(@luma.gl/core@9.1.10)(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10))))(@loaders.gl/core@4.3.4)(@luma.gl/core@9.1.10)(@luma.gl/engine@9.1.10(@luma.gl/core@9.1.10)(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10)))
+      '@deck.gl/layers':
+        specifier: 9.1.14
+        version: 9.1.14(@deck.gl/core@9.1.14)(@loaders.gl/core@4.3.4)(@luma.gl/core@9.1.10)(@luma.gl/engine@9.1.10(@luma.gl/core@9.1.10)(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10)))
+      '@deck.gl/mapbox':
+        specifier: ^9.1.14
+        version: 9.1.14(@deck.gl/core@9.1.14)(@luma.gl/core@9.1.10)
+      '@deck.gl/mesh-layers':
+        specifier: ^9.1.14
+        version: 9.1.14(@deck.gl/core@9.1.14)(@loaders.gl/core@4.3.4)(@luma.gl/core@9.1.10)(@luma.gl/engine@9.1.10(@luma.gl/core@9.1.10)(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10)))
+      '@deck.gl/widgets':
+        specifier: ^9.1.14
+        version: 9.1.14(@deck.gl/core@9.1.14)
+      '@deckgl-fiber-renderer/dom':
+        specifier: 1.4.0
+        version: 1.4.0(ec09797234f88a2a80be51a7a61de230)
+      '@deckgl-fiber-renderer/shared':
+        specifier: ^1.4.0
+        version: 1.4.0(@deck.gl/core@9.1.14)(@deck.gl/mapbox@9.1.14(@deck.gl/core@9.1.14)(@luma.gl/core@9.1.10))(@types/react@19.1.12)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1))
+      '@luma.gl/constants':
+        specifier: ~9.1.9
+        version: 9.1.10
+      '@luma.gl/core':
+        specifier: ~9.1.9
+        version: 9.1.10
+      '@luma.gl/engine':
+        specifier: ~9.1.9
+        version: 9.1.10(@luma.gl/core@9.1.10)(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10))
+      '@luma.gl/shadertools':
+        specifier: ~9.1.9
+        version: 9.1.10(@luma.gl/core@9.1.10)
+      '@luma.gl/webgl':
+        specifier: ~9.1.9
+        version: 9.1.10(@luma.gl/core@9.1.10)
+      maplibre-gl:
+        specifier: ^5.7.1
+        version: 5.8.0
+      milsymbol:
+        specifier: 3.0.2
+        version: 3.0.2
       react:
         specifier: ^19.0.0
         version: 19.1.1
+      typescript:
+        specifier: ^5.8.3
+        version: 5.9.2
 
   packages/math:
     dependencies:
@@ -12716,6 +12715,7 @@ snapshots:
       '@types/offscreencanvas': 2019.7.3
       gl-matrix: 3.4.4
       mjolnir.js: 3.0.0
+    optional: true
 
   '@deck.gl/extensions@9.1.14(@deck.gl/core@9.1.14)(@luma.gl/core@9.1.10)(@luma.gl/engine@9.1.10(@luma.gl/core@9.1.10)(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10)))':
     dependencies:
@@ -12725,6 +12725,7 @@ snapshots:
       '@luma.gl/engine': 9.1.10(@luma.gl/core@9.1.10)(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10))
       '@luma.gl/shadertools': 9.1.10(@luma.gl/core@9.1.10)
       '@math.gl/core': 4.1.0
+    optional: true
 
   '@deck.gl/geo-layers@9.1.14(@deck.gl/core@9.1.14)(@deck.gl/extensions@9.1.14(@deck.gl/core@9.1.14)(@luma.gl/core@9.1.10)(@luma.gl/engine@9.1.10(@luma.gl/core@9.1.10)(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10))))(@deck.gl/layers@9.1.14(@deck.gl/core@9.1.14)(@loaders.gl/core@4.3.4)(@luma.gl/core@9.1.10)(@luma.gl/engine@9.1.10(@luma.gl/core@9.1.10)(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10))))(@deck.gl/mesh-layers@9.1.14(@deck.gl/core@9.1.14)(@loaders.gl/core@4.3.4)(@luma.gl/core@9.1.10)(@luma.gl/engine@9.1.10(@luma.gl/core@9.1.10)(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10))))(@loaders.gl/core@4.3.4)(@luma.gl/core@9.1.10)(@luma.gl/engine@9.1.10(@luma.gl/core@9.1.10)(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10)))':
     dependencies:
@@ -12751,6 +12752,7 @@ snapshots:
       '@types/geojson': 7946.0.16
       h3-js: 4.3.0
       long: 3.2.0
+    optional: true
 
   '@deck.gl/layers@9.1.14(@deck.gl/core@9.1.14)(@loaders.gl/core@4.3.4)(@luma.gl/core@9.1.10)(@luma.gl/engine@9.1.10(@luma.gl/core@9.1.10)(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10)))':
     dependencies:
@@ -12766,6 +12768,7 @@ snapshots:
       '@math.gl/polygon': 4.1.0
       '@math.gl/web-mercator': 4.1.0
       earcut: 2.2.4
+    optional: true
 
   '@deck.gl/mapbox@9.1.14(@deck.gl/core@9.1.14)(@luma.gl/core@9.1.10)':
     dependencies:
@@ -12773,6 +12776,7 @@ snapshots:
       '@luma.gl/constants': 9.1.10
       '@luma.gl/core': 9.1.10
       '@math.gl/web-mercator': 4.1.0
+    optional: true
 
   '@deck.gl/mesh-layers@9.1.14(@deck.gl/core@9.1.14)(@loaders.gl/core@4.3.4)(@luma.gl/core@9.1.10)(@luma.gl/engine@9.1.10(@luma.gl/core@9.1.10)(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10)))':
     dependencies:
@@ -12784,11 +12788,13 @@ snapshots:
       '@luma.gl/shadertools': 9.1.10(@luma.gl/core@9.1.10)
     transitivePeerDependencies:
       - '@loaders.gl/core'
+    optional: true
 
   '@deck.gl/widgets@9.1.14(@deck.gl/core@9.1.14)':
     dependencies:
       '@deck.gl/core': 9.1.14
       preact: 10.27.2
+    optional: true
 
   '@deckgl-fiber-renderer/dom@1.4.0(ec09797234f88a2a80be51a7a61de230)':
     dependencies:
@@ -12809,6 +12815,7 @@ snapshots:
       - '@types/react-dom'
       - immer
       - use-sync-external-store
+    optional: true
 
   '@deckgl-fiber-renderer/reconciler@1.4.0(ec09797234f88a2a80be51a7a61de230)':
     dependencies:
@@ -12827,6 +12834,7 @@ snapshots:
       - '@types/react-dom'
       - immer
       - use-sync-external-store
+    optional: true
 
   '@deckgl-fiber-renderer/shared@1.4.0(@deck.gl/core@9.1.14)(@deck.gl/mapbox@9.1.14(@deck.gl/core@9.1.14)(@luma.gl/core@9.1.10))(@types/react@19.1.12)(immer@10.1.3)(react@19.1.1)(use-sync-external-store@1.5.0(react@19.1.1))':
     dependencies:
@@ -12839,6 +12847,7 @@ snapshots:
       - immer
       - react
       - use-sync-external-store
+    optional: true
 
   '@deckgl-fiber-renderer/types@1.4.0(6a00b8228a2fe1818217b1ee054d29f3)':
     dependencies:
@@ -12849,6 +12858,7 @@ snapshots:
       '@deck.gl/mesh-layers': 9.1.14(@deck.gl/core@9.1.14)(@loaders.gl/core@4.3.4)(@luma.gl/core@9.1.10)(@luma.gl/engine@9.1.10(@luma.gl/core@9.1.10)(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10)))
       '@types/react': 19.1.12
       '@types/react-dom': 19.1.9(@types/react@19.1.12)
+    optional: true
 
   '@discoveryjs/json-ext@0.5.7': {}
 
@@ -14331,6 +14341,7 @@ snapshots:
       '@math.gl/geospatial': 4.1.0
       '@probe.gl/log': 4.1.0
       long: 5.3.2
+    optional: true
 
   '@loaders.gl/compression@4.3.4(@loaders.gl/core@4.3.4)':
     dependencies:
@@ -14347,6 +14358,7 @@ snapshots:
       brotli: 1.3.3
       lz4js: 0.2.0
       zstd-codec: 0.1.5
+    optional: true
 
   '@loaders.gl/core@4.3.4':
     dependencies:
@@ -14354,6 +14366,7 @@ snapshots:
       '@loaders.gl/schema': 4.3.4(@loaders.gl/core@4.3.4)
       '@loaders.gl/worker-utils': 4.3.4(@loaders.gl/core@4.3.4)
       '@probe.gl/log': 4.1.0
+    optional: true
 
   '@loaders.gl/crypto@4.3.4(@loaders.gl/core@4.3.4)':
     dependencies:
@@ -14361,6 +14374,7 @@ snapshots:
       '@loaders.gl/loader-utils': 4.3.4(@loaders.gl/core@4.3.4)
       '@loaders.gl/worker-utils': 4.3.4(@loaders.gl/core@4.3.4)
       '@types/crypto-js': 4.2.2
+    optional: true
 
   '@loaders.gl/draco@4.3.4(@loaders.gl/core@4.3.4)':
     dependencies:
@@ -14369,6 +14383,7 @@ snapshots:
       '@loaders.gl/schema': 4.3.4(@loaders.gl/core@4.3.4)
       '@loaders.gl/worker-utils': 4.3.4(@loaders.gl/core@4.3.4)
       draco3d: 1.5.7
+    optional: true
 
   '@loaders.gl/gis@4.3.4(@loaders.gl/core@4.3.4)':
     dependencies:
@@ -14378,6 +14393,7 @@ snapshots:
       '@mapbox/vector-tile': 1.3.1
       '@math.gl/polygon': 4.1.0
       pbf: 3.3.0
+    optional: true
 
   '@loaders.gl/gltf@4.3.4(@loaders.gl/core@4.3.4)':
     dependencies:
@@ -14388,11 +14404,13 @@ snapshots:
       '@loaders.gl/schema': 4.3.4(@loaders.gl/core@4.3.4)
       '@loaders.gl/textures': 4.3.4(@loaders.gl/core@4.3.4)
       '@math.gl/core': 4.1.0
+    optional: true
 
   '@loaders.gl/images@4.3.4(@loaders.gl/core@4.3.4)':
     dependencies:
       '@loaders.gl/core': 4.3.4
       '@loaders.gl/loader-utils': 4.3.4(@loaders.gl/core@4.3.4)
+    optional: true
 
   '@loaders.gl/loader-utils@4.3.4(@loaders.gl/core@4.3.4)':
     dependencies:
@@ -14401,6 +14419,7 @@ snapshots:
       '@loaders.gl/worker-utils': 4.3.4(@loaders.gl/core@4.3.4)
       '@probe.gl/log': 4.1.0
       '@probe.gl/stats': 4.1.0
+    optional: true
 
   '@loaders.gl/math@4.3.4(@loaders.gl/core@4.3.4)':
     dependencies:
@@ -14408,6 +14427,7 @@ snapshots:
       '@loaders.gl/images': 4.3.4(@loaders.gl/core@4.3.4)
       '@loaders.gl/loader-utils': 4.3.4(@loaders.gl/core@4.3.4)
       '@math.gl/core': 4.1.0
+    optional: true
 
   '@loaders.gl/mvt@4.3.4(@loaders.gl/core@4.3.4)':
     dependencies:
@@ -14419,11 +14439,13 @@ snapshots:
       '@math.gl/polygon': 4.1.0
       '@probe.gl/stats': 4.1.0
       pbf: 3.3.0
+    optional: true
 
   '@loaders.gl/schema@4.3.4(@loaders.gl/core@4.3.4)':
     dependencies:
       '@loaders.gl/core': 4.3.4
       '@types/geojson': 7946.0.16
+    optional: true
 
   '@loaders.gl/terrain@4.3.4(@loaders.gl/core@4.3.4)':
     dependencies:
@@ -14432,6 +14454,7 @@ snapshots:
       '@loaders.gl/loader-utils': 4.3.4(@loaders.gl/core@4.3.4)
       '@loaders.gl/schema': 4.3.4(@loaders.gl/core@4.3.4)
       '@mapbox/martini': 0.2.0
+    optional: true
 
   '@loaders.gl/textures@4.3.4(@loaders.gl/core@4.3.4)':
     dependencies:
@@ -14443,6 +14466,7 @@ snapshots:
       '@math.gl/types': 4.1.0
       ktx-parse: 0.7.1
       texture-compressor: 1.0.2
+    optional: true
 
   '@loaders.gl/tiles@4.3.4(@loaders.gl/core@4.3.4)':
     dependencies:
@@ -14454,6 +14478,7 @@ snapshots:
       '@math.gl/geospatial': 4.1.0
       '@math.gl/web-mercator': 4.1.0
       '@probe.gl/stats': 4.1.0
+    optional: true
 
   '@loaders.gl/wms@4.3.4(@loaders.gl/core@4.3.4)':
     dependencies:
@@ -14464,10 +14489,12 @@ snapshots:
       '@loaders.gl/xml': 4.3.4(@loaders.gl/core@4.3.4)
       '@turf/rewind': 5.1.5
       deep-strict-equal: 0.2.0
+    optional: true
 
   '@loaders.gl/worker-utils@4.3.4(@loaders.gl/core@4.3.4)':
     dependencies:
       '@loaders.gl/core': 4.3.4
+    optional: true
 
   '@loaders.gl/xml@4.3.4(@loaders.gl/core@4.3.4)':
     dependencies:
@@ -14475,6 +14502,7 @@ snapshots:
       '@loaders.gl/loader-utils': 4.3.4(@loaders.gl/core@4.3.4)
       '@loaders.gl/schema': 4.3.4(@loaders.gl/core@4.3.4)
       fast-xml-parser: 4.5.3
+    optional: true
 
   '@loaders.gl/zip@4.3.4(@loaders.gl/core@4.3.4)':
     dependencies:
@@ -14484,6 +14512,7 @@ snapshots:
       '@loaders.gl/loader-utils': 4.3.4(@loaders.gl/core@4.3.4)
       jszip: 3.10.1
       md5: 2.3.0
+    optional: true
 
   '@loglayer/context-manager@1.1.1':
     dependencies:
@@ -14527,7 +14556,8 @@ snapshots:
 
   '@ls-lint/ls-lint@2.3.0-beta.1': {}
 
-  '@luma.gl/constants@9.1.10': {}
+  '@luma.gl/constants@9.1.10':
+    optional: true
 
   '@luma.gl/core@9.1.10':
     dependencies:
@@ -14536,6 +14566,7 @@ snapshots:
       '@probe.gl/log': 4.1.0
       '@probe.gl/stats': 4.1.0
       '@types/offscreencanvas': 2019.7.3
+    optional: true
 
   '@luma.gl/engine@9.1.10(@luma.gl/core@9.1.10)(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10))':
     dependencies:
@@ -14545,6 +14576,7 @@ snapshots:
       '@math.gl/types': 4.1.0
       '@probe.gl/log': 4.1.0
       '@probe.gl/stats': 4.1.0
+    optional: true
 
   '@luma.gl/gltf@9.1.10(@luma.gl/core@9.1.10)(@luma.gl/engine@9.1.10(@luma.gl/core@9.1.10)(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10)))(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10))':
     dependencies:
@@ -14554,6 +14586,7 @@ snapshots:
       '@luma.gl/engine': 9.1.10(@luma.gl/core@9.1.10)(@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10))
       '@luma.gl/shadertools': 9.1.10(@luma.gl/core@9.1.10)
       '@math.gl/core': 4.1.0
+    optional: true
 
   '@luma.gl/shadertools@9.1.10(@luma.gl/core@9.1.10)':
     dependencies:
@@ -14561,6 +14594,7 @@ snapshots:
       '@math.gl/core': 4.1.0
       '@math.gl/types': 4.1.0
       wgsl_reflect: 1.2.3
+    optional: true
 
   '@luma.gl/webgl@9.1.10(@luma.gl/core@9.1.10)':
     dependencies:
@@ -14568,6 +14602,7 @@ snapshots:
       '@luma.gl/core': 9.1.10
       '@math.gl/types': 4.1.0
       '@probe.gl/env': 4.1.0
+    optional: true
 
   '@manypkg/find-root@1.1.0':
     dependencies:
@@ -14589,30 +14624,40 @@ snapshots:
     dependencies:
       get-stream: 6.0.1
       minimist: 1.2.8
+    optional: true
 
-  '@mapbox/jsonlint-lines-primitives@2.0.2': {}
+  '@mapbox/jsonlint-lines-primitives@2.0.2':
+    optional: true
 
-  '@mapbox/martini@0.2.0': {}
+  '@mapbox/martini@0.2.0':
+    optional: true
 
-  '@mapbox/point-geometry@0.1.0': {}
+  '@mapbox/point-geometry@0.1.0':
+    optional: true
 
-  '@mapbox/point-geometry@1.1.0': {}
+  '@mapbox/point-geometry@1.1.0':
+    optional: true
 
-  '@mapbox/tiny-sdf@2.0.7': {}
+  '@mapbox/tiny-sdf@2.0.7':
+    optional: true
 
-  '@mapbox/unitbezier@0.0.1': {}
+  '@mapbox/unitbezier@0.0.1':
+    optional: true
 
   '@mapbox/vector-tile@1.3.1':
     dependencies:
       '@mapbox/point-geometry': 0.1.0
+    optional: true
 
   '@mapbox/vector-tile@2.0.4':
     dependencies:
       '@mapbox/point-geometry': 1.1.0
       '@types/geojson': 7946.0.16
       pbf: 4.0.1
+    optional: true
 
-  '@mapbox/whoots-js@3.1.0': {}
+  '@mapbox/whoots-js@3.1.0':
+    optional: true
 
   '@maplibre/maplibre-gl-style-spec@24.2.0':
     dependencies:
@@ -14623,6 +14668,7 @@ snapshots:
       quickselect: 3.0.0
       rw: 1.3.3
       tinyqueue: 3.0.0
+    optional: true
 
   '@maplibre/vt-pbf@4.0.3':
     dependencies:
@@ -14633,34 +14679,42 @@ snapshots:
       geojson-vt: 4.0.2
       pbf: 4.0.1
       supercluster: 8.0.1
+    optional: true
 
   '@marijn/find-cluster-break@1.0.2': {}
 
   '@math.gl/core@4.1.0':
     dependencies:
       '@math.gl/types': 4.1.0
+    optional: true
 
   '@math.gl/culling@4.1.0':
     dependencies:
       '@math.gl/core': 4.1.0
       '@math.gl/types': 4.1.0
+    optional: true
 
   '@math.gl/geospatial@4.1.0':
     dependencies:
       '@math.gl/core': 4.1.0
       '@math.gl/types': 4.1.0
+    optional: true
 
   '@math.gl/polygon@4.1.0':
     dependencies:
       '@math.gl/core': 4.1.0
+    optional: true
 
-  '@math.gl/sun@4.1.0': {}
+  '@math.gl/sun@4.1.0':
+    optional: true
 
-  '@math.gl/types@4.1.0': {}
+  '@math.gl/types@4.1.0':
+    optional: true
 
   '@math.gl/web-mercator@4.1.0':
     dependencies:
       '@math.gl/core': 4.1.0
+    optional: true
 
   '@mdx-js/mdx@3.1.1':
     dependencies:
@@ -14939,13 +14993,16 @@ snapshots:
 
   '@polka/url@1.0.0-next.29': {}
 
-  '@probe.gl/env@4.1.0': {}
+  '@probe.gl/env@4.1.0':
+    optional: true
 
   '@probe.gl/log@4.1.0':
     dependencies:
       '@probe.gl/env': 4.1.0
+    optional: true
 
-  '@probe.gl/stats@4.1.0': {}
+  '@probe.gl/stats@4.1.0':
+    optional: true
 
   '@radix-ui/react-avatar@1.1.10(@types/react-dom@19.1.9(@types/react@19.1.12))(@types/react@19.1.12)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)':
     dependencies:
@@ -16892,20 +16949,25 @@ snapshots:
     dependencies:
       '@turf/helpers': 5.1.5
       '@turf/invariant': 5.2.0
+    optional: true
 
   '@turf/clone@5.1.5':
     dependencies:
       '@turf/helpers': 5.1.5
+    optional: true
 
-  '@turf/helpers@5.1.5': {}
+  '@turf/helpers@5.1.5':
+    optional: true
 
   '@turf/invariant@5.2.0':
     dependencies:
       '@turf/helpers': 5.1.5
+    optional: true
 
   '@turf/meta@5.2.0':
     dependencies:
       '@turf/helpers': 5.1.5
+    optional: true
 
   '@turf/rewind@5.1.5':
     dependencies:
@@ -16914,6 +16976,7 @@ snapshots:
       '@turf/helpers': 5.1.5
       '@turf/invariant': 5.2.0
       '@turf/meta': 5.2.0
+    optional: true
 
   '@tybys/wasm-util@0.10.0':
     dependencies:
@@ -16955,6 +17018,7 @@ snapshots:
   '@types/brotli@1.3.4':
     dependencies:
       '@types/node': 20.19.13
+    optional: true
 
   '@types/connect-history-api-fallback@1.5.4':
     dependencies:
@@ -16968,7 +17032,8 @@ snapshots:
   '@types/cookie@0.6.0':
     optional: true
 
-  '@types/crypto-js@4.2.2': {}
+  '@types/crypto-js@4.2.2':
+    optional: true
 
   '@types/debug@4.1.12':
     dependencies:
@@ -17022,8 +17087,10 @@ snapshots:
   '@types/geojson-vt@3.2.5':
     dependencies:
       '@types/geojson': 7946.0.16
+    optional: true
 
-  '@types/geojson@7946.0.16': {}
+  '@types/geojson@7946.0.16':
+    optional: true
 
   '@types/gtag.js@0.0.12': {}
 
@@ -17090,9 +17157,11 @@ snapshots:
     dependencies:
       undici-types: 7.10.0
 
-  '@types/offscreencanvas@2019.7.3': {}
+  '@types/offscreencanvas@2019.7.3':
+    optional: true
 
-  '@types/pako@1.0.7': {}
+  '@types/pako@1.0.7':
+    optional: true
 
   '@types/prismjs@1.26.5': {}
 
@@ -17111,6 +17180,7 @@ snapshots:
   '@types/react-reconciler@0.28.9(@types/react@19.1.12)':
     dependencies:
       '@types/react': 19.1.12
+    optional: true
 
   '@types/react-router-config@5.0.11':
     dependencies:
@@ -17170,6 +17240,7 @@ snapshots:
   '@types/supercluster@7.1.3':
     dependencies:
       '@types/geojson': 7946.0.16
+    optional: true
 
   '@types/unist@2.0.11': {}
 
@@ -17783,7 +17854,8 @@ snapshots:
       node-releases: 2.0.20
       update-browserslist-db: 1.1.3(browserslist@4.25.4)
 
-  buf-compare@1.0.1: {}
+  buf-compare@1.0.1:
+    optional: true
 
   buffer-from@1.1.2: {}
 
@@ -17908,7 +17980,8 @@ snapshots:
 
   chardet@2.1.0: {}
 
-  charenc@0.0.2: {}
+  charenc@0.0.2:
+    optional: true
 
   check-error@2.1.1: {}
 
@@ -18147,6 +18220,7 @@ snapshots:
     dependencies:
       buf-compare: 1.0.1
       is-error: 2.2.2
+    optional: true
 
   core-js-compat@3.45.1:
     dependencies:
@@ -18194,7 +18268,8 @@ snapshots:
       shebang-command: 2.0.0
       which: 2.0.2
 
-  crypt@0.0.2: {}
+  crypt@0.0.2:
+    optional: true
 
   crypto-random-string@4.0.0:
     dependencies:
@@ -18393,6 +18468,7 @@ snapshots:
   deep-strict-equal@0.2.0:
     dependencies:
       core-assert: 0.2.1
+    optional: true
 
   deepmerge@4.3.1: {}
 
@@ -18514,7 +18590,8 @@ snapshots:
 
   dotenv@16.6.1: {}
 
-  draco3d@1.5.7: {}
+  draco3d@1.5.7:
+    optional: true
 
   dunder-proto@1.0.1:
     dependencies:
@@ -18524,9 +18601,11 @@ snapshots:
 
   duplexer@0.1.2: {}
 
-  earcut@2.2.4: {}
+  earcut@2.2.4:
+    optional: true
 
-  earcut@3.0.2: {}
+  earcut@3.0.2:
+    optional: true
 
   eastasianwidth@0.2.0: {}
 
@@ -18909,6 +18988,7 @@ snapshots:
   fast-xml-parser@4.5.3:
     dependencies:
       strnum: 1.1.2
+    optional: true
 
   fastq@1.19.1:
     dependencies:
@@ -18930,7 +19010,8 @@ snapshots:
     dependencies:
       xml-js: 1.6.11
 
-  fflate@0.7.4: {}
+  fflate@0.7.4:
+    optional: true
 
   figures@3.2.0:
     dependencies:
@@ -19052,7 +19133,8 @@ snapshots:
 
   gensync@1.0.0-beta.2: {}
 
-  geojson-vt@4.0.2: {}
+  geojson-vt@4.0.2:
+    optional: true
 
   get-caller-file@2.0.5: {}
 
@@ -19086,7 +19168,8 @@ snapshots:
 
   github-slugger@1.5.0: {}
 
-  gl-matrix@3.4.4: {}
+  gl-matrix@3.4.4:
+    optional: true
 
   glob-parent@5.1.2:
     dependencies:
@@ -19199,7 +19282,8 @@ snapshots:
     dependencies:
       duplexer: 0.1.2
 
-  h3-js@4.3.0: {}
+  h3-js@4.3.0:
+    optional: true
 
   handle-thing@2.0.1: {}
 
@@ -19524,11 +19608,13 @@ snapshots:
 
   ignore@7.0.5: {}
 
-  image-size@0.7.5: {}
+  image-size@0.7.5:
+    optional: true
 
   image-size@2.0.2: {}
 
-  immediate@3.0.6: {}
+  immediate@3.0.6:
+    optional: true
 
   immediate@3.3.0: {}
 
@@ -19623,7 +19709,8 @@ snapshots:
     dependencies:
       binary-extensions: 2.3.0
 
-  is-buffer@1.1.6: {}
+  is-buffer@1.1.6:
+    optional: true
 
   is-callable@1.2.7: {}
 
@@ -19639,7 +19726,8 @@ snapshots:
 
   is-docker@2.2.1: {}
 
-  is-error@2.2.2: {}
+  is-error@2.2.2:
+    optional: true
 
   is-extendable@0.1.1: {}
 
@@ -19768,6 +19856,7 @@ snapshots:
       react: 19.1.1
     transitivePeerDependencies:
       - '@types/react'
+    optional: true
 
   jackspeak@3.4.3:
     dependencies:
@@ -19897,7 +19986,8 @@ snapshots:
 
   json-schema-traverse@1.0.0: {}
 
-  json-stringify-pretty-compact@4.0.0: {}
+  json-stringify-pretty-compact@4.0.0:
+    optional: true
 
   json5@2.2.3: {}
 
@@ -19919,12 +20009,14 @@ snapshots:
       pako: 1.0.11
       readable-stream: 2.3.8
       setimmediate: 1.0.5
+    optional: true
 
   katex@0.16.22:
     dependencies:
       commander: 8.3.0
 
-  kdbush@4.0.2: {}
+  kdbush@4.0.2:
+    optional: true
 
   keyv@4.5.4:
     dependencies:
@@ -19938,7 +20030,8 @@ snapshots:
 
   kleur@3.0.3: {}
 
-  ktx-parse@0.7.1: {}
+  ktx-parse@0.7.1:
+    optional: true
 
   latest-version@7.0.0:
     dependencies:
@@ -19997,6 +20090,7 @@ snapshots:
   lie@3.3.0:
     dependencies:
       immediate: 3.0.6
+    optional: true
 
   lightningcss-darwin-arm64@1.29.2:
     optional: true
@@ -20142,9 +20236,11 @@ snapshots:
       '@loglayer/shared': 2.3.1
       '@loglayer/transport': 2.2.1
 
-  long@3.2.0: {}
+  long@3.2.0:
+    optional: true
 
-  long@5.3.2: {}
+  long@5.3.2:
+    optional: true
 
   longest-streak@3.1.0: {}
 
@@ -20180,7 +20276,8 @@ snapshots:
   lz4js@0.2.0:
     optional: true
 
-  lzo-wasm@0.0.4: {}
+  lzo-wasm@0.0.4:
+    optional: true
 
   magic-string@0.25.9:
     dependencies:
@@ -20230,6 +20327,7 @@ snapshots:
       quickselect: 3.0.0
       supercluster: 8.0.1
       tinyqueue: 3.0.0
+    optional: true
 
   mark.js@8.11.1: {}
 
@@ -20257,6 +20355,7 @@ snapshots:
       charenc: 0.0.2
       crypt: 0.0.2
       is-buffer: 1.1.6
+    optional: true
 
   mdast-util-directive@3.1.0:
     dependencies:
@@ -20796,7 +20895,8 @@ snapshots:
       braces: 3.0.3
       picomatch: 2.3.1
 
-  milsymbol@3.0.2: {}
+  milsymbol@3.0.2:
+    optional: true
 
   mime-db@1.33.0: {}
 
@@ -20854,7 +20954,8 @@ snapshots:
 
   mitt@3.0.1: {}
 
-  mjolnir.js@3.0.0: {}
+  mjolnir.js@3.0.0:
+    optional: true
 
   mkdirp@3.0.1: {}
 
@@ -20934,7 +21035,8 @@ snapshots:
       dns-packet: 5.6.1
       thunky: 1.1.0
 
-  murmurhash-js@1.0.0: {}
+  murmurhash-js@1.0.0:
+    optional: true
 
   mute-stream@2.0.0: {}
 
@@ -21190,7 +21292,8 @@ snapshots:
     dependencies:
       quansync: 0.2.11
 
-  pako@1.0.11: {}
+  pako@1.0.11:
+    optional: true
 
   param-case@3.0.4:
     dependencies:
@@ -21284,10 +21387,12 @@ snapshots:
     dependencies:
       ieee754: 1.2.1
       resolve-protobuf-schema: 2.1.0
+    optional: true
 
   pbf@4.0.1:
     dependencies:
       resolve-protobuf-schema: 2.1.0
+    optional: true
 
   picocolors@1.1.1: {}
 
@@ -21772,9 +21877,11 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  potpack@2.1.0: {}
+  potpack@2.1.0:
+    optional: true
 
-  preact@10.27.2: {}
+  preact@10.27.2:
+    optional: true
 
   prettier@2.8.8: {}
 
@@ -21830,7 +21937,8 @@ snapshots:
 
   proto-list@1.2.4: {}
 
-  protocol-buffers-schema@3.6.0: {}
+  protocol-buffers-schema@3.6.0:
+    optional: true
 
   proxy-addr@2.0.7:
     dependencies:
@@ -21861,7 +21969,8 @@ snapshots:
 
   quick-lru@5.1.1: {}
 
-  quickselect@3.0.0: {}
+  quickselect@3.0.0:
+    optional: true
 
   randombytes@2.1.0:
     dependencies:
@@ -22070,6 +22179,7 @@ snapshots:
     dependencies:
       react: 19.1.1
       scheduler: 0.25.0
+    optional: true
 
   react-redux@9.2.0(@types/react@19.1.12)(react@19.1.1)(redux@5.0.1):
     dependencies:
@@ -22409,6 +22519,7 @@ snapshots:
   resolve-protobuf-schema@2.1.0:
     dependencies:
       protocol-buffers-schema: 3.6.0
+    optional: true
 
   resolve@1.22.10:
     dependencies:
@@ -22489,7 +22600,8 @@ snapshots:
     dependencies:
       queue-microtask: 1.2.3
 
-  rw@1.3.3: {}
+  rw@1.3.3:
+    optional: true
 
   rxjs@7.8.2:
     dependencies:
@@ -22513,7 +22625,8 @@ snapshots:
     dependencies:
       xmlchars: 2.2.0
 
-  scheduler@0.25.0: {}
+  scheduler@0.25.0:
+    optional: true
 
   scheduler@0.26.0: {}
 
@@ -22622,7 +22735,8 @@ snapshots:
       gopd: 1.2.0
       has-property-descriptors: 1.0.2
 
-  setimmediate@1.0.5: {}
+  setimmediate@1.0.5:
+    optional: true
 
   setprototypeof@1.1.0: {}
 
@@ -22744,7 +22858,8 @@ snapshots:
       dot-case: 3.0.4
       tslib: 2.8.1
 
-  snappyjs@0.6.1: {}
+  snappyjs@0.6.1:
+    optional: true
 
   sockjs@0.3.24:
     dependencies:
@@ -22909,7 +23024,8 @@ snapshots:
 
   strip-json-comments@3.1.1: {}
 
-  strnum@1.1.2: {}
+  strnum@1.1.2:
+    optional: true
 
   style-mod@4.1.2: {}
 
@@ -22947,6 +23063,7 @@ snapshots:
   supercluster@8.0.1:
     dependencies:
       kdbush: 4.0.2
+    optional: true
 
   supports-color@5.5.0:
     dependencies:
@@ -23065,6 +23182,7 @@ snapshots:
     dependencies:
       argparse: 1.0.10
       image-size: 0.7.5
+    optional: true
 
   thenify-all@1.6.0:
     dependencies:
@@ -23095,7 +23213,8 @@ snapshots:
 
   tinypool@1.1.1: {}
 
-  tinyqueue@3.0.0: {}
+  tinyqueue@3.0.0:
+    optional: true
 
   tinyrainbow@1.2.0: {}
 
@@ -23828,7 +23947,8 @@ snapshots:
 
   websocket-extensions@0.1.4: {}
 
-  wgsl_reflect@1.2.3: {}
+  wgsl_reflect@1.2.3:
+    optional: true
 
   whatwg-encoding@3.1.1:
     dependencies:
@@ -23961,6 +24081,7 @@ snapshots:
       immer: 10.1.3
       react: 19.1.1
       use-sync-external-store: 1.5.0(react@19.1.1)
+    optional: true
 
   zwitch@2.0.4: {}
 
