@@ -10,15 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import { initialize } from 'msw-storybook-addon';
-import type { Preview } from '@storybook/react-vite';
-
-/*
- * Initializes MSW
- * See https://github.com/mswjs/msw-storybook-addon#configuring-msw
- * to learn how to customize it
- */
-initialize();
+import type { Preview } from '@storybook/react';
 
 const preview: Preview = {
   parameters: {

@@ -18,8 +18,4 @@
 
 export { INITIAL_VIEW_STATE, MAP_STYLE, PARAMETERS } from './deckgl/constants';
 export { useMapLibre } from './deckgl/hooks/use-maplibre';
-export {
-  MAP_STYLE,
-  PARAMETERS,
-  withDeckGL,
-} from './deckgl/storybook-components/deckgl';
+export { withDeckGL } from './deckgl/storybook-components/deckgl';
