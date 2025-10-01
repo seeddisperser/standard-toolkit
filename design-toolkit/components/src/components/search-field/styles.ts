@@ -22,7 +22,6 @@ export const SearchFieldStyles = tv({
       'group/search-field fg-primary-bold flex items-center gap-s rounded-round p-s outline',
       'focus-visible-within:outline-accent-primary-bold',
       'hover:outline-interactive-hover',
-      'pressed:outline-interactive-pressed',
       'disabled:fg-disabled disabled:placeholder:fg-disabled disabled:cursor-not-allowed disabled:outline-interactive-disabled',
     ],
     input: [
