@@ -26,7 +26,5 @@ type Story = StoryObj<typeof meta>;
 
 export const BaseMap: Story = {
   // Using the deckGL decorator, blank base map.
-  render: () => {
-    return;
-  },
+  render: () => null as any,
 };
