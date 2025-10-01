@@ -17,7 +17,8 @@ export const SwitchStyles = tv({
     switch:
       'group/switch flex cursor-pointer items-center gap-s disabled:cursor-not-allowed',
     control: [
-      'flex rounded-round bg-transparent p-xxs outline outline-interactive before:mr-l before:block before:size-m before:rounded-full before:[background-color:var(--fg-primary-muted)] before:transition-[margin,background-color] before:duration-150 before:ease-out',
+      'flex rounded-round bg-transparent p-xxs outline outline-interactive before:mr-l before:block before:size-m before:rounded-full before:[background-color:var(--fg-primary-muted)]', 
+      'before:transition-[margin,background-color] before:duration-150 before:ease-out',
       //focus-visible
       'group-enabled/switch:group-focus-visible/switch:bg-interactive-muted-hover', 
       'group-enabled/switch:group-focus-visible/switch:outline-interactive-hover', 
