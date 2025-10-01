@@ -28,6 +28,12 @@ The Notice component provides message notification functionality for displaying 
   primary={{ children: "Delete" }}
   secondary={{ children: "Cancel" }}
   shouldCloseOnAction={true}
+  onPrimaryAction={() => {
+    console.log('Primary action: Delete was pressed')
+  }}
+  onSecondaryAction={() => {
+    console.log('Secondary action: Cancel was pressed')
+  }}
 />
 ```
 
@@ -38,6 +44,9 @@ The Notice component provides message notification functionality for displaying 
   color="critical"
   message="An error occurred while processing your request"
   showClose={true}
+  onClose={() => {
+    console.log('Close was pressed')
+  }}
 />
 ```
 
@@ -65,7 +74,6 @@ The Notice component accepts all standard HTML div attributes
 * **`primary`** - Primary action button configuration:
   * `children` - Button text (required)
   * `color` - Button color variant
-  * `size` - Button size variant
   * `variant` - Button style variant
 * **`secondary`** - Secondary action button configuration (same properties as primary)
 * **`hideIcon`** - Whether to hide the icon: `boolean`
@@ -79,33 +87,6 @@ The Notice component accepts all standard HTML div attributes
   - `content` - Class name applied to the content container
   - `message` - Class name applied to the notice message
   - `actions` - Class name applied to the actions container
-
-### Button Callbacks
-```tsx
-<Notice
-  id="39f174fc-ead3-46f4-9131-239ac2a7ed27"
-  message="Are you sure you want to delete this item?"
-  primary={{ children: "Delete" }}
-  secondary={{ children: "Cancel" }}
-  shouldCloseOnAction={true}
-  onPrimaryAction={() => {
-    console.log('Primary action: Delete was pressed')
-  }}
-  onSecondaryAction={() => {
-    console.log('Secondary action: Cancel was pressed')
-  }}
-/>
-```
-
-```tsx
-<Notice
-  id="39f174fc-ead3-46f4-9131-239ac2a7ed27"
-  message="Item was saved successfully"
-  onClose={() => {
-    console.log('Close was pressed')
-  }}
-/>
-```
 
 ## Implementation Notes
 The `Notice` component wraps the `Toast` components from `react-aria-components` and integrates with a custom event bus system for user interactions.
