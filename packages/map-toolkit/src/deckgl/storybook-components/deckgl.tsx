@@ -30,9 +30,7 @@ interface MapDecoratorProps {
  * @param options - Configuration options for the map container
  * @returns A Storybook decorator function
  */
-export const withDeckGL = (options: MapDecoratorProps = {}): Decorator => {
-  console.log(options);
-
+export const withDeckGL = (_options: MapDecoratorProps = {}): Decorator => {
   return (Story) => {
     const deckglInstance = useDeckgl();
 
