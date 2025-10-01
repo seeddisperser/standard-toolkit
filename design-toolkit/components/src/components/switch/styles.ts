@@ -17,7 +17,7 @@ export const SwitchStyles = tv({
     switch:
       'group/switch flex cursor-pointer items-center gap-s disabled:cursor-not-allowed',
     control: [
-      'flex rounded-round bg-transparent p-xxs outline outline-interactive before:mr-l before:block before:size-m before:rounded-full before:[background-color:var(--fg-primary-muted)]',
+      'flex rounded-round bg-transparent p-xxs outline outline-interactive before:mr-l before:block before:size-m before:rounded-full before:[background-color:var(--fg-primary-muted)] before:transition-[margin,background-color] before:duration-150 before:ease-out',
       //focus-visible
       'group-enabled/switch:group-focus-visible/switch:bg-interactive-muted-hover', 
       'group-enabled/switch:group-focus-visible/switch:outline-interactive-hover', 
@@ -33,7 +33,6 @@ export const SwitchStyles = tv({
       'group-enabled/switch:group-pressed/switch:before:[background-color:var(--fg-primary-bold)]',
 
       //Selected
-
       'group-enabled/switch:group-selected/switch:outline-accent-primary-bold group-selected/switch:before:mr-0 group-selected/switch:before:ml-l group-enabled/switch:group-selected/switch:before:[background-color:var(--fg-accent-primary-bold)]',
       // focus-visble
       'group-enabled/switch:group-selected/switch:group-focus-visible/switch:bg-accent-primary-muted', 
@@ -49,7 +48,7 @@ export const SwitchStyles = tv({
       'group-enabled/switch:group-selected/switch:group-pressed/switch:before:[background-color:var(--fg-accent-primary-pressed)]',
 
       // disabled
-      'group-disabled/switch:bg-interactive-disabled group-disabled/switch:outline-interactive-disabled group-disabled/switch:before:bg-interactive-disabled',
+      'group-disabled/switch:bg-interactive-disabled group-disabled/switch:outline-interactive-disabled group-disabled/switch:before:[background-color:var(--fg-disabled)]',
     ],
     label: ['fg-primary-bold text-body-s', 'group-disabled/switch:fg-disabled'],
   },
