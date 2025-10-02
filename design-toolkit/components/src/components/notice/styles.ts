@@ -16,8 +16,8 @@ export const NoticeStyles = tv({
   slots: {
     notice: [
       'group/notice fg-primary-bold flex rounded-medium text-body-s shadow-elevation-overlay outline',
-      'size-small:min-w-[120px] size-small:max-w-[320px] size-small:flex-col size-small:flex-wrap size-small:gap-m size-small:p-m',
-      'size-medium:min-w-[200px] size-medium:max-w-[640px] size-medium:gap-l size-medium:p-l',
+      'size-small:flex-col size-small:flex-wrap size-small:gap-m size-small:p-m group-data-placement/region:size-small:min-w-[120px] group-data-placement/region:size-small:max-w-[320px]',
+      'size-medium:gap-l size-medium:p-l group-data-placement/region:size-medium:min-w-[200px] group-data-placement/region:size-medium:max-w-[640px]',
       'color-info:bg-info-muted color-info:outline-info-bold',
       'color-advisory:bg-advisory-muted color-advisory:outline-accent-primary-bold',
       'color-normal:bg-normal-muted color-normal:outline-normal-bold',
@@ -29,7 +29,7 @@ export const NoticeStyles = tv({
     ],
     message: 'flex-1 group-size-small/notice:basis-10/12',
     region: [
-      'flex flex-col gap-y-s',
+      'group/region flex flex-col gap-y-s',
       'data-placement:absolute',
       'data-[placement=top]:-translate-x-1/2 placement-top:top-0 data-[placement=top]:left-1/2',
       'data-[placement=bottom]:-translate-x-1/2 placement-bottom:bottom-0 data-[placement=bottom]:left-1/2',
