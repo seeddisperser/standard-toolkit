@@ -39,7 +39,6 @@ export const SidenavStyles = tv({
     heading: 'text-body-xs uppercase',
     item: [
       'group/item flex w-full cursor-pointer items-center justify-center gap-s rounded-medium p-xs text-body-m',
-      '[&>[data-overlay-container]]:absolute',
       'group-open/sidenav:px-s group-closed/sidenav:max-w-fit',
       'enabled:hover:bg-interactive-muted-hover',
       'enabled:focus-visible:bg-interactive-muted-hover enabled:focus-visible:outline-none',

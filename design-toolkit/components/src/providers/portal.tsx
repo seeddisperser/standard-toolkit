@@ -21,23 +21,35 @@ import {
 
 export function PortalProvider({
   parentRef,
+  inject,
   children,
 }: PropsWithChildren<{
   parentRef?: RefObject<HTMLElement | null>;
+  inject?: HTMLElement | null;
 }>) {
   const isSSR = useIsSSR();
   const [portal, setPortal] = useState(isSSR ? null : document.body);
 
   useEffect(() => {
+    const node = parentRef?.current;
     // TODO: Ensure proper ssr hydration
-    if (parentRef?.current) {
-      setPortal(parentRef?.current);
+    const port = isSSR ? null : inject;
+
+    if (node && port) {
+      node.appendChild(port);
+
+      setPortal(port);
+    } else if (node) {
+      setPortal(node);
     }
 
     return () => {
+      port?.remove();
+
       setPortal(isSSR ? null : document.body);
     };
-  }, [isSSR, parentRef]);
+  }, [isSSR, parentRef, inject]);
+
   return (
     <UNSAFE_PortalProvider getContainer={() => portal}>
       {children}

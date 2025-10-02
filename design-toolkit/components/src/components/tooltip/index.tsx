@@ -12,6 +12,7 @@
 'use client';
 
 import 'client-only';
+import { useIsSSR } from '@react-aria/ssr';
 import { createContext } from 'react';
 import {
   Tooltip as AriaTooltip,
@@ -110,8 +111,11 @@ function TooltipBody({
   placement = 'bottom',
   ...props
 }: TooltipBodyProps) {
+  const isSSR = useIsSSR();
+  const overlayContainer = isSSR ? null : document.createElement('div');
+  overlayContainer?.setAttribute('class', 'absolute');
   return (
-    <PortalProvider parentRef={parentRef}>
+    <PortalProvider parentRef={parentRef} inject={overlayContainer}>
       <AriaTooltip
         {...props}
         className={composeRenderProps(className, (className) =>
