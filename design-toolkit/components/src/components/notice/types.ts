@@ -100,13 +100,6 @@ export type NoticeQueueEvent = Payload<
   }
 >;
 
-//export type DequeueId = { id: UniqueId };
-//export type DequeueList = { target: UniqueId };
-//export type DequeueColor = { color: NoticeColor };
-//export type DequeueMetadata = { metadata: Record<string, unknown> };
-
-//type DequeuePayload = DequeueId & DequeueList & DequeueColor & DequeueMetadata;
-
 export type NoticeDequeueEvent = Payload<
   typeof NoticeEventTypes.dequeue,
   {
