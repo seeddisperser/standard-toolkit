@@ -216,7 +216,7 @@ function NoticeList({
           color: defaultColor || data.payload.color,
         },
         {
-          timeout: defaultTimeout || data.payload.timeout,
+          timeout: defaultTimeout ?? data.payload.timeout,
         },
       );
     }
