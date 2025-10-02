@@ -26,11 +26,23 @@ export const RadioStyles = tv({
     ],
     control: [
       'my-xxs flex size-l items-center justify-center rounded-full outline outline-interactive before:block before:size-s before:rounded-full',
-      'group-enabled/radio:group-focus-visible/radio:outline-interactive-hover',
-      'group-enabled/radio:group-hover/radio:outline-interactive-hover',
-      'group-enabled/radio:group-selected/radio:outline-accent-primary-bold group-enabled/radio:group-selected/radio:before:bg-accent-primary-bold',
-      'group-enabled/radio:group-selected/radio:group-focus-visible/radio:outline-interactive-hover',
-      'group-enabled/radio:group-selected/radio:group-hover/radio:outline-interactive-hover',
+      //off
+      //focus-visible
+      'group-enabled/radio:group-focus-visible/radio:outline-interactive-hover group-enabled/radio:group-focus-visible/radio:outline-2',
+      //hover
+      'group-enabled/radio:group-hover/radio:outline-interactive-hover group-enabled/radio:group-hover/radio:outline-2',
+      //pressed
+      'group-enabled/radio:group-pressed/radio:outline-interactive-pressed group-enabled/radio:group-pressed/radio:outline-2',
+
+      //on
+      'group-enabled/radio:group-selected/radio:outline-accent-primary-bold group-enabled/radio:group-selected/radio:before:[background-color:var(--fg-accent-primary-bold)]',
+      //focus-visible
+      'group-enabled/radio:group-selected/radio:group-focus-visible/radio:outline-accent-primary-hover group-enabled/radio:group-selected/radio:group-focus-visible/radio:outline-1 group-enabled/radio:group-selected/radio:group-focus-visible/radio:before:[background-color:var(--fg-accent-primary-hover)]',
+      //hover
+      'group-enabled/radio:group-selected/radio:group-hover/radio:outline-accent-primary-hover group-enabled/radio:group-selected/radio:group-hover/radio:outline-1 group-enabled/radio:group-selected/radio:group-hover/radio:before:[background-color:var(--fg-accent-primary-hover)]',
+      //pressed
+      'group-enabled/radio:group-selected/radio:group-pressed/radio:outline-accent-primary-pressed group-enabled/radio:group-selected/radio:group-pressed/radio:outline-1 group-enabled/radio:group-selected/radio:group-pressed/radio:before:[background-color:var(--fg-accent-primary-pressed)]',
+      //disabled
       'group-disabled/radio:outline-interactive-disabled',
       'group-disabled/radio:group-selected/radio:before:bg-interactive-disabled',
     ],
