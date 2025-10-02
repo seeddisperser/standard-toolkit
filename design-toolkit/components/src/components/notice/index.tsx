@@ -25,7 +25,7 @@ import {
 import { useToastRegion } from '@react-aria/toast';
 import { useToastQueue } from '@react-stately/toast';
 import { isEqual } from 'lodash';
-import { createRef, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
   composeRenderProps,
   type QueuedToast,
@@ -197,7 +197,7 @@ function NoticeList({
   const state = useToastQueue(queue);
 
   const [hasNotices, setHasNotices] = useState(false);
-  const ref = createRef<HTMLDivElement>();
+  const ref = useRef(null);
   const { regionProps } = useToastRegion(rest, queue, ref);
 
   const { useEmit, useOn } = useBus<
