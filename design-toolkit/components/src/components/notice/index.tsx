@@ -291,9 +291,7 @@ function NoticeList({
 
   return global ? (
     <ToastRegion
-      className={composeRenderProps(classNames?.region, (className) =>
-        region({ className }),
-      )}
+      className={region({ className: classNames?.region })}
       data-placement={placement}
       queue={queue}
     >
@@ -302,7 +300,7 @@ function NoticeList({
   ) : (
     <div
       {...regionProps}
-      className={region({ className: classNames?.region as string })}
+      className={region({ className: classNames?.region })}
       data-placement={placement}
       ref={ref}
     >

@@ -13,7 +13,7 @@
 
 import type { Payload } from '@accelint/bus';
 import type { UniqueId } from '@accelint/core';
-import type { ToastListProps, ToastRegionProps } from 'react-aria-components';
+import type { ToastListProps } from 'react-aria-components';
 import type { ButtonProps } from '../button/types';
 import type { NoticeEventTypes } from './events';
 
@@ -62,7 +62,7 @@ export type NoticeListProps = {
   size?: 'small' | 'medium';
   global?: boolean;
   classNames?: {
-    region?: ToastRegionProps<NoticeContent>['className'] | string;
+    region?: string;
     list?: ToastListProps<NoticeContent>['className'];
     button?: ButtonProps['className'];
     notice?: NoticeProps['classNames'];
