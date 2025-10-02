@@ -183,6 +183,7 @@ export function Table<T extends { id: Key }>({
    * actionColumn defines the actions available in the kebab menu for each row.
    * It includes options to move the row up or down in the table.
    */
+  // biome-ignore lint/correctness/useExhaustiveDependencies: can of worms to fix ticket added
   const actionColumn: NonNullable<typeof columnsProp>[number] = useMemo(
     () => ({
       id: 'kebab',
@@ -257,8 +258,7 @@ export function Table<T extends { id: Key }>({
     columns,
     enableSorting,
     initialState: {
-      // biome-ignore lint/style/noNonNullAssertion: <explanation>
-      columnOrder: columns.map((col) => col.id!),
+      columnOrder: columns.map(({ id }) => id ?? ''),
     },
     state: {
       rowSelection,
