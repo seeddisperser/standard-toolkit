@@ -14,7 +14,7 @@ import { parseTime } from '@internationalized/date';
 import { TimeField } from './index';
 import type { Meta, StoryObj } from '@storybook/react';
 
-const meta: Meta<typeof TimeField> = {
+const meta = {
   title: 'Components/TimeField',
   component: TimeField,
   args: {
@@ -36,10 +36,11 @@ const meta: Meta<typeof TimeField> = {
       control: 'select',
     },
   },
-};
+} satisfies Meta<typeof TimeField>;
 
 export default meta;
+type Story = StoryObj<typeof meta>;
 
-export const Default: StoryObj<typeof TimeField> = {
+export const Default: Story = {
   render: TimeField,
 };
