@@ -304,7 +304,7 @@ function NoticeList({
   ) : (
     <div
       {...regionProps}
-      className={region({ className: classNames?.region })}
+      className={region({ className: classNames?.region as string })}
       data-placement={placement}
       ref={ref}
     >
