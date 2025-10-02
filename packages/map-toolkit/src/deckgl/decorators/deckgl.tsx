@@ -1,3 +1,5 @@
+// __private-exports
+
 /*
  * Copyright 2025 Hypergiant Galactic Systems Inc. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
@@ -9,6 +11,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+
 import { Deckgl, useDeckgl } from '@deckgl-fiber-renderer/dom';
 import { MAP_STYLE, PARAMETERS } from '../constants';
 import { useMapLibre } from '../hooks/use-maplibre';
@@ -30,6 +33,7 @@ interface MapDecoratorProps {
  * @param options - Configuration options for the map container
  * @returns A Storybook decorator function
  */
+// __private-exports
 export const withDeckGL = (_options: MapDecoratorProps = {}): Decorator => {
   return (Story) => {
     const deckglInstance = useDeckgl();

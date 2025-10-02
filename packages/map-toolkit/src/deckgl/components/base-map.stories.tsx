@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import { withDeckGL } from './deckgl';
+import { withDeckGL } from '../decorators/deckgl';
 import type { StoryObj } from '@storybook/react';
 
 const meta = {
