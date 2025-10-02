@@ -87,7 +87,6 @@ export type NoticeProps = Omit<
   showClose?: boolean;
   shouldCloseOnAction?: boolean;
   size?: 'small' | 'medium';
-  onAction?: () => void;
   onPrimaryAction?: () => void;
   onSecondaryAction?: () => void;
   onClose?: () => void;
