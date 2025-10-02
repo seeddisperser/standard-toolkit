@@ -25,7 +25,7 @@ export const NoticeStyles = tv({
       'color-critical:bg-critical-muted color-critical:outline-critical-bold',
     ],
     content: [
-      'flex flex-1 items-center group-size-small/notice:flex-wrap group-size-medium/notice:gap-l group-size-small/notice:gap-m',
+      'flex flex-1 items-center group-size-medium/notice:gap-l group-size-small/notice:gap-m',
     ],
     message: 'flex-1 group-size-small/notice:basis-10/12',
     region: [
@@ -39,7 +39,5 @@ export const NoticeStyles = tv({
     list: ['flex flex-col gap-y-s'],
     actions:
       'flex flex-row-reverse items-center gap-s group-size-small/notice:grow-1 group-size-small/notice:basis-1 group-size-small/notice:justify-start',
-    closeContainer:
-      'group-size-small/notice:-order-1 group-size-small/notice:flex group-size-small/notice:w-full group-size-small/notice:justify-end',
   },
 });

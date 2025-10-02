@@ -60,7 +60,6 @@ const {
   actions,
   region,
   message: description,
-  closeContainer,
 } = NoticeStyles();
 
 function NoticeIcon({ color = 'info', size }: NoticeIconProps) {
@@ -148,17 +147,15 @@ export function Notice({
           </div>
         )}
         {showClose && (
-          <div className={closeContainer()}>
-            <Button
-              color={ButtonColorMap[color]}
-              variant='icon'
-              onPress={onClose}
-            >
-              <Icon>
-                <Cancel />
-              </Icon>
-            </Button>
-          </div>
+          <Button
+            color={ButtonColorMap[color]}
+            variant='icon'
+            onPress={onClose}
+          >
+            <Icon>
+              <Cancel />
+            </Icon>
+          </Button>
         )}
       </ToastContent>
     </Toast>

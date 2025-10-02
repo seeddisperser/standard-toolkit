@@ -41,6 +41,7 @@ export const ButtonEvents: StoryObj<typeof Notice> = {
       <Notice {...args} />
       <Notice
         {...args}
+        showClose={false}
         primary={{ children: 'Primary' }}
         secondary={{ children: 'Secondary' }}
       />
