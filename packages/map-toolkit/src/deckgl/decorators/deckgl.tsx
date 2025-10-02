@@ -19,10 +19,6 @@ import type { Decorator } from '@storybook/react';
 import type { IControl } from 'maplibre-gl';
 
 interface MapDecoratorProps {
-  width?: string | number;
-  height?: string | number;
-  backgroundColor?: string;
-  padding?: string | number;
   center?: [number, number]; // [longitude, latitude]
   zoom?: number;
 }
@@ -33,13 +29,12 @@ interface MapDecoratorProps {
  * @param options - Configuration options for the map container
  * @returns A Storybook decorator function
  */
-// __private-exports
-export const withDeckGL = (_options: MapDecoratorProps = {}): Decorator => {
+export const withDeckGL = (mapOptions: MapDecoratorProps = {}): Decorator => {
   return (Story) => {
     const deckglInstance = useDeckgl();
 
     // Use the custom hook to handle MapLibre
-    useMapLibre(deckglInstance as IControl, MAP_STYLE);
+    useMapLibre(deckglInstance as IControl, MAP_STYLE, mapOptions);
 
     return (
       // biome-ignore lint/correctness/useUniqueElementIds: Needed for maplibre.

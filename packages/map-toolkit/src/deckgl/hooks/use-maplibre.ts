@@ -14,19 +14,20 @@
 
 import { type IControl, Map as MapLibre, type MapOptions } from 'maplibre-gl';
 import { useEffect, useRef } from 'react';
-import { INITIAL_VIEW_STATE } from '../constants';
 
 const mapOptions: MapOptions = {
   container: 'maplibre',
-  center: [INITIAL_VIEW_STATE.longitude, INITIAL_VIEW_STATE.latitude],
-  zoom: INITIAL_VIEW_STATE.zoom,
   doubleClickZoom: false,
   dragRotate: false,
   pitchWithRotate: false,
   rollEnabled: false,
 };
 
-export function useMapLibre(deck: IControl | null, styleUrl: string) {
+export function useMapLibre(
+  deck: IControl | null,
+  styleUrl: string,
+  _options: Partial<MapOptions>,
+) {
   const mapRef = useRef<MapLibre | null>(null);
   // using a ref in the initial setup so that it doesn't cause a re-run of the effect on change
   const styleRef = useRef(styleUrl);
@@ -36,6 +37,7 @@ export function useMapLibre(deck: IControl | null, styleUrl: string) {
     if (deck && !mapRef.current) {
       mapRef.current = new MapLibre({
         ...mapOptions,
+        ..._options,
         style: styleRef.current,
       });
 
@@ -52,7 +54,7 @@ export function useMapLibre(deck: IControl | null, styleUrl: string) {
         }
       };
     }
-  }, [deck]);
+  }, [deck, _options]);
 
   // Update style when it changes
   useEffect(() => {
