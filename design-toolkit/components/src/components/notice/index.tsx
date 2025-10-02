@@ -226,10 +226,8 @@ function NoticeList({
     // @ts-expect-error : queue.queue exists, but is not currently documented
     const queuedNotices = queue.queue;
 
-    const dequeue = queuedNotices.filter(
-      (toast: QueuedToast<NoticeContent>) => {
-        return matchesMetadata(data.payload, toast.content);
-      },
+    const dequeue = queuedNotices.filter((toast: QueuedToast<NoticeContent>) =>
+      matchesMetadata(data.payload, toast.content),
     );
 
     if (dequeue.length && dequeue.length === queuedNotices.length) {
