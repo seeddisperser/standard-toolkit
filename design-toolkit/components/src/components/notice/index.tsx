@@ -35,7 +35,7 @@ import {
   UNSTABLE_ToastList as ToastList,
   UNSTABLE_ToastQueue as ToastQueue,
   UNSTABLE_ToastRegion as ToastRegion,
-  UNSTABLE_ToastStateContext,
+  UNSTABLE_ToastStateContext as ToastStateContext,
 } from 'react-aria-components';
 import { Button } from '../button';
 import { Icon } from '../icon';
@@ -311,9 +311,9 @@ function NoticeList({
       data-placement={placement}
       ref={ref}
     >
-      <UNSTABLE_ToastStateContext.Provider value={state}>
+      <ToastStateContext.Provider value={state}>
         {children}
-      </UNSTABLE_ToastStateContext.Provider>
+      </ToastStateContext.Provider>
     </div>
   );
 }
