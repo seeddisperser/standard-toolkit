@@ -14,9 +14,12 @@
 
 import { type IControl, Map as MapLibre, type MapOptions } from 'maplibre-gl';
 import { useEffect, useRef } from 'react';
+import { INITIAL_VIEW_STATE } from '../constants';
 
 const mapOptions: MapOptions = {
   container: 'maplibre',
+  center: [INITIAL_VIEW_STATE.longitude, INITIAL_VIEW_STATE.latitude],
+  zoom: INITIAL_VIEW_STATE.zoom,
   doubleClickZoom: false,
   dragRotate: false,
   pitchWithRotate: false,
