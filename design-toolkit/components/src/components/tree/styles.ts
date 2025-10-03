@@ -21,7 +21,7 @@ export const TreeStyles = tv({
     tree: 'overflow-auto outline-hidden',
     item: [
       'not-visible:fg-primary-muted not-viewable:fg-primary-muted fg-primary-bold px-s',
-      'group/tree-item rounded-medium hover:bg-interactive-muted-hover',
+      'group/tree-item rounded-medium hover:bg-interactive-muted-hover focus-visible:bg-interactive-muted-hover pressed:bg-interactive-muted-pressed',
       'drop-target:border drop-target:bg-accent-primary-muted/20 drop-target:outline-accent-primary-bold',
       'disabled:cursor-not-allowed disabled:border-none disabled:hover:bg-transparent disabled:data-[drop-target=true]:bg-transparent',
     ],
