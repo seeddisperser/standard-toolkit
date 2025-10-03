@@ -10,10 +10,15 @@
  * governing permissions and limitations under the License.
  */
 
-/**
- * THIS IS A GENERATED FILE. DO NOT ALTER DIRECTLY.
- */
+import { render, screen, waitFor } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+import { Clock } from '.';
 
-// biome-ignore-all assist/source/organizeImports: This comment is used to prevent the biome tool from altering the import statements in this file.
-
-export { INITIAL_VIEW_STATE, MAP_STYLE, PARAMETERS } from './deckgl/constants';
+describe('clock', () => {
+  it('should render', async () => {
+    render(<Clock />);
+    await waitFor(() => {
+      expect(screen.getByText('UTC', { exact: false })).toBeInTheDocument();
+    });
+  });
+});

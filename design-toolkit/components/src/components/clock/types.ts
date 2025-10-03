@@ -10,10 +10,8 @@
  * governing permissions and limitations under the License.
  */
 
-/**
- * THIS IS A GENERATED FILE. DO NOT ALTER DIRECTLY.
- */
+import type { ComponentPropsWithRef } from 'react';
 
-// biome-ignore-all assist/source/organizeImports: This comment is used to prevent the biome tool from altering the import statements in this file.
-
-export { INITIAL_VIEW_STATE, MAP_STYLE, PARAMETERS } from './deckgl/constants';
+export type ClockProps = ComponentPropsWithRef<'time'> & {
+  formatter?: Intl.DateTimeFormat;
+};
