@@ -328,12 +328,7 @@ export type {
   TooltipProps,
   TooltipTriggerProps,
 } from './components/tooltip/types';
-export {
-  Tree,
-  TreeContext,
-  TreeItem,
-  TreeItemContext,
-} from './components/tree';
+export { Tree, TreeContext, TreeItemContext } from './components/tree';
 export { TreeStyles, TreeStylesDefaults } from './components/tree/styles';
 export type {
   TreeContextValue,

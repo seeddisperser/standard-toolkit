@@ -89,6 +89,62 @@ const SidenavContext = createContext<SidenavContextValue>({
   isOpen: false,
 });
 
+/**
+ * Sidenav - Collapsible side navigation panel
+ *
+ * Provides a hierarchical collapsible side navigation intended to be used
+ * inside a Drawer.Layout. Supports headers, avatars, nested menus, and items.
+ *
+ * @example
+ * <Drawer.Layout push="left">
+ *   <Drawer.Layout.Main className="col-start-2">
+ *     <Sidenav.Trigger>
+ *       <Button variant="icon" size="large">
+ *         <Icon>
+ *           <MenuIcon />
+ *         </Icon>
+ *       </Button>
+ *     </Sidenav.Trigger>
+ *   </Drawer.Layout.Main>
+ *   <Sidenav>
+ *     <Sidenav.Header>
+ *       <Sidenav.Avatar>
+ *         <Icon><AppLogo /></Icon>
+ *         <Heading>Application Header</Heading>
+ *         <Text>subheader</Text>
+ *       </Sidenav.Avatar>
+ *     </Sidenav.Header>
+ *     <Sidenav.Content>
+ *       <Heading>Navigation</Heading>
+ *       <Sidenav.Item>
+ *         <Icon><HomeIcon /></Icon>
+ *         <Text>Home</Text>
+ *       </Sidenav.Item>
+ *       <Divider />
+ *       <Sidenav.Item isSelected>
+ *         <Icon><SettingsIcon /></Icon>
+ *         <Text>Settings</Text>
+ *       </Sidenav.Item>
+ *       <Divider />
+ *       <Sidenav.Menu title="More Options" icon={<Icon><MenuIcon /></Icon>}>
+ *         <Sidenav.Menu.Item>
+ *           <Text>Sub Item 1</Text>
+ *         </Sidenav.Menu.Item>
+ *         <Sidenav.Menu.Item>
+ *           <Text>Sub Item 2</Text>
+ *         </Sidenav.Menu.Item>
+ *       </Sidenav.Menu>
+ *     </Sidenav.Content>
+ *     <Sidenav.Footer>
+ *       <Sidenav.Avatar>
+ *         <Icon><UserIcon /></Icon>
+ *         <Heading>User Name</Heading>
+ *         <Text>john@example.com</Text>
+ *       </Sidenav.Avatar>
+ *     </Sidenav.Footer>
+ *   </Sidenav>
+ * </Drawer.Layout>
+ */
 export function Sidenav({
   id,
   className,
