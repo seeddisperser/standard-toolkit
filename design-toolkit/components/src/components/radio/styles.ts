@@ -25,7 +25,7 @@ export const RadioStyles = tv({
       'disabled:cursor-not-allowed',
     ],
     control: [
-      'my-xxs flex size-l items-center justify-center rounded-full outline outline-interactive before:block before:size-s before:rounded-full',
+      'my-xxs flex size-l items-center justify-center rounded-full outline-2 outline-interactive before:block before:size-s before:rounded-full',
       //off
       //focus-visible
       'group-enabled/radio:group-focus-visible/radio:outline-interactive-hover group-enabled/radio:group-focus-visible/radio:outline-2',
@@ -35,7 +35,7 @@ export const RadioStyles = tv({
       'group-enabled/radio:group-pressed/radio:outline-interactive-pressed group-enabled/radio:group-pressed/radio:outline-2',
 
       //on
-      'group-enabled/radio:group-selected/radio:outline-accent-primary-bold group-enabled/radio:group-selected/radio:before:[background-color:var(--fg-accent-primary-bold)]',
+      'group-enabled/radio:group-selected/radio:outline-accent-primary-bold group-enabled/outline group-enabled/radio:group-selected/radio:before:[background-color:var(--fg-accent-primary-bold)]',
       //focus-visible
       'group-enabled/radio:group-selected/radio:group-focus-visible/radio:outline-accent-primary-hover group-enabled/radio:group-selected/radio:group-focus-visible/radio:outline-1 group-enabled/radio:group-selected/radio:group-focus-visible/radio:before:[background-color:var(--fg-accent-primary-hover)]',
       //hover
