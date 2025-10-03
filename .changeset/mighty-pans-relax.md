@@ -2,4 +2,4 @@
 "@accelint/design-toolkit": patch
 ---
 
-Updates state styles for tabs
+Updates color-picker state styles
