@@ -29,7 +29,7 @@ const mapOptions: MapOptions = {
 export function useMapLibre(
   deck: IControl | null,
   styleUrl: string,
-  _options: Partial<MapOptions>,
+  options: Partial<MapOptions>,
 ) {
   const mapRef = useRef<MapLibre | null>(null);
   // using a ref in the initial setup so that it doesn't cause a re-run of the effect on change
@@ -40,7 +40,7 @@ export function useMapLibre(
     if (deck && !mapRef.current) {
       mapRef.current = new MapLibre({
         ...mapOptions,
-        ..._options,
+        ...options,
         style: styleRef.current,
       });
 
@@ -57,7 +57,7 @@ export function useMapLibre(
         }
       };
     }
-  }, [deck, _options]);
+  }, [deck, options]);
 
   // Update style when it changes
   useEffect(() => {
