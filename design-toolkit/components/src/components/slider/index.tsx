@@ -12,7 +12,7 @@
 'use client';
 
 import 'client-only';
-import { createRef, Fragment } from 'react';
+import { Fragment } from 'react';
 import {
   Slider as AriaSlider,
   SliderTrack as AriaSliderTrack,
@@ -114,39 +114,35 @@ export const Slider = ({
                 className: classNames?.trackBackground,
               })}
             />
-            {state.values.map((_, index) => {
-              const ref = createRef<HTMLDivElement>();
-              return (
-                <Fragment key={`slider-${index === 0 ? 'min' : 'max'}`}>
-                  <div
-                    className={trackValue({
-                      className: classNames?.trackValue,
-                    })}
-                    data-start={
-                      state.values.length === 1 ? 0 : state.getThumbPercent(0)
-                    }
-                    data-end={state.getThumbPercent(
-                      state.values.length === 1 ? 0 : 1,
+            {state.values.map((_, index) => (
+              <Fragment key={`slider-${index === 0 ? 'min' : 'max'}`}>
+                <div
+                  className={trackValue({
+                    className: classNames?.trackValue,
+                  })}
+                  data-start={
+                    state.values.length === 1 ? 0 : state.getThumbPercent(0)
+                  }
+                  data-end={state.getThumbPercent(
+                    state.values.length === 1 ? 0 : 1,
+                  )}
+                />
+                <Tooltip.Trigger
+                  isDisabled={!showInput || state.isThumbDragging(index)}
+                >
+                  <SliderThumb
+                    index={index}
+                    className={composeRenderProps(
+                      classNames?.thumb,
+                      (className) => thumb({ className }),
                     )}
                   />
-                  <Tooltip.Trigger
-                    isDisabled={!showInput || state.isThumbDragging(index)}
-                  >
-                    <SliderThumb
-                      ref={ref}
-                      index={index}
-                      className={composeRenderProps(
-                        classNames?.thumb,
-                        (className) => thumb({ className }),
-                      )}
-                    />
-                    <Tooltip placement='top' triggerRef={ref}>
-                      {state.getThumbValue(index)}
-                    </Tooltip>
-                  </Tooltip.Trigger>
-                </Fragment>
-              );
-            })}
+                  <Tooltip placement='top'>
+                    {state.getThumbValue(index)}
+                  </Tooltip>
+                </Tooltip.Trigger>
+              </Fragment>
+            ))}
           </AriaSliderTrack>
           <Text
             slot='min'
