@@ -12,9 +12,21 @@
 'use client';
 
 import 'client-only';
+import { useFocusable } from '@react-aria/interactions';
 import { UNSAFE_PortalProvider } from '@react-aria/overlays';
 import { useIsSSR } from '@react-aria/ssr';
-import { createContext, useEffect, useState } from 'react';
+import { mergeProps, mergeRefs, useObjectRef } from '@react-aria/utils';
+import {
+  Children,
+  cloneElement,
+  createContext,
+  type DOMAttributes,
+  type ReactElement,
+  type ReactNode,
+  useEffect,
+  useState,
+  version,
+} from 'react';
 import {
   Tooltip as AriaTooltip,
   TooltipTrigger as AriaTooltipTrigger,
@@ -24,11 +36,40 @@ import {
 } from 'react-aria-components';
 import { containsExactChildren } from '@/lib/react';
 import { TooltipStyles } from './styles';
-import type { TooltipProps, TooltipTriggerProps } from './types';
+import type { FocusableElement } from '@react-types/shared';
+import type {
+  TooltipFocusableProps,
+  TooltipProps,
+  TooltipTriggerProps,
+} from './types';
 
 export const TooltipContext =
-  createContext<ContextValue<TooltipProps, HTMLDivElement>>(null);
+  createContext<ContextValue<TooltipTriggerProps, HTMLDivElement>>(null);
 
+function TooltipFocusable({ children, ref, ...props }: TooltipFocusableProps) {
+  ref = useObjectRef(ref);
+
+  const { focusableProps } = useFocusable(props, ref);
+  const [trigger, tooltip] = Children.toArray(children) as [
+    ReactElement<DOMAttributes<FocusableElement>, string>,
+    ReactNode,
+  ];
+
+  const childRef =
+    //@ts-expect-error
+    Number.parseInt(version, 10) < 19 ? trigger.ref : trigger.props.ref;
+
+  return (
+    <>
+      {cloneElement(trigger, {
+        ...mergeProps(focusableProps, trigger.props),
+        //@ts-expect-error
+        ref: mergeRefs(childRef, ref),
+      })}
+      {tooltip}
+    </>
+  );
+}
 /**
  * Tooltip - A contextual popup component for providing additional information
  *
@@ -78,7 +119,7 @@ function TooltipTrigger({ ref, ...props }: TooltipTriggerProps) {
 
   return (
     <AriaTooltipTrigger {...rest} delay={delay}>
-      {children}
+      <TooltipFocusable ref={ref}>{children}</TooltipFocusable>
     </AriaTooltipTrigger>
   );
 }

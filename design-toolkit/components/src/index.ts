@@ -322,6 +322,7 @@ export type { TimeFieldProps } from './components/time-field/types';
 export { Tooltip, TooltipContext } from './components/tooltip';
 export { TooltipStyles } from './components/tooltip/styles';
 export type {
+  TooltipFocusableProps,
   TooltipProps,
   TooltipTriggerProps,
 } from './components/tooltip/types';

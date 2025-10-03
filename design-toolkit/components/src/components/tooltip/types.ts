@@ -9,7 +9,9 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import type { ComponentPropsWithRef } from 'react';
+import type { FocusableProviderProps } from '@react-aria/interactions';
+import type { FocusableElement } from '@react-types/shared';
+import type { ComponentPropsWithRef, RefAttributes } from 'react';
 import type {
   TooltipProps as AriaTooltipProps,
   TooltipTriggerComponentProps,
@@ -24,3 +26,6 @@ export type TooltipTriggerProps = Omit<
 export type TooltipProps = AriaTooltipProps & {
   parentRef?: React.RefObject<HTMLElement | null>;
 };
+
+export type TooltipFocusableProps = FocusableProviderProps &
+  RefAttributes<FocusableElement>;

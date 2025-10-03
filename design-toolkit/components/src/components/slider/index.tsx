@@ -17,7 +17,6 @@ import {
   Slider as AriaSlider,
   SliderTrack as AriaSliderTrack,
   composeRenderProps,
-  Focusable,
   Input,
   Label,
   SliderThumb,
@@ -133,18 +132,14 @@ export const Slider = ({
                   <Tooltip.Trigger
                     isDisabled={!showInput || state.isThumbDragging(index)}
                   >
-                    <Focusable>
-                      <button type='button'>
-                        <SliderThumb
-                          ref={ref}
-                          index={index}
-                          className={composeRenderProps(
-                            classNames?.thumb,
-                            (className) => thumb({ className }),
-                          )}
-                        />
-                      </button>
-                    </Focusable>
+                    <SliderThumb
+                      ref={ref}
+                      index={index}
+                      className={composeRenderProps(
+                        classNames?.thumb,
+                        (className) => thumb({ className }),
+                      )}
+                    />
                     <Tooltip placement='top' triggerRef={ref}>
                       {state.getThumbValue(index)}
                     </Tooltip>
