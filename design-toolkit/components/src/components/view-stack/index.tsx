@@ -94,7 +94,7 @@ function ViewStackView({ id, children }: ViewStackViewProps) {
     () => unregister(id);
   }, [register, unregister, id]);
 
-  return view === id ? children : null;
+  return <div className={view === id ? '' : 'hidden'}>{children}</div>;
 }
 ViewStackView.displayName = 'ViewStack.View';
 
