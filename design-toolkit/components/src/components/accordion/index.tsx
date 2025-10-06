@@ -11,8 +11,9 @@
  */
 'use client';
 
-import 'client-only';
 import { ChevronDown, Kebab } from '@accelint/icons';
+import { isSlottedContextValue } from '@/lib/utils';
+import 'client-only';
 import { createContext, useContext } from 'react';
 import {
   type ContextValue,
@@ -25,7 +26,6 @@ import {
   Provider,
   useContextProps,
 } from 'react-aria-components';
-import { isSlottedContextValue } from '@/lib/utils';
 import { Button, ButtonContext } from '../button';
 import { Icon, IconContext } from '../icon';
 import { AccordionStyles, AccordionStylesDefaults } from './styles';
@@ -137,10 +137,14 @@ function AccordionTrigger({
         )}
         variant='flat'
       >
-        <Icon>
-          <ChevronDown className='transform group-expanded/accordion:rotate-180' />
-        </Icon>
-        {children}
+        <IconContext.Provider
+          value={{ size: variant === 'compact' ? 'small' : 'medium' }}
+        >
+          <Icon>
+            <ChevronDown className='transform group-expanded/accordion:rotate-180' />
+          </Icon>
+          {children}
+        </IconContext.Provider>
       </Button>
     </Heading>
   );
