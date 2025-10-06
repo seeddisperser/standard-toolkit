@@ -12,6 +12,7 @@
 'use client';
 
 import 'client-only';
+import { Broadcast } from '@accelint/bus';
 import { useEmit, useOn } from '@accelint/bus/react';
 import { isUUID, type UniqueId } from '@accelint/core';
 import { Cancel, ChevronLeft } from '@accelint/icons';
@@ -30,7 +31,12 @@ import { containsExactChildren } from '@/lib/react';
 import { Button, ToggleButton } from '../button';
 import { Icon } from '../icon';
 import { Tooltip } from '../tooltip';
-import { useViewStackEmit, ViewStack, ViewStackContext } from '../view-stack';
+import {
+  useViewStackEmit,
+  ViewStack,
+  ViewStackContext,
+  ViewStackEventHandlers,
+} from '../view-stack';
 import { DrawerEventTypes } from './events';
 import { DrawerMenuStyles, DrawerStyles, DrawerTitleStyles } from './styles';
 import type { ViewStackViewProps } from '../view-stack/types';
@@ -51,11 +57,20 @@ const { layout, main, drawer, panel, view, header, content, footer } =
   DrawerStyles();
 const { menu, item } = DrawerMenuStyles();
 
+const bus = Broadcast.getInstance<DrawerEvent>();
+
 export const DrawerContext = createContext<DrawerContextValue>({
   register: () => undefined,
   unregister: () => undefined,
   placement: 'left',
 });
+
+export const DrawerEventHandlers = {
+  ...ViewStackEventHandlers,
+  close: ViewStackEventHandlers.clear,
+  open: (view: UniqueId) => bus.emit(DrawerEventTypes.open, { view }),
+  toggle: (view: UniqueId) => bus.emit(DrawerEventTypes.toggle, { view }),
+} as const;
 
 export function useDrawerEmit() {
   const viewStackEmit = useViewStackEmit();

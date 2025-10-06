@@ -12,6 +12,7 @@
 'use client';
 
 import 'client-only';
+import { Broadcast } from '@accelint/bus';
 import { useEmit, useOn } from '@accelint/bus/react';
 import { isUUID, type UniqueId } from '@accelint/core';
 import {
@@ -37,6 +38,8 @@ import type {
   ViewStackViewProps,
 } from './types';
 
+const bus = Broadcast.getInstance<ViewStackEvent>();
+
 export const ViewStackContext = createContext<ViewStackContextValue>({
   parent: null,
   stack: [],
@@ -44,6 +47,13 @@ export const ViewStackContext = createContext<ViewStackContextValue>({
   register: () => undefined,
   unregister: () => undefined,
 });
+
+export const ViewStackEventHandlers = {
+  back: (stack: UniqueId) => bus.emit(ViewStackEventTypes.back, { stack }),
+  clear: (stack: UniqueId) => bus.emit(ViewStackEventTypes.clear, { stack }),
+  push: (view: UniqueId) => bus.emit(ViewStackEventTypes.push, { view }),
+  reset: (stack: UniqueId) => bus.emit(ViewStackEventTypes.reset, { stack }),
+} as const;
 
 export function useViewStackEmit() {
   const emitBack = useEmit<ViewStackEvent>(ViewStackEventTypes.back);
