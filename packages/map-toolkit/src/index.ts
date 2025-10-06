@@ -16,11 +16,5 @@
 
 // biome-ignore-all assist/source/organizeImports: This comment is used to prevent the biome tool from altering the import statements in this file.
 
-export {
-  INITIAL_VIEW_STATE,
-  MAP_STYLE,
-  MOCK_DATA,
-  PARAMETERS,
-} from './deckgl/constants';
-export { SymbolLayer } from './deckgl-layer-symbol';
-export type { SymbolLayerProps } from './deckgl-layer-symbol';
+export { SymbolLayer } from './deckgl/symbol-layer';
+export type { SymbolLayerProps } from './deckgl/symbol-layer';

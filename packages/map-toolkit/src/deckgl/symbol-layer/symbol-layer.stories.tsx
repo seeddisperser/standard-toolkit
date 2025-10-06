@@ -10,14 +10,14 @@
  * governing permissions and limitations under the License.
  */
 
-import '@/deckgl-layer-symbol/fiber';
-import { MOCK_DATA } from '@/deckgl/constants';
-import { withDeckGL } from '@/deckgl/decorators/deckgl';
-import type { Meta, StoryObj } from '@storybook/react';
+import '@/deckgl/symbol-layer/fiber';
 import { useId } from 'react';
+import { MOCK_DATA } from '@/deckgl/symbol-layer/constants';
+import { withDeckGL } from '@/decorators/deckgl';
+import type { Meta, StoryObj } from '@storybook/react';
 
 const meta: Meta = {
-  title: 'DeckGL',
+  title: 'DeckGL/Symbol Layer',
   decorators: [withDeckGL({})],
   parameters: {
     layout: 'fullscreen',
@@ -26,11 +26,6 @@ const meta: Meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
-
-export const BaseMap: Story = {
-  // Using the deckGL decorator, blank base map.
-  render: () => null as any,
-};
 
 export const SymbolLayer: Story = {
   render: () => {
@@ -44,5 +39,5 @@ export const SymbolLayer: Story = {
         }}
       />
     );
-  }
-}
+  },
+};
