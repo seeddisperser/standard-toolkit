@@ -19,11 +19,11 @@ export const SwitchStyles = tv({
     control: [
       'flex rounded-round bg-transparent p-xxs outline outline-interactive before:mr-l before:block before:size-m before:rounded-full before:transition-[margin,background-color] before:duration-150 before:ease-out before:[background-color:var(--fg-primary-muted)]',
       //focus-visible
-      'group-enabled/switch:focus-visible:bg-interactive-muted-hover group-enabled/switch:focus-visible:outline-interactive-hover group-enabled/switch:focus-visible:before:[background-color:var(--fg-primary-bold)]',
+      'group-enabled/switch:group-focus-visible/switch:bg-interactive-muted-hover group-enabled/switch:group-focus-visible/switch:outline-interactive-hover group-enabled/switch:group-focus-visible/switch:before:[background-color:var(--fg-primary-bold)]',
       //hover
-      'group-enabled/switch:hover:bg-interactive-muted-hover group-enabled/switch:hover:outline-interactive-hover group-enabled/switch:hover:before:[background-color:var(--fg-primary-bold)]',
+      'group-enabled/switch:group-hover/switch:bg-interactive-muted-hover group-enabled/switch:group-hover/switch:outline-interactive-hover group-enabled/switch:group-hover/switch:before:[background-color:var(--fg-primary-bold)]',
       //pressed
-      'group-enabled/switch:pressed:bg-transparent group-enabled/switch:pressed:outline-interactive-pressed group-enabled/switch:pressed:outline-2 group-enabled/switch:pressed:before:[background-color:var(--fg-pressed)]',
+      'group-enabled/switch:group-pressed/switch:bg-interactive-pressed group-enabled/switch:group-pressed/switch:outline-interactive-pressed group-enabled/switch:group-pressed/switch:before:[background-color:var(--fg-pressed)]',
       //selected
       'group-enabled/switch:group-selected/switch:outline-accent-primary-bold group-selected/switch:before:mr-0 group-selected/switch:before:ml-l group-enabled/switch:group-selected/switch:before:[background-color:var(--fg-accent-primary-bold)]',
       //focus-visble
