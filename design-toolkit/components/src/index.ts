@@ -420,6 +420,7 @@ export {
 } from './lib/utils';
 export { PortalProvider } from './providers/portal';
 export { ThemeProvider, useTheme } from './providers/theme-provider';
+export type { ThemeMode } from './providers/theme-provider';
 export { designTokens } from './tokens/tokens';
 export type {
   SemanticColorTokens,
