@@ -105,7 +105,9 @@ export function Notice({
       data-size={size}
     >
       <ToastContent className={content({ className: classNames?.content })}>
-        {!hideIcon && <NoticeIcon color={color} size={size} />}
+        {!hideIcon && size === 'medium' && (
+          <NoticeIcon color={color} size={size} />
+        )}
         <Text
           slot='description'
           className={description({ className: classNames?.message })}
@@ -116,8 +118,8 @@ export function Notice({
           <div className={actions({ className: classNames?.actions })}>
             {primary && (
               <Button
-                variant='filled'
                 color={ButtonColorMap[color]}
+                variant='filled'
                 {...primary}
                 size={size}
                 onPress={() => {
@@ -131,8 +133,8 @@ export function Notice({
             )}
             {secondary && (
               <Button
-                variant='outline'
                 color={ButtonColorMap[color]}
+                variant='outline'
                 {...secondary}
                 size={size}
                 onPress={() => {

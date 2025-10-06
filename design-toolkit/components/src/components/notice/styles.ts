@@ -16,7 +16,7 @@ export const NoticeStyles = tv({
   slots: {
     notice: [
       'group/notice fg-primary-bold flex rounded-medium text-body-s shadow-elevation-overlay outline',
-      'size-small:flex-col size-small:flex-wrap size-small:gap-m size-small:p-m group-data-placement/region:size-small:min-w-[120px] group-data-placement/region:size-small:max-w-[320px]',
+      'size-small:flex-col size-small:flex-wrap size-small:gap-m size-small:p-s group-data-placement/region:size-small:min-w-[120px] group-data-placement/region:size-small:max-w-[320px]',
       'size-medium:gap-l size-medium:p-l group-data-placement/region:size-medium:min-w-[200px] group-data-placement/region:size-medium:max-w-[640px]',
       'color-info:bg-info-muted color-info:outline-info-bold',
       'color-advisory:bg-advisory-muted color-advisory:outline-accent-primary-bold',

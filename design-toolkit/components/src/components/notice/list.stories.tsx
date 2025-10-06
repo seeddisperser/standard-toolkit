@@ -99,6 +99,9 @@ function generateNotices({ color, target, metadata }: Partial<NoticeContent>) {
 }
 
 export const DequeueSingle: StoryObj<typeof Notice.List> = {
+  parameters: {
+    controls: { disable: true },
+  },
   render: () => {
     const { useEmit, useOn } = useBus<
       NoticeQueueEvent | NoticeDequeueEvent | NoticeActionEvent
@@ -145,6 +148,9 @@ export const DequeueSingle: StoryObj<typeof Notice.List> = {
 };
 
 export const DequeueList: StoryObj<typeof Notice.List> = {
+  parameters: {
+    controls: { disable: true },
+  },
   render: () => {
     const a = uuid();
     const b = uuid();
@@ -194,6 +200,9 @@ export const DequeueList: StoryObj<typeof Notice.List> = {
 };
 
 export const DequeueColor: StoryObj<typeof Notice.List> = {
+  parameters: {
+    controls: { disable: true },
+  },
   render: () => {
     const a = uuid();
     const queue = useEmit<NoticeQueueEvent>(NoticeEventTypes.queue);
@@ -227,6 +236,9 @@ export const DequeueColor: StoryObj<typeof Notice.List> = {
 };
 
 export const DequeueMetadata: StoryObj<typeof Notice.List> = {
+  parameters: {
+    controls: { disable: true },
+  },
   render: () => {
     const a = uuid();
     const b = uuid();
@@ -300,6 +312,9 @@ export const DequeueMetadata: StoryObj<typeof Notice.List> = {
 };
 
 export const DequeueCombination: StoryObj<typeof Notice.List> = {
+  parameters: {
+    controls: { disable: true },
+  },
   render: () => {
     const a = uuid();
     const b = uuid();
