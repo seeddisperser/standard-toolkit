@@ -16,6 +16,7 @@ import { useEmit, useOn } from '@accelint/bus/react';
 import { isUUID, type UniqueId } from '@accelint/core';
 import {
   createContext,
+  Fragment,
   useCallback,
   useContext,
   useEffect,
@@ -100,7 +101,7 @@ function ViewStackView({ id, children }: ViewStackViewProps) {
     return () => unregister(id);
   }, [register, unregister, id]);
 
-  return <div className={view === id ? '' : 'hidden'}>{children}</div>;
+  return view === id ? <Fragment key={id}>{children}</Fragment> : null;
 }
 ViewStackView.displayName = 'ViewStack.View';
 
