@@ -35,10 +35,10 @@ export const AccordionStyles = tv({
   variants: {
     variant: {
       cozy: {
-        trigger: '!gap-s text-header-m',
+        trigger: '!gap-s !text-header-m',
       },
       compact: {
-        trigger: '!gap-xs text-header-s',
+        trigger: '!gap-xs !text-header-s',
       },
     },
   },
