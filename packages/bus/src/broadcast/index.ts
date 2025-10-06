@@ -295,8 +295,8 @@ export class Broadcast<
     };
     const message = {
       type,
-      origin: this.id,
       payload,
+      source: this.id,
       target: target === 'self' ? this.id : isUUID(target) ? target : undefined,
     } as unknown as P;
 

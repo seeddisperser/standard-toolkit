@@ -33,13 +33,13 @@ export type Payload<
 > = P extends undefined
   ? {
       type: T;
-      origin: UniqueId;
+      source: UniqueId;
       target?: UniqueId;
     }
   : {
       type: T;
-      origin: UniqueId;
       payload: P;
+      source: UniqueId;
       target?: UniqueId;
     };
 
