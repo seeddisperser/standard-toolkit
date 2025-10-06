@@ -252,7 +252,7 @@ function DrawerView({
   useEffect(() => {
     register(id);
 
-    () => unregister(id);
+    return () => unregister(id);
   }, [register, unregister, id]);
 
   return (

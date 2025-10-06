@@ -91,7 +91,7 @@ function ViewStackView({ id, children }: ViewStackViewProps) {
   useEffect(() => {
     register(id);
 
-    () => unregister(id);
+    return () => unregister(id);
   }, [register, unregister, id]);
 
   return <div className={view === id ? '' : 'hidden'}>{children}</div>;
