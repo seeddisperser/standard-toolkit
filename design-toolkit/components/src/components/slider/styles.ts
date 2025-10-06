@@ -55,9 +55,10 @@ export const SliderStyles = tv({
       'group-orientation-vertical/slider:-translate-x-1/2 group-orientation-vertical/slider:top-[calc(100%-attr(data-end_%)*100)] group-orientation-vertical/slider:bottom-[calc(attr(data-start_%)*100)] group-orientation-vertical/slider:left-1/2 group-orientation-vertical/slider:w-xxs',
     ],
     thumb: [
-      'h-m w-m rounded-full bg-accent-primary-bold outline-accent-primary-bold/40',
+      'h-m w-m rounded-full [background-color:var(--fg-accent-primary-bold)] outline-accent-primary-bold/40',
       'focus-visible:outline-4',
-      'hover:outline-4',
+      'hover:outline-4 [background-color:var(--fg-accent-primary-hover)]',
+      'pressed:[background-color:var(--fg-primary-bold)]',
       'group-orientation-horizontal/slider:top-1/2',
       'group-orientation-vertical/slider:left-1/2',
     ],
