@@ -12,7 +12,10 @@
 'use client';
 
 import 'client-only';
-import { useFocusable } from '@react-aria/interactions';
+import {
+  type FocusableProviderProps,
+  useFocusable,
+} from '@react-aria/interactions';
 import { useIsSSR } from '@react-aria/ssr';
 import { mergeProps, mergeRefs, useObjectRef } from '@react-aria/utils';
 import {
@@ -22,6 +25,7 @@ import {
   type DOMAttributes,
   type ReactElement,
   type ReactNode,
+  type RefAttributes,
   version,
 } from 'react';
 import {
@@ -35,16 +39,16 @@ import { containsExactChildren } from '@/lib/react';
 import { PortalProvider } from '@/providers/portal';
 import { TooltipStyles } from './styles';
 import type { FocusableElement } from '@react-types/shared';
-import type {
-  TooltipFocusableProps,
-  TooltipProps,
-  TooltipTriggerProps,
-} from './types';
+import type { TooltipProps, TooltipTriggerProps } from './types';
 
 export const TooltipContext =
   createContext<ContextValue<TooltipTriggerProps, HTMLDivElement>>(null);
 
-function TooltipFocusable({ children, ref, ...props }: TooltipFocusableProps) {
+function TooltipFocusable({
+  children,
+  ref,
+  ...props
+}: FocusableProviderProps & RefAttributes<FocusableElement>) {
   ref = useObjectRef(ref);
 
   const { focusableProps } = useFocusable(props, ref);
