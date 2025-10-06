@@ -27,9 +27,7 @@ export const AccordionStyles = tv({
       'group-disabled/accordion:fg-disabled group-disabled/accordion:cursor-not-allowed',
     ],
     heading: 'grow',
-    trigger: [
-      'flex w-full cursor-pointer items-center justify-start size-medium:px-0 disabled:cursor-not-allowed',
-    ],
+    trigger: 'w-full cursor-pointer justify-start size-medium:px-0',
     panel: 'p-s',
   },
   variants: {
