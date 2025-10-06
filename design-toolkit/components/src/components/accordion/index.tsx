@@ -11,9 +11,8 @@
  */
 'use client';
 
-import { ChevronDown, Kebab } from '@accelint/icons';
-import { isSlottedContextValue } from '@/lib/utils';
 import 'client-only';
+import { ChevronDown, Kebab } from '@accelint/icons';
 import { createContext, useContext } from 'react';
 import {
   type ContextValue,
@@ -26,6 +25,7 @@ import {
   Provider,
   useContextProps,
 } from 'react-aria-components';
+import { isSlottedContextValue } from '@/lib/utils';
 import { Button, ButtonContext } from '../button';
 import { Icon, IconContext } from '../icon';
 import { AccordionStyles, AccordionStylesDefaults } from './styles';
