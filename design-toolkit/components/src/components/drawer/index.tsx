@@ -12,7 +12,7 @@
 'use client';
 
 import 'client-only';
-import { Broadcast } from '@accelint/bus';
+import { useEmit, useOn } from '@accelint/bus/react';
 import { isUUID, type UniqueId } from '@accelint/core';
 import { Cancel, ChevronLeft } from '@accelint/icons';
 import { Pressable } from '@react-aria/interactions';
@@ -30,12 +30,7 @@ import { containsExactChildren } from '@/lib/react';
 import { Button, ToggleButton } from '../button';
 import { Icon } from '../icon';
 import { Tooltip } from '../tooltip';
-import {
-  ViewStack,
-  ViewStackContext,
-  ViewStackEventHandlers,
-} from '../view-stack';
-import { ViewStackEventTypes } from '../view-stack/events';
+import { useViewStackEmit, ViewStack, ViewStackContext } from '../view-stack';
 import { DrawerEventTypes } from './events';
 import { DrawerMenuStyles, DrawerStyles, DrawerTitleStyles } from './styles';
 import type { ViewStackViewProps } from '../view-stack/types';
@@ -55,7 +50,6 @@ import type {
 const { layout, main, drawer, panel, view, header, content, footer } =
   DrawerStyles();
 const { menu, item } = DrawerMenuStyles();
-const bus = Broadcast.getInstance<DrawerEvent>();
 
 export const DrawerContext = createContext<DrawerContextValue>({
   register: () => undefined,
@@ -63,15 +57,22 @@ export const DrawerContext = createContext<DrawerContextValue>({
   placement: 'left',
 });
 
-export const DrawerEventHandlers = {
-  ...ViewStackEventHandlers,
-  close: ViewStackEventHandlers.clear,
-  open: (view: UniqueId) => bus.emit(DrawerEventTypes.open, { view }),
-  toggle: (view: UniqueId) => bus.emit(DrawerEventTypes.toggle, { view }),
-} as const;
+export function useDrawerEmit() {
+  const viewStackEmit = useViewStackEmit();
+  const emitOpen = useEmit<DrawerEvent>(DrawerEventTypes.open);
+  const emitToggle = useEmit<DrawerEvent>(DrawerEventTypes.toggle);
+
+  return {
+    ...viewStackEmit,
+    close: viewStackEmit.clear,
+    open: (view: UniqueId) => emitOpen({ view }),
+    toggle: (view: UniqueId) => emitToggle({ view }),
+  } as const;
+}
 
 function DrawerTrigger({ children, for: events }: DrawerTriggerProps) {
   const { parent } = useContext(ViewStackContext);
+  const drawerEmit = useDrawerEmit();
 
   function handlePress() {
     for (const type of Array.isArray(events) ? events : [events]) {
@@ -86,7 +87,7 @@ function DrawerTrigger({ children, for: events }: DrawerTriggerProps) {
         continue;
       }
 
-      DrawerEventHandlers[event](id);
+      drawerEmit[event](id);
     }
   }
 
@@ -344,39 +345,31 @@ export function Drawer({
     defaultView || null,
   );
 
+  const viewStackEmit = useViewStackEmit();
+
   const handleOpen = useCallback(
     (data: DrawerOpenEvent) => {
       if (views.current.has(data?.payload?.view)) {
-        bus.emit(ViewStackEventTypes.clear, { stack: id });
-        bus.emit(ViewStackEventTypes.push, data.payload);
+        viewStackEmit.clear(id);
+        viewStackEmit.push(data.payload.view);
       }
     },
-    [id],
+    [id, viewStackEmit.clear, viewStackEmit.push],
   );
   const handleToggle = useCallback(
     (data: DrawerToggleEvent) => {
       if (views.current.has(data?.payload?.view)) {
-        bus.emit(ViewStackEventTypes.clear, { stack: id });
+        viewStackEmit.clear(id);
         if (activeView !== data?.payload?.view) {
-          bus.emit(ViewStackEventTypes.push, data.payload);
+          viewStackEmit.push(data.payload.view);
         }
       }
     },
-    [id, activeView],
+    [id, activeView, viewStackEmit.clear, viewStackEmit.push],
   );
 
-  useEffect(() => {
-    const listeners = [
-      bus.on(DrawerEventTypes.open, handleOpen),
-      bus.on(DrawerEventTypes.toggle, handleToggle),
-    ];
-
-    return () => {
-      for (const off of listeners) {
-        off();
-      }
-    };
-  }, [handleOpen, handleToggle]);
+  useOn(DrawerEventTypes.open, handleOpen);
+  useOn(DrawerEventTypes.toggle, handleToggle);
 
   return (
     <DrawerContext.Provider

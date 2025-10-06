@@ -148,11 +148,7 @@ export {
   DrawerEventNamespace,
   DrawerEventTypes,
 } from './components/drawer/events';
-export {
-  Drawer,
-  DrawerContext,
-  DrawerEventHandlers,
-} from './components/drawer';
+export { Drawer, DrawerContext, useDrawerEmit } from './components/drawer';
 export {
   DrawerMenuStyles,
   DrawerMenuStylesDefaults,
@@ -350,7 +346,7 @@ export {
 export {
   ViewStack,
   ViewStackContext,
-  ViewStackEventHandlers,
+  useViewStackEmit,
 } from './components/view-stack';
 export type {
   ViewStackBackEvent,
