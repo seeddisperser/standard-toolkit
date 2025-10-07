@@ -33,10 +33,9 @@ import {
   RuleGroupHeaderComponent,
 } from './group';
 import { Rule } from './rule';
-import { getValidationResult, pressToMouseEvent } from './utils';
+import { getValidationResult } from './utils';
 import { ValueEditor } from './value-editor';
 import { ValueSelector } from './value-selector';
-import type { PressEvent } from '@react-types/shared';
 import type { QueryBuilderContextType, QueryBuilderProps } from './types';
 
 const operatorDescriptions: Record<string, string> = {
@@ -71,17 +70,11 @@ function CombinatorSelector({
 }
 
 function RemoveRuleAction({ handleOnClick, className, ...rest }: ActionProps) {
-  // TODO: remove pressToMouseEvent when design-system is removed
-  const handlePress = useCallback(
-    (event: PressEvent) => handleOnClick(pressToMouseEvent(event)),
-    [handleOnClick],
-  );
-
   return (
     <Button
       size='small'
       variant='icon'
-      onPress={handlePress}
+      onPress={() => handleOnClick()}
       className={className}
       {...rest}
     >
@@ -93,17 +86,11 @@ function RemoveRuleAction({ handleOnClick, className, ...rest }: ActionProps) {
 }
 
 function LockAction({ handleOnClick, className, ...rest }: ActionProps) {
-  // TODO: remove pressToMouseEvent when design-system is removed
-  const handlePress = useCallback(
-    (event: PressEvent) => handleOnClick(pressToMouseEvent(event)),
-    [handleOnClick],
-  );
-
   return (
     <Button
       size='small'
       variant='icon'
-      onPress={handlePress}
+      onPress={() => handleOnClick()}
       className={className}
       {...rest}
     >
@@ -115,17 +102,11 @@ function LockAction({ handleOnClick, className, ...rest }: ActionProps) {
 }
 
 function CloneAction({ handleOnClick, className, ...rest }: ActionProps) {
-  // TODO: remove pressToMouseEvent when design-system is removed
-  const handlePress = useCallback(
-    (event: PressEvent) => handleOnClick(pressToMouseEvent(event)),
-    [handleOnClick],
-  );
-
   return (
     <Button
       size='small'
       variant='icon'
-      onPress={handlePress}
+      onPress={() => handleOnClick()}
       className={className}
       {...rest}
     >
