@@ -16,7 +16,7 @@ export const QueryBuilderStylesDefaults = {} as const;
 
 export const QueryBuilderStyles = tv({
   slots: {
-    queryBuilder: 'flex flex-col gap-s',
+    queryBuilder: 'outline outline-transparent',
     ruleGroup:
       'group col-span-full flex flex-col gap-s p-s outline outline-info-bold rounded-medium',
     header: 'flex gap-s',

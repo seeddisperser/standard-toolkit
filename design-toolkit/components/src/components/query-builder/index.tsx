@@ -13,7 +13,7 @@
 
 import 'client-only';
 import { Delete, Duplicate, LockFill } from '@accelint/icons';
-import { createContext, useCallback, useMemo } from 'react';
+import { createContext, useMemo } from 'react';
 import {
   type ActionProps,
   type Classnames,
@@ -33,10 +33,34 @@ import {
   RuleGroupHeaderComponent,
 } from './group';
 import { Rule } from './rule';
+import { QueryBuilderStyles } from './styles';
 import { getValidationResult } from './utils';
 import { ValueEditor } from './value-editor';
 import { ValueSelector } from './value-selector';
 import type { QueryBuilderContextType, QueryBuilderProps } from './types';
+
+const {
+  queryBuilder,
+  ruleGroup,
+  header,
+  combinators,
+  cloneGroup,
+  removeGroup,
+  cloneRule,
+  fields,
+  value,
+  addRule,
+  addGroup,
+  operators,
+  valueListItem,
+  valueSource,
+  removeRule,
+  valid,
+  invalid,
+  disabled,
+  lockRule,
+  lockGroup,
+} = QueryBuilderStyles();
 
 const operatorDescriptions: Record<string, string> = {
   AND: 'All rules below must be true for a match',
@@ -176,51 +200,43 @@ export function QueryBuilder({
    * Passed in as a map as all the default styling, but can be overridden by using the
    * controlClassnames prop
    */
-  const defaultClassnames: Partial<Classnames> = useMemo(
-    () => ({
-      queryBuilder: 'outline outline-transparent',
-      ruleGroup:
-        'group col-span-full flex flex-col gap-s p-s outline outline-info-bold rounded-medium',
-      header: 'flex gap-s',
+  const mergedClassnames = useMemo(() => {
+    return {
+      queryBuilder: queryBuilder(),
+      ruleGroup: ruleGroup(),
+      header: header(),
       body: cn(
         'group grid gap-x-s empty:hidden',
         showRuleLines
           ? 'grid-cols-[10px_minmax(100px,_1fr)_min-content]'
           : 'grid-cols-[minmax(100px,_1fr)_min-content]',
       ),
-      combinators: 'my-s',
-      addRule: '',
-      addGroup: '',
-      cloneRule: 'fg-info-bold hover:fg-info-hover',
-      cloneGroup: 'fg-info-bold hover:fg-info-hover',
-      removeGroup: '',
+      combinators: combinators(),
+      fields: fields(),
+      operators: operators(),
+      value: value(),
+      valueListItem: valueListItem(),
+      valueSource: valueSource(),
+      cloneGroup: cloneGroup(),
+      cloneRule: cloneRule(),
+      lockGroup: lockGroup(),
+      lockRule: lockRule(),
+      disabled: disabled(),
+      valid: valid(),
+      invalid: invalid(),
+      removeRule: removeRule(),
+      addRule: addRule(),
+      addGroup: addGroup(),
+      removeGroup: removeGroup(),
       rule: cn(
         'flex gap-xs py-s',
         orientation === 'vertical'
           ? 'flex-col'
           : 'min-height-[50px] items-start',
       ),
-      fields: 'w-full',
-      operators: '',
-      value: 'w-full',
-      removeRule: '',
-      valid: '',
-      invalid: '',
-      disabled: '',
-      lockRule: 'fg-info-bold hover:fg-info-hover',
-      lockGroup: 'fg-info-bold hover:fg-info-hover',
-      valueSource: '',
-      valueListItem: '',
-    }),
-    [orientation, showRuleLines],
-  );
-
-  const mergedClassnames = useMemo(() => {
-    return {
-      ...defaultClassnames,
       ...controlClassnames,
     };
-  }, [controlClassnames, defaultClassnames]);
+  }, [controlClassnames]);
 
   const QueryBuilderContext = createContext<QueryBuilderContextType>({
     orientation,
