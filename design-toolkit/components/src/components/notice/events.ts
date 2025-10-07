@@ -10,21 +10,12 @@
  * governing permissions and limitations under the License.
  */
 
-import { withDeckGL } from '../decorators/deckgl';
-import type { Meta, StoryObj } from '@storybook/react';
+export const NoticeEventNamespace = 'Notice';
 
-const meta: Meta = {
-  title: 'DeckGL',
-  decorators: [withDeckGL({})],
-  parameters: {
-    layout: 'fullscreen',
-  },
-};
-
-export default meta;
-type Story = StoryObj<typeof meta>;
-
-export const BaseMap: Story = {
-  // Using the deckGL decorator, blank base map.
-  render: () => null as any,
-};
+export const NoticeEventTypes = {
+  queue: `${NoticeEventNamespace}:queue`,
+  dequeue: `${NoticeEventNamespace}:dequeue`,
+  actionPrimary: `${NoticeEventNamespace}:action:primary`,
+  actionSecondary: `${NoticeEventNamespace}:action:secondary`,
+  close: `${NoticeEventNamespace}:close`,
+} as const;

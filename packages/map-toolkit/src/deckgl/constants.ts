@@ -1,3 +1,4 @@
+// __private-exports
 /*
  * Copyright 2025 Hypergiant Galactic Systems Inc. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
@@ -9,16 +10,6 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-
-export const INITIAL_VIEW_STATE = {
-  longitude: -77.0369,
-  latitude: 38.9072,
-  zoom: 4,
-  minZoom: 1,
-  maxZoom: 22,
-  pitch: 0,
-  bearing: 0,
-};
 
 export const MAP_STYLE =
   'https://tiles.basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
