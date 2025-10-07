@@ -16,11 +16,9 @@ import { Delete, Duplicate, LockFill } from '@accelint/icons';
 import { createContext, useMemo } from 'react';
 import {
   type ActionProps,
-  type Classnames,
   type CombinatorSelectorProps,
   QueryBuilder as RQBBuilder,
 } from 'react-querybuilder';
-import { cn } from '../../lib/utils';
 import { Button } from '../button';
 import { Icon } from '../icon';
 import { Label } from '../label';
@@ -60,6 +58,8 @@ const {
   disabled,
   lockRule,
   lockGroup,
+  body,
+  rule,
 } = QueryBuilderStyles();
 
 const operatorDescriptions: Record<string, string> = {
@@ -205,12 +205,6 @@ export function QueryBuilder({
       queryBuilder: queryBuilder(),
       ruleGroup: ruleGroup(),
       header: header(),
-      body: cn(
-        'group grid gap-x-s empty:hidden',
-        showRuleLines
-          ? 'grid-cols-[10px_minmax(100px,_1fr)_min-content]'
-          : 'grid-cols-[minmax(100px,_1fr)_min-content]',
-      ),
       combinators: combinators(),
       fields: fields(),
       operators: operators(),
@@ -228,15 +222,11 @@ export function QueryBuilder({
       addRule: addRule(),
       addGroup: addGroup(),
       removeGroup: removeGroup(),
-      rule: cn(
-        'flex gap-xs py-s',
-        orientation === 'vertical'
-          ? 'flex-col'
-          : 'min-height-[50px] items-start',
-      ),
+      rule: rule({ variant: orientation }),
+      body: body({ showRuleLines: showRuleLines }),
       ...controlClassnames,
     };
-  }, [controlClassnames]);
+  }, [controlClassnames, showRuleLines, orientation]);
 
   const QueryBuilderContext = createContext<QueryBuilderContextType>({
     orientation,

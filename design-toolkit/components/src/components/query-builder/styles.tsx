@@ -20,24 +20,14 @@ export const QueryBuilderStyles = tv({
     ruleGroup:
       'group col-span-full flex flex-col gap-s p-s outline outline-info-bold rounded-medium',
     header: 'flex gap-s',
-    // body: cn(
-    // 'group grid gap-x-s empty:hidden',
-    // showRuleLines
-    //     ? 'grid-cols-[10px_minmax(100px,_1fr)_min-content]'
-    //     : 'grid-cols-[minmax(100px,_1fr)_min-content]',
-    // ),
+    body: 'group grid gap-x-s empty:hidden',
     combinators: 'my-s',
     addRule: '',
     addGroup: '',
     cloneRule: 'fg-info-bold hover:fg-info-hover',
     cloneGroup: 'fg-info-bold hover:fg-info-hover',
     removeGroup: '',
-    // rule: cn(
-    // 'flex gap-xs py-s',
-    // orientation === 'vertical'
-    //     ? 'flex-col'
-    //     : 'min-height-[50px] items-start',
-    // ),
+    rule: 'flex gap-xs py-s',
     fields: 'w-full',
     operators: '',
     value: 'w-full',
@@ -49,6 +39,20 @@ export const QueryBuilderStyles = tv({
     lockGroup: 'fg-info-bold hover:fg-info-hover',
     valueSource: '',
     valueListItem: '',
+  },
+  variants: {
+    variant: {
+      horizontal: {
+        rule: 'min-height-[50px] items-start',
+      },
+      vertical: {
+        rule: 'flex-col',
+      },
+    },
+    showRuleLines: {
+      true: { body: 'grid-cols-[10px_minmax(100px,_1fr)_min-content]' },
+      false: { body: 'grid-cols-[minmax(100px,_1fr)_min-content]' },
+    },
   },
   defaultVariants: QueryBuilderStylesDefaults,
 });
