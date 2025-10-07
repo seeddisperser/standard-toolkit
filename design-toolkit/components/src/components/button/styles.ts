@@ -18,13 +18,12 @@ export const ButtonStylesDefaults = {
 
 const BaseButtonStyles = tv({
   base: [
-    'group/button flex w-content cursor-pointer items-center justify-center rounded-medium outline outline-transparent',
+    'group/button flex w-content shrink-0 cursor-pointer items-center justify-center rounded-medium outline outline-transparent',
     'disabled:cursor-not-allowed',
     'size-large:min-w-[96px] size-large:gap-xs size-large:px-l size-large:py-s size-large:text-button-l',
     'size-medium:min-w-[68px] size-medium:gap-xs size-medium:px-m size-medium:py-xs size-medium:text-button-m',
     'size-small:min-w-[54px] size-small:gap-xxs size-small:px-s size-small:py-xs size-small:text-button-s',
     'size-xsmall:min-w-[41px] size-xsmall:gap-xxs size-xsmall:p-xs size-xsmall:text-button-xs',
-    'transition-colors duration-[80ms]',
   ],
   variants: {
     variant: {
@@ -128,11 +127,10 @@ const BaseButtonStyles = tv({
         'enabled:pressed:color-critical:fg-critical-pressed enabled:pressed:color-critical:bg-critical-pressed',
       ],
       icon: [
-        'size-small:rounded-small size-xsmall:rounded-small size-large:p-xs size-medium:p-xs size-small:p-xxs size-xsmall:p-xxs',
-        'size-large:min-w-xxl size-large:max-w-xxl',
-        'size-medium:min-w-[28px] size-medium:max-w-[28px]',
-        'size-small:min-w-xl size-small:max-w-xl',
-        'size-xsmall:min-w-[20px] size-xsmall:max-w-[20px]',
+        'size-large:min-w-0 size-large:p-xs',
+        'size-medium:min-w-0 size-medium:p-xs',
+        'size-small:min-w-0 size-small:rounded-small size-small:p-xxs',
+        'size-xsmall:min-w-0 size-xsmall:rounded-small size-xsmall:p-xxs',
         'disabled:fg-disabled disabled:bg-transparent',
 
         // Mono Muted
@@ -167,11 +165,10 @@ const BaseButtonStyles = tv({
       ],
       floating: [
         'rounded-full',
-        'size-large:p-xs size-medium:p-xs size-small:p-xxs size-xsmall:p-xxs',
-        'size-large:min-w-xxl size-large:max-w-xxl',
-        'size-medium:min-w-[28px] size-medium:max-w-[28px]',
-        'size-small:min-w-xl size-small:max-w-xl',
-        'size-xsmall:min-w-[20px] size-xsmall:max-w-[20px]',
+        'size-large:min-w-0 size-large:p-xs',
+        'size-medium:min-w-0 size-medium:p-xs',
+        'size-small:min-w-0 size-small:p-xxs',
+        'size-xsmall:min-w-0 size-xsmall:p-xxs',
         'disabled:fg-disabled disabled:bg-interactive-disabled disabled:outline-interactive-disabled',
 
         // Mono Muted

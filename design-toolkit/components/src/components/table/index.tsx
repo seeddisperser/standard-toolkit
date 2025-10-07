@@ -15,12 +15,11 @@
 import 'client-only';
 import { Kebab, Pin } from '@accelint/icons';
 import { useListData } from '@react-stately/data';
-import type { Key } from '@react-types/shared';
 import {
-  type Row,
-  type RowSelectionState,
   getCoreRowModel,
   getSortedRowModel,
+  type Row,
+  type RowSelectionState,
   useReactTable,
 } from '@tanstack/react-table';
 import { useCallback, useContext, useMemo, useState } from 'react';
@@ -35,6 +34,7 @@ import { TableCell } from './table-cell';
 import { TableHeader } from './table-header';
 import { HeaderCell } from './table-header-cell';
 import { TableRow } from './table-row';
+import type { Key } from '@react-types/shared';
 import type { TableProps } from './types';
 
 const { menuItem, notPersistRowKebab } = TableStyles();
@@ -93,6 +93,15 @@ function RowActionsMenu<T>({
   );
 }
 
+/**
+ * Table - Configurable data table with sorting and row actions
+ *
+ * Standardizes table behavior (sorting, selection, row actions) and can be
+ * used with column definitions from TanStack React Table.
+ *
+ * @example
+ * <Table columns={columns} data={data} />
+ */
 export function Table<T extends { id: Key }>({
   children,
   columns: columnsProp,
@@ -183,6 +192,7 @@ export function Table<T extends { id: Key }>({
    * actionColumn defines the actions available in the kebab menu for each row.
    * It includes options to move the row up or down in the table.
    */
+  // biome-ignore lint/correctness/useExhaustiveDependencies: can of worms to fix ticket added
   const actionColumn: NonNullable<typeof columnsProp>[number] = useMemo(
     () => ({
       id: 'kebab',
@@ -257,11 +267,10 @@ export function Table<T extends { id: Key }>({
     columns,
     enableSorting,
     initialState: {
-      // biome-ignore lint/style/noNonNullAssertion: <explanation>
-      columnOrder: columns.map((col) => col.id!),
+      columnOrder: columns.map(({ id }) => id ?? ''),
     },
     state: {
-      rowSelection
+      rowSelection,
     },
     getRowId: (row, index) => {
       // Use the index as the row ID if no unique identifier is available
