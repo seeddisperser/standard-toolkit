@@ -39,7 +39,7 @@ export const SliderStyles = tv({
     ],
     input: [
       'fg-primary-bold w-[50px] rounded-medium px-s py-xs font-display text-body-m outline outline-interactive',
-      'disabled:cursor-not-allowed disabled:fg-disabled disabled:outline-interactive-disabled',
+      'disabled:fg-disabled·disabled:cursor-not-allowed·disabled:outline-interactive-disabled',
     ],
     track: [
       'relative order-3 h-full',
@@ -59,9 +59,9 @@ export const SliderStyles = tv({
       'group-orientation-vertical/slider:-translate-x-1/2 group-orientation-vertical/slider:top-[calc(100%-attr(data-end_%)*100)] group-orientation-vertical/slider:bottom-[calc(attr(data-start_%)*100)] group-orientation-vertical/slider:left-1/2 group-orientation-vertical/slider:w-xxs',
     ],
     thumb: [
-      'h-m w-m rounded-full [background-color:var(--fg-accent-primary-bold)] outline-tranparent',
+      'h-m·w-m·rounded-full·outline-tranparent·[background-color:var(--fg-accent-primary-bold)]',
       'hover:[background-color:var(--fg-accent-primary-hover)]',
-      'dragging:[background-color:var(--fg-a11y-on-accent)] dragging:outline dragging:outline-interactive-hover dragging:ring-8 dragging:ring-[rgba(110,209,255,0.08)]',
+      'dragging:outline·dragging:outline-interactive-hover·dragging:ring-8·dragging:ring-[rgba(110,209,255,0.08)]·dragging:[background-color:var(--fg-a11y-on-accent)]',
       'disabled:cursor-not-allowed disabled:[background-color:var(--fg-disabled)]',
       'group-orientation-horizontal/slider:top-1/2',
       'group-orientation-vertical/slider:left-1/2',
