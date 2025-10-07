@@ -16,11 +16,11 @@ export const ColorPickerStyles = tv({
   slots: {
     picker: 'flex flex-wrap gap-s',
     item: [
-      'w-fit cursor-pointer outline outline-transparent',
-      'focus-visible:outline-interactive-hover·focus-visible:outline-offset-1',
-      'hover:outline-interactive-hover·hover:outline-offset-1',
-      'pressed:outline-interactive-pressed·pressed:outline-offset-1',
-      'selected:cursor-default·selected:outline-accent-primary-bold·selected:outline-offset-1',
+      'w-fit cursor-pointer outline outline-transparent outline-offset-1',
+      'focus-visible:outline-interactive-hover',
+      'hover:outline-interactive-hover',
+      'pressed:outline-interactive-pressed',
+      'selected:cursor-default selected:outline-accent-primary-bold',
     ],
     swatch: 'size-l',
   },
