@@ -13,8 +13,8 @@
  */
 
 import { Deckgl, useDeckgl } from '@deckgl-fiber-renderer/dom';
-import { MAP_STYLE, PARAMETERS } from '../constants';
-import { useMapLibre } from '../hooks/use-maplibre';
+import { MAP_STYLE, PARAMETERS } from '../deckgl/constants';
+import { useMapLibre } from '../maplibre/hooks/use-maplibre';
 import type { Decorator } from '@storybook/react';
 import type { IControl } from 'maplibre-gl';
 

@@ -348,12 +348,7 @@ export type {
   TooltipProps,
   TooltipTriggerProps,
 } from './components/tooltip/types';
-export {
-  Tree,
-  TreeContext,
-  TreeItem,
-  TreeItemContext,
-} from './components/tree';
+export { Tree, TreeContext, TreeItemContext } from './components/tree';
 export { TreeStyles, TreeStylesDefaults } from './components/tree/styles';
 export type {
   TreeContextValue,
@@ -424,6 +419,7 @@ export {
 } from './lib/utils';
 export { PortalProvider } from './providers/portal';
 export { ThemeProvider, useTheme } from './providers/theme-provider';
+export type { ThemeMode } from './providers/theme-provider';
 export { designTokens } from './tokens/tokens';
 export type {
   SemanticColorTokens,
