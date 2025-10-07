@@ -76,15 +76,18 @@ export const Slider = ({
       {({ state }) => (
         <>
           {showLabel && (
-            <Label className={label({ className: classNames?.label })}>
+            <Label 
+              className={label({ className: classNames?.label })}
+              data-disabled={state.isDisabled || undefined}
+            >
               {labelProp}
             </Label>
           )}
           {showInput && (
             <div
-              className={inputs({
-                className: classNames?.inputs,
-              })}
+              className={
+                inputs({className: classNames?.inputs })}
+                data-disabled={state.isDisabled || undefined}
             >
               {state.values.map((value, index) => (
                 <Input
@@ -94,6 +97,8 @@ export const Slider = ({
                     (className) => input({ className }),
                   )}
                   value={value}
+                  disabled={state.isDisabled}
+                  data-disabled={state.isDisabled || undefined}
                   onChange={(event) =>
                     state.setThumbValue(
                       index,
@@ -149,12 +154,14 @@ export const Slider = ({
           <Text
             slot='min'
             className={minValue({ className: classNames?.minValue })}
+            data-disabled={state.isDisabled || undefined}
           >
             {minValueProp}
           </Text>
           <Text
             slot='max'
             className={maxValue({ className: classNames?.maxValue })}
+            data-disabled={state.isDisabled || undefined}
           >
             {maxValueProp}
           </Text>
