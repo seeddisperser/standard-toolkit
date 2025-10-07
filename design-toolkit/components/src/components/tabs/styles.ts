@@ -28,7 +28,7 @@ export const TabStyles = tv({
       'fg-primary-muted relative cursor-pointer rounded-small p-s',
       'group-orientation-horizontal/tabs:rounded-b-none',
       'group-orientation-horizontal/tabs:after:absolute group-orientation-horizontal/tabs:after:bottom-0 group-orientation-horizontal/tabs:after:left-0 group-orientation-horizontal/tabs:after:block group-orientation-horizontal/tabs:after:h-[1px] group-orientation-horizontal/tabs:after:w-full group-orientation-horizontal/tabs:after:bg-[color:var(--outline-static)]',
-      
+
       'enabled:hover:fg-primary-bold',
       'enabled:hover:group-orientation-horizontal/tabs:after:bg-[color:var(--outline-interactive-hover)]',
 
