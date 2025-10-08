@@ -10,10 +10,20 @@
  * governing permissions and limitations under the License.
  */
 
-import { describe, expect, it } from 'vitest';
+import { render } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
+import { BaseMap } from './index';
 
-describe('hello world test', () => {
-  it('should run test', () => {
-    expect(true).toBe(true);
+// Mock MapLibre hook since it requires browser APIs
+vi.mock('../../maplibre/hooks/use-maplibre', () => ({
+  useMapLibre: vi.fn(),
+}));
+
+describe('BaseMap', () => {
+  it('should apply className to container', () => {
+    const { container } = render(<BaseMap className='custom-map-class' />);
+
+    const mapContainer = container.querySelector('.custom-map-class');
+    expect(mapContainer).toBeInTheDocument();
   });
 });
