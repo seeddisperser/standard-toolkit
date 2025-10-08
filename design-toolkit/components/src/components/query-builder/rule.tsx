@@ -21,6 +21,11 @@ import {
   useStopEventPropagation,
 } from 'react-querybuilder';
 import type { QueryBuilderContextType } from './types';
+import { RuleStyles } from './styles';
+
+const {
+  ruleBase
+} = RuleStyles();
 
 export function Rule(props: RuleProps) {
   const rule = useRule(props);
@@ -80,7 +85,7 @@ export function Rule(props: RuleProps) {
 
   return (
     <>
-      {context.showRuleLines && <span className='rule-lines relative' />}
+      {context.showRuleLines && <span className={ruleBase()} />}
       <div className={outerClassName}>
         <FieldSelectorControlElement
           testID={TestID.fields}

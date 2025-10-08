@@ -56,3 +56,9 @@ export const QueryBuilderStyles = tv({
   },
   defaultVariants: QueryBuilderStylesDefaults,
 });
+
+export const RuleStyles = tv({
+  slots: {
+    ruleBase: 'rule-lines relative',
+  }
+})
