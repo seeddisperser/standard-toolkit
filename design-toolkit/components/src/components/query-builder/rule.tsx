@@ -21,7 +21,6 @@ import {
   useStopEventPropagation,
 } from 'react-querybuilder';
 import type { QueryBuilderContextType } from './types';
-import { RuleStyles } from './styles';
 import { Lines } from '../lines';
 
 export function Rule(props: RuleProps) {
@@ -76,20 +75,18 @@ export function Rule(props: RuleProps) {
     schema: rule.schema,
     validation: validationResult,
   };
-
   const renderValueSources =
     !['null', 'notNull'].includes(operator) && valueSources.length > 1;
 
     const QueryBuilderLines = memo(function QueryBuilderLines({
-      level,
     }: {
-      level: number;
     }) {
-        const type = path.length === level - 1 ? 'branch' : 'vert';
+        const isLastRule = path[0] === props.schema.getQuery()?.rules.length - 1; 
+        const line = isLastRule ? 'last' : 'branch'
 
         return (
           <Lines
-            variant='branch'
+            variant={line}
             size='small'
             isVisible={context.showRuleLines}
             className='min-h-[46px] w-[20px]'
@@ -97,10 +94,9 @@ export function Rule(props: RuleProps) {
         );
       ;
     });
-
   return (
     <>
-      {context.showRuleLines && <QueryBuilderLines level={path.length}/> }
+      {context.showRuleLines && <QueryBuilderLines /> }
       <div className={outerClassName}>
         <FieldSelectorControlElement
           testID={TestID.fields}
