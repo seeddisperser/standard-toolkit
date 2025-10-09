@@ -13,7 +13,7 @@
 'use client';
 
 import 'client-only';
-import { useContext } from 'react';
+import { memo, useContext } from 'react';
 import {
   type RuleProps,
   TestID,
@@ -22,10 +22,7 @@ import {
 } from 'react-querybuilder';
 import type { QueryBuilderContextType } from './types';
 import { RuleStyles } from './styles';
-
-const {
-  ruleBase
-} = RuleStyles();
+import { Lines } from '../lines';
 
 export function Rule(props: RuleProps) {
   const rule = useRule(props);
@@ -83,9 +80,27 @@ export function Rule(props: RuleProps) {
   const renderValueSources =
     !['null', 'notNull'].includes(operator) && valueSources.length > 1;
 
+    const QueryBuilderLines = memo(function QueryBuilderLines({
+      level,
+    }: {
+      level: number;
+    }) {
+        const type = path.length === level - 1 ? 'branch' : 'vert';
+
+        return (
+          <Lines
+            variant='branch'
+            size='small'
+            isVisible={context.showRuleLines}
+            className='min-h-[46px] w-[20px]'
+          />
+        );
+      ;
+    });
+
   return (
     <>
-      {context.showRuleLines && <span className={ruleBase()} />}
+      {context.showRuleLines && <QueryBuilderLines level={path.length}/> }
       <div className={outerClassName}>
         <FieldSelectorControlElement
           testID={TestID.fields}

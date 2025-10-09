@@ -43,7 +43,7 @@ export const QueryBuilderStyles = tv({
   variants: {
     variant: {
       horizontal: {
-        rule: 'min-height-[50px] items-start',
+        rule: 'min-h-[50px] items-center',
       },
       vertical: {
         rule: 'flex-col',
@@ -60,5 +60,5 @@ export const QueryBuilderStyles = tv({
 export const RuleStyles = tv({
   slots: {
     ruleBase: 'rule-lines relative',
-  }
-})
+  },
+});
