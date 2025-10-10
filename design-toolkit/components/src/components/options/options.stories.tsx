@@ -17,8 +17,10 @@ import {
 } from 'react-aria-components';
 import { Icon } from '../icon';
 import { Options } from './';
+import type { OptionsProps } from '@storybook/blocks';
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
+import type { OptionsItemProps } from './types';
 
 const meta = {
   title: 'Components/Options',
@@ -72,6 +74,7 @@ const items: CustomOptionsItem[] = [
     prefixIcon: <Placeholder />,
     name: 'Aardvark',
     description: 'Ant-eating nocturnal',
+    color: 'serious',
   },
   {
     id: 5,
@@ -197,13 +200,14 @@ export const WithStaticSections: Story = {
           </Icon>
           <Options.Item.Label>Blue Jay</Options.Item.Label>
         </Options.Item>
-        <Options.Item textValue='Gray catbird'>
+        <Options.Item textValue='Gray catbird' color='serious'>
           <Icon>
             <Placeholder />
           </Icon>
           <Options.Item.Label>Gray catbird</Options.Item.Label>
+          <Options.Item.Description>A cool bird</Options.Item.Description>
         </Options.Item>
-        <Options.Item textValue='Black-capped chickadee'>
+        <Options.Item textValue='Black-capped chickadee' color='critical'>
           <Icon>
             <Placeholder />
           </Icon>
