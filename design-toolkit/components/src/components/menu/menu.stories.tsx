@@ -79,6 +79,7 @@ const menuItems: MenuItem[] = [
         prefixIcon: <Placeholder />,
         name: 'Black-capped chickadee',
         description: 'Poecile atricapillus',
+        color: 'critical',
       },
       {
         id: 5,

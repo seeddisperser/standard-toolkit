@@ -22,21 +22,29 @@ export const MenuStyles = tv({
     item: [
       'group/menu-item flex cursor-pointer items-center gap-x-s px-s text-body-s outline outline-transparent',
       'grid grid-cols-[auto_auto_1fr_auto] [grid-template-areas:"icon_label_space_action"_"icon_description_space_action"]',
-      'enabled:focus-visible:outline-interactive-hover',
+
+      'enabled:fg-primary-bold enabled',
 
       // Info
-      'color-info:enabled:fg-primary-bold',
-      'color-info:enabled:focus-visible:fg-a11y-on-accent color-info:enabled:focus-visible:bg-accent-primary-bold',
-      'color-info:enabled:hover:fg-a11y-on-accent color-info:enabled:hover:bg-accent-primary-bold',
-      'color-info:enabled:open:fg-a11y-on-accent color-info:enabled:open:bg-accent-primary-bold',
-      'color-info:enabled:selected:fg-a11y-on-accent color-info:enabled:selected:bg-accent-primary-bold',
+      'color-info:enabled:focus-visible:bg-accent-primary-muted',
+      'color-info:enabled:hover:bg-accent-primary-muted',
+      'color-info:enabled:open:bg-accent-primary-muted',
+      'color-info:enabled:selected:bg-accent-primary-muted',
+      'color-info:enabled:pressed:bg-accent-primary-pressed color-info:enabled:pressed:fg-accent-primary-bold',
 
       // Serious
-      'color-serious:enabled:fg-serious-bold',
-      'color-serious:enabled:focus-visible:fg-a11y-on-utility color-serious:enabled:focus-visible:bg-serious-bold',
-      'color-serious:enabled:hover:fg-a11y-on-utility color-serious:enabled:hover:bg-serious-bold',
-      'color-serious:enabled:open:fg-a11y-on-utility color-serious:enabled:open:bg-serious-bold',
-      'color-serious:enabled:selected:fg-a11y-on-utility color-serious:enabled:selected:bg-serious-bold',
+      'color-serious:enabled:focus-visible:bg-serious-muted',
+      'color-serious:enabled:hover:bg-serious-muted',
+      'color-serious:enabled:open:bg-serious-muted',
+      'color-serious:enabled:selected:bg-serious-muted',
+      'color-serious:enabled:pressed:bg-serious-pressed color-serious:enabled:pressed:fg-serious-bold',
+
+      // Critical
+      'color-critical:enabled:focus-visible:bg-critical-muted',
+      'color-critical:enabled:hover:bg-critical-muted',
+      'color-critical:enabled:open:bg-critical-muted',
+      'color-critical:enabled:selected:bg-critical-muted',
+      'color-critical:enabled:pressed:bg-critical-pressed color-critical:enabled:pressed:fg-critical-bold',
 
       'disabled:fg-disabled disabled:cursor-not-allowed disabled:bg-transparent',
     ],
