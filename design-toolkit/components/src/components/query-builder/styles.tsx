@@ -43,7 +43,7 @@ export const QueryBuilderStyles = tv({
   variants: {
     variant: {
       horizontal: {
-        rule: 'min-h-[50px] items-center',
+        rule: 'min-h-[50px]',
       },
       vertical: {
         rule: 'flex-col',

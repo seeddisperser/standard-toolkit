@@ -75,8 +75,9 @@ function CombinatorSelector({
   return (
     <Radio.Group
       value={value}
-      onChange={handleOnChange}
+      onChange={handleOnChange} 
       orientation='horizontal'
+      style={{flexWrap: 'nowrap'}}
     >
       <Label>Combinator</Label>
       {options.map((option) => (
