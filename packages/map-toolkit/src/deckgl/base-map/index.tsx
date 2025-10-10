@@ -21,21 +21,14 @@ import { INITIAL_VIEW_STATE } from '../../maplibre/constants';
 import { useMapLibre } from '../../maplibre/hooks/use-maplibre';
 import { BASE_MAP_STYLE, PARAMETERS } from './constants';
 import { MapEvents } from './events';
-import { MapModeProvider } from './map-mode-provider';
 import type { PickingInfo } from '@deck.gl/core';
 import type { DeckglProps } from '@deckgl-fiber-renderer/types';
 import type { IControl } from 'maplibre-gl';
 import type { MjolnirGestureEvent, MjolnirPointerEvent } from 'mjolnir.js';
 import type { MapClickEvent, MapEventType, MapHoverEvent } from './types';
 
-type MapModeOptions = {
-  defaultMode?: string;
-  owner?: string;
-};
-
 type BaseMapProps = DeckglProps & {
   className?: string;
-  modeOptions?: MapModeOptions;
 };
 
 export const bus = Broadcast.getInstance<MapEventType>();
@@ -46,7 +39,6 @@ export function BaseMap({
   onHover,
   className,
   parameters,
-  modeOptions,
   ...rest
 }: BaseMapProps) {
   const deckglInstance = useDeckgl();
@@ -119,21 +111,19 @@ export function BaseMap({
   );
 
   return (
-    <MapModeProvider defaultMode={modeOptions?.defaultMode}>
-      <div id={container} className={className}>
-        <Deckgl
-          {...rest}
-          controller
-          interleaved
-          useDevicePixels={false}
-          onHover={handleMapHover}
-          onClick={handleMapClick}
-          // @ts-expect-error TODO: conflict with deckgl type
-          parameters={{ ...PARAMETERS, ...parameters }}
-        >
-          {children}
-        </Deckgl>
-      </div>
-    </MapModeProvider>
+    <div id={container} className={className}>
+      <Deckgl
+        {...rest}
+        controller
+        interleaved
+        useDevicePixels={false}
+        onHover={handleMapHover}
+        onClick={handleMapClick}
+        // @ts-expect-error TODO: conflict with deckgl type
+        parameters={{ ...PARAMETERS, ...parameters }}
+      >
+        {children}
+      </Deckgl>
+    </div>
   );
 }

@@ -44,6 +44,8 @@ export type MapModeContextValue = {
 
 export const MapModeContext = createContext<MapModeContextValue | null>(null);
 
+const DEFAULT_MODE = 'default';
+
 type MapModeProviderProps = {
   children: ReactNode;
   defaultMode?: string;
@@ -51,7 +53,7 @@ type MapModeProviderProps = {
 
 export function MapModeProvider({
   children,
-  defaultMode = 'default',
+  defaultMode = DEFAULT_MODE,
 }: MapModeProviderProps) {
   const [mode, setMode] = useState(defaultMode);
   // Store mode-to-owner mappings (persists throughout session, no re-renders needed)
@@ -81,16 +83,25 @@ export function MapModeProvider({
       // Get current mode's owner from the mapping
       const currentModeOwner = modeOwnersRef.current.get(mode);
 
-      // Auto-accept if: no current mode owner OR request is from current mode's owner
-      if (!currentModeOwner || requestOwner === currentModeOwner) {
+      // Auto-accept if:
+      // 1. Desired mode is 'default' (default is always ownerless and accepts all requests)
+      // 2. No current mode owner, OR
+      // 3. Request is from current mode's owner
+      if (
+        desiredMode === defaultMode ||
+        !currentModeOwner ||
+        requestOwner === currentModeOwner
+      ) {
         setMode(desiredMode);
         emitChanged({
           previousMode: mode,
           currentMode: desiredMode,
         });
 
-        // Store the mode's owner
-        modeOwnersRef.current.set(desiredMode, requestOwner);
+        // Store the mode's owner (unless it's default, which stays ownerless)
+        if (desiredMode !== defaultMode) {
+          modeOwnersRef.current.set(desiredMode, requestOwner);
+        }
         return;
       }
 
