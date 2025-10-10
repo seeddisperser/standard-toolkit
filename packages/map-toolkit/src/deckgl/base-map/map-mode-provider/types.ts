@@ -20,21 +20,19 @@ export type ModeChangedPayload = {
 
 export type ModeChangeRequestPayload = {
   desiredMode: string;
-  owner?: string;
+  owner: string;
 };
 
 export type ModeChangeAuthorizationPayload = {
   authId: string;
   desiredMode: string;
   currentMode: string;
-  owner: string;
 };
 
 export type ModeChangeDecisionPayload = {
   authId: string;
   approved: boolean;
-  desiredMode: string;
-  currentMode: string;
+  owner: string;
   reason?: string;
 };
 

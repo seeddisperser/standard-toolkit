@@ -21,17 +21,21 @@ import { INITIAL_VIEW_STATE } from '../../maplibre/constants';
 import { useMapLibre } from '../../maplibre/hooks/use-maplibre';
 import { BASE_MAP_STYLE, PARAMETERS } from './constants';
 import { MapEvents } from './events';
-import { useMapMode } from './use-map-mode';
+import { MapModeProvider } from './map-mode-provider';
 import type { PickingInfo } from '@deck.gl/core';
 import type { DeckglProps } from '@deckgl-fiber-renderer/types';
 import type { IControl } from 'maplibre-gl';
 import type { MjolnirGestureEvent, MjolnirPointerEvent } from 'mjolnir.js';
 import type { MapClickEvent, MapEventType, MapHoverEvent } from './types';
-import type { UseMapModeOptions } from './use-map-mode';
+
+type MapModeOptions = {
+  defaultMode?: string;
+  owner?: string;
+};
 
 type BaseMapProps = DeckglProps & {
   className?: string;
-  modeOptions?: UseMapModeOptions;
+  modeOptions?: MapModeOptions;
 };
 
 export const bus = Broadcast.getInstance<MapEventType>();
@@ -47,9 +51,6 @@ export function BaseMap({
 }: BaseMapProps) {
   const deckglInstance = useDeckgl();
   const container = useId();
-
-  // Initialize map mode system
-  useMapMode(modeOptions);
 
   // Use the custom hook to handle MapLibre
   useMapLibre(deckglInstance as IControl, BASE_MAP_STYLE, {
@@ -118,19 +119,21 @@ export function BaseMap({
   );
 
   return (
-    <div id={container} className={className}>
-      <Deckgl
-        {...rest}
-        controller
-        interleaved
-        useDevicePixels={false}
-        onHover={handleMapHover}
-        onClick={handleMapClick}
-        // @ts-expect-error TODO: conflict with deckgl type
-        parameters={{ ...PARAMETERS, ...parameters }}
-      >
-        {children}
-      </Deckgl>
-    </div>
+    <MapModeProvider defaultMode={modeOptions?.defaultMode}>
+      <div id={container} className={className}>
+        <Deckgl
+          {...rest}
+          controller
+          interleaved
+          useDevicePixels={false}
+          onHover={handleMapHover}
+          onClick={handleMapClick}
+          // @ts-expect-error TODO: conflict with deckgl type
+          parameters={{ ...PARAMETERS, ...parameters }}
+        >
+          {children}
+        </Deckgl>
+      </div>
+    </MapModeProvider>
   );
 }
