@@ -17,7 +17,7 @@ export const SwitchStyles = tv({
     switch:
       'group/switch flex cursor-pointer items-center gap-s disabled:cursor-not-allowed',
     control: [
-      'flex rounded-round bg-transparent p-xxs outline outline-interactive before:mr-l before:block before:size-m before:rounded-full before:transition-[margin,background-color] before:duration-150 before:ease-out before:[background-color:var(--fg-primary-muted)]',
+      'flex rounded-round bg-transparent p-xxs outline outline-interactive before:mr-l before:block before:size-m before:rounded-full before:[background-color:var(--fg-primary-muted)]',
       //focus-visible
       'group-enabled/switch:group-focus-visible/switch:bg-interactive-muted-hover group-enabled/switch:group-focus-visible/switch:outline-interactive-hover group-enabled/switch:group-focus-visible/switch:before:[background-color:var(--fg-primary-bold)]',
       //hover
@@ -26,7 +26,7 @@ export const SwitchStyles = tv({
       'group-enabled/switch:group-pressed/switch:bg-interactive-pressed group-enabled/switch:group-pressed/switch:outline-interactive-pressed group-enabled/switch:group-pressed/switch:before:[background-color:var(--fg-pressed)]',
       //selected
       'group-enabled/switch:group-selected/switch:outline-accent-primary-bold group-selected/switch:before:mr-0 group-selected/switch:before:ml-l group-enabled/switch:group-selected/switch:before:[background-color:var(--fg-accent-primary-bold)]',
-      //focus-visble
+      //focus-visible
       'group-enabled/switch:group-selected/switch:group-focus-visible/switch:bg-accent-primary-muted group-enabled/switch:group-selected/switch:group-focus-visible/switch:outline-interactive-hover group-enabled/switch:group-selected/switch:group-focus-visible/switch:before:[background-color:var(--fg-accent-primary-hover)]',
       //hover
       'group-enabled/switch:group-selected/switch:group-hover/switch:bg-accent-primary-muted group-enabled/switch:group-selected/switch:group-hover/switch:outline-accent-primary-bold group-enabled/switch:group-selected/switch:group-hover/switch:before:[background-color:var(--fg-accent-primary-hover)]',
