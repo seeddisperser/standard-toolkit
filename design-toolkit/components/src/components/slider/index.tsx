@@ -76,19 +76,12 @@ export const Slider = ({
       {({ state }) => (
         <>
           {showLabel && (
-            <Label 
-              className={label({ className: classNames?.label })}
-              data-disabled={state.isDisabled || undefined}
-            >
+            <Label className={label({ className: classNames?.label })}>
               {labelProp}
             </Label>
           )}
           {showInput && (
-            <div
-              className={
-                inputs({className: classNames?.inputs })}
-                data-disabled={state.isDisabled || undefined}
-            >
+            <div className={inputs({ className: classNames?.inputs })}>
               {state.values.map((value, index) => (
                 <Input
                   key={`number-field-${index === 0 ? 'min' : 'max'}`}
@@ -152,14 +145,12 @@ export const Slider = ({
           <Text
             slot='min'
             className={minValue({ className: classNames?.minValue })}
-            data-disabled={state.isDisabled || undefined}
           >
             {minValueProp}
           </Text>
           <Text
             slot='max'
             className={maxValue({ className: classNames?.maxValue })}
-            data-disabled={state.isDisabled || undefined}
           >
             {maxValueProp}
           </Text>
