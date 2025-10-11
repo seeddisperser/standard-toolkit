@@ -15,6 +15,7 @@
 import 'client-only';
 import { memo, useContext } from 'react';
 import {
+  type Path,
   type RuleProps,
   TestID,
   useRule,
@@ -22,6 +23,11 @@ import {
 } from 'react-querybuilder';
 import type { QueryBuilderContextType } from './types';
 import { Lines } from '../lines';
+import { RuleStyles } from './styles';
+
+const {
+  lines
+} = RuleStyles();
 
 export function Rule(props: RuleProps) {
   const rule = useRule(props);
@@ -78,9 +84,7 @@ export function Rule(props: RuleProps) {
   const renderValueSources =
     !['null', 'notNull'].includes(operator) && valueSources.length > 1;
 
-    const QueryBuilderLines = memo(function QueryBuilderLines({
-    }: {
-    }) {
+    const QueryBuilderLines = memo(function QueryBuilderLines() {
         const isLastRule = path[0] === props.schema.getQuery()?.rules.length - 1; 
         const line = isLastRule ? 'last' : 'branch'
 
@@ -89,7 +93,7 @@ export function Rule(props: RuleProps) {
             variant={line}
             size='small'
             isVisible={context.showRuleLines}
-            className='min-h-[46px] w-[20px]'
+            className={lines()}
           />
         );
       ;

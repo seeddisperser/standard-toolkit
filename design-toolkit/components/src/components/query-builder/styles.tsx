@@ -18,7 +18,7 @@ export const QueryBuilderStyles = tv({
   slots: {
     queryBuilder: 'outline outline-transparent',
     ruleGroup:
-      'group col-span-full flex flex-col gap-s p-s outline outline-info-bold rounded-medium',
+      'group col-span-full flex flex-col gap-s rounded-medium p-s outline outline-info-bold',
     header: 'flex gap-s',
     body: 'group grid gap-x-s empty:hidden',
     combinators: 'my-s',
@@ -59,6 +59,6 @@ export const QueryBuilderStyles = tv({
 
 export const RuleStyles = tv({
   slots: {
-    ruleBase: 'rule-lines relative',
+    lines: 'min-h-[46px] w-[20px]'
   },
 });
