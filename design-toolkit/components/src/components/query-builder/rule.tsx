@@ -13,8 +13,9 @@
 'use client';
 
 import 'client-only';
-import { useContext } from 'react';
+import { memo, useContext } from 'react';
 import {
+  type Path,
   type RuleProps,
   TestID,
   useRule,
@@ -28,8 +29,17 @@ const {
   lines
 } = RuleStyles();
 
-const QueryBuilderLines = (pathLevel, props, context) => {
-    const isLastRule = pathLevel === props.schema.getQuery()?.rules.length - 1; 
+const QueryBuilderLines = memo(function QueryBuilderLines({
+path, 
+props, 
+context
+}: {
+path: Path,
+  props: RuleProps;
+  context: QueryBuilderContextType
+}) {
+
+    const isLastRule = path[0] === props.schema.getQuery()?.rules.length - 1; 
     const line = isLastRule ? 'last' : 'branch';
 
     return (
@@ -40,7 +50,7 @@ const QueryBuilderLines = (pathLevel, props, context) => {
         className={lines()}
       />
     );
-};
+});
 
 export function Rule(props: RuleProps) {
   const rule = useRule(props);
@@ -99,7 +109,7 @@ export function Rule(props: RuleProps) {
 
   return (
     <>
-      {context.showRuleLines && <QueryBuilderLines pathLevel={path[0]} props={props} context={context}/> }
+      {context.showRuleLines && <QueryBuilderLines path={path} props={props} context={context}/> }
       <div className={outerClassName}>
         <FieldSelectorControlElement
           testID={TestID.fields}
