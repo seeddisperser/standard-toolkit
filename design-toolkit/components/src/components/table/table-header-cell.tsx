@@ -31,6 +31,7 @@ function HeaderCellMenu<T>({ header }: { header: Header<T, unknown> }) {
     moveColumnRight,
     persistHeaderKebabMenu,
     setColumnSelection,
+    onSort
   } = useContext(TableContext);
 
   const [hoveredArrow, setHoveredArrow] = useState(false);
@@ -88,18 +89,32 @@ function HeaderCellMenu<T>({ header }: { header: Header<T, unknown> }) {
           <>
             <Menu.Item
               classNames={{ item: menuItem() }}
-              onAction={() => header.column.toggleSorting(false)}
+              onAction={() => {
+                header.column.toggleSorting(false);
+                onSort?.(header.column.id, 'asc');
+              }}
               isDisabled={sort === 'asc'}
             >
               Sort Ascending
             </Menu.Item>
             <Menu.Item
-              onAction={() => header.column.toggleSorting(true)}
+              classNames={{ item: menuItem() }}
+              onAction={() => {
+                header.column.toggleSorting(true);
+                onSort?.(header.column.id, 'desc');
+              }}
               isDisabled={sort === 'desc'}
             >
               Sort Descending
             </Menu.Item>
-            <Menu.Item onAction={header.column.clearSorting} isDisabled={!sort}>
+            <Menu.Item 
+              classNames={{ item: menuItem() }} 
+              onAction={() => {
+                header.column.clearSorting();
+                onSort?.(header.column.id, null);
+              }}
+              isDisabled={!sort}
+            >
               Clear Sort
             </Menu.Item>
           </>

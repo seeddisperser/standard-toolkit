@@ -255,6 +255,9 @@ export function Table<T extends { id: Key }>({
     [showCheckbox, columnsProp, kebabPosition, actionColumn],
   );
 
+  const onSort = () => {
+    console.log('send back to server')
+  }
   const {
     getHeaderGroups,
     getTopRows,
@@ -341,12 +344,14 @@ export function Table<T extends { id: Key }>({
         setColumnSelection,
         moveColumnLeft,
         moveColumnRight,
+        onSort
       }}
     >
       <table {...rest}>
         <TableHeader
           headerGroups={getHeaderGroups()}
           columnSelection={columnSelection}
+          
         />
         <TableBody
           rows={[...getTopRows(), ...getCenterRows(), ...getBottomRows()]}

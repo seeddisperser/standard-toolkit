@@ -220,4 +220,5 @@ export type TableContextValue = {
   moveColumnLeft: (index: number) => void;
   moveColumnRight: (index: number) => void;
   setColumnSelection: Dispatch<SetStateAction<string | null>>;
+  onSort?: (columnId: string, direction: 'asc' | 'desc' | null) => void;
 };
