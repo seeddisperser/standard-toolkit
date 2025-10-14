@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-export const MapModeEventsNamespace = 'mode';
+export const MapModeEventsNamespace = 'map-mode';
 
 export const MapModeEvents = {
   changed: `${MapModeEventsNamespace}:changed`,

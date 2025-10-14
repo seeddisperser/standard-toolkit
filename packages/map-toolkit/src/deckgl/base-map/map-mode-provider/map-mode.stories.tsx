@@ -11,7 +11,7 @@
  */
 
 import { useEmit, useOn } from '@accelint/bus/react';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { BaseMap } from '../index';
 import { MapModeProvider, useMapMode } from '.';
 import { MapModeEvents } from './events';
@@ -20,118 +20,186 @@ import type {
   ModeChangeAuthorizationEvent,
   ModeChangeDecisionEvent,
   ModeChangedEvent,
-  ModeChangeRequestEvent,
 } from './types';
 
-const MAP_MODES = ['default', 'drawing', 'measuring', 'editing'];
-const OWNER_1_ID = 'owner1';
-const OWNER_2_ID = 'owner2';
-
-// Module-level state to persist across Storybook remounts
-// Track which owner owns which mode (mode -> owner UUID)
-const globalModeOwnership = new Map<string, string>();
-// Track event log across remounts
-const globalEventLog: string[] = [];
-
-type MapModeStoryArgs = {
-  defaultMode: string;
-  requestModeOwner1: string;
-  requestModeOwner2: string;
-};
+const EXAMPLE_MAP_MODES = ['default', 'drawing', 'measuring', 'editing'];
 
 const meta = {
   title: 'DeckGL/Base Map/Map Mode',
-  args: {
-    defaultMode: 'default',
-    requestModeOwner1: '',
-    requestModeOwner2: '',
-  },
-  argTypes: {
-    defaultMode: {
-      control: 'radio',
-      options: MAP_MODES,
-      description:
-        'Initial mode when the map loads (starts ownerless, auto-accepts first request)',
-    },
-    requestModeOwner1: {
-      control: 'radio',
-      options: ['', ...MAP_MODES],
-      description: 'Request a mode change as Owner 1 (can re-select same mode)',
-    },
-    requestModeOwner2: {
-      control: 'radio',
-      options: ['', ...MAP_MODES],
-      description: 'Request a mode change as Owner 2 (can re-select same mode)',
-    },
-  },
-} satisfies Meta<MapModeStoryArgs>;
+} satisfies Meta;
 
 export default meta;
-type Story = StoryObj<MapModeStoryArgs>;
+type Story = StoryObj;
 
-export const MapMode: Story = {
-  args: {
-    defaultMode: 'default',
-    requestModeOwner1: '',
-    requestModeOwner2: '',
+/**
+ * Basic usage example showing how to consume and change map modes.
+ * This demonstrates the core API: wrapping with MapModeProvider and using the useMapMode hook.
+ */
+export const BasicUsage: Story = {
+  render: () => {
+    // A simple toolbar that changes modes
+    function ModeToolbar() {
+      const { mode, requestModeChange } = useMapMode();
+
+      return (
+        <div className='absolute top-4 left-4 rounded-lg bg-white p-4 shadow-lg'>
+          <h3 className='mb-3 font-bold text-sm'>Map Modes</h3>
+          <div className='flex flex-col gap-2'>
+            {EXAMPLE_MAP_MODES.map((modeName) => (
+              <button
+                key={modeName}
+                type='button'
+                onClick={() => requestModeChange(modeName, 'toolbar')}
+                className={`rounded px-4 py-2 text-sm transition-colors ${
+                  mode === modeName
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                {modeName}
+              </button>
+            ))}
+          </div>
+          <div className='mt-4 border-t pt-4'>
+            <p className='text-gray-600 text-xs'>
+              Current mode: <strong className='font-mono'>{mode}</strong>
+            </p>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <MapModeProvider defaultMode='default'>
+        <BaseMap className='relative h-dvh w-dvw' />
+        <ModeToolbar />
+      </MapModeProvider>
+    );
   },
+};
 
-  render: (args) => {
-    // StatusPanel component that uses the map mode context
-    function StatusPanel() {
+/**
+ * Multiple components consuming the same mode context.
+ * Shows how different parts of your UI can react to the same mode changes.
+ */
+export const MultipleConsumers: Story = {
+  render: () => {
+    // Toolbar component that changes modes
+    function ModeToolbar() {
+      const { requestModeChange } = useMapMode();
+
+      return (
+        <div className='absolute top-4 left-4 flex gap-2'>
+          {EXAMPLE_MAP_MODES.map((modeName) => (
+            <button
+              key={modeName}
+              type='button'
+              onClick={() => requestModeChange(modeName, 'toolbar')}
+              className='rounded bg-white px-3 py-2 text-sm shadow-md hover:bg-gray-50'
+            >
+              {modeName}
+            </button>
+          ))}
+        </div>
+      );
+    }
+
+    // Status indicator component
+    function ModeIndicator() {
+      const { mode } = useMapMode();
+
+      return (
+        <div className='absolute top-4 right-4 rounded-lg bg-white p-3 shadow-lg'>
+          <p className='text-gray-600 text-xs'>Current Mode</p>
+          <p className='mt-1 font-bold font-mono text-lg'>{mode}</p>
+        </div>
+      );
+    }
+
+    // Instructions panel that changes based on mode
+    function InstructionsPanel() {
+      const { mode } = useMapMode();
+
+      const instructions: Record<string, string> = {
+        default: 'Pan and zoom the map',
+        drawing: 'Click to add points to draw on the map',
+        measuring: 'Click to measure distances',
+        editing: 'Select features to edit them',
+      };
+
+      return (
+        <div className='absolute bottom-4 left-4 rounded-lg bg-white p-4 shadow-lg'>
+          <p className='text-gray-700 text-sm'>
+            {instructions[mode] || 'Unknown mode'}
+          </p>
+        </div>
+      );
+    }
+
+    return (
+      <MapModeProvider defaultMode='default'>
+        <BaseMap className='relative h-dvh w-dvw' />
+        <ModeToolbar />
+        <ModeIndicator />
+        <InstructionsPanel />
+      </MapModeProvider>
+    );
+  },
+};
+
+/**
+ * Advanced: Authorization flow with mode ownership.
+ * Demonstrates how different "owners" can request mode changes and how to handle authorization.
+ */
+export const AuthorizationFlow: Story = {
+  render: () => {
+    function AuthorizationDemo() {
+      const { mode, requestModeChange } = useMapMode();
+      const [modeOwners, setModeOwners] = useState<Map<string, string>>(
+        new Map(),
+      );
       const [pendingAuth, setPendingAuth] = useState<{
         authId: string;
         desiredMode: string;
+        requestingOwner: string;
       } | null>(null);
-      // Force re-render when module-level data changes
-      const [, forceUpdate] = useState({});
+      const [eventLog, setEventLog] = useState<string[]>([]);
 
-      // Get mode from context
-      const { mode: currentMode, requestModeChange } = useMapMode();
+      const pendingRequests = useRef<Map<string, string>>(new Map());
 
       const emitDecision = useEmit<ModeChangeDecisionEvent>(
         MapModeEvents.changeDecision,
       );
 
       const addLog = (message: string) => {
-        globalEventLog.push(`${new Date().toLocaleTimeString()}: ${message}`);
-        forceUpdate({}); // Trigger re-render to show new log entry
+        setEventLog((prev) => [
+          ...prev,
+          `${new Date().toLocaleTimeString()}: ${message}`,
+        ]);
       };
 
-      // Track pending requests to correlate with mode changes
-      const pendingRequests = useRef<Map<string, string>>(new Map()); // mode -> owner
-
-      // Listen for mode change requests to track pending requests
-      useOn<ModeChangeRequestEvent>(MapModeEvents.changeRequest, (event) => {
-        // Track this request so we know who requested it
-        pendingRequests.current.set(
-          event.payload.desiredMode,
-          event.payload.owner,
-        );
-      });
-
-      // Listen for mode changes to update global ownership
+      // Listen for mode changes
       useOn<ModeChangedEvent>(MapModeEvents.changed, (event) => {
         addLog(
-          `Mode changed from "${event.payload.previousMode}" to "${event.payload.currentMode}"`,
+          `Mode changed: "${event.payload.previousMode}" → "${event.payload.currentMode}"`,
         );
 
-        // Check if we have a pending request for this mode
         const requestingOwner = pendingRequests.current.get(
           event.payload.currentMode,
         );
-        // Update global ownership (except for 'default' which stays ownerless)
         if (requestingOwner && event.payload.currentMode !== 'default') {
-          globalModeOwnership.set(event.payload.currentMode, requestingOwner);
-          addLog(
-            `"${event.payload.currentMode}" now owned by ${requestingOwner}`,
-          );
+          // Update ownership map if this mode doesn't have an owner yet
+          setModeOwners((prev) => {
+            const newMap = new Map(prev);
+            if (!newMap.has(event.payload.currentMode)) {
+              newMap.set(event.payload.currentMode, requestingOwner);
+              addLog(
+                `"${event.payload.currentMode}" now owned by ${requestingOwner}`,
+              );
+            }
+            return newMap;
+          });
           pendingRequests.current.delete(event.payload.currentMode);
-          forceUpdate({});
-        } else if (event.payload.currentMode === 'default') {
-          // Clear ownership for default mode
-          globalModeOwnership.delete(event.payload.currentMode);
-          forceUpdate({});
         }
       });
 
@@ -139,21 +207,17 @@ export const MapMode: Story = {
       useOn<ModeChangeAuthorizationEvent>(
         MapModeEvents.changeAuthorization,
         (event) => {
-          addLog(
-            `Authorization requested for mode change to "${event.payload.desiredMode}" (authId: ${event.payload.authId})`,
+          const requestingOwner = pendingRequests.current.get(
+            event.payload.desiredMode,
           );
-
-          // Check who owns the current mode
-          const currentModeOwner = globalModeOwnership.get(
-            event.payload.currentMode,
-          );
-
-          // Only show authorization UI if someone owns the current mode
-          // (The UI will show which owner can authorize it)
-          if (currentModeOwner) {
+          if (requestingOwner) {
+            addLog(
+              `Authorization needed: ${requestingOwner} wants "${event.payload.desiredMode}"`,
+            );
             setPendingAuth({
               authId: event.payload.authId,
               desiredMode: event.payload.desiredMode,
+              requestingOwner,
             });
           }
         },
@@ -162,86 +226,71 @@ export const MapMode: Story = {
       // Listen for decisions
       useOn<ModeChangeDecisionEvent>(MapModeEvents.changeDecision, (event) => {
         const status = event.payload.approved ? 'approved' : 'rejected';
-        const reason = event.payload.reason ? ` (${event.payload.reason})` : '';
-        addLog(`Mode change ${status}${reason}`);
+        addLog(`Request ${status}`);
       });
 
-      // Handle requestModeOwner1 control changes
-      useEffect(() => {
-        if (args.requestModeOwner1) {
-          // Track the request BEFORE emitting (so it's ready when mode changes)
-          pendingRequests.current.set(args.requestModeOwner1, OWNER_1_ID);
-          requestModeChange(args.requestModeOwner1, OWNER_1_ID);
-        }
-      }, [args.requestModeOwner1, requestModeChange]);
-
-      // Handle requestModeOwner2 control changes (different owner's requests)
-      useEffect(() => {
-        if (args.requestModeOwner2) {
-          // Track the request BEFORE emitting (so it's ready when mode changes)
-          pendingRequests.current.set(args.requestModeOwner2, OWNER_2_ID);
-          requestModeChange(args.requestModeOwner2, OWNER_2_ID);
-        }
-      }, [args.requestModeOwner2, requestModeChange]);
-
-      // Get current mode ownership for UI
-      const currentModeOwner = globalModeOwnership.get(currentMode);
-      const currentOwnerName = currentModeOwner ? currentModeOwner : 'None';
+      const handleModeRequest = (modeName: string, owner: string) => {
+        pendingRequests.current.set(modeName, owner);
+        requestModeChange(modeName, owner);
+      };
 
       const handleApprove = () => {
-        if (pendingAuth && currentModeOwner) {
-          emitDecision({
-            authId: pendingAuth.authId,
-            approved: true,
-            owner: currentModeOwner, // Use the actual current mode owner
-          });
-          setPendingAuth(null);
+        if (pendingAuth) {
+          const currentModeOwner = modeOwners.get(mode);
+          if (currentModeOwner) {
+            emitDecision({
+              authId: pendingAuth.authId,
+              approved: true,
+              owner: currentModeOwner,
+            });
+            setPendingAuth(null);
+          }
         }
       };
 
       const handleReject = () => {
-        if (pendingAuth && currentModeOwner) {
-          emitDecision({
-            authId: pendingAuth.authId,
-            approved: false,
-            owner: currentModeOwner, // Use the actual current mode owner
-            reason: `${currentModeOwner} rejected the request`,
-          });
-          setPendingAuth(null);
+        if (pendingAuth) {
+          const currentModeOwner = modeOwners.get(mode);
+          if (currentModeOwner) {
+            emitDecision({
+              authId: pendingAuth.authId,
+              approved: false,
+              owner: currentModeOwner,
+              reason: `${currentModeOwner} rejected the request`,
+            });
+            setPendingAuth(null);
+          }
         }
       };
 
       return (
         <div className='absolute top-4 left-4 w-80 rounded-lg bg-white p-4 shadow-lg'>
-          <h2 className='mb-4 font-bold text-lg'>Map Mode Monitor</h2>
+          <h3 className='mb-4 font-bold text-lg'>Authorization Demo</h3>
 
           <div className='mb-4'>
             <p className='mb-2 font-semibold text-sm'>Current Mode:</p>
-            <div className='flex items-center gap-2'>
-              <p className='flex-1 rounded bg-blue-100 p-2 text-center font-mono'>
-                {currentMode}
-              </p>
-            </div>
+            <p className='rounded bg-blue-100 p-2 text-center font-mono'>
+              {mode}
+            </p>
             <p className='mt-1 text-gray-600 text-xs'>
-              Owner: <strong>{currentOwnerName}</strong>
+              Owner: <strong>{modeOwners.get(mode) || 'None'}</strong>
             </p>
           </div>
 
           <div className='mb-4'>
             <p className='mb-2 font-semibold text-sm'>Mode Ownership:</p>
             <div className='rounded border bg-gray-50 p-2'>
-              {MAP_MODES.map((mode) => {
-                const owner = globalModeOwnership.get(mode);
-                const ownerDisplay = owner ? owner : 'Ownerless';
-                const isActive = mode === currentMode;
+              {EXAMPLE_MAP_MODES.map((modeName) => {
+                const owner = modeOwners.get(modeName);
+                const isActive = modeName === mode;
                 return (
                   <div
-                    key={mode}
+                    key={modeName}
                     className={`flex justify-between border-b py-1 last:border-b-0 ${isActive ? 'font-bold' : ''}`}
                   >
-                    <span className='font-mono text-xs'>{mode}</span>
+                    <span className='font-mono text-xs'>{modeName}</span>
                     <span className='text-gray-600 text-xs'>
-                      {ownerDisplay}
+                      {owner || 'Ownerless'}
                     </span>
                   </div>
                 );
@@ -249,24 +298,88 @@ export const MapMode: Story = {
             </div>
           </div>
 
-          {pendingAuth && currentModeOwner && (
+          <div className='mb-4'>
+            <p className='mb-2 font-semibold text-sm'>Owner 1 Requests:</p>
+            <div className='flex flex-wrap gap-2'>
+              {EXAMPLE_MAP_MODES.map((modeName) => {
+                const modeOwner = modeOwners.get(modeName);
+                const isDisabled = Boolean(
+                  modeOwner && modeOwner !== 'owner1' && modeName !== 'default',
+                );
+                const title = isDisabled
+                  ? `Owned by ${modeOwner} - requires authorization`
+                  : undefined;
+
+                return (
+                  <button
+                    key={modeName}
+                    type='button'
+                    onClick={() => handleModeRequest(modeName, 'owner1')}
+                    disabled={isDisabled}
+                    title={title}
+                    className={`rounded px-3 py-1 text-sm text-white ${
+                      isDisabled
+                        ? 'cursor-not-allowed bg-green-300'
+                        : 'bg-green-500 hover:bg-green-600'
+                    }`}
+                  >
+                    {modeName}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className='mb-4'>
+            <p className='mb-2 font-semibold text-sm'>Owner 2 Requests:</p>
+            <div className='flex flex-wrap gap-2'>
+              {EXAMPLE_MAP_MODES.map((modeName) => {
+                const modeOwner = modeOwners.get(modeName);
+                const isDisabled = Boolean(
+                  modeOwner && modeOwner !== 'owner2' && modeName !== 'default',
+                );
+                const title = isDisabled
+                  ? `Owned by ${modeOwner} - cannot switch to non-default unowned mode`
+                  : undefined;
+
+                return (
+                  <button
+                    key={modeName}
+                    type='button'
+                    onClick={() => handleModeRequest(modeName, 'owner2')}
+                    disabled={isDisabled}
+                    title={title}
+                    className={`rounded px-3 py-1 text-sm text-white ${
+                      isDisabled
+                        ? 'cursor-not-allowed bg-purple-300'
+                        : 'bg-purple-500 hover:bg-purple-600'
+                    }`}
+                  >
+                    {modeName}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {pendingAuth && (
             <div className='mb-4 rounded border-2 border-amber-400 bg-amber-50 p-3'>
               <p className='mb-2 font-semibold text-sm'>
                 ⚠️ Authorization Needed
               </p>
               <p className='mb-2 text-sm'>
-                Someone wants: <strong>{pendingAuth.desiredMode}</strong>
+                <strong>{pendingAuth.requestingOwner}</strong> wants:{' '}
+                <strong>{pendingAuth.desiredMode}</strong>
               </p>
               <p className='mb-3 text-gray-600 text-xs'>
-                Only <strong>{currentModeOwner}</strong> can authorize this
-                request
+                Only <strong>{modeOwners.get(mode)}</strong> can authorize
+                (current mode owner)
               </p>
               <div className='flex gap-2'>
                 <button
                   type='button'
                   onClick={handleApprove}
                   className='flex-1 rounded bg-green-500 px-3 py-1 text-sm text-white hover:bg-green-600'
-                  title={`Approve as ${currentModeOwner}`}
                 >
                   Approve
                 </button>
@@ -274,7 +387,6 @@ export const MapMode: Story = {
                   type='button'
                   onClick={handleReject}
                   className='flex-1 rounded bg-red-500 px-3 py-1 text-sm text-white hover:bg-red-600'
-                  title={`Reject as ${currentModeOwner}`}
                 >
                   Reject
                 </button>
@@ -285,11 +397,11 @@ export const MapMode: Story = {
           <div className='border-t pt-4'>
             <p className='mb-2 font-semibold text-sm'>Event Log:</p>
             <div className='max-h-40 overflow-y-auto rounded border bg-gray-50 p-2'>
-              {globalEventLog.length === 0 ? (
+              {eventLog.length === 0 ? (
                 <p className='text-gray-400 text-xs'>No events yet</p>
               ) : (
-                globalEventLog.map((entry, i) => (
-                  <p key={`log-${i}`} className='mb-1 text-xs'>
+                eventLog.map((entry) => (
+                  <p key={entry} className='mb-1 text-xs'>
                     {entry}
                   </p>
                 ))
@@ -301,9 +413,9 @@ export const MapMode: Story = {
     }
 
     return (
-      <MapModeProvider defaultMode={args.defaultMode}>
+      <MapModeProvider defaultMode='default'>
         <BaseMap className='relative h-dvh w-dvw' />
-        <StatusPanel />
+        <AuthorizationDemo />
       </MapModeProvider>
     );
   },
