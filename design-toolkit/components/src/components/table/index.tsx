@@ -114,6 +114,8 @@ export function Table<T extends { id: Key }>({
   enableSorting = true,
   enableColumnOrdering: enableColumnReordering = true,
   enableRowActions = true,
+  manualSorting = false,
+  onSortChange,
   ...rest
 }: TableProps<T>) {
   const {
@@ -255,9 +257,10 @@ export function Table<T extends { id: Key }>({
     [showCheckbox, columnsProp, kebabPosition, actionColumn],
   );
 
-  const onSort = () => {
-    console.log('send back to server')
+  const handleSortChange = (columnId: string, sortDirection: 'asc' | 'desc' | null) => {
+    onSortChange?.(columnId, sortDirection)
   }
+
   const {
     getHeaderGroups,
     getTopRows,
@@ -280,6 +283,7 @@ export function Table<T extends { id: Key }>({
       return row.id ? row.id.toString() : index.toString();
     },
     enableRowSelection: true,
+    manualSorting: manualSorting,
     onRowSelectionChange: setRowSelection,
     getCoreRowModel: getCoreRowModel<T>(),
     getSortedRowModel: getSortedRowModel<T>(),
@@ -344,7 +348,8 @@ export function Table<T extends { id: Key }>({
         setColumnSelection,
         moveColumnLeft,
         moveColumnRight,
-        onSort
+        manualSorting,
+        handleSortChange
       }}
     >
       <table {...rest}>

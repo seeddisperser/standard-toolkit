@@ -93,6 +93,13 @@ type ExtendedTableProps<T extends { id: Key }> = {
    * If false, the table will not support ability to take action on row.
    */
   enableRowActions?: boolean;
+  /**
+   * When manualSorting is set to true, the table will assume that the data that you provide is already sorted, and will not apply any sorting to it.
+   * This is used for server-side sorting. 
+   * If true, getSortedRowModel() is not needed. 
+  ***/
+  manualSorting?: boolean;
+  onSortChange?: (columnId: string, sortDirection: 'asc' | 'desc' | null) => void;
 };
 
 /**
@@ -220,5 +227,6 @@ export type TableContextValue = {
   moveColumnLeft: (index: number) => void;
   moveColumnRight: (index: number) => void;
   setColumnSelection: Dispatch<SetStateAction<string | null>>;
-  onSort?: (columnId: string, direction: 'asc' | 'desc' | null) => void;
+  manualSorting: boolean;
+  handleSortChange?: (columnId: string, direction: 'asc' | 'desc' | null) => void;
 };
