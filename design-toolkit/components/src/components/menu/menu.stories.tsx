@@ -160,7 +160,7 @@ export const Basic: Story = {
             <Menu.Item.Description>Anas platyrhynchos</Menu.Item.Description>
             <Hotkey variant='flat'>⌘V</Hotkey>
           </Menu.Item>
-          <Menu.Item>
+          <Menu.Item color='critical'>
             <Icon>
               <Placeholder />
             </Icon>

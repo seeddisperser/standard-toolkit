@@ -17,10 +17,8 @@ import {
 } from 'react-aria-components';
 import { Icon } from '../icon';
 import { Options } from './';
-import type { OptionsProps } from '@storybook/blocks';
 import type { Meta, StoryObj } from '@storybook/react';
 import type { ReactNode } from 'react';
-import type { OptionsItemProps } from './types';
 
 const meta = {
   title: 'Components/Options',
