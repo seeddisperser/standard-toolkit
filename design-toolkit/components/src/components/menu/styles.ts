@@ -56,6 +56,11 @@ export const MenuStyles = tv({
       'fg-primary-muted truncate text-body-xs',
       'group-hover/menu-item:fg-a11y-on-accent group-focus-visible/menu-item:fg-a11y-on-accent',
       'group-disabled/menu-item:fg-disabled',
+      'group-enabled/menu-item:group-pressed/menu-item:group-color-info/menu-item:fg-accent-primary-bold',
+      // serious
+      'group-enabled/menu-item:group-pressed/menu-item:group-color-serious/menu-item:fg-serious-bold',
+      // critical
+      'group-enabled/menu-item:group-pressed/menu-item:group-color-critical/menu-item:fg-critical-bold',
     ],
     more: '[grid-area:action]',
     section: '',
