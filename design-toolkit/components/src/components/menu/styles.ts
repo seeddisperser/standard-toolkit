@@ -30,21 +30,21 @@ export const MenuStyles = tv({
       'color-info:enabled:hover:bg-accent-primary-muted',
       'color-info:enabled:open:bg-accent-primary-muted',
       'color-info:enabled:selected:bg-accent-primary-muted',
-      'color-info:enabled:pressed:bg-accent-primary-pressed color-info:enabled:pressed:fg-accent-primary-bold',
+      'color-info:enabled:pressed:fg-accent-primary-bold·color-info:enabled:pressed:bg-accent-primary-pressed',
 
       // Serious
       'color-serious:enabled:focus-visible:bg-serious-muted',
       'color-serious:enabled:hover:bg-serious-muted',
       'color-serious:enabled:open:bg-serious-muted',
       'color-serious:enabled:selected:bg-serious-muted',
-      'color-serious:enabled:pressed:bg-serious-pressed color-serious:enabled:pressed:fg-serious-bold',
+      'color-serious:enabled:pressed:fg-serious-bold·color-serious:enabled:pressed:bg-serious-pressed',
 
       // Critical
       'color-critical:enabled:focus-visible:bg-critical-muted',
       'color-critical:enabled:hover:bg-critical-muted',
       'color-critical:enabled:open:bg-critical-muted',
       'color-critical:enabled:selected:bg-critical-muted',
-      'color-critical:enabled:pressed:bg-critical-pressed color-critical:enabled:pressed:fg-critical-bold',
+      'color-critical:enabled:pressed:fg-critical-bold·color-critical:enabled:pressed:bg-critical-pressed',
 
       'disabled:fg-disabled disabled:cursor-not-allowed disabled:bg-transparent',
     ],
