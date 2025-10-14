@@ -100,6 +100,7 @@ type ExtendedTableProps<T extends { id: Key }> = {
   ***/
   manualSorting?: boolean;
   onSortChange?: (columnId: string, sortDirection: 'asc' | 'desc' | null) => void;
+  onColumnReorderChange?: (index: number) => void
 };
 
 /**
@@ -229,4 +230,5 @@ export type TableContextValue = {
   setColumnSelection: Dispatch<SetStateAction<string | null>>;
   manualSorting: boolean;
   handleSortChange?: (columnId: string, direction: 'asc' | 'desc' | null) => void;
+  handleColumnReordering?: (index: number) => void;
 };

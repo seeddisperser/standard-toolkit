@@ -116,6 +116,7 @@ export function Table<T extends { id: Key }>({
   enableRowActions = true,
   manualSorting = false,
   onSortChange,
+  onColumnReorderChange,
   ...rest
 }: TableProps<T>) {
   const {
@@ -261,6 +262,10 @@ export function Table<T extends { id: Key }>({
     onSortChange?.(columnId, sortDirection)
   }
 
+  const handleColumnReordering = (index: number) => {
+    onColumnReorderChange?.(index)
+  }
+
   const {
     getHeaderGroups,
     getTopRows,
@@ -349,7 +354,8 @@ export function Table<T extends { id: Key }>({
         moveColumnLeft,
         moveColumnRight,
         manualSorting,
-        handleSortChange
+        handleSortChange,
+        handleColumnReordering
       }}
     >
       <table {...rest}>
