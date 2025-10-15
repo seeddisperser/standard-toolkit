@@ -2,4 +2,4 @@
 "@accelint/design-toolkit": patch
 ---
 
-Updates deletable chip state styles
+Updates deletable chip and selectable chip state styles 
