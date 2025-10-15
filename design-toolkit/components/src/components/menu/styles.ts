@@ -73,8 +73,10 @@ export const MenuStyles = tv({
       'group-enabled/menu-item:group-selected/menu-item:group-pressed/menu-item:group-color-info/menu-item:fg-accent-primary-bold',
       // serious
       'group-enabled/menu-item:group-pressed/menu-item:group-color-serious/menu-item:fg-serious-bold',
+      'group-enabled/menu-item:group-selected/menu-item:group-pressed/menu-item:group-color-serious/menu-item:fg-serious-bold',
       // critical
       'group-enabled/menu-item:group-pressed/menu-item:group-color-critical/menu-item:fg-critical-bold',
+      'group-enabled/menu-item:group-selected/menu-item:group-pressed/menu-item:group-color-critical/menu-item:fg-critical-bold',
     ],
     more: '[grid-area:action]',
     section: '',
