@@ -49,11 +49,14 @@ export const SelectableChipStyles = tv({
   slots: {
     chip: [
       'cursor-pointer outline-interactive',
-      'enabled:focus-visible:outline-interactive-hover',
-      'enabled:hover:outline-interactive-hover',
+      // hover
+      'enabled:hover:outline-2 enabled:hover:outline-interactive-hover',
+      'enabled:selected:hover:outline-interactive-primary-bold',
+      'enabled:focus-visible:outline-2 enabled:focus-visible:outline-interactive-hover',
+      'enabled:selected:focus-visible:outline-interactive-primary-bold',
+      'enabled:pressed:outline-1 enabled:pressed:outline-accent-primary-pressed',
+      'enabled:pressed:outline-1 enabled:selected:pressed:outline-accent-primary-pressed',
       'enabled:selected:bg-accent-primary-muted enabled:selected:outline-accent-primary-bold',
-      'enabled:selected:focus-visible:outline-interactive-hover',
-      'enabled:selected:hover:outline-interactive-hover',
       'disabled:fg-disabled disabled:cursor-not-allowed disabled:outline-interactive-disabled',
       'disabled:selected:bg-interactive-disabled',
     ],
