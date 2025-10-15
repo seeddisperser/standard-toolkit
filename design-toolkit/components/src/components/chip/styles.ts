@@ -64,9 +64,9 @@ export const DeletableChipStyles = tv({
   extend: BaseChipStyles,
   slots: {
     chip: [
-      'gap-xs outline-interactive cursor-default',
+      'cursor-default gap-xs outline-interactive',
       'enabled:fg-primary-muted',
-      'disabled:fg-disabled disabled:cursor-not-allowed disabled:outline-interactive-disabled disabled:bg-interactive-disabled',
+      'disabled:fg-disabled disabled:cursor-not-allowed disabled:bg-interactive-disabled disabled:outline-interactive-disabled',
       'has-[button:hover]:fg-hover',
       'has-[button:focus-visible]:fg-hover',
       // using :pressed does not apply the style
