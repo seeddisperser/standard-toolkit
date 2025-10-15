@@ -32,27 +32,101 @@ import type {
   ModeChangeRequestEvent,
 } from './types';
 
+/**
+ * Internal type for tracking pending authorization requests.
+ * @internal
+ */
 type PendingRequest = {
   desiredMode: string;
   currentMode: string;
   owner: string;
 };
 
+/**
+ * Context value provided by MapModeProvider to consumers.
+ */
 export type MapModeContextValue = {
+  /** The current active map mode */
   mode: string;
+  /** Function to request a mode change with ownership */
   requestModeChange: (desiredMode: string, requestOwner: string) => void;
 };
 
+/**
+ * React context for map mode state.
+ * Use the `useMapMode` hook to access this context.
+ */
 export const MapModeContext = createContext<MapModeContextValue | null>(null);
 
+/**
+ * Props for the MapModeProvider component.
+ */
 export type MapModeProviderProps = {
+  /** Child components that will have access to map mode context */
   children: ReactNode;
+  /** The default mode to start with. Defaults to 'default' */
   defaultMode?: string;
 };
 
 const DEFAULT_MODE = 'default';
 const AUTHORIZATION_TIMEOUT_MS = 30000; // 30 seconds
 
+/**
+ * Provider component for managing map modes with ownership and authorization.
+ *
+ * This component manages a state machine for map modes where components can request
+ * mode changes with ownership. When a mode is owned by a component, other components
+ * must request authorization to change to a different mode. The provider handles:
+ *
+ * - Automatic mode changes when no ownership conflicts exist
+ * - Authorization flow when switching between owned modes
+ * - Per-mode ownership tracking that persists throughout the session
+ * - 30-second timeout for authorization requests
+ * - Event emission through a centralized event bus
+ *
+ * @param props - Provider props including children and optional defaultMode
+ * @returns Provider component that wraps children with map mode context
+ *
+ * @example
+ * Basic usage:
+ * ```tsx
+ * import { MapModeProvider } from '@accelint/map-toolkit/deckgl';
+ *
+ * function App() {
+ *   return (
+ *     <MapModeProvider defaultMode="view">
+ *       <MapView />
+ *     </MapModeProvider>
+ *   );
+ * }
+ * ```
+ *
+ * @example
+ * With authorization handling:
+ * ```tsx
+ * import { MapModeProvider, useMapMode } from '@accelint/map-toolkit/deckgl';
+ * import { useOn, useEmit } from '@accelint/bus/react';
+ * import { MapModeEvents } from '@accelint/map-toolkit/deckgl';
+ *
+ * function DrawingTool() {
+ *   const { requestModeChange } = useMapMode();
+ *   const emitDecision = useEmit(MapModeEvents.changeDecision);
+ *
+ *   // Listen for authorization requests
+ *   useOn(MapModeEvents.changeAuthorization, (event) => {
+ *     const { authId, desiredMode } = event.payload;
+ *     // Approve or reject the request
+ *     emitDecision({ authId, approved: true, owner: 'drawing-tool' });
+ *   });
+ *
+ *   return (
+ *     <button onClick={() => requestModeChange('drawing', 'drawing-tool')}>
+ *       Start Drawing
+ *     </button>
+ *   );
+ * }
+ * ```
+ */
 export function MapModeProvider({
   children,
   defaultMode = DEFAULT_MODE,
