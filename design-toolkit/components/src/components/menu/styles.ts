@@ -24,35 +24,35 @@ export const MenuStyles = tv({
       'grid grid-cols-[auto_auto_1fr_auto] [grid-template-areas:"icon_label_space_action"_"icon_description_space_action"]',
       'enabled:fg-primary-bold enabled',
       'enabled:selected:inset-shadow-[3px_0_0_0_]',
-      // Info
+      // info
       'color-info:enabled:focus-visible:bg-accent-primary-muted',
       'color-info:enabled:hover:bg-accent-primary-muted',
       'color-info:enabled:open:bg-accent-primary-muted',
       'color-info:enabled:selected:bg-accent-primary-muted',
       'color-info:enabled:pressed:fg-accent-primary-bold color-info:enabled:pressed:bg-accent-primary-pressed',
-      // Info + Selected
+      // info + selected
       'color-info:enabled:selected:inset-shadow-[color:var(--outline-accent-primary-bold)] color-info:enabled:selected:bg-accent-primary-muted',
       'color-info:enabled:selected:hover:bg-accent-primary-bold',
       'color-info:enabled:selected:focus-visible:bg-accent-primary-bold',
       'color-info:enabled:selected:pressed:fg-accent-primary-bold color-info:enabled:selected:pressed:inset-shadow-[color:var(--outline-accent-primary-pressed)] color-info:enabled:selected:pressed:bg-accent-primary-pressed',
-      // Serious
+      // serious
       'color-serious:enabled:focus-visible:bg-serious-muted',
       'color-serious:enabled:hover:bg-serious-muted',
       'color-serious:enabled:open:bg-serious-muted',
       'color-serious:enabled:selected:bg-serious-muted',
       'color-serious:enabled:pressed:fg-serious-bold color-serious:enabled:pressed:bg-serious-pressed',
-      // Serious + Selected
+      // serious + selected
       'color-serious:enabled:selected:inset-shadow-[color:var(--outline-serious-bold)] color-serious:enabled:selected:bg-serious-muted',
       'color-serious:enabled:selected:hover:bg-serious-bold',
       'color-serious:enabled:selected:focus-visible:bg-serious-bold',
       'color-serious:enabled:selected:pressed:fg-serious-bold color-serious:enabled:selected:pressed:inset-shadow-[color:var(--outline-serious-pressed)] color-serious:enabled:selected:pressed:bg-serious-pressed',
-      // Critical
+      // critical
       'color-critical:enabled:focus-visible:bg-critical-muted',
       'color-critical:enabled:hover:bg-critical-muted',
       'color-critical:enabled:open:bg-critical-muted',
       'color-critical:enabled:selected:bg-critical-muted',
       'color-critical:enabled:pressed:fg-critical-bold color-critical:enabled:pressed:bg-critical-pressed',
-      // Critical + Selected
+      // critical + selected
       'color-critical:enabled:selected:inset-shadow-[color:var(--outline-critical-bold)] color-critical:enabled:selected:bg-critical-muted',
       'color-critical:enabled:selected:hover:bg-critical-bold',
       'color-critical:enabled:selected:focus-visible:bg-critical-bold',
@@ -68,7 +68,7 @@ export const MenuStyles = tv({
       'fg-primary-muted truncate text-body-xs',
       'group-hover/menu-item:fg-a11y-on-accent group-focus-visible/menu-item:fg-a11y-on-accent',
       'group-disabled/menu-item:fg-disabled',
-      // Info
+      // info
       'group-enabled/menu-item:group-pressed/menu-item:group-color-info/menu-item:fg-accent-primary-bold',
       'group-enabled/menu-item:group-selected/menu-item:group-pressed/menu-item:group-color-info/menu-item:fg-accent-primary-bold',
       // serious
@@ -86,7 +86,7 @@ export const MenuStyles = tv({
       '[grid-area:action]',
       'group-hover/menu-item:fg-a11y-on-accent group-focus-visible/menu-item:fg-a11y-on-accent',
       'group-disabled/menu-item:fg-disabled',
-      // Info
+      // info
       'group-enabled/menu-item:group-pressed/menu-item:group-color-info/menu-item:fg-accent-primary-bold',
       'group-enabled/menu-item:group-selected/menu-item:group-pressed/menu-item:group-color-info/menu-item:fg-accent-primary-bold',
       // serious

@@ -43,7 +43,7 @@ export const OptionsStyles = tv({
       'color-serious:enabled:selected:hover:bg-serious-bold',
       'color-serious:enabled:selected:focus-visible:bg-serious-bold',
       'color-serious:enabled:selected:pressed:fg-serious-bold color-serious:enabled:selected:pressed:inset-shadow-[color:var(--outline-serious-pressed)] color-serious:enabled:selected:pressed:bg-serious-pressed',
-      //critical
+      // critical
       'enabled:hover:color-critical:bg-critical-muted',
       'enabled:pressed:color-critical:bg-critical-pressed',
       // critical + selected
@@ -52,7 +52,7 @@ export const OptionsStyles = tv({
       'color-critical:enabled:selected:focus-visible:bg-critical-bold',
       'color-critical:enabled:selected:pressed:fg-critical-bold color-critical:enabled:selected:pressed:inset-shadow-[color:var(--outline-critical-pressed)] color-critical:enabled:selected:pressed:bg-critical-pressed',
 
-      //disabled
+      // disabled
       'disabled:fg-disabled disabled:cursor-not-allowed disabled:bg-transparent',
     ],
     content: 'flex min-w-0 flex-auto flex-col gap-xxs',
@@ -76,7 +76,7 @@ export const OptionsStyles = tv({
       'group-enabled/options-item:group-hover/options-item:group-color-info/options-item:fg-a11y-on-accent',
       'group-enabled/options-item:group-focus-visible/options-item:group-color-info/options-item:fg-a11y-on-accent',
       'group-enabled/options-item:group-pressed/options-item:group-color-info/options-item:fg-accent-primary-bold',
-      //serious
+      // serious
       'group-enabled/options-item:group-hover/options-item:group-color-serious/options-item:fg-a11y-on-accent',
       'group-enabled/options-item:group-focus-visible/options-item:group-color-serious/options-item:fg-a11y-on-accent',
       'group-enabled/options-item:group-pressed/options-item:group-color-serious/options-item:fg-serious-bold',
