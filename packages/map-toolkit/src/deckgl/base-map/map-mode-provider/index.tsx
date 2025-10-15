@@ -45,13 +45,12 @@ export type MapModeContextValue = {
 
 export const MapModeContext = createContext<MapModeContextValue | null>(null);
 
-const DEFAULT_MODE = 'default';
-
-type MapModeProviderProps = {
+export type MapModeProviderProps = {
   children: ReactNode;
   defaultMode?: string;
 };
 
+const DEFAULT_MODE = 'default';
 const AUTHORIZATION_TIMEOUT_MS = 30000; // 30 seconds
 
 export function MapModeProvider({
@@ -96,13 +95,13 @@ export function MapModeProvider({
       // Auto-accept if:
       // 1. Desired mode is 'default' (default is always ownerless and accepts all requests)
       // 2. Requesting owner is same as current mode owner, OR
-      // 3. No desired mode owner, OR
-      // 4. No current mode owner (default mode) and the requester is the owner of the desired mode
+      // 3. No current or desired mode owner, OR
+      // 4. In default mode and the requester is the owner of the desired mode
       if (
         desiredMode === defaultMode ||
         requestOwner === currentModeOwner ||
-        !desiredModeOwner ||
-        (!currentModeOwner && requestOwner === desiredModeOwner)
+        !(currentModeOwner || desiredModeOwner) ||
+        (mode === defaultMode && requestOwner === desiredModeOwner)
       ) {
         setMode(desiredMode);
         emitChanged({
@@ -240,5 +239,3 @@ export function MapModeProvider({
     <MapModeContext.Provider value={value}>{children}</MapModeContext.Provider>
   );
 }
-
-export { useMapMode } from './use-map-mode';

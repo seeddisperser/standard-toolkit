@@ -27,7 +27,7 @@ import type { IControl } from 'maplibre-gl';
 import type { MjolnirGestureEvent, MjolnirPointerEvent } from 'mjolnir.js';
 import type { MapClickEvent, MapEventType, MapHoverEvent } from './types';
 
-type BaseMapProps = DeckglProps & {
+export type BaseMapProps = DeckglProps & {
   className?: string;
 };
 

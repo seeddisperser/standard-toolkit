@@ -11,10 +11,11 @@
  */
 
 import { useEmit, useOn } from '@accelint/bus/react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { BaseMap } from '../index';
-import { MapModeProvider, useMapMode } from '.';
+import { MapModeProvider } from '.';
 import { MapModeEvents } from './events';
+import { useMapMode } from './use-map-mode';
 import type { Meta, StoryObj } from '@storybook/react';
 import type {
   ModeChangeAuthorizationEvent,
@@ -164,8 +165,10 @@ export const AuthorizationFlow: Story = {
         requestingOwner: string;
       } | null>(null);
       const [eventLog, setEventLog] = useState<string[]>([]);
+      const [countdown, setCountdown] = useState<number | null>(null);
 
       const pendingRequests = useRef<Map<string, string>>(new Map());
+      const countdownIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
       const emitDecision = useEmit<ModeChangeDecisionEvent>(
         MapModeEvents.changeDecision,
@@ -219,6 +222,24 @@ export const AuthorizationFlow: Story = {
               desiredMode: event.payload.desiredMode,
               requestingOwner,
             });
+
+            // Start 30 second countdown
+            setCountdown(30);
+            if (countdownIntervalRef.current) {
+              clearInterval(countdownIntervalRef.current);
+            }
+            countdownIntervalRef.current = setInterval(() => {
+              setCountdown((prev) => {
+                if (prev === null || prev <= 1) {
+                  if (countdownIntervalRef.current) {
+                    clearInterval(countdownIntervalRef.current);
+                    countdownIntervalRef.current = null;
+                  }
+                  return null;
+                }
+                return prev - 1;
+              });
+            }, 1000);
           }
         },
       );
@@ -226,7 +247,15 @@ export const AuthorizationFlow: Story = {
       // Listen for decisions
       useOn<ModeChangeDecisionEvent>(MapModeEvents.changeDecision, (event) => {
         const status = event.payload.approved ? 'approved' : 'rejected';
-        addLog(`Request ${status}`);
+        const reason = event.payload.reason ? ` - ${event.payload.reason}` : '';
+        addLog(`Request ${status}${reason}`);
+
+        // Clear countdown when decision is made
+        if (countdownIntervalRef.current) {
+          clearInterval(countdownIntervalRef.current);
+          countdownIntervalRef.current = null;
+        }
+        setCountdown(null);
       });
 
       const handleModeRequest = (modeName: string, owner: string) => {
@@ -262,6 +291,15 @@ export const AuthorizationFlow: Story = {
           }
         }
       };
+
+      // Cleanup countdown interval on unmount
+      useEffect(() => {
+        return () => {
+          if (countdownIntervalRef.current) {
+            clearInterval(countdownIntervalRef.current);
+          }
+        };
+      }, []);
 
       return (
         <div className='absolute top-4 left-4 w-80 rounded-lg bg-white p-4 shadow-lg'>
@@ -364,9 +402,14 @@ export const AuthorizationFlow: Story = {
 
           {pendingAuth && (
             <div className='mb-4 rounded border-2 border-amber-400 bg-amber-50 p-3'>
-              <p className='mb-2 font-semibold text-sm'>
-                ⚠️ Authorization Needed
-              </p>
+              <div className='mb-2 flex items-center justify-between'>
+                <p className='font-semibold text-sm'>⚠️ Authorization Needed</p>
+                {countdown !== null && (
+                  <p className='font-mono text-amber-700 text-xs'>
+                    {countdown}s remaining
+                  </p>
+                )}
+              </div>
               <p className='mb-2 text-sm'>
                 <strong>{pendingAuth.requestingOwner}</strong> wants:{' '}
                 <strong>{pendingAuth.desiredMode}</strong>
