@@ -101,8 +101,8 @@
     "vitest-broadcast-channel-mock": "0.1.0"
   },
   "optionalDependencies": {
-    "@accelint/bus": "^1.3.0",
-    "@accelint/core": "^1.4.0",
+    "@accelint/bus": "^1.4.0",
+    "@accelint/core": "^0.4.2",
     "@deck.gl/core": "9.1.14",
     "@deck.gl/extensions": "9.1.14",
     "@deck.gl/geo-layers": "9.1.14",
