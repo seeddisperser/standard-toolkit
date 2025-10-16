@@ -13,7 +13,7 @@
 'use client';
 
 import 'client-only';
-import { merge } from 'lodash';
+import { assign } from 'radashi';
 import {
   createContext,
   type PropsWithChildren,
@@ -30,13 +30,13 @@ import type {
   ThemeTokens,
 } from '@/tokens/types';
 
-type Mode = 'dark' | 'light';
+export type ThemeMode = 'dark' | 'light';
 type ContextColorTokens = SemanticColorTokens & StaticColorTokens;
 
 type ThemeContextValue = {
-  mode: Mode;
+  mode: ThemeMode;
   tokens: ContextColorTokens;
-  toggleMode: (mode: Mode) => void;
+  toggleMode: (mode: ThemeMode) => void;
 };
 /** provide default context value to avoid optional chaining and null checks on the client */
 const defaultContextValue: ThemeContextValue = {
@@ -49,18 +49,19 @@ const defaultContextValue: ThemeContextValue = {
 const ThemeContext = createContext<ThemeContextValue>(defaultContextValue);
 
 type ThemeProviderProps = PropsWithChildren & {
-  defaultMode?: Mode;
-  onChange?: (mode: Mode) => void;
+  defaultMode?: ThemeMode;
+  onChange?: (mode: ThemeMode) => void;
   /** override existing values in the theme */
   overrides?: PartialDeep<ThemeTokens>;
 };
+
 export function ThemeProvider({
   children,
   defaultMode,
   onChange,
   overrides,
 }: ThemeProviderProps) {
-  const [mode, setMode] = useState<Mode>(defaultMode ?? 'dark');
+  const [mode, setMode] = useState<ThemeMode>(defaultMode ?? 'dark');
 
   useEffect(() => {
     if (document) {
@@ -71,7 +72,7 @@ export function ThemeProvider({
   }, [mode]);
 
   const tokens: ContextColorTokens = useMemo(() => {
-    const tokensWithOverrides = merge(designTokens, overrides);
+    const tokensWithOverrides = assign(designTokens, overrides as ThemeTokens);
     return {
       ...tokensWithOverrides[mode],
       ...tokensWithOverrides.static,
@@ -83,7 +84,7 @@ export function ThemeProvider({
       value={{
         mode,
         tokens,
-        toggleMode: (mode: Mode) => {
+        toggleMode: (mode: ThemeMode) => {
           setMode(mode);
           onChange?.(mode);
         },
