@@ -1,5 +1,92 @@
 # @accelint/design-toolkit
 
+## 6.0.0
+
+### Major Changes
+
+- 6d131cd: A refactor introducing breaking changes for the Tooltip component. The structure is now a light wrapper around the [Tooltip](https://react-spectrum.adobe.com/react-aria/Tooltip.html) implementation. Tooltip has been replaced with Tooltip.Trigger and Tooltip.Body has been replaced with Tooltip. Reference the [docs](https://gohypergiant.github.io/standard-toolkit/?path=/docs/components-tooltip--playground) for implementation instructions.
+- ac5378e: Changed to new naming system for fontsource.
+
+  Breaking change: This will require changing packages downstream according to the [v5 migration blog](https://fontsource.org/docs/getting-started/migrate-v5) on fontsource.
+
+  Example:
+
+  From this:
+
+  ```json
+      "@fontsource/roboto-flex": "^5.2.8",
+      "@fontsource/roboto-mono": "^5.2.8",
+  ```
+
+  To:
+
+  ```json
+      "@fontsource-variable/roboto-flex": "^5.2.8",
+      "@fontsource-variable/roboto-mono": "^5.2.8",
+  ```
+
+### Minor Changes
+
+- 23ad1db: This release introduces a Notice component to display notifications, alerts, and messages. The implementation includes an individual Notice component for single notifications and Notice.List for queue-based notifications. The system supports five color variants (info, advisory, normal, critical, and serious) with customizable action buttons, automatic timeout management, flexible dequeuing options, and portal-based rendering. View the [Notice component in Storybook](https://gohypergiant.github.io/standard-toolkit/?path=/docs/components-notice--playground) for interactive examples and documentation.
+- 0baf4b0: This fixes a memory leak in the ViewStack component that affects the Drawer component causing detached elements.
+- ade0504: - export ThemeMode type (light or dark)for use in the ThemeProvider
+  - apply bg-surface-default and fg-primary-bold tokens to the html element by default
+  - move font-primary token from the body element to the html
+- eba4ac3: Adds Clock component
+
+### Patch Changes
+
+- 66ac503: Fixes incorrect link to the Github repository
+- 3e47dea: Updates state styles of tree
+- 57efc27: Updates state styles for tabs
+- d625d2b: Apply story patterns: satisfies, story type alias, meta property ordering
+- 1e68e16: Updates state styles of combobox
+- fb2852d: add missing docblock comments to publicly exported components
+- 5643ee1: Fixed buttons min/max widths being incorrectly applied
+- 64280a7: - Released `@accelint/constellation-tracker` - A tool that helps maintain catalog-info.yaml files for Constellation integration
+  - Ensures all packages include catalog-info.yaml in their published files for better discoverability and integration with Constellation
+  - Provides automated tracking and updating of component metadata across the project
+  - Enhanced package metadata to support better integration with internal tooling
+- 4d96d59: Fixes an issue where the Slider component had a fixed height instead of being sized according to its content.
+- 65a0137: Link state style updates
+- d726ad5: Accordion/AccordionGroup variant styling has been updated to address a bug that was not displaying correctly.
+- Updated dependencies [66ac503]
+- Updated dependencies [ccb2d05]
+- Updated dependencies [64280a7]
+  - @accelint/icons@2.0.4
+  - @accelint/bus@1.4.0
+  - @accelint/core@0.4.2
+  - @accelint/temporal@0.1.1
+
+## 5.2.0
+
+### Minor Changes
+
+- c6881e4: Adds Table component to DesignTK
+- fc4d913: Adds Tooltip to Drawer.Menu.Item via textValue prop
+- ff7094f: Removes non-functional `isReadOnly` prop from `SelectField`
+- 438fd64: - Fixes discrepancies in color tokens to be more closely aligned with Figma.
+  - Updates certain color token primitives to reflect changes.
+  - Updates styling for the accordion component to reflect new changes in the Button component, specifically in the pressed state.
+  - Removes the hover state for disabled icon button/toggle button
+- a302ed8: - Update styling and states for Button, IconButton, ToggleButton
+  - Removes support for color variant 'info'
+  - Removes support for floating and filled variants for ToggleButton
+- d5ee78f: Fixes Drawer.Menu overflow
+- b4348ac: Refactors header to add opinionated variant
+- 4026632: Adds Breadcrumb component
+- b4ef537: Adds Divider component
+  - Utilizes Divider in Sidenav as a replacement for custom implementation
+
+### Patch Changes
+
+- 87d6eb1: Applies pressed state style to search-field
+- 69b9aff: Adds correct cursor styling to menu-items
+- f216426: Creates a pressed state for input
+- Updated dependencies [b11870c]
+- Updated dependencies [6374c68]
+  - @accelint/bus@1.3.0
+
 ## 5.1.0
 
 ### Minor Changes

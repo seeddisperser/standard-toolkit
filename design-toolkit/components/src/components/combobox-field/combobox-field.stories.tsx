@@ -11,13 +11,13 @@
  */
 
 import Placeholder from '@accelint/icons/placeholder';
+import { type ReactNode, useState } from 'react';
 import { Icon } from '../icon';
 import { Options } from '../options';
 import { ComboBoxField } from './';
 import type { Meta, StoryObj } from '@storybook/react';
-import type { ReactNode } from 'react';
 
-const meta: Meta<typeof ComboBoxField> = {
+const meta = {
   title: 'Components/ComboBoxField',
   component: ComboBoxField,
   args: {
@@ -34,6 +34,7 @@ const meta: Meta<typeof ComboBoxField> = {
     isDisabled: false,
     isInvalid: false,
     isRequired: true,
+    allowsCustomValue: false,
   },
   argTypes: {
     size: {
@@ -41,9 +42,10 @@ const meta: Meta<typeof ComboBoxField> = {
       options: ['medium', 'small'],
     },
   },
-};
+} satisfies Meta<typeof ComboBoxField>;
 
 export default meta;
+type Story = StoryObj<typeof meta>;
 
 interface CustomOptionsItem {
   id: number | string;
@@ -141,7 +143,7 @@ const itemsWithSections: CustomOptionsItem[] = [
   },
 ];
 
-export const Default: StoryObj<typeof ComboBoxField> = {
+export const Default: Story = {
   render: ({ children, ...args }) => (
     <ComboBoxField<CustomOptionsItem> {...args} defaultItems={items}>
       {(item) => (
@@ -165,7 +167,7 @@ export const Default: StoryObj<typeof ComboBoxField> = {
   ),
 };
 
-export const WithDynamicSections: StoryObj<typeof ComboBoxField> = {
+export const WithDynamicSections: Story = {
   args: {
     ...Default.args,
     layoutOptions: {
@@ -198,7 +200,7 @@ export const WithDynamicSections: StoryObj<typeof ComboBoxField> = {
   ),
 };
 
-export const WithStaticSections: StoryObj<typeof ComboBoxField> = {
+export const WithStaticSections: Story = {
   args: {
     ...Default.args,
     layoutOptions: {
@@ -256,7 +258,7 @@ for (let i = 0; i < 5000; i++) {
   manyItems.push({ id: i, name: `Item ${i}`, prefixIcon: <Placeholder /> });
 }
 
-export const WithManyItems: StoryObj<typeof ComboBoxField> = {
+export const WithManyItems: Story = {
   args: {
     ...Default.args,
     layoutOptions: {
@@ -273,4 +275,47 @@ export const WithManyItems: StoryObj<typeof ComboBoxField> = {
       ))}
     </ComboBoxField>
   ),
+};
+
+export const WithCustomValue: Story = {
+  args: {
+    allowsCustomValue: true,
+  },
+  render: ({ children, ...args }) => {
+    const [customValue, setCustomValue] = useState('');
+    return (
+      <div className='space-y-l'>
+        <ComboBoxField<CustomOptionsItem>
+          {...args}
+          defaultItems={items}
+          onInputChange={(value) => setCustomValue(value)}
+        >
+          {(item) => (
+            <Options.Item
+              key={item.id}
+              textValue={item.name}
+              isDisabled={item.isDisabled}
+            >
+              {item.prefixIcon && <Icon>{item.prefixIcon}</Icon>}
+              <Options.Item.Content>
+                <Options.Item.Label>{item.name}</Options.Item.Label>
+                {item.description && (
+                  <Options.Item.Description>
+                    {item.description}
+                  </Options.Item.Description>
+                )}
+              </Options.Item.Content>
+            </Options.Item>
+          )}
+        </ComboBoxField>
+        <div className='space-y-s text-body-s'>
+          <div className='fg-primary-muted'>
+            Setting 'allowsCustomValue' to true enables you to capture a custom
+            value that will persist on blur
+          </div>
+          <div>customValue: {customValue}</div>
+        </div>
+      </div>
+    );
+  },
 };
