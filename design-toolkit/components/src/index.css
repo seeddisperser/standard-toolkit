@@ -11,8 +11,8 @@
  */
 
 /* @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap'); */
-@import '@fontsource/roboto-flex';
-@import '@fontsource/roboto-mono';
+@import '@fontsource-variable/roboto-flex';
+@import '@fontsource-variable/roboto-mono';
 @import 'tailwindcss';
 
 /* Import generated themes.css */
@@ -164,7 +164,9 @@
   --icon-color: --value(--color- *);
 }
 
-body {
+html {
+  @apply bg-surface-default;
+  @apply fg-primary-bold;
   @apply font-primary;
 }
 
@@ -190,54 +192,5 @@ body {
     border-radius: var(--radius-large);
     border: 5px solid transparent;
     background-clip: padding-box;
-  }
-
-
-  /**
-   * Rule line only applicable to the QueryBuilder component
-   */
-  .queryBuilder .rule-lines::before {
-    content: '';
-    width: 10px;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    background-image:
-      repeating-linear-gradient(to bottom, var(--primitive-neutral-400), var(--primitive-neutral-400)),
-      repeating-linear-gradient(to right, var(--primitive-neutral-400), var(--primitive-neutral-400));
-    background-position: left -1px, center;
-    background-repeat: repeat-y, repeat-x;
-    background-size: 1px 4px, 4px 1px;
-  }
-
-  .queryBuilder .group > span.rule-lines:last-of-type::before {
-    content: '';
-    width: 10px;
-    position: absolute;
-    top: 0;
-    bottom: 50%;
-    left: 50%;
-    background-image:
-      repeating-linear-gradient(to bottom,var(--primitive-neutral-400), var(--primitive-neutral-400)),
-      repeating-linear-gradient(to right, var(--primitive-neutral-400), var(--primitive-neutral-400));
-    background-position: left -1px, bottom;
-    background-repeat: repeat-y, repeat-x;
-    background-size: 1px 4px, 4px 1px;
-  }
-
-  .queryBuilder .group > span.rule-lines:last-of-type:has(~ div.group)::before {
-    content: '';
-    width: 10px;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    background-image:
-      repeating-linear-gradient(to bottom, var(--primitive-neutral-400), var(--primitive-neutral-400)),
-      repeating-linear-gradient(to right, var(--primitive-neutral-400), var(--primitive-neutral-400));
-    background-position: left -1px, center;
-    background-repeat: repeat-y, repeat-x;
-    background-size: 1px 4px, 4px 1px;
   }
 }
