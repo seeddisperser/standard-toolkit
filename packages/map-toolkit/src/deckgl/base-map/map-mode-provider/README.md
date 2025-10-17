@@ -8,7 +8,6 @@ A React context provider for managing map interaction modes with built-in owners
 - **Ownership System**: Track which component/feature owns each mode to prevent conflicts
 - **Authorization Flow**: Built-in authorization system when switching between modes owned by different components
 - **Event-Based**: Uses `@accelint/bus` for decoupled event communication
-- **Auto-Timeout**: Authorization requests automatically timeout after 30 seconds
 
 ## Core Concepts
 
@@ -20,10 +19,10 @@ Modes represent different map interaction states. Common examples:
 - `editing` - Editing existing features
 
 ### Ownership
-Each mode (except `default`) can be "owned" by a component or feature, identified by a unique owner ID. Once a mode is owned and entered into, other owners need authorization to change to another mode (other than `default`).
+Each mode can be "owned" by a component or feature, identified by a unique owner ID. Once a mode is owned and entered into, other owners need authorization to change modes. Only the current mode owner can return to `default` mode without authorization - non-owners must request authorization.
 
 ### Authorization Flow
-When a component requests to change from a mode owned by another component (other than `default`), an authorization request is triggered. The current mode's owner must approve or reject the request.
+When a component requests to change from a mode owned by another component, an authorization request is triggered. The current mode's owner must approve or reject the request. This applies to all mode changes, including switching to the `default` mode, unless the requester is the current mode owner.
 
 ## Basic Usage
 
@@ -258,13 +257,6 @@ The provider uses the following logic to determine if a mode change requires aut
 - The current mode is owned by someone else
 - The desired mode is owned by a different owner than the requester
 
-## Authorization Timeout
-
-Authorization requests automatically timeout after 30 seconds. When a timeout occurs:
-- The request is automatically rejected
-- A decision event is emitted with `approved: false` and `reason: 'Authorization request timed out'`
-- The pending request is cleared
-
 ## Best Practices
 
 ### Owner IDs
@@ -297,15 +289,15 @@ try {
 
 The provider automatically cleans up:
 - Pending authorization requests when modes change
-- Timeout timers when the provider unmounts
 - Stale authorization requests
 
 ### Default Mode
 
 The `default` mode is special:
 - It's always ownerless
-- Anyone can switch to it at any time
-- Use it as a "neutral" state that's always accessible
+- Only the current mode owner can switch to it without authorization
+- Non-owners must request authorization to switch to default mode
+- Use it as a "neutral" state that mode owners can return to
 
 ## Examples
 
@@ -368,8 +360,8 @@ type ModeChangeDecisionPayload = {
 2. Implement authorization handler (see "Advanced Usage" above)
 3. Verify the decision is emitted by the current mode's owner
 
-### Authorization requests hanging
+### Authorization requests pending indefinitely
 
 **Cause**: No authorization handler responding to requests.
 
-**Solution**: The system auto-rejects after 30 seconds. Implement an authorization handler or ensure mode switching follows the ownership rules.
+**Solution**: Implement an authorization handler to approve or reject requests, or ensure mode switching follows the ownership rules to avoid requiring authorization.

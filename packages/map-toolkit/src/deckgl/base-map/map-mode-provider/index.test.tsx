@@ -19,7 +19,7 @@ import {
   waitFor,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { MapModeEvents } from './events';
 import { MapModeProvider } from './index';
 import { useMapMode } from './use-map-mode';
@@ -141,11 +141,64 @@ describe('MapModeProvider', () => {
       });
     });
 
-    it('allows switching to default from any mode', async () => {
+    it('allows current mode owner to switch to default', async () => {
       const user = userEvent.setup();
 
       function TestComponent() {
         const { mode, requestModeChange } = useMapMode();
+
+        return (
+          <div>
+            <span data-testid='mode'>{mode}</span>
+            <button
+              type='button'
+              onClick={() => requestModeChange('drawing', 'owner1')}
+              data-testid='to-drawing'
+            >
+              Drawing
+            </button>
+            <button
+              type='button'
+              onClick={() => requestModeChange('default', 'owner1')}
+              data-testid='to-default'
+            >
+              Default
+            </button>
+          </div>
+        );
+      }
+
+      render(
+        <MapModeProvider>
+          <TestComponent />
+        </MapModeProvider>,
+      );
+
+      // Switch to drawing
+      await user.click(screen.getByTestId('to-drawing'));
+
+      await waitFor(() => {
+        expect(screen.getByTestId('mode')).toHaveTextContent('drawing');
+      });
+
+      // Switch to default (same owner should work)
+      await user.click(screen.getByTestId('to-default'));
+
+      await waitFor(() => {
+        expect(screen.getByTestId('mode')).toHaveTextContent('default');
+      });
+    });
+
+    it('requires authorization when non-owner tries to switch to default', async () => {
+      const user = userEvent.setup();
+      const onAuthRequest = vi.fn();
+
+      function TestComponent() {
+        const { mode, requestModeChange } = useMapMode();
+        useOn<ModeChangeAuthorizationEvent>(
+          MapModeEvents.changeAuthorization,
+          onAuthRequest,
+        );
 
         return (
           <div>
@@ -174,19 +227,29 @@ describe('MapModeProvider', () => {
         </MapModeProvider>,
       );
 
-      // Switch to drawing
+      // owner1 claims drawing mode
       await user.click(screen.getByTestId('to-drawing'));
 
       await waitFor(() => {
         expect(screen.getByTestId('mode')).toHaveTextContent('drawing');
       });
 
-      // Switch to default (different owner should still work)
+      // owner2 tries to switch to default - should trigger authorization
       await user.click(screen.getByTestId('to-default'));
 
       await waitFor(() => {
-        expect(screen.getByTestId('mode')).toHaveTextContent('default');
+        expect(onAuthRequest).toHaveBeenCalledWith(
+          expect.objectContaining({
+            payload: expect.objectContaining({
+              desiredMode: 'default',
+              currentMode: 'drawing',
+            }),
+          }),
+        );
       });
+
+      // Mode should not have changed without authorization
+      expect(screen.getByTestId('mode')).toHaveTextContent('drawing');
     });
 
     it('allows owner to return to their own mode from default', async () => {
@@ -614,161 +677,6 @@ describe('MapModeProvider', () => {
 
       expect(onModeChanged).not.toHaveBeenCalled();
       expect(screen.getByTestId('mode')).toHaveTextContent('drawing');
-    });
-  });
-
-  // event bus is not working properly with fake timers, use storybook integration to test
-  describe.skip('Authorization Timeout', () => {
-    // Use fake timers only for timeout tests
-    beforeEach(() => {
-      vi.useFakeTimers();
-    });
-
-    afterEach(() => {
-      vi.useRealTimers();
-    });
-
-    it('auto-rejects authorization after timeout', async () => {
-      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-      const onDecision = vi.fn();
-
-      function TestComponent() {
-        const { mode, requestModeChange } = useMapMode();
-        useOn<ModeChangeDecisionEvent>(
-          MapModeEvents.changeDecision,
-          onDecision,
-        );
-
-        return (
-          <div>
-            <span data-testid='mode'>{mode}</span>
-            <button
-              type='button'
-              onClick={() => requestModeChange('drawing', 'owner1')}
-              data-testid='owner1-drawing'
-            >
-              Owner1
-            </button>
-            <button
-              type='button'
-              onClick={() => requestModeChange('measuring', 'owner2')}
-              data-testid='owner2-measuring'
-            >
-              Owner2
-            </button>
-          </div>
-        );
-      }
-
-      render(
-        <MapModeProvider>
-          <TestComponent />
-        </MapModeProvider>,
-      );
-
-      // owner1 claims drawing
-      await user.click(screen.getByTestId('owner1-drawing'));
-
-      await waitFor(() => {
-        expect(screen.getByTestId('mode')).toHaveTextContent('drawing');
-      });
-
-      // owner2 requests measuring (no one approves)
-      await user.click(screen.getByTestId('owner2-measuring'));
-
-      // Fast-forward time to trigger timeout
-      act(() => {
-        vi.advanceTimersByTime(30000);
-      });
-
-      await waitFor(() => {
-        expect(onDecision).toHaveBeenCalledWith(
-          expect.objectContaining({
-            payload: expect.objectContaining({
-              approved: false,
-              owner: 'owner1',
-              reason: 'Authorization request timed out',
-            }),
-          }),
-        );
-      });
-
-      // Mode should not have changed
-      expect(screen.getByTestId('mode')).toHaveTextContent('drawing');
-    });
-
-    it('clears timeout when decision is made manually', async () => {
-      const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-      const onDecision = vi.fn();
-
-      function TestComponent() {
-        const { mode, requestModeChange } = useMapMode();
-        const emitDecision = useEmit<ModeChangeDecisionEvent>(
-          MapModeEvents.changeDecision,
-        );
-        useOn<ModeChangeDecisionEvent>(
-          MapModeEvents.changeDecision,
-          onDecision,
-        );
-
-        useOn<ModeChangeAuthorizationEvent>(
-          MapModeEvents.changeAuthorization,
-          (event) => {
-            // Approve immediately
-            emitDecision({
-              authId: event.payload.authId,
-              approved: true,
-              owner: 'owner1',
-            });
-          },
-        );
-
-        return (
-          <div>
-            <span data-testid='mode'>{mode}</span>
-            <button
-              type='button'
-              onClick={() => requestModeChange('drawing', 'owner1')}
-              data-testid='owner1-drawing'
-            >
-              Owner1
-            </button>
-            <button
-              type='button'
-              onClick={() => requestModeChange('measuring', 'owner2')}
-              data-testid='owner2-measuring'
-            >
-              Owner2
-            </button>
-          </div>
-        );
-      }
-
-      render(
-        <MapModeProvider>
-          <TestComponent />
-        </MapModeProvider>,
-      );
-
-      // owner1 claims drawing
-      await user.click(screen.getByTestId('owner1-drawing'));
-
-      await waitFor(() => {
-        expect(screen.getByTestId('mode')).toHaveTextContent('drawing');
-      });
-
-      // owner2 requests and gets approved immediately
-      await user.click(screen.getByTestId('owner2-measuring'));
-
-      onDecision.mockClear();
-
-      // Fast-forward time past timeout
-      act(() => {
-        vi.advanceTimersByTime(30000);
-      });
-
-      // Timeout handler should NOT have fired (only 1 decision was made manually)
-      expect(onDecision).not.toHaveBeenCalled();
     });
   });
 

@@ -19,7 +19,6 @@ import {
   createContext,
   type ReactNode,
   useCallback,
-  useEffect,
   useMemo,
   useRef,
   useState,
@@ -69,7 +68,6 @@ export type MapModeProviderProps = {
 };
 
 const DEFAULT_MODE = 'default';
-const AUTHORIZATION_TIMEOUT_MS = 30000; // 30 seconds
 
 /**
  * Provider component for managing map modes with ownership and authorization.
@@ -81,7 +79,6 @@ const AUTHORIZATION_TIMEOUT_MS = 30000; // 30 seconds
  * - Automatic mode changes when no ownership conflicts exist
  * - Authorization flow when switching between owned modes
  * - Per-mode ownership tracking that persists throughout the session
- * - 30-second timeout for authorization requests
  * - Event emission through a centralized event bus
  *
  * @param props - Provider props including children and optional defaultMode
@@ -136,8 +133,6 @@ export function MapModeProvider({
   const modeOwnersRef = useRef<Map<string, string>>(new Map());
   // Store pending authorization requests by authId (no re-renders needed)
   const pendingRequestsRef = useRef<Map<string, PendingRequest>>(new Map());
-  // Store timeout for authorization requests
-  const authTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const emitChanged = useEmit<ModeChangedEvent>(MapModeEvents.changed);
   const emitAuthorization = useEmit<ModeChangeAuthorizationEvent>(
@@ -145,9 +140,6 @@ export function MapModeProvider({
   );
   const emitRequest = useEmit<ModeChangeRequestEvent>(
     MapModeEvents.changeRequest,
-  );
-  const emitDecision = useEmit<ModeChangeDecisionEvent>(
-    MapModeEvents.changeDecision,
   );
 
   // Centralized listener for mode change requests
@@ -167,12 +159,12 @@ export function MapModeProvider({
       const desiredModeOwner = modeOwnersRef.current.get(desiredMode);
 
       // Auto-accept if:
-      // 1. Desired mode is 'default' (default is always ownerless and accepts all requests)
+      // 1. Desired mode is 'default' AND requesting owner is the current mode owner
       // 2. Requesting owner is same as current mode owner, OR
       // 3. No current or desired mode owner, OR
       // 4. In default mode and the requester is the owner of the desired mode
       if (
-        desiredMode === defaultMode ||
+        (desiredMode === defaultMode && requestOwner === currentModeOwner) ||
         requestOwner === currentModeOwner ||
         !(currentModeOwner || desiredModeOwner) ||
         (mode === defaultMode && requestOwner === desiredModeOwner)
@@ -206,26 +198,6 @@ export function MapModeProvider({
         owner: requestOwner,
       });
 
-      // Clear any existing timeout
-      if (authTimeoutRef.current) {
-        clearTimeout(authTimeoutRef.current);
-      }
-
-      // Set timeout to auto-reject after AUTHORIZATION_TIMEOUT_MS
-      authTimeoutRef.current = setTimeout(() => {
-        const currentModeOwner = modeOwnersRef.current.get(mode);
-        if (currentModeOwner) {
-          emitDecision({
-            authId,
-            approved: false,
-            owner: currentModeOwner,
-            reason: 'Authorization request timed out',
-          });
-        }
-        pendingRequestsRef.current.delete(authId);
-        authTimeoutRef.current = null;
-      }, AUTHORIZATION_TIMEOUT_MS);
-
       emitAuthorization({
         authId,
         desiredMode,
@@ -237,12 +209,6 @@ export function MapModeProvider({
   // Centralized listener for authorization decisions
   useOn<ModeChangeDecisionEvent>(MapModeEvents.changeDecision, (event) => {
     const { approved, authId, owner: decisionOwner } = event.payload;
-
-    // Clear the timeout since a decision was made
-    if (authTimeoutRef.current) {
-      clearTimeout(authTimeoutRef.current);
-      authTimeoutRef.current = null;
-    }
 
     // Lookup the request by authId
     const request = pendingRequestsRef.current.get(authId);
@@ -273,15 +239,6 @@ export function MapModeProvider({
     // Remove the processed request
     pendingRequestsRef.current.delete(authId);
   });
-
-  // Cleanup timeout on unmount
-  useEffect(() => {
-    return () => {
-      if (authTimeoutRef.current) {
-        clearTimeout(authTimeoutRef.current);
-      }
-    };
-  }, []);
 
   const requestModeChange = useCallback(
     (desiredMode: string, requestOwner: string) => {
