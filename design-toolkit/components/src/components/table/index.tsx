@@ -369,7 +369,6 @@ export function Table<T extends { id: Key }>({
         <TableHeader
           headerGroups={getHeaderGroups()}
           columnSelection={columnSelection}
-          
         />
         <TableBody
           rows={[...getTopRows(), ...getCenterRows(), ...getBottomRows()]}
