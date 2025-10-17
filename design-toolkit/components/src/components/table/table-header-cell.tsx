@@ -145,9 +145,14 @@ export function HeaderCell<T>({
   const renderProps = header?.getContext();
   const narrow =
     header?.column.id === 'numeral' || header?.column.id === 'kebab';
-
+  const sortLabel = header?.column.getIsSorted() === 'asc'
+                    ? 'ascending'
+                    : header?.column.getIsSorted() === 'desc'
+                    ? 'descending'
+                    : undefined
+                
   return (
-    <th {...rest} ref={ref}>
+    <th {...rest} ref={ref} aria-sort={sortLabel}>
       <div
         className={TableHeaderCellStyles({
           narrow,

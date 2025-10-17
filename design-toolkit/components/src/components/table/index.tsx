@@ -59,7 +59,7 @@ function RowActionsMenu<T>({
     enableRowActions && (
       <div className={persistRowKebabMenu ? '' : notPersistRowKebab()}>
         <Menu.Trigger>
-          <Button variant='icon' aria-label='Menu'>
+          <Button variant='icon' aria-label={`row ${row.index + 1} actions`}>
             <Icon>
               <Kebab />
             </Icon>
