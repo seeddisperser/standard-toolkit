@@ -19,6 +19,7 @@ import {
   getCoreRowModel,
   getSortedRowModel,
   type Row,
+  type RowPinningState,
   type RowSelectionState,
   useReactTable,
 } from '@tanstack/react-table';
@@ -128,7 +129,10 @@ export function Table<T extends { id: Key }>({
   });
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [columnSelection, setColumnSelection] = useState<string | null>(null);
-
+   const [rowPinning, setRowPinning] = useState<RowPinningState>({
+    top: [],
+    bottom: [],
+  });
   /**
    * moveUpSelectedRows moves the selected rows up in the table.
    * It finds the first selected row, determines its index,
@@ -282,14 +286,17 @@ export function Table<T extends { id: Key }>({
     },
     state: {
       rowSelection,
+      rowPinning
     },
     getRowId: (row, index) => {
       // Use the index as the row ID if no unique identifier is available
       return row.id ? row.id.toString() : index.toString();
     },
     enableRowSelection: true,
+    enableRowPinning: true,
     manualSorting: manualSorting,
     onRowSelectionChange: setRowSelection,
+    onRowPinningChange: setRowPinning,
     getCoreRowModel: getCoreRowModel<T>(),
     getSortedRowModel: getSortedRowModel<T>(),
   });
