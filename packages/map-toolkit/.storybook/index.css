@@ -10,7 +10,6 @@
  * governing permissions and limitations under the License.
  */
 
-<<<<<<<< HEAD:packages/map-toolkit/.storybook/index.css
 @import "tailwindcss";
 @import "@accelint/design-toolkit/styles";
 @source "../node_modules/@accelint/design-toolkit";
@@ -18,10 +17,9 @@
 html {
   overflow: hidden;
 }
-========
+
 import { afterEach } from 'vitest';
 
 afterEach(() => {
   // no-op after each test
 });
->>>>>>>> 8d81c70b85364e3e48fec5d9494bbf87e94d2b54:tooling/constellation-tracker/test/setup.ts
