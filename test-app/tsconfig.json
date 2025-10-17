@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "jsx": "react-jsx",
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "strict": true,
+    "baseUrl": "./",
+    "paths": {
+      "@components/button": [
+        "../design-toolkit/components/src/components/button"
+      ],
+      "@components/text-field": [
+        "../design-toolkit/components/src/components/text-field"
+      ],
+      "@components/chip": ["../design-toolkit/components/src/components/chip"]
+    }
+  },
+  "include": ["src"]
+}
