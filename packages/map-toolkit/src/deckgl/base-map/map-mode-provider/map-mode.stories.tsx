@@ -11,6 +11,8 @@
  */
 
 import { useEmit, useOn } from '@accelint/bus/react';
+import { uuid } from '@accelint/core';
+import { Button, Dialog, Divider, Notice } from '@accelint/design-toolkit';
 import { useRef, useState } from 'react';
 import { BaseMap } from '../index';
 import { MapModeProvider } from '.';
@@ -43,28 +45,24 @@ export const BasicUsage: Story = {
       const { mode, requestModeChange } = useMapMode();
 
       return (
-        <div className='absolute top-4 left-4 rounded-lg bg-white p-4 shadow-lg'>
-          <h3 className='mb-3 font-bold text-sm'>Map Modes</h3>
-          <div className='flex flex-col gap-2'>
+        <div className='absolute left-l top-l w-[256px] rounded-lg bg-surface-default p-l shadow-elevation-overlay flex flex-col gap-xl'>
+          <p className='text-header-l font-bold'>Map Modes</p>
+          <div className='flex flex-col gap-s'>
             {EXAMPLE_MAP_MODES.map((modeName) => (
-              <button
+              <Button
                 key={modeName}
-                type='button'
-                onClick={() => requestModeChange(modeName, 'toolbar')}
-                className={`rounded px-4 py-2 text-sm transition-colors ${
-                  mode === modeName
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
+                variant={mode === modeName ? 'filled' : 'outline'}
+                color={mode === modeName ? 'accent' : 'mono-muted'}
+                onPress={() => requestModeChange(modeName, 'toolbar')}
+                className='w-full'
               >
                 {modeName}
-              </button>
+              </Button>
             ))}
           </div>
-          <div className='mt-4 border-t pt-4'>
-            <p className='text-gray-600 text-xs'>
-              Current mode: <strong className='font-mono'>{mode}</strong>
-            </p>
+          <div className='flex items-center gap-s'>
+            <p className='text-body-m'>Current mode:</p>
+            <code className='text-body-m'>{mode}</code>
           </div>
         </div>
       );
@@ -90,16 +88,17 @@ export const MultipleConsumers: Story = {
       const { requestModeChange } = useMapMode();
 
       return (
-        <div className='absolute top-4 left-4 flex gap-2'>
+        <div className='absolute left-l top-l flex gap-s'>
           {EXAMPLE_MAP_MODES.map((modeName) => (
-            <button
+            <Button
               key={modeName}
-              type='button'
-              onClick={() => requestModeChange(modeName, 'toolbar')}
-              className='rounded bg-white px-3 py-2 text-sm shadow-md hover:bg-gray-50'
+              variant='filled'
+              size='medium'
+              color='mono-bold'
+              onPress={() => requestModeChange(modeName, 'toolbar')}
             >
               {modeName}
-            </button>
+            </Button>
           ))}
         </div>
       );
@@ -110,9 +109,9 @@ export const MultipleConsumers: Story = {
       const { mode } = useMapMode();
 
       return (
-        <div className='absolute top-4 right-4 rounded-lg bg-white p-3 shadow-lg'>
-          <p className='text-gray-600 text-xs'>Current Mode</p>
-          <p className='mt-1 font-bold font-mono text-lg'>{mode}</p>
+        <div className='absolute right-l top-l flex flex-col gap-xs items-center rounded-lg bg-surface-default p-m shadow-elevation-raised'>
+          <p className='text-body-s'>Current Mode</p>
+          <code className='text-header-l'>{mode}</code>
         </div>
       );
     }
@@ -129,10 +128,8 @@ export const MultipleConsumers: Story = {
       };
 
       return (
-        <div className='absolute bottom-4 left-4 rounded-lg bg-white p-4 shadow-lg'>
-          <p className='text-gray-700 text-sm'>
-            {instructions[mode] || 'Unknown mode'}
-          </p>
+        <div className='absolute bottom-l left-l rounded-lg bg-surface-default p-m shadow-elevation-raised text-m'>
+          {instructions[mode] || 'Unknown mode'}
         </div>
       );
     }
@@ -149,8 +146,9 @@ export const MultipleConsumers: Story = {
 };
 
 /**
- * Advanced: Authorization flow with mode ownership.
- * Demonstrates how different "owners" can request mode changes and how to handle authorization.
+ * Advanced: Authorization flow with feature-specific modes.
+ * Demonstrates realistic mode management between two features: Shapes (drawing/editing)
+ * and MeasuringTool (measuring). Shows automatic acceptance, notices, and authorization dialogs.
  */
 export const AuthorizationFlow: Story = {
   render: () => {
@@ -163,8 +161,13 @@ export const AuthorizationFlow: Story = {
         authId: string;
         desiredMode: string;
         requestingOwner: string;
+        currentMode: string;
       } | null>(null);
       const [eventLog, setEventLog] = useState<string[]>([]);
+      const [showNotice, setShowNotice] = useState(false);
+      const [noticeMessage, setNoticeMessage] = useState('');
+      const [dialogOpen, setDialogOpen] = useState(false);
+      const [noticeId] = useState(() => uuid());
 
       const pendingRequests = useRef<Map<string, string>>(new Map());
 
@@ -211,15 +214,52 @@ export const AuthorizationFlow: Story = {
           const requestingOwner = pendingRequests.current.get(
             event.payload.desiredMode,
           );
-          if (requestingOwner) {
-            addLog(
-              `Authorization needed: ${requestingOwner} wants "${event.payload.desiredMode}"`,
+
+          if (!requestingOwner) {
+            return;
+          }
+
+          const currentModeOwner = modeOwners.get(event.payload.currentMode);
+
+          addLog(
+            `Authorization needed: ${requestingOwner} wants "${event.payload.desiredMode}"`,
+          );
+
+          // MeasuringTool automatically accepts requests to leave measuring mode
+          if (
+            currentModeOwner === 'MeasuringTool' &&
+            event.payload.currentMode === 'measuring'
+          ) {
+            addLog('MeasuringTool auto-accepting request');
+            // Show notice that measuring was canceled
+            setNoticeMessage(
+              `Measuring mode was canceled, mode changed to ${event.payload.desiredMode}`,
             );
+            setShowNotice(true);
+            setTimeout(() => setShowNotice(false), 5000);
+
+            // Auto-approve
+            emitDecision({
+              authId: event.payload.authId,
+              approved: true,
+              owner: currentModeOwner,
+            });
+            return;
+          }
+
+          // For MeasuringTool requesting from Shapes modes (drawing/editing), show dialog
+          if (
+            requestingOwner === 'MeasuringTool' &&
+            (event.payload.currentMode === 'drawing' ||
+              event.payload.currentMode === 'editing')
+          ) {
             setPendingAuth({
               authId: event.payload.authId,
               desiredMode: event.payload.desiredMode,
               requestingOwner,
+              currentMode: event.payload.currentMode,
             });
+            setDialogOpen(true);
           }
         },
       );
@@ -238,7 +278,7 @@ export const AuthorizationFlow: Story = {
 
       const handleApprove = () => {
         if (pendingAuth) {
-          const currentModeOwner = modeOwners.get(mode);
+          const currentModeOwner = modeOwners.get(pendingAuth.currentMode);
           if (currentModeOwner) {
             emitDecision({
               authId: pendingAuth.authId,
@@ -246,13 +286,14 @@ export const AuthorizationFlow: Story = {
               owner: currentModeOwner,
             });
             setPendingAuth(null);
+            setDialogOpen(false);
           }
         }
       };
 
       const handleReject = () => {
         if (pendingAuth) {
-          const currentModeOwner = modeOwners.get(mode);
+          const currentModeOwner = modeOwners.get(pendingAuth.currentMode);
           if (currentModeOwner) {
             emitDecision({
               authId: pendingAuth.authId,
@@ -261,156 +302,157 @@ export const AuthorizationFlow: Story = {
               reason: `${currentModeOwner} rejected the request`,
             });
             setPendingAuth(null);
+            setDialogOpen(false);
           }
         }
       };
 
       return (
-        <div className='absolute top-4 left-4 w-80 rounded-lg bg-white p-4 shadow-lg'>
-          <h3 className='mb-4 font-bold text-lg'>Authorization Demo</h3>
+        <>
+          <div className='absolute left-l top-l w-[320px] rounded-lg bg-surface-default p-l shadow-elevation-overlay flex flex-col gap-l'>
+            <p className='text-header-l font-bold'>Feature Mode Demo</p>
 
-          <div className='mb-4'>
-            <p className='mb-2 font-semibold text-sm'>Current Mode:</p>
-            <p className='rounded bg-blue-100 p-2 text-center font-mono'>
-              {mode}
-            </p>
-            <p className='mt-1 text-gray-600 text-xs'>
-              Owner: <strong>{modeOwners.get(mode) || 'None'}</strong>
-            </p>
-          </div>
-
-          <div className='mb-4'>
-            <p className='mb-2 font-semibold text-sm'>Mode Ownership:</p>
-            <div className='rounded border bg-gray-50 p-2'>
-              {EXAMPLE_MAP_MODES.map((modeName) => {
-                const owner = modeOwners.get(modeName);
-                const isActive = modeName === mode;
-                return (
-                  <div
-                    key={modeName}
-                    className={`flex justify-between border-b py-1 last:border-b-0 ${isActive ? 'font-bold' : ''}`}
-                  >
-                    <span className='font-mono text-xs'>{modeName}</span>
-                    <span className='text-gray-600 text-xs'>
-                      {owner || 'Ownerless'}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className='mb-4'>
-            <p className='mb-2 font-semibold text-sm'>Owner 1 Requests:</p>
-            <div className='flex flex-wrap gap-2'>
-              {EXAMPLE_MAP_MODES.map((modeName) => {
-                const modeOwner = modeOwners.get(modeName);
-                const isDisabled = Boolean(
-                  modeOwner && modeOwner !== 'owner1' && modeName !== 'default',
-                );
-                const title = isDisabled
-                  ? `Owned by ${modeOwner} - requires authorization`
-                  : undefined;
-
-                return (
-                  <button
-                    key={modeName}
-                    type='button'
-                    onClick={() => handleModeRequest(modeName, 'owner1')}
-                    disabled={isDisabled}
-                    title={title}
-                    className={`rounded px-3 py-1 text-sm text-white ${
-                      isDisabled
-                        ? 'cursor-not-allowed bg-green-300'
-                        : 'bg-green-500 hover:bg-green-600'
-                    }`}
-                  >
-                    {modeName}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className='mb-4'>
-            <p className='mb-2 font-semibold text-sm'>Owner 2 Requests:</p>
-            <div className='flex flex-wrap gap-2'>
-              {EXAMPLE_MAP_MODES.map((modeName) => {
-                const modeOwner = modeOwners.get(modeName);
-                const isDisabled = Boolean(
-                  modeOwner && modeOwner !== 'owner2' && modeName !== 'default',
-                );
-                const title = isDisabled
-                  ? `Owned by ${modeOwner} - cannot switch to non-default unowned mode`
-                  : undefined;
-
-                return (
-                  <button
-                    key={modeName}
-                    type='button'
-                    onClick={() => handleModeRequest(modeName, 'owner2')}
-                    disabled={isDisabled}
-                    title={title}
-                    className={`rounded px-3 py-1 text-sm text-white ${
-                      isDisabled
-                        ? 'cursor-not-allowed bg-purple-300'
-                        : 'bg-purple-500 hover:bg-purple-600'
-                    }`}
-                  >
-                    {modeName}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {pendingAuth && (
-            <div className='mb-4 rounded border-2 border-amber-400 bg-amber-50 p-3'>
-              <div className='mb-2'>
-                <p className='font-semibold text-sm'>⚠️ Authorization Needed</p>
+            <div>
+              <p className='mb-s text-body-m font-bold'>Current Mode</p>
+              <div className='flex items-center justify-between rounded-lg bg-info-muted p-s'>
+                <code className='text-body-m '>{mode}</code>
+                <span className='text-body-xs'>
+                  Owner: <strong>{modeOwners.get(mode) || 'None'}</strong>
+                </span>
               </div>
-              <p className='mb-2 text-sm'>
-                <strong>{pendingAuth.requestingOwner}</strong> wants:{' '}
-                <strong>{pendingAuth.desiredMode}</strong>
-              </p>
-              <p className='mb-3 text-gray-600 text-xs'>
-                Only <strong>{modeOwners.get(mode)}</strong> can authorize
-                (current mode owner)
-              </p>
-              <div className='flex gap-2'>
-                <button
-                  type='button'
-                  onClick={handleApprove}
-                  className='flex-1 rounded bg-green-500 px-3 py-1 text-sm text-white hover:bg-green-600'
+            </div>
+
+            <div className='mb-m'>
+              <p className='mb-s text-body-m font-bold'>Shapes Feature</p>
+              <div className='flex flex-wrap gap-s'>
+                <Button
+                  size='small'
+                  variant='filled'
+                  color='accent'
+                  onPress={() => handleModeRequest('default', 'Shapes')}
                 >
-                  Approve
-                </button>
-                <button
-                  type='button'
-                  onClick={handleReject}
-                  className='flex-1 rounded bg-red-500 px-3 py-1 text-sm text-white hover:bg-red-600'
+                  default
+                </Button>
+                <Button
+                  size='small'
+                  variant='filled'
+                  color='accent'
+                  onPress={() => handleModeRequest('drawing', 'Shapes')}
                 >
-                  Reject
-                </button>
+                  drawing
+                </Button>
+                <Button
+                  size='small'
+                  variant='filled'
+                  color='accent'
+                  onPress={() => handleModeRequest('editing', 'Shapes')}
+                >
+                  editing
+                </Button>
               </div>
+            </div>
+
+            <div className='mb-m'>
+              <p className='mb-s text-body-m font-bold'>
+                Measuring Tool Feature
+              </p>
+              <p className='mb-m text-body-xs'>Auto-accepts exits</p>
+              <div className='flex flex-wrap gap-s'>
+                <Button
+                  size='small'
+                  variant='filled'
+                  color='serious'
+                  onPress={() => handleModeRequest('default', 'MeasuringTool')}
+                >
+                  default
+                </Button>
+                <Button
+                  size='small'
+                  variant='filled'
+                  color='serious'
+                  onPress={() =>
+                    handleModeRequest('measuring', 'MeasuringTool')
+                  }
+                >
+                  measuring
+                </Button>
+              </div>
+            </div>
+
+            <Divider />
+
+            <div>
+              <p className='mb-s text-body-m font-semibold'>Event Log</p>
+              <div className='max-h-40 overflow-y-auto rounded-lg border border-border-default bg-surface-subtle p-s'>
+                {eventLog.length === 0 ? (
+                  <p className='text-body-xs text-content-disabled'>
+                    No events yet
+                  </p>
+                ) : (
+                  eventLog.map((entry) => (
+                    <p key={entry} className='mb-xs text-body-xs '>
+                      {entry}
+                    </p>
+                  ))
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Notice for measuring mode cancellation */}
+          {showNotice && (
+            <div className='absolute top-l right-l w-[384px]'>
+              <Notice
+                id={noticeId}
+                color='serious'
+                message={noticeMessage}
+                showClose
+                onClose={() => setShowNotice(false)}
+              />
             </div>
           )}
 
-          <div className='border-t pt-4'>
-            <p className='mb-2 font-semibold text-sm'>Event Log:</p>
-            <div className='max-h-40 overflow-y-auto rounded border bg-gray-50 p-2'>
-              {eventLog.length === 0 ? (
-                <p className='text-gray-400 text-xs'>No events yet</p>
-              ) : (
-                eventLog.map((entry) => (
-                  <p key={entry} className='mb-1 text-xs'>
-                    {entry}
-                  </p>
-                ))
-              )}
-            </div>
-          </div>
-        </div>
+          {/* Dialog for authorization from Shapes */}
+          <Dialog.Trigger isOpen={dialogOpen} onOpenChange={setDialogOpen}>
+            <button type='button' style={{ display: 'none' }} />
+            <Dialog>
+              <Dialog.Title>Authorization Request</Dialog.Title>
+              <Dialog.Content>
+                <div className='space-y-m'>
+                  <div className='rounded-lg bg-surface-muted p-s'>
+                    <p className='mb-xs text-body-xs'>Request From</p>
+                    <code className='text-body-m '>
+                      {pendingAuth?.requestingOwner}
+                    </code>
+                  </div>
+                  <div className='text-body-m '>
+                    <span>Wants to change to: </span>
+                    <code className='rounded bg-surface-muted px-s py-xs text-body-m '>
+                      {pendingAuth?.desiredMode}
+                    </code>
+                  </div>
+                  <Divider />
+                  <div className='rounded-lg bg-surface-muted p-s'>
+                    <p className='mb-xs text-body-xs'>Current Mode</p>
+                    <div className='flex items-center gap-s'>
+                      <code className='text-body-m '>
+                        {pendingAuth?.currentMode}
+                      </code>
+                    </div>
+                  </div>
+                </div>
+              </Dialog.Content>
+              <Dialog.Footer>
+                <Button variant='flat' color='critical' onPress={handleReject}>
+                  Reject
+                </Button>
+                <Button variant='filled' color='accent' onPress={handleApprove}>
+                  Approve
+                </Button>
+              </Dialog.Footer>
+            </Dialog>
+          </Dialog.Trigger>
+        </>
       );
     }
 
