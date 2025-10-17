@@ -20,7 +20,7 @@ import { Menu } from '../menu';
 import { TableContext } from './context';
 import { TableHeaderCellStyles, TableStyles } from './styles';
 import type { TableHeaderCellProps } from './types';
-import { HEADER_COLUMN_ACTION, SORT_DIRECTION } from './constants/table';
+import { HeaderColumnAction, headerColumnActionValues, SortDirection } from './constants/table';
 
 const { menuItem } = TableStyles();
 
@@ -40,7 +40,7 @@ function HeaderCellMenu<T>({ header }: { header: Header<T, unknown> }) {
   const [hoveredArrow, setHoveredArrow] = useState(false);
 
   if (
-    [HEADER_COLUMN_ACTION.NUMERAL as string, HEADER_COLUMN_ACTION.KEBAB as string, HEADER_COLUMN_ACTION.SELECTION as string].includes(header.column.id) ||
+    headerColumnActionValues.includes(header.column.id as 'numeral' | 'kebab' | 'selection') ||
     !(enableSorting || enableColumnReordering)
   ) {
     return null;
@@ -64,8 +64,8 @@ function HeaderCellMenu<T>({ header }: { header: Header<T, unknown> }) {
       >
         <Icon>
           {(!sort || hoveredArrow) && <Kebab />}
-          {!hoveredArrow && sort === SORT_DIRECTION.DESC && <ArrowDown />}
-          {!hoveredArrow && sort === SORT_DIRECTION.ASC && <ArrowUp />}
+          {!hoveredArrow && sort === SortDirection.DESC && <ArrowDown />}
+          {!hoveredArrow && sort === SortDirection.ASC && <ArrowUp />}
         </Icon>
       </Button>
       <Menu>
@@ -101,19 +101,19 @@ function HeaderCellMenu<T>({ header }: { header: Header<T, unknown> }) {
             <Menu.Item
               classNames={{ item: menuItem() }}
               onAction={() => {
-                manualSorting ? handleSortChange?.(header.column.id, SORT_DIRECTION.ASC) : header.column.toggleSorting(false)
+                manualSorting ? handleSortChange?.(header.column.id, SortDirection.ASC) : header.column.toggleSorting(false)
               }}
-              isDisabled={sort === SORT_DIRECTION.ASC}
+              isDisabled={sort === SortDirection.ASC}
             >
               Sort Ascending
             </Menu.Item>
             <Menu.Item
               classNames={{ item: menuItem() }}
               onAction={() => {
-                manualSorting ? handleSortChange?.(header.column.id, SORT_DIRECTION.DESC) : header.column.toggleSorting(true);
+                manualSorting ? handleSortChange?.(header.column.id, SortDirection.DESC) : header.column.toggleSorting(true);
 
               }}
-              isDisabled={sort === SORT_DIRECTION.DESC}
+              isDisabled={sort === SortDirection.DESC}
             >
               Sort Descending
             </Menu.Item>
@@ -145,10 +145,10 @@ export function HeaderCell<T>({
   const showKebab = enableColumnReordering || enableSorting;
   const renderProps = header?.getContext();
   const narrow =
-    header?.column.id === HEADER_COLUMN_ACTION.NUMERAL || header?.column.id === HEADER_COLUMN_ACTION.KEBAB;
-  const sortLabel = header?.column.getIsSorted() === SORT_DIRECTION.ASC
+    header?.column.id === HeaderColumnAction.NUMERAL || header?.column.id === HeaderColumnAction.KEBAB;
+  const sortLabel = header?.column.getIsSorted() === SortDirection.ASC
                     ? 'ascending'
-                    : header?.column.getIsSorted() === SORT_DIRECTION.DESC
+                    : header?.column.getIsSorted() === SortDirection.DESC
                     ? 'descending'
                     : undefined
                 
@@ -165,7 +165,8 @@ export function HeaderCell<T>({
         {children ||
           (header && (
             <>
-              {header.column.id !== HEADER_COLUMN_ACTION.KEBAB &&
+              {header.column.id !== HeaderColumnAction.KEBAB &&
+              // {header.column.id !== '8' &&
                 renderProps &&
                 flexRender(header.column.columnDef.header, renderProps)}
               <HeaderCellMenu header={header} />

@@ -26,6 +26,6 @@ export const TableContext = createContext<TableContextValue>({
   enableColumnReordering: true,
   enableRowActions: true,
   manualSorting: false,
-  handleSortChange: () => null,
-  handleColumnReordering: () => null
+  handleSortChange: () => undefined,
+  handleColumnReordering: () => undefined
 });

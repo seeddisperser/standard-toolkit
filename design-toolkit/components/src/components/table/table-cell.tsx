@@ -16,7 +16,7 @@ import { useContext } from 'react';
 import { TableContext } from './context';
 import { TableCellStyles } from './styles';
 import type { TableCellProps } from './types';
-import { HEADER_COLUMN_ACTION } from './constants/table';
+import { HeaderColumnAction } from './constants/table';
 
 export function TableCell<T>({
   children,
@@ -26,8 +26,8 @@ export function TableCell<T>({
   ...rest
 }: TableCellProps<T>) {
   const { columnSelection, persistNumerals } = useContext(TableContext);
-  const isKebab = cell?.column.id === HEADER_COLUMN_ACTION.KEBAB;
-  const isNumeral = cell?.column.id === HEADER_COLUMN_ACTION.NUMERAL;
+  const isKebab = cell?.column.id === HeaderColumnAction.KEBAB;
+  const isNumeral = cell?.column.id === HeaderColumnAction.NUMERAL;
   const isSelected = cell?.column.id === columnSelection;
   const narrow = isNumeral || isKebab;
   const notPersistNums = isNumeral && !persistNumerals;
