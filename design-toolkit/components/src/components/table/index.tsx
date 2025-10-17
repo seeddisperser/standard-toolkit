@@ -112,7 +112,7 @@ export function Table<T extends { id: Key }>({
   persistHeaderKebabMenu = true,
   persistNumerals = false,
   enableSorting = true,
-  enableColumnOrdering: enableColumnReordering = true,
+  enableColumnReordering = true,
   enableRowActions = true,
   manualSorting = false,
   onSortChange,

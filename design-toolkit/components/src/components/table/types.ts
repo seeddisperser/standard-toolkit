@@ -85,7 +85,7 @@ type ExtendedTableProps<T extends { id: Key }> = {
    * If true, the table will support column ordering.
    * If false, the table will not support column ordering.
    */
-  enableColumnOrdering?: boolean;
+  enableColumnReordering?: boolean;
 
   /**
    * Whether to enable actions for rows.

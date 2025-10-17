@@ -152,7 +152,7 @@ const meta = {
     persistRowKebabMenu: true,
     persistNumerals: true,
     enableSorting: true,
-    enableColumnOrdering: true,
+    enableColumnReordering: true,
     enableRowActions: true,
   },
   argTypes: {
