@@ -30,11 +30,10 @@ import {
   Popover,
   Pressable,
   Provider,
-  Text,
   TextContext,
   ToggleButton,
 } from 'react-aria-components';
-import { Avatar, AvatarContext } from '../avatar';
+import { AvatarContext } from '../avatar';
 import { DividerContext } from '../divider';
 import { Icon, IconContext } from '../icon';
 import { Tooltip } from '../tooltip';
