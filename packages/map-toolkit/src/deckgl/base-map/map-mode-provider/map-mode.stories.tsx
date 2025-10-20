@@ -324,6 +324,9 @@ export const AuthorizationFlow: Story = {
 
             <div className='mb-m'>
               <p className='mb-s font-bold text-body-m'>Shapes Feature</p>
+              <p className='mb-m text-body-xs'>
+                Auth required for exit to measuring
+              </p>
               <div className='flex flex-wrap gap-s'>
                 <Button
                   size='small'
@@ -356,7 +359,9 @@ export const AuthorizationFlow: Story = {
               <p className='mb-s font-bold text-body-m'>
                 Measuring Tool Feature
               </p>
-              <p className='mb-m text-body-xs'>Auto-accepts exits</p>
+              <p className='mb-m text-body-xs'>
+                Auto-accepts exit to drawing or editing
+              </p>
               <div className='flex flex-wrap gap-s'>
                 <Button
                   size='small'
