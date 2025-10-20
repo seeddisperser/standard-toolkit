@@ -13,7 +13,6 @@
 'use client';
 
 import 'client-only';
-import { Broadcast } from '@accelint/bus';
 import { useEmit } from '@accelint/bus/react';
 import { Deckgl, useDeckgl } from '@deckgl-fiber-renderer/dom';
 import { useCallback, useId, useMemo } from 'react';
@@ -25,7 +24,7 @@ import type { PickingInfo } from '@deck.gl/core';
 import type { DeckglProps } from '@deckgl-fiber-renderer/types';
 import type { IControl } from 'maplibre-gl';
 import type { MjolnirGestureEvent, MjolnirPointerEvent } from 'mjolnir.js';
-import type { MapClickEvent, MapEventType, MapHoverEvent } from './types';
+import type { MapClickEvent, MapHoverEvent } from './types';
 
 /**
  * Props for the BaseMap component.
@@ -35,25 +34,6 @@ export type BaseMapProps = DeckglProps & {
   /** Optional CSS class name to apply to the map container element */
   className?: string;
 };
-
-/**
- * Centralized event bus instance for map events.
- * Use the `useOn` hook from `@accelint/bus/react` to subscribe to map events.
- *
- * @example
- * ```tsx
- * import { useOn } from '@accelint/bus/react';
- * import { MapEvents } from '@accelint/map-toolkit/deckgl';
- *
- * function MapListener() {
- *   useOn(MapEvents.click, (data) => {
- *     console.log('Map clicked:', data.payload.info);
- *   });
- *   return null;
- * }
- * ```
- */
-export const bus = Broadcast.getInstance<MapEventType>();
 
 /**
  * A React component that provides a Deck.gl-powered base map with MapLibre GL integration.
