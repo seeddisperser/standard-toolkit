@@ -142,7 +142,7 @@ export function Tooltip({
       return null;
     }
     const div = document.createElement('div');
-    div.setAttribute('class', 'absolute foo');
+    div.setAttribute('class', 'absolute');
     return div;
   }, [isSSR]);
 
