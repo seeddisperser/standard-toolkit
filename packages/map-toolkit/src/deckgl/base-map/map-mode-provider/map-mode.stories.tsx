@@ -45,8 +45,8 @@ export const BasicUsage: Story = {
       const { mode, requestModeChange } = useMapMode();
 
       return (
-        <div className='absolute left-l top-l w-[256px] rounded-lg bg-surface-default p-l shadow-elevation-overlay flex flex-col gap-xl'>
-          <p className='text-header-l font-bold'>Map Modes</p>
+        <div className='absolute top-l left-l flex w-[256px] flex-col gap-xl rounded-lg bg-surface-default p-l shadow-elevation-overlay'>
+          <p className='font-bold text-header-l'>Map Modes</p>
           <div className='flex flex-col gap-s'>
             {EXAMPLE_MAP_MODES.map((modeName) => (
               <Button
@@ -88,7 +88,7 @@ export const MultipleConsumers: Story = {
       const { requestModeChange } = useMapMode();
 
       return (
-        <div className='absolute left-l top-l flex gap-s'>
+        <div className='absolute top-l left-l flex gap-s'>
           {EXAMPLE_MAP_MODES.map((modeName) => (
             <Button
               key={modeName}
@@ -109,7 +109,7 @@ export const MultipleConsumers: Story = {
       const { mode } = useMapMode();
 
       return (
-        <div className='absolute right-l top-l flex flex-col gap-xs items-center rounded-lg bg-surface-default p-m shadow-elevation-raised'>
+        <div className='absolute top-l right-l flex flex-col items-center gap-xs rounded-lg bg-surface-default p-m shadow-elevation-raised'>
           <p className='text-body-s'>Current Mode</p>
           <code className='text-header-l'>{mode}</code>
         </div>
@@ -128,7 +128,7 @@ export const MultipleConsumers: Story = {
       };
 
       return (
-        <div className='absolute bottom-l left-l rounded-lg bg-surface-default p-m shadow-elevation-raised text-m'>
+        <div className='absolute bottom-l left-l rounded-lg bg-surface-default p-m text-m shadow-elevation-raised'>
           {instructions[mode] || 'Unknown mode'}
         </div>
       );
@@ -309,13 +309,13 @@ export const AuthorizationFlow: Story = {
 
       return (
         <>
-          <div className='absolute left-l top-l w-[320px] rounded-lg bg-surface-default p-l shadow-elevation-overlay flex flex-col gap-l'>
-            <p className='text-header-l font-bold'>Feature Mode Demo</p>
+          <div className='absolute top-l left-l flex w-[320px] flex-col gap-l rounded-lg bg-surface-default p-l shadow-elevation-overlay'>
+            <p className='font-bold text-header-l'>Feature Mode Demo</p>
 
             <div>
-              <p className='mb-s text-body-m font-bold'>Current Mode</p>
+              <p className='mb-s font-bold text-body-m'>Current Mode</p>
               <div className='flex items-center justify-between rounded-lg bg-info-muted p-s'>
-                <code className='text-body-m '>{mode}</code>
+                <code className='text-body-m'>{mode}</code>
                 <span className='text-body-xs'>
                   Owner: <strong>{modeOwners.get(mode) || 'None'}</strong>
                 </span>
@@ -323,7 +323,7 @@ export const AuthorizationFlow: Story = {
             </div>
 
             <div className='mb-m'>
-              <p className='mb-s text-body-m font-bold'>Shapes Feature</p>
+              <p className='mb-s font-bold text-body-m'>Shapes Feature</p>
               <div className='flex flex-wrap gap-s'>
                 <Button
                   size='small'
@@ -353,7 +353,7 @@ export const AuthorizationFlow: Story = {
             </div>
 
             <div className='mb-m'>
-              <p className='mb-s text-body-m font-bold'>
+              <p className='mb-s font-bold text-body-m'>
                 Measuring Tool Feature
               </p>
               <p className='mb-m text-body-xs'>Auto-accepts exits</p>
@@ -382,7 +382,7 @@ export const AuthorizationFlow: Story = {
             <Divider />
 
             <div>
-              <p className='mb-s text-body-m font-semibold'>Event Log</p>
+              <p className='mb-s font-semibold text-body-m'>Event Log</p>
               <div className='max-h-40 overflow-y-auto rounded-lg border border-border-default bg-surface-subtle p-s'>
                 {eventLog.length === 0 ? (
                   <p className='text-body-xs text-content-disabled'>
@@ -390,7 +390,7 @@ export const AuthorizationFlow: Story = {
                   </p>
                 ) : (
                   eventLog.map((entry) => (
-                    <p key={entry} className='mb-xs text-body-xs '>
+                    <p key={entry} className='mb-xs text-body-xs'>
                       {entry}
                     </p>
                   ))
@@ -421,13 +421,13 @@ export const AuthorizationFlow: Story = {
                 <div className='space-y-m'>
                   <div className='rounded-lg bg-surface-muted p-s'>
                     <p className='mb-xs text-body-xs'>Request From</p>
-                    <code className='text-body-m '>
+                    <code className='text-body-m'>
                       {pendingAuth?.requestingOwner}
                     </code>
                   </div>
-                  <div className='text-body-m '>
+                  <div className='text-body-m'>
                     <span>Wants to change to: </span>
-                    <code className='rounded bg-surface-muted px-s py-xs text-body-m '>
+                    <code className='rounded bg-surface-muted px-s py-xs text-body-m'>
                       {pendingAuth?.desiredMode}
                     </code>
                   </div>
@@ -435,7 +435,7 @@ export const AuthorizationFlow: Story = {
                   <div className='rounded-lg bg-surface-muted p-s'>
                     <p className='mb-xs text-body-xs'>Current Mode</p>
                     <div className='flex items-center gap-s'>
-                      <code className='text-body-m '>
+                      <code className='text-body-m'>
                         {pendingAuth?.currentMode}
                       </code>
                     </div>

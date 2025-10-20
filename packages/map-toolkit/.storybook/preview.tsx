@@ -11,11 +11,8 @@
  */
 
 import { withThemeByClassName } from '@storybook/addon-themes';
-import { DocsContainer } from '@storybook/blocks';
-import { type ThemeVars, themes } from '@storybook/theming';
-import { createElement } from 'react';
 import type { Preview, ReactRenderer } from '@storybook/react';
-import './index.css';
+import '../src/index.css';
 
 const preview: Preview = {
   parameters: {
@@ -25,33 +22,6 @@ const preview: Preview = {
         color: /(background|color)$/i,
         date: /Date$/i,
       },
-    },
-    docs: {
-      // biome-ignore lint/suspicious/noExplicitAny: this is the sb type
-      container: (props: any) => {
-        const rootEl = document.querySelector('html');
-        const sbTheme = props?.context.store.userGlobals.globals.theme;
-
-        let theme: ThemeVars;
-        if (sbTheme === 'light') {
-          theme = themes.light;
-          rootEl?.classList.remove('dark');
-          rootEl?.classList.add('light');
-        } else {
-          theme = themes.dark;
-          rootEl?.classList.remove('light');
-          rootEl?.classList.add('dark');
-        }
-
-        const newProps = { ...props, theme };
-        return createElement(DocsContainer, newProps);
-      },
-      story: {
-        inline: true, // withThemeByClassName applies in docs too
-      },
-    },
-    backgrounds: {
-      disable: true, // prevent conflict w/ addon-themes
     },
   },
   decorators: [
