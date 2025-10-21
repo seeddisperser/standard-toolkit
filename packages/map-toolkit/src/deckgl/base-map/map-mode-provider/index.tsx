@@ -316,7 +316,7 @@ export function MapModeProvider({
       }
     }
 
-    if (!matchingRequest || !matchingRequestOwner) {
+    if (!(matchingRequest && matchingRequestOwner)) {
       // Unknown or stale authId, ignore
       return;
     }
@@ -335,53 +335,63 @@ export function MapModeProvider({
     }
   });
 
+  // Helper to handle pending requests when returning to default mode
+  const handlePendingRequestsOnDefaultMode = useCallback(
+    (previousMode: string) => {
+      const firstEntry = Array.from(pendingRequestsRef.current.entries())[0];
+      if (!firstEntry) {
+        return;
+      }
+
+      const [, firstRequest] = firstEntry;
+      const previousModeOwner = modeOwnersRef.current.get(previousMode);
+
+      // Only process if returning to default from an owned mode
+      if (!previousModeOwner) {
+        return;
+      }
+
+      // If the first pending request is for the mode we're already in (default),
+      // reject it instead of trying to approve it (which would create an infinite loop)
+      if (firstRequest.desiredMode === defaultMode) {
+        // Collect all pending requests (including the default one) to reject
+        const allRequests: PendingRequest[] = Array.from(
+          pendingRequestsRef.current.values(),
+        );
+
+        // Clear all pending requests BEFORE emitting events
+        pendingRequestsRef.current.clear();
+
+        // Reject all pending requests since we're already in the desired mode
+        for (const request of allRequests) {
+          emitDecision({
+            authId: request.authId,
+            approved: false,
+            owner: previousModeOwner,
+            reason: 'Request rejected - already in requested mode',
+          });
+        }
+      } else {
+        // Auto-accept the first pending request for a different mode
+        approveRequestAndRejectOthers(
+          firstRequest,
+          firstRequest.authId,
+          previousModeOwner,
+          'Auto-accepted when mode owner returned to default',
+          true, // Emit approval decision for auto-accept
+        );
+      }
+    },
+    [defaultMode, approveRequestAndRejectOthers, emitDecision],
+  );
+
   // Listen for mode changes to auto-accept first pending request when returning to default
   useOn<ModeChangedEvent>(MapModeEvents.changed, (event) => {
     const { currentMode, previousMode } = event.payload;
 
     // When mode owner changes to default mode, handle pending requests
     if (currentMode === defaultMode && pendingRequestsRef.current.size > 0) {
-      // Get the first pending request
-      const [, firstRequest] = Array.from(
-        pendingRequestsRef.current.entries(),
-      )[0]!;
-
-      // Check if the mode change was initiated by the previous mode's owner
-      const previousModeOwner = modeOwnersRef.current.get(previousMode);
-
-      // Only process if returning to default from an owned mode
-      if (previousModeOwner) {
-        // If the first pending request is for the mode we're already in (default),
-        // reject it instead of trying to approve it (which would create an infinite loop)
-        if (firstRequest.desiredMode === defaultMode) {
-          // Collect all pending requests (including the default one) to reject
-          const allRequests: PendingRequest[] = Array.from(
-            pendingRequestsRef.current.values(),
-          );
-
-          // Clear all pending requests BEFORE emitting events
-          pendingRequestsRef.current.clear();
-
-          // Reject all pending requests since we're already in the desired mode
-          for (const request of allRequests) {
-            emitDecision({
-              authId: request.authId,
-              approved: false,
-              owner: previousModeOwner,
-              reason: 'Request rejected - already in requested mode',
-            });
-          }
-        } else {
-          // Auto-accept the first pending request for a different mode
-          approveRequestAndRejectOthers(
-            firstRequest,
-            firstRequest.authId,
-            previousModeOwner,
-            'Auto-accepted when mode owner returned to default',
-            true, // Emit approval decision for auto-accept
-          );
-        }
-      }
+      handlePendingRequestsOnDefaultMode(previousMode);
     }
   });
 
