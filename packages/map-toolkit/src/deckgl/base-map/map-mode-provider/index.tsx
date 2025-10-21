@@ -36,9 +36,10 @@ import type {
  * @internal
  */
 type PendingRequest = {
+  authId: string;
   desiredMode: string;
   currentMode: string;
-  owner: string;
+  requestOwner: string;
 };
 
 /**
@@ -131,7 +132,7 @@ export function MapModeProvider({
   const [mode, setMode] = useState(defaultMode);
   // Store mode-to-owner mappings (persists throughout session, no re-renders needed)
   const modeOwnersRef = useRef<Map<string, string>>(new Map());
-  // Store pending authorization requests by authId (no re-renders needed)
+  // Store pending authorization requests by mode owner (one request per mode owner, no re-renders needed)
   const pendingRequestsRef = useRef<Map<string, PendingRequest>>(new Map());
 
   const emitChanged = useEmit<ModeChangedEvent>(MapModeEvents.changed);
@@ -181,22 +182,26 @@ export function MapModeProvider({
           modeOwnersRef.current.set(desiredMode, requestOwner);
         }
 
-        // Clear any pending authorization requests since mode changed successfully
-        pendingRequestsRef.current.clear();
+        // Clear current mode owner's pending request since mode changed successfully
+        if (currentModeOwner) {
+          pendingRequestsRef.current.delete(currentModeOwner);
+        }
         return;
       }
 
       // Otherwise, send authorization request
-      // Generate authId and store the request for later lookup
+      // Generate authId and store the request keyed by current mode owner
+      // (auto-replaces any previous pending request for this mode owner)
       const authId = uuid();
 
-      // Clear any existing pending requests and add the new one (only one pending request at a time)
-      pendingRequestsRef.current.clear();
-      pendingRequestsRef.current.set(authId, {
-        desiredMode,
-        currentMode: mode,
-        owner: requestOwner,
-      });
+      if (currentModeOwner) {
+        pendingRequestsRef.current.set(currentModeOwner, {
+          authId,
+          desiredMode,
+          currentMode: mode,
+          requestOwner,
+        });
+      }
 
       emitAuthorization({
         authId,
@@ -210,17 +215,17 @@ export function MapModeProvider({
   useOn<ModeChangeDecisionEvent>(MapModeEvents.changeDecision, (event) => {
     const { approved, authId, owner: decisionOwner } = event.payload;
 
-    // Lookup the request by authId
-    const request = pendingRequestsRef.current.get(authId);
-    if (!request) {
-      // Unknown or stale authId, ignore
-      return;
-    }
-
     // Verify decision is from current mode's owner
     const currentModeOwner = modeOwnersRef.current.get(mode);
     if (decisionOwner !== currentModeOwner) {
       // Unauthorized decision, ignore (noop)
+      return;
+    }
+
+    // Lookup the request for this mode owner and verify authId matches
+    const request = pendingRequestsRef.current.get(decisionOwner);
+    if (!request || request.authId !== authId) {
+      // Unknown or stale authId, ignore
       return;
     }
 
@@ -233,11 +238,11 @@ export function MapModeProvider({
       });
 
       // Store the new mode's owner
-      modeOwnersRef.current.set(request.desiredMode, request.owner);
+      modeOwnersRef.current.set(request.desiredMode, request.requestOwner);
     }
 
-    // Remove the processed request
-    pendingRequestsRef.current.delete(authId);
+    // Remove the processed request for this mode owner
+    pendingRequestsRef.current.delete(decisionOwner);
   });
 
   const requestModeChange = useCallback(

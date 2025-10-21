@@ -11,8 +11,13 @@
  */
 
 import { useEmit, useOn } from '@accelint/bus/react';
-import { uuid } from '@accelint/core';
-import { Button, Dialog, Divider, Notice } from '@accelint/design-toolkit';
+import {
+  Button,
+  Divider,
+  Notice,
+  NoticeEventTypes,
+  type NoticeQueueEvent,
+} from '@accelint/design-toolkit';
 import { useRef, useState } from 'react';
 import { BaseMap } from '../index';
 import { MapModeProvider } from '.';
@@ -25,7 +30,13 @@ import type {
   ModeChangedEvent,
 } from './types';
 
-const EXAMPLE_MAP_MODES = ['default', 'drawing', 'measuring', 'editing'];
+const EXAMPLE_MAP_MODES = [
+  'default',
+  'drawing',
+  'measuring',
+  'editing',
+  'multi-select',
+];
 
 const meta = {
   title: 'DeckGL/Base Map/Map Mode',
@@ -125,6 +136,7 @@ export const MultipleConsumers: Story = {
         drawing: 'Click to add points to draw on the map',
         measuring: 'Click to measure distances',
         editing: 'Select features to edit them',
+        'multi-select': 'Draw a lasso to select multiple features',
       };
 
       return (
@@ -147,8 +159,10 @@ export const MultipleConsumers: Story = {
 
 /**
  * Advanced: Authorization flow with feature-specific modes.
- * Demonstrates realistic mode management between two features: Shapes (drawing/editing)
- * and MeasuringTool (measuring). Shows automatic acceptance, notices, and authorization dialogs.
+ * Demonstrates realistic mode management between three features: Shapes (drawing/editing),
+ * MeasuringTool (measuring), and MultiSelectLasso (multi-select). Shows automatic acceptance,
+ * notices, authorization dialogs, and how multiple concurrent authorization requests are handled
+ * (one per mode owner).
  */
 export const AuthorizationFlow: Story = {
   render: () => {
@@ -164,22 +178,67 @@ export const AuthorizationFlow: Story = {
         currentMode: string;
       } | null>(null);
       const [eventLog, setEventLog] = useState<string[]>([]);
-      const [showNotice, setShowNotice] = useState(false);
-      const [noticeMessage, setNoticeMessage] = useState('');
       const [dialogOpen, setDialogOpen] = useState(false);
-      const [noticeId] = useState(() => uuid());
 
       const pendingRequests = useRef<Map<string, string>>(new Map());
+      const logContainerRef = useRef<HTMLDivElement>(null);
 
       const emitDecision = useEmit<ModeChangeDecisionEvent>(
         MapModeEvents.changeDecision,
       );
+      const emitNotice = useEmit<NoticeQueueEvent>(NoticeEventTypes.queue);
 
       const addLog = (message: string) => {
         setEventLog((prev) => [
           ...prev,
           `${new Date().toLocaleTimeString()}: ${message}`,
         ]);
+        // Scroll to bottom after adding log entry
+        setTimeout(() => {
+          if (logContainerRef.current) {
+            logContainerRef.current.scrollTop =
+              logContainerRef.current.scrollHeight;
+          }
+        }, 0);
+      };
+
+      const showNotice = (message: string) => {
+        emitNotice({
+          message,
+          color: 'serious',
+        });
+      };
+
+      const handleAutoAccept = (authId: string, owner: string) => {
+        addLog(`${owner} auto-accepting request`);
+
+        emitDecision({
+          authId,
+          approved: true,
+          owner,
+        });
+      };
+
+      const handleAuthorizationDialog = (
+        authId: string,
+        desiredMode: string,
+        requestingOwner: string,
+        currentMode: string,
+      ) => {
+        // If there's already a pending auth, log the auto-rejection
+        if (pendingAuth) {
+          addLog(
+            `Previous request from ${pendingAuth.requestingOwner} auto-rejected (replaced by new request)`,
+          );
+        }
+
+        setPendingAuth({
+          authId,
+          desiredMode,
+          requestingOwner,
+          currentMode,
+        });
+        setDialogOpen(true);
       };
 
       // Listen for mode changes
@@ -191,6 +250,20 @@ export const AuthorizationFlow: Story = {
         const requestingOwner = pendingRequests.current.get(
           event.payload.currentMode,
         );
+
+        // Show notice when leaving measuring or multi-select modes (only if someone else is requesting the change)
+        const previousModeOwner = modeOwners.get(event.payload.previousMode);
+        if (
+          ((previousModeOwner === 'MeasuringTool' &&
+            event.payload.previousMode === 'measuring') ||
+            (previousModeOwner === 'MultiSelectLasso' &&
+              event.payload.previousMode === 'multi-select')) &&
+          requestingOwner !== previousModeOwner
+        ) {
+          showNotice(
+            `${getModeName(event.payload.previousMode)} mode was canceled, mode changed to ${event.payload.currentMode}`,
+          );
+        }
         if (requestingOwner && event.payload.currentMode !== 'default') {
           // Update ownership map if this mode doesn't have an owner yet
           setModeOwners((prev) => {
@@ -206,6 +279,34 @@ export const AuthorizationFlow: Story = {
           pendingRequests.current.delete(event.payload.currentMode);
         }
       });
+
+      const shouldAutoAccept = (owner: string, mode: string) => {
+        return (
+          (owner === 'MeasuringTool' && mode === 'measuring') ||
+          (owner === 'MultiSelectLasso' && mode === 'multi-select')
+        );
+      };
+
+      const shouldShowDialog = (
+        requestingOwner: string,
+        currentMode: string,
+      ) => {
+        return (
+          (requestingOwner === 'MeasuringTool' ||
+            requestingOwner === 'MultiSelectLasso') &&
+          (currentMode === 'drawing' || currentMode === 'editing')
+        );
+      };
+
+      const getModeName = (mode: string) => {
+        if (mode === 'measuring') {
+          return 'Measuring';
+        }
+        if (mode === 'multi-select') {
+          return 'Multi-select';
+        }
+        return mode;
+      };
 
       // Listen for authorization requests
       useOn<ModeChangeAuthorizationEvent>(
@@ -225,41 +326,23 @@ export const AuthorizationFlow: Story = {
             `Authorization needed: ${requestingOwner} wants "${event.payload.desiredMode}"`,
           );
 
-          // MeasuringTool automatically accepts requests to leave measuring mode
+          // Auto-accept for features that don't require explicit approval
           if (
-            currentModeOwner === 'MeasuringTool' &&
-            event.payload.currentMode === 'measuring'
+            currentModeOwner &&
+            shouldAutoAccept(currentModeOwner, event.payload.currentMode)
           ) {
-            addLog('MeasuringTool auto-accepting request');
-            // Show notice that measuring was canceled
-            setNoticeMessage(
-              `Measuring mode was canceled, mode changed to ${event.payload.desiredMode}`,
-            );
-            setShowNotice(true);
-            setTimeout(() => setShowNotice(false), 5000);
-
-            // Auto-approve
-            emitDecision({
-              authId: event.payload.authId,
-              approved: true,
-              owner: currentModeOwner,
-            });
+            handleAutoAccept(event.payload.authId, currentModeOwner);
             return;
           }
 
-          // For MeasuringTool requesting from Shapes modes (drawing/editing), show dialog
-          if (
-            requestingOwner === 'MeasuringTool' &&
-            (event.payload.currentMode === 'drawing' ||
-              event.payload.currentMode === 'editing')
-          ) {
-            setPendingAuth({
-              authId: event.payload.authId,
-              desiredMode: event.payload.desiredMode,
+          // Show dialog for requests that require approval
+          if (shouldShowDialog(requestingOwner, event.payload.currentMode)) {
+            handleAuthorizationDialog(
+              event.payload.authId,
+              event.payload.desiredMode,
               requestingOwner,
-              currentMode: event.payload.currentMode,
-            });
-            setDialogOpen(true);
+              event.payload.currentMode,
+            );
           }
         },
       );
@@ -309,7 +392,7 @@ export const AuthorizationFlow: Story = {
 
       return (
         <>
-          <div className='absolute top-l left-l flex w-[320px] flex-col gap-l rounded-lg bg-surface-default p-l shadow-elevation-overlay'>
+          <div className='absolute top-l left-l flex max-h-[calc(100vh-2rem)] w-[320px] flex-col gap-l rounded-lg bg-surface-default p-l shadow-elevation-overlay'>
             <p className='font-bold text-header-l'>Feature Mode Demo</p>
 
             <div>
@@ -325,7 +408,7 @@ export const AuthorizationFlow: Story = {
             <div className='mb-m'>
               <p className='mb-s font-bold text-body-m'>Shapes Feature</p>
               <p className='mb-m text-body-xs'>
-                Auth required for exit to measuring
+                Auth required for exit to unowned modes
               </p>
               <div className='flex flex-wrap gap-s'>
                 <Button
@@ -360,7 +443,7 @@ export const AuthorizationFlow: Story = {
                 Measuring Tool Feature
               </p>
               <p className='mb-m text-body-xs'>
-                Auto-accepts exit to drawing or editing
+                Auto-accepts exit to unowned modes
               </p>
               <div className='flex flex-wrap gap-s'>
                 <Button
@@ -384,18 +467,52 @@ export const AuthorizationFlow: Story = {
               </div>
             </div>
 
+            <div className='mb-m'>
+              <p className='mb-s font-bold text-body-m'>
+                Multi-Select Lasso Feature
+              </p>
+              <p className='mb-m text-body-xs'>
+                Auto-accepts exit to unowned modes
+              </p>
+              <div className='flex flex-wrap gap-s'>
+                <Button
+                  size='small'
+                  variant='filled'
+                  color='mono-bold'
+                  onPress={() =>
+                    handleModeRequest('default', 'MultiSelectLasso')
+                  }
+                >
+                  default
+                </Button>
+                <Button
+                  size='small'
+                  variant='filled'
+                  color='mono-bold'
+                  onPress={() =>
+                    handleModeRequest('multi-select', 'MultiSelectLasso')
+                  }
+                >
+                  multi-select
+                </Button>
+              </div>
+            </div>
+
             <Divider />
 
-            <div>
+            <div className='flex min-h-0 flex-1 flex-col'>
               <p className='mb-s font-semibold text-body-m'>Event Log</p>
-              <div className='max-h-40 overflow-y-auto rounded-lg border border-border-default bg-surface-subtle p-s'>
+              <div
+                ref={logContainerRef}
+                className='min-h-0 flex-1 overflow-y-auto rounded-lg border border-border-default bg-surface-subtle p-s'
+              >
                 {eventLog.length === 0 ? (
                   <p className='text-body-xs text-content-disabled'>
                     No events yet
                   </p>
                 ) : (
-                  eventLog.map((entry) => (
-                    <p key={entry} className='mb-xs text-body-xs'>
+                  eventLog.map((entry, index) => (
+                    <p key={`${index}-${entry}`} className='mb-xs text-body-xs'>
                       {entry}
                     </p>
                   ))
@@ -404,25 +521,20 @@ export const AuthorizationFlow: Story = {
             </div>
           </div>
 
-          {/* Notice for measuring mode cancellation */}
-          {showNotice && (
-            <div className='absolute top-l right-l w-[384px]'>
-              <Notice
-                id={noticeId}
-                color='serious'
-                message={noticeMessage}
-                showClose
-                onClose={() => setShowNotice(false)}
-              />
-            </div>
-          )}
+          {/* Notice list for stacking notifications */}
+          <Notice.List
+            placement='top right'
+            defaultColor='serious'
+            defaultTimeout={5000}
+            hideClearAll
+            aria-label='Mode change notifications'
+          />
 
-          {/* Dialog for authorization from Shapes */}
-          <Dialog.Trigger isOpen={dialogOpen} onOpenChange={setDialogOpen}>
-            <button type='button' style={{ display: 'none' }} />
-            <Dialog>
-              <Dialog.Title>Authorization Request</Dialog.Title>
-              <Dialog.Content>
+          {/* Dialog for authorization from Shapes - positioned to not overlay controls */}
+          {dialogOpen && (
+            <div className='absolute top-l right-l w-[384px]'>
+              <div className='flex flex-col gap-m rounded-lg bg-surface-default p-l shadow-elevation-overlay'>
+                <p className='font-bold text-header-m'>Authorization Request</p>
                 <div className='space-y-m'>
                   <div className='rounded-lg bg-surface-muted p-s'>
                     <p className='mb-xs text-body-xs'>Request From</p>
@@ -446,17 +558,25 @@ export const AuthorizationFlow: Story = {
                     </div>
                   </div>
                 </div>
-              </Dialog.Content>
-              <Dialog.Footer>
-                <Button variant='flat' color='critical' onPress={handleReject}>
-                  Reject
-                </Button>
-                <Button variant='filled' color='accent' onPress={handleApprove}>
-                  Approve
-                </Button>
-              </Dialog.Footer>
-            </Dialog>
-          </Dialog.Trigger>
+                <div className='flex justify-end gap-s'>
+                  <Button
+                    variant='flat'
+                    color='critical'
+                    onPress={handleReject}
+                  >
+                    Reject
+                  </Button>
+                  <Button
+                    variant='filled'
+                    color='accent'
+                    onPress={handleApprove}
+                  >
+                    Approve
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
         </>
       );
     }
