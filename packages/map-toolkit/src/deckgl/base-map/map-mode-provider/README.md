@@ -7,6 +7,8 @@ A React context provider for managing map interaction modes with built-in owners
 - **Mode Management**: Centralized state management for map interaction modes (e.g., default, drawing, measuring, editing)
 - **Ownership System**: Track which component/feature owns each mode to prevent conflicts
 - **Authorization Flow**: Built-in authorization system when switching between modes owned by different components
+- **Pending Request Management**: Handles multiple concurrent authorization requests (one per requester)
+- **Auto-Accept/Reject**: Automatically accepts first pending request when returning to default, auto-rejects other requests when one is approved
 - **Event-Based**: Uses `@accelint/bus` for decoupled event communication
 
 ## Core Concepts
@@ -23,6 +25,16 @@ Each mode can be "owned" by a component or feature, identified by a unique owner
 
 ### Authorization Flow
 When a component requests to change from a mode owned by another component, an authorization request is triggered. The current mode's owner must approve or reject the request. This applies to all mode changes, including switching to the `default` mode, unless the requester is the current mode owner.
+
+### Pending Requests
+The provider manages pending authorization requests with these behaviors:
+- **One request per requester**: Each requester can have only one pending request at a time
+- **Auto-replacement**: New requests from the same requester automatically replace their previous pending request
+- **Persistence**: Pending requests persist when the mode owner switches between their own modes
+- **Auto-rejection**: When any request is approved, all other pending requests are automatically rejected
+- **Auto-acceptance/rejection on return to default**: When the mode owner returns to default mode:
+  - If the first pending request is for default mode, all pending requests are rejected (already in requested mode)
+  - If the first pending request is for a different mode, that request is auto-approved and other pending requests are rejected
 
 ## Basic Usage
 
@@ -248,14 +260,17 @@ Emitted when an authorization decision is made. If your layer is a mode owner, y
 The provider uses the following logic to determine if a mode change requires authorization:
 
 **Auto-accept if:**
-1. The desired mode is `default` (always accessible to everyone)
-2. The requesting owner is the current mode's owner (you can always leave your own mode)
-3. The desired mode has no owner (unowned modes are freely accessible)
-4. There's no current mode owner AND the requester owns the desired mode (return to your own mode from default)
+
+1. The desired mode is `default` AND the requester is the current mode's owner (mode owners can always return to default)
+2. The requesting owner is the current mode's owner (you can always switch between your own modes)
+3. Neither the current mode nor desired mode have an owner (unowned modes are freely accessible)
+4. Currently in default mode AND the requester owns the desired mode (enter your own mode from default)
 
 **Require authorization if:**
-- The current mode is owned by someone else
-- The desired mode is owned by a different owner than the requester
+
+- The desired mode is `default` AND the requester is NOT the current mode's owner (non-owners must get permission to switch to default)
+- The current mode is owned by someone else AND the desired mode is not `default`
+- Any mode change that doesn't meet the auto-accept criteria above
 
 ## Best Practices
 
@@ -287,9 +302,11 @@ try {
 
 ### Cleanup
 
-The provider automatically cleans up:
-- Pending authorization requests when modes change
-- Stale authorization requests
+The provider automatically manages pending requests:
+- Clears all pending requests when any request is approved
+- Removes only the rejected request when a request is rejected
+- Auto-approves first pending request when mode owner returns to default
+- Replaces previous pending requests when same requester makes a new request
 
 ### Default Mode
 
@@ -352,7 +369,7 @@ type ModeChangeDecisionPayload = {
 
 **Causes**:
 1. Empty `desiredMode` or `requestOwner` - throws an error
-2. Authorization required but not handled - request times out after 30s
+2. Authorization required but not handled - request remains pending indefinitely
 3. Authorization decision from wrong owner - silently ignored
 
 **Solutions**:
@@ -362,6 +379,12 @@ type ModeChangeDecisionPayload = {
 
 ### Authorization requests pending indefinitely
 
-**Cause**: No authorization handler responding to requests.
+**Causes**:
+1. No authorization handler responding to requests
+2. Multiple pending requests from different requesters waiting for approval
 
-**Solution**: Implement an authorization handler to approve or reject requests, or ensure mode switching follows the ownership rules to avoid requiring authorization.
+**Solutions**:
+1. Implement an authorization handler to approve or reject requests
+2. Ensure mode switching follows the ownership rules to avoid requiring authorization
+3. Mode owner can return to default mode to auto-approve the first pending request
+4. Note: Each requester can only have one pending request - new requests auto-replace previous ones from the same requester

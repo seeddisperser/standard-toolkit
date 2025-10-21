@@ -33,12 +33,17 @@ import type {
 
 /**
  * Internal type for tracking pending authorization requests.
+ * Stored in a Map keyed by requester ID (requestOwner).
  * @internal
  */
 type PendingRequest = {
+  /** Unique identifier for this authorization request */
   authId: string;
+  /** The mode being requested */
   desiredMode: string;
+  /** The mode that was active when the request was made */
   currentMode: string;
+  /** ID of the component/feature requesting the mode change */
   requestOwner: string;
 };
 
@@ -80,7 +85,21 @@ const DEFAULT_MODE = 'default';
  * - Automatic mode changes when no ownership conflicts exist
  * - Authorization flow when switching between owned modes
  * - Per-mode ownership tracking that persists throughout the session
+ * - Pending request management (one pending request per requester)
+ * - Auto-acceptance of first pending request when mode owner returns to default
+ * - Auto-rejection of other pending requests when one is approved
  * - Event emission through a centralized event bus
+ *
+ * ## Pending Request Behavior
+ *
+ * - Pending requests are stored by requester ID (not mode owner)
+ * - Each requester can have only one pending request at a time
+ * - New requests from the same requester auto-replace previous requests
+ * - Pending requests persist when mode owner switches between their own modes
+ * - When any request is approved, all other pending requests are auto-rejected
+ * - When mode owner returns to default mode:
+ *   - If first pending request is for default mode, all pending requests are rejected (already in requested mode)
+ *   - If first pending request is for a different mode, that request is auto-approved and others are rejected
  *
  * @param props - Provider props including children and optional defaultMode
  * @returns Provider component that wraps children with map mode context
@@ -132,7 +151,7 @@ export function MapModeProvider({
   const [mode, setMode] = useState(defaultMode);
   // Store mode-to-owner mappings (persists throughout session, no re-renders needed)
   const modeOwnersRef = useRef<Map<string, string>>(new Map());
-  // Store pending authorization requests by mode owner (one request per mode owner, no re-renders needed)
+  // Store pending authorization requests by requester (one request per requester, no re-renders needed)
   const pendingRequestsRef = useRef<Map<string, PendingRequest>>(new Map());
 
   const emitChanged = useEmit<ModeChangedEvent>(MapModeEvents.changed);
@@ -141,6 +160,68 @@ export function MapModeProvider({
   );
   const emitRequest = useEmit<ModeChangeRequestEvent>(
     MapModeEvents.changeRequest,
+  );
+  const emitDecision = useEmit<ModeChangeDecisionEvent>(
+    MapModeEvents.changeDecision,
+  );
+
+  // Helper to approve a request and reject all others
+  const approveRequestAndRejectOthers = useCallback(
+    (
+      approvedRequest: PendingRequest,
+      excludeAuthId: string,
+      decisionOwner: string,
+      reason: string,
+      emitApproval: boolean,
+    ) => {
+      const previousMode = mode;
+
+      // Collect all other pending requests to emit rejections for
+      const requestsToReject: PendingRequest[] = [];
+      for (const [, request] of pendingRequestsRef.current.entries()) {
+        if (request.authId !== excludeAuthId) {
+          requestsToReject.push(request);
+        }
+      }
+
+      // Clear all pending requests BEFORE changing mode and emitting events
+      // This prevents the mode changed listener from seeing stale pending requests
+      pendingRequestsRef.current.clear();
+
+      // Change mode to the requested mode
+      setMode(approvedRequest.desiredMode);
+      emitChanged({
+        previousMode,
+        currentMode: approvedRequest.desiredMode,
+      });
+
+      // Store the new mode's owner
+      modeOwnersRef.current.set(
+        approvedRequest.desiredMode,
+        approvedRequest.requestOwner,
+      );
+
+      // Emit approval decision (only if requested, e.g., for auto-accepts)
+      if (emitApproval) {
+        emitDecision({
+          authId: approvedRequest.authId,
+          approved: true,
+          owner: decisionOwner,
+          reason,
+        });
+      }
+
+      // Emit rejection events for all other pending requests
+      for (const request of requestsToReject) {
+        emitDecision({
+          authId: request.authId,
+          approved: false,
+          owner: decisionOwner,
+          reason: 'Request auto-rejected because another request was approved',
+        });
+      }
+    },
+    [mode, emitChanged, emitDecision],
   );
 
   // Centralized listener for mode change requests
@@ -182,26 +263,24 @@ export function MapModeProvider({
           modeOwnersRef.current.set(desiredMode, requestOwner);
         }
 
-        // Clear current mode owner's pending request since mode changed successfully
-        if (currentModeOwner) {
-          pendingRequestsRef.current.delete(currentModeOwner);
-        }
+        // Clear requester's pending request since mode changed successfully
+        // Note: Only clear the requester's own pending request, not all pending requests
+        // This preserves pending requests when mode owner changes between their own modes
+        pendingRequestsRef.current.delete(requestOwner);
         return;
       }
 
       // Otherwise, send authorization request
-      // Generate authId and store the request keyed by current mode owner
-      // (auto-replaces any previous pending request for this mode owner)
+      // Generate authId and store the request keyed by requester
+      // (auto-replaces any previous pending request from this requester)
       const authId = uuid();
 
-      if (currentModeOwner) {
-        pendingRequestsRef.current.set(currentModeOwner, {
-          authId,
-          desiredMode,
-          currentMode: mode,
-          requestOwner,
-        });
-      }
+      pendingRequestsRef.current.set(requestOwner, {
+        authId,
+        desiredMode,
+        currentMode: mode,
+        requestOwner,
+      });
 
       emitAuthorization({
         authId,
@@ -222,27 +301,88 @@ export function MapModeProvider({
       return;
     }
 
-    // Lookup the request for this mode owner and verify authId matches
-    const request = pendingRequestsRef.current.get(decisionOwner);
-    if (!request || request.authId !== authId) {
+    // Find the request with matching authId
+    let matchingRequestOwner: string | null = null;
+    let matchingRequest: PendingRequest | null = null;
+
+    for (const [
+      requestOwner,
+      request,
+    ] of pendingRequestsRef.current.entries()) {
+      if (request.authId === authId) {
+        matchingRequestOwner = requestOwner;
+        matchingRequest = request;
+        break;
+      }
+    }
+
+    if (!matchingRequest || !matchingRequestOwner) {
       // Unknown or stale authId, ignore
       return;
     }
 
     if (approved) {
-      const previousMode = mode;
-      setMode(request.desiredMode);
-      emitChanged({
-        previousMode,
-        currentMode: request.desiredMode,
-      });
-
-      // Store the new mode's owner
-      modeOwnersRef.current.set(request.desiredMode, request.requestOwner);
+      approveRequestAndRejectOthers(
+        matchingRequest,
+        authId,
+        decisionOwner,
+        '',
+        false, // Don't emit approval - it was already emitted by the caller
+      );
+    } else {
+      // Just remove the rejected request, don't auto-reject others
+      pendingRequestsRef.current.delete(matchingRequestOwner);
     }
+  });
 
-    // Remove the processed request for this mode owner
-    pendingRequestsRef.current.delete(decisionOwner);
+  // Listen for mode changes to auto-accept first pending request when returning to default
+  useOn<ModeChangedEvent>(MapModeEvents.changed, (event) => {
+    const { currentMode, previousMode } = event.payload;
+
+    // When mode owner changes to default mode, handle pending requests
+    if (currentMode === defaultMode && pendingRequestsRef.current.size > 0) {
+      // Get the first pending request
+      const [, firstRequest] = Array.from(
+        pendingRequestsRef.current.entries(),
+      )[0]!;
+
+      // Check if the mode change was initiated by the previous mode's owner
+      const previousModeOwner = modeOwnersRef.current.get(previousMode);
+
+      // Only process if returning to default from an owned mode
+      if (previousModeOwner) {
+        // If the first pending request is for the mode we're already in (default),
+        // reject it instead of trying to approve it (which would create an infinite loop)
+        if (firstRequest.desiredMode === defaultMode) {
+          // Collect all pending requests (including the default one) to reject
+          const allRequests: PendingRequest[] = Array.from(
+            pendingRequestsRef.current.values(),
+          );
+
+          // Clear all pending requests BEFORE emitting events
+          pendingRequestsRef.current.clear();
+
+          // Reject all pending requests since we're already in the desired mode
+          for (const request of allRequests) {
+            emitDecision({
+              authId: request.authId,
+              approved: false,
+              owner: previousModeOwner,
+              reason: 'Request rejected - already in requested mode',
+            });
+          }
+        } else {
+          // Auto-accept the first pending request for a different mode
+          approveRequestAndRejectOthers(
+            firstRequest,
+            firstRequest.authId,
+            previousModeOwner,
+            'Auto-accepted when mode owner returned to default',
+            true, // Emit approval decision for auto-accept
+          );
+        }
+      }
+    }
   });
 
   const requestModeChange = useCallback(

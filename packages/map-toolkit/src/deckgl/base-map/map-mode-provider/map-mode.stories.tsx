@@ -162,7 +162,16 @@ export const MultipleConsumers: Story = {
  * Demonstrates realistic mode management between three features: Shapes (drawing/editing),
  * MeasuringTool (measuring), and MultiSelectLasso (multi-select). Shows automatic acceptance,
  * notices, authorization dialogs, and how multiple concurrent authorization requests are handled
- * (one per mode owner).
+ * (one per requester).
+ *
+ * Key behaviors demonstrated:
+ * - Each requester can have one pending request at a time
+ * - New requests from the same requester replace previous requests
+ * - Pending requests persist when mode owner switches between their own modes
+ * - Approving one request auto-rejects all other pending requests
+ * - Returning to default mode with pending requests:
+ *   - If first pending request is for default mode, all requests are rejected (already in that mode)
+ *   - If first pending request is for a different mode, it's auto-approved and others are rejected
  */
 export const AuthorizationFlow: Story = {
   render: () => {
@@ -171,16 +180,24 @@ export const AuthorizationFlow: Story = {
       const [modeOwners, setModeOwners] = useState<Map<string, string>>(
         new Map(),
       );
-      const [pendingAuth, setPendingAuth] = useState<{
-        authId: string;
-        desiredMode: string;
-        requestingOwner: string;
-        currentMode: string;
-      } | null>(null);
+      const [pendingAuths, setPendingAuths] = useState<
+        Array<{
+          authId: string;
+          desiredMode: string;
+          requestingOwner: string;
+        }>
+      >([]);
       const [eventLog, setEventLog] = useState<string[]>([]);
-      const [dialogOpen, setDialogOpen] = useState(false);
 
-      const pendingRequests = useRef<Map<string, string>>(new Map());
+      const pendingRequests = useRef<
+        Map<
+          string,
+          {
+            requesterId: string;
+            desiredMode: string;
+          }
+        >
+      >(new Map());
       const logContainerRef = useRef<HTMLDivElement>(null);
 
       const emitDecision = useEmit<ModeChangeDecisionEvent>(
@@ -223,22 +240,37 @@ export const AuthorizationFlow: Story = {
         authId: string,
         desiredMode: string,
         requestingOwner: string,
-        currentMode: string,
       ) => {
-        // If there's already a pending auth, log the auto-rejection
-        if (pendingAuth) {
-          addLog(
-            `Previous request from ${pendingAuth.requestingOwner} auto-rejected (replaced by new request)`,
-          );
-        }
+        // Check if this requester already has a pending auth
+        const existingIndex = pendingAuths.findIndex(
+          (auth) => auth.requestingOwner === requestingOwner,
+        );
 
-        setPendingAuth({
-          authId,
-          desiredMode,
-          requestingOwner,
-          currentMode,
-        });
-        setDialogOpen(true);
+        if (existingIndex !== -1) {
+          // Replace the existing request from this requester
+          addLog(
+            `Previous request from ${requestingOwner} auto-rejected (replaced by new request)`,
+          );
+          setPendingAuths((prev) => {
+            const updated = [...prev];
+            updated[existingIndex] = {
+              authId,
+              desiredMode,
+              requestingOwner,
+            };
+            return updated;
+          });
+        } else {
+          // Add new request
+          setPendingAuths((prev) => [
+            ...prev,
+            {
+              authId,
+              desiredMode,
+              requestingOwner,
+            },
+          ]);
+        }
       };
 
       // Listen for mode changes
@@ -247,9 +279,10 @@ export const AuthorizationFlow: Story = {
           `Mode changed: "${event.payload.previousMode}" → "${event.payload.currentMode}"`,
         );
 
-        const requestingOwner = pendingRequests.current.get(
+        const requestData = pendingRequests.current.get(
           event.payload.currentMode,
         );
+        const requestingOwner = requestData?.requesterId;
 
         // Show notice when leaving measuring or multi-select modes (only if someone else is requesting the change)
         const previousModeOwner = modeOwners.get(event.payload.previousMode);
@@ -264,6 +297,7 @@ export const AuthorizationFlow: Story = {
             `${getModeName(event.payload.previousMode)} mode was canceled, mode changed to ${event.payload.currentMode}`,
           );
         }
+
         if (requestingOwner && event.payload.currentMode !== 'default') {
           // Update ownership map if this mode doesn't have an owner yet
           setModeOwners((prev) => {
@@ -312,14 +346,15 @@ export const AuthorizationFlow: Story = {
       useOn<ModeChangeAuthorizationEvent>(
         MapModeEvents.changeAuthorization,
         (event) => {
-          const requestingOwner = pendingRequests.current.get(
+          const requestData = pendingRequests.current.get(
             event.payload.desiredMode,
           );
 
-          if (!requestingOwner) {
+          if (!requestData) {
             return;
           }
 
+          const requestingOwner = requestData.requesterId;
           const currentModeOwner = modeOwners.get(event.payload.currentMode);
 
           addLog(
@@ -341,7 +376,6 @@ export const AuthorizationFlow: Story = {
               event.payload.authId,
               event.payload.desiredMode,
               requestingOwner,
-              event.payload.currentMode,
             );
           }
         },
@@ -349,43 +383,51 @@ export const AuthorizationFlow: Story = {
 
       // Listen for decisions
       useOn<ModeChangeDecisionEvent>(MapModeEvents.changeDecision, (event) => {
-        const status = event.payload.approved ? 'approved' : 'rejected';
+        const { authId, approved } = event.payload;
+        const status = approved ? 'approved' : 'rejected';
         const reason = event.payload.reason ? ` - ${event.payload.reason}` : '';
+
         addLog(`Request ${status}${reason}`);
+
+        // Remove the dialog for this request
+        setPendingAuths((prev) => prev.filter((a) => a.authId !== authId));
       });
 
       const handleModeRequest = (modeName: string, owner: string) => {
-        pendingRequests.current.set(modeName, owner);
+        pendingRequests.current.set(modeName, {
+          requesterId: owner,
+          desiredMode: modeName,
+        });
         requestModeChange(modeName, owner);
       };
 
-      const handleApprove = () => {
-        if (pendingAuth) {
-          const currentModeOwner = modeOwners.get(pendingAuth.currentMode);
+      const handleApprove = (authId: string) => {
+        const auth = pendingAuths.find((a) => a.authId === authId);
+        if (auth) {
+          const currentModeOwner = modeOwners.get(mode);
           if (currentModeOwner) {
             emitDecision({
-              authId: pendingAuth.authId,
+              authId,
               approved: true,
               owner: currentModeOwner,
             });
-            setPendingAuth(null);
-            setDialogOpen(false);
+            // Note: Dialog removal is handled by the decision event listener
           }
         }
       };
 
-      const handleReject = () => {
-        if (pendingAuth) {
-          const currentModeOwner = modeOwners.get(pendingAuth.currentMode);
+      const handleReject = (authId: string) => {
+        const auth = pendingAuths.find((a) => a.authId === authId);
+        if (auth) {
+          const currentModeOwner = modeOwners.get(mode);
           if (currentModeOwner) {
             emitDecision({
-              authId: pendingAuth.authId,
+              authId,
               approved: false,
               owner: currentModeOwner,
               reason: `${currentModeOwner} rejected the request`,
             });
-            setPendingAuth(null);
-            setDialogOpen(false);
+            // Note: Dialog removal is handled by the decision event listener
           }
         }
       };
@@ -530,31 +572,35 @@ export const AuthorizationFlow: Story = {
             aria-label='Mode change notifications'
           />
 
-          {/* Dialog for authorization from Shapes - positioned to not overlay controls */}
-          {dialogOpen && (
-            <div className='absolute top-l right-l w-[384px]'>
-              <div className='flex flex-col gap-m rounded-lg bg-surface-default p-l shadow-elevation-overlay'>
-                <p className='font-bold text-header-m'>Authorization Request</p>
+          {/* Dialogs for authorization from Shapes - positioned to not overlay controls */}
+          <div className='absolute top-l right-l flex w-[384px] flex-col gap-m'>
+            {pendingAuths.map((auth, index) => (
+              <div
+                key={auth.authId}
+                className='flex flex-col gap-m rounded-lg bg-surface-default p-l shadow-elevation-overlay'
+              >
+                <p className='font-bold text-header-m'>
+                  Authorization Request{' '}
+                  {pendingAuths.length > 1
+                    ? `${index + 1}/${pendingAuths.length}`
+                    : ''}
+                </p>
                 <div className='space-y-m'>
                   <div className='rounded-lg bg-surface-muted p-s'>
                     <p className='mb-xs text-body-xs'>Request From</p>
-                    <code className='text-body-m'>
-                      {pendingAuth?.requestingOwner}
-                    </code>
+                    <code className='text-body-m'>{auth.requestingOwner}</code>
                   </div>
                   <div className='text-body-m'>
                     <span>Wants to change to: </span>
                     <code className='rounded bg-surface-muted px-s py-xs text-body-m'>
-                      {pendingAuth?.desiredMode}
+                      {auth.desiredMode}
                     </code>
                   </div>
                   <Divider />
                   <div className='rounded-lg bg-surface-muted p-s'>
                     <p className='mb-xs text-body-xs'>Current Mode</p>
                     <div className='flex items-center gap-s'>
-                      <code className='text-body-m'>
-                        {pendingAuth?.currentMode}
-                      </code>
+                      <code className='text-body-m'>{mode}</code>
                     </div>
                   </div>
                 </div>
@@ -562,21 +608,21 @@ export const AuthorizationFlow: Story = {
                   <Button
                     variant='flat'
                     color='critical'
-                    onPress={handleReject}
+                    onPress={() => handleReject(auth.authId)}
                   >
                     Reject
                   </Button>
                   <Button
                     variant='filled'
                     color='accent'
-                    onPress={handleApprove}
+                    onPress={() => handleApprove(auth.authId)}
                   >
                     Approve
                   </Button>
                 </div>
               </div>
-            </div>
-          )}
+            ))}
+          </div>
         </>
       );
     }
