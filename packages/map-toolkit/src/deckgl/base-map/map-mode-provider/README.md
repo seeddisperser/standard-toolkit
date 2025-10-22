@@ -5,6 +5,7 @@ A React context provider for managing map interaction modes with built-in owners
 ## Features
 
 - **Mode Management**: Centralized state management for map interaction modes (e.g., default, drawing, measuring, editing)
+- **Instance Isolation**: Support for multiple independent map instances (e.g., main map + minimap)
 - **Ownership System**: Track which component/feature owns each mode to prevent conflicts
 - **Authorization Flow**: Built-in authorization system when switching between modes owned by different components
 - **Pending Request Management**: Handles multiple concurrent authorization requests (one per requester)
@@ -103,6 +104,44 @@ function MapControls() {
 }
 ```
 
+## Multiple Map Instances
+
+When you need multiple independent maps on the same page (e.g., main map + minimap), use the `mapId` prop to isolate each instance. The `mapId` must be a unique identifier (UUID/UniqueId):
+
+```tsx
+import { MapModeProvider } from '@accelint/map-toolkit/deckgl';
+import { uuid } from '@accelint/core';
+
+// Generate unique IDs for each map instance
+const MAIN_MAP_ID = uuid(); // e.g., "main-map-uuid-abc123"
+const MINIMAP_ID = uuid();  // e.g., "minimap-uuid-xyz789"
+
+function MultiMapView() {
+  return (
+    <>
+      {/* Main map with its own mode state */}
+      <MapModeProvider mapId={MAIN_MAP_ID} defaultMode="drawing">
+        <BaseMap className="w-full h-2/3" />
+        <DrawingToolbar /> {/* Controls for main map */}
+      </MapModeProvider>
+
+      {/* Minimap with independent mode state */}
+      <MapModeProvider mapId={MINIMAP_ID} defaultMode="view">
+        <BaseMap className="w-full h-1/3" />
+        {/* Minimap stays in view mode while main map can switch modes */}
+      </MapModeProvider>
+    </>
+  );
+}
+```
+
+**Key Points:**
+
+- Each provider with a unique `mapId` (UUID) operates independently
+- Mode changes in one instance don't affect other instances
+- Events are automatically scoped to each instance via `mapInstanceId` in event payloads
+- If `mapId` is omitted, a unique UUID is auto-generated (useful for single-map scenarios)
+
 ## Advanced Usage: Authorization Flow
 
 When multiple components need to coordinate mode changes, use the authorization system:
@@ -128,6 +167,7 @@ function AuthorizationHandler() {
       setPendingRequest({
         authId: event.payload.authId,
         desiredMode: event.payload.desiredMode,
+        mapInstanceId: event.payload.mapInstanceId,
       });
     }
   );
@@ -138,6 +178,7 @@ function AuthorizationHandler() {
         authId: pendingRequest.authId,
         approved: true,
         owner: 'my-component-id',
+        mapInstanceId: pendingRequest.mapInstanceId,
       });
       setPendingRequest(null);
     }
@@ -150,6 +191,7 @@ function AuthorizationHandler() {
         approved: false,
         owner: 'my-component-id',
         reason: 'User rejected the mode change',
+        mapInstanceId: pendingRequest.mapInstanceId,
       });
       setPendingRequest(null);
     }
@@ -179,6 +221,7 @@ Context provider for map mode management.
 |------|------|---------|-------------|
 | `children` | `ReactNode` | - | Child components |
 | `defaultMode` | `string` | `'default'` | Initial mode when provider mounts |
+| `mapId` | `UniqueId` | auto-generated | Optional unique ID for this map instance. Used to isolate mode changes between multiple map instances. |
 
 ### `useMapMode()`
 
@@ -211,8 +254,9 @@ Emitted when the mode successfully changes.
 **Payload:**
 ```tsx
 {
-  previousMode: string;  // The mode before the change
-  currentMode: string;   // The new current mode
+  previousMode: string;     // The mode before the change
+  currentMode: string;      // The new current mode
+  mapInstanceId: UniqueId;  // The map instance this event is for
 }
 ```
 
@@ -223,8 +267,9 @@ Emitted when a component requests a mode change.
 **Payload:**
 ```tsx
 {
-  desiredMode: string;  // The requested mode
-  owner: string;        // ID of the requesting component
+  desiredMode: string;      // The requested mode
+  owner: string;            // ID of the requesting component
+  mapInstanceId: UniqueId;  // The map instance this event is for
 }
 ```
 
@@ -235,23 +280,25 @@ Emitted when authorization is required for a mode change. Note: this event is em
 **Payload:**
 ```tsx
 {
-  authId: string;       // Unique ID for this authorization request
-  desiredMode: string;  // The requested mode
-  currentMode: string;  // The current mode
+  authId: string;           // Unique ID for this authorization request
+  desiredMode: string;      // The requested mode
+  currentMode: string;      // The current mode
+  mapInstanceId: UniqueId;  // The map instance this event is for
 }
 ```
 
 #### `MapModeEvents.changeDecision`
 
-Emitted when an authorization decision is made. If your layer is a mode owner, you need to listen for changeAuthorization events and emit changeDecision events to allow or disallow the mode from being changed to something other than `default` by other layers / features.
+Emitted when an authorization decision is made. If your layer is a mode owner, you need to listen for changeAuthorization events and emit changeDecision events to allow or disallow the mode from being changed to something other than `default` by other layers / features. **Important:** You must include the `mapInstanceId` from the authorization event in your decision.
 
 **Payload:**
 ```tsx
 {
-  authId: string;       // ID of the authorization request
-  approved: boolean;    // Whether the request was approved
-  owner: string;        // ID of the owner making the decision
-  reason?: string;      // Optional reason for rejection
+  authId: string;           // ID of the authorization request
+  approved: boolean;        // Whether the request was approved
+  owner: string;            // ID of the owner making the decision
+  reason?: string;          // Optional reason for rejection
+  mapInstanceId: UniqueId;  // The map instance this event is for
 }
 ```
 
@@ -326,21 +373,26 @@ See the Storybook stories for complete examples:
 ## Type Definitions
 
 ```tsx
+import type { UniqueId } from '@accelint/core';
+
 // Mode change events
 type ModeChangedPayload = {
   previousMode: string;
   currentMode: string;
+  mapInstanceId: UniqueId;
 };
 
 type ModeChangeRequestPayload = {
   desiredMode: string;
   owner: string;
+  mapInstanceId: UniqueId;
 };
 
 type ModeChangeAuthorizationPayload = {
   authId: string;
   desiredMode: string;
   currentMode: string;
+  mapInstanceId: UniqueId;
 };
 
 type ModeChangeDecisionPayload = {
@@ -348,6 +400,7 @@ type ModeChangeDecisionPayload = {
   approved: boolean;
   owner: string;
   reason?: string;
+  mapInstanceId: UniqueId;
 };
 ```
 
