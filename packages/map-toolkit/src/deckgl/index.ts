@@ -17,16 +17,15 @@ export {
 } from './base-map/constants';
 export { MapEvents, MapEventsNamespace } from './base-map/events';
 export {
-  MapModeContext,
-  type MapModeContextValue,
-  MapModeProvider,
-  type MapModeProviderProps,
-} from './base-map/map-mode-provider';
+  MapIdContext,
+  MapIdProvider,
+  type MapIdProviderProps,
+} from './base-map/map-id-provider';
 export {
   MapModeEvents,
   MapModeEventsNamespace,
-} from './base-map/map-mode-provider/events';
-export { useMapMode } from './base-map/map-mode-provider/use-map-mode';
+} from './base-map/map-id-provider/events';
+export { useMapMode } from './base-map/map-id-provider/use-map-mode';
 export { SymbolLayer, type SymbolLayerProps } from './symbol-layer';
 export type {
   MapModeEventType,
@@ -38,7 +37,7 @@ export type {
   ModeChangedPayload,
   ModeChangeRequestEvent,
   ModeChangeRequestPayload,
-} from './base-map/map-mode-provider/types';
+} from './base-map/map-id-provider/types';
 export type {
   MapClickEvent,
   MapClickPayload,

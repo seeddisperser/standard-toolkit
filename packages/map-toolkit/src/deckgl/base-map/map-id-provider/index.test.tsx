@@ -21,7 +21,7 @@ import {
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { MapModeEvents } from './events';
-import { MapModeProvider } from './index';
+import { MapIdProvider } from './index';
 import { useMapMode } from './use-map-mode';
 import type { ReactNode } from 'react';
 import type {
@@ -30,9 +30,9 @@ import type {
   ModeChangedEvent,
 } from './types';
 
-describe('MapModeProvider', () => {
+describe('MapIdProvider', () => {
   const wrapper = ({ children }: { children: ReactNode }) => (
-    <MapModeProvider>{children}</MapModeProvider>
+    <MapIdProvider>{children}</MapIdProvider>
   );
 
   afterEach(() => {
@@ -48,7 +48,7 @@ describe('MapModeProvider', () => {
 
     it('accepts custom defaultMode', () => {
       const customWrapper = ({ children }: { children: ReactNode }) => (
-        <MapModeProvider defaultMode='drawing'>{children}</MapModeProvider>
+        <MapIdProvider defaultMode='drawing'>{children}</MapIdProvider>
       );
 
       const { result } = renderHook(() => useMapMode(), {
@@ -87,9 +87,9 @@ describe('MapModeProvider', () => {
       }
 
       render(
-        <MapModeProvider>
+        <MapIdProvider>
           <TestComponent />
-        </MapModeProvider>,
+        </MapIdProvider>,
       );
 
       const modeDisplay = screen.getByTestId('mode');
@@ -122,9 +122,9 @@ describe('MapModeProvider', () => {
       }
 
       render(
-        <MapModeProvider>
+        <MapIdProvider>
           <TestComponent />
-        </MapModeProvider>,
+        </MapIdProvider>,
       );
 
       await user.click(screen.getByTestId('change-mode'));
@@ -170,9 +170,9 @@ describe('MapModeProvider', () => {
       }
 
       render(
-        <MapModeProvider>
+        <MapIdProvider>
           <TestComponent />
-        </MapModeProvider>,
+        </MapIdProvider>,
       );
 
       // Switch to drawing
@@ -223,9 +223,9 @@ describe('MapModeProvider', () => {
       }
 
       render(
-        <MapModeProvider>
+        <MapIdProvider>
           <TestComponent />
-        </MapModeProvider>,
+        </MapIdProvider>,
       );
 
       // owner1 claims drawing mode
@@ -281,9 +281,9 @@ describe('MapModeProvider', () => {
       }
 
       render(
-        <MapModeProvider>
+        <MapIdProvider>
           <TestComponent />
-        </MapModeProvider>,
+        </MapIdProvider>,
       );
 
       // owner1 claims drawing mode
@@ -328,9 +328,9 @@ describe('MapModeProvider', () => {
       }
 
       render(
-        <MapModeProvider>
+        <MapIdProvider>
           <TestComponent />
-        </MapModeProvider>,
+        </MapIdProvider>,
       );
 
       await user.click(screen.getByTestId('change-mode'));
@@ -347,7 +347,7 @@ describe('MapModeProvider', () => {
       const user = userEvent.setup();
 
       const customWrapper = ({ children }: { children: ReactNode }) => (
-        <MapModeProvider defaultMode='mode1'>{children}</MapModeProvider>
+        <MapIdProvider defaultMode='mode1'>{children}</MapIdProvider>
       );
 
       function TestComponent() {
@@ -375,9 +375,9 @@ describe('MapModeProvider', () => {
       }
 
       render(
-        <MapModeProvider>
+        <MapIdProvider>
           <TestComponent />
-        </MapModeProvider>,
+        </MapIdProvider>,
         { wrapper: customWrapper },
       );
 
@@ -449,9 +449,9 @@ describe('MapModeProvider', () => {
       }
 
       render(
-        <MapModeProvider>
+        <MapIdProvider>
           <TestComponent />
-        </MapModeProvider>,
+        </MapIdProvider>,
       );
 
       // owner1 claims drawing
@@ -523,9 +523,9 @@ describe('MapModeProvider', () => {
       }
 
       render(
-        <MapModeProvider>
+        <MapIdProvider>
           <TestComponent />
-        </MapModeProvider>,
+        </MapIdProvider>,
       );
 
       // owner1 claims drawing
@@ -588,9 +588,9 @@ describe('MapModeProvider', () => {
       }
 
       render(
-        <MapModeProvider>
+        <MapIdProvider>
           <TestComponent />
-        </MapModeProvider>,
+        </MapIdProvider>,
       );
 
       // owner1 claims drawing
@@ -657,9 +657,9 @@ describe('MapModeProvider', () => {
       }
 
       render(
-        <MapModeProvider>
+        <MapIdProvider>
           <TestComponent />
-        </MapModeProvider>,
+        </MapIdProvider>,
       );
 
       // owner1 claims drawing
@@ -718,9 +718,9 @@ describe('MapModeProvider', () => {
       }
 
       render(
-        <MapModeProvider>
+        <MapIdProvider>
           <TestComponent />
-        </MapModeProvider>,
+        </MapIdProvider>,
       );
 
       // Change to drawing

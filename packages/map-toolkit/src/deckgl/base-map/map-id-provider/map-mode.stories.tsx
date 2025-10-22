@@ -20,7 +20,7 @@ import {
 } from '@accelint/design-toolkit';
 import { useRef, useState } from 'react';
 import { BaseMap } from '../index';
-import { MapModeProvider } from '.';
+import { MapIdProvider } from '.';
 import { MapModeEvents } from './events';
 import { useMapMode } from './use-map-mode';
 import type { UniqueId } from '@accelint/core';
@@ -81,10 +81,10 @@ export const BasicUsage: Story = {
     }
 
     return (
-      <MapModeProvider defaultMode='default'>
+      <MapIdProvider defaultMode='default'>
         <BaseMap className='relative h-dvh w-dvw' />
         <ModeToolbar />
-      </MapModeProvider>
+      </MapIdProvider>
     );
   },
 };
@@ -148,12 +148,12 @@ export const MultipleConsumers: Story = {
     }
 
     return (
-      <MapModeProvider defaultMode='default'>
+      <MapIdProvider defaultMode='default'>
         <BaseMap className='relative h-dvh w-dvw' />
         <ModeToolbar />
         <ModeIndicator />
         <InstructionsPanel />
-      </MapModeProvider>
+      </MapIdProvider>
     );
   },
 };
@@ -645,10 +645,10 @@ export const AuthorizationFlow: Story = {
     }
 
     return (
-      <MapModeProvider defaultMode='default'>
+      <MapIdProvider defaultMode='default'>
         <BaseMap className='relative h-dvh w-dvw' />
         <AuthorizationDemo />
-      </MapModeProvider>
+      </MapIdProvider>
     );
   },
 };

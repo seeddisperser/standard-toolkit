@@ -1,9 +1,10 @@
-# `@accelint/map-toolkit/map-mode-provider`
+# `@accelint/map-toolkit/map-id-provider`
 
-A React context provider for managing map interaction modes with built-in ownership and authorization controls. This provider enables multiple features or components to coordinate map interactions through a centralized mode system.
+A React context provider for managing map interaction modes with built-in ownership and authorization controls. The `MapIdProvider` enables multiple features or components to coordinate map interactions through a centralized mode system using a hybrid architecture that combines React Context with an external observable store.
 
 ## Features
 
+- **Hybrid Architecture**: Combines React Context (for map instance identity) with external store pattern (for state management via `useSyncExternalStore`)
 - **Mode Management**: Centralized state management for map interaction modes (e.g., default, drawing, measuring, editing)
 - **Instance Isolation**: Support for multiple independent map instances (e.g., main map + minimap)
 - **Ownership System**: Track which component/feature owns each mode to prevent conflicts
@@ -39,19 +40,19 @@ The provider manages pending authorization requests with these behaviors:
 
 ## Basic Usage
 
-### 1. Wrap your app with MapModeProvider
+### 1. Wrap your app with MapIdProvider
 
 ```tsx
-import { MapModeProvider } from '@accelint/map-toolkit/deckgl';
+import { MapIdProvider } from '@accelint/map-toolkit/deckgl';
 import { BaseMap } from '@accelint/map-toolkit/deckgl';
 
 export function App() {
   return (
-    <MapModeProvider defaultMode="default">
+    <MapIdProvider defaultMode="default">
       <BaseMap className="w-full h-full">
         {/* Your map layers and UI components */}
       </BaseMap>
-    </MapModeProvider>
+    </MapIdProvider>
   );
 }
 ```
@@ -109,7 +110,7 @@ function MapControls() {
 When you need multiple independent maps on the same page (e.g., main map + minimap), use the `mapId` prop to isolate each instance. The `mapId` must be a unique identifier (UUID/UniqueId):
 
 ```tsx
-import { MapModeProvider } from '@accelint/map-toolkit/deckgl';
+import { MapIdProvider } from '@accelint/map-toolkit/deckgl';
 import { uuid } from '@accelint/core';
 
 // Generate unique IDs for each map instance
@@ -120,16 +121,16 @@ function MultiMapView() {
   return (
     <>
       {/* Main map with its own mode state */}
-      <MapModeProvider mapId={MAIN_MAP_ID} defaultMode="drawing">
+      <MapIdProvider mapId={MAIN_MAP_ID} defaultMode="drawing">
         <BaseMap className="w-full h-2/3" />
         <DrawingToolbar /> {/* Controls for main map */}
-      </MapModeProvider>
+      </MapIdProvider>
 
       {/* Minimap with independent mode state */}
-      <MapModeProvider mapId={MINIMAP_ID} defaultMode="view">
+      <MapIdProvider mapId={MINIMAP_ID} defaultMode="view">
         <BaseMap className="w-full h-1/3" />
         {/* Minimap stays in view mode while main map can switch modes */}
-      </MapModeProvider>
+      </MapIdProvider>
     </>
   );
 }
@@ -211,9 +212,14 @@ function AuthorizationHandler() {
 
 ## API Reference
 
-### `MapModeProvider`
+### `MapIdProvider`
 
-Context provider for map mode management.
+Context provider for map instance identity and mode management.
+
+Uses a hybrid architecture:
+
+- **Context**: Provides `mapInstanceId` to child components
+- **External Store**: Manages mode state via `MapModeStore` (accessed through `useMapMode` hook)
 
 #### Props
 
@@ -225,7 +231,15 @@ Context provider for map mode management.
 
 ### `useMapMode()`
 
-Hook to access map mode context. Must be used within a `MapModeProvider`.
+Hook to access map mode state. Can be used either within a `MapIdProvider` (uses context) or outside (by passing `mapInstanceId` directly).
+
+Uses React's `useSyncExternalStore` internally to subscribe to the external `MapModeStore`. This enables true separation of concerns - you can access the store from anywhere as long as you have the map instance ID.
+
+#### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `mapInstanceId` | `UniqueId` | No | The map instance ID to access. If not provided, uses the ID from `MapIdContext`. |
 
 #### Returns
 
@@ -241,7 +255,35 @@ Hook to access map mode context. Must be used within a `MapModeProvider`.
 
 #### Throws
 
-`Error` if used outside of `MapModeProvider`
+- `Error` if no `mapInstanceId` is provided and hook is used outside of `MapIdProvider`
+- `Error` if the store is not found for the given instance ID
+
+#### Examples
+
+**Inside MapIdProvider (uses context):**
+```tsx
+function MapToolbar() {
+  const { mode, requestModeChange } = useMapMode();
+
+  return <button onClick={() => requestModeChange('drawing', 'toolbar')}>
+    Draw ({mode})
+  </button>;
+}
+```
+
+**Outside MapIdProvider (pass ID directly):**
+```tsx
+function ExternalControl({ mapId }: { mapId: UniqueId }) {
+  const { mode, requestModeChange } = useMapMode(mapId);
+
+  return <div>
+    <p>Map is in {mode} mode</p>
+    <button onClick={() => requestModeChange('default', 'external')}>
+      Reset
+    </button>
+  </div>;
+}
+```
 
 ### Events
 
@@ -406,16 +448,16 @@ type ModeChangeDecisionPayload = {
 
 ## Troubleshooting
 
-### "useMapMode must be used within a MapModeProvider"
+### "useMapMode must be used within a MapIdProvider"
 
-**Cause**: Using `useMapMode()` outside of a `MapModeProvider`.
+**Cause**: Using `useMapMode()` outside of a `MapIdProvider`.
 
-**Solution**: Wrap your component tree with `MapModeProvider`:
+**Solution**: Wrap your component tree with `MapIdProvider`:
 
 ```tsx
-<MapModeProvider>
+<MapIdProvider>
   <YourComponent />
-</MapModeProvider>
+</MapIdProvider>
 ```
 
 ### Mode changes not working
