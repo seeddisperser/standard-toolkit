@@ -40,7 +40,7 @@ const EXAMPLE_MAP_MODES = [
 ];
 
 const meta = {
-  title: 'DeckGL/Map Mode',
+  title: 'Map Mode',
 } satisfies Meta;
 
 export default meta;
