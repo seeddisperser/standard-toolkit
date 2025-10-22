@@ -55,9 +55,6 @@
     "test": "pnpm vitest --dir=src",
     "test:watch": "pnpm vitest --dir=src --watch"
   },
-  "dependencies": {
-    "@types/react-dom": "19.1.11"
-  },
   "devDependencies": {
     "@accelint/biome-config": "workspace:*",
     "@accelint/bus": "workspace:*",
