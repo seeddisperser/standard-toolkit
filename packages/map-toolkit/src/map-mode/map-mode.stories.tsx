@@ -19,10 +19,10 @@ import {
   type NoticeQueueEvent,
 } from '@accelint/design-toolkit';
 import { useRef, useState } from 'react';
-import { BaseMap } from '../index';
-import { MapIdProvider } from '.';
+import { BaseMap } from '../deckgl/base-map';
 import { MapModeEvents } from './events';
-import { useMapMode } from './use-map-mode';
+import { MapIdProvider } from './react/provider';
+import { useMapMode } from './react/use-map-mode';
 import type { UniqueId } from '@accelint/core';
 import type { Meta, StoryObj } from '@storybook/react';
 import type {
@@ -40,7 +40,7 @@ const EXAMPLE_MAP_MODES = [
 ];
 
 const meta = {
-  title: 'DeckGL/Base Map/Map Mode',
+  title: 'DeckGL/Map Mode',
 } satisfies Meta;
 
 export default meta;

@@ -15,7 +15,7 @@
 import 'client-only';
 import { uuid } from '@accelint/core';
 import { createContext, type ReactNode, useEffect, useRef } from 'react';
-import { destroyStore, getOrCreateStore } from './map-mode-store';
+import { destroyStore, getOrCreateStore } from '../store';
 import type { UniqueId } from '@accelint/core';
 
 /**
@@ -107,7 +107,7 @@ const DEFAULT_MODE = 'default';
  * @example
  * Basic usage:
  * ```tsx
- * import { MapIdProvider } from '@accelint/map-toolkit/deckgl';
+ * import { MapIdProvider } from '@accelint/map-toolkit/map-mode/react';
  *
  * function App() {
  *   return (

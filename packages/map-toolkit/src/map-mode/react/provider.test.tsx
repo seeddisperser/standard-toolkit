@@ -20,15 +20,15 @@ import {
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { MapModeEvents } from './events';
-import { MapIdProvider } from './index';
+import { MapModeEvents } from '../events';
+import { MapIdProvider } from './provider';
 import { useMapMode } from './use-map-mode';
 import type { ReactNode } from 'react';
 import type {
   ModeChangeAuthorizationEvent,
   ModeChangeDecisionEvent,
   ModeChangedEvent,
-} from './types';
+} from '../types';
 
 describe('MapIdProvider', () => {
   const wrapper = ({ children }: { children: ReactNode }) => (

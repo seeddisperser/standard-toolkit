@@ -10,22 +10,22 @@
  * governing permissions and limitations under the License.
  */
 
+export {
+  MapModeEvents,
+  MapModeEventsNamespace,
+} from '../map-mode/events';
+export {
+  MapIdContext,
+  MapIdProvider,
+  type MapIdProviderProps,
+} from '../map-mode/react/provider';
+export { useMapMode } from '../map-mode/react/use-map-mode';
 export { BaseMap, type BaseMapProps } from './base-map';
 export {
   BASE_MAP_STYLE,
   PARAMETERS,
 } from './base-map/constants';
 export { MapEvents, MapEventsNamespace } from './base-map/events';
-export {
-  MapIdContext,
-  MapIdProvider,
-  type MapIdProviderProps,
-} from './base-map/map-id-provider';
-export {
-  MapModeEvents,
-  MapModeEventsNamespace,
-} from './base-map/map-id-provider/events';
-export { useMapMode } from './base-map/map-id-provider/use-map-mode';
 export { SymbolLayer, type SymbolLayerProps } from './symbol-layer';
 export type {
   MapModeEventType,
@@ -37,7 +37,7 @@ export type {
   ModeChangedPayload,
   ModeChangeRequestEvent,
   ModeChangeRequestPayload,
-} from './base-map/map-id-provider/types';
+} from '../map-mode/types';
 export type {
   MapClickEvent,
   MapClickPayload,

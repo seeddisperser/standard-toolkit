@@ -11,8 +11,8 @@
  */
 
 import { useContext, useMemo, useSyncExternalStore } from 'react';
-import { MapIdContext } from './index';
-import { getStore } from './map-mode-store';
+import { getStore } from '../store';
+import { MapIdContext } from './provider';
 import type { UniqueId } from '@accelint/core';
 
 /**
