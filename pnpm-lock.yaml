@@ -4,11 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  '@react-stately/datepicker': 3.13.0
-  '@internationalized/date': 3.8.0
-  undici: 7.12.0
-
 importers:
 
   .:
@@ -295,8 +290,8 @@ importers:
         specifier: ^5.2.8
         version: 5.2.8
       '@internationalized/date':
-        specifier: 3.8.0
-        version: 3.8.0
+        specifier: ^3.10.0
+        version: 3.10.0
       '@radix-ui/react-avatar':
         specifier: ^1.1.10
         version: 1.1.10(@types/react-dom@19.1.11(@types/react@19.1.13))(@types/react@19.1.13)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -322,8 +317,8 @@ importers:
         specifier: ^3.9.0
         version: 3.9.2(react@19.0.0)
       '@react-stately/datepicker':
-        specifier: 3.13.0
-        version: 3.13.0(react@19.0.0)
+        specifier: ^3.15.2
+        version: 3.15.2(react@19.0.0)
       '@react-stately/toast':
         specifier: ^3.1.2
         version: 3.1.2(react@19.0.0)
@@ -3211,8 +3206,8 @@ packages:
       '@types/node':
         optional: true
 
-  '@internationalized/date@3.8.0':
-    resolution: {integrity: sha512-J51AJ0fEL68hE4CwGPa6E0PO6JDaVLd8aln48xFCSy7CZkZc96dGEGmLs2OEEbBxcsVZtfrqkXJwI2/MSG8yKw==}
+  '@internationalized/date@3.10.0':
+    resolution: {integrity: sha512-oxDR/NTEJ1k+UFVQElaNIk65E/Z83HK1z1WI3lQyhTtnNg4R5oVXaPzK3jcpKG8UHKDVuDQHzn+wsxSz8RP3aw==}
 
   '@internationalized/message@3.1.8':
     resolution: {integrity: sha512-Rwk3j/TlYZhn3HQ6PyXUV0XP9Uv42jqZGNegt0BXlxjE6G3+LwHjbQZAGHhCnCPdaA6Tvd3ma/7QzLlLkJxAWA==}
@@ -3446,7 +3441,6 @@ packages:
 
   '@ls-lint/ls-lint@2.3.1':
     resolution: {integrity: sha512-vPe6IDByQnQRTxcAYjTxrmga/tSIui50VBFTB5KIJWY3OOFmxE2VtymjeSEfQfiMbhZV/ZPAqYy2lt8pZFQ0Rw==}
-    cpu: [x64, arm64, s390x, ppc64le]
     os: [darwin, linux, win32]
     hasBin: true
 
@@ -4283,8 +4277,8 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
 
-  '@react-stately/datepicker@3.13.0':
-    resolution: {integrity: sha512-I0Y/aQraQyRLMWnh5tBZMiZ0xlmvPjFErXnQaeD7SdOYUHNtQS4BAQsMByQrMfg8uhOqUTKlIh7xEZusuqYWOA==}
+  '@react-stately/datepicker@3.15.2':
+    resolution: {integrity: sha512-S5GL+W37chvV8knv9v0JRv0L6hKo732qqabCCHXzOpYxkLIkV4f/y3cHdEzFWzpZ0O0Gkg7WgeYo160xOdBKYg==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0-rc.1 || ^18.0.0 || ^19.0.0-rc.1
 
@@ -10410,8 +10404,8 @@ packages:
   undici-types@7.16.0:
     resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
 
-  undici@7.12.0:
-    resolution: {integrity: sha512-GrKEsc3ughskmGA9jevVlIOPMiiAHJ4OFUtaAH+NhfTUSiZ1wMPIQqQvAJUrJspFXJt3EBWgpAeoHEDVT1IBug==}
+  undici@7.16.0:
+    resolution: {integrity: sha512-QEg3HPMll0o3t2ourKwOeUAZ159Kn9mx5pnzHRQO8+Wixmh88YdZRiIwat0iNzNNXn0yoEtXJqFpyW7eM8BV7g==}
     engines: {node: '>=20.18.1'}
 
   unicode-canonical-property-names-ecmascript@2.0.1:
@@ -13836,7 +13830,7 @@ snapshots:
     optionalDependencies:
       '@types/node': 24.9.1
 
-  '@internationalized/date@3.8.0':
+  '@internationalized/date@3.10.0':
     dependencies:
       '@swc/helpers': 0.5.17
 
@@ -14731,7 +14725,7 @@ snapshots:
 
   '@react-aria/calendar@3.9.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.8.0
+      '@internationalized/date': 3.10.0
       '@react-aria/i18n': 3.12.13(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-aria/interactions': 3.25.6(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-aria/live-announcer': 3.4.4
@@ -14812,7 +14806,7 @@ snapshots:
 
   '@react-aria/datepicker@3.15.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.8.0
+      '@internationalized/date': 3.10.0
       '@internationalized/number': 3.6.5
       '@internationalized/string': 3.2.7
       '@react-aria/focus': 3.21.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -14822,7 +14816,7 @@ snapshots:
       '@react-aria/label': 3.7.22(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-aria/spinbutton': 3.6.19(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-aria/utils': 3.31.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      '@react-stately/datepicker': 3.13.0(react@19.0.0)
+      '@react-stately/datepicker': 3.15.2(react@19.0.0)
       '@react-stately/form': 3.2.2(react@19.0.0)
       '@react-types/button': 3.14.1(react@19.0.0)
       '@react-types/calendar': 3.8.0(react@19.0.0)
@@ -14925,7 +14919,7 @@ snapshots:
 
   '@react-aria/i18n@3.12.13(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.8.0
+      '@internationalized/date': 3.10.0
       '@internationalized/message': 3.1.8
       '@internationalized/number': 3.6.5
       '@internationalized/string': 3.2.7
@@ -15352,7 +15346,7 @@ snapshots:
 
   '@react-stately/calendar@3.9.0(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.8.0
+      '@internationalized/date': 3.10.0
       '@react-stately/utils': 3.10.8(react@19.0.0)
       '@react-types/calendar': 3.8.0(react@19.0.0)
       '@react-types/shared': 3.32.1(react@19.0.0)
@@ -15405,9 +15399,9 @@ snapshots:
       '@swc/helpers': 0.5.17
       react: 19.0.0
 
-  '@react-stately/datepicker@3.13.0(react@19.0.0)':
+  '@react-stately/datepicker@3.15.2(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.8.0
+      '@internationalized/date': 3.10.0
       '@internationalized/string': 3.2.7
       '@react-stately/form': 3.2.2(react@19.0.0)
       '@react-stately/overlays': 3.6.20(react@19.0.0)
@@ -15621,7 +15615,7 @@ snapshots:
 
   '@react-types/calendar@3.8.0(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.8.0
+      '@internationalized/date': 3.10.0
       '@react-types/shared': 3.32.1(react@19.0.0)
       react: 19.0.0
 
@@ -15643,7 +15637,7 @@ snapshots:
 
   '@react-types/datepicker@3.13.2(react@19.0.0)':
     dependencies:
-      '@internationalized/date': 3.8.0
+      '@internationalized/date': 3.10.0
       '@react-types/calendar': 3.8.0(react@19.0.0)
       '@react-types/overlays': 3.9.2(react@19.0.0)
       '@react-types/shared': 3.32.1(react@19.0.0)
@@ -17415,7 +17409,7 @@ snapshots:
       parse5: 7.3.0
       parse5-htmlparser2-tree-adapter: 7.1.0
       parse5-parser-stream: 7.1.2
-      undici: 7.12.0
+      undici: 7.16.0
       whatwg-mimetype: 4.0.0
 
   chokidar@3.6.0:
@@ -21186,7 +21180,7 @@ snapshots:
 
   react-aria-components@1.12.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
-      '@internationalized/date': 3.8.0
+      '@internationalized/date': 3.10.0
       '@internationalized/string': 3.2.7
       '@react-aria/autocomplete': 3.0.0-rc.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@react-aria/collections': 3.0.0-rc.6(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -21384,7 +21378,7 @@ snapshots:
       '@react-stately/color': 3.9.2(react@19.0.0)
       '@react-stately/combobox': 3.12.0(react@19.0.0)
       '@react-stately/data': 3.14.1(react@19.0.0)
-      '@react-stately/datepicker': 3.13.0(react@19.0.0)
+      '@react-stately/datepicker': 3.15.2(react@19.0.0)
       '@react-stately/disclosure': 3.0.8(react@19.0.0)
       '@react-stately/dnd': 3.7.1(react@19.0.0)
       '@react-stately/form': 3.2.2(react@19.0.0)
@@ -22511,7 +22505,7 @@ snapshots:
 
   undici-types@7.16.0: {}
 
-  undici@7.12.0: {}
+  undici@7.16.0: {}
 
   unicode-canonical-property-names-ecmascript@2.0.1: {}
 
