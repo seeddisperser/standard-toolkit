@@ -23,6 +23,7 @@ import { BaseMap } from '../index';
 import { MapModeProvider } from '.';
 import { MapModeEvents } from './events';
 import { useMapMode } from './use-map-mode';
+import type { UniqueId } from '@accelint/core';
 import type { Meta, StoryObj } from '@storybook/react';
 import type {
   ModeChangeAuthorizationEvent,
@@ -185,6 +186,7 @@ export const AuthorizationFlow: Story = {
           authId: string;
           desiredMode: string;
           requestingOwner: string;
+          mapInstanceId: UniqueId;
         }>
       >([]);
       const [eventLog, setEventLog] = useState<string[]>([]);
@@ -226,13 +228,18 @@ export const AuthorizationFlow: Story = {
         });
       };
 
-      const handleAutoAccept = (authId: string, owner: string) => {
+      const handleAutoAccept = (
+        authId: string,
+        owner: string,
+        mapInstanceId: UniqueId,
+      ) => {
         addLog(`${owner} auto-accepting request`);
 
         emitDecision({
           authId,
           approved: true,
           owner,
+          mapInstanceId,
         });
       };
 
@@ -240,6 +247,7 @@ export const AuthorizationFlow: Story = {
         authId: string,
         desiredMode: string,
         requestingOwner: string,
+        mapInstanceId: UniqueId,
       ) => {
         // Check if this requester already has a pending auth
         const existingIndex = pendingAuths.findIndex(
@@ -257,6 +265,7 @@ export const AuthorizationFlow: Story = {
               authId,
               desiredMode,
               requestingOwner,
+              mapInstanceId,
             };
             return updated;
           });
@@ -268,6 +277,7 @@ export const AuthorizationFlow: Story = {
               authId,
               desiredMode,
               requestingOwner,
+              mapInstanceId,
             },
           ]);
         }
@@ -366,7 +376,11 @@ export const AuthorizationFlow: Story = {
             currentModeOwner &&
             shouldAutoAccept(currentModeOwner, event.payload.currentMode)
           ) {
-            handleAutoAccept(event.payload.authId, currentModeOwner);
+            handleAutoAccept(
+              event.payload.authId,
+              currentModeOwner,
+              event.payload.mapInstanceId,
+            );
             return;
           }
 
@@ -376,6 +390,7 @@ export const AuthorizationFlow: Story = {
               event.payload.authId,
               event.payload.desiredMode,
               requestingOwner,
+              event.payload.mapInstanceId,
             );
           }
         },
@@ -410,6 +425,7 @@ export const AuthorizationFlow: Story = {
               authId,
               approved: true,
               owner: currentModeOwner,
+              mapInstanceId: auth.mapInstanceId,
             });
             // Note: Dialog removal is handled by the decision event listener
           }
@@ -426,6 +442,7 @@ export const AuthorizationFlow: Story = {
               approved: false,
               owner: currentModeOwner,
               reason: `${currentModeOwner} rejected the request`,
+              mapInstanceId: auth.mapInstanceId,
             });
             // Note: Dialog removal is handled by the decision event listener
           }

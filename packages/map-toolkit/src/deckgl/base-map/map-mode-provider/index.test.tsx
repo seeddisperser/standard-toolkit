@@ -135,6 +135,7 @@ describe('MapModeProvider', () => {
             payload: {
               previousMode: 'default',
               currentMode: 'drawing',
+              mapInstanceId: expect.any(String),
             },
           }),
         );
@@ -495,6 +496,7 @@ describe('MapModeProvider', () => {
               authId: event.payload.authId,
               approved: true,
               owner: 'owner1',
+              mapInstanceId: event.payload.mapInstanceId,
             });
           },
         );
@@ -559,6 +561,7 @@ describe('MapModeProvider', () => {
               approved: false,
               owner: 'owner1',
               reason: 'Test rejection',
+              mapInstanceId: event.payload.mapInstanceId,
             });
           },
         );
@@ -627,6 +630,7 @@ describe('MapModeProvider', () => {
               authId: event.payload.authId,
               approved: true,
               owner: 'owner-wrong', // Not the current mode owner
+              mapInstanceId: event.payload.mapInstanceId,
             });
           },
         );
