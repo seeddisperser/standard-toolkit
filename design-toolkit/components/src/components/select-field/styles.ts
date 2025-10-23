@@ -17,7 +17,7 @@ export const SelectFieldStyles = tv({
     field: 'group/select-field',
     trigger: [
       'justify-between',
-      'size-medium:py-xs size-medium:min-w-[220px]',
+      'size-medium:min-w-[220px] size-medium:py-xs',
       'group-size-small/select-field:fit-content size-small:py-xxs',
       'group-invalid/select-field:enabled:outline-serious-bold',
       'group-focus-visible/select-field:enabled:outline-accent-primary-bold',
