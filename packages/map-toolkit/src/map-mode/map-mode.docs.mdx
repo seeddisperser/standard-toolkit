@@ -457,13 +457,20 @@ See the Storybook stories for complete working examples:
 **Solution**: Either wrap your component with `MapIdProvider` or pass the `mapInstanceId` directly:
 
 ```tsx
-// Option 1: Use provider
+// Option 1: Use provider (creates and manages store automatically)
 <MapIdProvider>
   <YourComponent />
 </MapIdProvider>
 
-// Option 2: Pass ID directly
-const { mode } = useMapMode(mapInstanceId);
+// Option 2: Pass ID directly (requires store to exist)
+import { getOrCreateStore } from '@accelint/map-toolkit/map-mode';
+
+// Ensure store exists
+const mapId = 'my-map-id';
+getOrCreateStore(mapId, 'default');
+
+// Then use the hook
+const { mode } = useMapMode(mapId);
 ```
 
 ### Mode changes not working

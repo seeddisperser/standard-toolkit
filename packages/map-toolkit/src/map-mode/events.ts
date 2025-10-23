@@ -10,11 +10,39 @@
  * governing permissions and limitations under the License.
  */
 
+/**
+ * Namespace prefix for all map mode events.
+ */
 export const MapModeEventsNamespace = 'map-mode';
 
+/**
+ * Event type constants for map mode state management.
+ *
+ * These events are emitted through the `@accelint/bus` event bus to coordinate
+ * map mode changes across components in a decoupled manner.
+ *
+ * @example
+ * ```ts
+ * import { useOn, useEmit } from '@accelint/bus/react';
+ * import { MapModeEvents } from '@accelint/map-toolkit/map-mode';
+ *
+ * // Listen for mode changes
+ * useOn(MapModeEvents.changed, (event) => {
+ *   console.log('Mode changed to:', event.payload.currentMode);
+ * });
+ *
+ * // Emit a decision
+ * const emitDecision = useEmit(MapModeEvents.changeDecision);
+ * emitDecision({ authId, approved: true, owner: 'my-id', mapInstanceId });
+ * ```
+ */
 export const MapModeEvents = {
+  /** Emitted when the map mode has successfully changed */
   changed: `${MapModeEventsNamespace}:changed`,
+  /** Emitted when a component requests a mode change */
   changeRequest: `${MapModeEventsNamespace}:change:request`,
+  /** Emitted when authorization is required for a mode change */
   changeAuthorization: `${MapModeEventsNamespace}:change:authorization`,
+  /** Emitted when an authorization decision is made (approve/reject) */
   changeDecision: `${MapModeEventsNamespace}:change:decision`,
 } as const;

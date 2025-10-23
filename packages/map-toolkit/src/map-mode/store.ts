@@ -44,8 +44,9 @@ const DEFAULT_MODE = 'default';
  * It manages all mode state, ownership tracking, authorization flow, and event bus communication
  * outside of React's component tree.
  *
- * Each `MapIdProvider` instance creates its own isolated store instance, identified by a unique
- * `mapInstanceId`. Stores are automatically created on-demand and destroyed when the provider unmounts.
+ * Each store instance is identified by a unique `mapInstanceId` and operates independently,
+ * enabling scenarios with multiple isolated map instances (e.g., main map + minimap).
+ * Stores communicate via the event bus and filter events by `mapInstanceId` to ensure isolation.
  *
  * @see {getOrCreateStore} - Creates or retrieves a store for a given map instance
  * @see {destroyStore} - Destroys a store and cleans up its resources

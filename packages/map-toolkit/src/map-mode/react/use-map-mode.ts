@@ -79,7 +79,7 @@ export function useMapMode(mapInstanceId?: UniqueId): UseMapModeReturn {
 
   if (!store) {
     throw new Error(
-      `MapModeStore not found for instance: ${actualId}. Ensure a MapIdProvider with this ID has been mounted.`,
+      `MapModeStore not found for instance: ${actualId}. Ensure a store has been created for this map instance (e.g., via MapIdProvider or getOrCreateStore).`,
     );
   }
 
