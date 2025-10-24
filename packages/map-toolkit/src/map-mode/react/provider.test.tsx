@@ -740,5 +740,161 @@ describe('MapIdProvider', () => {
       // No authorization should have been requested
       expect(onAuthRequest).not.toHaveBeenCalled();
     });
+
+    it('should auto-accept new mode request from default when no ownership conflicts exist', async () => {
+      const user = userEvent.setup();
+      const onAuthRequest = vi.fn();
+
+      function TestComponent() {
+        const { mode, requestModeChange } = useMapMode();
+        useOn<ModeChangeAuthorizationEvent>(
+          MapModeEvents.changeAuthorization,
+          onAuthRequest,
+        );
+
+        return (
+          <div>
+            <span data-testid='mode'>{mode}</span>
+            <button
+              type='button'
+              onClick={() => requestModeChange('measuring', 'MeasuringTool')}
+              data-testid='to-measuring'
+            >
+              Measuring
+            </button>
+            <button
+              type='button'
+              onClick={() => requestModeChange('default', 'MeasuringTool')}
+              data-testid='to-default'
+            >
+              Default
+            </button>
+            <button
+              type='button'
+              onClick={() =>
+                requestModeChange('multi-select', 'MultiSelectLasso')
+              }
+              data-testid='to-multi-select'
+            >
+              Multi-Select
+            </button>
+          </div>
+        );
+      }
+
+      render(
+        <MapIdProvider>
+          <TestComponent />
+        </MapIdProvider>,
+      );
+
+      // Start in default mode
+      expect(screen.getByTestId('mode')).toHaveTextContent('default');
+
+      // Switch to measuring mode
+      await user.click(screen.getByTestId('to-measuring'));
+      await waitFor(() => {
+        expect(screen.getByTestId('mode')).toHaveTextContent('measuring');
+      });
+
+      // Switch back to default
+      await user.click(screen.getByTestId('to-default'));
+      await waitFor(() => {
+        expect(screen.getByTestId('mode')).toHaveTextContent('default');
+      });
+
+      // Now multi-select tries to switch to multi-select mode
+      // This should NOT trigger authorization since we're in default mode
+      // and multi-select has no conflicts
+      await user.click(screen.getByTestId('to-multi-select'));
+      await waitFor(() => {
+        expect(screen.getByTestId('mode')).toHaveTextContent('multi-select');
+      });
+
+      // No authorization should have been requested
+      expect(onAuthRequest).not.toHaveBeenCalled();
+    });
+
+    it('should not assign owner to default mode when approving request for default', async () => {
+      const user = userEvent.setup();
+      const onAuthRequest = vi.fn();
+
+      function TestComponent() {
+        const { mode, requestModeChange } = useMapMode();
+        const emitDecision = useEmit<ModeChangeDecisionEvent>(
+          MapModeEvents.changeDecision,
+        );
+
+        useOn<ModeChangeAuthorizationEvent>(
+          MapModeEvents.changeAuthorization,
+          (event) => {
+            onAuthRequest(event);
+            // MeasuringTool auto-approves all requests
+            emitDecision({
+              authId: event.payload.authId,
+              approved: true,
+              owner: 'MeasuringTool',
+              mapInstanceId: event.payload.mapInstanceId,
+            });
+          },
+        );
+
+        return (
+          <div>
+            <span data-testid='mode'>{mode}</span>
+            <button
+              type='button'
+              onClick={() => requestModeChange('measuring', 'MeasuringTool')}
+              data-testid='to-measuring'
+            >
+              Measuring
+            </button>
+            <button
+              type='button'
+              onClick={() => requestModeChange('default', 'MultiSelectLasso')}
+              data-testid='multi-select-to-default'
+            >
+              MultiSelect to Default
+            </button>
+            <button
+              type='button'
+              onClick={() => requestModeChange('drawing', 'Shapes')}
+              data-testid='to-drawing'
+            >
+              Shapes to Drawing
+            </button>
+          </div>
+        );
+      }
+
+      render(
+        <MapIdProvider>
+          <TestComponent />
+        </MapIdProvider>,
+      );
+
+      // MeasuringTool switches to measuring mode
+      await user.click(screen.getByTestId('to-measuring'));
+      await waitFor(() => {
+        expect(screen.getByTestId('mode')).toHaveTextContent('measuring');
+      });
+
+      // MultiSelectLasso requests default (requires auth from MeasuringTool)
+      await user.click(screen.getByTestId('multi-select-to-default'));
+      await waitFor(() => {
+        expect(screen.getByTestId('mode')).toHaveTextContent('default');
+      });
+      expect(onAuthRequest).toHaveBeenCalledTimes(1);
+
+      // NOW: Shapes should be able to switch to drawing from default WITHOUT auth
+      // This was failing before because default mode was incorrectly assigned MultiSelectLasso as owner
+      await user.click(screen.getByTestId('to-drawing'));
+      await waitFor(() => {
+        expect(screen.getByTestId('mode')).toHaveTextContent('drawing');
+      });
+
+      // Should still only have 1 auth request (the one for default)
+      expect(onAuthRequest).toHaveBeenCalledTimes(1);
+    });
   });
 });

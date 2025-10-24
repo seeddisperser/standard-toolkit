@@ -299,11 +299,13 @@ export class MapModeStore {
     // Change mode
     this.setMode(approvedRequest.desiredMode);
 
-    // Store the new mode's owner
-    this.modeOwners.set(
-      approvedRequest.desiredMode,
-      approvedRequest.requestOwner,
-    );
+    // Store the new mode's owner (unless it's default mode)
+    if (approvedRequest.desiredMode !== this.defaultMode) {
+      this.modeOwners.set(
+        approvedRequest.desiredMode,
+        approvedRequest.requestOwner,
+      );
+    }
 
     // Emit approval decision if requested
     if (emitApproval) {
