@@ -16,7 +16,6 @@ import type {
   ComponentPropsWithRef,
   DOMAttributes,
   ReactElement,
-  Ref,
   RefAttributes,
 } from 'react';
 import type { HeadingProps } from 'react-aria-components';
