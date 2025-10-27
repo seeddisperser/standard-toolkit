@@ -120,8 +120,7 @@
     "maplibre-gl": "^5.7.1",
     "milsymbol": "3.0.2",
     "mjolnir.js": "^3.0.0",
-    "react": "19.0.0",
-    "typescript": "5.8.3"
+    "react": "19.0.0"
   },
   "publishConfig": {
     "access": "public"
