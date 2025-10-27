@@ -15,6 +15,27 @@ A React component that provides a Deck.gl-powered base map with MapLibre GL inte
 - **Deck.gl Controller**: Interactive map controls with configurable parameters
 - **Client-Side Only**: Designed for client-side rendering in React applications
 
+## Dependencies
+
+BaseMap requires the following dependencies:
+
+**Required:**
+- [`@accelint/bus`](https://github.com/gohypergiant/standard-toolkit/tree/main/packages/bus) - Event bus for map click and hover events
+- [`@deck.gl/core`](https://deck.gl/) - Deck.gl core library for WebGL visualization
+- [`@deckgl-fiber-renderer/dom`](https://github.com/deckgl-fiber-renderer/fiber.gl) - React renderer for Deck.gl
+- [`@deckgl-fiber-renderer/types`](https://github.com/deckgl-fiber-renderer/fiber.gl) - TypeScript types for the fiber renderer
+- `maplibre-gl` - MapLibre GL JS for base map rendering
+- `mjolnir.js` - Event handling library used by Deck.gl
+- `react` - React 19.0.0 or higher
+
+**Installation:**
+
+```bash
+npm install @accelint/map-toolkit @accelint/bus @deck.gl/core @deckgl-fiber-renderer/dom @deckgl-fiber-renderer/types maplibre-gl mjolnir.js react
+# or
+pnpm add @accelint/map-toolkit @accelint/bus @deck.gl/core @deckgl-fiber-renderer/dom @deckgl-fiber-renderer/types maplibre-gl mjolnir.js react
+```
+
 ## Usage
 
 ```typescript

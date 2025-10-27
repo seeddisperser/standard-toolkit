@@ -19,6 +19,25 @@ A framework-agnostic state management system for coordinating map interaction mo
 - **Auto-Accept/Reject**: Smart conflict resolution - auto-accepts first pending request when returning to default, auto-rejects other requests when one is approved
 - **Event-Based**: Uses `@accelint/bus` for decoupled event communication
 
+## Dependencies
+
+Map Mode requires the following dependencies:
+
+**Required:**
+- [`@accelint/bus`](https://github.com/gohypergiant/standard-toolkit/tree/main/packages/bus) - Event bus for decoupled communication between mode consumers
+- [`@accelint/core`](https://github.com/gohypergiant/standard-toolkit/tree/main/packages/core) - Core utilities including unique ID generation
+
+**React Integration:**
+- `react` - React 19.0.0 or higher for the `useMapMode` hook and `MapIdProvider`
+
+**Installation:**
+
+```bash
+npm install @accelint/map-toolkit @accelint/bus @accelint/core react
+# or
+pnpm add @accelint/map-toolkit @accelint/bus @accelint/core react
+```
+
 ## Core Concepts
 
 ### Modes
