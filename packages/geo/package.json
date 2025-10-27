@@ -43,21 +43,19 @@
     "dev": "pnpm tsc --watch",
     "index": "pnpm zx ../../scripts/indexer.mjs packages/geo",
     "lint": "pnpm biome lint",
-    "test": "pnpm vitest --dir=src",
-    "test:browser": "pnpm build && node browser-testing/index.mjs"
+    "test": "pnpm vitest --dir=src"
   },
   "dependencies": {
-    "@types/geodesy": "^2.2.8",
-    "geodesy": "^2.4.0",
-    "typescript": "5.8.3"
+    "geodesy": "^2.4.0"
   },
   "devDependencies": {
     "@accelint/constellation-tracker": "workspace:*",
     "@accelint/typescript-config": "workspace:*",
     "@accelint/vitest-config": "workspace:*",
+    "@types/geodesy": "^2.2.8",
     "esbuild-fix-imports-plugin": "^1.0.23",
-    "playwright": "^1.56.1",
     "tsup": "8.5.0",
+    "typescript": "5.8.3",
     "vitest": "^2.1.9"
   },
   "publishConfig": {
