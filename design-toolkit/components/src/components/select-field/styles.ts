@@ -34,6 +34,6 @@ export const SelectFieldStyles = tv({
       'group-size-small/select-field:gap-xs group-size-small/select-field:text-body-xs',
       'group-size-medium/select-field:gap-s group-size-medium/select-field:text-body-s',
     ],
-    popover: 'min-w-(--trigger-width)'
+    popover: 'min-w-(--trigger-width)',
   },
 });
