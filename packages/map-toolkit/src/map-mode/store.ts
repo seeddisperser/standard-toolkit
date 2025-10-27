@@ -15,14 +15,18 @@ import { uuid } from '@accelint/core';
 import { MapModeEvents } from './events';
 import type { UniqueId } from '@accelint/core';
 import type {
-  ModeChangeAuthorizationPayload,
+  MapModeEventType,
   ModeChangeDecisionEvent,
   ModeChangeDecisionPayload,
   ModeChangedEvent,
-  ModeChangedPayload,
   ModeChangeRequestEvent,
-  ModeChangeRequestPayload,
 } from './types';
+
+/**
+ * Typed event bus instance for map mode events.
+ * Provides type-safe event emission and listening for all map mode state changes.
+ */
+const mapModeBus = new Broadcast<MapModeEventType>();
 
 /**
  * Internal type for tracking pending authorization requests.
@@ -58,7 +62,7 @@ export class MapModeStore {
   private readonly modeOwners = new Map<string, string>();
   private readonly pendingRequests = new Map<string, PendingRequest>();
   private readonly listeners = new Set<() => void>();
-  private readonly bus = Broadcast.getInstance();
+  private readonly bus = mapModeBus;
   private readonly unsubscribers: Array<() => void> = [];
 
   constructor(mapInstanceId: UniqueId, defaultMode = DEFAULT_MODE) {
@@ -98,16 +102,11 @@ export class MapModeStore {
       throw new Error('requestModeChange requires non-empty requestOwner');
     }
 
-    (
-      this.bus.emit as unknown as (
-        type: string,
-        payload: ModeChangeRequestPayload,
-      ) => void
-    )(MapModeEvents.changeRequest, {
+    this.bus.emit(MapModeEvents.changeRequest, {
       desiredMode,
       owner: requestOwner,
       mapInstanceId: this.mapInstanceId,
-    } satisfies ModeChangeRequestPayload);
+    });
   };
 
   /**
@@ -217,17 +216,12 @@ export class MapModeStore {
       requestOwner,
     });
 
-    (
-      this.bus.emit as unknown as (
-        type: string,
-        payload: ModeChangeAuthorizationPayload,
-      ) => void
-    )(MapModeEvents.changeAuthorization, {
+    this.bus.emit(MapModeEvents.changeAuthorization, {
       authId,
       desiredMode,
       currentMode: this.mode,
       mapInstanceId: this.mapInstanceId,
-    } satisfies ModeChangeAuthorizationPayload);
+    });
   }
 
   /**
@@ -287,7 +281,7 @@ export class MapModeStore {
   ): void {
     // Collect all other pending requests to emit rejections for
     const requestsToReject: PendingRequest[] = [];
-    for (const [, request] of this.pendingRequests.entries()) {
+    for (const request of this.pendingRequests.values()) {
       if (request.authId !== excludeAuthId) {
         requestsToReject.push(request);
       }
@@ -309,34 +303,24 @@ export class MapModeStore {
 
     // Emit approval decision if requested
     if (emitApproval) {
-      (
-        this.bus.emit as unknown as (
-          type: string,
-          payload: ModeChangeDecisionPayload,
-        ) => void
-      )(MapModeEvents.changeDecision, {
+      this.bus.emit(MapModeEvents.changeDecision, {
         authId: approvedRequest.authId,
         approved: true,
         owner: decisionOwner,
         reason,
         mapInstanceId: this.mapInstanceId,
-      } satisfies ModeChangeDecisionPayload);
+      });
     }
 
     // Emit rejection events for all other pending requests
     for (const request of requestsToReject) {
-      (
-        this.bus.emit as unknown as (
-          type: string,
-          payload: ModeChangeDecisionPayload,
-        ) => void
-      )(MapModeEvents.changeDecision, {
+      this.bus.emit(MapModeEvents.changeDecision, {
         authId: request.authId,
         approved: false,
         owner: decisionOwner,
         reason: 'Request auto-rejected because another request was approved',
         mapInstanceId: this.mapInstanceId,
-      } satisfies ModeChangeDecisionPayload);
+      });
     }
   }
 
@@ -344,12 +328,11 @@ export class MapModeStore {
    * Handle pending requests when returning to default mode
    */
   private handlePendingRequestsOnDefaultMode(previousMode: string): void {
-    const firstEntry = Array.from(this.pendingRequests.entries())[0];
+    const firstEntry = Array.from(this.pendingRequests.values())[0];
     if (!firstEntry) {
       return;
     }
 
-    const [, firstRequest] = firstEntry;
     const previousModeOwner = this.modeOwners.get(previousMode);
 
     if (!previousModeOwner) {
@@ -357,17 +340,12 @@ export class MapModeStore {
     }
 
     // If the first pending request is for default mode, reject all requests
-    if (firstRequest.desiredMode === this.defaultMode) {
+    if (firstEntry.desiredMode === this.defaultMode) {
       const allRequests = Array.from(this.pendingRequests.values());
       this.pendingRequests.clear();
 
       for (const request of allRequests) {
-        (
-          this.bus.emit as unknown as (
-            type: string,
-            payload: ModeChangeDecisionPayload,
-          ) => void
-        )(MapModeEvents.changeDecision, {
+        this.bus.emit(MapModeEvents.changeDecision, {
           authId: request.authId,
           approved: false,
           owner: previousModeOwner,
@@ -378,8 +356,8 @@ export class MapModeStore {
     } else {
       // Auto-accept the first pending request for a different mode
       this.approveRequestAndRejectOthers(
-        firstRequest,
-        firstRequest.authId,
+        firstEntry,
+        firstEntry.authId,
         previousModeOwner,
         'Auto-accepted when mode owner returned to default',
         true,
@@ -394,16 +372,11 @@ export class MapModeStore {
     const previousMode = this.mode;
     this.mode = newMode;
 
-    (
-      this.bus.emit as unknown as (
-        type: string,
-        payload: ModeChangedPayload,
-      ) => void
-    )(MapModeEvents.changed, {
+    this.bus.emit(MapModeEvents.changed, {
       previousMode,
       currentMode: newMode,
       mapInstanceId: this.mapInstanceId,
-    } satisfies ModeChangedPayload);
+    });
 
     this.notify();
   }
