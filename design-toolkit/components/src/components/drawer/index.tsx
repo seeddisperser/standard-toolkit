@@ -84,7 +84,7 @@ export function useDrawerEmit() {
   } as const;
 }
 
-function DrawerTrigger({ children, for: events, ref }: DrawerTriggerProps) {
+function DrawerTrigger({ for: events, ...rest }: DrawerTriggerProps) {
   const { parent } = useContext(ViewStackContext);
   const drawerEmit = useDrawerEmit();
 
@@ -105,11 +105,7 @@ function DrawerTrigger({ children, for: events, ref }: DrawerTriggerProps) {
     }
   }
 
-  return (
-    <Pressable ref={ref} onPress={handlePress}>
-      {children}
-    </Pressable>
-  );
+  return <Pressable {...rest} onPress={handlePress} />;
 }
 DrawerTrigger.displayName = 'Drawer.Trigger';
 

@@ -17,6 +17,7 @@ import type {
   DOMAttributes,
   ReactElement,
   Ref,
+  RefAttributes,
 } from 'react';
 import type { HeadingProps } from 'react-aria-components';
 import type { VariantProps } from 'tailwind-variants';
@@ -221,7 +222,7 @@ type TargetedEvents =
 
 type ChainedEvents = (SimpleEvents | TargetedEvents)[];
 
-export type DrawerTriggerProps = {
+export type DrawerTriggerProps = RefAttributes<FocusableElement> & {
   children: ReactElement<DOMAttributes<FocusableElement>, string>;
   /**
    * __SimpleEvents__ allow the easiest implementation of events, but come with some restrictions:
@@ -248,10 +249,6 @@ export type DrawerTriggerProps = {
    * 'close'
    */
   for: SimpleEvents | TargetedEvents | ChainedEvents;
-  /**
-   * In React 19 refs are plain props; expose an optional ref for consumers.
-   */
-  ref?: Ref<FocusableElement>;
 };
 
 export type DrawerContextValue = {
