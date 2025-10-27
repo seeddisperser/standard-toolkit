@@ -21,7 +21,7 @@ import type {
 import type { ButtonProps } from '../button/types';
 import type { LabelProps } from '../label/types';
 
-export type SelectFieldProps = Omit<AriaSelectProps, 'className'> &
+  export type SelectFieldProps = Omit<AriaSelectProps, 'className'> &
   Pick<AriaVirtualizerProps<AriaListLayoutOptions>, 'layoutOptions'> &
   RefAttributes<HTMLDivElement> & {
     classNames?: {
@@ -33,7 +33,6 @@ export type SelectFieldProps = Omit<AriaSelectProps, 'className'> &
       value?: string;
       popover?: PopoverProps['className'];
     };
-  } & {
     label?: string;
     description?: string;
     errorMessage?: string;

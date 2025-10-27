@@ -110,9 +110,13 @@ export function SelectField({ ref, ...props }: SelectFieldProps) {
     isInvalid: isInvalidProp,
     ...rest
   } = props;
-  const errorMessage = errorMessageProp || null; // Protect against empty string
+
+  const hasError = !!(errorMessageProp?.trim());
+  const isInvalid = isInvalidProp ?? hasError;
+  const errorMessage = hasError ? errorMessageProp : null;
+
   const isSmall = size === 'small';
-  const showLabel = !isSmall && !!label;
+  const showLabel = !isSmall && !!labelProp;
 
   return (
     <AriaSelect
@@ -121,7 +125,7 @@ export function SelectField({ ref, ...props }: SelectFieldProps) {
       className={composeRenderProps(classNames?.field, (className) =>
         field({ className }),
       )}
-      isInvalid={isInvalidProp || (errorMessage ? true : undefined)}
+      isInvalid={isInvalid}
       data-size={size}
     >
       {composeRenderProps(
