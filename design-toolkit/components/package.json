@@ -80,8 +80,7 @@
     "preview": "pnpm storybook dev -p 6006",
     "temp:token-migration": "pnpm zx scripts/token-migration.mjs",
     "test:watch": "pnpm vitest --dir=src --watch",
-    "test": "pnpm vitest --dir=src",
-    "type-check": "pnpm tsc -p tsconfig.test.json"
+    "test": "pnpm vitest --dir=src"
   },
   "dependencies": {
     "@react-stately/data": "^3.13.2",
