@@ -154,10 +154,10 @@
     "zod": "^4.1.12"
   },
   "peerDependencies": {
-    "@accelint/bus": "^1.4.0",
-    "@accelint/core": "^0.4.2",
-    "@accelint/icons": "^2.0.4",
-    "@accelint/temporal": "^0.1.1",
+    "@accelint/bus": "workspace:*",
+    "@accelint/core": "workspace:*",
+    "@accelint/icons": "workspace:*",
+    "@accelint/temporal": "workspace:*",
     "@fontsource-variable/roboto-flex": "^5.2.8",
     "@fontsource-variable/roboto-mono": "^5.2.8",
     "@internationalized/date": "^3.10.0",

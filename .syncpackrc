@@ -62,9 +62,6 @@
       "dependencies": [
         "@accelint/**"
       ],
-      "dependencyTypes": [
-        "!peer"
-      ],
       "label": "Use * for local packages",
       "packages": [
         "**"
