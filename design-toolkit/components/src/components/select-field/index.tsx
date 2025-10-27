@@ -111,10 +111,9 @@ export function SelectField({ ref, ...props }: SelectFieldProps) {
     ...rest
   } = props;
 
-  const hasError = !!(errorMessageProp?.trim());
+  const errorMessage = errorMessageProp?.trim() ?? null;
+  const hasError = !!errorMessage;
   const isInvalid = isInvalidProp ?? hasError;
-  const errorMessage = hasError ? errorMessageProp : null;
-
   const isSmall = size === 'small';
   const showLabel = !isSmall && !!labelProp;
 
@@ -170,10 +169,9 @@ export function SelectField({ ref, ...props }: SelectFieldProps) {
             >
               {errorMessage}
             </FieldError>
-            <AriaPopover 
-              className={composeRenderProps(
-                classNames?.popover,
-                (className) => popover({ className })
+            <AriaPopover
+              className={composeRenderProps(classNames?.popover, (className) =>
+                popover({ className }),
               )}
             >
               <Virtualizer layout={ListLayout} layoutOptions={layoutOptions}>
