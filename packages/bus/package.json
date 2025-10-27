@@ -69,7 +69,7 @@
     "vitest-broadcast-channel-mock": "^0.1.0"
   },
   "peerDependencies": {
-    "@accelint/core": "workspace:*"
+    "@accelint/core": "0.4.2"
   },
   "optionalDependencies": {
     "react": "19.0.0"
