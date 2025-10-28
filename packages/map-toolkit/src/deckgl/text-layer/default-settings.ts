@@ -16,7 +16,7 @@ import type { TextLayerProps } from '@deck.gl/layers';
 export const defaultSettings: Partial<TextLayerProps> = {
   fontFamily: 'system-ui, sans-serif',
   fontSettings: {
-    fontSize: 20,
+    fontSize: 24,
     sdf: true,
     buffer: 10,
     cutoff: 0.25,

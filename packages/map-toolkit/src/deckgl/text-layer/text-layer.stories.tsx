@@ -68,7 +68,6 @@ export const StyledText: Story = {
       <textLayer
         id={`${useId()}-main`}
         data={[GRAND_CANYON, GATEWAY_ARCH]}
-        fontSettings={{ radius: 3, smoothing: 0.3 }}
         fontWeight={700}
         getColor={[0, 0, 0, 255]}
         getPosition={(d: unknown) => (d as TextDataPoint).position}
@@ -79,14 +78,12 @@ export const StyledText: Story = {
       <textLayer
         id={`${useId()}-details`}
         data={[LIBERTY_BELL]}
-        fontSettings={{ smoothing: 0.1 }}
         getColor={[0, 0, 0, 255]}
         getPosition={(d: unknown) => (d as TextDataPoint).position}
         getSize={20}
         getText={(d: unknown) => (d as TextDataPoint).text}
         getTextAnchor='middle'
         outlineColor={[255, 100, 100, 255]}
-        outlineWidth={1}
       />
     </>
   ),
@@ -114,7 +111,7 @@ export const ColoredLabels: Story = {
       fontFamily='Arial, sans-serif'
       getColor={(d: unknown) => (d as ColoredTextDataPoint).color}
       getPosition={(d: unknown) => (d as ColoredTextDataPoint).position}
-      getSize={14}
+      getSize={16}
       getText={(d: unknown) => (d as ColoredTextDataPoint).text}
       getTextAnchor='middle'
       outlineColor={[255, 255, 255, 255]}

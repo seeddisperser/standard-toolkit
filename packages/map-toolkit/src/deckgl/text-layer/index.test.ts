@@ -114,17 +114,12 @@ describe('TextLayer', () => {
       data: [],
       fontSettings: {
         fontSize,
-        // sdf not specified, should use default
       },
     });
 
     expect(layer.props.fontSettings).toEqual({
+      ...defaultSettings.fontSettings,
       fontSize,
-      // from defaults
-      sdf: true,
-      buffer: 6,
-      cutoff: 0.25,
-      smoothing: 0.05,
     });
   });
 
