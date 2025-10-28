@@ -13,7 +13,7 @@
 import { extend } from '@deckgl-fiber-renderer/dom';
 import { TextLayer, type TextLayerProps } from './index';
 
-extend({ TextLayer: TextLayer });
+extend({ TextLayer });
 
 declare global {
   namespace React {

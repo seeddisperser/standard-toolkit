@@ -51,84 +51,74 @@ type Story = StoryObj<typeof meta>;
 
 export const BasicTextLayer: Story = {
   name: 'Basic Usage',
-  render: () => {
-    return (
-      <textLayer
-        data={[GOLDEN_GATE_BRIDGE, SPACE_NEEDLE, STATUE_OF_LIBERTY]}
-        getColor={[0, 0, 0, 255]}
-        getPosition={(d: unknown) => (d as TextDataPoint).position}
-        getSize={12}
-        getText={(d: unknown) => (d as TextDataPoint).text}
-        id={useId()}
-        outlineColor={[0, 200, 155, 255]}
-        outlineWidth={2}
-      />
-    );
-  },
+  render: () => (
+    <textLayer
+      id={useId()}
+      data={[GOLDEN_GATE_BRIDGE, SPACE_NEEDLE, STATUE_OF_LIBERTY]}
+      getPosition={(d: unknown) => (d as TextDataPoint).position}
+      getText={(d: unknown) => (d as TextDataPoint).text}
+    />
+  ),
 };
 
 export const StyledText: Story = {
   name: 'Styled Text with Outline',
-  render: () => {
-    return (
-      <>
-        <textLayer
-          data={[GRAND_CANYON, GATEWAY_ARCH]}
-          fontWeight={700}
-          getColor={[0, 0, 0, 255]}
-          getPosition={(d: unknown) => (d as TextDataPoint).position}
-          getSize={24}
-          getText={(d: unknown) => (d as TextDataPoint).text}
-          id={`${useId()}-main`}
-          outlineColor={[255, 155, 255, 255]}
-          outlineWidth={2}
-        />
-
-        <textLayer
-          data={[LIBERTY_BELL]}
-          getColor={[0, 0, 0, 255]}
-          getPosition={(d: unknown) => (d as TextDataPoint).position}
-          getSize={20}
-          getText={(d: unknown) => (d as TextDataPoint).text}
-          getTextAnchor='middle'
-          id={`${useId()}-details`}
-          outlineColor={[255, 155, 155, 255]}
-          outlineWidth={1}
-        />
-      </>
-    );
-  },
+  render: () => (
+    <>
+      <textLayer
+        id={`${useId()}-main`}
+        data={[GRAND_CANYON, GATEWAY_ARCH]}
+        fontSettings={{ radius: 3, smoothing: 0.3 }}
+        fontWeight={700}
+        getColor={[0, 0, 0, 255]}
+        getPosition={(d: unknown) => (d as TextDataPoint).position}
+        getSize={24}
+        getText={(d: unknown) => (d as TextDataPoint).text}
+        outlineColor={[255, 100, 255, 255]}
+      />
+      <textLayer
+        id={`${useId()}-details`}
+        data={[LIBERTY_BELL]}
+        fontSettings={{ smoothing: 0.1 }}
+        getColor={[0, 0, 0, 255]}
+        getPosition={(d: unknown) => (d as TextDataPoint).position}
+        getSize={20}
+        getText={(d: unknown) => (d as TextDataPoint).text}
+        getTextAnchor='middle'
+        outlineColor={[255, 100, 100, 255]}
+        outlineWidth={1}
+      />
+    </>
+  ),
 };
 
 export const ColoredLabels: Story = {
   name: 'Per-Item Colors',
-  render: () => {
-    return (
-      <textLayer
-        data={[
-          {
-            ...GOLDEN_GATE_BRIDGE,
-            color: [100, 0, 0, 255],
-          },
-          {
-            ...GRAND_CANYON,
-            color: [0, 100, 0, 255],
-          },
-          {
-            ...STATUE_OF_LIBERTY,
-            color: [0, 0, 100, 255],
-          },
-        ]}
-        fontFamily='Arial, sans-serif'
-        getColor={(d: unknown) => (d as ColoredTextDataPoint).color}
-        getPosition={(d: unknown) => (d as ColoredTextDataPoint).position}
-        getSize={14}
-        getText={(d: unknown) => (d as ColoredTextDataPoint).text}
-        getTextAnchor='middle'
-        id={useId()}
-        outlineColor={[255, 255, 255, 255]}
-        outlineWidth={2}
-      />
-    );
-  },
+  render: () => (
+    <textLayer
+      id={useId()}
+      data={[
+        {
+          ...GOLDEN_GATE_BRIDGE,
+          color: [200, 0, 0, 255],
+        },
+        {
+          ...GRAND_CANYON,
+          color: [0, 100, 100, 255],
+        },
+        {
+          ...STATUE_OF_LIBERTY,
+          color: [0, 0, 100, 255],
+        },
+      ]}
+      fontFamily='Arial, sans-serif'
+      getColor={(d: unknown) => (d as ColoredTextDataPoint).color}
+      getPosition={(d: unknown) => (d as ColoredTextDataPoint).position}
+      getSize={14}
+      getText={(d: unknown) => (d as ColoredTextDataPoint).text}
+      getTextAnchor='middle'
+      outlineColor={[255, 255, 255, 255]}
+      outlineWidth={2}
+    />
+  ),
 };

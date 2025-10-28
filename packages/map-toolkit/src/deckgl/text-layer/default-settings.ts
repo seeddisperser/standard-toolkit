@@ -11,26 +11,24 @@
  */
 
 import type { Color } from '@deck.gl/core';
+import type { TextLayerProps } from '@deck.gl/layers';
 
-export const defaultSettings = {
+export const defaultSettings: Partial<TextLayerProps> = {
   fontFamily: 'system-ui, sans-serif',
   fontSettings: {
-    fontSize: 12,
+    fontSize: 20,
     sdf: true,
-    // Larger buffer improves SDF text quality and rendering sharpness
-    buffer: 6,
-    // Cutoff determines the edge of the glyph in SDF rendering
-    // Range: 0-1, default 0.25. Higher values = bolder text
+    buffer: 10,
     cutoff: 0.25,
-    // Smoothing controls anti-aliasing of text edges
-    // Range: 0-1, lower values = sharper edges
+    radius: 10,
     smoothing: 0.05,
   },
   fontWeight: 500,
   getAlignmentBaseline: 'center',
   getColor: [255, 255, 255, 255] as Color,
+  getSize: 12,
   getTextAnchor: 'middle',
   lineHeight: 1,
   outlineColor: [0, 0, 0, 255] as Color,
-  outlineWidth: 1,
+  outlineWidth: 2,
 } as const;
