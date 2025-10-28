@@ -61,36 +61,8 @@ export const BasicTextLayer: Story = {
   ),
 };
 
-export const StyledText: Story = {
-  name: 'Styled Text with Outline',
-  render: () => (
-    <>
-      <textLayer
-        id={`${useId()}-main`}
-        data={[GRAND_CANYON, GATEWAY_ARCH]}
-        fontWeight={700}
-        getColor={[0, 0, 0, 255]}
-        getPosition={(d: unknown) => (d as TextDataPoint).position}
-        getSize={24}
-        getText={(d: unknown) => (d as TextDataPoint).text}
-        outlineColor={[255, 100, 255, 255]}
-      />
-      <textLayer
-        id={`${useId()}-details`}
-        data={[LIBERTY_BELL]}
-        getColor={[0, 0, 0, 255]}
-        getPosition={(d: unknown) => (d as TextDataPoint).position}
-        getSize={20}
-        getText={(d: unknown) => (d as TextDataPoint).text}
-        getTextAnchor='middle'
-        outlineColor={[255, 100, 100, 255]}
-      />
-    </>
-  ),
-};
-
-export const ColoredLabels: Story = {
-  name: 'Per-Item Colors',
+export const CustomColors: Story = {
+  name: 'Custom Colors',
   render: () => (
     <textLayer
       id={useId()}
@@ -115,7 +87,34 @@ export const ColoredLabels: Story = {
       getText={(d: unknown) => (d as ColoredTextDataPoint).text}
       getTextAnchor='middle'
       outlineColor={[255, 255, 255, 255]}
-      outlineWidth={2}
     />
+  ),
+};
+
+export const CustomOutlines: Story = {
+  name: 'Custom Outlines',
+  render: () => (
+    <>
+      <textLayer
+        id={`${useId()}-main`}
+        data={[GRAND_CANYON, GATEWAY_ARCH]}
+        fontWeight={700}
+        getColor={[0, 0, 0, 255]}
+        getPosition={(d: unknown) => (d as TextDataPoint).position}
+        getSize={24}
+        getText={(d: unknown) => (d as TextDataPoint).text}
+        outlineColor={[255, 100, 255, 255]}
+      />
+      <textLayer
+        id={`${useId()}-details`}
+        data={[LIBERTY_BELL]}
+        getColor={[0, 0, 0, 255]}
+        getPosition={(d: unknown) => (d as TextDataPoint).position}
+        getSize={20}
+        getText={(d: unknown) => (d as TextDataPoint).text}
+        getTextAnchor='middle'
+        outlineColor={[255, 100, 100, 255]}
+      />
+    </>
   ),
 };
