@@ -26,7 +26,7 @@ import type {
  * Typed event bus instance for map mode events.
  * Provides type-safe event emission and listening for all map mode state changes.
  */
-const mapModeBus = new Broadcast<MapModeEventType>();
+const mapModeBus = Broadcast.getInstance<MapModeEventType>();
 
 /**
  * Internal type for tracking pending authorization requests.
