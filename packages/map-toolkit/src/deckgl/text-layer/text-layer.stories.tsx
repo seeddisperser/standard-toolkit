@@ -81,7 +81,7 @@ export const Tag: Story = {
       fontFamily='monospace'
       getPosition={(d: unknown) => (d as TextDataPoint).position}
       getText={(d: unknown) => (d as TextDataPoint).text}
-      maxWidth={(8 / 12) * maxLength} // The approximate ratio of character width to height, times the number of characters you want per line
+      maxWidth={(7.5 / 12) * maxLength} // The approximate ratio of character width to height, times the number of characters you want per line
       wordBreak='break-all'
     />
   ),
