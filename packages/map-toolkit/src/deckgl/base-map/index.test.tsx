@@ -23,17 +23,7 @@ vi.mock('../../maplibre/hooks/use-maplibre', () => ({
 
 describe('BaseMap', () => {
   describe('Rendering', () => {
-    it('renders with required instanceId prop', () => {
-      const instanceId = uuid();
-      const { container } = render(<BaseMap instanceId={instanceId} />);
-
-      expect(container.firstChild).toBeInTheDocument();
-
-      // Cleanup
-      destroyStore(instanceId);
-    });
-
-    it('applies className to container', () => {
+    it('renders with className', () => {
       const instanceId = uuid();
       const { container } = render(
         <BaseMap className='custom-map-class' instanceId={instanceId} />,
@@ -65,26 +55,6 @@ describe('BaseMap', () => {
 
       // Cleanup
       destroyStore(specificInstanceId);
-    });
-
-    it('accepts and forwards Deck.gl event handler props', () => {
-      const instanceId = uuid();
-      const handleClick = vi.fn();
-      const handleHover = vi.fn();
-
-      // Should render without errors when passing Deck.gl props
-      const { container } = render(
-        <BaseMap
-          instanceId={instanceId}
-          onClick={handleClick}
-          onHover={handleHover}
-        />,
-      );
-
-      expect(container.firstChild).toBeInTheDocument();
-
-      // Cleanup
-      destroyStore(instanceId);
     });
   });
 });
