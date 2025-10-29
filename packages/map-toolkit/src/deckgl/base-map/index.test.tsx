@@ -13,6 +13,7 @@
 import { uuid } from '@accelint/core';
 import { render } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
+import { destroyStore, getStore } from '../../map-mode/store';
 import { BaseMap } from './index';
 
 // Mock MapLibre hook since it requires browser APIs
@@ -20,15 +21,70 @@ vi.mock('../../maplibre/hooks/use-maplibre', () => ({
   useMapLibre: vi.fn(),
 }));
 
-const instanceId = uuid();
-
 describe('BaseMap', () => {
-  it('should apply className to container', () => {
-    const { container } = render(
-      <BaseMap className='custom-map-class' instanceId={instanceId} />,
-    );
+  describe('Rendering', () => {
+    it('renders with required instanceId prop', () => {
+      const instanceId = uuid();
+      const { container } = render(<BaseMap instanceId={instanceId} />);
 
-    const mapContainer = container.querySelector('.custom-map-class');
-    expect(mapContainer).toBeInTheDocument();
+      expect(container.firstChild).toBeInTheDocument();
+
+      // Cleanup
+      destroyStore(instanceId);
+    });
+
+    it('applies className to container', () => {
+      const instanceId = uuid();
+      const { container } = render(
+        <BaseMap className='custom-map-class' instanceId={instanceId} />,
+      );
+
+      const mapContainer = container.querySelector('.custom-map-class');
+      expect(mapContainer).toBeInTheDocument();
+
+      // Cleanup
+      destroyStore(instanceId);
+    });
+  });
+
+  describe('Props', () => {
+    it('passes instanceId to MapIdProvider correctly', () => {
+      const specificInstanceId = uuid();
+
+      render(<BaseMap instanceId={specificInstanceId} />);
+
+      // Verify that a store exists for the provided instanceId
+      // This confirms instanceId was passed through to MapIdProvider
+      const store = getStore(specificInstanceId);
+      expect(store).toBeDefined();
+
+      // Verify no store exists for a different instanceId
+      const differentId = uuid();
+      const wrongStore = getStore(differentId);
+      expect(wrongStore).toBeUndefined();
+
+      // Cleanup
+      destroyStore(specificInstanceId);
+    });
+
+    it('accepts and forwards Deck.gl event handler props', () => {
+      const instanceId = uuid();
+      const handleClick = vi.fn();
+      const handleHover = vi.fn();
+
+      // Should render without errors when passing Deck.gl props
+      const { container } = render(
+        <BaseMap
+          instanceId={instanceId}
+          onClick={handleClick}
+          onHover={handleHover}
+        />,
+      );
+
+      expect(container.firstChild).toBeInTheDocument();
+
+      // Cleanup
+      destroyStore(instanceId);
+    });
   });
 });
