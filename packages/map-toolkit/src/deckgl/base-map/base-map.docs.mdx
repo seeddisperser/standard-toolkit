@@ -12,8 +12,11 @@ A React component that provides a Deck.gl-powered base map with MapLibre GL inte
 
 - **MapLibre GL Integration**: Built-in support for MapLibre GL base maps with customizable styles
 - **Event Bus**: Centralized event system for click and hover interactions using `@accelint/bus`
+- **Map Mode Integration**: Automatically creates internal `MapIdProvider` for map mode state management
 - **Deck.gl Controller**: Interactive map controls with configurable parameters
 - **Client-Side Only**: Designed for client-side rendering in React applications
+
+**Important**: BaseMap passes its children to Deck.gl, which only accepts Deck.gl layer components. Regular React UI components (buttons, toolbars, etc.) must be rendered as **siblings** to BaseMap, not children.
 
 ## Dependencies
 
@@ -38,16 +41,59 @@ pnpm add @accelint/map-toolkit @accelint/bus @deck.gl/core @deckgl-fiber-rendere
 
 ## Usage
 
+### Basic Setup
+
 ```typescript
 import { BaseMap } from '@accelint/map-toolkit/deckgl';
 import { View } from '@deckgl-fiber-renderer/dom';
+import { uuid } from '@accelint/core';
 
 export function MapView() {
+  const mapId = uuid();
+
   return (
-    <BaseMap className="w-full h-full">
+    <BaseMap instanceId={mapId} className="w-full h-full">
       <View id="main" controller />
       {/* Add your Deck.gl layers here */}
     </BaseMap>
+  );
+}
+```
+
+### With UI Components
+
+UI components (toolbars, buttons, etc.) should be rendered as **siblings** to BaseMap, not children:
+
+```typescript
+import { BaseMap } from '@accelint/map-toolkit/deckgl';
+import { useMapMode } from '@accelint/map-toolkit/map-mode';
+import { View } from '@deckgl-fiber-renderer/dom';
+import { uuid } from '@accelint/core';
+
+export function InteractiveMap() {
+  const mapId = uuid();
+
+  function Toolbar() {
+    // Pass mapId to access map mode
+    const { mode, requestModeChange } = useMapMode(mapId);
+
+    return (
+      <div className="absolute top-4 left-4">
+        <button onClick={() => requestModeChange('drawing', 'toolbar')}>
+          Draw Mode ({mode})
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative w-full h-full">
+      <BaseMap instanceId={mapId} className="absolute inset-0">
+        <View id="main" controller />
+        {/* Only Deck.gl layers as children */}
+      </BaseMap>
+      <Toolbar />
+    </div>
   );
 }
 ```
@@ -56,10 +102,13 @@ export function MapView() {
 
 ```typescript
 import { BaseMap } from '@accelint/map-toolkit/deckgl';
+import { uuid } from '@accelint/core';
 import type { PickingInfo } from '@deck.gl/core';
 import type { MjolnirGestureEvent, MjolnirPointerEvent } from 'mjolnir.js';
 
 export function InteractiveMap() {
+  const mapId = uuid();
+
   const handleClick = (info: PickingInfo, event: MjolnirGestureEvent) => {
     console.log('Clicked:', info.object);
   };
@@ -70,6 +119,7 @@ export function InteractiveMap() {
 
   return (
     <BaseMap
+      instanceId={mapId}
       className="w-full h-full"
       onClick={handleClick}
       onHover={handleHover}
@@ -102,6 +152,51 @@ export function MapListener() {
 ### Props
 
 The `BaseMap` component extends all `DeckglProps` from `@deckgl-fiber-renderer/types` and includes the following additional props:
+
+#### `instanceId: UniqueId` (required)
+
+Unique identifier for this map instance. Used to isolate map mode state between multiple map instances (e.g., main map vs minimap). This prop is required and should be a UUID generated using `uuid()` from `@accelint/core`.
+
+**Important**: This same `instanceId` must be passed to `useMapMode(instanceId)` in UI components that are rendered as siblings to BaseMap, since UI components cannot be children of BaseMap.
+
+**Stability**: The `instanceId` should not change during the component's lifetime. If it changes, the old store will remain in memory (causing a memory leak) and a new store will be created.
+
+**Recommended Pattern**: Create the `instanceId` as a **module-level constant**. This ensures stability and makes it easy to share across all components:
+
+```tsx
+import { uuid } from '@accelint/core';
+
+// ✅ BEST - Module-level constant (recommended)
+// - Stable across renders and remounts
+// - Easy to import and share across components
+// - No useState/useRef complexity
+const MAIN_MAP_ID = uuid();
+
+export function MapView() {
+  return <BaseMap instanceId={MAIN_MAP_ID}>...</BaseMap>;
+}
+
+export function Toolbar() {
+  const { mode } = useMapMode(MAIN_MAP_ID);
+  // All components use the same shared ID
+}
+```
+
+Alternative patterns (only use if you need dynamic IDs):
+
+```tsx
+// ✅ OK - For components that need their own isolated map instance
+function MapView() {
+  const [mapId] = useState(() => uuid());
+  return <BaseMap instanceId={mapId}>...</BaseMap>;
+}
+
+// ❌ NEVER - Creates new ID on every render (causes memory leaks)
+function MapView() {
+  const mapId = uuid(); // Don't do this!
+  return <BaseMap instanceId={mapId}>...</BaseMap>;
+}
+```
 
 #### `className?: string`
 
@@ -145,6 +240,30 @@ Event names for map interactions:
 
 - `MapEvents.click`: `'map:click'`
 - `MapEvents.hover`: `'map:hover'`
+
+## Children Components
+
+**Important**: BaseMap passes its children directly to Deck.gl's rendering engine, which only accepts Deck.gl layer components (e.g., `<View>`, `<ScatterplotLayer>`, etc.).
+
+**Do NOT** render regular React UI components (buttons, divs, toolbars, etc.) as children of BaseMap. Doing so will result in errors like "Text nodes are not supported."
+
+**Instead**: Render UI components as **siblings** to BaseMap within a shared parent container:
+
+```tsx
+// ✅ Correct - UI as siblings
+<div className="relative w-full h-full">
+  <BaseMap instanceId={mapId} className="absolute inset-0">
+    <View id="main" controller />
+    {/* Only Deck.gl layers */}
+  </BaseMap>
+  <Toolbar /> {/* Sibling to BaseMap */}
+</div>
+
+// ❌ Incorrect - UI as children
+<BaseMap instanceId={mapId}>
+  <Toolbar /> {/* Will cause error! */}
+</BaseMap>
+```
 
 ## Default Configuration
 

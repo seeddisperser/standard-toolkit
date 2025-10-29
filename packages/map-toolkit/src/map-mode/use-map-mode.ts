@@ -11,8 +11,8 @@
  */
 
 import { useContext, useMemo, useSyncExternalStore } from 'react';
-import { getStore } from '../store';
-import { MapIdContext } from './provider';
+import { MapIdContext } from '../deckgl/base-map/provider';
+import { getStore } from './store';
 import type { UniqueId } from '@accelint/core';
 
 /**
@@ -33,28 +33,29 @@ export type UseMapModeReturn = {
  * - Map instance identity (from `MapIdContext` or parameter)
  * - Mode state management (from `MapModeStore` via `useSyncExternalStore`)
  *
- * @param mapInstanceId - Optional map instance ID. If not provided, will use the ID from `MapIdContext`.
+ * @param instanceId - Optional map instance ID. If not provided, will use the ID from `MapIdContext`.
  * @returns The current map mode and requestModeChange function
- * @throws Error if no `mapInstanceId` is provided and hook is used outside of `MapIdProvider`
+ * @throws Error if no `instanceId` is provided and hook is used outside of `MapIdProvider`
  * @throws Error if store doesn't exist for the given instance ID
  *
  * @example
  * ```tsx
- * // Inside MapIdProvider - uses context
- * function MyLayer() {
+ * // Inside MapIdProvider (within BaseMap children) - uses context
+ * // Only Deck.gl layer components can be children
+ * function CustomDeckLayer() {
  *   const { mode, requestModeChange } = useMapMode();
  *
- *   const handleClick = () => {
- *     requestModeChange('editing', 'my-layer-uuid');
+ *   const handleClick = (info: PickingInfo) => {
+ *     requestModeChange('editing', 'custom-layer-id');
  *   };
  *
- *   return <div>Current mode: {mode}</div>;
+ *   return <ScatterplotLayer onClick={handleClick} />;
  * }
  * ```
  *
  * @example
  * ```tsx
- * // Outside MapIdProvider - pass mapInstanceId directly
+ * // Outside MapIdProvider - pass instanceId directly
  * function ExternalControl({ mapId }: { mapId: UniqueId }) {
  *   const { mode, requestModeChange } = useMapMode(mapId);
  *
@@ -64,13 +65,13 @@ export type UseMapModeReturn = {
  * }
  * ```
  */
-export function useMapMode(mapInstanceId?: UniqueId): UseMapModeReturn {
+export function useMapMode(instanceId?: UniqueId): UseMapModeReturn {
   const contextId = useContext(MapIdContext);
-  const actualId = mapInstanceId ?? contextId;
+  const actualId = instanceId ?? contextId;
 
   if (!actualId) {
     throw new Error(
-      'useMapMode requires either a mapInstanceId parameter or to be used within a MapIdProvider',
+      'useMapMode requires either an instanceId parameter or to be used within a MapIdProvider',
     );
   }
 

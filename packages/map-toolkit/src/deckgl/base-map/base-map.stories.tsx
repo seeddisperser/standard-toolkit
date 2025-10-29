@@ -11,6 +11,7 @@
  */
 
 import { useOn } from '@accelint/bus/react';
+import { uuid } from '@accelint/core';
 import { MapEvents } from './events';
 import { BaseMap as BaseMapComponent } from './index';
 import type { Meta, StoryObj } from '@storybook/react';
@@ -33,6 +34,8 @@ export const BaseMap: Story = {
       console.log('hover:', data.payload);
     });
 
-    return <BaseMapComponent className='h-dvh w-dvw' />;
+    const instanceId = uuid();
+
+    return <BaseMapComponent className='h-dvh w-dvw' instanceId={instanceId} />;
   },
 };

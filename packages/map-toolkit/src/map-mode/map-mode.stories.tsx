@@ -11,6 +11,7 @@
  */
 
 import { useEmit, useOn } from '@accelint/bus/react';
+import { type UniqueId, uuid } from '@accelint/core';
 import {
   Button,
   Divider,
@@ -21,9 +22,7 @@ import {
 import { useRef, useState } from 'react';
 import { BaseMap } from '../deckgl/base-map';
 import { MapModeEvents } from './events';
-import { MapIdProvider } from './react/provider';
-import { useMapMode } from './react/use-map-mode';
-import type { UniqueId } from '@accelint/core';
+import { useMapMode } from './use-map-mode';
 import type { Meta, StoryObj } from '@storybook/react';
 import type {
   ModeChangeAuthorizationEvent,
@@ -52,9 +51,11 @@ type Story = StoryObj;
  */
 export const BasicUsage: Story = {
   render: () => {
+    const instanceId = uuid();
+
     // A simple toolbar that changes modes
     function ModeToolbar() {
-      const { mode, requestModeChange } = useMapMode();
+      const { mode, requestModeChange } = useMapMode(instanceId);
 
       return (
         <div className='absolute top-l left-l flex w-[256px] flex-col gap-xl rounded-lg bg-surface-default p-l shadow-elevation-overlay'>
@@ -81,10 +82,10 @@ export const BasicUsage: Story = {
     }
 
     return (
-      <MapIdProvider defaultMode='default'>
-        <BaseMap className='relative h-dvh w-dvw' />
+      <div className='relative h-dvh w-dvw'>
+        <BaseMap className='absolute inset-0' instanceId={instanceId} />
         <ModeToolbar />
-      </MapIdProvider>
+      </div>
     );
   },
 };
@@ -95,9 +96,11 @@ export const BasicUsage: Story = {
  */
 export const MultipleConsumers: Story = {
   render: () => {
+    const instanceId = uuid();
+
     // Toolbar component that changes modes
     function ModeToolbar() {
-      const { requestModeChange } = useMapMode();
+      const { requestModeChange } = useMapMode(instanceId);
 
       return (
         <div className='absolute top-l left-l flex gap-s'>
@@ -118,7 +121,7 @@ export const MultipleConsumers: Story = {
 
     // Status indicator component
     function ModeIndicator() {
-      const { mode } = useMapMode();
+      const { mode } = useMapMode(instanceId);
 
       return (
         <div className='absolute top-l right-l flex flex-col items-center gap-xs rounded-lg bg-surface-default p-m shadow-elevation-raised'>
@@ -130,7 +133,7 @@ export const MultipleConsumers: Story = {
 
     // Instructions panel that changes based on mode
     function InstructionsPanel() {
-      const { mode } = useMapMode();
+      const { mode } = useMapMode(instanceId);
 
       const instructions: Record<string, string> = {
         default: 'Pan and zoom the map',
@@ -148,12 +151,12 @@ export const MultipleConsumers: Story = {
     }
 
     return (
-      <MapIdProvider defaultMode='default'>
-        <BaseMap className='relative h-dvh w-dvw' />
+      <div className='relative h-dvh w-dvw'>
+        <BaseMap className='absolute inset-0' instanceId={instanceId} />
         <ModeToolbar />
         <ModeIndicator />
         <InstructionsPanel />
-      </MapIdProvider>
+      </div>
     );
   },
 };
@@ -176,8 +179,10 @@ export const MultipleConsumers: Story = {
  */
 export const AuthorizationFlow: Story = {
   render: () => {
+    const instanceId = uuid();
+
     function AuthorizationDemo() {
-      const { mode, requestModeChange } = useMapMode();
+      const { mode, requestModeChange } = useMapMode(instanceId);
       const [modeOwners, setModeOwners] = useState<Map<string, string>>(
         new Map(),
       );
@@ -186,7 +191,7 @@ export const AuthorizationFlow: Story = {
           authId: string;
           desiredMode: string;
           requestingOwner: string;
-          mapInstanceId: UniqueId;
+          instanceId: UniqueId;
         }>
       >([]);
       const [eventLog, setEventLog] = useState<string[]>([]);
@@ -231,7 +236,7 @@ export const AuthorizationFlow: Story = {
       const handleAutoAccept = (
         authId: string,
         owner: string,
-        mapInstanceId: UniqueId,
+        instanceId: UniqueId,
       ) => {
         addLog(`${owner} auto-accepting request`);
 
@@ -239,7 +244,7 @@ export const AuthorizationFlow: Story = {
           authId,
           approved: true,
           owner,
-          mapInstanceId,
+          instanceId,
         });
       };
 
@@ -247,7 +252,7 @@ export const AuthorizationFlow: Story = {
         authId: string,
         desiredMode: string,
         requestingOwner: string,
-        mapInstanceId: UniqueId,
+        instanceId: UniqueId,
       ) => {
         // Check if this requester already has a pending auth
         const existingIndex = pendingAuths.findIndex(
@@ -265,7 +270,7 @@ export const AuthorizationFlow: Story = {
               authId,
               desiredMode,
               requestingOwner,
-              mapInstanceId,
+              instanceId,
             };
             return updated;
           });
@@ -277,7 +282,7 @@ export const AuthorizationFlow: Story = {
               authId,
               desiredMode,
               requestingOwner,
-              mapInstanceId,
+              instanceId,
             },
           ]);
         }
@@ -379,7 +384,7 @@ export const AuthorizationFlow: Story = {
             handleAutoAccept(
               event.payload.authId,
               currentModeOwner,
-              event.payload.mapInstanceId,
+              event.payload.instanceId,
             );
             return;
           }
@@ -390,7 +395,7 @@ export const AuthorizationFlow: Story = {
               event.payload.authId,
               event.payload.desiredMode,
               requestingOwner,
-              event.payload.mapInstanceId,
+              event.payload.instanceId,
             );
           }
         },
@@ -425,7 +430,7 @@ export const AuthorizationFlow: Story = {
               authId,
               approved: true,
               owner: currentModeOwner,
-              mapInstanceId: auth.mapInstanceId,
+              instanceId: auth.instanceId,
             });
             // Note: Dialog removal is handled by the decision event listener
           }
@@ -442,7 +447,7 @@ export const AuthorizationFlow: Story = {
               approved: false,
               owner: currentModeOwner,
               reason: `${currentModeOwner} rejected the request`,
-              mapInstanceId: auth.mapInstanceId,
+              instanceId: auth.instanceId,
             });
             // Note: Dialog removal is handled by the decision event listener
           }
@@ -645,10 +650,10 @@ export const AuthorizationFlow: Story = {
     }
 
     return (
-      <MapIdProvider defaultMode='default'>
-        <BaseMap className='relative h-dvh w-dvw' />
+      <div className='relative h-dvh w-dvw'>
+        <BaseMap className='absolute inset-0' instanceId={instanceId} />
         <AuthorizationDemo />
-      </MapIdProvider>
+      </div>
     );
   },
 };

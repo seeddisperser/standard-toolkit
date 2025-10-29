@@ -10,6 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
+import { uuid } from '@accelint/core';
 import { render } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { BaseMap } from './index';
@@ -19,9 +20,13 @@ vi.mock('../../maplibre/hooks/use-maplibre', () => ({
   useMapLibre: vi.fn(),
 }));
 
+const instanceId = uuid();
+
 describe('BaseMap', () => {
   it('should apply className to container', () => {
-    const { container } = render(<BaseMap className='custom-map-class' />);
+    const { container } = render(
+      <BaseMap className='custom-map-class' instanceId={instanceId} />,
+    );
 
     const mapContainer = container.querySelector('.custom-map-class');
     expect(mapContainer).toBeInTheDocument();

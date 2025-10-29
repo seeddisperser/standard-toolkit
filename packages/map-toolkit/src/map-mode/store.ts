@@ -12,6 +12,7 @@
 
 import { Broadcast } from '@accelint/bus';
 import { uuid } from '@accelint/core';
+import { DEFAULT_MODE } from '@/deckgl/base-map/constants';
 import { MapModeEvents } from './events';
 import type { UniqueId } from '@accelint/core';
 import type {
@@ -39,8 +40,6 @@ type PendingRequest = {
   requestOwner: string;
 };
 
-const DEFAULT_MODE = 'default';
-
 /**
  * External store for managing map mode state.
  *
@@ -48,16 +47,18 @@ const DEFAULT_MODE = 'default';
  * It manages all mode state, ownership tracking, authorization flow, and event bus communication
  * outside of React's component tree.
  *
- * Each store instance is identified by a unique `mapInstanceId` and operates independently,
+ * Each store instance is identified by a unique `instanceId` and operates independently,
  * enabling scenarios with multiple isolated map instances (e.g., main map + minimap).
- * Stores communicate via the event bus and filter events by `mapInstanceId` to ensure isolation.
+ * Stores communicate via the event bus and filter events by `instanceId` to ensure isolation.
+ *
+ * The store always initializes in 'default' mode and does not accept a custom default mode.
  *
  * @see {getOrCreateStore} - Creates or retrieves a store for a given map instance
  * @see {destroyStore} - Destroys a store and cleans up its resources
  */
 export class MapModeStore {
   private mode: string;
-  private readonly mapInstanceId: UniqueId;
+  private readonly instanceId: UniqueId;
   private readonly defaultMode: string;
   private readonly modeOwners = new Map<string, string>();
   private readonly pendingRequests = new Map<string, PendingRequest>();
@@ -65,10 +66,10 @@ export class MapModeStore {
   private readonly bus = mapModeBus;
   private readonly unsubscribers: Array<() => void> = [];
 
-  constructor(mapInstanceId: UniqueId, defaultMode = DEFAULT_MODE) {
-    this.mapInstanceId = mapInstanceId;
-    this.defaultMode = defaultMode;
-    this.mode = defaultMode;
+  constructor(instanceId: UniqueId) {
+    this.instanceId = instanceId;
+    this.defaultMode = DEFAULT_MODE;
+    this.mode = DEFAULT_MODE;
 
     // Subscribe to bus events
     this.setupEventListeners();
@@ -93,19 +94,40 @@ export class MapModeStore {
 
   /**
    * Request a mode change
+   *
+   * If the mode change can be auto-accepted (no ownership conflicts), the mode changes immediately.
+   * Otherwise, an authorization request is emitted and stored as a pending request.
+   *
+   * **Important**: If the requester already has a pending authorization request, it will be replaced
+   * with this new request. Only one pending request per requester is maintained at a time.
+   *
+   * @param desiredMode - The mode to switch to (automatically trimmed of whitespace)
+   * @param requestOwner - Unique identifier of the component requesting the change (automatically trimmed of whitespace)
+   * @throws Error if either parameter is empty or whitespace-only
+   *
+   * @example
+   * ```ts
+   * // First request from 'drawing-tool'
+   * store.requestModeChange('drawing', 'drawing-tool');
+   * // → Creates pending request with authId 'abc-123'
+   *
+   * // Second request from same 'drawing-tool' before first is resolved
+   * store.requestModeChange('measuring', 'drawing-tool');
+   * // → Replaces pending request, new authId 'def-456', old 'abc-123' is discarded
+   * ```
    */
   requestModeChange = (desiredMode: string, requestOwner: string): void => {
-    if (!desiredMode) {
+    if (!desiredMode?.trim()) {
       throw new Error('requestModeChange requires non-empty desiredMode');
     }
-    if (!requestOwner) {
+    if (!requestOwner?.trim()) {
       throw new Error('requestModeChange requires non-empty requestOwner');
     }
 
     this.bus.emit(MapModeEvents.changeRequest, {
-      desiredMode,
-      owner: requestOwner,
-      mapInstanceId: this.mapInstanceId,
+      desiredMode: desiredMode.trim(),
+      owner: requestOwner.trim(),
+      instanceId: this.instanceId,
     });
   };
 
@@ -120,6 +142,10 @@ export class MapModeStore {
 
   /**
    * Setup event listeners for bus events
+   *
+   * Note: Event listeners remain active even after early returns in handlers.
+   * This is by design - cleanup happens in destroy() which is called automatically
+   * by MapIdProvider on unmount. Consumers don't need to manually manage cleanup.
    */
   private setupEventListeners(): void {
     // Listen for mode change requests
@@ -127,11 +153,11 @@ export class MapModeStore {
       const {
         desiredMode,
         owner: requestOwner,
-        mapInstanceId,
+        instanceId,
       } = (event as ModeChangeRequestEvent).payload;
 
       // Filter: only handle if targeted at this instance
-      if (mapInstanceId !== this.mapInstanceId || desiredMode === this.mode) {
+      if (instanceId !== this.instanceId || desiredMode === this.mode) {
         return;
       }
 
@@ -141,12 +167,12 @@ export class MapModeStore {
 
     // Listen for authorization decisions
     const unsubDecision = this.bus.on(MapModeEvents.changeDecision, (event) => {
-      const { mapInstanceId, approved, authId, owner } = (
+      const { instanceId, approved, authId, owner } = (
         event as ModeChangeDecisionEvent
       ).payload;
 
       // Filter: only handle if targeted at this instance
-      if (mapInstanceId !== this.mapInstanceId) {
+      if (instanceId !== this.instanceId) {
         return;
       }
 
@@ -156,12 +182,12 @@ export class MapModeStore {
 
     // Listen for mode changes to handle pending requests
     const unsubChanged = this.bus.on(MapModeEvents.changed, (event) => {
-      const { currentMode, previousMode, mapInstanceId } = (
+      const { currentMode, previousMode, instanceId } = (
         event as ModeChangedEvent
       ).payload;
 
       // Filter: only handle if targeted at this instance
-      if (mapInstanceId !== this.mapInstanceId) {
+      if (instanceId !== this.instanceId) {
         return;
       }
 
@@ -174,6 +200,38 @@ export class MapModeStore {
   }
 
   /**
+   * Determine if a mode change request should be auto-accepted without authorization
+   */
+  private shouldAutoAcceptRequest(
+    desiredMode: string,
+    requestOwner: string,
+    currentModeOwner: string | undefined,
+    desiredModeOwner: string | undefined,
+  ): boolean {
+    // Owner returning to default mode
+    if (desiredMode === this.defaultMode && requestOwner === currentModeOwner) {
+      return true;
+    }
+
+    // Owner switching between their own modes
+    if (requestOwner === currentModeOwner) {
+      return true;
+    }
+
+    // No ownership conflicts exist
+    if (!(currentModeOwner || desiredModeOwner)) {
+      return true;
+    }
+
+    // Entering an owned mode from default mode
+    if (this.mode === this.defaultMode && requestOwner === desiredModeOwner) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
    * Handle mode change request logic
    */
   private handleModeChangeRequest(
@@ -183,16 +241,14 @@ export class MapModeStore {
     const currentModeOwner = this.modeOwners.get(this.mode);
     const desiredModeOwner = this.modeOwners.get(desiredMode);
 
-    // Auto-accept if:
-    // 1. Desired mode is default AND requesting owner is the current mode owner
-    // 2. Requesting owner is same as current mode owner
-    // 3. No current or desired mode owner
-    // 4. In default mode and the requester is the owner of the desired mode
+    // Check if this request should be auto-accepted
     if (
-      (desiredMode === this.defaultMode && requestOwner === currentModeOwner) ||
-      requestOwner === currentModeOwner ||
-      !(currentModeOwner || desiredModeOwner) ||
-      (this.mode === this.defaultMode && requestOwner === desiredModeOwner)
+      this.shouldAutoAcceptRequest(
+        desiredMode,
+        requestOwner,
+        currentModeOwner,
+        desiredModeOwner,
+      )
     ) {
       this.setMode(desiredMode);
 
@@ -220,12 +276,18 @@ export class MapModeStore {
       authId,
       desiredMode,
       currentMode: this.mode,
-      mapInstanceId: this.mapInstanceId,
+      instanceId: this.instanceId,
     });
   }
 
   /**
    * Handle authorization decision
+   *
+   * Processes approval/rejection decisions from mode owners. Only the current mode's owner
+   * can make authorization decisions. If a decision comes from a non-owner, a warning is
+   * logged and the decision is ignored to prevent unauthorized mode changes.
+   *
+   * @param payload - The authorization decision containing authId, approved status, and owner
    */
   private handleAuthorizationDecision(payload: {
     approved: boolean;
@@ -235,8 +297,12 @@ export class MapModeStore {
     const { approved, authId, owner: decisionOwner } = payload;
 
     // Verify decision is from current mode's owner
+    // Logs a warning if unauthorized component attempts to make decisions
     const currentModeOwner = this.modeOwners.get(this.mode);
     if (decisionOwner !== currentModeOwner) {
+      console.warn(
+        `[MapMode] Authorization decision from "${decisionOwner}" ignored - not the owner of mode "${this.mode}" (owner: ${currentModeOwner || 'none'})`,
+      );
       return;
     }
 
@@ -308,7 +374,7 @@ export class MapModeStore {
         approved: true,
         owner: decisionOwner,
         reason,
-        mapInstanceId: this.mapInstanceId,
+        instanceId: this.instanceId,
       });
     }
 
@@ -319,7 +385,7 @@ export class MapModeStore {
         approved: false,
         owner: decisionOwner,
         reason: 'Request auto-rejected because another request was approved',
-        mapInstanceId: this.mapInstanceId,
+        instanceId: this.instanceId,
       });
     }
   }
@@ -350,7 +416,7 @@ export class MapModeStore {
           approved: false,
           owner: previousModeOwner,
           reason: 'Request rejected - already in requested mode',
-          mapInstanceId: this.mapInstanceId,
+          instanceId: this.instanceId,
         } satisfies ModeChangeDecisionPayload);
       }
     } else {
@@ -375,7 +441,7 @@ export class MapModeStore {
     this.bus.emit(MapModeEvents.changed, {
       previousMode,
       currentMode: newMode,
-      mapInstanceId: this.mapInstanceId,
+      instanceId: this.instanceId,
     });
 
     this.notify();
@@ -406,34 +472,28 @@ const storeRegistry = new Map<UniqueId, MapModeStore>();
 /**
  * Get or create a store for a given map instance
  */
-export function getOrCreateStore(
-  mapInstanceId: UniqueId,
-  defaultMode: string,
-): MapModeStore {
-  if (!storeRegistry.has(mapInstanceId)) {
-    storeRegistry.set(
-      mapInstanceId,
-      new MapModeStore(mapInstanceId, defaultMode),
-    );
+export function getOrCreateStore(instanceId: UniqueId): MapModeStore {
+  if (!storeRegistry.has(instanceId)) {
+    storeRegistry.set(instanceId, new MapModeStore(instanceId));
   }
   // biome-ignore lint/style/noNonNullAssertion: Store guaranteed to exist after has() check above
-  return storeRegistry.get(mapInstanceId)!;
+  return storeRegistry.get(instanceId)!;
 }
 
 /**
  * Destroy and remove a store from the registry
  */
-export function destroyStore(mapInstanceId: UniqueId): void {
-  const store = storeRegistry.get(mapInstanceId);
+export function destroyStore(instanceId: UniqueId): void {
+  const store = storeRegistry.get(instanceId);
   if (store) {
     store.destroy();
-    storeRegistry.delete(mapInstanceId);
+    storeRegistry.delete(instanceId);
   }
 }
 
 /**
  * Get a store by instance ID (for testing/advanced use)
  */
-export function getStore(mapInstanceId: UniqueId): MapModeStore | undefined {
-  return storeRegistry.get(mapInstanceId);
+export function getStore(instanceId: UniqueId): MapModeStore | undefined {
+  return storeRegistry.get(instanceId);
 }

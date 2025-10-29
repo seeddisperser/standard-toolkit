@@ -33,7 +33,7 @@ export const MapModeEventsNamespace = 'map-mode';
  *
  * // Emit a decision
  * const emitDecision = useEmit(MapModeEvents.changeDecision);
- * emitDecision({ authId, approved: true, owner: 'my-id', mapInstanceId });
+ * emitDecision({ authId, approved: true, owner: 'my-id', instanceId });
  * ```
  */
 export const MapModeEvents = {

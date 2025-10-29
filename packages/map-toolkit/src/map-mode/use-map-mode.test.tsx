@@ -11,6 +11,7 @@
  */
 
 import { useEmit, useOn } from '@accelint/bus/react';
+import { uuid } from '@accelint/core';
 import {
   act,
   render,
@@ -20,20 +21,21 @@ import {
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { MapModeEvents } from '../events';
-import { MapIdProvider } from './provider';
+import { MapIdProvider } from '../deckgl/base-map/provider';
+import { MapModeEvents } from './events';
 import { useMapMode } from './use-map-mode';
 import type { ReactNode } from 'react';
 import type {
   ModeChangeAuthorizationEvent,
   ModeChangeDecisionEvent,
   ModeChangedEvent,
-} from '../types';
+} from './types';
 
-describe('MapIdProvider', () => {
-  const wrapper = ({ children }: { children: ReactNode }) => (
-    <MapIdProvider>{children}</MapIdProvider>
-  );
+describe('useMapMode', () => {
+  const wrapper = ({ children }: { children: ReactNode }) => {
+    const instanceId = uuid();
+    return <MapIdProvider instanceId={instanceId}>{children}</MapIdProvider>;
+  };
 
   afterEach(() => {
     vi.restoreAllMocks();
@@ -46,22 +48,25 @@ describe('MapIdProvider', () => {
       expect(result.current.mode).toBe('default');
     });
 
-    it('accepts custom defaultMode', () => {
-      const customWrapper = ({ children }: { children: ReactNode }) => (
-        <MapIdProvider defaultMode='drawing'>{children}</MapIdProvider>
-      );
-
-      const { result } = renderHook(() => useMapMode(), {
-        wrapper: customWrapper,
-      });
-
-      expect(result.current.mode).toBe('drawing');
-    });
-
     it('provides requestModeChange function', () => {
       const { result } = renderHook(() => useMapMode(), { wrapper });
 
       expect(typeof result.current.requestModeChange).toBe('function');
+    });
+
+    it('throws error when used outside MapIdProvider without instanceId', () => {
+      expect(() => {
+        renderHook(() => useMapMode());
+      }).toThrow(
+        'useMapMode requires either an instanceId parameter or to be used within a MapIdProvider',
+      );
+    });
+
+    it('throws error when store does not exist for the given instanceId', () => {
+      const nonExistentId = uuid();
+      expect(() => {
+        renderHook(() => useMapMode(nonExistentId));
+      }).toThrow(`MapModeStore not found for instance: ${nonExistentId}`);
     });
   });
 
@@ -86,11 +91,7 @@ describe('MapIdProvider', () => {
         );
       }
 
-      render(
-        <MapIdProvider>
-          <TestComponent />
-        </MapIdProvider>,
-      );
+      render(<TestComponent />, { wrapper });
 
       const modeDisplay = screen.getByTestId('mode');
       expect(modeDisplay).toHaveTextContent('default');
@@ -102,7 +103,7 @@ describe('MapIdProvider', () => {
       });
     });
 
-    it('emits mode changed event', async () => {
+    it('emits mode changed event with instanceId', async () => {
       const user = userEvent.setup();
       const onModeChanged = vi.fn();
 
@@ -121,11 +122,7 @@ describe('MapIdProvider', () => {
         );
       }
 
-      render(
-        <MapIdProvider>
-          <TestComponent />
-        </MapIdProvider>,
-      );
+      render(<TestComponent />, { wrapper });
 
       await user.click(screen.getByTestId('change-mode'));
 
@@ -135,7 +132,7 @@ describe('MapIdProvider', () => {
             payload: {
               previousMode: 'default',
               currentMode: 'drawing',
-              mapInstanceId: expect.any(String),
+              instanceId: expect.any(String),
             },
           }),
         );
@@ -169,11 +166,7 @@ describe('MapIdProvider', () => {
         );
       }
 
-      render(
-        <MapIdProvider>
-          <TestComponent />
-        </MapIdProvider>,
-      );
+      render(<TestComponent />, { wrapper });
 
       // Switch to drawing
       await user.click(screen.getByTestId('to-drawing'));
@@ -222,11 +215,7 @@ describe('MapIdProvider', () => {
         );
       }
 
-      render(
-        <MapIdProvider>
-          <TestComponent />
-        </MapIdProvider>,
-      );
+      render(<TestComponent />, { wrapper });
 
       // owner1 claims drawing mode
       await user.click(screen.getByTestId('to-drawing'));
@@ -280,11 +269,7 @@ describe('MapIdProvider', () => {
         );
       }
 
-      render(
-        <MapIdProvider>
-          <TestComponent />
-        </MapIdProvider>,
-      );
+      render(<TestComponent />, { wrapper });
 
       // owner1 claims drawing mode
       await user.click(screen.getByTestId('to-drawing'));
@@ -327,11 +312,7 @@ describe('MapIdProvider', () => {
         );
       }
 
-      render(
-        <MapIdProvider>
-          <TestComponent />
-        </MapIdProvider>,
-      );
+      render(<TestComponent />, { wrapper });
 
       await user.click(screen.getByTestId('change-mode'));
 
@@ -346,9 +327,12 @@ describe('MapIdProvider', () => {
     it('allows switching between ownerless modes', async () => {
       const user = userEvent.setup();
 
-      const customWrapper = ({ children }: { children: ReactNode }) => (
-        <MapIdProvider defaultMode='mode1'>{children}</MapIdProvider>
-      );
+      const customWrapper = ({ children }: { children: ReactNode }) => {
+        const instanceId = uuid();
+        return (
+          <MapIdProvider instanceId={instanceId}>{children}</MapIdProvider>
+        );
+      };
 
       function TestComponent() {
         const { mode, requestModeChange } = useMapMode();
@@ -374,12 +358,7 @@ describe('MapIdProvider', () => {
         );
       }
 
-      render(
-        <MapIdProvider>
-          <TestComponent />
-        </MapIdProvider>,
-        { wrapper: customWrapper },
-      );
+      render(<TestComponent />, { wrapper: customWrapper });
 
       // mode 2 is ownerless, should allow switching
       await user.click(screen.getByTestId('to-mode2'));
@@ -448,11 +427,7 @@ describe('MapIdProvider', () => {
         );
       }
 
-      render(
-        <MapIdProvider>
-          <TestComponent />
-        </MapIdProvider>,
-      );
+      render(<TestComponent />, { wrapper });
 
       // owner1 claims drawing
       await user.click(screen.getByTestId('owner1-drawing'));
@@ -496,7 +471,7 @@ describe('MapIdProvider', () => {
               authId: event.payload.authId,
               approved: true,
               owner: 'owner1',
-              mapInstanceId: event.payload.mapInstanceId,
+              instanceId: event.payload.instanceId,
             });
           },
         );
@@ -522,11 +497,7 @@ describe('MapIdProvider', () => {
         );
       }
 
-      render(
-        <MapIdProvider>
-          <TestComponent />
-        </MapIdProvider>,
-      );
+      render(<TestComponent />, { wrapper });
 
       // owner1 claims drawing
       await user.click(screen.getByTestId('owner1-drawing'));
@@ -561,7 +532,7 @@ describe('MapIdProvider', () => {
               approved: false,
               owner: 'owner1',
               reason: 'Test rejection',
-              mapInstanceId: event.payload.mapInstanceId,
+              instanceId: event.payload.instanceId,
             });
           },
         );
@@ -587,11 +558,7 @@ describe('MapIdProvider', () => {
         );
       }
 
-      render(
-        <MapIdProvider>
-          <TestComponent />
-        </MapIdProvider>,
-      );
+      render(<TestComponent />, { wrapper });
 
       // owner1 claims drawing
       await user.click(screen.getByTestId('owner1-drawing'));
@@ -630,7 +597,7 @@ describe('MapIdProvider', () => {
               authId: event.payload.authId,
               approved: true,
               owner: 'owner-wrong', // Not the current mode owner
-              mapInstanceId: event.payload.mapInstanceId,
+              instanceId: event.payload.instanceId,
             });
           },
         );
@@ -656,11 +623,7 @@ describe('MapIdProvider', () => {
         );
       }
 
-      render(
-        <MapIdProvider>
-          <TestComponent />
-        </MapIdProvider>,
-      );
+      render(<TestComponent />, { wrapper });
 
       // owner1 claims drawing
       await user.click(screen.getByTestId('owner1-drawing'));
@@ -684,7 +647,7 @@ describe('MapIdProvider', () => {
     });
   });
 
-  describe('Stale Request Handling', () => {
+  describe('Pending Request Handling', () => {
     it('clears pending requests when mode changes successfully', async () => {
       const user = userEvent.setup();
       const onAuthRequest = vi.fn();
@@ -717,11 +680,7 @@ describe('MapIdProvider', () => {
         );
       }
 
-      render(
-        <MapIdProvider>
-          <TestComponent />
-        </MapIdProvider>,
-      );
+      render(<TestComponent />, { wrapper });
 
       // Change to drawing
       await user.click(screen.getByTestId('to-drawing'));
@@ -782,11 +741,7 @@ describe('MapIdProvider', () => {
         );
       }
 
-      render(
-        <MapIdProvider>
-          <TestComponent />
-        </MapIdProvider>,
-      );
+      render(<TestComponent />, { wrapper });
 
       // Start in default mode
       expect(screen.getByTestId('mode')).toHaveTextContent('default');
@@ -834,7 +789,7 @@ describe('MapIdProvider', () => {
               authId: event.payload.authId,
               approved: true,
               owner: 'MeasuringTool',
-              mapInstanceId: event.payload.mapInstanceId,
+              instanceId: event.payload.instanceId,
             });
           },
         );
@@ -867,11 +822,7 @@ describe('MapIdProvider', () => {
         );
       }
 
-      render(
-        <MapIdProvider>
-          <TestComponent />
-        </MapIdProvider>,
-      );
+      render(<TestComponent />, { wrapper });
 
       // MeasuringTool switches to measuring mode
       await user.click(screen.getByTestId('to-measuring'));

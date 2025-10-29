@@ -11,6 +11,7 @@
  */
 
 import type { Payload } from '@accelint/bus';
+import type { UniqueId } from '@accelint/core';
 import type { PickingInfo } from '@deck.gl/core';
 import type { MjolnirGestureEvent, MjolnirPointerEvent } from 'mjolnir.js';
 import type { MapEvents } from './events';
@@ -60,6 +61,8 @@ export type MapClickPayload = {
   info: NonFuncPickingInfo;
   /** The gesture event that triggered the click */
   event: NonFuncMjolnirGestureEvent;
+  /** The map instance the event occurred within */
+  instanceId: UniqueId;
 };
 
 /**
@@ -71,6 +74,8 @@ export type MapHoverPayload = {
   info: NonFuncPickingInfo;
   /** The pointer event that triggered the hover */
   event: NonFuncMjolnirPointerEvent;
+  /** The map instance the event occurred within */
+  instanceId: UniqueId;
 };
 
 /**

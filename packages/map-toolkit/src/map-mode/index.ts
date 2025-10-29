@@ -9,23 +9,14 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-
-// Framework-agnostic exports
 export { MapModeEvents, MapModeEventsNamespace } from './events';
-// React-specific exports
-export {
-  MapIdContext,
-  MapIdProvider,
-  type MapIdProviderProps,
-} from './react/provider';
-export { type UseMapModeReturn, useMapMode } from './react/use-map-mode';
-// Framework-agnostic exports
 export {
   destroyStore,
   getOrCreateStore,
   getStore,
   MapModeStore,
 } from './store';
+export { type UseMapModeReturn, useMapMode } from './use-map-mode';
 export type {
   MapModeEventType,
   ModeChangeAuthorizationEvent,

@@ -86,41 +86,55 @@ The system manages pending authorization requests intelligently:
 
 ## Basic Usage (React)
 
-### 1. Wrap your app with MapIdProvider
+### 1. Set up BaseMap with instanceId
 
-The `MapIdProvider` creates a map mode instance and provides its ID to child components:
+The `BaseMap` component automatically creates a `MapIdProvider` internally and provides map mode functionality. Create a unique `instanceId` for the map instance as a **module-level constant** (recommended):
 
 ```tsx
-import { MapIdProvider } from '@accelint/map-toolkit/deckgl';
 import { BaseMap } from '@accelint/map-toolkit/deckgl';
+import { uuid } from '@accelint/core';
+
+// Module-level constant - stable and shareable across all components
+const MAIN_MAP_ID = uuid();
 
 export function App() {
   return (
-    <MapIdProvider defaultMode="default">
-      <BaseMap className="w-full h-full">
-        {/* Your map layers and UI components */}
+    <div className="relative w-full h-full">
+      <BaseMap instanceId={MAIN_MAP_ID} className="absolute inset-0">
+        {/* Deck.gl layers only - not UI components */}
       </BaseMap>
-    </MapIdProvider>
+      {/* UI components rendered as siblings */}
+    </div>
   );
 }
 ```
 
-### 2. Use the mode in your components
+**Why module-level?** Creating `instanceId` as a constant outside your components ensures it's stable and makes it easy to share across all components that need to access the map mode.
 
-Access the current mode and request mode changes using the `useMapMode` hook:
+The map mode always starts in `'default'` mode and is ready to use immediately.
+
+### 2. Use the mode in your UI components
+
+Access the current mode and request mode changes using the `useMapMode` hook. **Important**: UI components (buttons, toolbars, etc.) should be rendered as **siblings** to `BaseMap`, not children, and must pass the `instanceId` to `useMapMode()`:
 
 ```tsx
-import { useMapMode } from '@accelint/map-toolkit/deckgl';
+import { BaseMap } from '@accelint/map-toolkit/deckgl';
+import { useMapMode } from '@accelint/map-toolkit/map-mode';
+import { uuid } from '@accelint/core';
+
+// Module-level constant shared across components
+const MAIN_MAP_ID = uuid();
 
 function DrawingToolbar() {
-  const { mode, requestModeChange } = useMapMode();
+  // Use the shared instanceId to access the map mode state
+  const { mode, requestModeChange } = useMapMode(MAIN_MAP_ID);
 
   const handleDrawingMode = () => {
     requestModeChange('drawing', 'drawing-toolbar-id');
   };
 
   return (
-    <div>
+    <div className="absolute top-4 left-4">
       <p>Current mode: {mode}</p>
       <button onClick={handleDrawingMode}>
         Enter Drawing Mode
@@ -128,23 +142,43 @@ function DrawingToolbar() {
     </div>
   );
 }
+
+export function App() {
+  return (
+    <div className="relative w-full h-full">
+      <BaseMap instanceId={MAIN_MAP_ID} className="absolute inset-0">
+        {/* Only Deck.gl layers as children */}
+      </BaseMap>
+      <DrawingToolbar />
+    </div>
+  );
+}
 ```
+
+**Why siblings?** BaseMap passes its children to Deck.gl, which only accepts Deck.gl layer components, not React UI components with text nodes.
 
 ### 3. Multiple components consuming the same mode
 
-Any component can read the current mode and react to changes:
+Any component can read the current mode and react to changes. All UI components should be siblings to `BaseMap` and use the same shared `instanceId` constant:
 
 ```tsx
+import { BaseMap } from '@accelint/map-toolkit/deckgl';
+import { useMapMode } from '@accelint/map-toolkit/map-mode';
+import { uuid } from '@accelint/core';
+
+// Shared module-level constant
+const MAIN_MAP_ID = uuid();
+
 function ModeIndicator() {
-  const { mode } = useMapMode();
-  return <div>Current mode: {mode}</div>;
+  const { mode } = useMapMode(MAIN_MAP_ID);
+  return <div className="absolute top-4 right-4">Current mode: {mode}</div>;
 }
 
 function MapControls() {
-  const { requestModeChange } = useMapMode();
+  const { requestModeChange } = useMapMode(MAIN_MAP_ID);
 
   return (
-    <div>
+    <div className="absolute bottom-4 left-4">
       <button onClick={() => requestModeChange('default', 'controls')}>
         Default
       </button>
@@ -154,14 +188,27 @@ function MapControls() {
     </div>
   );
 }
+
+export function App() {
+  return (
+    <div className="relative w-full h-full">
+      <BaseMap instanceId={MAIN_MAP_ID} className="absolute inset-0">
+        {/* Deck.gl layers */}
+      </BaseMap>
+      <ModeIndicator />
+      <MapControls />
+    </div>
+  );
+}
 ```
 
 ## Multiple Map Instances
 
-When you need multiple independent maps on the same page (e.g., main map + minimap), use the `mapId` prop to isolate each instance:
+When you need multiple independent maps on the same page (e.g., main map + minimap), provide unique `instanceId` props to each `BaseMap`. UI components must pass the corresponding `instanceId` to `useMapMode()`:
 
 ```tsx
-import { MapIdProvider } from '@accelint/map-toolkit/deckgl';
+import { BaseMap } from '@accelint/map-toolkit/deckgl';
+import { useMapMode } from '@accelint/map-toolkit/map-mode';
 import { uuid } from '@accelint/core';
 
 // Generate unique IDs for each map instance
@@ -169,45 +216,139 @@ const MAIN_MAP_ID = uuid(); // e.g., "main-map-uuid-abc123"
 const MINIMAP_ID = uuid();  // e.g., "minimap-uuid-xyz789"
 
 function MultiMapView() {
+  function DrawingToolbar() {
+    // Controls for main map - pass MAIN_MAP_ID
+    const { mode, requestModeChange } = useMapMode(MAIN_MAP_ID);
+
+    return (
+      <div className="absolute top-4 left-4">
+        <button onClick={() => requestModeChange('drawing', 'toolbar')}>
+          Draw on Main Map ({mode})
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <>
+    <div className="w-full h-full flex flex-col">
       {/* Main map with its own mode state */}
-      <MapIdProvider mapId={MAIN_MAP_ID} defaultMode="drawing">
-        <BaseMap className="w-full h-2/3" />
-        <DrawingToolbar /> {/* Controls for main map */}
-      </MapIdProvider>
+      <div className="relative h-2/3">
+        <BaseMap instanceId={MAIN_MAP_ID} className="absolute inset-0">
+          {/* Deck.gl layers */}
+        </BaseMap>
+        <DrawingToolbar />
+      </div>
 
       {/* Minimap with independent mode state */}
-      <MapIdProvider mapId={MINIMAP_ID} defaultMode="view">
-        <BaseMap className="w-full h-1/3" />
-        {/* Minimap stays in view mode while main map can switch modes */}
-      </MapIdProvider>
-    </>
+      <div className="relative h-1/3">
+        <BaseMap instanceId={MINIMAP_ID} className="absolute inset-0">
+          {/* Minimap layers */}
+        </BaseMap>
+      </div>
+    </div>
   );
 }
 ```
 
 **Key Points:**
 
-- Each provider with a unique `mapId` (UUID) operates independently
+- Each `BaseMap` with a unique `instanceId` (UUID) operates independently
 - Mode changes in one instance don't affect other instances
-- Events are automatically scoped to each instance via `mapInstanceId` in event payloads
-- If `mapId` is omitted, a unique UUID is auto-generated (useful for single-map scenarios)
+- UI components must pass the correct `instanceId` to `useMapMode()` to control the desired map
+- Events are automatically scoped to each instance via `instanceId` in event payloads
+- The `instanceId` is required and must be provided by the consumer to enable map mode coordination
+
+## Framework-Agnostic Usage
+
+While the examples above use React, the core `MapModeStore` works with any framework or vanilla JavaScript. The store implements the [**subscribe/notify pattern**](https://react.dev/reference/react/useSyncExternalStore#subscribing-to-an-external-store) (also known as the Observer pattern) and can be used directly:
+
+```typescript
+import { getOrCreateStore, destroyStore } from '@accelint/map-toolkit/map-mode';
+import { uuid } from '@accelint/core';
+
+// Create a map instance ID
+const instanceId = uuid();
+
+// Get or create the store for this instance
+const store = getOrCreateStore(instanceId);
+
+// Subscribe to mode changes
+const unsubscribe = store.subscribe(() => {
+  const currentMode = store.getSnapshot();
+  console.log('Mode changed to:', currentMode);
+
+  // Update your UI, trigger side effects, etc.
+  updateUI(currentMode);
+});
+
+// Request a mode change
+store.requestModeChange('drawing', 'my-component-id');
+
+// Clean up when done
+unsubscribe();
+destroyStore(instanceId);
+```
+
+### Using the Event Bus Directly
+
+You can also listen to mode events through the event bus without React:
+
+```typescript
+import { Broadcast } from '@accelint/bus';
+import { MapModeEvents } from '@accelint/map-toolkit/map-mode';
+import type { MapModeEventType } from '@accelint/map-toolkit/map-mode';
+
+const bus = Broadcast.getInstance<MapModeEventType>();
+
+// Listen for mode changes
+const unsubscribe = bus.on(MapModeEvents.changed, (event) => {
+  if (event.payload.instanceId === instanceId) {
+    console.log('Mode changed:', event.payload);
+  }
+});
+
+// Listen for authorization requests
+bus.on(MapModeEvents.changeAuthorization, (event) => {
+  if (event.payload.instanceId === instanceId) {
+    // Handle authorization request
+    const { authId, desiredMode, currentMode } = event.payload;
+
+    // Approve or reject
+    bus.emit(MapModeEvents.changeDecision, {
+      authId,
+      approved: true,
+      owner: 'my-component-id',
+      instanceId,
+    });
+  }
+});
+
+// Clean up
+unsubscribe();
+```
+
+**Note**: React users should use the `useMapMode` hook rather than accessing the store directly, as it provides automatic subscription management and React concurrent rendering safety.
 
 ## Advanced: Authorization Flow
 
-When your features need to coordinate mode changes, implement authorization handlers:
+When your features need to coordinate mode changes, implement authorization handlers using the shared module-level `instanceId`:
 
 ```tsx
 import { useEmit, useOn } from '@accelint/bus/react';
-import { MapModeEvents } from '@accelint/map-toolkit/deckgl';
+import { BaseMap } from '@accelint/map-toolkit/deckgl';
+import { MapModeEvents, useMapMode } from '@accelint/map-toolkit/map-mode';
+import { uuid } from '@accelint/core';
 import type {
   ModeChangeAuthorizationEvent,
   ModeChangeDecisionEvent
-} from '@accelint/map-toolkit/deckgl';
+} from '@accelint/map-toolkit/map-mode';
+
+// Shared module-level constant
+const MAIN_MAP_ID = uuid();
 
 function DrawingFeature() {
-  const { mode, requestModeChange } = useMapMode();
+  // Use shared instanceId to access mode state
+  const { mode, requestModeChange } = useMapMode(MAIN_MAP_ID);
   const emitDecision = useEmit<ModeChangeDecisionEvent>(
     MapModeEvents.changeDecision
   );
@@ -216,6 +357,9 @@ function DrawingFeature() {
   useOn<ModeChangeAuthorizationEvent>(
     MapModeEvents.changeAuthorization,
     (event) => {
+      // Only respond to events for this map instance
+      if (event.payload.instanceId !== MAIN_MAP_ID) return;
+
       // Only respond if we're the current mode owner
       if (mode === 'drawing' || mode === 'editing') {
         // Auto-approve or show UI to ask user
@@ -223,49 +367,44 @@ function DrawingFeature() {
           authId: event.payload.authId,
           approved: true,
           owner: 'drawing-feature',
-          mapInstanceId: event.payload.mapInstanceId,
+          instanceId: event.payload.instanceId,
         });
       }
     }
   );
 
   return (
-    <button onClick={() => requestModeChange('drawing', 'drawing-feature')}>
-      Start Drawing
-    </button>
+    <div className="absolute top-4 left-4">
+      <button onClick={() => requestModeChange('drawing', 'drawing-feature')}>
+        Start Drawing
+      </button>
+    </div>
+  );
+}
+
+export function App() {
+  return (
+    <div className="relative w-full h-full">
+      <BaseMap instanceId={MAIN_MAP_ID} className="absolute inset-0">
+        {/* Deck.gl layers */}
+      </BaseMap>
+      <DrawingFeature />
+    </div>
   );
 }
 ```
 
 ## React API Reference
 
-### `MapIdProvider`
+### `useMapMode(instanceId?)`
 
-Context provider that creates and manages a map mode instance.
-
-#### Props
-
-##### `children: ReactNode`
-
-Child components that will have access to the map mode context.
-
-##### `defaultMode?: string`
-
-Initial mode when provider mounts. Defaults to `'default'`.
-
-##### `mapId?: UniqueId`
-
-Optional unique ID for this map instance. Used to isolate mode changes between multiple map instances (e.g., main map vs minimap). If not provided, a unique UUID is automatically generated.
-
-### `useMapMode(mapInstanceId?)`
-
-Hook to access map mode state. Can be used within a `MapIdProvider` (uses context) or outside (by passing `mapInstanceId`).
+Hook to access map mode state. **For UI components (buttons, toolbars, etc.)**, you should pass the `instanceId` parameter since they must be rendered as siblings to `BaseMap`, not children.
 
 #### Parameters
 
-##### `mapInstanceId?: UniqueId`
+##### `instanceId?: UniqueId`
 
-The map instance ID to access. If not provided, uses the ID from `MapIdContext`.
+The map instance ID to access. **Recommended**: Always pass this parameter for UI components that are siblings to `BaseMap`. If not provided, the hook will attempt to use the ID from `MapIdContext` (only available for Deck.gl layer components that are children of `BaseMap`).
 
 #### Returns
 
@@ -281,36 +420,56 @@ The map instance ID to access. If not provided, uses the ID from `MapIdContext`.
 
 #### Throws
 
-- `Error` if no `mapInstanceId` is provided and hook is used outside of `MapIdProvider`
+- `Error` if no `instanceId` is provided and hook is used outside of `BaseMap`
 - `Error` if the store is not found for the given instance ID
 
 #### Examples
 
-**Inside MapIdProvider (uses context):**
+**UI components as siblings (recommended pattern):**
 
 ```tsx
-function MapToolbar() {
-  const { mode, requestModeChange } = useMapMode();
+function App() {
+  const mapId = uuid();
 
-  return <button onClick={() => requestModeChange('drawing', 'toolbar')}>
-    Draw ({mode})
-  </button>;
+  function MapToolbar() {
+    // Pass mapId since this is a sibling to BaseMap
+    const { mode, requestModeChange } = useMapMode(mapId);
+
+    return (
+      <div className="absolute top-4 left-4">
+        <button onClick={() => requestModeChange('drawing', 'toolbar')}>
+          Draw ({mode})
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative w-full h-full">
+      <BaseMap instanceId={mapId} className="absolute inset-0">
+        {/* Deck.gl layers only */}
+      </BaseMap>
+      <MapToolbar />
+    </div>
+  );
 }
 ```
 
-**Outside MapIdProvider (pass ID directly):**
+**Deck.gl layer components (can use context):**
 
 ```tsx
-function ExternalControl({ mapId }: { mapId: UniqueId }) {
-  const { mode, requestModeChange } = useMapMode(mapId);
+// Custom Deck.gl layer component rendered as child of BaseMap
+function CustomDeckglLayer() {
+  // Can use context since this is a Deck.gl component child of BaseMap
+  const { mode } = useMapMode();
 
-  return <div>
-    <p>Map is in {mode} mode</p>
-    <button onClick={() => requestModeChange('default', 'external')}>
-      Reset
-    </button>
-  </div>;
+  // Layer logic that responds to mode...
+  return null; // Or return Deck.gl layer JSX
 }
+
+<BaseMap instanceId={mapId}>
+  <CustomDeckglLayer />
+</BaseMap>
 ```
 
 ## Events
@@ -325,9 +484,9 @@ Emitted when the mode successfully changes.
 
 ```tsx
 {
-  previousMode: string;     // The mode before the change
-  currentMode: string;      // The new current mode
-  mapInstanceId: UniqueId;  // The map instance this event is for
+  previousMode: string;   // The mode before the change
+  currentMode: string;    // The new current mode
+  instanceId: UniqueId;   // The map instance this event is for
 }
 ```
 
@@ -350,9 +509,9 @@ Emitted when a component requests a mode change.
 
 ```tsx
 {
-  desiredMode: string;      // The requested mode
-  owner: string;            // ID of the requesting component
-  mapInstanceId: UniqueId;  // The map instance this event is for
+  desiredMode: string;    // The requested mode
+  owner: string;          // ID of the requesting component
+  instanceId: UniqueId;   // The map instance this event is for
 }
 ```
 
@@ -364,10 +523,10 @@ Emitted when authorization is required for a mode change. **You should listen fo
 
 ```tsx
 {
-  authId: string;           // Unique ID for this authorization request
-  desiredMode: string;      // The requested mode
-  currentMode: string;      // The current mode
-  mapInstanceId: UniqueId;  // The map instance this event is for
+  authId: string;         // Unique ID for this authorization request
+  desiredMode: string;    // The requested mode
+  currentMode: string;    // The current mode
+  instanceId: UniqueId;   // The map instance this event is for
 }
 ```
 
@@ -381,15 +540,15 @@ Emitted when an authorization decision is made. **You should emit this event if 
 
 ```tsx
 {
-  authId: string;           // ID of the authorization request
-  approved: boolean;        // Whether the request was approved
-  owner: string;            // ID of the owner making the decision
-  reason?: string;          // Optional reason for rejection
-  mapInstanceId: UniqueId;  // The map instance this event is for (REQUIRED)
+  authId: string;        // ID of the authorization request
+  approved: boolean;     // Whether the request was approved
+  owner: string;         // ID of the owner making the decision
+  reason?: string;       // Optional reason for rejection
+  instanceId: UniqueId;  // The map instance this event is for (REQUIRED)
 }
 ```
 
-**Important:** Always include the `mapInstanceId` from the authorization event in your decision to ensure it's scoped to the correct map instance.
+**Important:** Always include the `instanceId` from the authorization event in your decision to ensure it's scoped to the correct map instance.
 
 ## Authorization Logic
 
@@ -439,7 +598,7 @@ useOn<ModeChangeAuthorizationEvent>(
         authId: event.payload.authId,
         approved: shouldApprove(event.payload),
         owner: MY_FEATURE_ID,
-        mapInstanceId: event.payload.mapInstanceId, // REQUIRED
+        instanceId: event.payload.instanceId, // REQUIRED
       });
     }
   }
@@ -469,42 +628,76 @@ See the Storybook stories for complete working examples:
 
 ## Troubleshooting
 
-### "useMapMode must be used within a MapIdProvider"
+### Error: "useMapMode requires either an instanceId parameter or to be used within a MapIdProvider"
 
-**Cause**: Using `useMapMode()` without providing a `mapInstanceId` and not within a `MapIdProvider`.
+**Cause**: Using `useMapMode()` without providing an `instanceId` parameter, outside of a `MapIdProvider` context.
 
-**Solution**: Either wrap your component with `MapIdProvider` or pass the `mapInstanceId` directly:
+**Solution**: Pass the `instanceId` to the hook. UI components should be siblings to `BaseMap` and use the shared module-level constant:
 
 ```tsx
-// Option 1: Use provider (creates and manages store automatically)
-<MapIdProvider>
-  <YourComponent />
-</MapIdProvider>
+import { uuid } from '@accelint/core';
 
-// Option 2: Pass ID directly (requires store to exist)
-import { getOrCreateStore } from '@accelint/map-toolkit/map-mode';
+// Module-level constant
+const MAIN_MAP_ID = uuid();
 
-// Ensure store exists
-const mapId = 'my-map-id';
-getOrCreateStore(mapId, 'default');
+function YourComponent() {
+  // Pass the shared instanceId
+  const { mode } = useMapMode(MAIN_MAP_ID);
+  return <div>Mode: {mode}</div>;
+}
 
-// Then use the hook
-const { mode } = useMapMode(mapId);
+export function App() {
+  return (
+    <div className="relative w-full h-full">
+      <BaseMap instanceId={MAIN_MAP_ID} className="absolute inset-0">
+        {/* Only Deck.gl layers */}
+      </BaseMap>
+      <YourComponent />
+    </div>
+  );
+}
+```
+
+**Note**: Only custom Deck.gl layer components rendered as children of `BaseMap` can use `useMapMode()` without parameters (via context). Regular UI components must pass `instanceId`.
+
+### Error: "MapModeStore not found for instance: [id]"
+
+**Cause**: Calling `useMapMode(instanceId)` with an ID that doesn't have a store created yet, or after the store was destroyed.
+
+**Solution**: Ensure `BaseMap` with the matching `instanceId` is mounted before any components try to use `useMapMode` with that ID.
+
+### Warning: "instanceId changed from X to Y"
+
+**Cause**: The `instanceId` prop passed to `BaseMap` changed during the component's lifetime (development mode only).
+
+**Impact**: This causes a memory leak as the old store remains in the registry, and state is lost.
+
+**Solution**: Ensure `instanceId` is stable by using a module-level constant:
+
+```tsx
+// ✅ Good - stable
+const MAIN_MAP_ID = uuid();
+
+// ❌ Bad - recreates on every render
+function App() {
+  const mapId = uuid(); // Don't do this!
+  return <BaseMap instanceId={mapId} />;
+}
 ```
 
 ### Mode changes not working
 
 **Causes:**
 
-1. Empty `desiredMode` or `requestOwner` - throws an error
-2. Authorization required but not handled - request remains pending
-3. Authorization decision from wrong owner - silently ignored
+1. **Empty parameters** - `desiredMode` or `requestOwner` is empty/whitespace → throws error
+2. **Authorization required** - Another component owns the mode, request pending
+3. **Authorization decision from wrong owner** - Decision rejected with console warning
 
 **Solutions:**
 
-1. Ensure both parameters are non-empty strings
-2. Implement authorization handler to respond to requests
-3. Verify the decision is emitted by the current mode's owner
+1. Ensure both `desiredMode` and `requestOwner` are non-empty strings (whitespace is auto-trimmed)
+2. Implement authorization handler to respond to pending requests
+3. Check console for warning: `[MapMode] Authorization decision from "X" ignored - not the owner of mode "Y"`
 
 ### Authorization requests pending indefinitely
 
@@ -521,7 +714,7 @@ useOn<ModeChangeAuthorizationEvent>(
       authId: event.payload.authId,
       approved: true,
       owner: 'my-feature-id',
-      mapInstanceId: event.payload.mapInstanceId,
+      instanceId: event.payload.instanceId,
     });
   }
 );
@@ -529,7 +722,7 @@ useOn<ModeChangeAuthorizationEvent>(
 
 ### Multiple maps interfering with each other
 
-**Cause**: Not using unique `mapId` props for each `MapIdProvider`.
+**Cause**: Not using unique `instanceId` props for each `BaseMap`.
 
 **Solution**: Provide unique UUIDs for each map instance:
 
@@ -539,6 +732,6 @@ import { uuid } from '@accelint/core';
 const MAP_1_ID = uuid();
 const MAP_2_ID = uuid();
 
-<MapIdProvider mapId={MAP_1_ID}>...</MapIdProvider>
-<MapIdProvider mapId={MAP_2_ID}>...</MapIdProvider>
+<BaseMap instanceId={MAP_1_ID}>...</BaseMap>
+<BaseMap instanceId={MAP_2_ID}>...</BaseMap>
 ```

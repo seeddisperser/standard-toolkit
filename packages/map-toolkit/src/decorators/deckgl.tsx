@@ -12,13 +12,16 @@
  * governing permissions and limitations under the License.
  */
 
+import { uuid } from '@accelint/core';
 import { BaseMap } from '../deckgl/base-map';
 import type { Decorator } from '@storybook/react';
 
 export const withDeckGL = (): Decorator => {
+  const instanceId = uuid();
+
   return (Story) => {
     return (
-      <BaseMap className='h-dvh w-dvw'>
+      <BaseMap className='h-dvh w-dvw' instanceId={instanceId}>
         <Story />
       </BaseMap>
     );
