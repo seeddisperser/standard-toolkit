@@ -15,13 +15,7 @@ import { uuid } from '@accelint/core';
 import { DEFAULT_MODE } from '@/deckgl/base-map/constants';
 import { MapModeEvents } from './events';
 import type { UniqueId } from '@accelint/core';
-import type {
-  MapModeEventType,
-  ModeChangeDecisionEvent,
-  ModeChangeDecisionPayload,
-  ModeChangedEvent,
-  ModeChangeRequestEvent,
-} from './types';
+import type { MapModeEventType, ModeChangeDecisionPayload } from './types';
 
 /**
  * Typed event bus instance for map mode events.
@@ -150,11 +144,7 @@ export class MapModeStore {
   private setupEventListeners(): void {
     // Listen for mode change requests
     const unsubRequest = this.bus.on(MapModeEvents.changeRequest, (event) => {
-      const {
-        desiredMode,
-        owner: requestOwner,
-        instanceId,
-      } = (event as ModeChangeRequestEvent).payload;
+      const { desiredMode, owner: requestOwner, instanceId } = event.payload;
 
       // Filter: only handle if targeted at this instance
       if (instanceId !== this.instanceId || desiredMode === this.mode) {
@@ -167,9 +157,7 @@ export class MapModeStore {
 
     // Listen for authorization decisions
     const unsubDecision = this.bus.on(MapModeEvents.changeDecision, (event) => {
-      const { instanceId, approved, authId, owner } = (
-        event as ModeChangeDecisionEvent
-      ).payload;
+      const { instanceId, approved, authId, owner } = event.payload;
 
       // Filter: only handle if targeted at this instance
       if (instanceId !== this.instanceId) {
@@ -182,9 +170,7 @@ export class MapModeStore {
 
     // Listen for mode changes to handle pending requests
     const unsubChanged = this.bus.on(MapModeEvents.changed, (event) => {
-      const { currentMode, previousMode, instanceId } = (
-        event as ModeChangedEvent
-      ).payload;
+      const { currentMode, previousMode, instanceId } = event.payload;
 
       // Filter: only handle if targeted at this instance
       if (instanceId !== this.instanceId) {
