@@ -48,11 +48,12 @@ import { BaseMap } from '@accelint/map-toolkit/deckgl';
 import { View } from '@deckgl-fiber-renderer/dom';
 import { uuid } from '@accelint/core';
 
-export function MapView() {
-  const mapId = uuid();
+// Module-level constant for stability
+const MAIN_MAP_ID = uuid();
 
+export function MapView() {
   return (
-    <BaseMap instanceId={mapId} className="w-full h-full">
+    <BaseMap instanceId={MAIN_MAP_ID} className="w-full h-full">
       <View id="main" controller />
       {/* Add your Deck.gl layers here */}
     </BaseMap>
@@ -70,25 +71,26 @@ import { useMapMode } from '@accelint/map-toolkit/map-mode';
 import { View } from '@deckgl-fiber-renderer/dom';
 import { uuid } from '@accelint/core';
 
-export function InteractiveMap() {
-  const mapId = uuid();
+// Module-level constant shared across components
+const MAIN_MAP_ID = uuid();
 
-  function Toolbar() {
-    // Pass mapId to access map mode
-    const { mode, requestModeChange } = useMapMode(mapId);
-
-    return (
-      <div className="absolute top-4 left-4">
-        <button onClick={() => requestModeChange('drawing', 'toolbar')}>
-          Draw Mode ({mode})
-        </button>
-      </div>
-    );
-  }
+function Toolbar() {
+  // Use the shared instanceId
+  const { mode, requestModeChange } = useMapMode(MAIN_MAP_ID);
 
   return (
+    <div className="absolute top-4 left-4">
+      <button onClick={() => requestModeChange('drawing', 'toolbar')}>
+        Draw Mode ({mode})
+      </button>
+    </div>
+  );
+}
+
+export function InteractiveMap() {
+  return (
     <div className="relative w-full h-full">
-      <BaseMap instanceId={mapId} className="absolute inset-0">
+      <BaseMap instanceId={MAIN_MAP_ID} className="absolute inset-0">
         <View id="main" controller />
         {/* Only Deck.gl layers as children */}
       </BaseMap>
@@ -106,9 +108,10 @@ import { uuid } from '@accelint/core';
 import type { PickingInfo } from '@deck.gl/core';
 import type { MjolnirGestureEvent, MjolnirPointerEvent } from 'mjolnir.js';
 
-export function InteractiveMap() {
-  const mapId = uuid();
+// Module-level constant
+const MAIN_MAP_ID = uuid();
 
+export function InteractiveMap() {
   const handleClick = (info: PickingInfo, event: MjolnirGestureEvent) => {
     console.log('Clicked:', info.object);
   };
@@ -119,7 +122,7 @@ export function InteractiveMap() {
 
   return (
     <BaseMap
-      instanceId={mapId}
+      instanceId={MAIN_MAP_ID}
       className="w-full h-full"
       onClick={handleClick}
       onHover={handleHover}
