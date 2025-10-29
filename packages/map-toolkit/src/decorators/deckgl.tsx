@@ -16,12 +16,13 @@ import { uuid } from '@accelint/core';
 import { BaseMap } from '../deckgl/base-map';
 import type { Decorator } from '@storybook/react';
 
-export const withDeckGL = (): Decorator => {
-  const instanceId = uuid();
+// Module-level constant - stable across all Storybook renders
+const STORYBOOK_MAP_ID = uuid();
 
+export const withDeckGL = (): Decorator => {
   return (Story) => {
     return (
-      <BaseMap className='h-dvh w-dvw' instanceId={instanceId}>
+      <BaseMap className='h-dvh w-dvw' instanceId={STORYBOOK_MAP_ID}>
         <Story />
       </BaseMap>
     );

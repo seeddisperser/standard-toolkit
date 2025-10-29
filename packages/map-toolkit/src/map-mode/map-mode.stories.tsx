@@ -38,6 +38,11 @@ const EXAMPLE_MAP_MODES = [
   'multi-select',
 ];
 
+// Stable instanceIds for each story
+const BASIC_USAGE_MAP_ID = uuid();
+const MULTIPLE_CONSUMERS_MAP_ID = uuid();
+const AUTHORIZATION_FLOW_MAP_ID = uuid();
+
 const meta = {
   title: 'Map Mode',
 } satisfies Meta;
@@ -51,11 +56,9 @@ type Story = StoryObj;
  */
 export const BasicUsage: Story = {
   render: () => {
-    const instanceId = uuid();
-
     // A simple toolbar that changes modes
     function ModeToolbar() {
-      const { mode, requestModeChange } = useMapMode(instanceId);
+      const { mode, requestModeChange } = useMapMode(BASIC_USAGE_MAP_ID);
 
       return (
         <div className='absolute top-l left-l flex w-[256px] flex-col gap-xl rounded-lg bg-surface-default p-l shadow-elevation-overlay'>
@@ -83,7 +86,7 @@ export const BasicUsage: Story = {
 
     return (
       <div className='relative h-dvh w-dvw'>
-        <BaseMap className='absolute inset-0' instanceId={instanceId} />
+        <BaseMap className='absolute inset-0' instanceId={BASIC_USAGE_MAP_ID} />
         <ModeToolbar />
       </div>
     );
@@ -96,11 +99,9 @@ export const BasicUsage: Story = {
  */
 export const MultipleConsumers: Story = {
   render: () => {
-    const instanceId = uuid();
-
     // Toolbar component that changes modes
     function ModeToolbar() {
-      const { requestModeChange } = useMapMode(instanceId);
+      const { requestModeChange } = useMapMode(MULTIPLE_CONSUMERS_MAP_ID);
 
       return (
         <div className='absolute top-l left-l flex gap-s'>
@@ -121,7 +122,7 @@ export const MultipleConsumers: Story = {
 
     // Status indicator component
     function ModeIndicator() {
-      const { mode } = useMapMode(instanceId);
+      const { mode } = useMapMode(MULTIPLE_CONSUMERS_MAP_ID);
 
       return (
         <div className='absolute top-l right-l flex flex-col items-center gap-xs rounded-lg bg-surface-default p-m shadow-elevation-raised'>
@@ -133,7 +134,7 @@ export const MultipleConsumers: Story = {
 
     // Instructions panel that changes based on mode
     function InstructionsPanel() {
-      const { mode } = useMapMode(instanceId);
+      const { mode } = useMapMode(MULTIPLE_CONSUMERS_MAP_ID);
 
       const instructions: Record<string, string> = {
         default: 'Pan and zoom the map',
@@ -152,7 +153,10 @@ export const MultipleConsumers: Story = {
 
     return (
       <div className='relative h-dvh w-dvw'>
-        <BaseMap className='absolute inset-0' instanceId={instanceId} />
+        <BaseMap
+          className='absolute inset-0'
+          instanceId={MULTIPLE_CONSUMERS_MAP_ID}
+        />
         <ModeToolbar />
         <ModeIndicator />
         <InstructionsPanel />
@@ -179,10 +183,8 @@ export const MultipleConsumers: Story = {
  */
 export const AuthorizationFlow: Story = {
   render: () => {
-    const instanceId = uuid();
-
     function AuthorizationDemo() {
-      const { mode, requestModeChange } = useMapMode(instanceId);
+      const { mode, requestModeChange } = useMapMode(AUTHORIZATION_FLOW_MAP_ID);
       const [modeOwners, setModeOwners] = useState<Map<string, string>>(
         new Map(),
       );
@@ -651,7 +653,10 @@ export const AuthorizationFlow: Story = {
 
     return (
       <div className='relative h-dvh w-dvw'>
-        <BaseMap className='absolute inset-0' instanceId={instanceId} />
+        <BaseMap
+          className='absolute inset-0'
+          instanceId={AUTHORIZATION_FLOW_MAP_ID}
+        />
         <AuthorizationDemo />
       </div>
     );

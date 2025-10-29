@@ -24,6 +24,9 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+// Stable instanceId for Storybook story
+const BASE_MAP_STORY_ID = uuid();
+
 export const BaseMap: Story = {
   render: () => {
     useOn<MapClickEvent>(MapEvents.click, (data: MapClickEvent) => {
@@ -34,8 +37,11 @@ export const BaseMap: Story = {
       console.log('hover:', data.payload);
     });
 
-    const instanceId = uuid();
-
-    return <BaseMapComponent className='h-dvh w-dvw' instanceId={instanceId} />;
+    return (
+      <BaseMapComponent
+        className='h-dvh w-dvw'
+        instanceId={BASE_MAP_STORY_ID}
+      />
+    );
   },
 };
