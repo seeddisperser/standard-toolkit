@@ -49,7 +49,7 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const BasicTextLayer: Story = {
+export const Default: Story = {
   name: 'Basic Usage',
   render: () => (
     <textLayer
@@ -57,6 +57,32 @@ export const BasicTextLayer: Story = {
       data={[GOLDEN_GATE_BRIDGE, SPACE_NEEDLE, STATUE_OF_LIBERTY]}
       getPosition={(d: unknown) => (d as TextDataPoint).position}
       getText={(d: unknown) => (d as TextDataPoint).text}
+    />
+  ),
+};
+
+const data = ['DAL1007', '22.5K', '300KTS', 'Unknown'];
+const maxLength = data.reduce(
+  (acc, str) => (str.length > acc ? str.length : acc),
+  0,
+);
+
+export const Tag: Story = {
+  name: 'Tag',
+  render: () => (
+    <textLayer
+      id={useId()}
+      data={[
+        spot(
+          data.map((str) => str.padEnd(maxLength, ' ')).join(''),
+          [-112.1401, 36.1069],
+        ),
+      ]}
+      fontFamily='monospace'
+      getPosition={(d: unknown) => (d as TextDataPoint).position}
+      getText={(d: unknown) => (d as TextDataPoint).text}
+      maxWidth={(7.5 / 12) * maxLength} // The approximate ratio of character width to height, times the number of characters you want per line
+      wordBreak='break-all'
     />
   ),
 };

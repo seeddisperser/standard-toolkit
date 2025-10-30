@@ -30,5 +30,5 @@ export const defaultSettings: Partial<TextLayerProps> = {
   getTextAnchor: 'middle',
   lineHeight: 1,
   outlineColor: [0, 0, 0, 255] as Color,
-  outlineWidth: 1.5,
+  outlineWidth: 2,
 } as const;
