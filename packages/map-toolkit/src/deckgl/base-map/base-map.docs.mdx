@@ -12,7 +12,7 @@ A React component that provides a Deck.gl-powered base map with MapLibre GL inte
 
 - **MapLibre GL Integration**: Built-in support for MapLibre GL base maps with customizable styles
 - **Event Bus**: Centralized event system for click and hover interactions using `@accelint/bus`
-- **Map Mode Integration**: Automatically creates internal `MapIdProvider` for map mode state management
+- **Map Mode Integration**: Automatically creates internal `MapProvider` for map mode state management
 - **Deck.gl Controller**: Interactive map controls with configurable parameters
 - **Client-Side Only**: Designed for client-side rendering in React applications
 
@@ -53,7 +53,7 @@ const MAIN_MAP_ID = uuid();
 
 export function MapView() {
   return (
-    <BaseMap instanceId={MAIN_MAP_ID} className="w-full h-full">
+    <BaseMap id={MAIN_MAP_ID} className="w-full h-full">
       <View id="main" controller />
       {/* Add your Deck.gl layers here */}
     </BaseMap>
@@ -75,7 +75,7 @@ import { uuid } from '@accelint/core';
 const MAIN_MAP_ID = uuid();
 
 function Toolbar() {
-  // Use the shared instanceId
+  // Use the shared id
   const { mode, requestModeChange } = useMapMode(MAIN_MAP_ID);
 
   return (
@@ -90,7 +90,7 @@ function Toolbar() {
 export function InteractiveMap() {
   return (
     <div className="relative w-full h-full">
-      <BaseMap instanceId={MAIN_MAP_ID} className="absolute inset-0">
+      <BaseMap id={MAIN_MAP_ID} className="absolute inset-0">
         <View id="main" controller />
         {/* Only Deck.gl layers as children */}
       </BaseMap>
@@ -122,7 +122,7 @@ export function InteractiveMap() {
 
   return (
     <BaseMap
-      instanceId={MAIN_MAP_ID}
+      id={MAIN_MAP_ID}
       className="w-full h-full"
       onClick={handleClick}
       onHover={handleHover}
@@ -156,15 +156,15 @@ export function MapListener() {
 
 The `BaseMap` component extends all `DeckglProps` from `@deckgl-fiber-renderer/types` and includes the following additional props:
 
-#### `instanceId: UniqueId` (required)
+#### `id: UniqueId` (required)
 
 Unique identifier for this map instance. Used to isolate map mode state between multiple map instances (e.g., main map vs minimap). This prop is required and should be a UUID generated using `uuid()` from `@accelint/core`.
 
-**Important**: This same `instanceId` must be passed to `useMapMode(instanceId)` in UI components that are rendered as siblings to BaseMap, since UI components cannot be children of BaseMap.
+**Important**: This same `id` must be passed to `useMapMode(id)` in UI components that are rendered as siblings to BaseMap, since UI components cannot be children of BaseMap.
 
-**Stability**: The `instanceId` should not change during the component's lifetime. If it changes, the old store will remain in memory (causing a memory leak) and a new store will be created.
+**ID Changes**: If the `id` prop changes, BaseMap will perform a complete remount. The old store is properly cleaned up and a new one is created. While this is handled safely, frequent ID changes will cause performance issues due to remounting.
 
-**Recommended Pattern**: Create the `instanceId` as a **module-level constant**. This ensures stability and makes it easy to share across all components:
+**Recommended Pattern**: Create the `id` as a **module-level constant**. This ensures stability and makes it easy to share across all components:
 
 ```tsx
 import { uuid } from '@accelint/core';
@@ -176,7 +176,7 @@ import { uuid } from '@accelint/core';
 const MAIN_MAP_ID = uuid();
 
 export function MapView() {
-  return <BaseMap instanceId={MAIN_MAP_ID}>...</BaseMap>;
+  return <BaseMap id={MAIN_MAP_ID}>...</BaseMap>;
 }
 
 export function Toolbar() {
@@ -191,13 +191,13 @@ Alternative patterns (only use if you need dynamic IDs):
 // ✅ OK - For components that need their own isolated map instance
 function MapView() {
   const [mapId] = useState(() => uuid());
-  return <BaseMap instanceId={mapId}>...</BaseMap>;
+  return <BaseMap id={mapId}>...</BaseMap>;
 }
 
-// ❌ NEVER - Creates new ID on every render (causes memory leaks)
+// ❌ NEVER - Creates new ID on every render (causes constant remounting)
 function MapView() {
   const mapId = uuid(); // Don't do this!
-  return <BaseMap instanceId={mapId}>...</BaseMap>;
+  return <BaseMap id={mapId}>...</BaseMap>;
 }
 ```
 
@@ -255,7 +255,7 @@ Event names for map interactions:
 ```tsx
 // ✅ Correct - UI as siblings
 <div className="relative w-full h-full">
-  <BaseMap instanceId={mapId} className="absolute inset-0">
+  <BaseMap id={mapId} className="absolute inset-0">
     <View id="main" controller />
     {/* Only Deck.gl layers */}
   </BaseMap>
@@ -263,7 +263,7 @@ Event names for map interactions:
 </div>
 
 // ❌ Incorrect - UI as children
-<BaseMap instanceId={mapId}>
+<BaseMap id={mapId}>
   <Toolbar /> {/* Will cause error! */}
 </BaseMap>
 ```

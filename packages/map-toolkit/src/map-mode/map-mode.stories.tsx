@@ -38,7 +38,7 @@ const EXAMPLE_MAP_MODES = [
   'multi-select',
 ];
 
-// Stable instanceIds for each story
+// Stable ids for each story
 const BASIC_USAGE_MAP_ID = uuid();
 const MULTIPLE_CONSUMERS_MAP_ID = uuid();
 const AUTHORIZATION_FLOW_MAP_ID = uuid();
@@ -86,7 +86,7 @@ export const BasicUsage: Story = {
 
     return (
       <div className='relative h-dvh w-dvw'>
-        <BaseMap className='absolute inset-0' instanceId={BASIC_USAGE_MAP_ID} />
+        <BaseMap className='absolute inset-0' id={BASIC_USAGE_MAP_ID} />
         <ModeToolbar />
       </div>
     );
@@ -153,10 +153,7 @@ export const MultipleConsumers: Story = {
 
     return (
       <div className='relative h-dvh w-dvw'>
-        <BaseMap
-          className='absolute inset-0'
-          instanceId={MULTIPLE_CONSUMERS_MAP_ID}
-        />
+        <BaseMap className='absolute inset-0' id={MULTIPLE_CONSUMERS_MAP_ID} />
         <ModeToolbar />
         <ModeIndicator />
         <InstructionsPanel />
@@ -193,7 +190,7 @@ export const AuthorizationFlow: Story = {
           authId: string;
           desiredMode: string;
           requestingOwner: string;
-          instanceId: UniqueId;
+          id: UniqueId;
         }>
       >([]);
       const [eventLog, setEventLog] = useState<string[]>([]);
@@ -238,7 +235,7 @@ export const AuthorizationFlow: Story = {
       const handleAutoAccept = (
         authId: string,
         owner: string,
-        instanceId: UniqueId,
+        id: UniqueId,
       ) => {
         addLog(`${owner} auto-accepting request`);
 
@@ -246,7 +243,7 @@ export const AuthorizationFlow: Story = {
           authId,
           approved: true,
           owner,
-          instanceId,
+          id,
         });
       };
 
@@ -254,7 +251,7 @@ export const AuthorizationFlow: Story = {
         authId: string,
         desiredMode: string,
         requestingOwner: string,
-        instanceId: UniqueId,
+        id: UniqueId,
       ) => {
         // Check if this requester already has a pending auth
         const existingIndex = pendingAuths.findIndex(
@@ -272,7 +269,7 @@ export const AuthorizationFlow: Story = {
               authId,
               desiredMode,
               requestingOwner,
-              instanceId,
+              id,
             };
             return updated;
           });
@@ -284,7 +281,7 @@ export const AuthorizationFlow: Story = {
               authId,
               desiredMode,
               requestingOwner,
-              instanceId,
+              id,
             },
           ]);
         }
@@ -386,7 +383,7 @@ export const AuthorizationFlow: Story = {
             handleAutoAccept(
               event.payload.authId,
               currentModeOwner,
-              event.payload.instanceId,
+              event.payload.id,
             );
             return;
           }
@@ -397,7 +394,7 @@ export const AuthorizationFlow: Story = {
               event.payload.authId,
               event.payload.desiredMode,
               requestingOwner,
-              event.payload.instanceId,
+              event.payload.id,
             );
           }
         },
@@ -432,7 +429,7 @@ export const AuthorizationFlow: Story = {
               authId,
               approved: true,
               owner: currentModeOwner,
-              instanceId: auth.instanceId,
+              id: auth.id,
             });
             // Note: Dialog removal is handled by the decision event listener
           }
@@ -449,7 +446,7 @@ export const AuthorizationFlow: Story = {
               approved: false,
               owner: currentModeOwner,
               reason: `${currentModeOwner} rejected the request`,
-              instanceId: auth.instanceId,
+              id: auth.id,
             });
             // Note: Dialog removal is handled by the decision event listener
           }
@@ -653,10 +650,7 @@ export const AuthorizationFlow: Story = {
 
     return (
       <div className='relative h-dvh w-dvw'>
-        <BaseMap
-          className='absolute inset-0'
-          instanceId={AUTHORIZATION_FLOW_MAP_ID}
-        />
+        <BaseMap className='absolute inset-0' id={AUTHORIZATION_FLOW_MAP_ID} />
         <AuthorizationDemo />
       </div>
     );

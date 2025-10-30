@@ -13,20 +13,20 @@
 'use client';
 
 import 'client-only';
-import { createContext, type ReactNode, useEffect, useRef } from 'react';
+import { createContext, type ReactNode, useEffect } from 'react';
 import { destroyStore, getOrCreateStore } from '../../map-mode/store';
 import type { UniqueId } from '@accelint/core';
 
 /**
- * React context for map instance ID.
+ * React context for map ID.
  * Use the `useMapMode` hook to access the map mode state.
  */
-export const MapIdContext = createContext<UniqueId | null>(null);
+export const MapContext = createContext<UniqueId | null>(null);
 
 /**
- * Props for the MapIdProvider component.
+ * Props for the MapProvider component.
  */
-export type MapIdProviderProps = {
+export type MapProviderProps = {
   /** Child components that will have access to map mode context */
   children: ReactNode;
   /**
@@ -41,27 +41,27 @@ export type MapIdProviderProps = {
    * const mainMapId = uuid();
    * const minimapId = uuid();
    *
-   * <MapIdProvider instanceId={mainMapId}>
+   * <MapProvider id={mainMapId}>
    *  // Map layers and components
-   * </MapIdProvider>
+   * </MapProvider>
    *
-   * <MapIdProvider instanceId={minimapId}>
+   * <MapProvider id={minimapId}>
    *  // Minimap layers and components
-   * </MapIdProvider>
+   * </MapProvider>
    * ```
    */
-  instanceId: UniqueId;
+  id: UniqueId;
 };
 
 /**
  * Provider component for managing map modes with ownership and authorization.
  *
  * **Note**: This provider is used internally by `BaseMap` and should not be used directly.
- * Consumers should pass the `instanceId` prop to `BaseMap`, which will create this provider automatically.
+ * Consumers should pass the `id` prop to `BaseMap`, which will create this provider automatically.
  *
  * This component uses a hybrid architecture combining React Context (for map instance identity)
  * with an external observable store (for state management). The provider:
- * - Provides a unique `instanceId` via Context
+ * - Provides a unique `id` via Context
  * - Creates an isolated MapModeStore instance for this map
  * - Allows components to subscribe to mode changes via `useMapMode` hook (which uses `useSyncExternalStore`)
  *
@@ -81,13 +81,13 @@ export type MapIdProviderProps = {
  *
  * ## Instance Isolation
  *
- * Each MapIdProvider instance operates independently. Mode changes in one instance
+ * Each MapProvider instance operates independently. Mode changes in one instance
  * do not affect other instances, even when multiple maps are rendered on the same page.
  * This enables scenarios like:
  * - Main map in "drawing" mode while minimap stays in "view" mode
  * - Multiple independent map views with different interaction modes
  *
- * Events are scoped to specific instances using the `instanceId` prop. The event bus
+ * Events are scoped to specific instances using the `id` prop. The event bus
  * filters events to ensure each provider only responds to events for its own instance.
  *
  * ## Pending Request Behavior
@@ -101,73 +101,74 @@ export type MapIdProviderProps = {
  *   - If first pending request is for default mode, all pending requests are rejected (already in requested mode)
  *   - If first pending request is for a different mode, that request is auto-approved and others are rejected
  *
- * ## Instance ID Stability
+ * ## Instance ID Stability and Lifecycle
  *
- * **Important**: The `instanceId` prop must remain stable throughout the component's lifetime.
- * If `instanceId` changes:
- * - The old store remains in the registry (memory leak)
- * - A new store is created for the new ID
- * - State is lost and components may break
+ * The provider uses React's `key` prop to force a complete remount when the `id` changes.
+ * This ensures:
+ * - Clean cleanup of the old store (no memory leaks)
+ * - Fresh initialization for the new ID
+ * - All child components remount with the new context
  *
- * In development mode, a warning is logged if `instanceId` changes to help catch this issue early.
+ * While the `id` prop should typically remain stable (created as a module-level constant
+ * or with `useState`), changing it will work correctly due to the remount behavior.
  *
- * @param props - Provider props including children and required instanceId
+ * @param props - Provider props including children and required id
  * @returns Provider component that wraps children with map instance identity context
  *
  * @example
  * Internal usage within BaseMap:
  * ```tsx
  * // BaseMap automatically creates the provider
- * function BaseMap({ instanceId, children, ...props }: BaseMapProps) {
+ * function BaseMap({ id, children, ...props }: BaseMapProps) {
  *   return (
  *     <div>
- *       <MapIdProvider instanceId={instanceId}>
+ *       <MapProvider id={id}>
  *         <Deckgl {...props}>
  *           {children}
  *         </Deckgl>
- *       </MapIdProvider>
+ *       </MapProvider>
  *     </div>
  *   );
  * }
  * ```
  *
  * @example
- * With authorization handling - use instanceId in event payloads:
+ * With authorization handling - use id in event payloads:
  * ```tsx
  * useOn(MapModeEvents.changeAuthorization, (event) => {
- *   const { authId, instanceId } = event.payload;
- *   emitDecision({ authId, approved: true, owner: 'tool', instanceId });
+ *   const { authId, id } = event.payload;
+ *   emitDecision({ authId, approved: true, owner: 'tool', id });
  * });
  * ```
  */
-export function MapIdProvider({ children, instanceId }: MapIdProviderProps) {
-  // Create or get the store for this map instance synchronously
-  // This must happen before any child components try to use useMapMode
-  // Track the instanceId to detect changes and warn in development
-  const storeRef = useRef<UniqueId | null>(null);
+/**
+ * Public wrapper that forces remount when id changes.
+ * This ensures clean lifecycle management and prevents memory leaks.
+ */
+export function MapProvider({ children, id }: MapProviderProps) {
+  // Force remount when id changes - each id gets a fresh component instance
+  return (
+    <MapProviderInternal key={id} id={id}>
+      {children}
+    </MapProviderInternal>
+  );
+}
 
-  if (storeRef.current !== instanceId) {
-    // Warn in development if instanceId changes (indicates a stability issue)
-    if (storeRef.current !== null && process.env.NODE_ENV === 'development') {
-      console.warn(
-        `[MapIdProvider] instanceId changed from "${storeRef.current}" to "${instanceId}". ` +
-          'This causes a memory leak as the old store remains in the registry. ' +
-          'Ensure instanceId is stable (create outside component or use useState).',
-      );
-    }
+/**
+ * Internal implementation with guaranteed stable id.
+ * The id cannot change without a remount due to the key prop above.
+ */
+function MapProviderInternal({ children, id }: MapProviderProps) {
+  // Create store synchronously before children render
+  // This is required for useSyncExternalStore pattern
+  getOrCreateStore(id);
 
-    getOrCreateStore(instanceId);
-    storeRef.current = instanceId;
-  }
-
-  // Cleanup: destroy store when provider unmounts
+  // Cleanup when component unmounts
   useEffect(() => {
     return () => {
-      destroyStore(instanceId);
+      destroyStore(id);
     };
-  }, [instanceId]);
+  }, [id]); // id is stable within this component's lifetime due to key prop
 
-  return (
-    <MapIdContext.Provider value={instanceId}>{children}</MapIdContext.Provider>
-  );
+  return <MapContext.Provider value={id}>{children}</MapContext.Provider>;
 }

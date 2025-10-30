@@ -28,7 +28,7 @@ import type { MapModeEventType } from './types';
 
 describe('MapModeStore', () => {
   let store: MapModeStore;
-  let instanceId: UniqueId;
+  let id: UniqueId;
   let bus: ReturnType<typeof Broadcast.getInstance<MapModeEventType>>;
 
   beforeEach(() => {
@@ -36,13 +36,13 @@ describe('MapModeStore', () => {
     mockBroadcastChannel();
 
     // Create fresh instances for each test
-    instanceId = uuid();
+    id = uuid();
 
     // Get bus instance AFTER mocking
     bus = Broadcast.getInstance<MapModeEventType>();
 
     // Create store AFTER bus is initialized
-    store = new MapModeStore(instanceId);
+    store = new MapModeStore(id);
   });
 
   afterEach(() => {
@@ -56,7 +56,7 @@ describe('MapModeStore', () => {
       expect(store.getSnapshot()).toBe('default');
     });
 
-    it('accepts instanceId in constructor', () => {
+    it('accepts id in constructor', () => {
       const customId = uuid();
       const customStore = new MapModeStore(customId);
 
@@ -67,7 +67,7 @@ describe('MapModeStore', () => {
   });
 
   describe('Store Registry', () => {
-    it('creates and retrieves store by instance ID', () => {
+    it('creates and retrieves store by map id', () => {
       const id = uuid();
       const newStore = getOrCreateStore(id);
 
@@ -76,7 +76,7 @@ describe('MapModeStore', () => {
       destroyStore(id);
     });
 
-    it('returns existing store for same instance ID', () => {
+    it('returns existing store for same map id', () => {
       const id = uuid();
       const store1 = getOrCreateStore(id);
       const store2 = getOrCreateStore(id);
@@ -195,7 +195,7 @@ describe('MapModeStore', () => {
           payload: {
             desiredMode: 'drawing',
             owner: 'owner1',
-            instanceId,
+            id,
           },
         }),
       );
@@ -212,7 +212,7 @@ describe('MapModeStore', () => {
           payload: {
             previousMode: 'default',
             currentMode: 'drawing',
-            instanceId,
+            id,
           },
         }),
       );
@@ -229,8 +229,8 @@ describe('MapModeStore', () => {
   });
 
   describe('Instance Isolation', () => {
-    it('only responds to events for its own instanceId', () => {
-      const otherInstanceId = uuid();
+    it('only responds to events for its own id', () => {
+      const otherId = uuid();
       const listener = vi.fn();
 
       bus.on(MapModeEvents.changed, listener);
@@ -239,7 +239,7 @@ describe('MapModeStore', () => {
       bus.emit(MapModeEvents.changeRequest, {
         desiredMode: 'drawing',
         owner: 'owner1',
-        instanceId: otherInstanceId,
+        id: otherId,
       });
 
       // Our store should not change
@@ -248,7 +248,7 @@ describe('MapModeStore', () => {
     });
 
     it('ignores authorization decisions for other instances', () => {
-      const otherInstanceId = uuid();
+      const otherId = uuid();
 
       // Set up a mode that requires authorization
       store.requestModeChange('drawing', 'owner1');
@@ -263,7 +263,7 @@ describe('MapModeStore', () => {
         authId: 'any-id',
         approved: true,
         owner: 'owner1',
-        instanceId: otherInstanceId,
+        id: otherId,
       });
 
       // Mode should not have changed
@@ -328,7 +328,7 @@ describe('MapModeStore', () => {
           payload: expect.objectContaining({
             desiredMode: 'measuring',
             currentMode: 'drawing',
-            instanceId,
+            id,
           }),
         }),
       );
@@ -358,7 +358,7 @@ describe('MapModeStore', () => {
         authId: capturedAuthId as string,
         approved: true,
         owner: 'owner1',
-        instanceId,
+        id,
       });
 
       // Mode should now be measuring
@@ -384,7 +384,7 @@ describe('MapModeStore', () => {
         authId: capturedAuthId as string,
         approved: false,
         owner: 'owner1',
-        instanceId,
+        id,
       });
 
       // Mode should still be drawing
@@ -414,7 +414,7 @@ describe('MapModeStore', () => {
         authId: capturedAuthId as string,
         approved: true,
         owner: 'owner3',
-        instanceId,
+        id,
       });
 
       // Mode should still be drawing
@@ -489,7 +489,7 @@ describe('MapModeStore', () => {
         authId: capturedAuthId as string,
         approved: true,
         owner: 'owner1',
-        instanceId,
+        id,
       });
 
       expect(store.getSnapshot()).toBe('measuring');
@@ -585,7 +585,7 @@ describe('MapModeStore', () => {
         authId: authId2 as string,
         approved: true,
         owner: 'owner1',
-        instanceId,
+        id,
       });
 
       // Should have rejection for owner3
@@ -626,7 +626,7 @@ describe('MapModeStore', () => {
         authId: 'fake-id',
         approved: true,
         owner: 'owner1',
-        instanceId,
+        id,
       });
 
       // Should warn that owner1 is not the owner of default
@@ -661,7 +661,7 @@ describe('MapModeStore', () => {
       bus.emit(MapModeEvents.changeRequest, {
         desiredMode: 'drawing',
         owner: 'owner1',
-        instanceId,
+        id,
       });
 
       // Store should not respond after destroy
@@ -687,7 +687,7 @@ describe('MapModeStore', () => {
       bus.emit(MapModeEvents.changeRequest, {
         desiredMode: 'measuring',
         owner: 'owner1',
-        instanceId,
+        id,
       });
 
       expect(listener).not.toHaveBeenCalled();

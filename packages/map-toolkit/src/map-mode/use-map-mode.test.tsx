@@ -25,53 +25,53 @@ import type {
 } from './types';
 
 describe('useMapMode', () => {
-  let testInstanceId: UniqueId;
+  let testid: UniqueId;
 
   beforeEach(() => {
-    // Create a stable instanceId and store for each test
-    testInstanceId = uuid();
-    getOrCreateStore(testInstanceId);
+    // Create a stable id and store for each test
+    testid = uuid();
+    getOrCreateStore(testid);
   });
 
   afterEach(() => {
     // Clean up the store after each test
-    destroyStore(testInstanceId);
+    destroyStore(testid);
     vi.restoreAllMocks();
   });
 
   describe('Hook Behavior', () => {
     it('provides default mode on mount', () => {
-      const { result } = renderHook(() => useMapMode(testInstanceId));
+      const { result } = renderHook(() => useMapMode(testid));
 
       expect(result.current.mode).toBe('default');
     });
 
     it('provides requestModeChange function', () => {
-      const { result } = renderHook(() => useMapMode(testInstanceId));
+      const { result } = renderHook(() => useMapMode(testid));
 
       expect(typeof result.current.requestModeChange).toBe('function');
     });
 
-    it('throws error when used outside MapIdProvider without instanceId', () => {
+    it('throws error when used outside MapProvider without id', () => {
       expect(() => {
         renderHook(() => useMapMode());
       }).toThrow(
-        'useMapMode requires either an instanceId parameter or to be used within a MapIdProvider',
+        'useMapMode requires either an id parameter or to be used within a MapProvider',
       );
     });
 
-    it('throws error when store does not exist for the given instanceId', () => {
+    it('throws error when store does not exist for the given id', () => {
       const nonExistentId = uuid();
       expect(() => {
         renderHook(() => useMapMode(nonExistentId));
-      }).toThrow(`MapModeStore not found for instance: ${nonExistentId}`);
+      }).toThrow(`MapModeStore not found for map instance: ${nonExistentId}`);
     });
 
     it('updates when mode changes via subscription', async () => {
       const user = userEvent.setup();
 
       function TestComponent() {
-        const { mode, requestModeChange } = useMapMode(testInstanceId);
+        const { mode, requestModeChange } = useMapMode(testid);
 
         return (
           <div>
@@ -105,7 +105,7 @@ describe('useMapMode', () => {
       const user = userEvent.setup();
 
       function TestComponent() {
-        const { mode, requestModeChange } = useMapMode(testInstanceId);
+        const { mode, requestModeChange } = useMapMode(testid);
 
         return (
           <div>
@@ -137,7 +137,7 @@ describe('useMapMode', () => {
       const onAuthRequest = vi.fn();
 
       function TestComponent() {
-        const { mode, requestModeChange } = useMapMode(testInstanceId);
+        const { mode, requestModeChange } = useMapMode(testid);
         useOn<ModeChangeAuthorizationEvent>(
           MapModeEvents.changeAuthorization,
           onAuthRequest,
@@ -195,7 +195,7 @@ describe('useMapMode', () => {
       const user = userEvent.setup();
 
       function TestComponent() {
-        const { mode, requestModeChange } = useMapMode(testInstanceId);
+        const { mode, requestModeChange } = useMapMode(testid);
         const emitDecision = useEmit<ModeChangeDecisionEvent>(
           MapModeEvents.changeDecision,
         );
@@ -208,7 +208,7 @@ describe('useMapMode', () => {
               authId: event.payload.authId,
               approved: true,
               owner: 'owner1',
-              instanceId: event.payload.instanceId,
+              id: event.payload.id,
             });
           },
         );
@@ -255,7 +255,7 @@ describe('useMapMode', () => {
       const user = userEvent.setup();
 
       function TestComponent() {
-        const { mode, requestModeChange } = useMapMode(testInstanceId);
+        const { mode, requestModeChange } = useMapMode(testid);
         const emitDecision = useEmit<ModeChangeDecisionEvent>(
           MapModeEvents.changeDecision,
         );
@@ -269,7 +269,7 @@ describe('useMapMode', () => {
               approved: false,
               owner: 'owner1',
               reason: 'Test rejection',
-              instanceId: event.payload.instanceId,
+              id: event.payload.id,
             });
           },
         );

@@ -62,7 +62,7 @@ export type MapClickPayload = {
   /** The gesture event that triggered the click */
   event: NonFuncMjolnirGestureEvent;
   /** The map instance the event occurred within */
-  instanceId: UniqueId;
+  id: UniqueId;
 };
 
 /**
@@ -75,7 +75,7 @@ export type MapHoverPayload = {
   /** The pointer event that triggered the hover */
   event: NonFuncMjolnirPointerEvent;
   /** The map instance the event occurred within */
-  instanceId: UniqueId;
+  id: UniqueId;
 };
 
 /**

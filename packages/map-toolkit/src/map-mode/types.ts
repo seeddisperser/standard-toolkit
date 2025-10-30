@@ -22,8 +22,8 @@ export type ModeChangedPayload = {
   previousMode: string;
   /** The mode after the change */
   currentMode: string;
-  /** The ID of the instance this event is for */
-  instanceId: UniqueId;
+  /** The ID of the map this event is for */
+  id: UniqueId;
 };
 
 /**
@@ -35,8 +35,8 @@ export type ModeChangeRequestPayload = {
   desiredMode: string;
   /** The identifier of the component requesting the mode change */
   owner: string;
-  /** The ID of the instance this event is for */
-  instanceId: UniqueId;
+  /** The ID of the map this event is for */
+  id: UniqueId;
 };
 
 /**
@@ -50,8 +50,8 @@ export type ModeChangeAuthorizationPayload = {
   desiredMode: string;
   /** The current active mode */
   currentMode: string;
-  /** The ID of the instance this event is for */
-  instanceId: UniqueId;
+  /** The ID of the map this event is for */
+  id: UniqueId;
 };
 
 /**
@@ -67,8 +67,8 @@ export type ModeChangeDecisionPayload = {
   owner: string;
   /** Optional reason for rejection */
   reason?: string;
-  /** The ID of the instance this event is for */
-  instanceId: UniqueId;
+  /** The ID of the map this event is for */
+  id: UniqueId;
 };
 
 /**

@@ -20,7 +20,7 @@ import { INITIAL_VIEW_STATE } from '../../maplibre/constants';
 import { useMapLibre } from '../../maplibre/hooks/use-maplibre';
 import { BASE_MAP_STYLE, PARAMETERS } from './constants';
 import { MapEvents } from './events';
-import { MapIdProvider } from './provider';
+import { MapProvider } from './provider';
 import type { UniqueId } from '@accelint/core';
 import type { PickingInfo } from '@deck.gl/core';
 import type { DeckglProps } from '@deckgl-fiber-renderer/types';
@@ -41,10 +41,10 @@ export type BaseMapProps = DeckglProps & {
    * Used to isolate map mode state between multiple map instances (e.g., main map vs minimap).
    * This should be a UUID generated using `uuid()` from `@accelint/core`.
    *
-   * The same instanceId should be passed to `useMapMode()` when accessing map mode state
+   * The same id should be passed to `useMapMode()` when accessing map mode state
    * from components rendered outside of the BaseMap's children (i.e., as siblings).
    */
-  instanceId: UniqueId;
+  id: UniqueId;
 };
 
 /**
@@ -54,32 +54,32 @@ export type BaseMapProps = DeckglProps & {
  * support for click and hover events through a centralized event bus. It integrates
  * Deck.gl for 3D visualizations with MapLibre GL for the base map tiles.
  *
- * **Map Mode Integration**: BaseMap automatically creates a `MapIdProvider` internally,
+ * **Map Mode Integration**: BaseMap automatically creates a `MapProvider` internally,
  * which sets up the map mode state management for this instance.
  * - **Children**: Only Deck.gl layer components can be rendered as children. Custom Deck.gl
  *   layers can use `useMapMode()` without parameters to access context.
  * - **Siblings**: UI components (buttons, toolbars, etc.) must be rendered as siblings
- *   and pass `instanceId` to `useMapMode(instanceId)`.
+ *   and pass `id` to `useMapMode(id)`.
  *
- * **Event Bus**: Click and hover events are emitted through the event bus with the `instanceId`
+ * **Event Bus**: Click and hover events are emitted through the event bus with the `id`
  * included in the payload, allowing multiple map instances to coexist without interference.
  *
- * @param props - Component props including instanceId (required), className, onClick, onHover, and all Deck.gl props
+ * @param props - Component props including id (required), className, onClick, onHover, and all Deck.gl props
  * @returns A map component with Deck.gl and MapLibre GL integration
  *
  * @example
- * Basic usage with instanceId (recommended: module-level constant):
+ * Basic usage with id (recommended: module-level constant):
  * ```tsx
  * import { BaseMap } from '@accelint/map-toolkit/deckgl';
  * import { View } from '@deckgl-fiber-renderer/dom';
  * import { uuid } from '@accelint/core';
  *
- * // Create instanceId at module level for stability and easy sharing
+ * // Create id at module level for stability and easy sharing
  * const MAIN_MAP_ID = uuid();
  *
  * export function MapView() {
  *   return (
- *     <BaseMap className="w-full h-full" instanceId={MAIN_MAP_ID}>
+ *     <BaseMap className="w-full h-full" id={MAIN_MAP_ID}>
  *       <View id="main" controller />
  *     </BaseMap>
  *   );
@@ -99,7 +99,7 @@ export type BaseMapProps = DeckglProps & {
  * const MAIN_MAP_ID = uuid();
  *
  * function Toolbar() {
- *   // Access map mode using the shared instanceId
+ *   // Access map mode using the shared id
  *   const { mode, requestModeChange } = useMapMode(MAIN_MAP_ID);
  *   return <div>Current mode: {mode}</div>;
  * }
@@ -111,7 +111,7 @@ export type BaseMapProps = DeckglProps & {
  *
  *   return (
  *     <div className="relative w-full h-full">
- *       <BaseMap className="absolute inset-0" instanceId={MAIN_MAP_ID} onClick={handleClick}>
+ *       <BaseMap className="absolute inset-0" id={MAIN_MAP_ID} onClick={handleClick}>
  *         <View id="main" controller />
  *       </BaseMap>
  *       <Toolbar />
@@ -123,7 +123,7 @@ export type BaseMapProps = DeckglProps & {
 export function BaseMap({
   className,
   children,
-  instanceId,
+  id,
   onClick,
   onHover,
   parameters,
@@ -177,10 +177,10 @@ export function BaseMap({
       emitClick({
         info: infoRest,
         event: eventRest,
-        instanceId,
+        id,
       });
     },
-    [emitClick, instanceId, onClick],
+    [emitClick, id, onClick],
   );
 
   const handleMapHover = useCallback(
@@ -203,15 +203,15 @@ export function BaseMap({
       emitHover({
         info: infoRest,
         event: eventRest,
-        instanceId,
+        id,
       });
     },
-    [emitHover, instanceId, onHover],
+    [emitHover, id, onHover],
   );
 
   return (
     <div id={container} className={className}>
-      <MapIdProvider instanceId={instanceId}>
+      <MapProvider id={id}>
         <Deckgl
           {...rest}
           controller
@@ -225,7 +225,7 @@ export function BaseMap({
         >
           {children}
         </Deckgl>
-      </MapIdProvider>
+      </MapProvider>
     </div>
   );
 }

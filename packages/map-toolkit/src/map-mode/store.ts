@@ -41,9 +41,9 @@ type PendingRequest = {
  * It manages all mode state, ownership tracking, authorization flow, and event bus communication
  * outside of React's component tree.
  *
- * Each store instance is identified by a unique `instanceId` and operates independently,
+ * Each store instance is identified by a unique `id` and operates independently,
  * enabling scenarios with multiple isolated map instances (e.g., main map + minimap).
- * Stores communicate via the event bus and filter events by `instanceId` to ensure isolation.
+ * Stores communicate via the event bus and filter events by `id` to ensure isolation.
  *
  * The store always initializes in 'default' mode and does not accept a custom default mode.
  *
@@ -51,20 +51,16 @@ type PendingRequest = {
  * @see {destroyStore} - Destroys a store and cleans up its resources
  */
 export class MapModeStore {
-  private mode: string;
-  private readonly instanceId: UniqueId;
-  private readonly defaultMode: string;
+  private mode = DEFAULT_MODE;
+  private readonly defaultMode = DEFAULT_MODE;
   private readonly modeOwners = new Map<string, string>();
   private readonly pendingRequests = new Map<string, PendingRequest>();
   private readonly listeners = new Set<() => void>();
   private readonly bus = mapModeBus;
   private readonly unsubscribers: Array<() => void> = [];
 
-  constructor(instanceId: UniqueId) {
-    this.instanceId = instanceId;
-    this.defaultMode = DEFAULT_MODE;
-    this.mode = DEFAULT_MODE;
-
+  constructor(private readonly id: UniqueId) {
+    this.id = id;
     // Subscribe to bus events
     this.setupEventListeners();
   }
@@ -111,17 +107,20 @@ export class MapModeStore {
    * ```
    */
   requestModeChange = (desiredMode: string, requestOwner: string): void => {
-    if (!desiredMode?.trim()) {
+    const trimmedDesiredMode = desiredMode.trim();
+    const trimmedRequestOwner = requestOwner.trim();
+
+    if (!trimmedDesiredMode) {
       throw new Error('requestModeChange requires non-empty desiredMode');
     }
-    if (!requestOwner?.trim()) {
+    if (!trimmedRequestOwner) {
       throw new Error('requestModeChange requires non-empty requestOwner');
     }
 
     this.bus.emit(MapModeEvents.changeRequest, {
-      desiredMode: desiredMode.trim(),
-      owner: requestOwner.trim(),
-      instanceId: this.instanceId,
+      desiredMode: trimmedDesiredMode,
+      owner: trimmedRequestOwner,
+      id: this.id,
     });
   };
 
@@ -139,15 +138,15 @@ export class MapModeStore {
    *
    * Note: Event listeners remain active even after early returns in handlers.
    * This is by design - cleanup happens in destroy() which is called automatically
-   * by MapIdProvider on unmount. Consumers don't need to manually manage cleanup.
+   * by MapProvider on unmount. Consumers don't need to manually manage cleanup.
    */
   private setupEventListeners(): void {
     // Listen for mode change requests
     const unsubRequest = this.bus.on(MapModeEvents.changeRequest, (event) => {
-      const { desiredMode, owner: requestOwner, instanceId } = event.payload;
+      const { desiredMode, owner: requestOwner, id } = event.payload;
 
-      // Filter: only handle if targeted at this instance
-      if (instanceId !== this.instanceId || desiredMode === this.mode) {
+      // Filter: only handle if targeted at this map
+      if (id !== this.id || desiredMode === this.mode) {
         return;
       }
 
@@ -157,10 +156,10 @@ export class MapModeStore {
 
     // Listen for authorization decisions
     const unsubDecision = this.bus.on(MapModeEvents.changeDecision, (event) => {
-      const { instanceId, approved, authId, owner } = event.payload;
+      const { id, approved, authId, owner } = event.payload;
 
-      // Filter: only handle if targeted at this instance
-      if (instanceId !== this.instanceId) {
+      // Filter: only handle if targeted at this map
+      if (id !== this.id) {
         return;
       }
 
@@ -170,10 +169,10 @@ export class MapModeStore {
 
     // Listen for mode changes to handle pending requests
     const unsubChanged = this.bus.on(MapModeEvents.changed, (event) => {
-      const { currentMode, previousMode, instanceId } = event.payload;
+      const { currentMode, previousMode, id } = event.payload;
 
-      // Filter: only handle if targeted at this instance
-      if (instanceId !== this.instanceId) {
+      // Filter: only handle if targeted at this map
+      if (id !== this.id) {
         return;
       }
 
@@ -262,7 +261,7 @@ export class MapModeStore {
       authId,
       desiredMode,
       currentMode: this.mode,
-      instanceId: this.instanceId,
+      id: this.id,
     });
   }
 
@@ -360,7 +359,7 @@ export class MapModeStore {
         approved: true,
         owner: decisionOwner,
         reason,
-        instanceId: this.instanceId,
+        id: this.id,
       });
     }
 
@@ -371,7 +370,7 @@ export class MapModeStore {
         approved: false,
         owner: decisionOwner,
         reason: 'Request auto-rejected because another request was approved',
-        instanceId: this.instanceId,
+        id: this.id,
       });
     }
   }
@@ -402,7 +401,7 @@ export class MapModeStore {
           approved: false,
           owner: previousModeOwner,
           reason: 'Request rejected - already in requested mode',
-          instanceId: this.instanceId,
+          id: this.id,
         } satisfies ModeChangeDecisionPayload);
       }
     } else {
@@ -427,7 +426,7 @@ export class MapModeStore {
     this.bus.emit(MapModeEvents.changed, {
       previousMode,
       currentMode: newMode,
-      instanceId: this.instanceId,
+      id: this.id,
     });
 
     this.notify();
@@ -458,28 +457,28 @@ const storeRegistry = new Map<UniqueId, MapModeStore>();
 /**
  * Get or create a store for a given map instance
  */
-export function getOrCreateStore(instanceId: UniqueId): MapModeStore {
-  if (!storeRegistry.has(instanceId)) {
-    storeRegistry.set(instanceId, new MapModeStore(instanceId));
+export function getOrCreateStore(id: UniqueId): MapModeStore {
+  if (!storeRegistry.has(id)) {
+    storeRegistry.set(id, new MapModeStore(id));
   }
   // biome-ignore lint/style/noNonNullAssertion: Store guaranteed to exist after has() check above
-  return storeRegistry.get(instanceId)!;
+  return storeRegistry.get(id)!;
 }
 
 /**
  * Destroy and remove a store from the registry
  */
-export function destroyStore(instanceId: UniqueId): void {
-  const store = storeRegistry.get(instanceId);
+export function destroyStore(id: UniqueId): void {
+  const store = storeRegistry.get(id);
   if (store) {
     store.destroy();
-    storeRegistry.delete(instanceId);
+    storeRegistry.delete(id);
   }
 }
 
 /**
- * Get a store by instance ID (for testing/advanced use)
+ * Get a store by map ID (for testing/advanced use)
  */
-export function getStore(instanceId: UniqueId): MapModeStore | undefined {
-  return storeRegistry.get(instanceId);
+export function getStore(id: UniqueId): MapModeStore | undefined {
+  return storeRegistry.get(id);
 }

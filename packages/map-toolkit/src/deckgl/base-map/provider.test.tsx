@@ -15,69 +15,69 @@ import { render } from '@testing-library/react';
 import { useContext } from 'react';
 import { describe, expect, it } from 'vitest';
 import { destroyStore, getStore } from '../../map-mode/store';
-import { MapIdContext, MapIdProvider } from './provider';
+import { MapContext, MapProvider } from './provider';
 
-describe('MapIdProvider', () => {
+describe('MapProvider', () => {
   describe('Context Provision', () => {
-    it('provides instanceId to children via context', () => {
-      const instanceId = uuid();
+    it('provides id to children via context', () => {
+      const id = uuid();
       const TestComponent = () => {
-        const contextId = useContext(MapIdContext);
+        const contextId = useContext(MapContext);
         return <div>{contextId}</div>;
       };
 
       const { container } = render(
-        <MapIdProvider instanceId={instanceId}>
+        <MapProvider id={id}>
           <TestComponent />
-        </MapIdProvider>,
+        </MapProvider>,
       );
 
-      expect(container.textContent).toBe(instanceId);
+      expect(container.textContent).toBe(id);
 
       // Cleanup
-      destroyStore(instanceId);
+      destroyStore(id);
     });
   });
 
   describe('Provider Lifecycle', () => {
     it('reuses existing store on rerender', () => {
-      const instanceId = uuid();
+      const id = uuid();
 
       const { rerender } = render(
-        <MapIdProvider instanceId={instanceId}>
+        <MapProvider id={id}>
           <div>First render</div>
-        </MapIdProvider>,
+        </MapProvider>,
       );
 
-      const store1 = getStore(instanceId);
+      const store1 = getStore(id);
 
       rerender(
-        <MapIdProvider instanceId={instanceId}>
+        <MapProvider id={id}>
           <div>Second render</div>
-        </MapIdProvider>,
+        </MapProvider>,
       );
 
-      const store2 = getStore(instanceId);
+      const store2 = getStore(id);
       expect(store1).toBe(store2);
 
       // Cleanup
-      destroyStore(instanceId);
+      destroyStore(id);
     });
 
     it('destroys store when unmounted', () => {
-      const instanceId = uuid();
+      const id = uuid();
 
       const { unmount } = render(
-        <MapIdProvider instanceId={instanceId}>
+        <MapProvider id={id}>
           <div>Child</div>
-        </MapIdProvider>,
+        </MapProvider>,
       );
 
-      expect(getStore(instanceId)).toBeDefined();
+      expect(getStore(id)).toBeDefined();
 
       unmount();
 
-      expect(getStore(instanceId)).toBeUndefined();
+      expect(getStore(id)).toBeUndefined();
     });
   });
 });

@@ -22,7 +22,7 @@ const STORYBOOK_MAP_ID = uuid();
 export const withDeckGL = (): Decorator => {
   return (Story) => {
     return (
-      <BaseMap className='h-dvh w-dvw' instanceId={STORYBOOK_MAP_ID}>
+      <BaseMap className='h-dvh w-dvw' id={STORYBOOK_MAP_ID}>
         <Story />
       </BaseMap>
     );

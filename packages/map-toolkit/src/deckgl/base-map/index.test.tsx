@@ -24,37 +24,37 @@ vi.mock('../../maplibre/hooks/use-maplibre', () => ({
 describe('BaseMap', () => {
   describe('Rendering', () => {
     it('renders with className', () => {
-      const instanceId = uuid();
+      const id = uuid();
       const { container } = render(
-        <BaseMap className='custom-map-class' instanceId={instanceId} />,
+        <BaseMap className='custom-map-class' id={id} />,
       );
 
       const mapContainer = container.querySelector('.custom-map-class');
       expect(mapContainer).toBeInTheDocument();
 
       // Cleanup
-      destroyStore(instanceId);
+      destroyStore(id);
     });
   });
 
   describe('Props', () => {
-    it('passes instanceId to MapIdProvider correctly', () => {
-      const specificInstanceId = uuid();
+    it('passes id to MapProvider correctly', () => {
+      const specificId = uuid();
 
-      render(<BaseMap instanceId={specificInstanceId} />);
+      render(<BaseMap id={specificId} />);
 
-      // Verify that a store exists for the provided instanceId
-      // This confirms instanceId was passed through to MapIdProvider
-      const store = getStore(specificInstanceId);
+      // Verify that a store exists for the provided id
+      // This confirms id was passed through to MapProvider
+      const store = getStore(specificId);
       expect(store).toBeDefined();
 
-      // Verify no store exists for a different instanceId
+      // Verify no store exists for a different id
       const differentId = uuid();
       const wrongStore = getStore(differentId);
       expect(wrongStore).toBeUndefined();
 
       // Cleanup
-      destroyStore(specificInstanceId);
+      destroyStore(specificId);
     });
   });
 });
