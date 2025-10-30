@@ -13,7 +13,11 @@
 import { Placeholder } from '@accelint/icons';
 import { Icon } from '../icon';
 import { Accordion } from './';
+import { AccordionGroup } from './group';
+import { AccordionHeader } from './header';
+import { AccordionPanel } from './panel';
 import { AccordionStylesDefaults } from './styles';
+import { AccordionTrigger } from './trigger';
 import type { Meta, StoryObj } from '@storybook/react';
 import type { AccordionGroupProps } from './types';
 
@@ -23,8 +27,8 @@ type Alias = React.FC<AccordionGroupProps>;
  * The accordion group will stretch to fill the entire width of its parent container.
  */
 const meta = {
-  title: 'Components/Accordion.Group',
-  component: Accordion.Group as Alias,
+  title: 'Components/AccordionGroup',
+  component: AccordionGroup as Alias,
   args: {
     allowsMultipleExpanded: false,
     variant: AccordionStylesDefaults.variant,
@@ -49,56 +53,56 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   render: ({ children, ...args }) => (
     <div className='w-[280px]'>
-      <Accordion.Group {...args}>
+      <AccordionGroup {...args}>
         <Accordion>
-          <Accordion.Header>
-            <Accordion.Trigger>
+          <AccordionHeader>
+            <AccordionTrigger>
               <Icon>
                 <Placeholder />
               </Icon>
               Accordion one
-            </Accordion.Trigger>
-          </Accordion.Header>
-          <Accordion.Panel>
+            </AccordionTrigger>
+          </AccordionHeader>
+          <AccordionPanel>
             <p className='fg-primary-muted text-body-s'>
               This is a placeholder content for an accordion. Please replace
               with an actual content instance.
             </p>
-          </Accordion.Panel>
+          </AccordionPanel>
         </Accordion>
         <Accordion>
-          <Accordion.Header>
-            <Accordion.Trigger>
+          <AccordionHeader>
+            <AccordionTrigger>
               <Icon>
                 <Placeholder />
               </Icon>
               Accordion two
-            </Accordion.Trigger>
-          </Accordion.Header>
-          <Accordion.Panel>
+            </AccordionTrigger>
+          </AccordionHeader>
+          <AccordionPanel>
             <p className='fg-primary-muted text-body-s'>
               This is a placeholder content for an accordion. Please replace
               with an actual content instance.
             </p>
-          </Accordion.Panel>
+          </AccordionPanel>
         </Accordion>
         <Accordion>
-          <Accordion.Header>
-            <Accordion.Trigger>
+          <AccordionHeader>
+            <AccordionTrigger>
               <Icon>
                 <Placeholder />
               </Icon>
               Accordion three
-            </Accordion.Trigger>
-          </Accordion.Header>
-          <Accordion.Panel>
+            </AccordionTrigger>
+          </AccordionHeader>
+          <AccordionPanel>
             <p className='fg-primary-muted text-body-s'>
               This is a placeholder content for an accordion. Please replace
               with an actual content instance.
             </p>
-          </Accordion.Panel>
+          </AccordionPanel>
         </Accordion>
-      </Accordion.Group>
+      </AccordionGroup>
     </div>
   ),
 };

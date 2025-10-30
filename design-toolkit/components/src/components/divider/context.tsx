@@ -1,4 +1,3 @@
-// __private-exports
 /*
  * Copyright 2025 Hypergiant Galactic Systems Inc. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
@@ -11,28 +10,22 @@
  * governing permissions and limitations under the License.
  */
 
-import { TableHeaderStyles } from './styles';
-import { HeaderCell } from './table-header-cell';
-import type { TableHeaderProps } from './types';
+'use client';
 
-export function TableHeader<T>({
-  ref,
+import type { ProviderProps } from '@/lib/types';
+import 'client-only';
+import { createContext } from 'react';
+import type { ContextValue } from 'react-aria-components';
+import type { DividerProps } from './types';
+
+export const DividerContext =
+  createContext<ContextValue<DividerProps, HTMLHRElement>>(null);
+
+export function DividerProvider({
   children,
-  className,
-  headerGroups,
-  columnSelection,
-  ...rest
-}: TableHeaderProps<T>) {
+  ...props
+}: ProviderProps<DividerProps>) {
   return (
-    <thead {...rest} ref={ref} className={TableHeaderStyles(className)}>
-      {children ||
-        headerGroups?.map((headerGroup) => (
-          <tr key={headerGroup.id}>
-            {headerGroup.headers.map((header) => (
-              <HeaderCell key={header.id} header={header} />
-            ))}
-          </tr>
-        ))}
-    </thead>
+    <DividerContext.Provider value={props}>{children}</DividerContext.Provider>
   );
 }

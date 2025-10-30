@@ -1,4 +1,3 @@
-// __private-exports
 /*
  * Copyright 2025 Hypergiant Galactic Systems Inc. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
@@ -10,30 +9,14 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+'use client';
 
-import { TableRowStyles } from './styles';
-import { TableCell } from './table-cell';
-import type { TableRowProps } from './types';
+import 'client-only';
+import { DialogStyles } from './styles';
+import type { ComponentProps } from 'react';
 
-export function TableRow<T>({
-  ref,
-  children,
-  className,
-  row,
-  ...rest
-}: TableRowProps<T>) {
-  const cells = row?.getAllCells();
+const { content } = DialogStyles();
 
-  return (
-    <tr
-      {...rest}
-      ref={ref}
-      className={TableRowStyles({ className })}
-      data-pinned={row?.getIsPinned() || null}
-      data-selected={row?.getIsSelected() || null}
-    >
-      {children ||
-        cells?.map((cell) => <TableCell key={cell.id} cell={cell} />)}
-    </tr>
-  );
+export function DialogContent({ children, className }: ComponentProps<'div'>) {
+  return <div className={content({ className })}>{children}</div>;
 }

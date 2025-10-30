@@ -1,4 +1,3 @@
-// __private-exports
 /*
  * Copyright 2025 Hypergiant Galactic Systems Inc. All rights reserved.
  * This file is licensed to you under the Apache License, Version 2.0 (the "License");
@@ -11,26 +10,21 @@
  * governing permissions and limitations under the License.
  */
 
-import { TableBodyStyles } from './styles';
-import { TableRow } from './table-row';
-import type { TableBodyProps } from './types';
+'use client';
 
-export function TableBody<T>({
-  children,
-  className,
-  ref,
-  rows,
-  ...rest
-}: TableBodyProps<T>) {
+import 'client-only';
+import { IconProvider } from '../icon/context';
+import { HotkeyStyles } from './styles';
+import type { HotkeySetProps } from './types';
+
+const { set } = HotkeyStyles();
+
+export function HotkeySet({ children, ...props }: HotkeySetProps) {
+  const { className } = props;
+
   return (
-    <tbody
-      {...rest}
-      ref={ref}
-      className={TableBodyStyles({
-        className,
-      })}
-    >
-      {children || rows?.map((row) => <TableRow key={row.id} row={row} />)}
-    </tbody>
+    <div className={set({ className })}>
+      <IconProvider size='large'>{children}</IconProvider>
+    </div>
   );
 }
