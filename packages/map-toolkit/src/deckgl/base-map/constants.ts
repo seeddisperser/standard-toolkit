@@ -14,8 +14,6 @@
 export const BASE_MAP_STYLE =
   'https://tiles.basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
 
-export const DEFAULT_MODE = 'default';
-
 export const PARAMETERS = {
   depthWriteEnabled: true,
   depthCompare: 'always',

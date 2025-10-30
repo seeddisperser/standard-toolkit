@@ -12,10 +12,11 @@
 
 import { Broadcast } from '@accelint/bus';
 import { uuid } from '@accelint/core';
-import { DEFAULT_MODE } from '@/deckgl/base-map/constants';
 import { MapModeEvents } from './events';
 import type { UniqueId } from '@accelint/core';
 import type { MapModeEventType, ModeChangeDecisionPayload } from './types';
+
+const DEFAULT_MODE = 'default';
 
 /**
  * Typed event bus instance for map mode events.
